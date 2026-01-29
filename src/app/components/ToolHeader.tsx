@@ -1,10 +1,7 @@
 import { Container, Divider, Text, VerticalSpace } from "@create-figma-plugin/ui"
 import { h } from "preact"
 
-export function UtilityHeader(props: {
-  title: string
-  left?: preact.ComponentChildren
-}) {
+export function ToolHeader(props: { title: string; left?: preact.ComponentChildren }) {
   return (
     <div>
       {/* Use native Container inset for header content */}

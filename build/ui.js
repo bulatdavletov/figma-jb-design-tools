@@ -677,10 +677,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d832ad22-5151-44d9-b167-20a73d2a7967/divider.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ed9bf108-6c88-405f-bd0b-fe0007d7e6e8/divider.module.js
   var divider_module_default;
   var init_divider_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d832ad22-5151-44d9-b167-20a73d2a7967/divider.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ed9bf108-6c88-405f-bd0b-fe0007d7e6e8/divider.module.js"() {
       if (document.getElementById("4bf06403b9") === null) {
         const element = document.createElement("style");
         element.id = "4bf06403b9";
@@ -710,10 +710,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/312b3377-1056-45d9-9efc-d22ecf0c48aa/icon-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1bac67c2-06b4-456e-891f-2f08f9a00a35/icon-button.module.js
   var icon_button_module_default;
   var init_icon_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/312b3377-1056-45d9-9efc-d22ecf0c48aa/icon-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1bac67c2-06b4-456e-891f-2f08f9a00a35/icon-button.module.js"() {
       if (document.getElementById("c8b08e6568") === null) {
         const element = document.createElement("style");
         element.id = "c8b08e6568";
@@ -791,10 +791,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/58eb8fbc-7af1-4a8e-a8d2-6e64890c9b1b/text.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/eeccb1ed-cd4a-48aa-b1cd-1137d7d2da31/text.module.js
   var text_module_default;
   var init_text_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/58eb8fbc-7af1-4a8e-a8d2-6e64890c9b1b/text.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/eeccb1ed-cd4a-48aa-b1cd-1137d7d2da31/text.module.js"() {
       if (document.getElementById("1278016d5c") === null) {
         const element = document.createElement("style");
         element.id = "1278016d5c";
@@ -894,10 +894,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ff33ee04-f900-4851-b732-167d4328eff2/container.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/82aea872-0e17-4f0e-bab5-0e3d2912961a/container.module.js
   var container_module_default;
   var init_container_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ff33ee04-f900-4851-b732-167d4328eff2/container.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/82aea872-0e17-4f0e-bab5-0e3d2912961a/container.module.js"() {
       if (document.getElementById("b49e1406f9") === null) {
         const element = document.createElement("style");
         element.id = "b49e1406f9";
@@ -938,10 +938,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/aba07050-fbe7-4d32-96ad-d059738579c5/vertical-space.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0a075c0e-6b11-4241-acd4-2d7e116bb235/vertical-space.module.js
   var vertical_space_module_default;
   var init_vertical_space_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/aba07050-fbe7-4d32-96ad-d059738579c5/vertical-space.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0a075c0e-6b11-4241-acd4-2d7e116bb235/vertical-space.module.js"() {
       if (document.getElementById("ba0eea5114") === null) {
         const element = document.createElement("style");
         element.id = "ba0eea5114";
@@ -982,9 +982,9 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4a106383-a3f9-4c4e-8ac0-bb5e5619bf89/base.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/326f699d-0794-4c8e-af22-4178e352c7e0/base.js
   var init_base = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4a106383-a3f9-4c4e-8ac0-bb5e5619bf89/base.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/326f699d-0794-4c8e-af22-4178e352c7e0/base.js"() {
       if (document.getElementById("0597dd81e7") === null) {
         const element = document.createElement("style");
         element.id = "0597dd81e7";
@@ -1354,12 +1354,12 @@ svg {
     }
   });
 
-  // src/app/components/UtilityHeader.tsx
-  function UtilityHeader(props) {
+  // src/app/components/ToolHeader.tsx
+  function ToolHeader(props) {
     return /* @__PURE__ */ _("div", null, /* @__PURE__ */ _(Container, { space: "small" }, /* @__PURE__ */ _(VerticalSpace, { space: "extraSmall" }), /* @__PURE__ */ _("div", { style: { display: "flex", alignItems: "center", gap: 8 } }, props.left ? /* @__PURE__ */ _("div", { style: { display: "flex", alignItems: "center" } }, props.left) : null, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, props.title)), /* @__PURE__ */ _(VerticalSpace, { space: "extraSmall" })), /* @__PURE__ */ _(Divider, null));
   }
-  var init_UtilityHeader = __esm({
-    "src/app/components/UtilityHeader.tsx"() {
+  var init_ToolHeader = __esm({
+    "src/app/components/ToolHeader.tsx"() {
       "use strict";
       init_lib();
       init_preact_module();
@@ -1391,7 +1391,7 @@ svg {
     }
   });
 
-  // src/app/views/chain-inspector/ChainInspectorView.tsx
+  // src/app/views/color-chain-tool/ColorChainToolView.tsx
   function ColorSwatch(props) {
     const hex = props.hex;
     const swatchSize = 16;
@@ -1410,7 +1410,7 @@ svg {
       }
     );
   }
-  function ChainInspectorView(props) {
+  function ColorChainToolView(props) {
     const [loading, setLoading] = d2(true);
     const [results, setResults] = d2([]);
     const [error, setError] = d2(null);
@@ -1465,7 +1465,7 @@ svg {
       }, 0);
     }, [results]);
     return /* @__PURE__ */ _(Page, null, /* @__PURE__ */ _(
-      UtilityHeader,
+      ToolHeader,
       {
         title: "View Colors Chain",
         left: /* @__PURE__ */ _(IconButton, { onClick: props.onBack, title: "Home" }, /* @__PURE__ */ _(IconHome16, null))
@@ -1494,10 +1494,20 @@ svg {
               const chainToRender = (_b = currentModeChain != null ? currentModeChain : c3.chains[0]) != null ? _b : null;
               const swatchHex = (_c = chainToRender == null ? void 0 : chainToRender.finalHex) != null ? _c : null;
               const chainSteps = (chainToRender == null ? void 0 : chainToRender.chain) ? chainToRender.chain.slice(1) : [];
+              const chainRowIcon = /* @__PURE__ */ _(
+                "span",
+                {
+                  style: {
+                    color: "var(--figma-color-text-secondary)",
+                    opacity: 0.8,
+                    display: "inline-flex"
+                  }
+                },
+                /* @__PURE__ */ _(IconArrowCurvedDownRight16, null)
+              );
               nodes.push({
                 id: `${layer.layerId}:${c3.variableId}`,
                 title: c3.variableName,
-                // Keep Chain View minimal: no collection name.
                 icon: /* @__PURE__ */ _(ColorSwatch, { hex: swatchHex }),
                 titleStrong: true
               });
@@ -1506,22 +1516,13 @@ svg {
                 nodes.push({
                   id: `${layer.layerId}:${c3.variableId}:step:${idx}`,
                   title: step,
-                  icon: /* @__PURE__ */ _(
-                    "span",
-                    {
-                      style: {
-                        color: "var(--figma-color-text-secondary)",
-                        opacity: 0.8,
-                        display: "inline-flex"
-                      }
-                    },
-                    /* @__PURE__ */ _(IconArrowCurvedDownRight16, null)
-                  )
+                  icon: chainRowIcon
                 });
               }
               nodes.push({
                 id: `${layer.layerId}:${c3.variableId}:hex`,
-                title: (_d = chainToRender == null ? void 0 : chainToRender.finalHex) != null ? _d : "N/A"
+                title: (_d = chainToRender == null ? void 0 : chainToRender.finalHex) != null ? _d : "N/A",
+                icon: chainRowIcon
               });
               nodes.push({
                 kind: "spacer",
@@ -1544,8 +1545,8 @@ svg {
       }
     )) : null)));
   }
-  var init_ChainInspectorView = __esm({
-    "src/app/views/chain-inspector/ChainInspectorView.tsx"() {
+  var init_ColorChainToolView = __esm({
+    "src/app/views/color-chain-tool/ColorChainToolView.tsx"() {
       "use strict";
       init_lib();
       init_preact_module();
@@ -1553,14 +1554,14 @@ svg {
       init_messages();
       init_Tree();
       init_EmptyState();
-      init_UtilityHeader();
+      init_ToolHeader();
       init_AppIcons();
       init_Page();
     }
   });
 
-  // src/app/components/UtilityCard.tsx
-  function UtilityCard(props) {
+  // src/app/components/ToolCard.tsx
+  function ToolCard(props) {
     const [hovered, setHovered] = d2(false);
     const [focused, setFocused] = d2(false);
     return /* @__PURE__ */ _(
@@ -1650,8 +1651,8 @@ svg {
       )
     );
   }
-  var init_UtilityCard = __esm({
-    "src/app/components/UtilityCard.tsx"() {
+  var init_ToolCard = __esm({
+    "src/app/components/ToolCard.tsx"() {
       "use strict";
       init_AppIcons();
       init_preact_module();
@@ -1662,12 +1663,12 @@ svg {
   // src/app/views/home/HomeView.tsx
   function HomeView(props) {
     return /* @__PURE__ */ _(Page, null, /* @__PURE__ */ _(Container, { space: "small" }, /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(Text, null, "Colors"), /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(
-      UtilityCard,
+      ToolCard,
       {
         title: "View Colors Chain",
         description: "Inspect selection to see full variable alias chains.",
         icon: /* @__PURE__ */ _(IconLink16, null),
-        onClick: () => props.goTo("chain-inspector")
+        onClick: () => props.goTo("color-chain-tool")
       }
     )));
   }
@@ -1676,8 +1677,8 @@ svg {
       "use strict";
       init_lib();
       init_preact_module();
-      init_UtilityCard();
       init_Page();
+      init_ToolCard();
     }
   });
 
@@ -1697,7 +1698,7 @@ svg {
         if (!msg) return;
         if (msg.type === MAIN_TO_UI.BOOTSTRAPPED) {
           setSelectionSize(msg.selectionSize);
-          setRoute(msg.command === "chain-inspector" ? "chain-inspector" : "home");
+          setRoute(msg.command === "color-chain-tool" ? "color-chain-tool" : "home");
         }
       };
       window.addEventListener("message", handleMessage);
@@ -1705,7 +1706,7 @@ svg {
       return () => window.removeEventListener("message", handleMessage);
     }, []);
     return route === "home" ? /* @__PURE__ */ _(HomeView, { goTo: setRoute }) : /* @__PURE__ */ _(
-      ChainInspectorView,
+      ColorChainToolView,
       {
         onBack: () => setRoute("home"),
         initialSelectionEmpty: selectionSize === 0
@@ -1720,7 +1721,7 @@ svg {
       init_preact_module();
       init_hooks_module();
       init_messages();
-      init_ChainInspectorView();
+      init_ColorChainToolView();
       init_HomeView();
       ui_default = render(App);
     }
@@ -1728,7 +1729,7 @@ svg {
 
   // <stdin>
   var rootNode = document.getElementById("create-figma-plugin");
-  var modules = { "src/home/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/chain-inspector/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"] };
+  var modules = { "src/home/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/color-chain-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"] };
   var commandId = __FIGMA_COMMAND__ === "" ? "src/home/main.ts--default" : __FIGMA_COMMAND__;
   if (typeof modules[commandId] === "undefined") {
     throw new Error(

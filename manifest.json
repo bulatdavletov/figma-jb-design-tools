@@ -3,19 +3,24 @@
   "editorType": [
     "figma"
   ],
-  "id": "1760123409876543210",
-  "name": "JetBrains Design Utilities (Dev)",
+  "id": "1598773743246786962",
+  "name": "JetBrains Design Tools",
   "main": "build/main.js",
   "ui": "build/ui.js",
   "menu": [
     {
-      "name": "Utilities Home",
+      "name": "Tools Home",
       "command": "src/home/main.ts--default"
     },
     {
       "name": "View Colors Chain",
-      "command": "src/chain-inspector/main.ts--default"
+      "command": "src/color-chain-tool/main.ts--default"
     }
   ],
+  "networkAccess": {
+    "allowedDomains": [
+      "none"
+    ]
+  },
   "documentAccess": "dynamic-page"
 }

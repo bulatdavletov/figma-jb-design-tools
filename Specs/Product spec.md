@@ -1,10 +1,10 @@
-## JetBrains Design Utilities Plugin — Product Spec (draft)
+## JetBrains Design Tools Plugin — Product Spec (draft)
 
 ### Goal
-Make a single “Swiss‑army” Figma plugin that bundles several practical utilities (mostly variables/tokens + colors + icon/component swapping) into one **cohesive, safe, and easy-to-discover** tool.
+Make a single “Swiss‑army” Figma plugin that bundles several practical tools (mostly variables/tokens + colors + icon/component swapping) into one **cohesive, safe, and easy-to-discover** tool.
 
 ### Problem
-Right now the utilities are spread across multiple plugins/repos, each with its own UI and release cycle. That makes them harder to discover, harder to maintain, and increases “tool switching” during design work.
+Right now the tools are spread across multiple plugins/repos, each with its own UI and release cycle. That makes them harder to discover, harder to maintain, and increases “tool switching” during design work.
 
 ### Target users (personas)
 - **Design system maintainer**: manages tokens/variables, migrations, and consistency.
@@ -15,8 +15,8 @@ Right now the utilities are spread across multiple plugins/repos, each with its 
 
 ## Key product questions (your questions answered)
 
-### Is it a good idea to gather all utilities into one single plugin?
-**Yes, if you design it as a “tool launcher” with modular utilities**, not a single giant workflow.
+### Is it a good idea to gather all tools into one single plugin?
+**Yes, if you design it as a “tool launcher” with modular tools**, not a single giant workflow.
 
 - **Why it’s a good idea**
   - One place to look (“Utilities”), fewer installs, consistent UI.

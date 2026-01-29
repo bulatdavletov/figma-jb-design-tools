@@ -2,7 +2,7 @@ import { IconChevronRight16 } from "./AppIcons"
 import { h } from "preact"
 import { useState } from "preact/hooks"
 
-export function UtilityCard(props: {
+export function ToolCard(props: {
   title: string
   description: string
   icon: preact.ComponentChildren

@@ -14,8 +14,8 @@ import { ButtonWithIcon } from "../app/components/ButtonWithIcon"
 import { EmptyState } from "../app/components/EmptyState"
 import { IconArrowDown16, IconChevronDown16 } from "../app/components/AppIcons"
 import { Tree, type TreeNode } from "../app/components/Tree"
-import { UtilityCard } from "../app/components/UtilityCard"
-import { UtilityHeader } from "../app/components/UtilityHeader"
+import { ToolCard } from "../app/components/ToolCard"
+import { ToolHeader } from "../app/components/ToolHeader"
 
 type Theme = "figma-light" | "figma-dark"
 
@@ -61,7 +61,7 @@ export function PreviewApp() {
 
   return (
     <div style={{ height: "100vh", display: "flex", flexDirection: "column" }}>
-      <UtilityHeader
+      <ToolHeader
         title="Local Component Preview"
         left={
           <IconButton
@@ -87,13 +87,13 @@ export function PreviewApp() {
           <Divider />
           <VerticalSpace space="medium" />
 
-          <Text style={{ fontWeight: 600 }}>UtilityCard</Text>
+          <Text style={{ fontWeight: 600 }}>ToolCard</Text>
           <VerticalSpace space="extraSmall" />
-          <UtilityCard
+          <ToolCard
             title="View Colors Chain"
             description="Inspect selection to see full variable alias chains."
             icon={<IconChevronDown16 />}
-            onClick={() => alert("UtilityCard clicked")}
+            onClick={() => alert("ToolCard clicked")}
           />
 
           <VerticalSpace space="medium" />

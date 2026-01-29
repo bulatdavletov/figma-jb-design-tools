@@ -8,7 +8,7 @@ export function run(command: string) {
     {
       width: 360,
       height: 500,
-      title: command === "chain-inspector" ? "View Colors Chain" : "JetBrains Design Utilities",
+      title: command === "color-chain-tool" ? "View Colors Chain" : "JetBrains Design Tools",
     },
     { command }
   )

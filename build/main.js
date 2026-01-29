@@ -295,7 +295,7 @@ function run(command) {
     {
       width: 360,
       height: 500,
-      title: command === "chain-inspector" ? "View Colors Chain" : "JetBrains Design Utilities"
+      title: command === "color-chain-tool" ? "View Colors Chain" : "JetBrains Design Tools"
     },
     { command }
   );
@@ -370,22 +370,22 @@ var init_main = __esm({
   }
 });
 
-// src/chain-inspector/main.ts
+// src/color-chain-tool/main.ts
 var main_exports2 = {};
 __export(main_exports2, {
   default: () => main_default2
 });
 function main_default2() {
-  run("chain-inspector");
+  run("color-chain-tool");
 }
 var init_main2 = __esm({
-  "src/chain-inspector/main.ts"() {
+  "src/color-chain-tool/main.ts"() {
     "use strict";
     init_run();
   }
 });
 
 // <stdin>
-var modules = { "src/home/main.ts--default": (init_main(), __toCommonJS(main_exports))["default"], "src/chain-inspector/main.ts--default": (init_main2(), __toCommonJS(main_exports2))["default"] };
+var modules = { "src/home/main.ts--default": (init_main(), __toCommonJS(main_exports))["default"], "src/color-chain-tool/main.ts--default": (init_main2(), __toCommonJS(main_exports2))["default"] };
 var commandId = typeof figma.command === "undefined" || figma.command === "" || figma.command === "generate" ? "src/home/main.ts--default" : figma.command;
 modules[commandId]();

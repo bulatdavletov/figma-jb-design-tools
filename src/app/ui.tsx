@@ -3,10 +3,10 @@ import { h } from "preact"
 import { useEffect, useState } from "preact/hooks"
 
 import { MAIN_TO_UI, type MainToUiMessage, UI_TO_MAIN } from "./messages"
-import { ChainInspectorView } from "./views/chain-inspector/ChainInspectorView"
+import { ColorChainToolView } from "./views/color-chain-tool/ColorChainToolView"
 import { HomeView } from "./views/home/HomeView"
 
-type Route = "home" | "chain-inspector"
+type Route = "home" | "color-chain-tool"
 
 export function App() {
   const [route, setRoute] = useState<Route>("home")
@@ -18,7 +18,7 @@ export function App() {
       if (!msg) return
       if (msg.type === MAIN_TO_UI.BOOTSTRAPPED) {
         setSelectionSize(msg.selectionSize)
-        setRoute(msg.command === "chain-inspector" ? "chain-inspector" : "home")
+        setRoute(msg.command === "color-chain-tool" ? "color-chain-tool" : "home")
       }
     }
     window.addEventListener("message", handleMessage)
@@ -29,7 +29,7 @@ export function App() {
   return route === "home" ? (
     <HomeView goTo={setRoute} />
   ) : (
-    <ChainInspectorView
+    <ColorChainToolView
       onBack={() => setRoute("home")}
       initialSelectionEmpty={selectionSize === 0}
     />

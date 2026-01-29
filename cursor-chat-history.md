@@ -50,9 +50,12 @@
 - Fix: Switched `create-figma-plugin` deps from v4 alpha to stable v3 and removed `networkAccess` from manifest to address Figma console warning about `local-network-access` and startup errors. Rebuilt `manifest.json`.
 - Update: Upgraded `@create-figma-plugin/*` to stable v4.0.3.
 - Update: v4 renamed several icons; updated imports (`IconArrow16`, `IconInstance16`, `IconComponent16`, etc.). `manifest.json` is clean (no `networkAccess` / `local-network-access` permission added).
+- Update: Added `networkAccess: { allowedDomains: ["none"] }` (explicitly no network) to stop Figma’s “add networkAccess / or set to none” warning; rebuilt and confirmed it appears in `manifest.json`.
+- Update: Set plugin id to `1598773743246786962` (in `package.json` as the source of truth), rebuilt and confirmed `manifest.json` now uses that id.
 
 #### Crash / “empty UI” fixes
-- Fix: Plugin crash `TypeError: not a function` was caused by command entry files not exporting a default function. Updated `src/home/main.ts` and `src/chain-inspector/main.ts` to `export default` and rebuilt.
+- Fix: Plugin crash `TypeError: not a function` was caused by command entry files not exporting a default function. Updated `src/home/main.ts` and the color chain tool entry (`src/color-chain-tool/main.ts`) to `export default` and rebuilt.
+- Rename: The “chain inspector” tool entrypoint is now `src/color-chain-tool/main.ts` and the internal command is `"color-chain-tool"` (replaces `"chain-inspector"`). UI view folder is `src/app/views/color-chain-tool/`.
 - Fix: After upgrading to `@create-figma-plugin/*` v4, the UI could appear empty because `height: 100%` may collapse in the plugin iframe. Updated the global `Page` wrapper to use `height: 100vh` so content always shows.
 - Fix: Chain Inspector UI could still look empty due to a race (initial selection update message arriving before the view subscribed). On mount, the view now requests a refresh (`INSPECT_SELECTION_FOR_VARIABLE_CHAINS`) and shows “Inspecting selection…” while waiting.
 
@@ -88,14 +91,14 @@
 - UI: `EmptyState` text is forced to `--figma-color-text-secondary` as well (some `Text` components don’t inherit parent color).
 - UI: Chain Inspector header now shows utility name (“Variable Chain Inspector”) plus a back button to “All Utilities”.
 - UI: Chain Inspector header back control switched to framework `IconButton` with `IconHome16` (home icon) instead of “All Utilities” text button.
-- UI: Added reusable `UtilityHeader` component (title + optional left action). Chain Inspector now uses it for a consistent header layout across utilities.
+- UI: Added reusable `ToolHeader` component (title + optional left action). Chain Inspector now uses it for a consistent header layout across tools.
 - UI: Chain rows now show a muted grey **down arrow** (rotated `IconArrow16`) to indicate direction (no arrow on the final HEX row). `IconChevronDown16` looked too much like “expand”.
 - UI layout: Removed global `Page` padding to avoid double left/right padding (Page + Container). Header now uses native `Container` inset, while its `Divider` is full-width (outside the inset).
-- UI layout: Restored consistent header vertical spacing by adding `VerticalSpace` inside `UtilityHeader` before the full-width divider.
+- UI layout: Restored consistent header vertical spacing by adding `VerticalSpace` inside `ToolHeader` before the full-width divider.
 - UI: Removed redundant divider above Chain Inspector content (header divider is enough). Added a small top padding on Home screen so content doesn’t start flush at the top.
 - UI: When selection has no variable colors, show a “nothing found” empty state: **text only** (“No variable colors found in selection”).
-- UI: Added reusable `UtilityCard` component (icon + name + short description). Home screen now uses it for utilities (starting with Variable Chain Inspector).
-- UI: `UtilityCard` now has hover + focus styles (hover background + stronger border; keyboard focus outline).
+- UI: Added reusable `ToolCard` component (icon + name + short description). Home screen now uses it for tools (starting with Variable Chain Inspector).
+- UI: `ToolCard` now has hover + focus styles (hover background + stronger border; keyboard focus outline).
 - UI: Home screen “Variable Chain Inspector” card icon updated to `IconLink16` (clearer “chain” metaphor).
 
 #### Icons / internal dev tooling
@@ -125,13 +128,13 @@
 - `[Violation] Added non-passive event listener to 'touchstart'`: appears to come from Figma/vendor bundles, not our plugin code (no `touchstart` listeners in `src/`). Usually safe to ignore unless you see real UI jank.
 - `GET http://127.0.0.1:<port>/figma/font-preview?... 404`: Figma local font preview endpoint failing for some fonts; usually safe to ignore unless font previews are broken in Figma.
 
-#### Code organization (separate files per utility)
-- Observation: `src/home/main.ts` and `src/chain-inspector/main.ts` are already separate “utility entrypoints” (Figma commands). The “giant file” is the shared UI bundle `src/app/ui.tsx` which currently contains routing + Home view + Chain Inspector view.
-- Plan: Split UI into one folder/file per utility, e.g. `src/app/views/home/HomeView.tsx` and `src/app/views/chain-inspector/ChainInspectorView.tsx`, and keep `src/app/App.tsx` (or `ui.tsx`) as a small router that imports those views.
+#### Code organization (separate files per tool)
+- Observation: `src/home/main.ts` and `src/color-chain-tool/main.ts` are separate “tool entrypoints” (Figma commands). The “giant file” was the shared UI bundle `src/app/ui.tsx` which contained routing + Home view + Color Chain view.
+- Plan: Split UI into one folder/file per tool, e.g. `src/app/views/home/HomeView.tsx` and `src/app/views/color-chain-tool/ColorChainToolView.tsx`, and keep `src/app/App.tsx` (or `ui.tsx`) as a small router that imports those views.
 - Safety: This refactor should not change user-visible behavior if we only move code; it mainly improves maintainability.
- - Done: Extracted UI into:
+  - Done: Extracted UI into:
    - `src/app/views/home/HomeView.tsx`
-   - `src/app/views/chain-inspector/ChainInspectorView.tsx`
+   - `src/app/views/color-chain-tool/ColorChainToolView.tsx`
    - shared layout wrapper `src/app/components/Page.tsx`
    and reduced `src/app/ui.tsx` to boot + routing + `render(App)`. Ran `npm run build` successfully.
 

@@ -2,7 +2,7 @@
   "name": "figma-jb-variables-utilities",
   "version": "0.1.0",
   "private": true,
-  "description": "Internal Figma plugin: utilities launcher + token tools",
+  "description": "Internal Figma plugin: tools launcher + token tools",
   "scripts": {
     "build": "node scripts/generate-custom-icons.cjs && build-figma-plugin --typecheck",
     "watch": "node scripts/generate-custom-icons.cjs --watch & build-figma-plugin --typecheck --watch",
@@ -26,21 +26,26 @@
     "vite": "^6.1.0"
   },
   "figma-plugin": {
-    "id": "1760123409876543210",
-    "name": "JetBrains Design Utilities (Dev)",
+    "id": "1598773743246786962",
+    "name": "JetBrains Design Tools",
     "editorType": [
       "figma"
     ],
+    "networkAccess": {
+      "allowedDomains": [
+        "none"
+      ]
+    },
     "documentAccess": "dynamic-page",
     "menu": [
       {
-        "name": "Utilities Home",
+        "name": "Tools Home",
         "main": "src/home/main.ts",
         "ui": "src/app/ui.tsx"
       },
       {
         "name": "View Colors Chain",
-        "main": "src/chain-inspector/main.ts",
+        "main": "src/color-chain-tool/main.ts",
         "ui": "src/app/ui.tsx"
       }
     ]

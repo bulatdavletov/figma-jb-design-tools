@@ -9,10 +9,16 @@ import {
 import { Fragment, h } from "preact"
 import { useEffect, useMemo, useState } from "preact/hooks"
 
-import { MAIN_TO_UI, type LayerInspectionResult, type MainToUiMessage, UI_TO_MAIN, type VariableChainResult } from "../../messages"
+import {
+  MAIN_TO_UI,
+  type LayerInspectionResult,
+  type MainToUiMessage,
+  UI_TO_MAIN,
+  type VariableChainResult,
+} from "../../messages"
 import { Tree, type TreeNode } from "../../components/Tree"
 import { EmptyState } from "../../components/EmptyState"
-import { UtilityHeader } from "../../components/UtilityHeader"
+import { ToolHeader } from "../../components/ToolHeader"
 import { IconArrowCurvedDownRight16 } from "../../components/AppIcons"
 import { Page } from "../../components/Page"
 
@@ -34,7 +40,7 @@ function ColorSwatch(props: { hex: string | null }) {
   )
 }
 
-export function ChainInspectorView(props: { onBack: () => void; initialSelectionEmpty: boolean }) {
+export function ColorChainToolView(props: { onBack: () => void; initialSelectionEmpty: boolean }) {
   const [loading, setLoading] = useState(true)
   const [results, setResults] = useState<Array<LayerInspectionResult>>([])
   const [error, setError] = useState<string | null>(null)
@@ -97,7 +103,7 @@ export function ChainInspectorView(props: { onBack: () => void; initialSelection
 
   return (
     <Page>
-      <UtilityHeader
+      <ToolHeader
         title="View Colors Chain"
         left={
           <IconButton onClick={props.onBack} title="Home">
@@ -172,12 +178,10 @@ export function ChainInspectorView(props: { onBack: () => void; initialSelection
                       nodes.push({
                         id: `${layer.layerId}:${c.variableId}`,
                         title: c.variableName,
-                        // Keep Chain View minimal: no collection name.
                         icon: <ColorSwatch hex={swatchHex} />,
                         titleStrong: true,
                       })
 
-                      // Flat list: chain rows are siblings (no nesting / no indentation / no chevrons).
                       for (let idx = 0; idx < chainSteps.length; idx++) {
                         const step = chainSteps[idx]
                         nodes.push({
@@ -192,7 +196,6 @@ export function ChainInspectorView(props: { onBack: () => void; initialSelection
                         icon: chainRowIcon,
                       })
 
-                      // Bigger space between unique colors (cleaner than divider).
                       nodes.push({
                         kind: "spacer",
                         id: `${layer.layerId}:${c.variableId}:spacer`,
@@ -201,7 +204,6 @@ export function ChainInspectorView(props: { onBack: () => void; initialSelection
                     }
                   }
 
-                  // Remove trailing spacer.
                   if (nodes.length > 0 && nodes[nodes.length - 1].kind === "spacer") {
                     nodes.pop()
                   }
