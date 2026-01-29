@@ -105,6 +105,7 @@
 - Naming: Keep `custom-icons/` for the raw SVG icon set, and keep `AppIcons.tsx` as the single import surface for the app. (If we later mix library + custom icons, “AppIcons” remains accurate.)
 - Dev: Custom icons are now generated from the `.svg` files in `src/app/components/custom-icons/`. Update SVGs → `npm run build` (or `npm run watch`) regenerates `generated.tsx` automatically.
 - UI: Chain “step direction” icon updated to use a curved arrow (`icon.16.arrow-curved-down-right.svg`) for clearer “flow” feel.
+- UI: Added the same chain icon to the final HEX row too (so every chain item, including the last one, has the direction icon).
 - UI: Chain View no longer shows variable collection name (cleaner list).
 
 #### Visual preview of UI components (dev workflow)
@@ -128,6 +129,11 @@
 - Observation: `src/home/main.ts` and `src/chain-inspector/main.ts` are already separate “utility entrypoints” (Figma commands). The “giant file” is the shared UI bundle `src/app/ui.tsx` which currently contains routing + Home view + Chain Inspector view.
 - Plan: Split UI into one folder/file per utility, e.g. `src/app/views/home/HomeView.tsx` and `src/app/views/chain-inspector/ChainInspectorView.tsx`, and keep `src/app/App.tsx` (or `ui.tsx`) as a small router that imports those views.
 - Safety: This refactor should not change user-visible behavior if we only move code; it mainly improves maintainability.
+ - Done: Extracted UI into:
+   - `src/app/views/home/HomeView.tsx`
+   - `src/app/views/chain-inspector/ChainInspectorView.tsx`
+   - shared layout wrapper `src/app/components/Page.tsx`
+   and reduced `src/app/ui.tsx` to boot + routing + `render(App)`. Ran `npm run build` successfully.
 
 ## Git (initialize repo)
 

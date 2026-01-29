@@ -677,10 +677,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/bee87cde-33ab-4cb4-b1ac-17ea32bee9c9/divider.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d832ad22-5151-44d9-b167-20a73d2a7967/divider.module.js
   var divider_module_default;
   var init_divider_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/bee87cde-33ab-4cb4-b1ac-17ea32bee9c9/divider.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d832ad22-5151-44d9-b167-20a73d2a7967/divider.module.js"() {
       if (document.getElementById("4bf06403b9") === null) {
         const element = document.createElement("style");
         element.id = "4bf06403b9";
@@ -710,10 +710,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e24a0d3c-98c1-4707-9895-8fdc38fae630/icon-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/312b3377-1056-45d9-9efc-d22ecf0c48aa/icon-button.module.js
   var icon_button_module_default;
   var init_icon_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e24a0d3c-98c1-4707-9895-8fdc38fae630/icon-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/312b3377-1056-45d9-9efc-d22ecf0c48aa/icon-button.module.js"() {
       if (document.getElementById("c8b08e6568") === null) {
         const element = document.createElement("style");
         element.id = "c8b08e6568";
@@ -791,10 +791,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5226e992-2286-4d34-9c4a-af5ebf527b9a/text.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/58eb8fbc-7af1-4a8e-a8d2-6e64890c9b1b/text.module.js
   var text_module_default;
   var init_text_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5226e992-2286-4d34-9c4a-af5ebf527b9a/text.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/58eb8fbc-7af1-4a8e-a8d2-6e64890c9b1b/text.module.js"() {
       if (document.getElementById("1278016d5c") === null) {
         const element = document.createElement("style");
         element.id = "1278016d5c";
@@ -894,10 +894,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/bb543fa9-2ed5-4a57-970b-5322a7fcca47/container.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ff33ee04-f900-4851-b732-167d4328eff2/container.module.js
   var container_module_default;
   var init_container_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/bb543fa9-2ed5-4a57-970b-5322a7fcca47/container.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ff33ee04-f900-4851-b732-167d4328eff2/container.module.js"() {
       if (document.getElementById("b49e1406f9") === null) {
         const element = document.createElement("style");
         element.id = "b49e1406f9";
@@ -938,10 +938,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/3afc612f-7de0-4a31-aa78-e7a0a2a4c846/vertical-space.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/aba07050-fbe7-4d32-96ad-d059738579c5/vertical-space.module.js
   var vertical_space_module_default;
   var init_vertical_space_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/3afc612f-7de0-4a31-aa78-e7a0a2a4c846/vertical-space.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/aba07050-fbe7-4d32-96ad-d059738579c5/vertical-space.module.js"() {
       if (document.getElementById("ba0eea5114") === null) {
         const element = document.createElement("style");
         element.id = "ba0eea5114";
@@ -982,9 +982,9 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c76ece26-d815-4dd1-b507-82aa309b059e/base.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4a106383-a3f9-4c4e-8ac0-bb5e5619bf89/base.js
   var init_base = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c76ece26-d815-4dd1-b507-82aa309b059e/base.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4a106383-a3f9-4c4e-8ac0-bb5e5619bf89/base.js"() {
       if (document.getElementById("0597dd81e7") === null) {
         const element = document.createElement("style");
         element.id = "0597dd81e7";
@@ -1366,6 +1366,199 @@ svg {
     }
   });
 
+  // src/app/components/Page.tsx
+  function Page(props) {
+    return /* @__PURE__ */ _(
+      "div",
+      {
+        style: {
+          // In some builds the iframe/body may not set an explicit height,
+          // so `height: 100%` can collapse to 0 and render an "empty" UI.
+          // `100vh` is stable inside the plugin iframe.
+          height: "100vh",
+          boxSizing: "border-box",
+          display: "flex",
+          flexDirection: "column"
+        }
+      },
+      props.children
+    );
+  }
+  var init_Page = __esm({
+    "src/app/components/Page.tsx"() {
+      "use strict";
+      init_preact_module();
+    }
+  });
+
+  // src/app/views/chain-inspector/ChainInspectorView.tsx
+  function ColorSwatch(props) {
+    const hex = props.hex;
+    const swatchSize = 16;
+    return /* @__PURE__ */ _(
+      "div",
+      {
+        style: {
+          width: swatchSize,
+          height: swatchSize,
+          borderRadius: 4,
+          border: "1px solid var(--figma-color-border)",
+          backgroundColor: hex != null ? hex : "transparent",
+          boxSizing: "border-box"
+        },
+        title: hex != null ? hex : "N/A"
+      }
+    );
+  }
+  function ChainInspectorView(props) {
+    const [loading, setLoading] = d2(true);
+    const [results, setResults] = d2([]);
+    const [error, setError] = d2(null);
+    const [openById, setOpenById] = d2({});
+    const [selectionEmpty, setSelectionEmpty] = d2(props.initialSelectionEmpty);
+    y2(() => {
+      const handleMessage = (event) => {
+        var _a;
+        const msg = (_a = event.data) == null ? void 0 : _a.pluginMessage;
+        if (!msg) return;
+        if (msg.type === MAIN_TO_UI.ERROR) {
+          setLoading(false);
+          setError(msg.message);
+          return;
+        }
+        if (msg.type === MAIN_TO_UI.SELECTION_EMPTY) {
+          setLoading(false);
+          setResults([]);
+          setOpenById({});
+          setSelectionEmpty(true);
+          setError(null);
+          return;
+        }
+        if (msg.type === MAIN_TO_UI.VARIABLE_CHAINS_RESULT) {
+          setLoading(false);
+          setResults(msg.results);
+          setOpenById({});
+          setSelectionEmpty(false);
+          setError(null);
+          return;
+        }
+      };
+      window.addEventListener("message", handleMessage);
+      return () => window.removeEventListener("message", handleMessage);
+    }, []);
+    y2(() => {
+      setLoading(true);
+      parent.postMessage(
+        {
+          pluginMessage: { type: UI_TO_MAIN.INSPECT_SELECTION_FOR_VARIABLE_CHAINS }
+        },
+        "*"
+      );
+    }, []);
+    const sortedResults = T2(() => {
+      return results.slice().sort((a3, b2) => a3.layerName.localeCompare(b2.layerName));
+    }, [results]);
+    const totalColors = T2(() => {
+      return results.reduce((sum, layer) => {
+        var _a, _b;
+        return sum + ((_b = (_a = layer.colors) == null ? void 0 : _a.length) != null ? _b : 0);
+      }, 0);
+    }, [results]);
+    return /* @__PURE__ */ _(Page, null, /* @__PURE__ */ _(
+      UtilityHeader,
+      {
+        title: "View Colors Chain",
+        left: /* @__PURE__ */ _(IconButton, { onClick: props.onBack, title: "Home" }, /* @__PURE__ */ _(IconHome16, null))
+      }
+    ), /* @__PURE__ */ _("div", { style: { flex: 1, overflow: "auto" } }, /* @__PURE__ */ _(Container, { space: "small" }, error ? /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(Text, null, error), /* @__PURE__ */ _(VerticalSpace, { space: "small" })) : null, loading && !error && !selectionEmpty && sortedResults.length === 0 ? /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(Text, null, "Inspecting selection\u2026"), /* @__PURE__ */ _(VerticalSpace, { space: "small" })) : null, selectionEmpty && !error ? /* @__PURE__ */ _(
+      EmptyState,
+      {
+        icon: /* @__PURE__ */ _(IconInteractionClickSmall24, null),
+        title: "Select a layer to see variables color chain."
+      }
+    ) : null, !selectionEmpty && !error && sortedResults.length > 0 && totalColors === 0 ? /* @__PURE__ */ _(EmptyState, { title: "No variable colors found in selection", tone: "default" }) : null, sortedResults.length > 0 ? /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(
+      Tree,
+      {
+        nodes: (() => {
+          var _a, _b, _c, _d;
+          const nodes = [];
+          const spaceHeight = 12;
+          for (const layer of sortedResults) {
+            const colors = layer.colors.slice().sort((a3, b2) => a3.variableName.localeCompare(b2.variableName));
+            for (const c3 of colors) {
+              const applied = c3.appliedMode;
+              let currentModeChain = null;
+              if (applied.status === "single") {
+                currentModeChain = (_a = c3.chains.find((ch) => ch.modeId === applied.modeId)) != null ? _a : null;
+              }
+              const chainToRender = (_b = currentModeChain != null ? currentModeChain : c3.chains[0]) != null ? _b : null;
+              const swatchHex = (_c = chainToRender == null ? void 0 : chainToRender.finalHex) != null ? _c : null;
+              const chainSteps = (chainToRender == null ? void 0 : chainToRender.chain) ? chainToRender.chain.slice(1) : [];
+              nodes.push({
+                id: `${layer.layerId}:${c3.variableId}`,
+                title: c3.variableName,
+                // Keep Chain View minimal: no collection name.
+                icon: /* @__PURE__ */ _(ColorSwatch, { hex: swatchHex }),
+                titleStrong: true
+              });
+              for (let idx = 0; idx < chainSteps.length; idx++) {
+                const step = chainSteps[idx];
+                nodes.push({
+                  id: `${layer.layerId}:${c3.variableId}:step:${idx}`,
+                  title: step,
+                  icon: /* @__PURE__ */ _(
+                    "span",
+                    {
+                      style: {
+                        color: "var(--figma-color-text-secondary)",
+                        opacity: 0.8,
+                        display: "inline-flex"
+                      }
+                    },
+                    /* @__PURE__ */ _(IconArrowCurvedDownRight16, null)
+                  )
+                });
+              }
+              nodes.push({
+                id: `${layer.layerId}:${c3.variableId}:hex`,
+                title: (_d = chainToRender == null ? void 0 : chainToRender.finalHex) != null ? _d : "N/A"
+              });
+              nodes.push({
+                kind: "spacer",
+                id: `${layer.layerId}:${c3.variableId}:spacer`,
+                height: spaceHeight
+              });
+            }
+          }
+          if (nodes.length > 0 && nodes[nodes.length - 1].kind === "spacer") {
+            nodes.pop();
+          }
+          return nodes;
+        })(),
+        openById,
+        onToggle: (id) => setOpenById((prev) => {
+          const current = prev[id];
+          const isOpen = typeof current === "boolean" ? current : true;
+          return __spreadProps(__spreadValues({}, prev), { [id]: !isOpen });
+        })
+      }
+    )) : null)));
+  }
+  var init_ChainInspectorView = __esm({
+    "src/app/views/chain-inspector/ChainInspectorView.tsx"() {
+      "use strict";
+      init_lib();
+      init_preact_module();
+      init_hooks_module();
+      init_messages();
+      init_Tree();
+      init_EmptyState();
+      init_UtilityHeader();
+      init_AppIcons();
+      init_Page();
+    }
+  });
+
   // src/app/components/UtilityCard.tsx
   function UtilityCard(props) {
     const [hovered, setHovered] = d2(false);
@@ -1466,29 +1659,7 @@ svg {
     }
   });
 
-  // src/app/ui.tsx
-  var ui_exports = {};
-  __export(ui_exports, {
-    App: () => App,
-    default: () => ui_default
-  });
-  function Page(props) {
-    return /* @__PURE__ */ _(
-      "div",
-      {
-        style: {
-          // In some builds the iframe/body may not set an explicit height,
-          // so `height: 100%` can collapse to 0 and render an "empty" UI.
-          // `100vh` is stable inside the plugin iframe.
-          height: "100vh",
-          boxSizing: "border-box",
-          display: "flex",
-          flexDirection: "column"
-        }
-      },
-      props.children
-    );
-  }
+  // src/app/views/home/HomeView.tsx
   function HomeView(props) {
     return /* @__PURE__ */ _(Page, null, /* @__PURE__ */ _(Container, { space: "small" }, /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(Text, null, "Colors"), /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(
       UtilityCard,
@@ -1500,169 +1671,24 @@ svg {
       }
     )));
   }
-  function ColorSwatch(props) {
-    const hex = props.hex;
-    const swatchSize = 16;
-    return /* @__PURE__ */ _(
-      "div",
-      {
-        style: {
-          width: swatchSize,
-          height: swatchSize,
-          borderRadius: 4,
-          border: "1px solid var(--figma-color-border)",
-          backgroundColor: hex != null ? hex : "transparent",
-          boxSizing: "border-box"
-        },
-        title: hex != null ? hex : "N/A"
-      }
-    );
-  }
-  function ChainInspectorView(props) {
-    const [loading, setLoading] = d2(true);
-    const [results, setResults] = d2([]);
-    const [error, setError] = d2(null);
-    const [openById, setOpenById] = d2({});
-    const [selectionEmpty, setSelectionEmpty] = d2(props.initialSelectionEmpty);
-    y2(() => {
-      const handleMessage = (event) => {
-        var _a;
-        const msg = (_a = event.data) == null ? void 0 : _a.pluginMessage;
-        if (!msg) return;
-        if (msg.type === MAIN_TO_UI.ERROR) {
-          setLoading(false);
-          setError(msg.message);
-          return;
-        }
-        if (msg.type === MAIN_TO_UI.SELECTION_EMPTY) {
-          setLoading(false);
-          setResults([]);
-          setOpenById({});
-          setSelectionEmpty(true);
-          setError(null);
-          return;
-        }
-        if (msg.type === MAIN_TO_UI.VARIABLE_CHAINS_RESULT) {
-          setLoading(false);
-          setResults(msg.results);
-          setOpenById({});
-          setSelectionEmpty(false);
-          setError(null);
-          return;
-        }
-      };
-      window.addEventListener("message", handleMessage);
-      return () => window.removeEventListener("message", handleMessage);
-    }, []);
-    y2(() => {
-      setLoading(true);
-      parent.postMessage(
-        {
-          pluginMessage: { type: UI_TO_MAIN.INSPECT_SELECTION_FOR_VARIABLE_CHAINS }
-        },
-        "*"
-      );
-    }, []);
-    const sortedResults = T2(() => {
-      return results.slice().sort((a3, b2) => a3.layerName.localeCompare(b2.layerName));
-    }, [results]);
-    const totalColors = T2(() => {
-      return results.reduce((sum, layer) => {
-        var _a, _b;
-        return sum + ((_b = (_a = layer.colors) == null ? void 0 : _a.length) != null ? _b : 0);
-      }, 0);
-    }, [results]);
-    return /* @__PURE__ */ _(Page, null, /* @__PURE__ */ _(
-      UtilityHeader,
-      {
-        title: "View Colors Chain",
-        left: /* @__PURE__ */ _(IconButton, { onClick: props.onBack, title: "Home" }, /* @__PURE__ */ _(IconHome16, null))
-      }
-    ), /* @__PURE__ */ _("div", { style: { flex: 1, overflow: "auto" } }, /* @__PURE__ */ _(Container, { space: "small" }, error ? /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(Text, null, error), /* @__PURE__ */ _(VerticalSpace, { space: "small" })) : null, loading && !error && !selectionEmpty && sortedResults.length === 0 ? /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(Text, null, "Inspecting selection\u2026"), /* @__PURE__ */ _(VerticalSpace, { space: "small" })) : null, selectionEmpty && !error ? /* @__PURE__ */ _(
-      EmptyState,
-      {
-        icon: /* @__PURE__ */ _(IconInteractionClickSmall24, null),
-        title: "Select a layer to see variables color chain."
-      }
-    ) : null, !selectionEmpty && !error && sortedResults.length > 0 && totalColors === 0 ? /* @__PURE__ */ _(
-      EmptyState,
-      {
-        title: "No variable colors found in selection",
-        tone: "default"
-      }
-    ) : null, sortedResults.length > 0 ? /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(
-      Tree,
-      {
-        nodes: (() => {
-          var _a, _b, _c, _d;
-          const nodes = [];
-          const multiLayer = sortedResults.length > 1;
-          const spaceHeight = 12;
-          for (const layer of sortedResults) {
-            const colors = layer.colors.slice().sort((a3, b2) => a3.variableName.localeCompare(b2.variableName));
-            for (const c3 of colors) {
-              const applied = c3.appliedMode;
-              let currentModeChain = null;
-              if (applied.status === "single") {
-                currentModeChain = (_a = c3.chains.find((ch) => ch.modeId === applied.modeId)) != null ? _a : null;
-              }
-              const chainToRender = (_b = currentModeChain != null ? currentModeChain : c3.chains[0]) != null ? _b : null;
-              const swatchHex = (_c = chainToRender == null ? void 0 : chainToRender.finalHex) != null ? _c : null;
-              const chainSteps = (chainToRender == null ? void 0 : chainToRender.chain) ? chainToRender.chain.slice(1) : [];
-              nodes.push({
-                id: `${layer.layerId}:${c3.variableId}`,
-                title: c3.variableName,
-                // Keep Chain View minimal: no collection name.
-                // (If we need disambiguation later for multi-selection, we can show layer name only.)
-                icon: /* @__PURE__ */ _(ColorSwatch, { hex: swatchHex }),
-                titleStrong: true
-              });
-              for (let idx = 0; idx < chainSteps.length; idx++) {
-                const step = chainSteps[idx];
-                nodes.push({
-                  id: `${layer.layerId}:${c3.variableId}:step:${idx}`,
-                  title: step,
-                  icon: /* @__PURE__ */ _(
-                    "span",
-                    {
-                      style: {
-                        color: "var(--figma-color-text-secondary)",
-                        opacity: 0.8,
-                        display: "inline-flex"
-                      }
-                    },
-                    /* @__PURE__ */ _(IconArrowCurvedDownRight16, null)
-                  )
-                });
-              }
-              nodes.push({
-                id: `${layer.layerId}:${c3.variableId}:hex`,
-                title: (_d = chainToRender == null ? void 0 : chainToRender.finalHex) != null ? _d : "N/A"
-              });
-              nodes.push({
-                kind: "spacer",
-                id: `${layer.layerId}:${c3.variableId}:spacer`,
-                height: spaceHeight
-              });
-            }
-          }
-          if (nodes.length > 0 && nodes[nodes.length - 1].kind === "spacer") {
-            nodes.pop();
-          }
-          return nodes;
-        })(),
-        openById,
-        onToggle: (id) => setOpenById((prev) => {
-          const current = prev[id];
-          const isOpen = typeof current === "boolean" ? current : true;
-          return __spreadProps(__spreadValues({}, prev), { [id]: !isOpen });
-        })
-      }
-    )) : null)));
-  }
+  var init_HomeView = __esm({
+    "src/app/views/home/HomeView.tsx"() {
+      "use strict";
+      init_lib();
+      init_preact_module();
+      init_UtilityCard();
+      init_Page();
+    }
+  });
+
+  // src/app/ui.tsx
+  var ui_exports = {};
+  __export(ui_exports, {
+    App: () => App,
+    default: () => ui_default
+  });
   function App() {
     const [route, setRoute] = d2("home");
-    const [bootCommand, setBootCommand] = d2("home");
     const [selectionSize, setSelectionSize] = d2(0);
     y2(() => {
       const handleMessage = (event) => {
@@ -1670,7 +1696,6 @@ svg {
         const msg = (_a = event.data) == null ? void 0 : _a.pluginMessage;
         if (!msg) return;
         if (msg.type === MAIN_TO_UI.BOOTSTRAPPED) {
-          setBootCommand(msg.command);
           setSelectionSize(msg.selectionSize);
           setRoute(msg.command === "chain-inspector" ? "chain-inspector" : "home");
         }
@@ -1695,11 +1720,8 @@ svg {
       init_preact_module();
       init_hooks_module();
       init_messages();
-      init_Tree();
-      init_EmptyState();
-      init_UtilityHeader();
-      init_UtilityCard();
-      init_AppIcons();
+      init_ChainInspectorView();
+      init_HomeView();
       ui_default = render(App);
     }
   });
