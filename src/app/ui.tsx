@@ -17,7 +17,7 @@ import { Tree, type TreeNode } from "./components/Tree"
 import { EmptyState } from "./components/EmptyState"
 import { UtilityHeader } from "./components/UtilityHeader"
 import { UtilityCard } from "./components/UtilityCard"
-import { IconArrowDown16 } from "./components/AppIcons"
+import { IconArrowCurvedDownRight16 } from "./components/AppIcons"
 
 type Route = "home" | "chain-inspector"
 
@@ -30,7 +30,6 @@ function Page(props: { children: preact.ComponentChildren }) {
         // `100vh` is stable inside the plugin iframe.
         height: "100vh",
         boxSizing: "border-box",
-        padding: 12,
         display: "flex",
         flexDirection: "column",
       }}
@@ -44,16 +43,11 @@ function HomeView(props: { goTo: (route: Route) => void }) {
   return (
     <Page>
       <Container space="small">
-      <Text>
-        This plugin bundles internal design utilities. Pick a tool below, or run it directly from the Figma Plugins menu.
-      </Text>
-      <VerticalSpace space="medium" />
-      <Divider />
-      <VerticalSpace space="medium" />
-      <Text>Utilities</Text>
+      <VerticalSpace space="small" />
+      <Text>Colors</Text>
       <VerticalSpace space="small" />
       <UtilityCard
-        title="Variable Chain Inspector"
+        title="View Colors Chain"
         description="Inspect selection to see full variable alias chains."
         icon={<IconLink16 />}
         onClick={() => props.goTo("chain-inspector")}
@@ -145,7 +139,7 @@ function ChainInspectorView(props: { onBack: () => void; initialSelectionEmpty: 
   return (
     <Page>
       <UtilityHeader
-        title="Variable Chain Inspector"
+        title="View Colors Chain"
         left={
           <IconButton onClick={props.onBack} title="Home">
             <IconHome16 />
@@ -179,14 +173,13 @@ function ChainInspectorView(props: { onBack: () => void; initialSelectionEmpty: 
 
           {!selectionEmpty && !error && sortedResults.length > 0 && totalColors === 0 ? (
             <EmptyState
-              icon={<IconInteractionClickSmall24 />}
-              title="No variable-bound colors found in selection."
+              title="No variable colors found in selection"
+              tone="default"
             />
           ) : null}
 
           {sortedResults.length > 0 ? (
             <Fragment>
-              <Divider />
               <VerticalSpace space="small" />
               <Tree
                 nodes={((): Array<TreeNode> => {
@@ -213,7 +206,8 @@ function ChainInspectorView(props: { onBack: () => void; initialSelectionEmpty: 
                       nodes.push({
                         id: `${layer.layerId}:${c.variableId}`,
                         title: c.variableName,
-                        description: multiLayer ? `${layer.layerName} · ${c.collectionName}` : c.collectionName,
+                        // Keep Chain View minimal: no collection name.
+                        // (If we need disambiguation later for multi-selection, we can show layer name only.)
                         icon: <ColorSwatch hex={swatchHex} />,
                         titleStrong: true,
                       })
@@ -232,7 +226,7 @@ function ChainInspectorView(props: { onBack: () => void; initialSelectionEmpty: 
                                 display: "inline-flex",
                               }}
                             >
-                              <IconArrowDown16 />
+                              <IconArrowCurvedDownRight16 />
                             </span>
                           ),
                         })

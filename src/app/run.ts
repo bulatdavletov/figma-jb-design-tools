@@ -6,9 +6,9 @@ import { inspectSelectionForVariableChainsByLayer } from "./variable-chain"
 export function run(command: string) {
   showUI(
     {
-      width: 520,
-      height: 440,
-      title: command === "chain-inspector" ? "Variable Chain Inspector" : "Figma Utilities",
+      width: 360,
+      height: 500,
+      title: command === "chain-inspector" ? "View Colors Chain" : "JetBrains Design Utilities",
     },
     { command }
   )

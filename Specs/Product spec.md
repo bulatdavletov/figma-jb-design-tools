@@ -1,4 +1,4 @@
-## Figma Utilities Plugin — Product Spec (draft)
+## JetBrains Design Utilities Plugin — Product Spec (draft)
 
 ### Goal
 Make a single “Swiss‑army” Figma plugin that bundles several practical utilities (mostly variables/tokens + colors + icon/component swapping) into one **cohesive, safe, and easy-to-discover** tool.

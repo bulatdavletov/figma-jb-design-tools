@@ -677,10 +677,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8b6d9bdd-7c9d-4558-bfbd-6bb8e5bfca06/divider.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/bee87cde-33ab-4cb4-b1ac-17ea32bee9c9/divider.module.js
   var divider_module_default;
   var init_divider_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8b6d9bdd-7c9d-4558-bfbd-6bb8e5bfca06/divider.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/bee87cde-33ab-4cb4-b1ac-17ea32bee9c9/divider.module.js"() {
       if (document.getElementById("4bf06403b9") === null) {
         const element = document.createElement("style");
         element.id = "4bf06403b9";
@@ -710,10 +710,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/51aab26c-832f-4d59-9e5a-0f55164ecd45/icon-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e24a0d3c-98c1-4707-9895-8fdc38fae630/icon-button.module.js
   var icon_button_module_default;
   var init_icon_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/51aab26c-832f-4d59-9e5a-0f55164ecd45/icon-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e24a0d3c-98c1-4707-9895-8fdc38fae630/icon-button.module.js"() {
       if (document.getElementById("c8b08e6568") === null) {
         const element = document.createElement("style");
         element.id = "c8b08e6568";
@@ -791,10 +791,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/088ba629-b896-47fe-8ea2-a0dcf968a2ce/text.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5226e992-2286-4d34-9c4a-af5ebf527b9a/text.module.js
   var text_module_default;
   var init_text_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/088ba629-b896-47fe-8ea2-a0dcf968a2ce/text.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5226e992-2286-4d34-9c4a-af5ebf527b9a/text.module.js"() {
       if (document.getElementById("1278016d5c") === null) {
         const element = document.createElement("style");
         element.id = "1278016d5c";
@@ -894,10 +894,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/da93a26b-e213-4322-88f9-34cb609e026a/container.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/bb543fa9-2ed5-4a57-970b-5322a7fcca47/container.module.js
   var container_module_default;
   var init_container_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/da93a26b-e213-4322-88f9-34cb609e026a/container.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/bb543fa9-2ed5-4a57-970b-5322a7fcca47/container.module.js"() {
       if (document.getElementById("b49e1406f9") === null) {
         const element = document.createElement("style");
         element.id = "b49e1406f9";
@@ -938,10 +938,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8ebd6faf-3ba5-468c-a748-b6dc5ef8f2bf/vertical-space.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/3afc612f-7de0-4a31-aa78-e7a0a2a4c846/vertical-space.module.js
   var vertical_space_module_default;
   var init_vertical_space_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8ebd6faf-3ba5-468c-a748-b6dc5ef8f2bf/vertical-space.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/3afc612f-7de0-4a31-aa78-e7a0a2a4c846/vertical-space.module.js"() {
       if (document.getElementById("ba0eea5114") === null) {
         const element = document.createElement("style");
         element.id = "ba0eea5114";
@@ -982,9 +982,9 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6de878e4-d4c8-4490-9e29-350056674bee/base.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c76ece26-d815-4dd1-b507-82aa309b059e/base.js
   var init_base = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6de878e4-d4c8-4490-9e29-350056674bee/base.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c76ece26-d815-4dd1-b507-82aa309b059e/base.js"() {
       if (document.getElementById("0597dd81e7") === null) {
         const element = document.createElement("style");
         element.id = "0597dd81e7";
@@ -1159,34 +1159,24 @@ svg {
     }
   });
 
-  // src/app/components/custom-icons/index.tsx
-  function SvgIcon16(props) {
+  // src/app/components/custom-icons/generated.tsx
+  function IconArrowCurvedDownRight16(props) {
     var _a, _b;
     const color = (_a = props.color) != null ? _a : "currentColor";
-    const opacity = (_b = props.opacity) != null ? _b : 0.9;
-    return /* @__PURE__ */ _("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none", "aria-label": props.title }, /* @__PURE__ */ _("path", { d: props.pathD, fill: color, fillOpacity: opacity }));
-  }
-  function IconArrowDown16(props) {
-    return /* @__PURE__ */ _(
-      SvgIcon16,
-      __spreadProps(__spreadValues({}, props), {
-        pathD: "M10.8523 10.8531C11.0475 10.6579 11.0476 10.3413 10.8523 10.1461C10.6571 9.95123 10.3404 9.95108 10.1453 10.1461L7.99978 12.2926L7.99978 2.49963C7.99958 2.22366 7.7758 1.99963 7.49978 1.99963C7.22386 1.99975 6.99998 2.22373 6.99978 2.49963L6.99978 12.2926L4.85232 10.1461C4.65706 9.95123 4.34044 9.95109 4.14529 10.1461C3.95019 10.3413 3.95038 10.6579 4.14529 10.8531L7.14627 13.8531C7.34154 14.0484 7.65807 14.0484 7.8533 13.8531L10.8523 10.8531Z"
-      })
-    );
+    return /* @__PURE__ */ _("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none", "aria-label": props.title }, /* @__PURE__ */ _("path", { d: "M9.85341 12.8534C9.65814 13.0487 9.34163 13.0487 9.14638 12.8534C8.9756 12.6826 8.95379 12.4186 9.08192 12.2245L9.14638 12.1464L11.2929 9.99992H7.49989C5.01461 9.99987 2.99989 7.98513 2.99989 5.49992V3.49992C2.99995 3.22386 3.22383 2.99997 3.49989 2.99992C3.776 2.99992 3.99984 3.22383 3.99989 3.49992V5.49992C3.99989 7.43293 5.56698 8.99987 7.49989 8.99992H11.2929L9.14638 6.85344C8.95121 6.65817 8.95116 6.34164 9.14638 6.14641C9.31721 5.97558 9.58122 5.95387 9.77528 6.08195L9.85341 6.14641L12.8534 9.14641C13.0487 9.34167 13.0487 9.65818 12.8534 9.85344L9.85341 12.8534Z", fill: color, fillOpacity: (_b = props.opacity) != null ? _b : 0.9 }));
   }
   function IconChevronDown16(props) {
-    return /* @__PURE__ */ _(
-      SvgIcon16,
-      __spreadProps(__spreadValues({}, props), {
-        pathD: "M9.76731 6.76777C9.96257 6.5725 10.2801 6.5725 10.4753 6.76777C10.6702 6.96296 10.6702 7.2796 10.4753 7.4748L7.99973 9.94941L5.52512 7.4748C5.32986 7.27953 5.32986 6.96303 5.52512 6.76777C5.72039 6.5725 6.03689 6.5725 6.23216 6.76777L7.99973 8.53534L9.76731 6.76777Z"
-      })
-    );
+    var _a, _b;
+    const color = (_a = props.color) != null ? _a : "currentColor";
+    return /* @__PURE__ */ _("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none", "aria-label": props.title }, /* @__PURE__ */ _("path", { d: "M9.76731 6.76777C9.96257 6.5725 10.2801 6.5725 10.4753 6.76777C10.6702 6.96296 10.6702 7.2796 10.4753 7.4748L7.99973 9.94941L5.52512 7.4748C5.32986 7.27953 5.32986 6.96303 5.52512 6.76777C5.72039 6.5725 6.03689 6.5725 6.23216 6.76777L7.99973 8.53534L9.76731 6.76777Z", fill: color, fillOpacity: (_b = props.opacity) != null ? _b : 0.9 }));
   }
   function IconChevronRight16(props) {
-    return /* @__PURE__ */ _("span", { style: { display: "flex", lineHeight: 0, transform: "rotate(-90deg)" } }, /* @__PURE__ */ _(IconChevronDown16, __spreadValues({}, props)));
+    var _a, _b;
+    const color = (_a = props.color) != null ? _a : "currentColor";
+    return /* @__PURE__ */ _("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none", "aria-label": props.title }, /* @__PURE__ */ _("path", { d: "M6.76776 6.23269C6.5725 6.03743 6.5725 5.71994 6.76776 5.52468C6.96296 5.32976 7.2796 5.32976 7.47479 5.52468L9.9494 8.00027L7.47479 10.4749C7.27953 10.6701 6.96302 10.6701 6.76776 10.4749C6.5725 10.2796 6.5725 9.96311 6.76776 9.76785L8.53534 8.00027L6.76776 6.23269Z", fill: color, fillOpacity: (_b = props.opacity) != null ? _b : 0.9 }));
   }
-  var init_custom_icons = __esm({
-    "src/app/components/custom-icons/index.tsx"() {
+  var init_generated = __esm({
+    "src/app/components/custom-icons/generated.tsx"() {
       "use strict";
       init_preact_module();
     }
@@ -1196,7 +1186,7 @@ svg {
   var init_AppIcons = __esm({
     "src/app/components/AppIcons.tsx"() {
       "use strict";
-      init_custom_icons();
+      init_generated();
     }
   });
 
@@ -1322,6 +1312,9 @@ svg {
 
   // src/app/components/EmptyState.tsx
   function EmptyState(props) {
+    var _a;
+    const tone = (_a = props.tone) != null ? _a : "muted";
+    const textColor = tone === "default" ? "var(--figma-color-text)" : "var(--figma-color-text-secondary)";
     return /* @__PURE__ */ _(
       Container,
       {
@@ -1333,25 +1326,24 @@ svg {
           alignItems: "center",
           justifyContent: "center",
           textAlign: "center",
-          color: "var(--figma-color-text-secondary)",
+          color: textColor,
           padding: "24px 12px"
         }
       },
-      /* @__PURE__ */ _(
+      props.icon ? /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(
         "div",
         {
           style: {
-            color: "var(--figma-color-text-secondary)",
+            color: textColor,
             transform: "scale(2)",
             transformOrigin: "50% 50%",
             lineHeight: 0
           }
         },
         props.icon
-      ),
-      /* @__PURE__ */ _(VerticalSpace, { space: "small" }),
-      /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, props.title),
-      props.description ? /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(VerticalSpace, { space: "extraSmall" }), /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, props.description)) : null
+      ), /* @__PURE__ */ _(VerticalSpace, { space: "medium" })) : null,
+      /* @__PURE__ */ _(Text, { style: { color: textColor } }, props.title),
+      props.description ? /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(VerticalSpace, { space: "extraSmall" }), /* @__PURE__ */ _(Text, { style: { color: textColor } }, props.description)) : null
     );
   }
   var init_EmptyState = __esm({
@@ -1364,7 +1356,7 @@ svg {
 
   // src/app/components/UtilityHeader.tsx
   function UtilityHeader(props) {
-    return /* @__PURE__ */ _("div", null, /* @__PURE__ */ _(Container, { space: "small" }, /* @__PURE__ */ _("div", { style: { display: "flex", alignItems: "center", gap: 8 } }, props.left ? /* @__PURE__ */ _("div", { style: { display: "flex", alignItems: "center" } }, props.left) : null, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, props.title)), /* @__PURE__ */ _(VerticalSpace, { space: "small" })));
+    return /* @__PURE__ */ _("div", null, /* @__PURE__ */ _(Container, { space: "small" }, /* @__PURE__ */ _(VerticalSpace, { space: "extraSmall" }), /* @__PURE__ */ _("div", { style: { display: "flex", alignItems: "center", gap: 8 } }, props.left ? /* @__PURE__ */ _("div", { style: { display: "flex", alignItems: "center" } }, props.left) : null, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, props.title)), /* @__PURE__ */ _(VerticalSpace, { space: "extraSmall" })), /* @__PURE__ */ _(Divider, null));
   }
   var init_UtilityHeader = __esm({
     "src/app/components/UtilityHeader.tsx"() {
@@ -1490,7 +1482,6 @@ svg {
           // `100vh` is stable inside the plugin iframe.
           height: "100vh",
           boxSizing: "border-box",
-          padding: 12,
           display: "flex",
           flexDirection: "column"
         }
@@ -1499,10 +1490,10 @@ svg {
     );
   }
   function HomeView(props) {
-    return /* @__PURE__ */ _(Page, null, /* @__PURE__ */ _(Container, { space: "small" }, /* @__PURE__ */ _(Text, null, "This plugin bundles internal design utilities. Pick a tool below, or run it directly from the Figma Plugins menu."), /* @__PURE__ */ _(VerticalSpace, { space: "medium" }), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(VerticalSpace, { space: "medium" }), /* @__PURE__ */ _(Text, null, "Utilities"), /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(
+    return /* @__PURE__ */ _(Page, null, /* @__PURE__ */ _(Container, { space: "small" }, /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(Text, null, "Colors"), /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(
       UtilityCard,
       {
-        title: "Variable Chain Inspector",
+        title: "View Colors Chain",
         description: "Inspect selection to see full variable alias chains.",
         icon: /* @__PURE__ */ _(IconLink16, null),
         onClick: () => props.goTo("chain-inspector")
@@ -1584,7 +1575,7 @@ svg {
     return /* @__PURE__ */ _(Page, null, /* @__PURE__ */ _(
       UtilityHeader,
       {
-        title: "Variable Chain Inspector",
+        title: "View Colors Chain",
         left: /* @__PURE__ */ _(IconButton, { onClick: props.onBack, title: "Home" }, /* @__PURE__ */ _(IconHome16, null))
       }
     ), /* @__PURE__ */ _("div", { style: { flex: 1, overflow: "auto" } }, /* @__PURE__ */ _(Container, { space: "small" }, error ? /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(Text, null, error), /* @__PURE__ */ _(VerticalSpace, { space: "small" })) : null, loading && !error && !selectionEmpty && sortedResults.length === 0 ? /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(Text, null, "Inspecting selection\u2026"), /* @__PURE__ */ _(VerticalSpace, { space: "small" })) : null, selectionEmpty && !error ? /* @__PURE__ */ _(
@@ -1596,10 +1587,10 @@ svg {
     ) : null, !selectionEmpty && !error && sortedResults.length > 0 && totalColors === 0 ? /* @__PURE__ */ _(
       EmptyState,
       {
-        icon: /* @__PURE__ */ _(IconInteractionClickSmall24, null),
-        title: "No variable-bound colors found in selection."
+        title: "No variable colors found in selection",
+        tone: "default"
       }
-    ) : null, sortedResults.length > 0 ? /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(
+    ) : null, sortedResults.length > 0 ? /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(
       Tree,
       {
         nodes: (() => {
@@ -1621,7 +1612,8 @@ svg {
               nodes.push({
                 id: `${layer.layerId}:${c3.variableId}`,
                 title: c3.variableName,
-                description: multiLayer ? `${layer.layerName} \xB7 ${c3.collectionName}` : c3.collectionName,
+                // Keep Chain View minimal: no collection name.
+                // (If we need disambiguation later for multi-selection, we can show layer name only.)
                 icon: /* @__PURE__ */ _(ColorSwatch, { hex: swatchHex }),
                 titleStrong: true
               });
@@ -1639,7 +1631,7 @@ svg {
                         display: "inline-flex"
                       }
                     },
-                    /* @__PURE__ */ _(IconArrowDown16, null)
+                    /* @__PURE__ */ _(IconArrowCurvedDownRight16, null)
                   )
                 });
               }

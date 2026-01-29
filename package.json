@@ -4,8 +4,11 @@
   "private": true,
   "description": "Internal Figma plugin: utilities launcher + token tools",
   "scripts": {
-    "build": "build-figma-plugin --typecheck",
-    "watch": "build-figma-plugin --typecheck --watch"
+    "build": "node scripts/generate-custom-icons.cjs && build-figma-plugin --typecheck",
+    "watch": "node scripts/generate-custom-icons.cjs --watch & build-figma-plugin --typecheck --watch",
+    "preview": "vite",
+    "preview:build": "vite build",
+    "preview:serve": "vite preview"
   },
   "dependencies": {
     "@create-figma-plugin/ui": "^4.0.3",
@@ -15,10 +18,12 @@
   "devDependencies": {
     "@create-figma-plugin/build": "^4.0.3",
     "@create-figma-plugin/tsconfig": "^4.0.3",
+    "@preact/preset-vite": "^2.10.1",
     "@figma/plugin-typings": "*",
     "@types/node": "^22.13.10",
     "esbuild": "^0.25.3",
-    "typescript": "^5.3.2"
+    "typescript": "^5.3.2",
+    "vite": "^6.1.0"
   },
   "figma-plugin": {
     "id": "1760123409876543210",
@@ -34,7 +39,7 @@
         "ui": "src/app/ui.tsx"
       },
       {
-        "name": "Variable Chain Inspector",
+        "name": "View Colors Chain",
         "main": "src/chain-inspector/main.ts",
         "ui": "src/app/ui.tsx"
       }

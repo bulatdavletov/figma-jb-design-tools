@@ -1,7 +1,7 @@
-## Utility: Variable Chain Inspector (working name)
+## Utility: View Colors Chain (working name)
 
 ### Naming
-Variable Chain Inspector
+View Colors Chain (current)
 
 ### What you want (MVP)
 Show the **full alias chain** for a variable (or for a selected layer’s paint variable), and allow **simple chain edits**:

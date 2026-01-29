@@ -2,10 +2,14 @@ import { Container, Text, VerticalSpace } from "@create-figma-plugin/ui"
 import { Fragment, h } from "preact"
 
 export function EmptyState(props: {
-  icon: preact.ComponentChildren
+  icon?: preact.ComponentChildren
   title: string
   description?: string
+  tone?: "muted" | "default"
 }) {
+  const tone = props.tone ?? "muted"
+  const textColor = tone === "default" ? "var(--figma-color-text)" : "var(--figma-color-text-secondary)"
+
   return (
     <Container
       space="small"
@@ -16,26 +20,30 @@ export function EmptyState(props: {
         alignItems: "center",
         justifyContent: "center",
         textAlign: "center",
-        color: "var(--figma-color-text-secondary)",
+        color: textColor,
         padding: "24px 12px",
       }}
     >
-      <div
-        style={{
-          color: "var(--figma-color-text-secondary)",
-          transform: "scale(2)",
-          transformOrigin: "50% 50%",
-          lineHeight: 0,
-        }}
-      >
-        {props.icon}
-      </div>
-      <VerticalSpace space="small" />
-      <Text style={{ color: "var(--figma-color-text-secondary)" }}>{props.title}</Text>
+      {props.icon ? (
+        <Fragment>
+          <div
+            style={{
+              color: textColor,
+              transform: "scale(2)",
+              transformOrigin: "50% 50%",
+              lineHeight: 0,
+            }}
+          >
+            {props.icon}
+          </div>
+          <VerticalSpace space="medium" />
+        </Fragment>
+      ) : null}
+      <Text style={{ color: textColor }}>{props.title}</Text>
       {props.description ? (
         <Fragment>
           <VerticalSpace space="extraSmall" />
-          <Text style={{ color: "var(--figma-color-text-secondary)" }}>{props.description}</Text>
+          <Text style={{ color: textColor }}>{props.description}</Text>
         </Fragment>
       ) : null}
     </Container>

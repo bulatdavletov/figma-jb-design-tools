@@ -13,7 +13,7 @@
       "command": "src/home/main.ts--default"
     },
     {
-      "name": "Variable Chain Inspector",
+      "name": "View Colors Chain",
       "command": "src/chain-inspector/main.ts--default"
     }
   ],
