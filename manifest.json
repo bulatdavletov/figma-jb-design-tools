@@ -1,0 +1,21 @@
+{
+  "api": "1.0.0",
+  "editorType": [
+    "figma"
+  ],
+  "id": "1760123409876543210",
+  "name": "JetBrains Design Utilities (Dev)",
+  "main": "build/main.js",
+  "ui": "build/ui.js",
+  "menu": [
+    {
+      "name": "Utilities Home",
+      "command": "src/home/main.ts--default"
+    },
+    {
+      "name": "Variable Chain Inspector",
+      "command": "src/chain-inspector/main.ts--default"
+    }
+  ],
+  "documentAccess": "dynamic-page"
+}

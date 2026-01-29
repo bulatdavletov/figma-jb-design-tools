@@ -1,0 +1,43 @@
+{
+  "name": "figma-jb-variables-utilities",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Internal Figma plugin: utilities launcher + token tools",
+  "scripts": {
+    "build": "build-figma-plugin --typecheck",
+    "watch": "build-figma-plugin --typecheck --watch"
+  },
+  "dependencies": {
+    "@create-figma-plugin/ui": "^4.0.3",
+    "@create-figma-plugin/utilities": "^4.0.3",
+    "preact": "^10.26.4"
+  },
+  "devDependencies": {
+    "@create-figma-plugin/build": "^4.0.3",
+    "@create-figma-plugin/tsconfig": "^4.0.3",
+    "@figma/plugin-typings": "*",
+    "@types/node": "^22.13.10",
+    "esbuild": "^0.25.3",
+    "typescript": "^5.3.2"
+  },
+  "figma-plugin": {
+    "id": "1760123409876543210",
+    "name": "JetBrains Design Utilities (Dev)",
+    "editorType": [
+      "figma"
+    ],
+    "documentAccess": "dynamic-page",
+    "menu": [
+      {
+        "name": "Utilities Home",
+        "main": "src/home/main.ts",
+        "ui": "src/app/ui.tsx"
+      },
+      {
+        "name": "Variable Chain Inspector",
+        "main": "src/chain-inspector/main.ts",
+        "ui": "src/app/ui.tsx"
+      }
+    ]
+  }
+}
