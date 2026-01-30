@@ -19,6 +19,11 @@ export type ModeChain = {
   modeName: string
   chain: Array<string>
   finalHex: string | null
+  /**
+   * Opacity of the resolved color as a percent (0..100).
+   * If `finalHex` is null, this will be null too.
+   */
+  finalOpacityPercent: number | null
   circular: boolean
   note?: string
 }

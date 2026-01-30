@@ -677,10 +677,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1b385453-a93c-48da-8df9-8c509d97b57e/divider.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6059cf4c-1dc8-44dd-bc71-4a6c932a2a8d/divider.module.js
   var divider_module_default;
   var init_divider_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1b385453-a93c-48da-8df9-8c509d97b57e/divider.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6059cf4c-1dc8-44dd-bc71-4a6c932a2a8d/divider.module.js"() {
       if (document.getElementById("4bf06403b9") === null) {
         const element = document.createElement("style");
         element.id = "4bf06403b9";
@@ -710,10 +710,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/dcb0e2ea-01b4-4d0e-8e04-b6906f6dbc25/icon-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/828a4b88-ea5d-4fd5-89f0-3e993dc109da/icon-button.module.js
   var icon_button_module_default;
   var init_icon_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/dcb0e2ea-01b4-4d0e-8e04-b6906f6dbc25/icon-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/828a4b88-ea5d-4fd5-89f0-3e993dc109da/icon-button.module.js"() {
       if (document.getElementById("c8b08e6568") === null) {
         const element = document.createElement("style");
         element.id = "c8b08e6568";
@@ -791,10 +791,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f13b9c16-af8e-4a2a-9012-0c259d9e6f6c/text.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b6605643-3442-4b77-a9e8-e360915f8b7d/text.module.js
   var text_module_default;
   var init_text_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f13b9c16-af8e-4a2a-9012-0c259d9e6f6c/text.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b6605643-3442-4b77-a9e8-e360915f8b7d/text.module.js"() {
       if (document.getElementById("1278016d5c") === null) {
         const element = document.createElement("style");
         element.id = "1278016d5c";
@@ -908,10 +908,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/02498e58-ccc6-40b1-ad61-e217ee16785a/container.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4641cc54-2076-432f-9247-bfeb01dda961/container.module.js
   var container_module_default;
   var init_container_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/02498e58-ccc6-40b1-ad61-e217ee16785a/container.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4641cc54-2076-432f-9247-bfeb01dda961/container.module.js"() {
       if (document.getElementById("b49e1406f9") === null) {
         const element = document.createElement("style");
         element.id = "b49e1406f9";
@@ -952,10 +952,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8235402f-6431-4dee-9d31-308a73ed4eaa/vertical-space.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e17c639b-21de-419b-b881-f1cf308446e8/vertical-space.module.js
   var vertical_space_module_default;
   var init_vertical_space_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8235402f-6431-4dee-9d31-308a73ed4eaa/vertical-space.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e17c639b-21de-419b-b881-f1cf308446e8/vertical-space.module.js"() {
       if (document.getElementById("ba0eea5114") === null) {
         const element = document.createElement("style");
         element.id = "ba0eea5114";
@@ -996,9 +996,9 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ed19c62e-a63b-4449-9bfd-72258cff3bd2/base.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/af5c4f19-6652-4682-8266-2dddd5c3b907/base.js
   var init_base = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ed19c62e-a63b-4449-9bfd-72258cff3bd2/base.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/af5c4f19-6652-4682-8266-2dddd5c3b907/base.js"() {
       if (document.getElementById("0597dd81e7") === null) {
         const element = document.createElement("style");
         element.id = "0597dd81e7";
@@ -1175,11 +1175,6 @@ svg {
   });
 
   // src/app/components/custom-icons/generated.tsx
-  function IconArrowCurvedDownRight16(props) {
-    var _a, _b;
-    const color = (_a = props.color) != null ? _a : "currentColor";
-    return /* @__PURE__ */ _("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none", "aria-label": props.title }, /* @__PURE__ */ _("path", { d: "M9.85341 12.8534C9.65814 13.0487 9.34163 13.0487 9.14638 12.8534C8.9756 12.6826 8.95379 12.4186 9.08192 12.2245L9.14638 12.1464L11.2929 9.99992H7.49989C5.01461 9.99987 2.99989 7.98513 2.99989 5.49992V3.49992C2.99995 3.22386 3.22383 2.99997 3.49989 2.99992C3.776 2.99992 3.99984 3.22383 3.99989 3.49992V5.49992C3.99989 7.43293 5.56698 8.99987 7.49989 8.99992H11.2929L9.14638 6.85344C8.95121 6.65817 8.95116 6.34164 9.14638 6.14641C9.31721 5.97558 9.58122 5.95387 9.77528 6.08195L9.85341 6.14641L12.8534 9.14641C13.0487 9.34167 13.0487 9.65818 12.8534 9.85344L9.85341 12.8534Z", fill: color, fillOpacity: (_b = props.opacity) != null ? _b : 0.9 }));
-  }
   function IconChevronDown16(props) {
     var _a, _b;
     const color = (_a = props.color) != null ? _a : "currentColor";
@@ -1234,6 +1229,8 @@ svg {
     const hasChildren = Array.isArray(node.children) && node.children.length > 0;
     const isCollapsible = hasChildren && node.collapsible !== false;
     const paddingLeft = props.level * 16;
+    const DEBUG_ROW_BOUNDS = false;
+    const BASE_SIDE_PADDING = 4;
     const handleToggle = () => {
       if (!isCollapsible) return;
       props.onToggle();
@@ -1255,11 +1252,15 @@ svg {
           display: "flex",
           alignItems: "center",
           gap: 8,
-          height: 32,
-          padding: "0 var(--space-small)",
-          paddingLeft: `calc(var(--space-small) + ${paddingLeft}px)`,
+          height: 28,
+          // ToolBody's Container provides the base inset.
+          // Tree rows should only add indentation for nesting levels,
+          // so top-level rows align with the header content.
+          paddingLeft: `${BASE_SIDE_PADDING + paddingLeft}px`,
+          paddingRight: `${BASE_SIDE_PADDING}px`,
           cursor: isCollapsible ? "pointer" : "default",
-          userSelect: "none"
+          userSelect: "none",
+          backgroundColor: DEBUG_ROW_BOUNDS ? "rgba(255, 0, 0, 0.15)" : "transparent"
         },
         title: isCollapsible ? "Click to expand" : void 0
       },
@@ -1435,7 +1436,9 @@ svg {
             flexDirection: "column"
           }
         },
-        props.children
+        /* @__PURE__ */ _(VerticalSpace, { space: "small" }),
+        props.children,
+        /* @__PURE__ */ _(VerticalSpace, { space: "small" })
       )
     );
   }
@@ -1448,9 +1451,32 @@ svg {
   });
 
   // src/app/views/color-chain-tool/ColorChainToolView.tsx
+  function hexToRgb(hex) {
+    const normalized = hex.trim().toUpperCase();
+    const m3 = /^#([0-9A-F]{6})$/.exec(normalized);
+    if (!m3) return null;
+    const v3 = m3[1];
+    const r3 = parseInt(v3.slice(0, 2), 16);
+    const g4 = parseInt(v3.slice(2, 4), 16);
+    const b2 = parseInt(v3.slice(4, 6), 16);
+    return { r: r3, g: g4, b: b2 };
+  }
+  function clamp01(n2) {
+    return Math.max(0, Math.min(1, n2));
+  }
+  function formatHexWithOpacity(hex, opacityPercent) {
+    if (opacityPercent == null) return hex;
+    if (opacityPercent >= 100) return hex;
+    return `${hex} ${opacityPercent}%`;
+  }
   function ColorSwatch(props) {
     const hex = props.hex;
     const swatchSize = 16;
+    const opacityPercent = typeof props.opacityPercent === "number" ? props.opacityPercent : null;
+    const alpha = opacityPercent == null ? 1 : clamp01(opacityPercent / 100);
+    const rgb = hex ? hexToRgb(hex) : null;
+    const rgba = rgb ? `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${alpha})` : "transparent";
+    const showTransparency = alpha < 0.999;
     return /* @__PURE__ */ _(
       "div",
       {
@@ -1459,11 +1485,28 @@ svg {
           height: swatchSize,
           borderRadius: 4,
           border: "1px solid var(--figma-color-border)",
-          backgroundColor: hex != null ? hex : "transparent",
+          position: "relative",
+          overflow: "hidden",
+          // If opaque: show solid color.
+          // If transparent: show checkerboard behind RGBA overlay.
+          backgroundColor: showTransparency ? "var(--figma-color-bg-secondary)" : hex != null ? hex : "transparent",
+          backgroundImage: showTransparency ? "linear-gradient(45deg, rgba(0,0,0,0.12) 25%, transparent 25%),linear-gradient(-45deg, rgba(0,0,0,0.12) 25%, transparent 25%),linear-gradient(45deg, transparent 75%, rgba(0,0,0,0.12) 75%),linear-gradient(-45deg, transparent 75%, rgba(0,0,0,0.12) 75%)" : "none",
+          backgroundSize: showTransparency ? "8px 8px" : void 0,
+          backgroundPosition: showTransparency ? "0 0, 0 4px, 4px -4px, -4px 0px" : void 0,
           boxSizing: "border-box"
         },
-        title: hex != null ? hex : "N/A"
-      }
+        title: hex ? typeof opacityPercent === "number" ? formatHexWithOpacity(hex, opacityPercent) : hex : "N/A"
+      },
+      showTransparency ? /* @__PURE__ */ _(
+        "div",
+        {
+          style: {
+            position: "absolute",
+            inset: 0,
+            backgroundColor: rgba
+          }
+        }
+      ) : null
     );
   }
   function ColorChainToolView(props) {
@@ -1539,13 +1582,13 @@ svg {
         icon: /* @__PURE__ */ _(IconInteractionClickSmall24, null),
         title: "Select a layer to see variables color chain."
       }
-    )) : viewState === "nothingFound" ? /* @__PURE__ */ _(ToolBody, { mode: "state" }, /* @__PURE__ */ _(State, { title: "No variable colors found in selection" })) : /* @__PURE__ */ _(ToolBody, { mode: "content" }, sortedResults.length > 0 ? /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(
+    )) : viewState === "nothingFound" ? /* @__PURE__ */ _(ToolBody, { mode: "state" }, /* @__PURE__ */ _(State, { title: "No variable colors found in selection" })) : /* @__PURE__ */ _(ToolBody, { mode: "content" }, sortedResults.length > 0 ? /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(
       Tree,
       {
         nodes: (() => {
-          var _a, _b, _c, _d;
+          var _a, _b, _c, _d, _e;
           const nodes = [];
-          const spaceHeight = 12;
+          const groupSpacing = 16;
           for (const layer of sortedResults) {
             const colors = layer.colors.slice().sort((a3, b2) => a3.variableName.localeCompare(b2.variableName));
             for (const c3 of colors) {
@@ -1556,41 +1599,29 @@ svg {
               }
               const chainToRender = (_b = currentModeChain != null ? currentModeChain : c3.chains[0]) != null ? _b : null;
               const swatchHex = (_c = chainToRender == null ? void 0 : chainToRender.finalHex) != null ? _c : null;
+              const swatchOpacityPercent = (_d = chainToRender == null ? void 0 : chainToRender.finalOpacityPercent) != null ? _d : null;
               const chainSteps = (chainToRender == null ? void 0 : chainToRender.chain) ? chainToRender.chain.slice(1) : [];
-              const chainRowIcon = /* @__PURE__ */ _(
-                "span",
-                {
-                  style: {
-                    color: "var(--figma-color-text-secondary)",
-                    opacity: 0.8,
-                    display: "inline-flex"
-                  }
-                },
-                /* @__PURE__ */ _(IconArrowCurvedDownRight16, null)
-              );
               nodes.push({
                 id: `${layer.layerId}:${c3.variableId}`,
                 title: c3.variableName,
-                icon: /* @__PURE__ */ _(ColorSwatch, { hex: swatchHex }),
+                icon: /* @__PURE__ */ _(ColorSwatch, { hex: swatchHex, opacityPercent: swatchOpacityPercent }),
                 titleStrong: true
               });
               for (let idx = 0; idx < chainSteps.length; idx++) {
                 const step = chainSteps[idx];
                 nodes.push({
                   id: `${layer.layerId}:${c3.variableId}:step:${idx}`,
-                  title: step,
-                  icon: chainRowIcon
+                  title: step
                 });
               }
               nodes.push({
                 id: `${layer.layerId}:${c3.variableId}:hex`,
-                title: (_d = chainToRender == null ? void 0 : chainToRender.finalHex) != null ? _d : "N/A",
-                icon: chainRowIcon
+                title: (chainToRender == null ? void 0 : chainToRender.finalHex) && typeof chainToRender.finalOpacityPercent === "number" ? formatHexWithOpacity(chainToRender.finalHex, chainToRender.finalOpacityPercent) : (_e = chainToRender == null ? void 0 : chainToRender.finalHex) != null ? _e : "N/A"
               });
               nodes.push({
                 kind: "spacer",
                 id: `${layer.layerId}:${c3.variableId}:spacer`,
-                height: spaceHeight
+                height: groupSpacing
               });
             }
           }
@@ -1618,7 +1649,6 @@ svg {
       init_Tree();
       init_State();
       init_ToolHeader();
-      init_AppIcons();
       init_Page();
       init_ToolBody();
     }

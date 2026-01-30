@@ -146,6 +146,17 @@
 - Fix: Hide the scroll container scrollbar whenever we render an `EmptyState` (Inspecting / Selection empty / Nothing found).
 - Refactor: Rename `EmptyState` → `State` and introduce reusable `ToolBody` layout so empty/loading/nothing-found screens don’t show scrollbars across tools.
 - Improvement: `ToolBody` now supports `mode="state" | "content"` so tools don’t need ad-hoc `showScrollableContent` logic.
+- UI: Color chain rows no longer show a direction icon; removed extra vertical spacing between color groups (no spacer rows).
+- UI: Restored spacing *between* color groups (spacer rows), while keeping rows *within* a group tight.
+- UI: Adjusted `ToolBody` padding — less left/right inset, more top spacing.
+- Layout: `ToolBody` now owns sizing/scrolling only; padding is handled only by `Container`.
+- Layout: `ToolBody` adds small top+bottom `VerticalSpace` in all modes (keeps state screens centered via symmetric spacing).
+- Debug: Temporarily added red background to `TreeRow` to see row bounds/height. Remove `DEBUG_ROW_BOUNDS` when done.
+- Layout: Removed extra left/right padding inside `TreeRow` so top-level rows align with header inset (indent now only comes from nesting level).
+- Layout: Added 4px side padding to `TreeRow` to match `IconButton`’s internal icon inset (24px button with 16px icon → 4px per side).
+- Fix: Color chain now respects opacity/alpha for color variables and shows it as a percentage (e.g. `20%`) alongside the final HEX.
+- UI: Final color row now shows opacity as part of the main label (e.g. `#000000 0%`). Color swatch now visually indicates opacity with a checkerboard background + RGBA overlay.
+- UI: Hide opacity text when it’s 100% (only show `… 0–99%`). Fixed swatch rendering so it shows solid color when opaque and checkerboard+overlay only when transparent.
 - Process: Before implementing any request, answer:
   - Is it a good idea?
   - Will it break any existing functionality?

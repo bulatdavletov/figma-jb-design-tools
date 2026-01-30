@@ -11,13 +11,25 @@ type FoundVariable = {
     | { status: "unknown" }
 }
 
-function rgbToHex(rgb: RGB): string {
-  const toHex = (n01: number) => {
-    const n255 = Math.max(0, Math.min(255, Math.round(n01 * 255)))
-    const hex = n255.toString(16).padStart(2, "0")
-    return hex.toUpperCase()
-  }
-  return `#${toHex(rgb.r)}${toHex(rgb.g)}${toHex(rgb.b)}`
+type ColorValue = RGB | RGBA
+
+function toByteHex(n01: number): string {
+  const n255 = Math.max(0, Math.min(255, Math.round(n01 * 255)))
+  return n255.toString(16).padStart(2, "0").toUpperCase()
+}
+
+function clamp01(n: number): number {
+  return Math.max(0, Math.min(1, n))
+}
+
+function colorToRgbHex(color: ColorValue): string {
+  return `#${toByteHex(color.r)}${toByteHex(color.g)}${toByteHex(color.b)}`
+}
+
+function colorToOpacityPercent(color: ColorValue): number {
+  const a = typeof (color as any).a === "number" ? (color as any).a : 1
+  const alpha = clamp01(a)
+  return Math.round(alpha * 100)
 }
 
 function getVariableAliasId(value: unknown): string | null {
@@ -28,22 +40,32 @@ function getVariableAliasId(value: unknown): string | null {
   return anyValue.id
 }
 
-function isRgb(value: unknown): value is RGB {
+function isColorValue(value: unknown): value is ColorValue {
   if (typeof value !== "object" || value == null) return false
   const anyValue = value as any
-  return typeof anyValue.r === "number" && typeof anyValue.g === "number" && typeof anyValue.b === "number"
+  const isRgb = typeof anyValue.r === "number" && typeof anyValue.g === "number" && typeof anyValue.b === "number"
+  if (!isRgb) return false
+  // `a` is optional. If present, treat as RGBA.
+  if (typeof anyValue.a === "undefined") return true
+  return typeof anyValue.a === "number"
 }
 
 async function resolveChainForMode(
   startVariable: Variable,
   modeId: string
-): Promise<{ chain: Array<string>; finalHex: string | null; circular: boolean; note?: string }> {
+): Promise<{
+  chain: Array<string>
+  finalHex: string | null
+  finalOpacityPercent: number | null
+  circular: boolean
+  note?: string
+}> {
   const chain: Array<string> = [startVariable.name]
   const visited = new Set<string>()
   let circularDetected = false
   let note: string | undefined
 
-  async function step(variable: Variable, currentModeId: string): Promise<RGB | null> {
+  async function step(variable: Variable, currentModeId: string): Promise<ColorValue | null> {
     const visitKey = `${variable.id}:${currentModeId}`
     if (visited.has(visitKey)) {
       circularDetected = true
@@ -52,7 +74,7 @@ async function resolveChainForMode(
     visited.add(visitKey)
 
     const value = variable.valuesByMode[currentModeId]
-    if (isRgb(value)) return value
+    if (isColorValue(value)) return value
 
     const aliasId = getVariableAliasId(value)
     if (aliasId) {
@@ -74,7 +96,8 @@ async function resolveChainForMode(
   const resolved = await step(startVariable, modeId)
   return {
     chain,
-    finalHex: resolved ? rgbToHex(resolved) : null,
+    finalHex: resolved ? colorToRgbHex(resolved) : null,
+    finalOpacityPercent: resolved ? colorToOpacityPercent(resolved) : null,
     circular: circularDetected,
     note,
   }
@@ -246,6 +269,7 @@ async function buildVariableChainResult(found: FoundVariable): Promise<VariableC
       modeName: mode.name,
       chain: resolved.chain,
       finalHex: resolved.finalHex,
+      finalOpacityPercent: resolved.finalOpacityPercent,
       circular: resolved.circular,
       note: resolved.note,
     })

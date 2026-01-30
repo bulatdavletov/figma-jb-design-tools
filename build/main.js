@@ -77,13 +77,20 @@ var init_messages = __esm({
 });
 
 // src/app/variable-chain.ts
-function rgbToHex(rgb) {
-  const toHex = (n01) => {
-    const n255 = Math.max(0, Math.min(255, Math.round(n01 * 255)));
-    const hex = n255.toString(16).padStart(2, "0");
-    return hex.toUpperCase();
-  };
-  return `#${toHex(rgb.r)}${toHex(rgb.g)}${toHex(rgb.b)}`;
+function toByteHex(n01) {
+  const n255 = Math.max(0, Math.min(255, Math.round(n01 * 255)));
+  return n255.toString(16).padStart(2, "0").toUpperCase();
+}
+function clamp01(n) {
+  return Math.max(0, Math.min(1, n));
+}
+function colorToRgbHex(color) {
+  return `#${toByteHex(color.r)}${toByteHex(color.g)}${toByteHex(color.b)}`;
+}
+function colorToOpacityPercent(color) {
+  const a = typeof color.a === "number" ? color.a : 1;
+  const alpha = clamp01(a);
+  return Math.round(alpha * 100);
 }
 function getVariableAliasId(value) {
   if (typeof value !== "object" || value == null) return null;
@@ -92,10 +99,13 @@ function getVariableAliasId(value) {
   if (typeof anyValue.id !== "string") return null;
   return anyValue.id;
 }
-function isRgb(value) {
+function isColorValue(value) {
   if (typeof value !== "object" || value == null) return false;
   const anyValue = value;
-  return typeof anyValue.r === "number" && typeof anyValue.g === "number" && typeof anyValue.b === "number";
+  const isRgb = typeof anyValue.r === "number" && typeof anyValue.g === "number" && typeof anyValue.b === "number";
+  if (!isRgb) return false;
+  if (typeof anyValue.a === "undefined") return true;
+  return typeof anyValue.a === "number";
 }
 async function resolveChainForMode(startVariable, modeId) {
   const chain = [startVariable.name];
@@ -110,7 +120,7 @@ async function resolveChainForMode(startVariable, modeId) {
     }
     visited.add(visitKey);
     const value = variable.valuesByMode[currentModeId];
-    if (isRgb(value)) return value;
+    if (isColorValue(value)) return value;
     const aliasId = getVariableAliasId(value);
     if (aliasId) {
       const next = await figma.variables.getVariableByIdAsync(aliasId);
@@ -128,7 +138,8 @@ async function resolveChainForMode(startVariable, modeId) {
   const resolved = await step(startVariable, modeId);
   return {
     chain,
-    finalHex: resolved ? rgbToHex(resolved) : null,
+    finalHex: resolved ? colorToRgbHex(resolved) : null,
+    finalOpacityPercent: resolved ? colorToOpacityPercent(resolved) : null,
     circular: circularDetected,
     note
   };
@@ -200,6 +211,7 @@ async function buildVariableChainResult(found) {
       modeName: mode.name,
       chain: resolved.chain,
       finalHex: resolved.finalHex,
+      finalOpacityPercent: resolved.finalOpacityPercent,
       circular: resolved.circular,
       note: resolved.note
     });

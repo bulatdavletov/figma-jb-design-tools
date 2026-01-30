@@ -61,6 +61,8 @@ function TreeRow(props: {
   const isCollapsible = hasChildren && node.collapsible !== false
 
   const paddingLeft = props.level * 16
+  const DEBUG_ROW_BOUNDS = false
+  const BASE_SIDE_PADDING = 4
 
   const handleToggle = () => {
     if (!isCollapsible) return
@@ -83,11 +85,15 @@ function TreeRow(props: {
         display: "flex",
         alignItems: "center",
         gap: 8,
-        height: 32,
-        padding: "0 var(--space-small)",
-        paddingLeft: `calc(var(--space-small) + ${paddingLeft}px)`,
+        height: 28,
+        // ToolBody's Container provides the base inset.
+        // Tree rows should only add indentation for nesting levels,
+        // so top-level rows align with the header content.
+        paddingLeft: `${BASE_SIDE_PADDING + paddingLeft}px`,
+        paddingRight: `${BASE_SIDE_PADDING}px`,
         cursor: isCollapsible ? "pointer" : "default",
         userSelect: "none",
+        backgroundColor: DEBUG_ROW_BOUNDS ? "rgba(255, 0, 0, 0.15)" : "transparent",
       }}
       title={isCollapsible ? "Click to expand" : undefined}
     >

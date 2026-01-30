@@ -1,4 +1,4 @@
-import { Container } from "@create-figma-plugin/ui"
+import { Container, VerticalSpace } from "@create-figma-plugin/ui"
 import { h } from "preact"
 
 export type ToolBodyMode = "content" | "state"
@@ -41,7 +41,9 @@ export function ToolBody(props: {
           flexDirection: "column",
         }}
       >
+        <VerticalSpace space="small" />
         {props.children}
+        <VerticalSpace space="small" />
       </Container>
     </div>
   )
