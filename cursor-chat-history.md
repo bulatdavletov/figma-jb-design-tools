@@ -138,6 +138,20 @@
    - shared layout wrapper `src/app/components/Page.tsx`
    and reduced `src/app/ui.tsx` to boot + routing + `render(App)`. Ran `npm run build` successfully.
 
+### 2026-01-30
+
+#### “View Colors Chain” (Color Chain Tool) — Inspecting state UI
+- Goal: When the tool is in “Inspecting selection…” state, show the same reusable `EmptyState` UI component (grey text), with a clock icon if available.
+- Follow-up: “No variable colors found in selection” state should also use `EmptyState` styling and must not show a scrollbar.
+- Fix: Hide the scroll container scrollbar whenever we render an `EmptyState` (Inspecting / Selection empty / Nothing found).
+- Refactor: Rename `EmptyState` → `State` and introduce reusable `ToolBody` layout so empty/loading/nothing-found screens don’t show scrollbars across tools.
+- Improvement: `ToolBody` now supports `mode="state" | "content"` so tools don’t need ad-hoc `showScrollableContent` logic.
+- Process: Before implementing any request, answer:
+  - Is it a good idea?
+  - Will it break any existing functionality?
+  - How main user flow will change?
+- Process: Always run `npm run build` after code changes.
+
 ## Git (initialize repo)
 
 ### 2026-01-29

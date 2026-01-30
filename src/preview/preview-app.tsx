@@ -11,7 +11,7 @@ import { Fragment, h } from "preact"
 import { useEffect, useMemo, useState } from "preact/hooks"
 
 import { ButtonWithIcon } from "../app/components/ButtonWithIcon"
-import { EmptyState } from "../app/components/EmptyState"
+import { State } from "../app/components/State"
 import { IconArrowDown16, IconChevronDown16 } from "../app/components/AppIcons"
 import { Tree, type TreeNode } from "../app/components/Tree"
 import { ToolCard } from "../app/components/ToolCard"
@@ -124,10 +124,10 @@ export function PreviewApp() {
           <Divider />
           <VerticalSpace space="medium" />
 
-          <Text style={{ fontWeight: 600 }}>EmptyState</Text>
+          <Text style={{ fontWeight: 600 }}>State</Text>
           <VerticalSpace space="extraSmall" />
           <div style={{ border: "1px solid var(--figma-color-border)", borderRadius: 8 }}>
-            <EmptyState icon={<IconChevronDown16 />} title="Nothing here yet" description="This is a preview state." />
+            <State icon={<IconChevronDown16 />} title="Nothing here yet" description="This is a preview state." />
           </div>
 
           <VerticalSpace space="extraLarge" />

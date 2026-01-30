@@ -1,8 +1,8 @@
 import {
-  Container,
   IconButton,
   IconInteractionClickSmall24,
   IconHome16,
+  IconTimeSmall24,
   Text,
   VerticalSpace,
 } from "@create-figma-plugin/ui"
@@ -17,10 +17,13 @@ import {
   type VariableChainResult,
 } from "../../messages"
 import { Tree, type TreeNode } from "../../components/Tree"
-import { EmptyState } from "../../components/EmptyState"
+import { State } from "../../components/State"
 import { ToolHeader } from "../../components/ToolHeader"
 import { IconArrowCurvedDownRight16 } from "../../components/AppIcons"
 import { Page } from "../../components/Page"
+import { ToolBody } from "../../components/ToolBody"
+
+type ViewState = "error" | "inspecting" | "selectionEmpty" | "nothingFound" | "content"
 
 function ColorSwatch(props: { hex: string | null }) {
   const hex = props.hex
@@ -101,6 +104,14 @@ export function ColorChainToolView(props: { onBack: () => void; initialSelection
     return results.reduce((sum, layer) => sum + (layer.colors?.length ?? 0), 0)
   }, [results])
 
+  const viewState: ViewState = (() => {
+    if (error) return "error"
+    if (selectionEmpty) return "selectionEmpty"
+    if (loading && sortedResults.length === 0) return "inspecting"
+    if (sortedResults.length > 0 && totalColors === 0) return "nothingFound"
+    return "content"
+  })()
+
   return (
     <Page>
       <ToolHeader
@@ -112,34 +123,27 @@ export function ColorChainToolView(props: { onBack: () => void; initialSelection
         }
       />
 
-      {/* Content (scrollable) */}
-      <div style={{ flex: 1, overflow: "auto" }}>
-        <Container space="small">
-          {error ? (
-            <Fragment>
-              <Text>{error}</Text>
-              <VerticalSpace space="small" />
-            </Fragment>
-          ) : null}
-
-          {loading && !error && !selectionEmpty && sortedResults.length === 0 ? (
-            <Fragment>
-              <Text>Inspecting selection…</Text>
-              <VerticalSpace space="small" />
-            </Fragment>
-          ) : null}
-
-          {selectionEmpty && !error ? (
-            <EmptyState
-              icon={<IconInteractionClickSmall24 />}
-              title="Select a layer to see variables color chain."
-            />
-          ) : null}
-
-          {!selectionEmpty && !error && sortedResults.length > 0 && totalColors === 0 ? (
-            <EmptyState title="No variable colors found in selection" tone="default" />
-          ) : null}
-
+      {viewState === "error" ? (
+        <ToolBody mode="state">
+          <State title={error ?? "Unknown error"} tone="default" />
+        </ToolBody>
+      ) : viewState === "inspecting" ? (
+        <ToolBody mode="state">
+          <State icon={<IconTimeSmall24 />} title="Inspecting selection…" />
+        </ToolBody>
+      ) : viewState === "selectionEmpty" ? (
+        <ToolBody mode="state">
+          <State
+            icon={<IconInteractionClickSmall24 />}
+            title="Select a layer to see variables color chain."
+          />
+        </ToolBody>
+      ) : viewState === "nothingFound" ? (
+        <ToolBody mode="state">
+          <State title="No variable colors found in selection" />
+        </ToolBody>
+      ) : (
+        <ToolBody mode="content">
           {sortedResults.length > 0 ? (
             <Fragment>
               <VerticalSpace space="small" />
@@ -221,8 +225,8 @@ export function ColorChainToolView(props: { onBack: () => void; initialSelection
               />
             </Fragment>
           ) : null}
-        </Container>
-      </div>
+        </ToolBody>
+      )}
     </Page>
   )
 }

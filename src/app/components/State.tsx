@@ -1,11 +1,13 @@
 import { Container, Text, VerticalSpace } from "@create-figma-plugin/ui"
 import { Fragment, h } from "preact"
 
-export function EmptyState(props: {
+export type StateTone = "muted" | "default"
+
+export function State(props: {
   icon?: preact.ComponentChildren
   title: string
   description?: string
-  tone?: "muted" | "default"
+  tone?: StateTone
 }) {
   const tone = props.tone ?? "muted"
   const textColor = tone === "default" ? "var(--figma-color-text)" : "var(--figma-color-text-secondary)"
@@ -14,7 +16,8 @@ export function EmptyState(props: {
     <Container
       space="small"
       style={{
-        height: "100%",
+        flex: 1,
+        minHeight: 0,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -22,6 +25,7 @@ export function EmptyState(props: {
         textAlign: "center",
         color: textColor,
         padding: "24px 12px",
+        boxSizing: "border-box",
       }}
     >
       {props.icon ? (

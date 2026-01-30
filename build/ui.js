@@ -677,10 +677,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ed9bf108-6c88-405f-bd0b-fe0007d7e6e8/divider.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1b385453-a93c-48da-8df9-8c509d97b57e/divider.module.js
   var divider_module_default;
   var init_divider_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ed9bf108-6c88-405f-bd0b-fe0007d7e6e8/divider.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1b385453-a93c-48da-8df9-8c509d97b57e/divider.module.js"() {
       if (document.getElementById("4bf06403b9") === null) {
         const element = document.createElement("style");
         element.id = "4bf06403b9";
@@ -710,10 +710,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1bac67c2-06b4-456e-891f-2f08f9a00a35/icon-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/dcb0e2ea-01b4-4d0e-8e04-b6906f6dbc25/icon-button.module.js
   var icon_button_module_default;
   var init_icon_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1bac67c2-06b4-456e-891f-2f08f9a00a35/icon-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/dcb0e2ea-01b4-4d0e-8e04-b6906f6dbc25/icon-button.module.js"() {
       if (document.getElementById("c8b08e6568") === null) {
         const element = document.createElement("style");
         element.id = "c8b08e6568";
@@ -791,10 +791,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/eeccb1ed-cd4a-48aa-b1cd-1137d7d2da31/text.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f13b9c16-af8e-4a2a-9012-0c259d9e6f6c/text.module.js
   var text_module_default;
   var init_text_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/eeccb1ed-cd4a-48aa-b1cd-1137d7d2da31/text.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f13b9c16-af8e-4a2a-9012-0c259d9e6f6c/text.module.js"() {
       if (document.getElementById("1278016d5c") === null) {
         const element = document.createElement("style");
         element.id = "1278016d5c";
@@ -894,10 +894,24 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/82aea872-0e17-4f0e-bab5-0e3d2912961a/container.module.js
+  // node_modules/@create-figma-plugin/ui/lib/icons/icon-24/icon-time-small-24.js
+  var IconTimeSmall24;
+  var init_icon_time_small_24 = __esm({
+    "node_modules/@create-figma-plugin/ui/lib/icons/icon-24/icon-time-small-24.js"() {
+      init_preact_module();
+      init_create_icon();
+      IconTimeSmall24 = createIcon(_(
+        "svg",
+        { fill: "none", height: "24", viewBox: "0 0 24 24", width: "24", xmlns: "http://www.w3.org/2000/svg" },
+        _("path", { "clip-rule": "evenodd", d: "M18 12c0 3.3137-2.6863 6-6 6-3.31371 0-6-2.6863-6-6 0-3.31371 2.68629-6 6-6 3.3137 0 6 2.68629 6 6m1 0c0 3.866-3.134 7-7 7s-7-3.134-7-7 3.134-7 7-7 7 3.134 7 7m-6.5-3.5c0-.27614-.2239-.5-.5-.5s-.5.22386-.5.5V12c0 .1326.0527.2598.1465.3535l2 2c.1952.1953.5118.1953.707 0 .1953-.1952.1953-.5118 0-.707L12.5 11.7929z", fill: "currentColor", "fill-rule": "evenodd" })
+      ));
+    }
+  });
+
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/02498e58-ccc6-40b1-ad61-e217ee16785a/container.module.js
   var container_module_default;
   var init_container_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/82aea872-0e17-4f0e-bab5-0e3d2912961a/container.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/02498e58-ccc6-40b1-ad61-e217ee16785a/container.module.js"() {
       if (document.getElementById("b49e1406f9") === null) {
         const element = document.createElement("style");
         element.id = "b49e1406f9";
@@ -938,10 +952,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0a075c0e-6b11-4241-acd4-2d7e116bb235/vertical-space.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8235402f-6431-4dee-9d31-308a73ed4eaa/vertical-space.module.js
   var vertical_space_module_default;
   var init_vertical_space_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0a075c0e-6b11-4241-acd4-2d7e116bb235/vertical-space.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8235402f-6431-4dee-9d31-308a73ed4eaa/vertical-space.module.js"() {
       if (document.getElementById("ba0eea5114") === null) {
         const element = document.createElement("style");
         element.id = "ba0eea5114";
@@ -982,9 +996,9 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/326f699d-0794-4c8e-af22-4178e352c7e0/base.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ed19c62e-a63b-4449-9bfd-72258cff3bd2/base.js
   var init_base = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/326f699d-0794-4c8e-af22-4178e352c7e0/base.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ed19c62e-a63b-4449-9bfd-72258cff3bd2/base.js"() {
       if (document.getElementById("0597dd81e7") === null) {
         const element = document.createElement("style");
         element.id = "0597dd81e7";
@@ -1135,6 +1149,7 @@ svg {
       init_icon_home_16();
       init_icon_link_16();
       init_icon_interaction_click_small_24();
+      init_icon_time_small_24();
       init_container();
       init_vertical_space();
       init_render();
@@ -1310,8 +1325,8 @@ svg {
     }
   });
 
-  // src/app/components/EmptyState.tsx
-  function EmptyState(props) {
+  // src/app/components/State.tsx
+  function State(props) {
     var _a;
     const tone = (_a = props.tone) != null ? _a : "muted";
     const textColor = tone === "default" ? "var(--figma-color-text)" : "var(--figma-color-text-secondary)";
@@ -1320,14 +1335,16 @@ svg {
       {
         space: "small",
         style: {
-          height: "100%",
+          flex: 1,
+          minHeight: 0,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
           textAlign: "center",
           color: textColor,
-          padding: "24px 12px"
+          padding: "24px 12px",
+          boxSizing: "border-box"
         }
       },
       props.icon ? /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(
@@ -1346,8 +1363,8 @@ svg {
       props.description ? /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(VerticalSpace, { space: "extraSmall" }), /* @__PURE__ */ _(Text, { style: { color: textColor } }, props.description)) : null
     );
   }
-  var init_EmptyState = __esm({
-    "src/app/components/EmptyState.tsx"() {
+  var init_State = __esm({
+    "src/app/components/State.tsx"() {
       "use strict";
       init_lib();
       init_preact_module();
@@ -1387,6 +1404,45 @@ svg {
   var init_Page = __esm({
     "src/app/components/Page.tsx"() {
       "use strict";
+      init_preact_module();
+    }
+  });
+
+  // src/app/components/ToolBody.tsx
+  function ToolBody(props) {
+    var _a;
+    const resolvedScroll = typeof props.mode !== "undefined" ? props.mode === "content" : (_a = props.scroll) != null ? _a : true;
+    return /* @__PURE__ */ _(
+      "div",
+      {
+        style: {
+          flex: 1,
+          minHeight: 0,
+          overflowY: resolvedScroll ? "auto" : "hidden",
+          overflowX: "hidden",
+          display: "flex",
+          flexDirection: "column"
+        }
+      },
+      /* @__PURE__ */ _(
+        Container,
+        {
+          space: "small",
+          style: {
+            flex: 1,
+            minHeight: 0,
+            display: "flex",
+            flexDirection: "column"
+          }
+        },
+        props.children
+      )
+    );
+  }
+  var init_ToolBody = __esm({
+    "src/app/components/ToolBody.tsx"() {
+      "use strict";
+      init_lib();
       init_preact_module();
     }
   });
@@ -1464,19 +1520,26 @@ svg {
         return sum + ((_b = (_a = layer.colors) == null ? void 0 : _a.length) != null ? _b : 0);
       }, 0);
     }, [results]);
+    const viewState = (() => {
+      if (error) return "error";
+      if (selectionEmpty) return "selectionEmpty";
+      if (loading && sortedResults.length === 0) return "inspecting";
+      if (sortedResults.length > 0 && totalColors === 0) return "nothingFound";
+      return "content";
+    })();
     return /* @__PURE__ */ _(Page, null, /* @__PURE__ */ _(
       ToolHeader,
       {
         title: "View Colors Chain",
         left: /* @__PURE__ */ _(IconButton, { onClick: props.onBack, title: "Home" }, /* @__PURE__ */ _(IconHome16, null))
       }
-    ), /* @__PURE__ */ _("div", { style: { flex: 1, overflow: "auto" } }, /* @__PURE__ */ _(Container, { space: "small" }, error ? /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(Text, null, error), /* @__PURE__ */ _(VerticalSpace, { space: "small" })) : null, loading && !error && !selectionEmpty && sortedResults.length === 0 ? /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(Text, null, "Inspecting selection\u2026"), /* @__PURE__ */ _(VerticalSpace, { space: "small" })) : null, selectionEmpty && !error ? /* @__PURE__ */ _(
-      EmptyState,
+    ), viewState === "error" ? /* @__PURE__ */ _(ToolBody, { mode: "state" }, /* @__PURE__ */ _(State, { title: error != null ? error : "Unknown error", tone: "default" })) : viewState === "inspecting" ? /* @__PURE__ */ _(ToolBody, { mode: "state" }, /* @__PURE__ */ _(State, { icon: /* @__PURE__ */ _(IconTimeSmall24, null), title: "Inspecting selection\u2026" })) : viewState === "selectionEmpty" ? /* @__PURE__ */ _(ToolBody, { mode: "state" }, /* @__PURE__ */ _(
+      State,
       {
         icon: /* @__PURE__ */ _(IconInteractionClickSmall24, null),
         title: "Select a layer to see variables color chain."
       }
-    ) : null, !selectionEmpty && !error && sortedResults.length > 0 && totalColors === 0 ? /* @__PURE__ */ _(EmptyState, { title: "No variable colors found in selection", tone: "default" }) : null, sortedResults.length > 0 ? /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(
+    )) : viewState === "nothingFound" ? /* @__PURE__ */ _(ToolBody, { mode: "state" }, /* @__PURE__ */ _(State, { title: "No variable colors found in selection" })) : /* @__PURE__ */ _(ToolBody, { mode: "content" }, sortedResults.length > 0 ? /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(
       Tree,
       {
         nodes: (() => {
@@ -1543,7 +1606,7 @@ svg {
           return __spreadProps(__spreadValues({}, prev), { [id]: !isOpen });
         })
       }
-    )) : null)));
+    )) : null));
   }
   var init_ColorChainToolView = __esm({
     "src/app/views/color-chain-tool/ColorChainToolView.tsx"() {
@@ -1553,10 +1616,11 @@ svg {
       init_hooks_module();
       init_messages();
       init_Tree();
-      init_EmptyState();
+      init_State();
       init_ToolHeader();
       init_AppIcons();
       init_Page();
+      init_ToolBody();
     }
   });
 
