@@ -362,6 +362,11 @@
     var i3 = p2(t2++, 3);
     !c2.__s && C2(i3.__H, u3) && (i3.__ = n2, i3.u = u3, r2.__H.__h.push(i3));
   }
+  function A2(n2) {
+    return o2 = 5, T2(function() {
+      return { current: n2 };
+    }, []);
+  }
   function T2(n2, r3) {
     var u3 = p2(t2++, 7);
     return C2(u3.__H, r3) && (u3.__ = n2(), u3.__H = r3, u3.__h = n2), u3.__;
@@ -661,6 +666,285 @@
     }
   });
 
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b1abb1db-6b6a-4d4f-9620-f2d1236e4560/loading-indicator.module.js
+  var loading_indicator_module_default;
+  var init_loading_indicator_module = __esm({
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b1abb1db-6b6a-4d4f-9620-f2d1236e4560/loading-indicator.module.js"() {
+      if (document.getElementById("3fe0db8eb7") === null) {
+        const element = document.createElement("style");
+        element.id = "3fe0db8eb7";
+        element.textContent = `._loadingIndicator_18hv6_1 {
+  position: relative;
+  width: var(--space-16);
+  height: var(--space-16);
+  margin: auto;
+}
+
+._svg_18hv6_8 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--space-16);
+  height: var(--space-16);
+  animation: _rotating_18hv6_1 0.5s linear infinite;
+  fill: currentColor;
+}
+
+@keyframes _rotating_18hv6_1 {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm5vZGVfbW9kdWxlcy9AY3JlYXRlLWZpZ21hLXBsdWdpbi91aS9saWIvY29tcG9uZW50cy9sb2FkaW5nLWluZGljYXRvci9sb2FkaW5nLWluZGljYXRvci5tb2R1bGUuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0Usa0JBQWtCO0VBQ2xCLHNCQUFzQjtFQUN0Qix1QkFBdUI7RUFDdkIsWUFBWTtBQUNkOztBQUVBO0VBQ0Usa0JBQWtCO0VBQ2xCLE1BQU07RUFDTixPQUFPO0VBQ1Asc0JBQXNCO0VBQ3RCLHVCQUF1QjtFQUN2QixpREFBd0M7RUFDeEMsa0JBQWtCO0FBQ3BCOztBQUVBO0VBQ0U7SUFDRSx1QkFBdUI7RUFDekI7RUFDQTtJQUNFLHlCQUF5QjtFQUMzQjtBQUNGIiwiZmlsZSI6Im5vZGVfbW9kdWxlcy9AY3JlYXRlLWZpZ21hLXBsdWdpbi91aS9saWIvY29tcG9uZW50cy9sb2FkaW5nLWluZGljYXRvci9sb2FkaW5nLWluZGljYXRvci5tb2R1bGUuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmxvYWRpbmdJbmRpY2F0b3Ige1xuICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gIHdpZHRoOiB2YXIoLS1zcGFjZS0xNik7XG4gIGhlaWdodDogdmFyKC0tc3BhY2UtMTYpO1xuICBtYXJnaW46IGF1dG87XG59XG5cbi5zdmcge1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIHRvcDogMDtcbiAgbGVmdDogMDtcbiAgd2lkdGg6IHZhcigtLXNwYWNlLTE2KTtcbiAgaGVpZ2h0OiB2YXIoLS1zcGFjZS0xNik7XG4gIGFuaW1hdGlvbjogcm90YXRpbmcgMC41cyBsaW5lYXIgaW5maW5pdGU7XG4gIGZpbGw6IGN1cnJlbnRDb2xvcjtcbn1cblxuQGtleWZyYW1lcyByb3RhdGluZyB7XG4gIGZyb20ge1xuICAgIHRyYW5zZm9ybTogcm90YXRlKDBkZWcpO1xuICB9XG4gIHRvIHtcbiAgICB0cmFuc2Zvcm06IHJvdGF0ZSgzNjBkZWcpO1xuICB9XG59XG4iXX0= */`;
+        document.head.append(element);
+      }
+      loading_indicator_module_default = { "loadingIndicator": "_loadingIndicator_18hv6_1", "svg": "_svg_18hv6_8", "rotating": "_rotating_18hv6_1" };
+    }
+  });
+
+  // node_modules/@create-figma-plugin/ui/lib/components/loading-indicator/loading-indicator.js
+  var LoadingIndicator;
+  var init_loading_indicator = __esm({
+    "node_modules/@create-figma-plugin/ui/lib/components/loading-indicator/loading-indicator.js"() {
+      init_preact_module();
+      init_create_component();
+      init_loading_indicator_module();
+      LoadingIndicator = createComponent(function(_a, ref) {
+        var _b = _a, { color } = _b, rest = __objRest(_b, ["color"]);
+        return _(
+          "div",
+          __spreadProps(__spreadValues({}, rest), { ref, class: loading_indicator_module_default.loadingIndicator }),
+          _(
+            "svg",
+            { class: loading_indicator_module_default.svg, style: typeof color === "undefined" ? void 0 : {
+              fill: `var(--figma-color-icon-${color})`
+            } },
+            _("path", { d: "M11.333 3.011a6 6 0 0 0-2.834-.99A.534.534 0 0 1 8 1.5c.001-.276.225-.502.5-.482A7 7 0 1 1 1.019 8.5.473.473 0 0 1 1.5 8c.276 0 .498.224.52.5a6 6 0 1 0 9.313-5.489Z" })
+          )
+        );
+      });
+    }
+  });
+
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9872f0af-2044-45df-b504-c57f561fdf8d/button.module.js
+  var button_module_default;
+  var init_button_module = __esm({
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9872f0af-2044-45df-b504-c57f561fdf8d/button.module.js"() {
+      if (document.getElementById("1dddd0e4df") === null) {
+        const element = document.createElement("style");
+        element.id = "1dddd0e4df";
+        element.textContent = `._button_avmy7_1 {
+  position: relative;
+  z-index: var(--z-index-1);
+  display: inline-block;
+}
+
+._fullWidth_avmy7_7 {
+  display: block;
+}
+
+._disabled_avmy7_11,
+._disabled_avmy7_11 * {
+  cursor: not-allowed;
+}
+
+._button_avmy7_1 button {
+  position: relative;
+  display: inline-block;
+  height: var(--space-24);
+  padding: var(--space-0) var(--space-8);
+  border: var(--border-width-1) solid transparent;
+  border-radius: var(--border-radius-6);
+}
+
+._fullWidth_avmy7_7 button {
+  display: block;
+  overflow: hidden;
+  width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+._default_avmy7_33 button {
+  border-color: transparent;
+  background-color: var(--figma-color-bg-brand);
+  color: var(--figma-color-text-onbrand);
+}
+
+._default_avmy7_33:not(._disabled_avmy7_11) button:focus {
+  border-color: var(--figma-color-border-onbrand);
+}
+._default_avmy7_33:not(._disabled_avmy7_11) button:focus-visible {
+  box-shadow: 0 0 0 var(--border-width-1) var(--figma-color-bg) inset;
+}
+._default_avmy7_33:not(._disabled_avmy7_11) button:active {
+  background-color: var(--figma-color-bg-brand-pressed);
+}
+._default_avmy7_33._disabled_avmy7_11 button {
+  background-color: var(--figma-color-bg-disabled);
+  color: var(--figma-color-text-ondisabled);
+}
+
+._default_avmy7_33._danger_avmy7_53 button {
+  background-color: var(--figma-color-bg-danger);
+  color: var(--figma-color-text-ondanger);
+}
+._default_avmy7_33._danger_avmy7_53:not(._disabled_avmy7_11) button:focus {
+  border-color: var(--figma-color-border-danger-strong);
+}
+._default_avmy7_33._danger_avmy7_53:not(._disabled_avmy7_11) button:active {
+  background-color: var(--figma-color-bg-danger-pressed);
+}
+._default_avmy7_33._danger_avmy7_53._disabled_avmy7_11 button {
+  background-color: var(--figma-color-bg-disabled);
+  color: var(--figma-color-text-ondisabled);
+}
+
+._secondary_avmy7_68 button {
+  border-color: var(--figma-color-border);
+  background-color: transparent;
+  color: var(--figma-color-text);
+}
+._secondary_avmy7_68:not(._disabled_avmy7_11) button:focus {
+  border-color: var(--figma-color-border-selected);
+}
+._secondary_avmy7_68:not(._disabled_avmy7_11) button:active {
+  background-color: var(--figma-color-bg-pressed);
+}
+._secondary_avmy7_68._disabled_avmy7_11 button {
+  border-color: var(--figma-color-border-disabled);
+  color: var(--figma-color-text-disabled);
+}
+
+._secondary_avmy7_68._danger_avmy7_53 button {
+  border-color: var(--figma-color-border-danger);
+  color: var(--figma-color-text-danger);
+}
+._secondary_avmy7_68._danger_avmy7_53:not(._disabled_avmy7_11) button:focus {
+  border-color: var(--figma-color-border-danger-strong);
+}
+._secondary_avmy7_68._danger_avmy7_53._disabled_avmy7_11 button {
+  border-color: var(--figma-color-border-disabled-strong);
+  color: var(--figma-color-text-disabled);
+}
+
+._loadingIndicator_avmy7_96 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+._default_avmy7_33 ._loadingIndicator_avmy7_96 {
+  color: var(--figma-color-icon-onbrand);
+}
+._default_avmy7_33._disabled_avmy7_11 ._loadingIndicator_avmy7_96 {
+  color: var(--figma-color-icon-ondisabled);
+}
+
+._default_avmy7_33._danger_avmy7_53 ._loadingIndicator_avmy7_96 {
+  color: var(--figma-color-icon-ondanger);
+}
+._default_avmy7_33._danger_avmy7_53._disabled_avmy7_11 ._loadingIndicator_avmy7_96 {
+  color: var(--figma-color-icon-ondisabled);
+}
+
+._secondary_avmy7_68 ._loadingIndicator_avmy7_96 {
+  color: var(--figma-color-text);
+}
+._secondary_avmy7_68._disabled_avmy7_11 ._loadingIndicator_avmy7_96 {
+  color: var(--figma-color-text-disabled);
+}
+
+._secondary_avmy7_68._danger_avmy7_53 ._loadingIndicator_avmy7_96 {
+  color: var(--figma-color-text-danger);
+}
+._secondary_avmy7_68._danger_avmy7_53._disabled_avmy7_11 ._loadingIndicator_avmy7_96 {
+  color: var(--figma-color-text-disabled);
+}
+
+._children_avmy7_132 {
+  display: inline;
+  pointer-events: none;
+}
+._loading_avmy7_96 ._children_avmy7_132 {
+  visibility: hidden;
+}
+
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm5vZGVfbW9kdWxlcy9AY3JlYXRlLWZpZ21hLXBsdWdpbi91aS9saWIvY29tcG9uZW50cy9idXR0b24vYnV0dG9uLm1vZHVsZS5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSxrQkFBa0I7RUFDbEIseUJBQXlCO0VBQ3pCLHFCQUFxQjtBQUN2Qjs7QUFFQTtFQUNFLGNBQWM7QUFDaEI7O0FBRUE7O0VBRUUsbUJBQW1CO0FBQ3JCOztBQUVBO0VBQ0Usa0JBQWtCO0VBQ2xCLHFCQUFxQjtFQUNyQix1QkFBdUI7RUFDdkIsc0NBQXNDO0VBQ3RDLCtDQUErQztFQUMvQyxxQ0FBcUM7QUFDdkM7O0FBRUE7RUFDRSxjQUFjO0VBQ2QsZ0JBQWdCO0VBQ2hCLFdBQVc7RUFDWCx1QkFBdUI7RUFDdkIsbUJBQW1CO0FBQ3JCOztBQUVBO0VBQ0UseUJBQXlCO0VBQ3pCLDZDQUE2QztFQUM3QyxzQ0FBc0M7QUFDeEM7O0FBRUE7RUFDRSwrQ0FBK0M7QUFDakQ7QUFDQTtFQUNFLG1FQUFtRTtBQUNyRTtBQUNBO0VBQ0UscURBQXFEO0FBQ3ZEO0FBQ0E7RUFDRSxnREFBZ0Q7RUFDaEQseUNBQXlDO0FBQzNDOztBQUVBO0VBQ0UsOENBQThDO0VBQzlDLHVDQUF1QztBQUN6QztBQUNBO0VBQ0UscURBQXFEO0FBQ3ZEO0FBQ0E7RUFDRSxzREFBc0Q7QUFDeEQ7QUFDQTtFQUNFLGdEQUFnRDtFQUNoRCx5Q0FBeUM7QUFDM0M7O0FBRUE7RUFDRSx1Q0FBdUM7RUFDdkMsNkJBQTZCO0VBQzdCLDhCQUE4QjtBQUNoQztBQUNBO0VBQ0UsZ0RBQWdEO0FBQ2xEO0FBQ0E7RUFDRSwrQ0FBK0M7QUFDakQ7QUFDQTtFQUNFLGdEQUFnRDtFQUNoRCx1Q0FBdUM7QUFDekM7O0FBRUE7RUFDRSw4Q0FBOEM7RUFDOUMscUNBQXFDO0FBQ3ZDO0FBQ0E7RUFDRSxxREFBcUQ7QUFDdkQ7QUFDQTtFQUNFLHVEQUF1RDtFQUN2RCx1Q0FBdUM7QUFDekM7O0FBRUE7RUFDRSxrQkFBa0I7RUFDbEIsUUFBUTtFQUNSLFNBQVM7RUFDVCxvQkFBb0I7RUFDcEIsZ0NBQWdDO0FBQ2xDOztBQUVBO0VBQ0Usc0NBQXNDO0FBQ3hDO0FBQ0E7RUFDRSx5Q0FBeUM7QUFDM0M7O0FBRUE7RUFDRSx1Q0FBdUM7QUFDekM7QUFDQTtFQUNFLHlDQUF5QztBQUMzQzs7QUFFQTtFQUNFLDhCQUE4QjtBQUNoQztBQUNBO0VBQ0UsdUNBQXVDO0FBQ3pDOztBQUVBO0VBQ0UscUNBQXFDO0FBQ3ZDO0FBQ0E7RUFDRSx1Q0FBdUM7QUFDekM7O0FBRUE7RUFDRSxlQUFlO0VBQ2Ysb0JBQW9CO0FBQ3RCO0FBQ0E7RUFDRSxrQkFBa0I7QUFDcEIiLCJmaWxlIjoibm9kZV9tb2R1bGVzL0BjcmVhdGUtZmlnbWEtcGx1Z2luL3VpL2xpYi9jb21wb25lbnRzL2J1dHRvbi9idXR0b24ubW9kdWxlLmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi5idXR0b24ge1xuICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gIHotaW5kZXg6IHZhcigtLXotaW5kZXgtMSk7XG4gIGRpc3BsYXk6IGlubGluZS1ibG9jaztcbn1cblxuLmZ1bGxXaWR0aCB7XG4gIGRpc3BsYXk6IGJsb2NrO1xufVxuXG4uZGlzYWJsZWQsXG4uZGlzYWJsZWQgKiB7XG4gIGN1cnNvcjogbm90LWFsbG93ZWQ7XG59XG5cbi5idXR0b24gYnV0dG9uIHtcbiAgcG9zaXRpb246IHJlbGF0aXZlO1xuICBkaXNwbGF5OiBpbmxpbmUtYmxvY2s7XG4gIGhlaWdodDogdmFyKC0tc3BhY2UtMjQpO1xuICBwYWRkaW5nOiB2YXIoLS1zcGFjZS0wKSB2YXIoLS1zcGFjZS04KTtcbiAgYm9yZGVyOiB2YXIoLS1ib3JkZXItd2lkdGgtMSkgc29saWQgdHJhbnNwYXJlbnQ7XG4gIGJvcmRlci1yYWRpdXM6IHZhcigtLWJvcmRlci1yYWRpdXMtNik7XG59XG5cbi5mdWxsV2lkdGggYnV0dG9uIHtcbiAgZGlzcGxheTogYmxvY2s7XG4gIG92ZXJmbG93OiBoaWRkZW47XG4gIHdpZHRoOiAxMDAlO1xuICB0ZXh0LW92ZXJmbG93OiBlbGxpcHNpcztcbiAgd2hpdGUtc3BhY2U6IG5vd3JhcDtcbn1cblxuLmRlZmF1bHQgYnV0dG9uIHtcbiAgYm9yZGVyLWNvbG9yOiB0cmFuc3BhcmVudDtcbiAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItYmctYnJhbmQpO1xuICBjb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItdGV4dC1vbmJyYW5kKTtcbn1cblxuLmRlZmF1bHQ6bm90KC5kaXNhYmxlZCkgYnV0dG9uOmZvY3VzIHtcbiAgYm9yZGVyLWNvbG9yOiB2YXIoLS1maWdtYS1jb2xvci1ib3JkZXItb25icmFuZCk7XG59XG4uZGVmYXVsdDpub3QoLmRpc2FibGVkKSBidXR0b246Zm9jdXMtdmlzaWJsZSB7XG4gIGJveC1zaGFkb3c6IDAgMCAwIHZhcigtLWJvcmRlci13aWR0aC0xKSB2YXIoLS1maWdtYS1jb2xvci1iZykgaW5zZXQ7XG59XG4uZGVmYXVsdDpub3QoLmRpc2FibGVkKSBidXR0b246YWN0aXZlIHtcbiAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItYmctYnJhbmQtcHJlc3NlZCk7XG59XG4uZGVmYXVsdC5kaXNhYmxlZCBidXR0b24ge1xuICBiYWNrZ3JvdW5kLWNvbG9yOiB2YXIoLS1maWdtYS1jb2xvci1iZy1kaXNhYmxlZCk7XG4gIGNvbG9yOiB2YXIoLS1maWdtYS1jb2xvci10ZXh0LW9uZGlzYWJsZWQpO1xufVxuXG4uZGVmYXVsdC5kYW5nZXIgYnV0dG9uIHtcbiAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItYmctZGFuZ2VyKTtcbiAgY29sb3I6IHZhcigtLWZpZ21hLWNvbG9yLXRleHQtb25kYW5nZXIpO1xufVxuLmRlZmF1bHQuZGFuZ2VyOm5vdCguZGlzYWJsZWQpIGJ1dHRvbjpmb2N1cyB7XG4gIGJvcmRlci1jb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItYm9yZGVyLWRhbmdlci1zdHJvbmcpO1xufVxuLmRlZmF1bHQuZGFuZ2VyOm5vdCguZGlzYWJsZWQpIGJ1dHRvbjphY3RpdmUge1xuICBiYWNrZ3JvdW5kLWNvbG9yOiB2YXIoLS1maWdtYS1jb2xvci1iZy1kYW5nZXItcHJlc3NlZCk7XG59XG4uZGVmYXVsdC5kYW5nZXIuZGlzYWJsZWQgYnV0dG9uIHtcbiAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItYmctZGlzYWJsZWQpO1xuICBjb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItdGV4dC1vbmRpc2FibGVkKTtcbn1cblxuLnNlY29uZGFyeSBidXR0b24ge1xuICBib3JkZXItY29sb3I6IHZhcigtLWZpZ21hLWNvbG9yLWJvcmRlcik7XG4gIGJhY2tncm91bmQtY29sb3I6IHRyYW5zcGFyZW50O1xuICBjb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItdGV4dCk7XG59XG4uc2Vjb25kYXJ5Om5vdCguZGlzYWJsZWQpIGJ1dHRvbjpmb2N1cyB7XG4gIGJvcmRlci1jb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItYm9yZGVyLXNlbGVjdGVkKTtcbn1cbi5zZWNvbmRhcnk6bm90KC5kaXNhYmxlZCkgYnV0dG9uOmFjdGl2ZSB7XG4gIGJhY2tncm91bmQtY29sb3I6IHZhcigtLWZpZ21hLWNvbG9yLWJnLXByZXNzZWQpO1xufVxuLnNlY29uZGFyeS5kaXNhYmxlZCBidXR0b24ge1xuICBib3JkZXItY29sb3I6IHZhcigtLWZpZ21hLWNvbG9yLWJvcmRlci1kaXNhYmxlZCk7XG4gIGNvbG9yOiB2YXIoLS1maWdtYS1jb2xvci10ZXh0LWRpc2FibGVkKTtcbn1cblxuLnNlY29uZGFyeS5kYW5nZXIgYnV0dG9uIHtcbiAgYm9yZGVyLWNvbG9yOiB2YXIoLS1maWdtYS1jb2xvci1ib3JkZXItZGFuZ2VyKTtcbiAgY29sb3I6IHZhcigtLWZpZ21hLWNvbG9yLXRleHQtZGFuZ2VyKTtcbn1cbi5zZWNvbmRhcnkuZGFuZ2VyOm5vdCguZGlzYWJsZWQpIGJ1dHRvbjpmb2N1cyB7XG4gIGJvcmRlci1jb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItYm9yZGVyLWRhbmdlci1zdHJvbmcpO1xufVxuLnNlY29uZGFyeS5kYW5nZXIuZGlzYWJsZWQgYnV0dG9uIHtcbiAgYm9yZGVyLWNvbG9yOiB2YXIoLS1maWdtYS1jb2xvci1ib3JkZXItZGlzYWJsZWQtc3Ryb25nKTtcbiAgY29sb3I6IHZhcigtLWZpZ21hLWNvbG9yLXRleHQtZGlzYWJsZWQpO1xufVxuXG4ubG9hZGluZ0luZGljYXRvciB7XG4gIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgdG9wOiA1MCU7XG4gIGxlZnQ6IDUwJTtcbiAgcG9pbnRlci1ldmVudHM6IG5vbmU7XG4gIHRyYW5zZm9ybTogdHJhbnNsYXRlKC01MCUsIC01MCUpO1xufVxuXG4uZGVmYXVsdCAubG9hZGluZ0luZGljYXRvciB7XG4gIGNvbG9yOiB2YXIoLS1maWdtYS1jb2xvci1pY29uLW9uYnJhbmQpO1xufVxuLmRlZmF1bHQuZGlzYWJsZWQgLmxvYWRpbmdJbmRpY2F0b3Ige1xuICBjb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItaWNvbi1vbmRpc2FibGVkKTtcbn1cblxuLmRlZmF1bHQuZGFuZ2VyIC5sb2FkaW5nSW5kaWNhdG9yIHtcbiAgY29sb3I6IHZhcigtLWZpZ21hLWNvbG9yLWljb24tb25kYW5nZXIpO1xufVxuLmRlZmF1bHQuZGFuZ2VyLmRpc2FibGVkIC5sb2FkaW5nSW5kaWNhdG9yIHtcbiAgY29sb3I6IHZhcigtLWZpZ21hLWNvbG9yLWljb24tb25kaXNhYmxlZCk7XG59XG5cbi5zZWNvbmRhcnkgLmxvYWRpbmdJbmRpY2F0b3Ige1xuICBjb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItdGV4dCk7XG59XG4uc2Vjb25kYXJ5LmRpc2FibGVkIC5sb2FkaW5nSW5kaWNhdG9yIHtcbiAgY29sb3I6IHZhcigtLWZpZ21hLWNvbG9yLXRleHQtZGlzYWJsZWQpO1xufVxuXG4uc2Vjb25kYXJ5LmRhbmdlciAubG9hZGluZ0luZGljYXRvciB7XG4gIGNvbG9yOiB2YXIoLS1maWdtYS1jb2xvci10ZXh0LWRhbmdlcik7XG59XG4uc2Vjb25kYXJ5LmRhbmdlci5kaXNhYmxlZCAubG9hZGluZ0luZGljYXRvciB7XG4gIGNvbG9yOiB2YXIoLS1maWdtYS1jb2xvci10ZXh0LWRpc2FibGVkKTtcbn1cblxuLmNoaWxkcmVuIHtcbiAgZGlzcGxheTogaW5saW5lO1xuICBwb2ludGVyLWV2ZW50czogbm9uZTtcbn1cbi5sb2FkaW5nIC5jaGlsZHJlbiB7XG4gIHZpc2liaWxpdHk6IGhpZGRlbjtcbn1cbiJdfQ== */`;
+        document.head.append(element);
+      }
+      button_module_default = { "button": "_button_avmy7_1", "fullWidth": "_fullWidth_avmy7_7", "disabled": "_disabled_avmy7_11", "default": "_default_avmy7_33", "danger": "_danger_avmy7_53", "secondary": "_secondary_avmy7_68", "loadingIndicator": "_loadingIndicator_avmy7_96", "children": "_children_avmy7_132", "loading": "_loading_avmy7_96" };
+    }
+  });
+
+  // node_modules/@create-figma-plugin/ui/lib/components/button/button.js
+  var Button;
+  var init_button = __esm({
+    "node_modules/@create-figma-plugin/ui/lib/components/button/button.js"() {
+      init_preact_module();
+      init_hooks_module();
+      init_create_class_name();
+      init_create_component();
+      init_no_op();
+      init_loading_indicator();
+      init_button_module();
+      Button = createComponent(function(_a, ref) {
+        var _b = _a, { children, danger = false, disabled = false, fullWidth = false, loading = false, onClick = noop, onKeyDown = noop, propagateEscapeKeyDown = true, secondary = false } = _b, rest = __objRest(_b, ["children", "danger", "disabled", "fullWidth", "loading", "onClick", "onKeyDown", "propagateEscapeKeyDown", "secondary"]);
+        const handleKeyDown = q2(function(event) {
+          onKeyDown(event);
+          if (event.key === "Escape") {
+            if (propagateEscapeKeyDown === false) {
+              event.stopPropagation();
+            }
+            event.currentTarget.blur();
+          }
+        }, [onKeyDown, propagateEscapeKeyDown]);
+        return _(
+          "div",
+          { class: createClassName([
+            button_module_default.button,
+            secondary === true ? button_module_default.secondary : button_module_default.default,
+            danger === true ? button_module_default.danger : null,
+            fullWidth === true ? button_module_default.fullWidth : null,
+            disabled === true ? button_module_default.disabled : null,
+            loading === true ? button_module_default.loading : null
+          ]) },
+          _(
+            "button",
+            __spreadProps(__spreadValues({}, rest), { ref, disabled: disabled === true, onClick: loading === true ? void 0 : onClick, onKeyDown: handleKeyDown, tabIndex: 0 }),
+            _("div", { class: button_module_default.children }, children)
+          ),
+          loading === true ? _(
+            "div",
+            { class: button_module_default.loadingIndicator },
+            _(LoadingIndicator, null)
+          ) : null
+        );
+      });
+    }
+  });
+
+  // node_modules/@create-figma-plugin/utilities/lib/mixed-values.js
+  var MIXED_BOOLEAN;
+  var init_mixed_values = __esm({
+    "node_modules/@create-figma-plugin/utilities/lib/mixed-values.js"() {
+      MIXED_BOOLEAN = null;
+    }
+  });
+
+  // node_modules/@create-figma-plugin/utilities/lib/index.js
+  var init_lib = __esm({
+    "node_modules/@create-figma-plugin/utilities/lib/index.js"() {
+      init_mixed_values();
+    }
+  });
+
   // node_modules/@create-figma-plugin/ui/lib/icons/create-icon.js
   function createIcon(svg) {
     return createComponent(function(_a) {
@@ -677,10 +961,202 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/44cf52a8-677a-4d02-8e47-176be84c8cc4/divider.module.js
+  // node_modules/@create-figma-plugin/ui/lib/icons/icon-16/icon-check-16.js
+  var IconCheck16;
+  var init_icon_check_16 = __esm({
+    "node_modules/@create-figma-plugin/ui/lib/icons/icon-16/icon-check-16.js"() {
+      init_preact_module();
+      init_create_icon();
+      IconCheck16 = createIcon(_(
+        "svg",
+        { fill: "none", height: "16", viewBox: "0 0 16 16", width: "16", xmlns: "http://www.w3.org/2000/svg" },
+        _("path", { "clip-rule": "evenodd", d: "M11.7773 4.084c.2298.15317.2919.46361.1387.69337L7.91603 10.7774a.5002.5002 0 0 1-.36676.2202.5003.5003 0 0 1-.40282-.144l-3-3.00002c-.19527-.19527-.19527-.51185 0-.70711.19526-.19526.51184-.19526.7071 0L7.42229 9.7152 11.084 4.22267c.1532-.22976.4636-.29185.6933-.13867", fill: "currentColor", "fill-rule": "evenodd" })
+      ));
+    }
+  });
+
+  // node_modules/@create-figma-plugin/ui/lib/icons/icon-16/icon-mixed-16.js
+  var IconMixed16;
+  var init_icon_mixed_16 = __esm({
+    "node_modules/@create-figma-plugin/ui/lib/icons/icon-16/icon-mixed-16.js"() {
+      init_preact_module();
+      init_create_icon();
+      IconMixed16 = createIcon(_(
+        "svg",
+        { fill: "none", height: "16", viewBox: "0 0 16 16", width: "16", xmlns: "http://www.w3.org/2000/svg" },
+        _("path", { d: "M4 8c0-.27614.22386-.5.5-.5h7c.2761 0 .5.22386.5.5s-.2239.5-.5.5h-7c-.27614 0-.5-.22386-.5-.5", fill: "currentColor" })
+      ));
+    }
+  });
+
+  // node_modules/@create-figma-plugin/ui/lib/utilities/get-current-from-ref.js
+  function getCurrentFromRef(ref) {
+    if (ref.current === null) {
+      throw new Error("`ref.current` is `undefined`");
+    }
+    return ref.current;
+  }
+  var init_get_current_from_ref = __esm({
+    "node_modules/@create-figma-plugin/ui/lib/utilities/get-current-from-ref.js"() {
+    }
+  });
+
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/24112b99-1103-4ca9-aa64-a05860fd3645/checkbox.module.js
+  var checkbox_module_default;
+  var init_checkbox_module = __esm({
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/24112b99-1103-4ca9-aa64-a05860fd3645/checkbox.module.js"() {
+      if (document.getElementById("f38d076240") === null) {
+        const element = document.createElement("style");
+        element.id = "f38d076240";
+        element.textContent = `._checkbox_9p65z_1 {
+  position: relative;
+  z-index: var(--z-index-1);
+  display: flex;
+  gap: var(--space-8);
+}
+
+._disabled_9p65z_8,
+._disabled_9p65z_8 * {
+  cursor: not-allowed;
+}
+
+._input_9p65z_13 {
+  position: absolute;
+  z-index: var(
+    --z-index-1
+  ); /* stack \`.input\` over all other elements within \`.checkbox\` */
+  top: calc(-1 * var(--space-8));
+  right: calc(-1 * var(--space-8));
+  bottom: calc(-1 * var(--space-8));
+  left: calc(-1 * var(--space-8));
+  display: block;
+}
+
+._box_9p65z_25 {
+  position: relative;
+  width: var(--space-16);
+  height: var(--space-16);
+  border: var(--border-width-1) solid var(--figma-color-border);
+  border-radius: var(--border-radius-4);
+  background-color: var(--figma-color-bg-secondary);
+}
+._checkbox_9p65z_1:not(._disabled_9p65z_8) ._input_9p65z_13:focus-visible ~ ._box_9p65z_25 {
+  box-shadow: 0 0 0 var(--border-width-1) var(--figma-color-bg) inset;
+}
+._checkbox_9p65z_1:not(._disabled_9p65z_8) ._input_9p65z_13:focus ~ ._box_9p65z_25 {
+  border-color: var(--figma-color-border-selected);
+}
+._checkbox_9p65z_1:not(._disabled_9p65z_8) ._input_9p65z_13:checked ~ ._box_9p65z_25,
+._checkbox_9p65z_1:not(._disabled_9p65z_8) ._input_9p65z_13:indeterminate ~ ._box_9p65z_25 {
+  border-color: var(--figma-color-border-brand-strong);
+  background-color: var(--figma-color-bg-brand);
+}
+
+._disabled_9p65z_8 ._input_9p65z_13 ~ ._box_9p65z_25 {
+  background-color: transparent;
+}
+._disabled_9p65z_8 ._input_9p65z_13:checked ~ ._box_9p65z_25,
+._disabled_9p65z_8 ._input_9p65z_13:indeterminate ~ ._box_9p65z_25 {
+  border-color: transparent;
+  background-color: var(--figma-color-bg-disabled);
+}
+
+._icon_9p65z_54 {
+  position: absolute;
+  top: calc(-1 * var(--border-width-1));
+  left: calc(-1 * var(--border-width-1));
+  color: var(--figma-color-icon-onbrand);
+}
+
+._children_9p65z_61 {
+  flex: 1;
+  padding-top: var(--space-4);
+  color: var(--figma-color-text);
+}
+._disabled_9p65z_8 ._children_9p65z_61 {
+  opacity: var(--opacity-30);
+}
+
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm5vZGVfbW9kdWxlcy9AY3JlYXRlLWZpZ21hLXBsdWdpbi91aS9saWIvY29tcG9uZW50cy9jaGVja2JveC9jaGVja2JveC5tb2R1bGUuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0Usa0JBQWtCO0VBQ2xCLHlCQUF5QjtFQUN6QixhQUFhO0VBQ2IsbUJBQW1CO0FBQ3JCOztBQUVBOztFQUVFLG1CQUFtQjtBQUNyQjs7QUFFQTtFQUNFLGtCQUFrQjtFQUNsQjs7R0FFQyxFQUFFLDhEQUE4RDtFQUNqRSw4QkFBOEI7RUFDOUIsZ0NBQWdDO0VBQ2hDLGlDQUFpQztFQUNqQywrQkFBK0I7RUFDL0IsY0FBYztBQUNoQjs7QUFFQTtFQUNFLGtCQUFrQjtFQUNsQixzQkFBc0I7RUFDdEIsdUJBQXVCO0VBQ3ZCLDZEQUE2RDtFQUM3RCxxQ0FBcUM7RUFDckMsaURBQWlEO0FBQ25EO0FBQ0E7RUFDRSxtRUFBbUU7QUFDckU7QUFDQTtFQUNFLGdEQUFnRDtBQUNsRDtBQUNBOztFQUVFLG9EQUFvRDtFQUNwRCw2Q0FBNkM7QUFDL0M7O0FBRUE7RUFDRSw2QkFBNkI7QUFDL0I7QUFDQTs7RUFFRSx5QkFBeUI7RUFDekIsZ0RBQWdEO0FBQ2xEOztBQUVBO0VBQ0Usa0JBQWtCO0VBQ2xCLHFDQUFxQztFQUNyQyxzQ0FBc0M7RUFDdEMsc0NBQXNDO0FBQ3hDOztBQUVBO0VBQ0UsT0FBTztFQUNQLDJCQUEyQjtFQUMzQiw4QkFBOEI7QUFDaEM7QUFDQTtFQUNFLDBCQUEwQjtBQUM1QiIsImZpbGUiOiJub2RlX21vZHVsZXMvQGNyZWF0ZS1maWdtYS1wbHVnaW4vdWkvbGliL2NvbXBvbmVudHMvY2hlY2tib3gvY2hlY2tib3gubW9kdWxlLmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi5jaGVja2JveCB7XG4gIHBvc2l0aW9uOiByZWxhdGl2ZTtcbiAgei1pbmRleDogdmFyKC0tei1pbmRleC0xKTtcbiAgZGlzcGxheTogZmxleDtcbiAgZ2FwOiB2YXIoLS1zcGFjZS04KTtcbn1cblxuLmRpc2FibGVkLFxuLmRpc2FibGVkICoge1xuICBjdXJzb3I6IG5vdC1hbGxvd2VkO1xufVxuXG4uaW5wdXQge1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIHotaW5kZXg6IHZhcihcbiAgICAtLXotaW5kZXgtMVxuICApOyAvKiBzdGFjayBgLmlucHV0YCBvdmVyIGFsbCBvdGhlciBlbGVtZW50cyB3aXRoaW4gYC5jaGVja2JveGAgKi9cbiAgdG9wOiBjYWxjKC0xICogdmFyKC0tc3BhY2UtOCkpO1xuICByaWdodDogY2FsYygtMSAqIHZhcigtLXNwYWNlLTgpKTtcbiAgYm90dG9tOiBjYWxjKC0xICogdmFyKC0tc3BhY2UtOCkpO1xuICBsZWZ0OiBjYWxjKC0xICogdmFyKC0tc3BhY2UtOCkpO1xuICBkaXNwbGF5OiBibG9jaztcbn1cblxuLmJveCB7XG4gIHBvc2l0aW9uOiByZWxhdGl2ZTtcbiAgd2lkdGg6IHZhcigtLXNwYWNlLTE2KTtcbiAgaGVpZ2h0OiB2YXIoLS1zcGFjZS0xNik7XG4gIGJvcmRlcjogdmFyKC0tYm9yZGVyLXdpZHRoLTEpIHNvbGlkIHZhcigtLWZpZ21hLWNvbG9yLWJvcmRlcik7XG4gIGJvcmRlci1yYWRpdXM6IHZhcigtLWJvcmRlci1yYWRpdXMtNCk7XG4gIGJhY2tncm91bmQtY29sb3I6IHZhcigtLWZpZ21hLWNvbG9yLWJnLXNlY29uZGFyeSk7XG59XG4uY2hlY2tib3g6bm90KC5kaXNhYmxlZCkgLmlucHV0OmZvY3VzLXZpc2libGUgfiAuYm94IHtcbiAgYm94LXNoYWRvdzogMCAwIDAgdmFyKC0tYm9yZGVyLXdpZHRoLTEpIHZhcigtLWZpZ21hLWNvbG9yLWJnKSBpbnNldDtcbn1cbi5jaGVja2JveDpub3QoLmRpc2FibGVkKSAuaW5wdXQ6Zm9jdXMgfiAuYm94IHtcbiAgYm9yZGVyLWNvbG9yOiB2YXIoLS1maWdtYS1jb2xvci1ib3JkZXItc2VsZWN0ZWQpO1xufVxuLmNoZWNrYm94Om5vdCguZGlzYWJsZWQpIC5pbnB1dDpjaGVja2VkIH4gLmJveCxcbi5jaGVja2JveDpub3QoLmRpc2FibGVkKSAuaW5wdXQ6aW5kZXRlcm1pbmF0ZSB+IC5ib3gge1xuICBib3JkZXItY29sb3I6IHZhcigtLWZpZ21hLWNvbG9yLWJvcmRlci1icmFuZC1zdHJvbmcpO1xuICBiYWNrZ3JvdW5kLWNvbG9yOiB2YXIoLS1maWdtYS1jb2xvci1iZy1icmFuZCk7XG59XG5cbi5kaXNhYmxlZCAuaW5wdXQgfiAuYm94IHtcbiAgYmFja2dyb3VuZC1jb2xvcjogdHJhbnNwYXJlbnQ7XG59XG4uZGlzYWJsZWQgLmlucHV0OmNoZWNrZWQgfiAuYm94LFxuLmRpc2FibGVkIC5pbnB1dDppbmRldGVybWluYXRlIH4gLmJveCB7XG4gIGJvcmRlci1jb2xvcjogdHJhbnNwYXJlbnQ7XG4gIGJhY2tncm91bmQtY29sb3I6IHZhcigtLWZpZ21hLWNvbG9yLWJnLWRpc2FibGVkKTtcbn1cblxuLmljb24ge1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIHRvcDogY2FsYygtMSAqIHZhcigtLWJvcmRlci13aWR0aC0xKSk7XG4gIGxlZnQ6IGNhbGMoLTEgKiB2YXIoLS1ib3JkZXItd2lkdGgtMSkpO1xuICBjb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItaWNvbi1vbmJyYW5kKTtcbn1cblxuLmNoaWxkcmVuIHtcbiAgZmxleDogMTtcbiAgcGFkZGluZy10b3A6IHZhcigtLXNwYWNlLTQpO1xuICBjb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItdGV4dCk7XG59XG4uZGlzYWJsZWQgLmNoaWxkcmVuIHtcbiAgb3BhY2l0eTogdmFyKC0tb3BhY2l0eS0zMCk7XG59XG4iXX0= */`;
+        document.head.append(element);
+      }
+      checkbox_module_default = { "checkbox": "_checkbox_9p65z_1", "disabled": "_disabled_9p65z_8", "input": "_input_9p65z_13", "box": "_box_9p65z_25", "icon": "_icon_9p65z_54", "children": "_children_9p65z_61" };
+    }
+  });
+
+  // node_modules/@create-figma-plugin/ui/lib/components/checkbox/checkbox.js
+  var Checkbox;
+  var init_checkbox = __esm({
+    "node_modules/@create-figma-plugin/ui/lib/components/checkbox/checkbox.js"() {
+      init_lib();
+      init_preact_module();
+      init_hooks_module();
+      init_icon_check_16();
+      init_icon_mixed_16();
+      init_create_class_name();
+      init_create_component();
+      init_get_current_from_ref();
+      init_no_op();
+      init_checkbox_module();
+      Checkbox = createComponent(function(_a, ref) {
+        var _b = _a, { children, disabled = false, onChange = noop, onKeyDown = noop, onValueChange = noop, propagateEscapeKeyDown = true, value } = _b, rest = __objRest(_b, ["children", "disabled", "onChange", "onKeyDown", "onValueChange", "propagateEscapeKeyDown", "value"]);
+        const inputElementRef = A2(null);
+        const handleChange = q2(function(event) {
+          onChange(event);
+          const newValue = event.currentTarget.checked === true;
+          onValueChange(newValue);
+        }, [onChange, onValueChange]);
+        const handleKeyDown = q2(function(event) {
+          onKeyDown(event);
+          if (event.key === "Escape") {
+            if (propagateEscapeKeyDown === false) {
+              event.stopPropagation();
+            }
+            event.currentTarget.blur();
+          }
+        }, [onKeyDown, propagateEscapeKeyDown]);
+        y2(function() {
+          const inputElement = getCurrentFromRef(inputElementRef);
+          inputElement.indeterminate = value === MIXED_BOOLEAN ? true : false;
+        }, [value]);
+        const refCallback = q2(function(inputElement) {
+          inputElementRef.current = inputElement;
+          if (ref === null) {
+            return;
+          }
+          if (typeof ref === "function") {
+            ref(inputElement);
+            return;
+          }
+          ref.current = inputElement;
+        }, [ref]);
+        return _(
+          "label",
+          { class: createClassName([
+            checkbox_module_default.checkbox,
+            disabled === true ? checkbox_module_default.disabled : null,
+            value === MIXED_BOOLEAN ? checkbox_module_default.mixed : null
+          ]) },
+          _("input", __spreadProps(__spreadValues({}, rest), { ref: refCallback, checked: value === true, class: checkbox_module_default.input, disabled: disabled === true, onChange: handleChange, onKeyDown: handleKeyDown, tabIndex: 0, type: "checkbox" })),
+          _("div", { class: checkbox_module_default.box }, value === MIXED_BOOLEAN ? _(
+            "div",
+            { class: checkbox_module_default.icon },
+            _(IconMixed16, null)
+          ) : value === true ? _(
+            "div",
+            { class: checkbox_module_default.icon },
+            _(IconCheck16, null)
+          ) : null),
+          _("div", { class: checkbox_module_default.children }, children)
+        );
+      });
+    }
+  });
+
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b2b2cd5d-a2d5-41c6-b04e-7ebcf56d9f17/divider.module.js
   var divider_module_default;
   var init_divider_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/44cf52a8-677a-4d02-8e47-176be84c8cc4/divider.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b2b2cd5d-a2d5-41c6-b04e-7ebcf56d9f17/divider.module.js"() {
       if (document.getElementById("4bf06403b9") === null) {
         const element = document.createElement("style");
         element.id = "4bf06403b9";
@@ -710,10 +1186,18 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6087577e-ed58-4b62-858f-4a78b81c3ecd/icon-button.module.js
+  // node_modules/@create-figma-plugin/ui/lib/utilities/private/constants.js
+  var ITEM_ID_DATA_ATTRIBUTE_NAME;
+  var init_constants = __esm({
+    "node_modules/@create-figma-plugin/ui/lib/utilities/private/constants.js"() {
+      ITEM_ID_DATA_ATTRIBUTE_NAME = "data-item-id";
+    }
+  });
+
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/90cff689-57eb-4e91-a467-a8fe68812608/icon-button.module.js
   var icon_button_module_default;
   var init_icon_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6087577e-ed58-4b62-858f-4a78b81c3ecd/icon-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/90cff689-57eb-4e91-a467-a8fe68812608/icon-button.module.js"() {
       if (document.getElementById("c8b08e6568") === null) {
         const element = document.createElement("style");
         element.id = "c8b08e6568";
@@ -791,10 +1275,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/186b8e85-fa8d-4223-965c-5246965b5919/text.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/aa5c8dbb-cbfd-4f44-817c-057d740dd730/text.module.js
   var text_module_default;
   var init_text_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/186b8e85-fa8d-4223-965c-5246965b5919/text.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/aa5c8dbb-cbfd-4f44-817c-057d740dd730/text.module.js"() {
       if (document.getElementById("1278016d5c") === null) {
         const element = document.createElement("style");
         element.id = "1278016d5c";
@@ -852,6 +1336,239 @@
     }
   });
 
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7d26f1d5-95ac-40ad-9c81-46e16b6b8808/inline.module.js
+  var inline_module_default;
+  var init_inline_module = __esm({
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7d26f1d5-95ac-40ad-9c81-46e16b6b8808/inline.module.js"() {
+      if (document.getElementById("3e1b2856fc") === null) {
+        const element = document.createElement("style");
+        element.id = "3e1b2856fc";
+        element.textContent = `._extraSmall_1u924_1 {
+  margin-left: calc(-1 * var(--space-extra-small));
+}
+._medium_1u924_4 {
+  margin-left: calc(-1 * var(--space-medium));
+}
+._large_1u924_7 {
+  margin-left: calc(-1 * var(--space-large));
+}
+._small_1u924_10 {
+  margin-left: calc(-1 * var(--space-small));
+}
+._extraLarge_1u924_13 {
+  margin-left: calc(-1 * var(--space-extra-large));
+}
+
+._child_1u924_17 {
+  display: inline-flex;
+}
+._extraSmall_1u924_1 > ._child_1u924_17 {
+  margin-left: var(--space-extra-small);
+}
+._small_1u924_10 > ._child_1u924_17 {
+  margin-left: var(--space-small);
+}
+._medium_1u924_4 > ._child_1u924_17 {
+  margin-left: var(--space-medium);
+}
+._large_1u924_7 > ._child_1u924_17 {
+  margin-left: var(--space-large);
+}
+._extraLarge_1u924_13 > ._child_1u924_17 {
+  margin-left: var(--space-extra-large);
+}
+
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm5vZGVfbW9kdWxlcy9AY3JlYXRlLWZpZ21hLXBsdWdpbi91aS9saWIvbGF5b3V0L2lubGluZS9pbmxpbmUubW9kdWxlLmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFLGdEQUFnRDtBQUNsRDtBQUNBO0VBQ0UsMkNBQTJDO0FBQzdDO0FBQ0E7RUFDRSwwQ0FBMEM7QUFDNUM7QUFDQTtFQUNFLDBDQUEwQztBQUM1QztBQUNBO0VBQ0UsZ0RBQWdEO0FBQ2xEOztBQUVBO0VBQ0Usb0JBQW9CO0FBQ3RCO0FBQ0E7RUFDRSxxQ0FBcUM7QUFDdkM7QUFDQTtFQUNFLCtCQUErQjtBQUNqQztBQUNBO0VBQ0UsZ0NBQWdDO0FBQ2xDO0FBQ0E7RUFDRSwrQkFBK0I7QUFDakM7QUFDQTtFQUNFLHFDQUFxQztBQUN2QyIsImZpbGUiOiJub2RlX21vZHVsZXMvQGNyZWF0ZS1maWdtYS1wbHVnaW4vdWkvbGliL2xheW91dC9pbmxpbmUvaW5saW5lLm1vZHVsZS5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuZXh0cmFTbWFsbCB7XG4gIG1hcmdpbi1sZWZ0OiBjYWxjKC0xICogdmFyKC0tc3BhY2UtZXh0cmEtc21hbGwpKTtcbn1cbi5tZWRpdW0ge1xuICBtYXJnaW4tbGVmdDogY2FsYygtMSAqIHZhcigtLXNwYWNlLW1lZGl1bSkpO1xufVxuLmxhcmdlIHtcbiAgbWFyZ2luLWxlZnQ6IGNhbGMoLTEgKiB2YXIoLS1zcGFjZS1sYXJnZSkpO1xufVxuLnNtYWxsIHtcbiAgbWFyZ2luLWxlZnQ6IGNhbGMoLTEgKiB2YXIoLS1zcGFjZS1zbWFsbCkpO1xufVxuLmV4dHJhTGFyZ2Uge1xuICBtYXJnaW4tbGVmdDogY2FsYygtMSAqIHZhcigtLXNwYWNlLWV4dHJhLWxhcmdlKSk7XG59XG5cbi5jaGlsZCB7XG4gIGRpc3BsYXk6IGlubGluZS1mbGV4O1xufVxuLmV4dHJhU21hbGwgPiAuY2hpbGQge1xuICBtYXJnaW4tbGVmdDogdmFyKC0tc3BhY2UtZXh0cmEtc21hbGwpO1xufVxuLnNtYWxsID4gLmNoaWxkIHtcbiAgbWFyZ2luLWxlZnQ6IHZhcigtLXNwYWNlLXNtYWxsKTtcbn1cbi5tZWRpdW0gPiAuY2hpbGQge1xuICBtYXJnaW4tbGVmdDogdmFyKC0tc3BhY2UtbWVkaXVtKTtcbn1cbi5sYXJnZSA+IC5jaGlsZCB7XG4gIG1hcmdpbi1sZWZ0OiB2YXIoLS1zcGFjZS1sYXJnZSk7XG59XG4uZXh0cmFMYXJnZSA+IC5jaGlsZCB7XG4gIG1hcmdpbi1sZWZ0OiB2YXIoLS1zcGFjZS1leHRyYS1sYXJnZSk7XG59XG4iXX0= */`;
+        document.head.append(element);
+      }
+      inline_module_default = { "extraSmall": "_extraSmall_1u924_1", "medium": "_medium_1u924_4", "large": "_large_1u924_7", "small": "_small_1u924_10", "extraLarge": "_extraLarge_1u924_13", "child": "_child_1u924_17" };
+    }
+  });
+
+  // node_modules/@create-figma-plugin/ui/lib/layout/inline/inline.js
+  var Inline;
+  var init_inline = __esm({
+    "node_modules/@create-figma-plugin/ui/lib/layout/inline/inline.js"() {
+      init_preact_module();
+      init_create_component();
+      init_inline_module();
+      Inline = createComponent(function(_a, ref) {
+        var _b = _a, { children, space } = _b, rest = __objRest(_b, ["children", "space"]);
+        return _("div", __spreadProps(__spreadValues({}, rest), { ref, class: typeof space === "undefined" ? void 0 : inline_module_default[space] }), H(children).map(function(child, index) {
+          return _("div", { key: index, class: inline_module_default.child }, child);
+        }));
+      });
+    }
+  });
+
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c91133a0-2490-4d22-af0c-1bb8edc9022a/stack.module.js
+  var stack_module_default;
+  var init_stack_module = __esm({
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c91133a0-2490-4d22-af0c-1bb8edc9022a/stack.module.js"() {
+      if (document.getElementById("317515cc3f") === null) {
+        const element = document.createElement("style");
+        element.id = "317515cc3f";
+        element.textContent = `._extraSmall_dpsd3_1 > ._child_dpsd3_1:not(:first-child) {
+  margin-top: var(--space-extra-small);
+}
+._small_dpsd3_4 > ._child_dpsd3_1:not(:first-child) {
+  margin-top: var(--space-small);
+}
+._medium_dpsd3_7 > ._child_dpsd3_1:not(:first-child) {
+  margin-top: var(--space-medium);
+}
+._large_dpsd3_10 > ._child_dpsd3_1:not(:first-child) {
+  margin-top: var(--space-large);
+}
+._extraLarge_dpsd3_13 > ._child_dpsd3_1:not(:first-child) {
+  margin-top: var(--space-extra-large);
+}
+
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm5vZGVfbW9kdWxlcy9AY3JlYXRlLWZpZ21hLXBsdWdpbi91aS9saWIvbGF5b3V0L3N0YWNrL3N0YWNrLm1vZHVsZS5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSxvQ0FBb0M7QUFDdEM7QUFDQTtFQUNFLDhCQUE4QjtBQUNoQztBQUNBO0VBQ0UsK0JBQStCO0FBQ2pDO0FBQ0E7RUFDRSw4QkFBOEI7QUFDaEM7QUFDQTtFQUNFLG9DQUFvQztBQUN0QyIsImZpbGUiOiJub2RlX21vZHVsZXMvQGNyZWF0ZS1maWdtYS1wbHVnaW4vdWkvbGliL2xheW91dC9zdGFjay9zdGFjay5tb2R1bGUuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmV4dHJhU21hbGwgPiAuY2hpbGQ6bm90KDpmaXJzdC1jaGlsZCkge1xuICBtYXJnaW4tdG9wOiB2YXIoLS1zcGFjZS1leHRyYS1zbWFsbCk7XG59XG4uc21hbGwgPiAuY2hpbGQ6bm90KDpmaXJzdC1jaGlsZCkge1xuICBtYXJnaW4tdG9wOiB2YXIoLS1zcGFjZS1zbWFsbCk7XG59XG4ubWVkaXVtID4gLmNoaWxkOm5vdCg6Zmlyc3QtY2hpbGQpIHtcbiAgbWFyZ2luLXRvcDogdmFyKC0tc3BhY2UtbWVkaXVtKTtcbn1cbi5sYXJnZSA+IC5jaGlsZDpub3QoOmZpcnN0LWNoaWxkKSB7XG4gIG1hcmdpbi10b3A6IHZhcigtLXNwYWNlLWxhcmdlKTtcbn1cbi5leHRyYUxhcmdlID4gLmNoaWxkOm5vdCg6Zmlyc3QtY2hpbGQpIHtcbiAgbWFyZ2luLXRvcDogdmFyKC0tc3BhY2UtZXh0cmEtbGFyZ2UpO1xufVxuIl19 */`;
+        document.head.append(element);
+      }
+      stack_module_default = { "extraSmall": "_extraSmall_dpsd3_1", "child": "_child_dpsd3_1", "small": "_small_dpsd3_4", "medium": "_medium_dpsd3_7", "large": "_large_dpsd3_10", "extraLarge": "_extraLarge_dpsd3_13" };
+    }
+  });
+
+  // node_modules/@create-figma-plugin/ui/lib/layout/stack/stack.js
+  var Stack;
+  var init_stack = __esm({
+    "node_modules/@create-figma-plugin/ui/lib/layout/stack/stack.js"() {
+      init_preact_module();
+      init_create_component();
+      init_stack_module();
+      Stack = createComponent(function(_a, ref) {
+        var _b = _a, { children, space } = _b, rest = __objRest(_b, ["children", "space"]);
+        return _("div", __spreadProps(__spreadValues({}, rest), { ref, class: stack_module_default[space] }), H(children).map(function(element, index) {
+          return _("div", { key: index, class: stack_module_default.child }, element);
+        }));
+      });
+    }
+  });
+
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a00b34dd-8a74-4218-b238-fc339cb2bcb7/radio-buttons.module.js
+  var radio_buttons_module_default;
+  var init_radio_buttons_module = __esm({
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a00b34dd-8a74-4218-b238-fc339cb2bcb7/radio-buttons.module.js"() {
+      if (document.getElementById("a066c67891") === null) {
+        const element = document.createElement("style");
+        element.id = "a066c67891";
+        element.textContent = `._radioButtons_y69qy_1 {
+  position: relative;
+  z-index: var(--z-index-1);
+}
+
+._disabled_y69qy_6,
+._disabled_y69qy_6 * {
+  cursor: not-allowed;
+}
+
+._radioButton_y69qy_1 {
+  position: relative;
+  display: flex;
+  gap: var(--space-6);
+}
+
+._input_y69qy_17 {
+  position: absolute;
+  z-index: var(--z-index-1); /* stack \`.input\` on top of everything else */
+  top: calc(-1 * var(--space-8));
+  right: calc(-1 * var(--space-8));
+  bottom: calc(-1 * var(--space-8));
+  left: calc(-1 * var(--space-8));
+  display: block;
+}
+
+._box_y69qy_27 {
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--figma-color-border-strong);
+  border-radius: 7px;
+  background-color: var(--figma-color-bg);
+  box-shadow: 0 0 0 2.5px var(--figma-color-bg) inset;
+}
+._radioButton_y69qy_1:not(._disabled_y69qy_6) ._input_y69qy_17:checked ~ ._box_y69qy_27 {
+  background-color: var(--figma-color-bg-inverse);
+}
+._radioButton_y69qy_1:not(._disabled_y69qy_6) ._input_y69qy_17:focus ~ ._box_y69qy_27 {
+  border-color: var(--figma-color-border-brand-strong);
+}
+._disabled_y69qy_6 ._input_y69qy_17 ~ ._box_y69qy_27 {
+  border-color: var(--figma-color-border-disabled);
+}
+._disabled_y69qy_6 ._input_y69qy_17:checked ~ ._box_y69qy_27 {
+  background-color: var(--figma-color-bg-disabled);
+}
+
+._children_y69qy_48 {
+  flex: 1;
+  padding-top: 3px;
+}
+._disabled_y69qy_6 ._children_y69qy_48 {
+  opacity: var(--opacity-30);
+}
+
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm5vZGVfbW9kdWxlcy9AY3JlYXRlLWZpZ21hLXBsdWdpbi91aS9saWIvY29tcG9uZW50cy9yYWRpby1idXR0b25zL3JhZGlvLWJ1dHRvbnMubW9kdWxlLmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFLGtCQUFrQjtFQUNsQix5QkFBeUI7QUFDM0I7O0FBRUE7O0VBRUUsbUJBQW1CO0FBQ3JCOztBQUVBO0VBQ0Usa0JBQWtCO0VBQ2xCLGFBQWE7RUFDYixtQkFBbUI7QUFDckI7O0FBRUE7RUFDRSxrQkFBa0I7RUFDbEIseUJBQXlCLEVBQUUsNkNBQTZDO0VBQ3hFLDhCQUE4QjtFQUM5QixnQ0FBZ0M7RUFDaEMsaUNBQWlDO0VBQ2pDLCtCQUErQjtFQUMvQixjQUFjO0FBQ2hCOztBQUVBO0VBQ0UsV0FBVztFQUNYLFlBQVk7RUFDWixrREFBa0Q7RUFDbEQsa0JBQWtCO0VBQ2xCLHVDQUF1QztFQUN2QyxtREFBbUQ7QUFDckQ7QUFDQTtFQUNFLCtDQUErQztBQUNqRDtBQUNBO0VBQ0Usb0RBQW9EO0FBQ3REO0FBQ0E7RUFDRSxnREFBZ0Q7QUFDbEQ7QUFDQTtFQUNFLGdEQUFnRDtBQUNsRDs7QUFFQTtFQUNFLE9BQU87RUFDUCxnQkFBZ0I7QUFDbEI7QUFDQTtFQUNFLDBCQUEwQjtBQUM1QiIsImZpbGUiOiJub2RlX21vZHVsZXMvQGNyZWF0ZS1maWdtYS1wbHVnaW4vdWkvbGliL2NvbXBvbmVudHMvcmFkaW8tYnV0dG9ucy9yYWRpby1idXR0b25zLm1vZHVsZS5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIucmFkaW9CdXR0b25zIHtcbiAgcG9zaXRpb246IHJlbGF0aXZlO1xuICB6LWluZGV4OiB2YXIoLS16LWluZGV4LTEpO1xufVxuXG4uZGlzYWJsZWQsXG4uZGlzYWJsZWQgKiB7XG4gIGN1cnNvcjogbm90LWFsbG93ZWQ7XG59XG5cbi5yYWRpb0J1dHRvbiB7XG4gIHBvc2l0aW9uOiByZWxhdGl2ZTtcbiAgZGlzcGxheTogZmxleDtcbiAgZ2FwOiB2YXIoLS1zcGFjZS02KTtcbn1cblxuLmlucHV0IHtcbiAgcG9zaXRpb246IGFic29sdXRlO1xuICB6LWluZGV4OiB2YXIoLS16LWluZGV4LTEpOyAvKiBzdGFjayBgLmlucHV0YCBvbiB0b3Agb2YgZXZlcnl0aGluZyBlbHNlICovXG4gIHRvcDogY2FsYygtMSAqIHZhcigtLXNwYWNlLTgpKTtcbiAgcmlnaHQ6IGNhbGMoLTEgKiB2YXIoLS1zcGFjZS04KSk7XG4gIGJvdHRvbTogY2FsYygtMSAqIHZhcigtLXNwYWNlLTgpKTtcbiAgbGVmdDogY2FsYygtMSAqIHZhcigtLXNwYWNlLTgpKTtcbiAgZGlzcGxheTogYmxvY2s7XG59XG5cbi5ib3gge1xuICB3aWR0aDogMTRweDtcbiAgaGVpZ2h0OiAxNHB4O1xuICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1maWdtYS1jb2xvci1ib3JkZXItc3Ryb25nKTtcbiAgYm9yZGVyLXJhZGl1czogN3B4O1xuICBiYWNrZ3JvdW5kLWNvbG9yOiB2YXIoLS1maWdtYS1jb2xvci1iZyk7XG4gIGJveC1zaGFkb3c6IDAgMCAwIDIuNXB4IHZhcigtLWZpZ21hLWNvbG9yLWJnKSBpbnNldDtcbn1cbi5yYWRpb0J1dHRvbjpub3QoLmRpc2FibGVkKSAuaW5wdXQ6Y2hlY2tlZCB+IC5ib3gge1xuICBiYWNrZ3JvdW5kLWNvbG9yOiB2YXIoLS1maWdtYS1jb2xvci1iZy1pbnZlcnNlKTtcbn1cbi5yYWRpb0J1dHRvbjpub3QoLmRpc2FibGVkKSAuaW5wdXQ6Zm9jdXMgfiAuYm94IHtcbiAgYm9yZGVyLWNvbG9yOiB2YXIoLS1maWdtYS1jb2xvci1ib3JkZXItYnJhbmQtc3Ryb25nKTtcbn1cbi5kaXNhYmxlZCAuaW5wdXQgfiAuYm94IHtcbiAgYm9yZGVyLWNvbG9yOiB2YXIoLS1maWdtYS1jb2xvci1ib3JkZXItZGlzYWJsZWQpO1xufVxuLmRpc2FibGVkIC5pbnB1dDpjaGVja2VkIH4gLmJveCB7XG4gIGJhY2tncm91bmQtY29sb3I6IHZhcigtLWZpZ21hLWNvbG9yLWJnLWRpc2FibGVkKTtcbn1cblxuLmNoaWxkcmVuIHtcbiAgZmxleDogMTtcbiAgcGFkZGluZy10b3A6IDNweDtcbn1cbi5kaXNhYmxlZCAuY2hpbGRyZW4ge1xuICBvcGFjaXR5OiB2YXIoLS1vcGFjaXR5LTMwKTtcbn1cbiJdfQ== */`;
+        document.head.append(element);
+      }
+      radio_buttons_module_default = { "radioButtons": "_radioButtons_y69qy_1", "disabled": "_disabled_y69qy_6", "radioButton": "_radioButton_y69qy_1", "input": "_input_y69qy_17", "box": "_box_y69qy_27", "children": "_children_y69qy_48" };
+    }
+  });
+
+  // node_modules/@create-figma-plugin/ui/lib/components/radio-buttons/radio-buttons.js
+  var RadioButtons;
+  var init_radio_buttons = __esm({
+    "node_modules/@create-figma-plugin/ui/lib/components/radio-buttons/radio-buttons.js"() {
+      init_preact_module();
+      init_hooks_module();
+      init_inline();
+      init_stack();
+      init_create_class_name();
+      init_create_component();
+      init_no_op();
+      init_constants();
+      init_radio_buttons_module();
+      RadioButtons = createComponent(function(_a, ref) {
+        var _b = _a, { disabled = false, direction = "vertical", onChange = noop, onCommand, onKeyDown = noop, onValueChange = noop, options, propagateEscapeKeyDown = true, space, value } = _b, rest = __objRest(_b, ["disabled", "direction", "onChange", "onCommand", "onKeyDown", "onValueChange", "options", "propagateEscapeKeyDown", "space", "value"]);
+        const handleChange = q2(function(event) {
+          onChange(event);
+          const id = event.currentTarget.getAttribute(ITEM_ID_DATA_ATTRIBUTE_NAME);
+          if (id === null) {
+            throw new Error("`id` is `null`");
+          }
+          const newValue = options[parseInt(id, 10)].value;
+          onValueChange(newValue);
+        }, [onChange, onValueChange, options]);
+        const handleKeyDown = q2(function(event) {
+          onKeyDown(event);
+          if (event.key === "Escape") {
+            if (propagateEscapeKeyDown === false) {
+              event.stopPropagation();
+            }
+            event.currentTarget.blur();
+          }
+        }, [onKeyDown, propagateEscapeKeyDown]);
+        const body = options.map(function(option, index) {
+          const children = typeof option.children === "undefined" ? `${option.value}` : option.children;
+          const isOptionDisabled = disabled === true || option.disabled === true;
+          const checked = value === option.value;
+          return _(
+            "label",
+            { key: index, class: createClassName([
+              radio_buttons_module_default.radioButton,
+              isOptionDisabled === true ? radio_buttons_module_default.disabled : null
+            ]) },
+            _("input", __spreadProps(__spreadValues({}, rest), { checked: checked === true, class: radio_buttons_module_default.input, disabled: isOptionDisabled === true, onChange: handleChange, onKeyDown: handleKeyDown, tabIndex: 0, type: "radio", value: `${option.value}`, [ITEM_ID_DATA_ATTRIBUTE_NAME]: `${index}` })),
+            _("div", { class: radio_buttons_module_default.box }),
+            _("div", { class: radio_buttons_module_default.children }, children)
+          );
+        });
+        return _("div", { ref, class: radio_buttons_module_default.radioButtons }, direction === "vertical" ? _(Stack, { space: typeof space === "undefined" ? "small" : space }, body) : _(Inline, { space: typeof space === "undefined" ? "medium" : space }, body));
+      });
+    }
+  });
+
   // node_modules/@create-figma-plugin/ui/lib/icons/icon-16/icon-home-16.js
   var IconHome16;
   var init_icon_home_16 = __esm({
@@ -876,6 +1593,20 @@
         "svg",
         { fill: "none", height: "16", viewBox: "0 0 16 16", width: "16", xmlns: "http://www.w3.org/2000/svg" },
         _("path", { "clip-rule": "evenodd", d: "M10.4746 8.35362c-.1952.19526-.1952.51185 0 .70711.1953.19526.5119.19526.7072 0l1.0606-1.06066c1.1716-1.17157 1.1716-3.07107 0-4.24264s-3.07105-1.17157-4.24263 0L6.93911 4.81809c-.19526.19526-.19526.51184 0 .70711.19527.19526.51185.19526.70711 0l1.06066-1.06066c.78105-.78105 2.04742-.78105 2.82842 0 .7811.78104.7811 2.04737 0 2.82842zm-.70691-2.12133c.19526.19526.19526.51184 0 .7071L6.93926 9.76782c-.19526.19526-.51184.19526-.7071 0s-.19527-.51185 0-.70711l2.82842-2.82842c.19527-.19527.51185-.19527.70711 0m-4.24267.70703c.19526.19526.19526.51184 0 .7071L4.46436 8.70708c-.78105.78105-.78105 2.04742 0 2.82842.78104.7811 2.04737.7811 2.82842 0l1.06066-1.0607c.19527-.1952.51185-.1952.70711 0 .19526.1953.19526.5119 0 .7072l-1.06066 1.0606c-1.17157 1.1716-3.07107 1.1716-4.24264 0s-1.17157-3.07105 0-4.24262l1.06066-1.06066c.19526-.19527.51184-.19527.70711 0", fill: "currentColor", "fill-rule": "evenodd" })
+      ));
+    }
+  });
+
+  // node_modules/@create-figma-plugin/ui/lib/icons/icon-16/icon-text-16.js
+  var IconText16;
+  var init_icon_text_16 = __esm({
+    "node_modules/@create-figma-plugin/ui/lib/icons/icon-16/icon-text-16.js"() {
+      init_preact_module();
+      init_create_icon();
+      IconText16 = createIcon(_(
+        "svg",
+        { fill: "none", height: "16", viewBox: "0 0 16 16", width: "16", xmlns: "http://www.w3.org/2000/svg" },
+        _("path", { "clip-rule": "evenodd", d: "M3 3.5c0-.27614.22386-.5.5-.5h9c.2761 0 .5.22386.5.5V5c0 .27614-.2239.5-.5.5S12 5.27614 12 5V4H8.5v8h1c.27614 0 .5.2239.5.5s-.22386.5-.5.5h-3c-.27614 0-.5-.2239-.5-.5s.22386-.5.5-.5h1V4H4v1c0 .27614-.22386.5-.5.5S3 5.27614 3 5z", fill: "currentColor", "fill-rule": "evenodd" })
       ));
     }
   });
@@ -908,10 +1639,82 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/764ca801-e322-453c-86ba-112b11c69996/container.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/be5c4e48-ebaf-45b3-8a52-f08fb97d6ab2/columns.module.js
+  var columns_module_default;
+  var init_columns_module = __esm({
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/be5c4e48-ebaf-45b3-8a52-f08fb97d6ab2/columns.module.js"() {
+      if (document.getElementById("07bfb18928") === null) {
+        const element = document.createElement("style");
+        element.id = "07bfb18928";
+        element.textContent = `._columns_ybv3x_1 {
+  display: flex;
+}
+._extraSmall_ybv3x_4 {
+  margin-left: calc(-1 * var(--space-extra-small));
+}
+._small_ybv3x_7 {
+  margin-left: calc(-1 * var(--space-small));
+}
+._medium_ybv3x_10 {
+  margin-left: calc(-1 * var(--space-medium));
+}
+._large_ybv3x_13 {
+  margin-left: calc(-1 * var(--space-large));
+}
+._extraLarge_ybv3x_16 {
+  margin-left: calc(-1 * var(--space-extra-large));
+}
+
+._child_ybv3x_20 {
+  flex-grow: 1;
+}
+._extraSmall_ybv3x_4 > ._child_ybv3x_20 {
+  padding-left: var(--space-extra-small);
+}
+._small_ybv3x_7 > ._child_ybv3x_20 {
+  padding-left: var(--space-small);
+}
+._medium_ybv3x_10 > ._child_ybv3x_20 {
+  padding-left: var(--space-medium);
+}
+._large_ybv3x_13 > ._child_ybv3x_20 {
+  padding-left: var(--space-large);
+}
+._extraLarge_ybv3x_16 > ._child_ybv3x_20 {
+  padding-left: var(--space-extra-large);
+}
+
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm5vZGVfbW9kdWxlcy9AY3JlYXRlLWZpZ21hLXBsdWdpbi91aS9saWIvbGF5b3V0L2NvbHVtbnMvY29sdW1ucy5tb2R1bGUuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsYUFBYTtBQUNmO0FBQ0E7RUFDRSxnREFBZ0Q7QUFDbEQ7QUFDQTtFQUNFLDBDQUEwQztBQUM1QztBQUNBO0VBQ0UsMkNBQTJDO0FBQzdDO0FBQ0E7RUFDRSwwQ0FBMEM7QUFDNUM7QUFDQTtFQUNFLGdEQUFnRDtBQUNsRDs7QUFFQTtFQUNFLFlBQVk7QUFDZDtBQUNBO0VBQ0Usc0NBQXNDO0FBQ3hDO0FBQ0E7RUFDRSxnQ0FBZ0M7QUFDbEM7QUFDQTtFQUNFLGlDQUFpQztBQUNuQztBQUNBO0VBQ0UsZ0NBQWdDO0FBQ2xDO0FBQ0E7RUFDRSxzQ0FBc0M7QUFDeEMiLCJmaWxlIjoibm9kZV9tb2R1bGVzL0BjcmVhdGUtZmlnbWEtcGx1Z2luL3VpL2xpYi9sYXlvdXQvY29sdW1ucy9jb2x1bW5zLm1vZHVsZS5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuY29sdW1ucyB7XG4gIGRpc3BsYXk6IGZsZXg7XG59XG4uZXh0cmFTbWFsbCB7XG4gIG1hcmdpbi1sZWZ0OiBjYWxjKC0xICogdmFyKC0tc3BhY2UtZXh0cmEtc21hbGwpKTtcbn1cbi5zbWFsbCB7XG4gIG1hcmdpbi1sZWZ0OiBjYWxjKC0xICogdmFyKC0tc3BhY2Utc21hbGwpKTtcbn1cbi5tZWRpdW0ge1xuICBtYXJnaW4tbGVmdDogY2FsYygtMSAqIHZhcigtLXNwYWNlLW1lZGl1bSkpO1xufVxuLmxhcmdlIHtcbiAgbWFyZ2luLWxlZnQ6IGNhbGMoLTEgKiB2YXIoLS1zcGFjZS1sYXJnZSkpO1xufVxuLmV4dHJhTGFyZ2Uge1xuICBtYXJnaW4tbGVmdDogY2FsYygtMSAqIHZhcigtLXNwYWNlLWV4dHJhLWxhcmdlKSk7XG59XG5cbi5jaGlsZCB7XG4gIGZsZXgtZ3JvdzogMTtcbn1cbi5leHRyYVNtYWxsID4gLmNoaWxkIHtcbiAgcGFkZGluZy1sZWZ0OiB2YXIoLS1zcGFjZS1leHRyYS1zbWFsbCk7XG59XG4uc21hbGwgPiAuY2hpbGQge1xuICBwYWRkaW5nLWxlZnQ6IHZhcigtLXNwYWNlLXNtYWxsKTtcbn1cbi5tZWRpdW0gPiAuY2hpbGQge1xuICBwYWRkaW5nLWxlZnQ6IHZhcigtLXNwYWNlLW1lZGl1bSk7XG59XG4ubGFyZ2UgPiAuY2hpbGQge1xuICBwYWRkaW5nLWxlZnQ6IHZhcigtLXNwYWNlLWxhcmdlKTtcbn1cbi5leHRyYUxhcmdlID4gLmNoaWxkIHtcbiAgcGFkZGluZy1sZWZ0OiB2YXIoLS1zcGFjZS1leHRyYS1sYXJnZSk7XG59XG4iXX0= */`;
+        document.head.append(element);
+      }
+      columns_module_default = { "columns": "_columns_ybv3x_1", "extraSmall": "_extraSmall_ybv3x_4", "small": "_small_ybv3x_7", "medium": "_medium_ybv3x_10", "large": "_large_ybv3x_13", "extraLarge": "_extraLarge_ybv3x_16", "child": "_child_ybv3x_20" };
+    }
+  });
+
+  // node_modules/@create-figma-plugin/ui/lib/layout/columns/columns.js
+  var Columns;
+  var init_columns = __esm({
+    "node_modules/@create-figma-plugin/ui/lib/layout/columns/columns.js"() {
+      init_preact_module();
+      init_create_class_name();
+      init_create_component();
+      init_columns_module();
+      Columns = createComponent(function(_a, ref) {
+        var _b = _a, { children, space } = _b, rest = __objRest(_b, ["children", "space"]);
+        return _("div", __spreadProps(__spreadValues({}, rest), { ref, class: createClassName([
+          columns_module_default.columns,
+          typeof space === "undefined" ? null : columns_module_default[space]
+        ]) }), H(children).map(function(element, index) {
+          return _("div", { key: index, class: columns_module_default.child }, element);
+        }));
+      });
+    }
+  });
+
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a8bf3fb0-91ca-4142-a88b-ac8ae60ea4e0/container.module.js
   var container_module_default;
   var init_container_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/764ca801-e322-453c-86ba-112b11c69996/container.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a8bf3fb0-91ca-4142-a88b-ac8ae60ea4e0/container.module.js"() {
       if (document.getElementById("b49e1406f9") === null) {
         const element = document.createElement("style");
         element.id = "b49e1406f9";
@@ -952,10 +1755,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/29120a0f-e7b8-45d5-bf69-7bcdb4d5bef3/vertical-space.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/3a62ec41-10da-4b12-9227-2ff48478289e/vertical-space.module.js
   var vertical_space_module_default;
   var init_vertical_space_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/29120a0f-e7b8-45d5-bf69-7bcdb4d5bef3/vertical-space.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/3a62ec41-10da-4b12-9227-2ff48478289e/vertical-space.module.js"() {
       if (document.getElementById("ba0eea5114") === null) {
         const element = document.createElement("style");
         element.id = "ba0eea5114";
@@ -996,9 +1799,9 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/90707bbf-c16d-44a9-b337-dcbe8e1bf1bf/base.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0b88643c-d395-4c35-ab02-1ea68ba31617/base.js
   var init_base = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/90707bbf-c16d-44a9-b337-dcbe8e1bf1bf/base.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0b88643c-d395-4c35-ab02-1ea68ba31617/base.js"() {
       if (document.getElementById("0597dd81e7") === null) {
         const element = document.createElement("style");
         element.id = "0597dd81e7";
@@ -1141,15 +1944,20 @@ svg {
   });
 
   // node_modules/@create-figma-plugin/ui/lib/index.js
-  var init_lib = __esm({
+  var init_lib2 = __esm({
     "node_modules/@create-figma-plugin/ui/lib/index.js"() {
+      init_button();
+      init_checkbox();
       init_divider();
       init_icon_button();
+      init_radio_buttons();
       init_text();
       init_icon_home_16();
       init_icon_link_16();
+      init_icon_text_16();
       init_icon_interaction_click_small_24();
       init_icon_time_small_24();
+      init_columns();
       init_container();
       init_vertical_space();
       init_render();
@@ -1163,13 +1971,20 @@ svg {
       "use strict";
       UI_TO_MAIN = {
         BOOT: "BOOT",
-        INSPECT_SELECTION_FOR_VARIABLE_CHAINS: "INSPECT_SELECTION_FOR_VARIABLE_CHAINS"
+        INSPECT_SELECTION_FOR_VARIABLE_CHAINS: "INSPECT_SELECTION_FOR_VARIABLE_CHAINS",
+        PRINT_COLOR_USAGES_LOAD_SETTINGS: "PRINT_COLOR_USAGES_LOAD_SETTINGS",
+        PRINT_COLOR_USAGES_SAVE_SETTINGS: "PRINT_COLOR_USAGES_SAVE_SETTINGS",
+        PRINT_COLOR_USAGES_PRINT: "PRINT_COLOR_USAGES_PRINT",
+        PRINT_COLOR_USAGES_UPDATE: "PRINT_COLOR_USAGES_UPDATE"
       };
       MAIN_TO_UI = {
         BOOTSTRAPPED: "BOOTSTRAPPED",
         VARIABLE_CHAINS_RESULT: "VARIABLE_CHAINS_RESULT",
         VARIABLE_CHAINS_RESULT_V2: "VARIABLE_CHAINS_RESULT_V2",
         SELECTION_EMPTY: "SELECTION_EMPTY",
+        PRINT_COLOR_USAGES_SETTINGS: "PRINT_COLOR_USAGES_SETTINGS",
+        PRINT_COLOR_USAGES_SELECTION: "PRINT_COLOR_USAGES_SELECTION",
+        PRINT_COLOR_USAGES_STATUS: "PRINT_COLOR_USAGES_STATUS",
         ERROR: "ERROR"
       };
     }
@@ -1416,7 +2231,7 @@ svg {
   var init_State = __esm({
     "src/app/components/State.tsx"() {
       "use strict";
-      init_lib();
+      init_lib2();
       init_preact_module();
     }
   });
@@ -1428,7 +2243,7 @@ svg {
   var init_ToolHeader = __esm({
     "src/app/components/ToolHeader.tsx"() {
       "use strict";
-      init_lib();
+      init_lib2();
       init_preact_module();
     }
   });
@@ -1494,7 +2309,7 @@ svg {
   var init_ToolBody = __esm({
     "src/app/components/ToolBody.tsx"() {
       "use strict";
-      init_lib();
+      init_lib2();
       init_preact_module();
     }
   });
@@ -1665,7 +2480,7 @@ svg {
   var init_ColorChainToolView = __esm({
     "src/app/views/color-chain-tool/ColorChainToolView.tsx"() {
       "use strict";
-      init_lib();
+      init_lib2();
       init_preact_module();
       init_hooks_module();
       init_messages();
@@ -1788,15 +2603,136 @@ svg {
         icon: /* @__PURE__ */ _(IconLink16, null),
         onClick: () => props.goTo("color-chain-tool")
       }
+    ), /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(
+      ToolCard,
+      {
+        title: "Print Color Usages",
+        description: "Print unique colors as text labels near selection.",
+        icon: /* @__PURE__ */ _(IconText16, null),
+        onClick: () => props.goTo("print-color-usages-tool")
+      }
     )));
   }
   var init_HomeView = __esm({
     "src/app/views/home/HomeView.tsx"() {
       "use strict";
-      init_lib();
+      init_lib2();
       init_preact_module();
       init_Page();
       init_ToolCard();
+    }
+  });
+
+  // src/app/views/print-color-usages-tool/PrintColorUsagesToolView.tsx
+  function PrintColorUsagesToolView(props) {
+    const [settings, setSettings] = d2(DEFAULT_SETTINGS);
+    const [loaded, setLoaded] = d2(false);
+    const [status, setStatus] = d2({ status: "idle" });
+    const [selectionSize, setSelectionSize] = d2(0);
+    y2(() => {
+      const handleMessage = (event) => {
+        var _a;
+        const msg = (_a = event.data) == null ? void 0 : _a.pluginMessage;
+        if (!msg) return;
+        if (msg.type === MAIN_TO_UI.BOOTSTRAPPED) {
+          setSelectionSize(msg.selectionSize);
+          return;
+        }
+        if (msg.type === MAIN_TO_UI.PRINT_COLOR_USAGES_SETTINGS) {
+          setSettings(__spreadProps(__spreadValues({}, msg.settings), { textTheme: "dark" }));
+          setLoaded(true);
+          return;
+        }
+        if (msg.type === MAIN_TO_UI.PRINT_COLOR_USAGES_SELECTION) {
+          setSelectionSize(msg.selectionSize);
+          return;
+        }
+        if (msg.type === MAIN_TO_UI.PRINT_COLOR_USAGES_STATUS) {
+          setStatus(msg.status);
+          return;
+        }
+      };
+      window.addEventListener("message", handleMessage);
+      parent.postMessage({ pluginMessage: { type: UI_TO_MAIN.PRINT_COLOR_USAGES_LOAD_SETTINGS } }, "*");
+      return () => window.removeEventListener("message", handleMessage);
+    }, []);
+    y2(() => {
+      if (!loaded) return;
+      parent.postMessage(
+        { pluginMessage: { type: UI_TO_MAIN.PRINT_COLOR_USAGES_SAVE_SETTINGS, settings } },
+        "*"
+      );
+    }, [loaded, settings]);
+    const isWorking = status.status === "working";
+    const updateLabel = selectionSize > 0 ? "Update Prints in Selection" : "Update Prints on Page";
+    return /* @__PURE__ */ _(Page, null, /* @__PURE__ */ _(
+      ToolHeader,
+      {
+        title: "Print Color Usages",
+        left: /* @__PURE__ */ _(IconButton, { onClick: props.onBack, title: "Home" }, /* @__PURE__ */ _(IconHome16, null))
+      }
+    ), /* @__PURE__ */ _("div", { style: { flex: 1, minHeight: 0, display: "flex", flexDirection: "column" } }, /* @__PURE__ */ _("div", { style: { flex: 1, minHeight: 0, overflowY: "auto", overflowX: "hidden" } }, /* @__PURE__ */ _(Container, { space: "small" }, /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(Text, null, "Position"), /* @__PURE__ */ _(VerticalSpace, { space: "extraSmall" }), /* @__PURE__ */ _(
+      RadioButtons,
+      {
+        direction: "horizontal",
+        value: settings.textPosition,
+        onValueChange: (value) => setSettings((s3) => __spreadProps(__spreadValues({}, s3), {
+          textPosition: value === "left" || value === "right" ? value : "right"
+        })),
+        options: [
+          { value: "left", children: /* @__PURE__ */ _(Text, null, "Left") },
+          { value: "right", children: /* @__PURE__ */ _(Text, null, "Right") }
+        ]
+      }
+    ), /* @__PURE__ */ _(VerticalSpace, { space: "large" }), /* @__PURE__ */ _(
+      Checkbox,
+      {
+        value: settings.showLinkedColors,
+        onValueChange: (value) => setSettings((s3) => __spreadProps(__spreadValues({}, s3), { showLinkedColors: value }))
+      },
+      /* @__PURE__ */ _(Text, null, "Show linked colors")
+    ), /* @__PURE__ */ _(VerticalSpace, { space: "extraSmall" }), /* @__PURE__ */ _(
+      Checkbox,
+      {
+        value: settings.hideFolderNames,
+        onValueChange: (value) => setSettings((s3) => __spreadProps(__spreadValues({}, s3), { hideFolderNames: value }))
+      },
+      /* @__PURE__ */ _(Text, null, "Hide folder prefixes (after \u201C/\u201D)")
+    ), /* @__PURE__ */ _(VerticalSpace, { space: "large" }), /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "Text color is from Mockup markup"), /* @__PURE__ */ _(VerticalSpace, { space: "large" }))), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(Container, { space: "small" }, /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(Columns, { space: "small" }, /* @__PURE__ */ _(
+      Button,
+      {
+        fullWidth: true,
+        loading: isWorking,
+        onClick: () => parent.postMessage({ pluginMessage: { type: UI_TO_MAIN.PRINT_COLOR_USAGES_PRINT, settings } }, "*")
+      },
+      "Print"
+    ), /* @__PURE__ */ _(
+      Button,
+      {
+        fullWidth: true,
+        secondary: true,
+        loading: isWorking,
+        onClick: () => parent.postMessage({ pluginMessage: { type: UI_TO_MAIN.PRINT_COLOR_USAGES_UPDATE, settings } }, "*")
+      },
+      updateLabel
+    )), /* @__PURE__ */ _(VerticalSpace, { space: "small" }))));
+  }
+  var DEFAULT_SETTINGS;
+  var init_PrintColorUsagesToolView = __esm({
+    "src/app/views/print-color-usages-tool/PrintColorUsagesToolView.tsx"() {
+      "use strict";
+      init_lib2();
+      init_preact_module();
+      init_hooks_module();
+      init_messages();
+      init_Page();
+      init_ToolHeader();
+      DEFAULT_SETTINGS = {
+        textPosition: "right",
+        showLinkedColors: true,
+        hideFolderNames: true,
+        textTheme: "dark"
+      };
     }
   });
 
@@ -1816,38 +2752,41 @@ svg {
         if (!msg) return;
         if (msg.type === MAIN_TO_UI.BOOTSTRAPPED) {
           setSelectionSize(msg.selectionSize);
-          setRoute(msg.command === "color-chain-tool" ? "color-chain-tool" : "home");
+          setRoute(
+            msg.command === "color-chain-tool" ? "color-chain-tool" : msg.command === "print-color-usages-tool" ? "print-color-usages-tool" : "home"
+          );
         }
       };
       window.addEventListener("message", handleMessage);
       parent.postMessage({ pluginMessage: { type: UI_TO_MAIN.BOOT } }, "*");
       return () => window.removeEventListener("message", handleMessage);
     }, []);
-    return route === "home" ? /* @__PURE__ */ _(HomeView, { goTo: setRoute }) : /* @__PURE__ */ _(
-      ColorChainToolView,
-      {
-        onBack: () => setRoute("home"),
-        initialSelectionEmpty: selectionSize === 0
-      }
-    );
+    if (route === "home") {
+      return /* @__PURE__ */ _(HomeView, { goTo: setRoute });
+    }
+    if (route === "color-chain-tool") {
+      return /* @__PURE__ */ _(ColorChainToolView, { onBack: () => setRoute("home"), initialSelectionEmpty: selectionSize === 0 });
+    }
+    return /* @__PURE__ */ _(PrintColorUsagesToolView, { onBack: () => setRoute("home") });
   }
   var ui_default;
   var init_ui = __esm({
     "src/app/ui.tsx"() {
       "use strict";
-      init_lib();
+      init_lib2();
       init_preact_module();
       init_hooks_module();
       init_messages();
       init_ColorChainToolView();
       init_HomeView();
+      init_PrintColorUsagesToolView();
       ui_default = render(App);
     }
   });
 
   // <stdin>
   var rootNode = document.getElementById("create-figma-plugin");
-  var modules = { "src/home/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/color-chain-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"] };
+  var modules = { "src/home/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/color-chain-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/print-color-usages-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"] };
   var commandId = __FIGMA_COMMAND__ === "" ? "src/home/main.ts--default" : __FIGMA_COMMAND__;
   if (typeof modules[commandId] === "undefined") {
     throw new Error(

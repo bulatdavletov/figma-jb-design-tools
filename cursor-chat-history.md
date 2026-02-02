@@ -187,6 +187,8 @@
 #### Refactoring ideas (spec)
 - Goal: Capture concrete refactoring + optimisation ideas for this repo (performance, reliability, maintainability) in a single place under `Specs/`.
 - Added: `Specs/Refactoring Ideas.md` — prioritised plan (P0/P1/P2), risks, rollout order, and a minimal manual test checklist.
+- Update: Added “Print Color Usages” UI efficiency ideas (avoid redundant save-after-load, debounce settings persistence, reduce message branching).
+- Decision: Highest impact next work should prioritize reliability + fewer Figma API calls (P0.3 stale-result guard / race-proof updates; then caching P0.2). For Print Color Usages, the highest impact “cheap win” is P1.4 (avoid save-after-load + debounce settings saves).
 
 #### Refactor: remove dead/duplicated code in `variable-chain.ts`
 - Goal: Improve maintainability by removing unused/duplicated code paths in selection scanning.
@@ -200,6 +202,38 @@
   - Implemented `inspectSelectionForVariableChainsByLayerV2()` in `src/app/variable-chain.ts` (computes a single `ModeChain` per variable).
   - Updated main thread (`src/app/run.ts`) to send V2 results.
   - Updated UI (`src/app/views/color-chain-tool/ColorChainToolView.tsx`) to consume V2 and still accept old results (coerces legacy payload).
+- Verification: `npm run build` passed.
+
+#### New tool: Print Color Usages (integrated)
+- Goal: Bring the separate “Print Color Usages” plugin into this combined plugin as a new tool.
+- Decision: Keep Markup Kit-specific styling and expose as a single menu command that opens the tool UI.
+- Change:
+  - Added new tool entrypoint `src/print-color-usages-tool/main.ts` and menu item in `package.json` (adds `permissions: ["teamlibrary"]`).
+  - Added Home card + UI route/view `src/app/views/print-color-usages-tool/PrintColorUsagesToolView.tsx`.
+  - Refactored main-thread runner into per-tool handlers (`src/app/run.ts` dispatcher; tool runners under `src/app/tools/*/main-thread.ts`).
+  - Ported Print/Update logic into `src/app/tools/print-color-usages/*` (settings, Markup Kit styling, analysis, print, update).
+
+#### Print Color Usages UI — alignment
+- Issue: horizontal `RadioButtons` looked slightly visually misaligned between options (baseline/inline-flex rendering quirk in `@create-figma-plugin/ui`).
+- Fix: pass option labels as `<Text>` children (matches UI kit Storybook usage) to keep baselines consistent.
+- Verification: `npm run build` passed.
+
+#### Print Color Usages UI — remove Theme + checkbox alignment
+- Change: removed Theme selector from UI and locked fallback to “dark” (white text) in main thread + UI state.
+- Note shown in UI: Markup Kit “Markup Text” / “Markup Text Secondary” are used when available; otherwise fallback is white text.
+- Change: checkbox labels are now wrapped in `<Text>` (matches UI kit Storybook usage, improves alignment).
+- Verification: `npm run build` passed.
+
+#### Print Color Usages UI — fixed bottom buttons + update label
+- Change: Print/Update buttons are now fixed to the bottom (form scrolls above them).
+- Change: removed “Done” UI state; completion feedback is via native `figma.notify` only.
+- Change: Update button label now depends on selection:
+  - If selection exists: “Update Prints in Selection”
+  - If no selection: “Update Prints on Page”
+- Verification: `npm run build` passed.
+
+#### Print Color Usages — update selection recursively
+- Change: when updating with a selection, the tool now finds **all text layers inside the selection recursively** (not only directly selected text layers).
 - Verification: `npm run build` passed.
 
 ## Git (initialize repo)

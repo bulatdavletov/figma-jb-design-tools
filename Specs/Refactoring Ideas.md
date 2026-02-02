@@ -5,6 +5,7 @@ Improve **performance**, **reliability** (no stale results / race conditions), a
 
 ### Scope (what this spec covers)
 - `View Colors Chain` performance + correctness improvements
+- `Print Color Usages` UI efficiency improvements (less message traffic, fewer redundant settings saves)
 - Project structure refactors that make “many tools in one plugin” easier to scale
 - Lightweight testing + rollout guidance (non-developer friendly)
 
@@ -26,7 +27,10 @@ Improve **performance**, **reliability** (no stale results / race conditions), a
   - Renders a list/tree; for each variable it typically displays **only one chain** (current applied mode if known, otherwise the first chain).
 
 ### Observed inefficiency
-Main thread currently resolves **chains for every mode** of a collection, even though UI typically renders **one** chain.
+- **View Colors Chain**: main thread can resolve **chains for every mode** of a collection, even though UI typically renders **one** chain.
+- **Print Color Usages**: UI can send redundant settings writes:
+  - immediately re-saving settings right after loading them,
+  - saving on every quick toggle (chatty `postMessage` + `figma.clientStorage` writes).
 
 ---
 
@@ -161,6 +165,32 @@ Main thread currently resolves **chains for every mode** of a collection, even t
 - Plugin still loads in Figma, both menu commands open correctly
 
 ---
+
+### P1.4 Reduce settings-save chatter in “Print Color Usages” UI
+**Problem**
+- UI can re-save settings immediately after loading them (no user action).
+- UI saves on every small toggle, which can produce many `postMessage` + `figma.clientStorage.setAsync` calls.
+
+**What changes**
+- Only persist settings after **user-initiated** edits (e.g. track `hydrated` + `dirty`, or use a `skipNextSaveRef` so “settings came from main thread” doesn’t trigger a save).
+- Debounce saves (example: 250–500ms) so rapid toggles are coalesced into a single write.
+- Optional (cleanup): pass initial selection size from `App` and stop handling `MAIN_TO_UI.BOOTSTRAPPED` inside `PrintColorUsagesToolView` (fewer message branches).
+
+**Why it’s a good idea**
+- Less message traffic + fewer storage writes.
+- Reduces risk of accidental “save loops” as more tools/settings get added.
+
+**Will it break any existing functionality?**
+- Low risk. Biggest subtlety is not losing the last change if the plugin closes quickly.
+  - Mitigation: flush pending save on unmount and/or before triggering `Print` / `Update`.
+
+**How main user flow will change**
+- It won’t. The UI behaves the same; it just does less work in the background.
+
+**Manual test checklist**
+- Open tool → no save happens until you change a setting.
+- Toggle two settings quickly → settings still persist after closing + reopening the tool.
+- Change a setting → immediately click `Print` / `Update` → output uses the latest settings.
 
 ## P2 — “Nice-to-have improvements”
 

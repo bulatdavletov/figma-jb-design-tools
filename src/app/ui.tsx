@@ -5,8 +5,9 @@ import { useEffect, useState } from "preact/hooks"
 import { MAIN_TO_UI, type MainToUiMessage, UI_TO_MAIN } from "./messages"
 import { ColorChainToolView } from "./views/color-chain-tool/ColorChainToolView"
 import { HomeView } from "./views/home/HomeView"
+import { PrintColorUsagesToolView } from "./views/print-color-usages-tool/PrintColorUsagesToolView"
 
-type Route = "home" | "color-chain-tool"
+type Route = "home" | "color-chain-tool" | "print-color-usages-tool"
 
 export function App() {
   const [route, setRoute] = useState<Route>("home")
@@ -18,7 +19,13 @@ export function App() {
       if (!msg) return
       if (msg.type === MAIN_TO_UI.BOOTSTRAPPED) {
         setSelectionSize(msg.selectionSize)
-        setRoute(msg.command === "color-chain-tool" ? "color-chain-tool" : "home")
+        setRoute(
+          msg.command === "color-chain-tool"
+            ? "color-chain-tool"
+            : msg.command === "print-color-usages-tool"
+              ? "print-color-usages-tool"
+              : "home"
+        )
       }
     }
     window.addEventListener("message", handleMessage)
@@ -26,14 +33,15 @@ export function App() {
     return () => window.removeEventListener("message", handleMessage)
   }, [])
 
-  return route === "home" ? (
-    <HomeView goTo={setRoute} />
-  ) : (
-    <ColorChainToolView
-      onBack={() => setRoute("home")}
-      initialSelectionEmpty={selectionSize === 0}
-    />
-  )
+  if (route === "home") {
+    return <HomeView goTo={setRoute} />
+  }
+
+  if (route === "color-chain-tool") {
+    return <ColorChainToolView onBack={() => setRoute("home")} initialSelectionEmpty={selectionSize === 0} />
+  }
+
+  return <PrintColorUsagesToolView onBack={() => setRoute("home")} />
 }
 
 export default render(App)

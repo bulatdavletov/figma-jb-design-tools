@@ -15,6 +15,10 @@
     {
       "name": "View Colors Chain",
       "command": "src/color-chain-tool/main.ts--default"
+    },
+    {
+      "name": "Print Color Usages",
+      "command": "src/print-color-usages-tool/main.ts--default"
     }
   ],
   "networkAccess": {
@@ -22,5 +26,8 @@
       "none"
     ]
   },
-  "documentAccess": "dynamic-page"
+  "documentAccess": "dynamic-page",
+  "permissions": [
+    "teamlibrary"
+  ]
 }

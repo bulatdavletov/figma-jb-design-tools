@@ -1,6 +1,10 @@
 export const UI_TO_MAIN = {
   BOOT: "BOOT",
   INSPECT_SELECTION_FOR_VARIABLE_CHAINS: "INSPECT_SELECTION_FOR_VARIABLE_CHAINS",
+  PRINT_COLOR_USAGES_LOAD_SETTINGS: "PRINT_COLOR_USAGES_LOAD_SETTINGS",
+  PRINT_COLOR_USAGES_SAVE_SETTINGS: "PRINT_COLOR_USAGES_SAVE_SETTINGS",
+  PRINT_COLOR_USAGES_PRINT: "PRINT_COLOR_USAGES_PRINT",
+  PRINT_COLOR_USAGES_UPDATE: "PRINT_COLOR_USAGES_UPDATE",
 } as const
 
 export const MAIN_TO_UI = {
@@ -8,12 +12,32 @@ export const MAIN_TO_UI = {
   VARIABLE_CHAINS_RESULT: "VARIABLE_CHAINS_RESULT",
   VARIABLE_CHAINS_RESULT_V2: "VARIABLE_CHAINS_RESULT_V2",
   SELECTION_EMPTY: "SELECTION_EMPTY",
+  PRINT_COLOR_USAGES_SETTINGS: "PRINT_COLOR_USAGES_SETTINGS",
+  PRINT_COLOR_USAGES_SELECTION: "PRINT_COLOR_USAGES_SELECTION",
+  PRINT_COLOR_USAGES_STATUS: "PRINT_COLOR_USAGES_STATUS",
   ERROR: "ERROR",
 } as const
 
 export type UiToMainMessage =
   | { type: typeof UI_TO_MAIN.BOOT }
   | { type: typeof UI_TO_MAIN.INSPECT_SELECTION_FOR_VARIABLE_CHAINS }
+  | { type: typeof UI_TO_MAIN.PRINT_COLOR_USAGES_LOAD_SETTINGS }
+  | { type: typeof UI_TO_MAIN.PRINT_COLOR_USAGES_SAVE_SETTINGS; settings: PrintColorUsagesUiSettings }
+  | { type: typeof UI_TO_MAIN.PRINT_COLOR_USAGES_PRINT; settings: PrintColorUsagesUiSettings }
+  | { type: typeof UI_TO_MAIN.PRINT_COLOR_USAGES_UPDATE; settings: PrintColorUsagesUiSettings }
+
+export type PrintColorUsagesUiSettings = {
+  textPosition: "left" | "right"
+  showLinkedColors: boolean
+  hideFolderNames: boolean
+  textTheme: "dark" | "light"
+}
+
+export type PrintColorUsagesStatus =
+  | { status: "idle" }
+  | { status: "working"; message: string }
+  | { status: "done"; message: string }
+  | { status: "error"; message: string }
 
 export type ModeChain = {
   modeId: string
@@ -76,5 +100,8 @@ export type MainToUiMessage =
   | { type: typeof MAIN_TO_UI.VARIABLE_CHAINS_RESULT; results: Array<LayerInspectionResult> }
   | { type: typeof MAIN_TO_UI.VARIABLE_CHAINS_RESULT_V2; results: Array<LayerInspectionResultV2> }
   | { type: typeof MAIN_TO_UI.SELECTION_EMPTY }
+  | { type: typeof MAIN_TO_UI.PRINT_COLOR_USAGES_SETTINGS; settings: PrintColorUsagesUiSettings }
+  | { type: typeof MAIN_TO_UI.PRINT_COLOR_USAGES_SELECTION; selectionSize: number }
+  | { type: typeof MAIN_TO_UI.PRINT_COLOR_USAGES_STATUS; status: PrintColorUsagesStatus }
   | { type: typeof MAIN_TO_UI.ERROR; message: string }
 
