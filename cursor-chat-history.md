@@ -163,6 +163,45 @@
   - How main user flow will change?
 - Process: Always run `npm run build` after code changes.
 
+### 2026-02-02
+
+#### Color Chain tool — live updates when editing colors
+- Case: With a layer selected, changing its color didn’t refresh the plugin UI until deselect/reselect (because `selectionchange` doesn’t fire for style edits).
+- Fix: Added `figma.on("documentchange")` in `src/app/run.ts` to trigger the existing debounced refresh when a document change affects the current selection (or its descendants). Uses a type guard to ignore `RemovedNode` changes.
+- Figma incremental mode note: registering `documentchange` requires calling `figma.loadAllPagesAsync()` first. Updated `run.ts` to await it before attaching the handler (otherwise Figma throws at runtime). If load fails, we fall back to selectionchange-only updates.
+- Verification: `npm run build` passed.
+
+#### Color Chain tool — swatch matches `TextboxColor`
+- Goal: Make `src/app/components/ColorSwatch.tsx` look and behave **exactly** like the `@create-figma-plugin/ui` `TextboxColor` “chit” swatch.
+- Change: Updated `ColorSwatch` defaults and styling to match `TextboxColor` `.chit` precisely:
+  - 14×14 size, radius 2
+  - checkerboard background (same SVG data URL)
+  - opacity preview: 2 halves when opacity < 100%
+  - no standalone swatch border (TextboxColor border is on the whole control, not the chit)
+- Verification: `npm run build` passed.
+- Memory: Stored an updated OpenMemory note clarifying the swatch details (including correcting the earlier “border on hover” assumption).
+
+#### Memory process preference (OpenMemory)
+- User preference: do **not** use/maintain `openmemory.md`; use the `openmemory-local` MCP memory system instead.
+
+#### Refactoring ideas (spec)
+- Goal: Capture concrete refactoring + optimisation ideas for this repo (performance, reliability, maintainability) in a single place under `Specs/`.
+- Added: `Specs/Refactoring Ideas.md` — prioritised plan (P0/P1/P2), risks, rollout order, and a minimal manual test checklist.
+
+#### Refactor: remove dead/duplicated code in `variable-chain.ts`
+- Goal: Improve maintainability by removing unused/duplicated code paths in selection scanning.
+- Change: Deleted unused `getFoundVariablesFromSelection()` and introduced shared helper `getFoundVariablesFromRoots()`; `getFoundVariablesFromNode()` now delegates to the helper.
+- Verification: `npm run build` passed.
+
+#### Optimisation: compute only the chain we render (V2 payload)
+- Goal: Avoid resolving chains for *all* modes when UI renders only one chain.
+- Change:
+  - Added `MAIN_TO_UI.VARIABLE_CHAINS_RESULT_V2` and V2 result types in `src/app/messages.ts` (`chainToRender` instead of `chains[]`).
+  - Implemented `inspectSelectionForVariableChainsByLayerV2()` in `src/app/variable-chain.ts` (computes a single `ModeChain` per variable).
+  - Updated main thread (`src/app/run.ts`) to send V2 results.
+  - Updated UI (`src/app/views/color-chain-tool/ColorChainToolView.tsx`) to consume V2 and still accept old results (coerces legacy payload).
+- Verification: `npm run build` passed.
+
 ## Git (initialize repo)
 
 ### 2026-01-29

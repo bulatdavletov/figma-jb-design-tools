@@ -677,10 +677,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6059cf4c-1dc8-44dd-bc71-4a6c932a2a8d/divider.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/44cf52a8-677a-4d02-8e47-176be84c8cc4/divider.module.js
   var divider_module_default;
   var init_divider_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6059cf4c-1dc8-44dd-bc71-4a6c932a2a8d/divider.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/44cf52a8-677a-4d02-8e47-176be84c8cc4/divider.module.js"() {
       if (document.getElementById("4bf06403b9") === null) {
         const element = document.createElement("style");
         element.id = "4bf06403b9";
@@ -710,10 +710,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/828a4b88-ea5d-4fd5-89f0-3e993dc109da/icon-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6087577e-ed58-4b62-858f-4a78b81c3ecd/icon-button.module.js
   var icon_button_module_default;
   var init_icon_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/828a4b88-ea5d-4fd5-89f0-3e993dc109da/icon-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6087577e-ed58-4b62-858f-4a78b81c3ecd/icon-button.module.js"() {
       if (document.getElementById("c8b08e6568") === null) {
         const element = document.createElement("style");
         element.id = "c8b08e6568";
@@ -791,10 +791,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b6605643-3442-4b77-a9e8-e360915f8b7d/text.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/186b8e85-fa8d-4223-965c-5246965b5919/text.module.js
   var text_module_default;
   var init_text_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b6605643-3442-4b77-a9e8-e360915f8b7d/text.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/186b8e85-fa8d-4223-965c-5246965b5919/text.module.js"() {
       if (document.getElementById("1278016d5c") === null) {
         const element = document.createElement("style");
         element.id = "1278016d5c";
@@ -908,10 +908,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4641cc54-2076-432f-9247-bfeb01dda961/container.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/764ca801-e322-453c-86ba-112b11c69996/container.module.js
   var container_module_default;
   var init_container_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4641cc54-2076-432f-9247-bfeb01dda961/container.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/764ca801-e322-453c-86ba-112b11c69996/container.module.js"() {
       if (document.getElementById("b49e1406f9") === null) {
         const element = document.createElement("style");
         element.id = "b49e1406f9";
@@ -952,10 +952,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e17c639b-21de-419b-b881-f1cf308446e8/vertical-space.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/29120a0f-e7b8-45d5-bf69-7bcdb4d5bef3/vertical-space.module.js
   var vertical_space_module_default;
   var init_vertical_space_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e17c639b-21de-419b-b881-f1cf308446e8/vertical-space.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/29120a0f-e7b8-45d5-bf69-7bcdb4d5bef3/vertical-space.module.js"() {
       if (document.getElementById("ba0eea5114") === null) {
         const element = document.createElement("style");
         element.id = "ba0eea5114";
@@ -996,9 +996,9 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/af5c4f19-6652-4682-8266-2dddd5c3b907/base.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/90707bbf-c16d-44a9-b337-dcbe8e1bf1bf/base.js
   var init_base = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/af5c4f19-6652-4682-8266-2dddd5c3b907/base.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/90707bbf-c16d-44a9-b337-dcbe8e1bf1bf/base.js"() {
       if (document.getElementById("0597dd81e7") === null) {
         const element = document.createElement("style");
         element.id = "0597dd81e7";
@@ -1168,9 +1168,58 @@ svg {
       MAIN_TO_UI = {
         BOOTSTRAPPED: "BOOTSTRAPPED",
         VARIABLE_CHAINS_RESULT: "VARIABLE_CHAINS_RESULT",
+        VARIABLE_CHAINS_RESULT_V2: "VARIABLE_CHAINS_RESULT_V2",
         SELECTION_EMPTY: "SELECTION_EMPTY",
         ERROR: "ERROR"
       };
+    }
+  });
+
+  // src/app/components/ColorSwatch.tsx
+  function clamp01(n2) {
+    return Math.max(0, Math.min(1, n2));
+  }
+  function isValidHex6(color) {
+    if (typeof color !== "string") return false;
+    return /^#[0-9A-F]{6}$/i.test(color.trim());
+  }
+  function formatHexWithOpacity(hex, opacityPercent) {
+    if (opacityPercent == null) return hex;
+    if (opacityPercent >= 100) return hex;
+    return `${hex} ${opacityPercent}%`;
+  }
+  function ColorSwatch(props) {
+    const size = typeof props.size === "number" ? props.size : 14;
+    const borderRadius = typeof props.borderRadius === "number" ? props.borderRadius : 2;
+    const opacityPercent = typeof props.opacityPercent === "number" ? props.opacityPercent : null;
+    const alpha = opacityPercent == null ? 1 : clamp01(opacityPercent / 100);
+    const showTransparency = alpha < 1;
+    const hex = T2(() => isValidHex6(props.hex) ? props.hex.trim() : null, [props.hex]);
+    const title = hex ? formatHexWithOpacity(hex, opacityPercent) : "N/A";
+    return /* @__PURE__ */ _(
+      "div",
+      {
+        title,
+        style: {
+          width: size,
+          height: size,
+          borderRadius,
+          overflow: "hidden",
+          display: "flex",
+          backgroundImage: CHECKERBOARD_BG_IMAGE
+        }
+      },
+      hex ? /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { flex: 1, backgroundColor: hex } }), showTransparency ? /* @__PURE__ */ _("div", { style: { flex: 1, backgroundColor: hex, opacity: alpha } }) : null) : null
+    );
+  }
+  var CHECKERBOARD_BG_IMAGE;
+  var init_ColorSwatch = __esm({
+    "src/app/components/ColorSwatch.tsx"() {
+      "use strict";
+      init_preact_module();
+      init_hooks_module();
+      CHECKERBOARD_BG_IMAGE = // Copied from `textbox-color.module.css` `.chit` background-image.
+      "url('data:image/svg+xml;utf8,%3Csvg%20width%3D%226%22%20height%3D%226%22%20viewBox%3D%220%200%206%206%22%20fill%3D%22none%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M0%200H3V3H0V0Z%22%20fill%3D%22%23E1E1E1%22/%3E%3Cpath%20d%3D%22M3%200H6V3H3V0Z%22%20fill%3D%22white%22/%3E%3Cpath%20d%3D%22M3%203H6V6H3V3Z%22%20fill%3D%22%23E1E1E1%22/%3E%3Cpath%20d%3D%22M0%203H3V6H0V3Z%22%20fill%3D%22white%22/%3E%3C/svg%3E%0A')";
     }
   });
 
@@ -1451,63 +1500,34 @@ svg {
   });
 
   // src/app/views/color-chain-tool/ColorChainToolView.tsx
-  function hexToRgb(hex) {
-    const normalized = hex.trim().toUpperCase();
-    const m3 = /^#([0-9A-F]{6})$/.exec(normalized);
-    if (!m3) return null;
-    const v3 = m3[1];
-    const r3 = parseInt(v3.slice(0, 2), 16);
-    const g4 = parseInt(v3.slice(2, 4), 16);
-    const b2 = parseInt(v3.slice(4, 6), 16);
-    return { r: r3, g: g4, b: b2 };
-  }
-  function clamp01(n2) {
-    return Math.max(0, Math.min(1, n2));
-  }
-  function formatHexWithOpacity(hex, opacityPercent) {
+  function formatHexWithOpacity2(hex, opacityPercent) {
     if (opacityPercent == null) return hex;
     if (opacityPercent >= 100) return hex;
     return `${hex} ${opacityPercent}%`;
   }
-  function ColorSwatch(props) {
-    const hex = props.hex;
-    const swatchSize = 16;
-    const opacityPercent = typeof props.opacityPercent === "number" ? props.opacityPercent : null;
-    const alpha = opacityPercent == null ? 1 : clamp01(opacityPercent / 100);
-    const rgb = hex ? hexToRgb(hex) : null;
-    const rgba = rgb ? `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${alpha})` : "transparent";
-    const showTransparency = alpha < 0.999;
-    return /* @__PURE__ */ _(
-      "div",
-      {
-        style: {
-          width: swatchSize,
-          height: swatchSize,
-          borderRadius: 4,
-          border: "1px solid var(--figma-color-border)",
-          position: "relative",
-          overflow: "hidden",
-          // If opaque: show solid color.
-          // If transparent: show checkerboard behind RGBA overlay.
-          backgroundColor: showTransparency ? "var(--figma-color-bg-secondary)" : hex != null ? hex : "transparent",
-          backgroundImage: showTransparency ? "linear-gradient(45deg, rgba(0,0,0,0.12) 25%, transparent 25%),linear-gradient(-45deg, rgba(0,0,0,0.12) 25%, transparent 25%),linear-gradient(45deg, transparent 75%, rgba(0,0,0,0.12) 75%),linear-gradient(-45deg, transparent 75%, rgba(0,0,0,0.12) 75%)" : "none",
-          backgroundSize: showTransparency ? "8px 8px" : void 0,
-          backgroundPosition: showTransparency ? "0 0, 0 4px, 4px -4px, -4px 0px" : void 0,
-          boxSizing: "border-box"
-        },
-        title: hex ? typeof opacityPercent === "number" ? formatHexWithOpacity(hex, opacityPercent) : hex : "N/A"
-      },
-      showTransparency ? /* @__PURE__ */ _(
-        "div",
-        {
-          style: {
-            position: "absolute",
-            inset: 0,
-            backgroundColor: rgba
-          }
+  function coerceResultsToV2(results) {
+    return results.map((layer) => ({
+      layerId: layer.layerId,
+      layerName: layer.layerName,
+      layerType: layer.layerType,
+      colors: layer.colors.map((c3) => {
+        var _a, _b;
+        const applied = c3.appliedMode;
+        let chainToRender = null;
+        if (applied.status === "single") {
+          chainToRender = (_a = c3.chains.find((ch) => ch.modeId === applied.modeId)) != null ? _a : null;
         }
-      ) : null
-    );
+        chainToRender = (_b = chainToRender != null ? chainToRender : c3.chains[0]) != null ? _b : null;
+        return {
+          variableId: c3.variableId,
+          variableName: c3.variableName,
+          collectionName: c3.collectionName,
+          appliedMode: c3.appliedMode,
+          chainToRender,
+          hasOtherModes: c3.chains.length > 1
+        };
+      })
+    }));
   }
   function ColorChainToolView(props) {
     const [loading, setLoading] = d2(true);
@@ -1534,6 +1554,14 @@ svg {
           return;
         }
         if (msg.type === MAIN_TO_UI.VARIABLE_CHAINS_RESULT) {
+          setLoading(false);
+          setResults(coerceResultsToV2(msg.results));
+          setOpenById({});
+          setSelectionEmpty(false);
+          setError(null);
+          return;
+        }
+        if (msg.type === MAIN_TO_UI.VARIABLE_CHAINS_RESULT_V2) {
           setLoading(false);
           setResults(msg.results);
           setOpenById({});
@@ -1586,20 +1614,15 @@ svg {
       Tree,
       {
         nodes: (() => {
-          var _a, _b, _c, _d, _e;
+          var _a, _b, _c;
           const nodes = [];
           const groupSpacing = 16;
           for (const layer of sortedResults) {
             const colors = layer.colors.slice().sort((a3, b2) => a3.variableName.localeCompare(b2.variableName));
             for (const c3 of colors) {
-              const applied = c3.appliedMode;
-              let currentModeChain = null;
-              if (applied.status === "single") {
-                currentModeChain = (_a = c3.chains.find((ch) => ch.modeId === applied.modeId)) != null ? _a : null;
-              }
-              const chainToRender = (_b = currentModeChain != null ? currentModeChain : c3.chains[0]) != null ? _b : null;
-              const swatchHex = (_c = chainToRender == null ? void 0 : chainToRender.finalHex) != null ? _c : null;
-              const swatchOpacityPercent = (_d = chainToRender == null ? void 0 : chainToRender.finalOpacityPercent) != null ? _d : null;
+              const chainToRender = c3.chainToRender;
+              const swatchHex = (_a = chainToRender == null ? void 0 : chainToRender.finalHex) != null ? _a : null;
+              const swatchOpacityPercent = (_b = chainToRender == null ? void 0 : chainToRender.finalOpacityPercent) != null ? _b : null;
               const chainSteps = (chainToRender == null ? void 0 : chainToRender.chain) ? chainToRender.chain.slice(1) : [];
               nodes.push({
                 id: `${layer.layerId}:${c3.variableId}`,
@@ -1616,7 +1639,7 @@ svg {
               }
               nodes.push({
                 id: `${layer.layerId}:${c3.variableId}:hex`,
-                title: (chainToRender == null ? void 0 : chainToRender.finalHex) && typeof chainToRender.finalOpacityPercent === "number" ? formatHexWithOpacity(chainToRender.finalHex, chainToRender.finalOpacityPercent) : (_e = chainToRender == null ? void 0 : chainToRender.finalHex) != null ? _e : "N/A"
+                title: (chainToRender == null ? void 0 : chainToRender.finalHex) && typeof chainToRender.finalOpacityPercent === "number" ? formatHexWithOpacity2(chainToRender.finalHex, chainToRender.finalOpacityPercent) : (_c = chainToRender == null ? void 0 : chainToRender.finalHex) != null ? _c : "N/A"
               });
               nodes.push({
                 kind: "spacer",
@@ -1646,6 +1669,7 @@ svg {
       init_preact_module();
       init_hooks_module();
       init_messages();
+      init_ColorSwatch();
       init_Tree();
       init_State();
       init_ToolHeader();

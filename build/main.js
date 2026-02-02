@@ -70,6 +70,7 @@ var init_messages = __esm({
     MAIN_TO_UI = {
       BOOTSTRAPPED: "BOOTSTRAPPED",
       VARIABLE_CHAINS_RESULT: "VARIABLE_CHAINS_RESULT",
+      VARIABLE_CHAINS_RESULT_V2: "VARIABLE_CHAINS_RESULT_V2",
       SELECTION_EMPTY: "SELECTION_EMPTY",
       ERROR: "ERROR"
     };
@@ -198,33 +199,7 @@ async function collectVariablesFromNodeTree(root, onVariable) {
     }
   }
 }
-async function buildVariableChainResult(found) {
-  const variable = await figma.variables.getVariableByIdAsync(found.id);
-  if (variable == null) return null;
-  const collection = await figma.variables.getVariableCollectionByIdAsync(variable.variableCollectionId);
-  if (collection == null) return null;
-  const chains = [];
-  for (const mode of collection.modes) {
-    const resolved = await resolveChainForMode(variable, mode.modeId);
-    chains.push({
-      modeId: mode.modeId,
-      modeName: mode.name,
-      chain: resolved.chain,
-      finalHex: resolved.finalHex,
-      finalOpacityPercent: resolved.finalOpacityPercent,
-      circular: resolved.circular,
-      note: resolved.note
-    });
-  }
-  return {
-    variableId: variable.id,
-    variableName: variable.name,
-    collectionName: collection.name,
-    appliedMode: found.appliedMode,
-    chains
-  };
-}
-async function getFoundVariablesFromNode(root) {
+async function getFoundVariablesFromRoots(roots) {
   const variableCache = /* @__PURE__ */ new Map();
   const collectionCache = /* @__PURE__ */ new Map();
   async function getVariable(id) {
@@ -242,20 +217,22 @@ async function getFoundVariablesFromNode(root) {
     return (_a = collectionCache.get(id)) != null ? _a : null;
   }
   const found = /* @__PURE__ */ new Map();
-  await collectVariablesFromNodeTree(root, async (variableId, nodeContext) => {
-    const variable = await getVariable(variableId);
-    if (variable == null) return;
-    const collection = await getCollection(variable.variableCollectionId);
-    if (collection == null) return;
-    const existing = found.get(variable.id);
-    const entry = existing != null ? existing : { variable, collection, appliedModeIds: /* @__PURE__ */ new Set() };
-    found.set(variable.id, entry);
-    const resolvedModes = nodeContext.resolvedVariableModes;
-    const modeId = resolvedModes == null ? void 0 : resolvedModes[collection.id];
-    if (typeof modeId === "string" && modeId.length > 0) {
-      entry.appliedModeIds.add(modeId);
-    }
-  });
+  for (const root of roots) {
+    await collectVariablesFromNodeTree(root, async (variableId, nodeContext) => {
+      const variable = await getVariable(variableId);
+      if (variable == null) return;
+      const collection = await getCollection(variable.variableCollectionId);
+      if (collection == null) return;
+      const existing = found.get(variable.id);
+      const entry = existing != null ? existing : { variable, collection, appliedModeIds: /* @__PURE__ */ new Set() };
+      found.set(variable.id, entry);
+      const resolvedModes = nodeContext.resolvedVariableModes;
+      const modeId = resolvedModes == null ? void 0 : resolvedModes[collection.id];
+      if (typeof modeId === "string" && modeId.length > 0) {
+        entry.appliedModeIds.add(modeId);
+      }
+    });
+  }
   const results = [];
   for (const entry of Array.from(found.values())) {
     const modeIds = Array.from(entry.appliedModeIds);
@@ -275,7 +252,47 @@ async function getFoundVariablesFromNode(root) {
   results.sort((a, b) => a.name.localeCompare(b.name));
   return results;
 }
-async function inspectSelectionForVariableChainsByLayer() {
+async function buildVariableChainResultV2(found) {
+  var _a;
+  const variable = await figma.variables.getVariableByIdAsync(found.id);
+  if (variable == null) return null;
+  const collection = await figma.variables.getVariableCollectionByIdAsync(variable.variableCollectionId);
+  if (collection == null) return null;
+  const hasOtherModes = collection.modes.length > 1;
+  const pickedMode = found.appliedMode.status === "single" ? { modeId: found.appliedMode.modeId, modeName: found.appliedMode.modeName } : collection.modes.length > 0 ? { modeId: collection.modes[0].modeId, modeName: collection.modes[0].name } : null;
+  if (pickedMode == null) {
+    return {
+      variableId: variable.id,
+      variableName: variable.name,
+      collectionName: collection.name,
+      appliedMode: found.appliedMode,
+      chainToRender: null,
+      hasOtherModes
+    };
+  }
+  const resolved = await resolveChainForMode(variable, pickedMode.modeId);
+  const note = (_a = resolved.note) != null ? _a : found.appliedMode.status === "single" ? void 0 : `Multiple/unknown modes; showing "${pickedMode.modeName}"`;
+  return {
+    variableId: variable.id,
+    variableName: variable.name,
+    collectionName: collection.name,
+    appliedMode: found.appliedMode,
+    chainToRender: {
+      modeId: pickedMode.modeId,
+      modeName: pickedMode.modeName,
+      chain: resolved.chain,
+      finalHex: resolved.finalHex,
+      finalOpacityPercent: resolved.finalOpacityPercent,
+      circular: resolved.circular,
+      note
+    },
+    hasOtherModes
+  };
+}
+async function getFoundVariablesFromNode(root) {
+  return await getFoundVariablesFromRoots([root]);
+}
+async function inspectSelectionForVariableChainsByLayerV2() {
   const selected = figma.currentPage.selection;
   if (selected.length === 0) return [];
   const results = [];
@@ -283,7 +300,7 @@ async function inspectSelectionForVariableChainsByLayer() {
     const found = await getFoundVariablesFromNode(node);
     const colors = [];
     for (const f of found) {
-      const built = await buildVariableChainResult(f);
+      const built = await buildVariableChainResultV2(f);
       if (built) colors.push(built);
     }
     results.push({
@@ -317,8 +334,8 @@ function run(command) {
       figma.ui.postMessage({ type: MAIN_TO_UI.SELECTION_EMPTY });
       return;
     }
-    const results = await inspectSelectionForVariableChainsByLayer();
-    figma.ui.postMessage({ type: MAIN_TO_UI.VARIABLE_CHAINS_RESULT, results });
+    const results = await inspectSelectionForVariableChainsByLayerV2();
+    figma.ui.postMessage({ type: MAIN_TO_UI.VARIABLE_CHAINS_RESULT_V2, results });
   };
   const scheduleUpdate = () => {
     if (pendingTimer != null) {
@@ -334,7 +351,43 @@ function run(command) {
       });
     }, 50);
   };
+  const isWithinSelection = (node) => {
+    const selection = figma.currentPage.selection;
+    if (selection.length === 0) return false;
+    for (const root of selection) {
+      let current = node;
+      while (current != null) {
+        if (current.id === root.id) return true;
+        current = current.parent;
+      }
+    }
+    return false;
+  };
+  const isSceneNode = (node) => {
+    return node != null && typeof node === "object" && "id" in node && "type" in node && "parent" in node;
+  };
+  const handleDocumentChange = (event) => {
+    if (figma.currentPage.selection.length === 0) return;
+    for (const change of event.documentChanges) {
+      const node = "node" in change ? change.node : null;
+      if (!isSceneNode(node)) continue;
+      if (isWithinSelection(node)) {
+        scheduleUpdate();
+        return;
+      }
+    }
+  };
   figma.on("selectionchange", scheduleUpdate);
+  if (command === "color-chain-tool") {
+    ;
+    (async () => {
+      try {
+        await figma.loadAllPagesAsync();
+        figma.on("documentchange", handleDocumentChange);
+      } catch (e) {
+      }
+    })();
+  }
   figma.ui.onmessage = async (msg) => {
     try {
       if (msg.type === UI_TO_MAIN.BOOT) {

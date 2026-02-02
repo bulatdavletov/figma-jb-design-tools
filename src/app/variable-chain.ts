@@ -1,4 +1,10 @@
-import type { LayerInspectionResult, ModeChain, VariableChainResult } from "./messages"
+import type {
+  LayerInspectionResult,
+  LayerInspectionResultV2,
+  ModeChain,
+  VariableChainResult,
+  VariableChainResultV2,
+} from "./messages"
 
 type FoundVariable = {
   id: string
@@ -124,83 +130,6 @@ function extractFromPaints(paints: ReadonlyArray<Paint> | any): Array<string> {
   return ids
 }
 
-async function getFoundVariablesFromSelection(): Promise<Array<FoundVariable>> {
-  const selected = figma.currentPage.selection
-  if (selected.length === 0) return []
-
-  const variableCache = new Map<string, Variable | null>()
-  const collectionCache = new Map<string, VariableCollection | null>()
-
-  async function getVariable(id: string): Promise<Variable | null> {
-    if (!variableCache.has(id)) {
-      variableCache.set(id, await figma.variables.getVariableByIdAsync(id))
-    }
-    return variableCache.get(id) ?? null
-  }
-
-  async function getCollection(id: string): Promise<VariableCollection | null> {
-    if (!collectionCache.has(id)) {
-      collectionCache.set(id, await figma.variables.getVariableCollectionByIdAsync(id))
-    }
-    return collectionCache.get(id) ?? null
-  }
-
-  const found = new Map<
-    string,
-    {
-      variable: Variable
-      collection: VariableCollection
-      appliedModeIds: Set<string>
-    }
-  >()
-
-  for (const node of selected) {
-    await collectVariablesFromNodeTree(node, async (variableId, nodeContext) => {
-      const variable = await getVariable(variableId)
-      if (variable == null) return
-      const collection = await getCollection(variable.variableCollectionId)
-      if (collection == null) return
-
-      const existing = found.get(variable.id)
-      const entry =
-        existing ?? { variable, collection, appliedModeIds: new Set<string>() }
-      found.set(variable.id, entry)
-
-      const resolvedModes = nodeContext.resolvedVariableModes
-      const modeId = resolvedModes?.[collection.id]
-      if (typeof modeId === "string" && modeId.length > 0) {
-        entry.appliedModeIds.add(modeId)
-      }
-    })
-  }
-
-  const results: Array<FoundVariable> = []
-  for (const entry of Array.from(found.values())) {
-    const modeIds: string[] = Array.from(entry.appliedModeIds)
-    const modeNames: string[] = modeIds
-      .map((id) => entry.collection.modes.find((m: { modeId: string; name: string }) => m.modeId === id)?.name)
-      .filter((x): x is string => typeof x === "string")
-
-    const appliedMode =
-      modeIds.length === 1 && modeNames.length === 1
-        ? { status: "single" as const, modeId: modeIds[0], modeName: modeNames[0] }
-        : modeIds.length > 1
-          ? { status: "mixed" as const, modeIds, modeNames }
-          : { status: "unknown" as const }
-
-    results.push({
-      id: entry.variable.id,
-      name: entry.variable.name,
-      collectionId: entry.collection.id,
-      collectionName: entry.collection.name,
-      appliedMode,
-    })
-  }
-
-  results.sort((a, b) => a.name.localeCompare(b.name))
-  return results
-}
-
 function idsFromNode(node: SceneNode): Array<string> {
   const ids: Array<string> = []
   const anyNode = node as any
@@ -255,6 +184,79 @@ async function collectVariablesFromNodeTree(
   }
 }
 
+async function getFoundVariablesFromRoots(roots: Array<SceneNode>): Promise<Array<FoundVariable>> {
+  const variableCache = new Map<string, Variable | null>()
+  const collectionCache = new Map<string, VariableCollection | null>()
+
+  async function getVariable(id: string): Promise<Variable | null> {
+    if (!variableCache.has(id)) {
+      variableCache.set(id, await figma.variables.getVariableByIdAsync(id))
+    }
+    return variableCache.get(id) ?? null
+  }
+
+  async function getCollection(id: string): Promise<VariableCollection | null> {
+    if (!collectionCache.has(id)) {
+      collectionCache.set(id, await figma.variables.getVariableCollectionByIdAsync(id))
+    }
+    return collectionCache.get(id) ?? null
+  }
+
+  const found = new Map<
+    string,
+    {
+      variable: Variable
+      collection: VariableCollection
+      appliedModeIds: Set<string>
+    }
+  >()
+
+  for (const root of roots) {
+    await collectVariablesFromNodeTree(root, async (variableId, nodeContext) => {
+      const variable = await getVariable(variableId)
+      if (variable == null) return
+      const collection = await getCollection(variable.variableCollectionId)
+      if (collection == null) return
+
+      const existing = found.get(variable.id)
+      const entry = existing ?? { variable, collection, appliedModeIds: new Set<string>() }
+      found.set(variable.id, entry)
+
+      const resolvedModes = nodeContext.resolvedVariableModes
+      const modeId = resolvedModes?.[collection.id]
+      if (typeof modeId === "string" && modeId.length > 0) {
+        entry.appliedModeIds.add(modeId)
+      }
+    })
+  }
+
+  const results: Array<FoundVariable> = []
+  for (const entry of Array.from(found.values())) {
+    const modeIds: string[] = Array.from(entry.appliedModeIds)
+    const modeNames: string[] = modeIds
+      .map((id) => entry.collection.modes.find((m: { modeId: string; name: string }) => m.modeId === id)?.name)
+      .filter((x): x is string => typeof x === "string")
+
+    const appliedMode =
+      modeIds.length === 1 && modeNames.length === 1
+        ? { status: "single" as const, modeId: modeIds[0], modeName: modeNames[0] }
+        : modeIds.length > 1
+          ? { status: "mixed" as const, modeIds, modeNames }
+          : { status: "unknown" as const }
+
+    results.push({
+      id: entry.variable.id,
+      name: entry.variable.name,
+      collectionId: entry.collection.id,
+      collectionName: entry.collection.name,
+      appliedMode,
+    })
+  }
+
+  results.sort((a, b) => a.name.localeCompare(b.name))
+  return results
+}
+
 async function buildVariableChainResult(found: FoundVariable): Promise<VariableChainResult | null> {
   const variable = await figma.variables.getVariableByIdAsync(found.id)
   if (variable == null) return null
@@ -284,75 +286,57 @@ async function buildVariableChainResult(found: FoundVariable): Promise<VariableC
   }
 }
 
+async function buildVariableChainResultV2(found: FoundVariable): Promise<VariableChainResultV2 | null> {
+  const variable = await figma.variables.getVariableByIdAsync(found.id)
+  if (variable == null) return null
+  const collection = await figma.variables.getVariableCollectionByIdAsync(variable.variableCollectionId)
+  if (collection == null) return null
+
+  const hasOtherModes = collection.modes.length > 1
+
+  const pickedMode =
+    found.appliedMode.status === "single"
+      ? { modeId: found.appliedMode.modeId, modeName: found.appliedMode.modeName }
+      : collection.modes.length > 0
+        ? { modeId: collection.modes[0].modeId, modeName: collection.modes[0].name }
+        : null
+
+  if (pickedMode == null) {
+    return {
+      variableId: variable.id,
+      variableName: variable.name,
+      collectionName: collection.name,
+      appliedMode: found.appliedMode,
+      chainToRender: null,
+      hasOtherModes,
+    }
+  }
+
+  const resolved = await resolveChainForMode(variable, pickedMode.modeId)
+  const note =
+    resolved.note ??
+    (found.appliedMode.status === "single" ? undefined : `Multiple/unknown modes; showing "${pickedMode.modeName}"`)
+
+  return {
+    variableId: variable.id,
+    variableName: variable.name,
+    collectionName: collection.name,
+    appliedMode: found.appliedMode,
+    chainToRender: {
+      modeId: pickedMode.modeId,
+      modeName: pickedMode.modeName,
+      chain: resolved.chain,
+      finalHex: resolved.finalHex,
+      finalOpacityPercent: resolved.finalOpacityPercent,
+      circular: resolved.circular,
+      note,
+    },
+    hasOtherModes,
+  }
+}
+
 async function getFoundVariablesFromNode(root: SceneNode): Promise<Array<FoundVariable>> {
-  const variableCache = new Map<string, Variable | null>()
-  const collectionCache = new Map<string, VariableCollection | null>()
-
-  async function getVariable(id: string): Promise<Variable | null> {
-    if (!variableCache.has(id)) {
-      variableCache.set(id, await figma.variables.getVariableByIdAsync(id))
-    }
-    return variableCache.get(id) ?? null
-  }
-
-  async function getCollection(id: string): Promise<VariableCollection | null> {
-    if (!collectionCache.has(id)) {
-      collectionCache.set(id, await figma.variables.getVariableCollectionByIdAsync(id))
-    }
-    return collectionCache.get(id) ?? null
-  }
-
-  const found = new Map<
-    string,
-    {
-      variable: Variable
-      collection: VariableCollection
-      appliedModeIds: Set<string>
-    }
-  >()
-
-  await collectVariablesFromNodeTree(root, async (variableId, nodeContext) => {
-    const variable = await getVariable(variableId)
-    if (variable == null) return
-    const collection = await getCollection(variable.variableCollectionId)
-    if (collection == null) return
-
-    const existing = found.get(variable.id)
-    const entry = existing ?? { variable, collection, appliedModeIds: new Set<string>() }
-    found.set(variable.id, entry)
-
-    const resolvedModes = nodeContext.resolvedVariableModes
-    const modeId = resolvedModes?.[collection.id]
-    if (typeof modeId === "string" && modeId.length > 0) {
-      entry.appliedModeIds.add(modeId)
-    }
-  })
-
-  const results: Array<FoundVariable> = []
-  for (const entry of Array.from(found.values())) {
-    const modeIds: string[] = Array.from(entry.appliedModeIds)
-    const modeNames: string[] = modeIds
-      .map((id) => entry.collection.modes.find((m: { modeId: string; name: string }) => m.modeId === id)?.name)
-      .filter((x): x is string => typeof x === "string")
-
-    const appliedMode =
-      modeIds.length === 1 && modeNames.length === 1
-        ? { status: "single" as const, modeId: modeIds[0], modeName: modeNames[0] }
-        : modeIds.length > 1
-          ? { status: "mixed" as const, modeIds, modeNames }
-          : { status: "unknown" as const }
-
-    results.push({
-      id: entry.variable.id,
-      name: entry.variable.name,
-      collectionId: entry.collection.id,
-      collectionName: entry.collection.name,
-      appliedMode,
-    })
-  }
-
-  results.sort((a, b) => a.name.localeCompare(b.name))
-  return results
+  return await getFoundVariablesFromRoots([root])
 }
 
 export async function inspectSelectionForVariableChainsByLayer(): Promise<Array<LayerInspectionResult>> {
@@ -365,6 +349,30 @@ export async function inspectSelectionForVariableChainsByLayer(): Promise<Array<
     const colors: Array<VariableChainResult> = []
     for (const f of found) {
       const built = await buildVariableChainResult(f)
+      if (built) colors.push(built)
+    }
+
+    results.push({
+      layerId: node.id,
+      layerName: node.name,
+      layerType: node.type,
+      colors,
+    })
+  }
+
+  return results
+}
+
+export async function inspectSelectionForVariableChainsByLayerV2(): Promise<Array<LayerInspectionResultV2>> {
+  const selected = figma.currentPage.selection
+  if (selected.length === 0) return []
+
+  const results: Array<LayerInspectionResultV2> = []
+  for (const node of selected) {
+    const found = await getFoundVariablesFromNode(node)
+    const colors: Array<VariableChainResultV2> = []
+    for (const f of found) {
+      const built = await buildVariableChainResultV2(f)
       if (built) colors.push(built)
     }
 
