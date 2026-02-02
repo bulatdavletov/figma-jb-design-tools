@@ -31,6 +31,9 @@ export function startPrintColorUsagesTool(command: string): void {
       }
 
       if (msg.type === UI_TO_MAIN.PRINT_COLOR_USAGES_LOAD_SETTINGS) {
+        // The UI mounts *after* the initial BOOTSTRAPPED/SELECTION messages.
+        // Re-post current selection so the view can render correct "Update…" label immediately.
+        postSelection()
         await postSettings()
         return
       }

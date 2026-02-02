@@ -1243,13 +1243,8 @@ async function updateSelectedTextNodesByVariableId(settings) {
   let unchanged = 0;
   const changedNodes = [];
   const total = textNodes.length;
-  const showProgress = (done) => {
-    figma.notify(`Updating\u2026 ${done}/${total}`, { timeout: 1e3 });
-  };
-  showProgress(0);
   for (let idx = 0; idx < textNodes.length; idx++) {
     const text = textNodes[idx];
-    if (idx > 0 && (idx % 10 === 0 || idx === total - 1)) showProgress(idx + 1);
     const currentLayerName = ((_a = text.name) != null ? _a : "").trim();
     if (!currentLayerName) {
       skipped++;
@@ -1402,6 +1397,7 @@ function startPrintColorUsagesTool(command) {
         return;
       }
       if (msg.type === UI_TO_MAIN.PRINT_COLOR_USAGES_LOAD_SETTINGS) {
+        postSelection();
         await postSettings();
         return;
       }

@@ -135,14 +135,9 @@ export async function updateSelectedTextNodesByVariableId(settings: PrintColorUs
   const changedNodes: TextNode[] = []
 
   const total = textNodes.length
-  const showProgress = (done: number) => {
-    figma.notify(`Updating… ${done}/${total}`, { timeout: 1000 })
-  }
-  showProgress(0)
 
   for (let idx = 0; idx < textNodes.length; idx++) {
     const text = textNodes[idx]
-    if (idx > 0 && (idx % 10 === 0 || idx === total - 1)) showProgress(idx + 1)
 
     const currentLayerName = (text.name ?? "").trim()
     if (!currentLayerName) {

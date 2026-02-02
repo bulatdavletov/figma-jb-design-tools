@@ -171,6 +171,20 @@
 - Figma incremental mode note: registering `documentchange` requires calling `figma.loadAllPagesAsync()` first. Updated `run.ts` to await it before attaching the handler (otherwise Figma throws at runtime). If load fails, we fall back to selectionchange-only updates.
 - Verification: `npm run build` passed.
 
+#### Print Color Usages — selection not detected on open (unify “Update Selection” behavior)
+- Issue: If you run the tool while something is already selected, the UI can still think selection is empty until you change selection (race: view mounts after the initial selection message).
+- Fix: When UI requests settings (`PRINT_COLOR_USAGES_LOAD_SETTINGS`), main thread now also re-posts the current selection size (`PRINT_COLOR_USAGES_SELECTION`) so the view shows the correct “Update Prints in Selection” label immediately.
+
+#### Print Color Usages — Figma toast updates feel “slow” / selection seems to change mid-update
+- Issue: During “Update”, we were spamming `figma.notify("Updating… x/y")` progress toasts. Figma queues toasts, so older progress toasts can continue showing *after* the update actually finished (making selection changes look “mid-process”).
+- Fix: Removed per-10-layer progress toasts; keep only the final summary toast.
+
+#### Refactoring ideas spec — split by tool + extend Print Color Usages view ideas
+- Request: Re-organize `Specs/Refactoring Ideas.md` so it’s grouped by **tools** (not mixed), and add more targeted refactoring ideas for `src/app/views/print-color-usages-tool/PrintColorUsagesToolView.tsx`.
+- Change: Restructured the spec into sections: **View Colors Chain**, **Print Color Usages**, and **Cross-tool / platform**; added concrete UI-side ideas for settings hydration + debounced persistence + small UX improvements.
+- Note: Figma doesn’t have a dedicated “progress notification” API. For real progress, show it in the plugin UI (via `figma.ui.postMessage` + a progress bar/text), and use `figma.notify` only for start/end/error.
+- Checked: Figma’s “Asynchronous Tasks” guide mentions progress indicators as a *general UI concept* during waiting, but it doesn’t define a plugin API for “progress notifications”. Reference: `https://developers.figma.com/docs/plugins/async-tasks/#synchronous-requests`.
+
 #### Color Chain tool — swatch matches `TextboxColor`
 - Goal: Make `src/app/components/ColorSwatch.tsx` look and behave **exactly** like the `@create-figma-plugin/ui` `TextboxColor` “chit” swatch.
 - Change: Updated `ColorSwatch` defaults and styling to match `TextboxColor` `.chit` precisely:
