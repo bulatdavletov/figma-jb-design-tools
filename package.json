@@ -57,7 +57,7 @@
         "ui": "src/app/ui.tsx"
       },
       {
-        "name": "Mockup markup quick apply",
+        "name": "Mockup Markup Quick Apply",
         "main": "src/mockup-markup-tool/main.ts",
         "ui": "src/app/ui.tsx"
       }

@@ -5,7 +5,6 @@ import {
   Divider,
   IconHome16,
   IconButton,
-  RadioButtons,
   Text,
   VerticalSpace,
 } from "@create-figma-plugin/ui"
@@ -27,6 +26,136 @@ import { Page } from "../../components/Page"
 import { ColorSwatch } from "../../components/ColorSwatch"
 import { ToolHeader } from "../../components/ToolHeader"
 import { getColorPresetLabel, getTypographyPresetLabel } from "../../tools/mockup-markup/presets"
+
+function TextStylePresetGrid(props: {
+  value: MockupMarkupTypographyPreset
+  onChange: (value: MockupMarkupTypographyPreset) => void
+}) {
+  const Option = (p: {
+    value: MockupMarkupTypographyPreset
+    label: string
+  }) => {
+    const selected = props.value === p.value
+    return (
+      <button
+        type="button"
+        onClick={() => props.onChange(p.value)}
+        style={{
+          width: "100%",
+          padding: "8px 8px",
+          borderRadius: 8,
+          border: selected ? "1px solid var(--figma-color-border-selected)" : "1px solid var(--figma-color-border)",
+          background: selected ? "var(--figma-color-bg-selected)" : "var(--figma-color-bg)",
+          cursor: "pointer",
+          textAlign: "left",
+        }}
+      >
+        <Text>{p.label}</Text>
+      </button>
+    )
+  }
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+      {/* Row 1 */}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 8 }}>
+        <Option value="paragraph" label="Paragraph" />
+        <Option value="description" label="Description" />
+      </div>
+      {/* Row 2 */}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 8 }}>
+        <Option value="h1" label="H1" />
+        <Option value="h2" label="H2" />
+        <Option value="h3" label="H3" />
+      </div>
+    </div>
+  )
+}
+
+function ColorPresetGrid(props: {
+  value: MockupMarkupColorPreset
+  previews: MockupMarkupColorPreviews
+  onChange: (value: MockupMarkupColorPreset) => void
+}) {
+  const Option = (p: {
+    value: MockupMarkupColorPreset
+    label: string
+    swatch: { hex: string | null; opacityPercent: number | null }
+  }) => {
+    const selected = props.value === p.value
+    return (
+      <button
+        type="button"
+        onClick={() => props.onChange(p.value)}
+        style={{
+          width: "100%",
+          padding: "8px 8px",
+          borderRadius: 8,
+          border: selected ? "1px solid var(--figma-color-border-selected)" : "1px solid var(--figma-color-border)",
+          background: selected ? "var(--figma-color-bg-selected)" : "var(--figma-color-bg)",
+          cursor: "pointer",
+          textAlign: "left",
+          display: "flex",
+          alignItems: "center",
+          gap: 8,
+        }}
+      >
+        <ColorSwatch hex={p.swatch.hex} opacityPercent={p.swatch.opacityPercent} />
+        <Text>{p.label}</Text>
+      </button>
+    )
+  }
+
+  return (
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 8 }}>
+      <Option value="text" label={getColorPresetLabel("text")} swatch={props.previews.text} />
+      <Option value="text-secondary" label={getColorPresetLabel("text-secondary")} swatch={props.previews.textSecondary} />
+      <Option value="purple" label={getColorPresetLabel("purple")} swatch={props.previews.purple} />
+    </div>
+  )
+}
+
+function ModeSegmented(props: { value: "dark" | "light"; onChange: (value: "dark" | "light") => void }) {
+  const Item = (p: { value: "dark" | "light"; label: string }) => {
+    const selected = props.value === p.value
+    return (
+      <button
+        type="button"
+        onClick={() => props.onChange(p.value)}
+        style={{
+          flex: 1,
+          height: 24,
+          borderRadius: 6,
+          border: selected ? "1px solid var(--figma-color-border)" : "1px solid transparent",
+          background: selected ? "var(--figma-color-bg)" : "transparent",
+          color: selected ? "var(--figma-color-text)" : "var(--figma-color-text-secondary)",
+          cursor: "pointer",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "0 8px",
+        }}
+      >
+        <Text>{p.label}</Text>
+      </button>
+    )
+  }
+
+  return (
+    <div
+      style={{
+        display: "flex",
+        padding: 2,
+        gap: 2,
+        borderRadius: 8,
+        background: "var(--figma-color-bg-secondary)",
+      }}
+    >
+      <Item value="dark" label="Dark" />
+      <Item value="light" label="Light" />
+    </div>
+  )
+}
 
 const DEFAULT_REQUEST: MockupMarkupApplyRequest = {
   presetColor: "text",
@@ -81,11 +210,6 @@ export function MockupMarkupToolView(props: { onBack: () => void }) {
 
   const isWorking = status.status === "working"
 
-  const hint = useMemo(() => {
-    if (state.textNodeCount === 0) return "No text layers found in selection."
-    return null
-  }, [state.selectionSize, state.textNodeCount])
-
   const primaryAction = useMemo((): {
     label: string
     disabled: boolean
@@ -102,7 +226,7 @@ export function MockupMarkupToolView(props: { onBack: () => void }) {
   return (
     <Page>
       <ToolHeader
-        title="Mockup markup quick apply"
+        title="Mockup Markup Quick Apply"
         left={
           <IconButton onClick={props.onBack} title="Home">
             <IconHome16 />
@@ -113,107 +237,43 @@ export function MockupMarkupToolView(props: { onBack: () => void }) {
       <div style={{ flex: 1, minHeight: 0, display: "flex", flexDirection: "column" }}>
         <div style={{ flex: 1, minHeight: 0, overflowY: "auto", overflowX: "hidden" }}>
           <Container space="small">
-            <VerticalSpace space="small" />
+            <div style={{ display: "flex", flexDirection: "column", minHeight: "100%" }}>
+              <VerticalSpace space="medium" />
 
-            <Text style={{ color: "var(--figma-color-text-secondary)" }}>
-              {state.selectionSize > 0
-                ? `Selection: ${state.selectionSize} layer(s), ${state.textNodeCount} text layer(s)`
-                : "Selection: none"}
-            </Text>
-            <VerticalSpace space="extraSmall" />
-            <Text style={{ color: "var(--figma-color-text-secondary)" }}>
-              {state.textNodeCount > 0 ? `Preview: will apply to ${state.textNodeCount} text layer(s)` : "Preview: will create 1 text layer"}
-            </Text>
+              <Text>Color</Text>
+              <VerticalSpace space="extraSmall" />
+              <ColorPresetGrid
+                value={request.presetColor}
+                previews={colorPreviews}
+                onChange={(value) => setRequest((r) => ({ ...r, presetColor: value }))}
+              />
 
-            <VerticalSpace space="large" />
-            <Text>Text style</Text>
-            <VerticalSpace space="extraSmall" />
-            <RadioButtons
-              value={request.presetTypography}
-              onValueChange={(value) =>
-                setRequest((r) => ({
-                  ...r,
-                  presetTypography:
-                    value === "paragraph" || value === "description" || value === "h1" || value === "h2" || value === "h3"
-                      ? (value as MockupMarkupTypographyPreset)
-                      : "paragraph",
-                }))
-              }
-              options={(["paragraph", "description", "h1", "h2", "h3"] as const).map((p) => ({
-                value: p,
-                children: <Text>{getTypographyPresetLabel(p)}</Text>,
-              }))}
-            />
+              <VerticalSpace space="large" />
+              <Text>Text style</Text>
+              <VerticalSpace space="extraSmall" />
+              <TextStylePresetGrid
+                value={request.presetTypography}
+                onChange={(value) => setRequest((r) => ({ ...r, presetTypography: value }))}
+              />
 
-            <VerticalSpace space="large" />
-            <Text>Color</Text>
-            <VerticalSpace space="extraSmall" />
-            <RadioButtons
-              value={request.presetColor}
-              onValueChange={(value) =>
-                setRequest((r) => ({
-                  ...r,
-                  presetColor: value === "text-secondary" || value === "purple" ? (value as MockupMarkupColorPreset) : "text",
-                }))
-              }
-              options={[
-                {
-                  value: "text",
-                  children: (
-                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                      <ColorSwatch hex={colorPreviews.text.hex} opacityPercent={colorPreviews.text.opacityPercent} />
-                      <Text>{getColorPresetLabel("text")}</Text>
-                    </div>
-                  ),
-                },
-                {
-                  value: "text-secondary",
-                  children: (
-                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                      <ColorSwatch
-                        hex={colorPreviews.textSecondary.hex}
-                        opacityPercent={colorPreviews.textSecondary.opacityPercent}
-                      />
-                      <Text>{getColorPresetLabel("text-secondary")}</Text>
-                    </div>
-                  ),
-                },
-                {
-                  value: "purple",
-                  children: (
-                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                      <ColorSwatch hex={colorPreviews.purple.hex} opacityPercent={colorPreviews.purple.opacityPercent} />
-                      <Text>{getColorPresetLabel("purple")}</Text>
-                    </div>
-                  ),
-                },
-              ]}
-            />
+              <VerticalSpace space="large" />
+              <Checkbox
+                value={request.width400}
+                onValueChange={(value) => setRequest((r) => ({ ...r, width400: value }))}
+              >
+                <Text>Width 400px</Text>
+              </Checkbox>
 
-            <VerticalSpace space="large" />
-            <Checkbox
-              value={request.forceModeName === "dark"}
-              onValueChange={(value) => setRequest((r) => ({ ...r, forceModeName: value ? "dark" : "none" }))}
-            >
-              <Text>Dark mode</Text>
-            </Checkbox>
+              <div style={{ flex: 1 }} />
 
-            <VerticalSpace space="extraSmall" />
-            <Checkbox
-              value={request.width400}
-              onValueChange={(value) => setRequest((r) => ({ ...r, width400: value }))}
-            >
-              <Text>Width 400</Text>
-            </Checkbox>
+              <VerticalSpace space="large" />
+              <ModeSegmented
+                value={request.forceModeName}
+                onChange={(value) => setRequest((r) => ({ ...r, forceModeName: value }))}
+              />
 
-            {hint ? (
-              <>
-                <VerticalSpace space="large" />
-                <Text style={{ color: "var(--figma-color-text-secondary)" }}>{hint}</Text>
-              </>
-            ) : null}
-
-            <VerticalSpace space="large" />
+              <VerticalSpace space="medium" />
+            </div>
           </Container>
         </div>
 

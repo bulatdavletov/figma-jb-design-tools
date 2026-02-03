@@ -35,9 +35,9 @@ export function getTypographyPresetLabel(preset: MockupMarkupTypographyPreset): 
 export function getColorPresetLabel(preset: MockupMarkupColorPreset): string {
   switch (preset) {
     case "text":
-      return "Text"
+      return "Default"
     case "text-secondary":
-      return "Text secondary"
+      return "Secondary"
     case "purple":
       return "Purple"
   }

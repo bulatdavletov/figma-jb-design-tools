@@ -10,30 +10,39 @@ import {
 export async function createMockupMarkupText(request: MockupMarkupApplyRequest): Promise<TextNode> {
   const text = figma.createText()
 
+  // Ensure the node has a loaded font so setting characters won't fail even if
+  // applying the desired text style fails (e.g. style not available/importable).
+  try {
+    const fontName = text.fontName as FontName
+    if (fontName) await figma.loadFontAsync(fontName)
+  } catch {
+    // ignore
+  }
+
   // Place at viewport center.
   const center = figma.viewport.center
   text.x = center.x
   text.y = center.y
 
   const styleId = await resolveTextStyleIdForPreset(request.presetTypography)
-  await loadFontForTextStyleId(styleId)
-  try {
-    await text.setTextStyleIdAsync(styleId)
-  } catch {
-    // ignore; may still allow characters set
+  if (styleId) {
+    await loadFontForTextStyleId(styleId)
+    try {
+      await text.setTextStyleIdAsync(styleId)
+    } catch {
+      // ignore; may still allow characters set
+    }
   }
 
   // Must load a font before setting characters; style font load above should cover it.
   try {
-    text.characters = "Text"
-    const len = (text.characters ?? "").length
-    if (len > 0) {
-      try {
-        await text.setRangeTextStyleIdAsync(0, len, styleId)
-      } catch {
-        // ignore
-      }
+    try {
+      const fontName = text.fontName as FontName
+      if (fontName) await figma.loadFontAsync(fontName)
+    } catch {
+      // ignore
     }
+    text.characters = "Text"
   } catch {
     // ignore
   }
@@ -41,8 +50,8 @@ export async function createMockupMarkupText(request: MockupMarkupApplyRequest):
   if (request.width400) {
     try {
       // Fixed width with auto height.
-      ;(text as any).textAutoResize = "HEIGHT"
-      text.resize(400, text.height)
+      text.textAutoResize = "HEIGHT"
+      text.resize(400, Math.max(1, text.height))
     } catch {
       // ignore
     }
@@ -50,9 +59,7 @@ export async function createMockupMarkupText(request: MockupMarkupApplyRequest):
 
   const variableId = await resolveColorVariableForPreset(request.presetColor)
   if (variableId) {
-    if (request.forceModeName === "dark") {
-      await setExplicitModeForColorVariableCollection(variableId, "dark")
-    }
+    await setExplicitModeForColorVariableCollection(variableId, request.forceModeName)
     text.fills = [makeSolidPaintBoundToColorVariable(variableId)]
   } else {
     // eslint-disable-next-line no-console
@@ -61,6 +68,12 @@ export async function createMockupMarkupText(request: MockupMarkupApplyRequest):
 
   figma.currentPage.selection = [text]
   figma.viewport.scrollAndZoomIntoView([text])
+
+  if (!styleId) {
+    figma.notify(
+      "Typography couldn’t be applied. Import Mockup markup text styles into this file (Assets → Libraries → Mockup markup)."
+    )
+  }
   return text
 }
 

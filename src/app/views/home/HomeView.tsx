@@ -1,4 +1,4 @@
-import { Container, IconLink16, IconText16, Text, VerticalSpace } from "@create-figma-plugin/ui"
+import { Container, IconLink16, IconShapeText16, IconText16, Text, VerticalSpace } from "@create-figma-plugin/ui"
 import { h } from "preact"
 
 import { Page } from "../../components/Page"
@@ -28,9 +28,9 @@ export function HomeView(props: { goTo: (route: Route) => void }) {
         />
         <VerticalSpace space="small" />
         <ToolCard
-          title="Mockup markup quick apply"
-          description="Apply Mockup markup typography and text colors to selection."
-          icon={<IconText16 />}
+          title="Mockup Markup Quick Apply"
+          description="Apply text styles and colors"
+          icon={<IconShapeText16 />}
           onClick={() => props.goTo("mockup-markup-tool")}
         />
       </Container>

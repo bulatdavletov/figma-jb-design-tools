@@ -1,4 +1,4 @@
-## Variables Rename Helper Utility
+## Variables Rename Helper Tool
 
 ### Original plugin
 `../variables-rename-helper`

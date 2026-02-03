@@ -14,7 +14,7 @@ function rgbToHex(rgb: { r: number; g: number; b: number }): string {
   return `#${toHexByte(rgb.r)}${toHexByte(rgb.g)}${toHexByte(rgb.b)}`
 }
 
-async function resolveModeIdForVariable(variableId: string, forceModeName: "none" | "dark"): Promise<string | null> {
+async function resolveModeIdForVariable(variableId: string, forceModeName: "dark" | "light"): Promise<string | null> {
   try {
     const variable = await figma.variables.getVariableByIdAsync(variableId)
     const collectionId = (variable as any)?.variableCollectionId as string | undefined
@@ -23,10 +23,8 @@ async function resolveModeIdForVariable(variableId: string, forceModeName: "none
     const collection = await figma.variables.getVariableCollectionByIdAsync(collectionId)
     if (!collection) return null
 
-    if (forceModeName === "dark") {
-      const match = (collection.modes ?? []).find((m) => (m.name ?? "").trim().toLowerCase() === "dark")
-      if (match?.modeId) return match.modeId
-    }
+    const match = (collection.modes ?? []).find((m) => (m.name ?? "").trim().toLowerCase() === forceModeName)
+    if (match?.modeId) return match.modeId
 
     // If the page has an explicit mode, use it; otherwise default.
     const explicit = (figma.currentPage as any).explicitVariableModes?.[collectionId]
@@ -43,7 +41,7 @@ async function resolveModeIdForVariable(variableId: string, forceModeName: "none
 
 async function resolveColorPreviewFromVariableId(
   variableId: string,
-  forceModeName: "none" | "dark"
+  forceModeName: "dark" | "light"
 ): Promise<MockupMarkupColorPreview> {
   const seen = new Set<string>()
   let currentId: string | null = variableId
@@ -80,7 +78,7 @@ async function resolveColorPreviewFromVariableId(
   return { hex: null, opacityPercent: null }
 }
 
-export async function getMockupMarkupColorPreviews(forceModeName: "none" | "dark"): Promise<MockupMarkupColorPreviews> {
+export async function getMockupMarkupColorPreviews(forceModeName: "dark" | "light"): Promise<MockupMarkupColorPreviews> {
   const textId = await resolveColorVariableForPreset("text")
   const textSecondaryId = await resolveColorVariableForPreset("text-secondary")
   const purpleId = await resolveColorVariableForPreset("purple")

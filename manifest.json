@@ -21,7 +21,7 @@
       "command": "src/print-color-usages-tool/main.ts--default"
     },
     {
-      "name": "Mockup markup quick apply",
+      "name": "Mockup Markup Quick Apply",
       "command": "src/mockup-markup-tool/main.ts--default"
     }
   ],

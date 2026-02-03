@@ -470,6 +470,23 @@ function libraryNameMatches(candidate, wanted) {
   if (!c || !w) return false;
   return c === w;
 }
+function extractStyleKeyFromStyleId(styleId) {
+  var _a;
+  const m = /^S:([^,]+)/.exec((styleId != null ? styleId : "").trim());
+  return (_a = m == null ? void 0 : m[1]) != null ? _a : null;
+}
+async function resolveLocalTextStyleIdByKey(key) {
+  var _a;
+  const k = (key != null ? key : "").trim();
+  if (!k) return null;
+  try {
+    const styles = await figma.getLocalTextStylesAsync();
+    const match = styles.find((s) => s.key === k);
+    return (_a = match == null ? void 0 : match.id) != null ? _a : null;
+  } catch (e) {
+    return null;
+  }
+}
 async function resolveLocalTextStyleIdByNameRegex(regex) {
   var _a;
   try {
@@ -483,27 +500,44 @@ async function resolveLocalTextStyleIdByNameRegex(regex) {
     return null;
   }
 }
+async function resolveAccessibleTextStyleIdById(styleId) {
+  try {
+    const style = await figma.getStyleByIdAsync(styleId);
+    if (style && style.type === "TEXT") return styleId;
+  } catch (e) {
+  }
+  return null;
+}
 async function resolveTextStyleIdForPreset(preset) {
   var _a, _b;
   const preferred = TEXT_STYLE_ID_BY_PRESET[preset];
-  try {
-    const style = await figma.getStyleByIdAsync(preferred);
-    const name = style == null ? void 0 : style.name;
-    const type = style == null ? void 0 : style.type;
-    if (style && type === "TEXT") {
+  const accessibleById = await resolveAccessibleTextStyleIdById(preferred);
+  if (accessibleById) {
+    try {
+      const style = await figma.getStyleByIdAsync(preferred);
+      const name = style == null ? void 0 : style.name;
+      const remote = Boolean(style == null ? void 0 : style.remote);
       const n = (name != null ? name : "").toLowerCase();
+      if (remote) {
+        throw new Error("remote-style");
+      }
       if (preset === "description" && n.includes("h3")) {
         return (_a = await resolveLocalTextStyleIdByNameRegex(/description/i)) != null ? _a : preferred;
       }
       if (preset === "h3" && n.includes("description")) {
         return (_b = await resolveLocalTextStyleIdByNameRegex(/\bh3\b/i)) != null ? _b : preferred;
       }
-      return preferred;
+    } catch (e) {
     }
-  } catch (e) {
+    return preferred;
+  }
+  const key = extractStyleKeyFromStyleId(preferred);
+  if (key) {
+    const byKey = await resolveLocalTextStyleIdByKey(key);
+    if (byKey) return byKey;
   }
   const byName = preset === "h1" ? await resolveLocalTextStyleIdByNameRegex(/\bh1\b/i) : preset === "h2" ? await resolveLocalTextStyleIdByNameRegex(/\bh2\b/i) : preset === "h3" ? await resolveLocalTextStyleIdByNameRegex(/\bh3\b/i) : preset === "description" ? await resolveLocalTextStyleIdByNameRegex(/description/i) : await resolveLocalTextStyleIdByNameRegex(/paragraph|body/i);
-  return byName != null ? byName : preferred;
+  return byName != null ? byName : null;
 }
 async function loadFontForTextStyleId(textStyleId) {
   try {
@@ -595,22 +629,29 @@ async function resolveColorVariableForPreset(preset) {
   return id;
 }
 async function setExplicitModeForColorVariableCollection(variableId, modeName) {
-  var _a, _b;
+  var _a;
   try {
     const variable = await figma.variables.getVariableByIdAsync(variableId);
     const collectionId = variable == null ? void 0 : variable.variableCollectionId;
     if (!collectionId) return;
     const collection = await figma.variables.getVariableCollectionByIdAsync(collectionId);
     if (!collection) return;
-    const wanted = modeName === "dark" ? "dark" : modeName;
     const modes = Array.isArray(collection.modes) ? collection.modes : [];
     const match = modes.find((m) => {
       var _a2;
-      return ((_a2 = m.name) != null ? _a2 : "").trim().toLowerCase() === wanted;
+      return ((_a2 = m.name) != null ? _a2 : "").trim().toLowerCase() === modeName;
     });
-    const modeId = (_b = (_a = match == null ? void 0 : match.modeId) != null ? _a : collection.defaultModeId) != null ? _b : null;
-    if (!modeId) return;
-    figma.currentPage.setExplicitVariableModeForCollection(collection, modeId);
+    const modeId = (_a = match == null ? void 0 : match.modeId) != null ? _a : null;
+    if (modeId) {
+      figma.currentPage.setExplicitVariableModeForCollection(collection, modeId);
+      return;
+    }
+    if (modeName === "light") {
+      try {
+        figma.currentPage.clearExplicitVariableModeForCollection(collection);
+      } catch (e) {
+      }
+    }
   } catch (e) {
     console.log("[Mockup Markup] Failed to set explicit variable mode", { variableId, modeName });
   }
@@ -647,7 +688,6 @@ function collectTextNodesRecursivelyFromSelection(selection) {
   return result;
 }
 async function applyMockupMarkupToSelection(request) {
-  var _a;
   const selection = figma.currentPage.selection;
   if (selection.length === 0) {
     figma.notify("Select a text layer (or a frame with text) first");
@@ -659,11 +699,11 @@ async function applyMockupMarkupToSelection(request) {
     return { applied: 0, skipped: 0 };
   }
   const styleId = await resolveTextStyleIdForPreset(request.presetTypography);
-  await loadFontForTextStyleId(styleId);
+  if (styleId) await loadFontForTextStyleId(styleId);
   const colorVariableId = await resolveColorVariableForPreset(request.presetColor);
   const fills = colorVariableId ? [makeSolidPaintBoundToColorVariable(colorVariableId)] : null;
-  if (request.forceModeName === "dark" && colorVariableId) {
-    await setExplicitModeForColorVariableCollection(colorVariableId, "dark");
+  if (colorVariableId) {
+    await setExplicitModeForColorVariableCollection(colorVariableId, request.forceModeName);
   }
   if (!fills) {
     console.log("[Mockup Markup] Apply: color preset not applied", { presetColor: request.presetColor });
@@ -671,24 +711,43 @@ async function applyMockupMarkupToSelection(request) {
   let applied = 0;
   let skipped = 0;
   const changed = [];
+  let firstError = null;
+  let typographyMissing = styleId === null;
   for (let idx = 0; idx < textNodes.length; idx++) {
     const text = textNodes[idx];
+    let didChange = false;
+    if (styleId) {
+      try {
+        await text.setTextStyleIdAsync(styleId);
+        didChange = true;
+      } catch (e) {
+        if (!firstError) firstError = e instanceof Error ? e.message : String(e);
+      }
+    }
     try {
-      await text.setTextStyleIdAsync(styleId);
-      const len = ((_a = text.characters) != null ? _a : "").length;
-      if (len > 0) await text.setRangeTextStyleIdAsync(0, len, styleId);
       if (request.width400) {
         try {
-          ;
           text.textAutoResize = "HEIGHT";
-          text.resize(400, text.height);
+          text.resize(400, Math.max(1, text.height));
+          didChange = true;
         } catch (e) {
         }
       }
-      if (fills) text.fills = fills;
+      if (fills) {
+        try {
+          text.fills = fills;
+          didChange = true;
+        } catch (e) {
+          if (!firstError) firstError = e instanceof Error ? e.message : String(e);
+        }
+      }
+    } catch (e) {
+      if (!firstError) firstError = e instanceof Error ? e.message : String(e);
+    }
+    if (didChange) {
       applied++;
       changed.push(text);
-    } catch (e) {
+    } else {
       skipped++;
     }
   }
@@ -700,8 +759,13 @@ async function applyMockupMarkupToSelection(request) {
     }
   }
   figma.notify(
-    applied > 0 ? `Applied markup to ${applied} text layer(s)${skipped ? `, skipped ${skipped}` : ""}` : skipped ? `Nothing applied (skipped ${skipped})` : "Nothing applied"
+    applied > 0 ? `Applied markup to ${applied} text layer(s)${typographyMissing ? " (typography unavailable)" : ""}${skipped ? `, skipped ${skipped}` : ""}` : skipped ? `Nothing applied (skipped ${skipped})${firstError ? `. ${firstError}` : ""}` : "Nothing applied"
   );
+  if (typographyMissing) {
+    figma.notify(
+      "Typography presets require importing Mockup markup text styles into this file (Assets \u2192 Libraries \u2192 Mockup markup)."
+    );
+  }
   return { applied, skipped };
 }
 var init_apply = __esm({
@@ -730,13 +794,11 @@ async function resolveModeIdForVariable(variableId, forceModeName) {
     if (!collectionId) return null;
     const collection = await figma.variables.getVariableCollectionByIdAsync(collectionId);
     if (!collection) return null;
-    if (forceModeName === "dark") {
-      const match = ((_a = collection.modes) != null ? _a : []).find((m) => {
-        var _a2;
-        return ((_a2 = m.name) != null ? _a2 : "").trim().toLowerCase() === "dark";
-      });
-      if (match == null ? void 0 : match.modeId) return match.modeId;
-    }
+    const match = ((_a = collection.modes) != null ? _a : []).find((m) => {
+      var _a2;
+      return ((_a2 = m.name) != null ? _a2 : "").trim().toLowerCase() === forceModeName;
+    });
+    if (match == null ? void 0 : match.modeId) return match.modeId;
     const explicit = (_b = figma.currentPage.explicitVariableModes) == null ? void 0 : _b[collectionId];
     if (typeof explicit === "string" && explicit) return explicit;
     const defaultModeId = collection.defaultModeId;
@@ -797,47 +859,53 @@ var init_color_previews = __esm({
 
 // src/app/tools/mockup-markup/create.ts
 async function createMockupMarkupText(request) {
-  var _a;
   const text = figma.createText();
+  try {
+    const fontName = text.fontName;
+    if (fontName) await figma.loadFontAsync(fontName);
+  } catch (e) {
+  }
   const center = figma.viewport.center;
   text.x = center.x;
   text.y = center.y;
   const styleId = await resolveTextStyleIdForPreset(request.presetTypography);
-  await loadFontForTextStyleId(styleId);
-  try {
-    await text.setTextStyleIdAsync(styleId);
-  } catch (e) {
+  if (styleId) {
+    await loadFontForTextStyleId(styleId);
+    try {
+      await text.setTextStyleIdAsync(styleId);
+    } catch (e) {
+    }
   }
   try {
-    text.characters = "Text";
-    const len = ((_a = text.characters) != null ? _a : "").length;
-    if (len > 0) {
-      try {
-        await text.setRangeTextStyleIdAsync(0, len, styleId);
-      } catch (e) {
-      }
+    try {
+      const fontName = text.fontName;
+      if (fontName) await figma.loadFontAsync(fontName);
+    } catch (e) {
     }
+    text.characters = "Text";
   } catch (e) {
   }
   if (request.width400) {
     try {
-      ;
       text.textAutoResize = "HEIGHT";
-      text.resize(400, text.height);
+      text.resize(400, Math.max(1, text.height));
     } catch (e) {
     }
   }
   const variableId = await resolveColorVariableForPreset(request.presetColor);
   if (variableId) {
-    if (request.forceModeName === "dark") {
-      await setExplicitModeForColorVariableCollection(variableId, "dark");
-    }
+    await setExplicitModeForColorVariableCollection(variableId, request.forceModeName);
     text.fills = [makeSolidPaintBoundToColorVariable(variableId)];
   } else {
     console.log("[Mockup Markup] Create text: color preset not applied", { presetColor: request.presetColor });
   }
   figma.currentPage.selection = [text];
   figma.viewport.scrollAndZoomIntoView([text]);
+  if (!styleId) {
+    figma.notify(
+      "Typography couldn\u2019t be applied. Import Mockup markup text styles into this file (Assets \u2192 Libraries \u2192 Mockup markup)."
+    );
+  }
   return text;
 }
 var init_create = __esm({
@@ -2015,7 +2083,7 @@ function run(command) {
     {
       width: 360,
       height: 500,
-      title: command === "color-chain-tool" ? "View Colors Chain" : command === "print-color-usages-tool" ? "Print Color Usages" : command === "mockup-markup-tool" ? "Mockup markup quick apply" : "JetBrains Design Tools"
+      title: command === "color-chain-tool" ? "View Colors Chain" : command === "print-color-usages-tool" ? "Print Color Usages" : command === "mockup-markup-tool" ? "Mockup Markup Quick Apply" : "JetBrains Design Tools"
     },
     { command }
   );
@@ -2027,7 +2095,7 @@ function run(command) {
   const activate = async (tool) => {
     activeTool = tool;
     if (tool === "color-chain-tool") {
-      colorChain.onActivate();
+      await colorChain.onActivate();
       return;
     }
     if (tool === "print-color-usages-tool") {
@@ -2035,27 +2103,35 @@ function run(command) {
       return;
     }
     if (tool === "mockup-markup-tool") {
-      mockupMarkup.onActivate();
+      await mockupMarkup.onActivate();
       return;
     }
   };
   figma.ui.onmessage = async (msg) => {
-    if (msg.type === UI_TO_MAIN.BOOT) {
-      figma.ui.postMessage({
-        type: MAIN_TO_UI.BOOTSTRAPPED,
-        command,
-        selectionSize: figma.currentPage.selection.length
-      });
-      await activate(activeTool);
-      return;
+    try {
+      if (msg.type === UI_TO_MAIN.BOOT) {
+        figma.ui.postMessage({
+          type: MAIN_TO_UI.BOOTSTRAPPED,
+          command,
+          selectionSize: figma.currentPage.selection.length
+        });
+        await activate(activeTool);
+        return;
+      }
+      if (msg.type === UI_TO_MAIN.SET_ACTIVE_TOOL) {
+        await activate(msg.tool);
+        return;
+      }
+      if (await mockupMarkup.onMessage(msg)) return;
+      if (await printColorUsages.onMessage(msg)) return;
+      if (await colorChain.onMessage(msg)) return;
+    } catch (e) {
+      console.log("[run] Unhandled error in onmessage", e);
+      try {
+        figma.notify(e instanceof Error ? e.message : String(e));
+      } catch (e2) {
+      }
     }
-    if (msg.type === UI_TO_MAIN.SET_ACTIVE_TOOL) {
-      await activate(msg.tool);
-      return;
-    }
-    if (await mockupMarkup.onMessage(msg)) return;
-    if (await printColorUsages.onMessage(msg)) return;
-    if (await colorChain.onMessage(msg)) return;
   };
 }
 var init_run = __esm({

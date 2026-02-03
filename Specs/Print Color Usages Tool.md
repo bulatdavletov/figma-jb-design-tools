@@ -1,4 +1,4 @@
-## Print Color Usages Utility
+## Print Color Usages Tool
 
 ### Original plugin
 `../Print Color Usages`

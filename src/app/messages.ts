@@ -57,7 +57,7 @@ export type PrintColorUsagesStatus =
 export type MockupMarkupApplyRequest = {
   presetColor: MockupMarkupColorPreset
   presetTypography: MockupMarkupTypographyPreset
-  forceModeName: "none" | "dark"
+  forceModeName: "dark" | "light"
   width400: boolean
 }
 

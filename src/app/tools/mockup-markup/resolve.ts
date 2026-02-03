@@ -25,6 +25,24 @@ function libraryNameMatches(candidate: string, wanted: string): boolean {
   return c === w
 }
 
+function extractStyleKeyFromStyleId(styleId: string): string | null {
+  // Style ids look like: "S:<key>,<nodeId>"
+  const m = /^S:([^,]+)/.exec((styleId ?? "").trim())
+  return m?.[1] ?? null
+}
+
+async function resolveLocalTextStyleIdByKey(key: string): Promise<string | null> {
+  const k = (key ?? "").trim()
+  if (!k) return null
+  try {
+    const styles = await figma.getLocalTextStylesAsync()
+    const match = styles.find((s) => ((s as any).key as string | undefined) === k)
+    return match?.id ?? null
+  } catch {
+    return null
+  }
+}
+
 async function resolveLocalTextStyleIdByNameRegex(regex: RegExp): Promise<string | null> {
   try {
     const styles = await figma.getLocalTextStylesAsync()
@@ -35,29 +53,55 @@ async function resolveLocalTextStyleIdByNameRegex(regex: RegExp): Promise<string
   }
 }
 
-export async function resolveTextStyleIdForPreset(preset: MockupMarkupTypographyPreset): Promise<string> {
+async function resolveAccessibleTextStyleIdById(styleId: string): Promise<string | null> {
+  try {
+    const style = await figma.getStyleByIdAsync(styleId)
+    if (style && (style as any).type === "TEXT") return styleId
+  } catch {
+    // ignore
+  }
+  return null
+}
+
+export async function resolveTextStyleIdForPreset(preset: MockupMarkupTypographyPreset): Promise<string | null> {
   const preferred = TEXT_STYLE_ID_BY_PRESET[preset]
 
-  // If the preferred id exists, use it unless it looks like the "wrong" style name.
-  try {
-    const style = await figma.getStyleByIdAsync(preferred)
-    const name = (style as any)?.name as string | undefined
-    const type = (style as any)?.type as string | undefined
-    if (style && type === "TEXT") {
-      const n = (name ?? "").toLowerCase()
+  // IMPORTANT: We intentionally do NOT call `figma.importStyleByKeyAsync` here.
+  // In some environments this throws "Unable to create style" and can surface as an
+  // unhandled promise rejection in Figma's host. We only apply typography using
+  // styles that are already present in the file (local/imported).
 
-      // The spec historically had Description/H3 pointing to the same id.
-      // If so, prefer a local style whose name matches the preset.
+  // 1) If the style id is accessible AND already present, we can use it safely.
+  const accessibleById = await resolveAccessibleTextStyleIdById(preferred)
+  if (accessibleById) {
+    // If the spec historically had Description/H3 swapped, prefer local-by-name when present.
+    try {
+      const style = await figma.getStyleByIdAsync(preferred)
+      const name = (style as any)?.name as string | undefined
+      const remote = Boolean((style as any)?.remote)
+      const n = (name ?? "").toLowerCase()
+      if (remote) {
+        // Remote styles can't reliably be applied via id unless imported into the file.
+        // Fall through to local resolution by key/name.
+        throw new Error("remote-style")
+      }
       if (preset === "description" && n.includes("h3")) {
         return (await resolveLocalTextStyleIdByNameRegex(/description/i)) ?? preferred
       }
       if (preset === "h3" && n.includes("description")) {
         return (await resolveLocalTextStyleIdByNameRegex(/\bh3\b/i)) ?? preferred
       }
-      return preferred
+    } catch {
+      // ignore
     }
-  } catch {
-    // ignore
+    return preferred
+  }
+
+  // 2) Prefer resolving to a *local imported* style by key, when possible.
+  const key = extractStyleKeyFromStyleId(preferred)
+  if (key) {
+    const byKey = await resolveLocalTextStyleIdByKey(key)
+    if (byKey) return byKey
   }
 
   // As a fallback, try resolving by local style name.
@@ -72,7 +116,7 @@ export async function resolveTextStyleIdForPreset(preset: MockupMarkupTypography
             ? await resolveLocalTextStyleIdByNameRegex(/description/i)
             : await resolveLocalTextStyleIdByNameRegex(/paragraph|body/i)
 
-  return byName ?? preferred
+  return byName ?? null
 }
 
 export async function loadFontForTextStyleId(textStyleId: string): Promise<void> {
@@ -189,7 +233,7 @@ export async function resolveColorVariableForPreset(preset: MockupMarkupColorPre
   return id
 }
 
-export async function setExplicitModeForColorVariableCollection(variableId: string, modeName: "dark"): Promise<void> {
+export async function setExplicitModeForColorVariableCollection(variableId: string, modeName: "dark" | "light"): Promise<void> {
   try {
     const variable = await figma.variables.getVariableByIdAsync(variableId)
     const collectionId = (variable as any)?.variableCollectionId as string | undefined
@@ -198,15 +242,25 @@ export async function setExplicitModeForColorVariableCollection(variableId: stri
     const collection = await figma.variables.getVariableCollectionByIdAsync(collectionId)
     if (!collection) return
 
-    const wanted = modeName === "dark" ? "dark" : modeName
     const modes: Array<{ modeId: string; name: string }> = Array.isArray((collection as any).modes) ? (collection as any).modes : []
-    const match = modes.find((m) => (m.name ?? "").trim().toLowerCase() === wanted)
-    const modeId = match?.modeId ?? (collection as any).defaultModeId ?? null
-    if (!modeId) return
+    const match = modes.find((m) => (m.name ?? "").trim().toLowerCase() === modeName)
+    const modeId = match?.modeId ?? null
 
-    // This is a *node/page* API (ExplicitVariableModesMixin). Set it on the current page
-    // so the mode applies across the page.
-    figma.currentPage.setExplicitVariableModeForCollection(collection, modeId)
+    if (modeId) {
+      // This is a *node/page* API (ExplicitVariableModesMixin). Set it on the current page
+      // so the mode applies across the page.
+      figma.currentPage.setExplicitVariableModeForCollection(collection, modeId)
+      return
+    }
+
+    // If "Light" mode doesn't exist in this collection, clear explicit mode to fall back to defaults.
+    if (modeName === "light") {
+      try {
+        figma.currentPage.clearExplicitVariableModeForCollection(collection)
+      } catch {
+        // ignore
+      }
+    }
   } catch {
     // eslint-disable-next-line no-console
     console.log("[Mockup Markup] Failed to set explicit variable mode", { variableId, modeName })

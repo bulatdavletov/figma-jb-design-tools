@@ -17,7 +17,7 @@ export function run(command: string) {
           : command === "print-color-usages-tool"
             ? "Print Color Usages"
             : command === "mockup-markup-tool"
-              ? "Mockup markup quick apply"
+              ? "Mockup Markup Quick Apply"
             : "JetBrains Design Tools",
     },
     { command }
@@ -35,7 +35,7 @@ export function run(command: string) {
   const activate = async (tool: ActiveTool) => {
     activeTool = tool
     if (tool === "color-chain-tool") {
-      colorChain.onActivate()
+      await colorChain.onActivate()
       return
     }
     if (tool === "print-color-usages-tool") {
@@ -43,31 +43,41 @@ export function run(command: string) {
       return
     }
     if (tool === "mockup-markup-tool") {
-      mockupMarkup.onActivate()
+      await mockupMarkup.onActivate()
       return
     }
   }
 
   figma.ui.onmessage = async (msg: UiToMainMessage) => {
-    if (msg.type === UI_TO_MAIN.BOOT) {
-      figma.ui.postMessage({
-        type: MAIN_TO_UI.BOOTSTRAPPED,
-        command,
-        selectionSize: figma.currentPage.selection.length,
-      })
-      await activate(activeTool)
-      return
-    }
+    try {
+      if (msg.type === UI_TO_MAIN.BOOT) {
+        figma.ui.postMessage({
+          type: MAIN_TO_UI.BOOTSTRAPPED,
+          command,
+          selectionSize: figma.currentPage.selection.length,
+        })
+        await activate(activeTool)
+        return
+      }
 
-    if (msg.type === UI_TO_MAIN.SET_ACTIVE_TOOL) {
-      await activate(msg.tool)
-      return
-    }
+      if (msg.type === UI_TO_MAIN.SET_ACTIVE_TOOL) {
+        await activate(msg.tool)
+        return
+      }
 
-    // Route tool-specific messages.
-    if (await mockupMarkup.onMessage(msg)) return
-    if (await printColorUsages.onMessage(msg)) return
-    if (await colorChain.onMessage(msg)) return
+      // Route tool-specific messages.
+      if (await mockupMarkup.onMessage(msg)) return
+      if (await printColorUsages.onMessage(msg)) return
+      if (await colorChain.onMessage(msg)) return
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log("[run] Unhandled error in onmessage", e)
+      try {
+        figma.notify(e instanceof Error ? e.message : String(e))
+      } catch {
+        // ignore
+      }
+    }
   }
 }
 

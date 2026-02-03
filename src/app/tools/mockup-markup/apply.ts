@@ -52,12 +52,12 @@ export async function applyMockupMarkupToSelection(request: MockupMarkupApplyReq
   }
 
   const styleId = await resolveTextStyleIdForPreset(request.presetTypography)
-  await loadFontForTextStyleId(styleId)
+  if (styleId) await loadFontForTextStyleId(styleId)
 
   const colorVariableId = await resolveColorVariableForPreset(request.presetColor)
   const fills = colorVariableId ? [makeSolidPaintBoundToColorVariable(colorVariableId)] : null
-  if (request.forceModeName === "dark" && colorVariableId) {
-    await setExplicitModeForColorVariableCollection(colorVariableId, "dark")
+  if (colorVariableId) {
+    await setExplicitModeForColorVariableCollection(colorVariableId, request.forceModeName)
   }
   if (!fills) {
     // eslint-disable-next-line no-console
@@ -67,28 +67,49 @@ export async function applyMockupMarkupToSelection(request: MockupMarkupApplyReq
   let applied = 0
   let skipped = 0
   const changed: TextNode[] = []
+  let firstError: string | null = null
+  let typographyMissing = styleId === null
 
   for (let idx = 0; idx < textNodes.length; idx++) {
     const text = textNodes[idx]
-    try {
-      await text.setTextStyleIdAsync(styleId)
-      const len = (text.characters ?? "").length
-      if (len > 0) await text.setRangeTextStyleIdAsync(0, len, styleId)
+    let didChange = false
 
+    if (styleId) {
+      try {
+        await text.setTextStyleIdAsync(styleId)
+        didChange = true
+      } catch (e) {
+        if (!firstError) firstError = e instanceof Error ? e.message : String(e)
+      }
+    }
+
+    try {
       if (request.width400) {
         try {
-          ;(text as any).textAutoResize = "HEIGHT"
-          text.resize(400, text.height)
+          text.textAutoResize = "HEIGHT"
+          text.resize(400, Math.max(1, text.height))
+          didChange = true
         } catch {
           // ignore
         }
       }
 
-      if (fills) text.fills = fills
+      if (fills) {
+        try {
+          text.fills = fills
+          didChange = true
+        } catch (e) {
+          if (!firstError) firstError = e instanceof Error ? e.message : String(e)
+        }
+      }
+    } catch (e) {
+      if (!firstError) firstError = e instanceof Error ? e.message : String(e)
+    }
 
+    if (didChange) {
       applied++
       changed.push(text)
-    } catch {
+    } else {
       skipped++
     }
   }
@@ -104,11 +125,19 @@ export async function applyMockupMarkupToSelection(request: MockupMarkupApplyReq
 
   figma.notify(
     applied > 0
-      ? `Applied markup to ${applied} text layer(s)${skipped ? `, skipped ${skipped}` : ""}`
+      ? `Applied markup to ${applied} text layer(s)${typographyMissing ? " (typography unavailable)" : ""}${
+          skipped ? `, skipped ${skipped}` : ""
+        }`
       : skipped
-        ? `Nothing applied (skipped ${skipped})`
+        ? `Nothing applied (skipped ${skipped})${firstError ? `. ${firstError}` : ""}`
         : "Nothing applied"
   )
+
+  if (typographyMissing) {
+    figma.notify(
+      "Typography presets require importing Mockup markup text styles into this file (Assets → Libraries → Mockup markup)."
+    )
+  }
 
   return { applied, skipped }
 }

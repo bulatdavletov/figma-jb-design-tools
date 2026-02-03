@@ -666,10 +666,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d95f0fe4-9650-4831-8af1-9d3a8f3c6601/loading-indicator.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5ddac8f4-28fd-4a90-ab36-1b092cfcd08d/loading-indicator.module.js
   var loading_indicator_module_default;
   var init_loading_indicator_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d95f0fe4-9650-4831-8af1-9d3a8f3c6601/loading-indicator.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5ddac8f4-28fd-4a90-ab36-1b092cfcd08d/loading-indicator.module.js"() {
       if (document.getElementById("3fe0db8eb7") === null) {
         const element = document.createElement("style");
         element.id = "3fe0db8eb7";
@@ -730,10 +730,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/045553fc-62e5-4b1a-95b5-8f55e88b3acd/button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/dd07ecfd-03cd-4648-83d6-270df2631d74/button.module.js
   var button_module_default;
   var init_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/045553fc-62e5-4b1a-95b5-8f55e88b3acd/button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/dd07ecfd-03cd-4648-83d6-270df2631d74/button.module.js"() {
       if (document.getElementById("1dddd0e4df") === null) {
         const element = document.createElement("style");
         element.id = "1dddd0e4df";
@@ -1001,10 +1001,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7b20e808-f530-4b6c-b504-06b95949011c/checkbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1d5e9eda-ec34-4b32-983e-ae842a08fc1c/checkbox.module.js
   var checkbox_module_default;
   var init_checkbox_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7b20e808-f530-4b6c-b504-06b95949011c/checkbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1d5e9eda-ec34-4b32-983e-ae842a08fc1c/checkbox.module.js"() {
       if (document.getElementById("f38d076240") === null) {
         const element = document.createElement("style");
         element.id = "f38d076240";
@@ -1153,10 +1153,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/abe1fcf3-5129-485b-a0f3-0b1ba3cd517d/divider.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f2d18e49-40ad-4e23-846e-82703dfcfe3f/divider.module.js
   var divider_module_default;
   var init_divider_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/abe1fcf3-5129-485b-a0f3-0b1ba3cd517d/divider.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f2d18e49-40ad-4e23-846e-82703dfcfe3f/divider.module.js"() {
       if (document.getElementById("4bf06403b9") === null) {
         const element = document.createElement("style");
         element.id = "4bf06403b9";
@@ -1194,10 +1194,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/fe502bd5-d032-4478-9562-0f5ad9c03c89/icon-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/99f980c3-d9e0-4ae5-b459-4574be07ed0b/icon-button.module.js
   var icon_button_module_default;
   var init_icon_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/fe502bd5-d032-4478-9562-0f5ad9c03c89/icon-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/99f980c3-d9e0-4ae5-b459-4574be07ed0b/icon-button.module.js"() {
       if (document.getElementById("c8b08e6568") === null) {
         const element = document.createElement("style");
         element.id = "c8b08e6568";
@@ -1275,10 +1275,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d0e09cff-41ea-47f4-9f71-7a8a06013ffe/text.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/78e80768-69cc-4ed0-b7cb-333de4d50ee3/text.module.js
   var text_module_default;
   var init_text_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d0e09cff-41ea-47f4-9f71-7a8a06013ffe/text.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/78e80768-69cc-4ed0-b7cb-333de4d50ee3/text.module.js"() {
       if (document.getElementById("1278016d5c") === null) {
         const element = document.createElement("style");
         element.id = "1278016d5c";
@@ -1336,10 +1336,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/698d06fc-1a67-40df-8639-0b157f4ae11b/inline.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8fa05f85-ca8c-4513-9b41-1fee2b782786/inline.module.js
   var inline_module_default;
   var init_inline_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/698d06fc-1a67-40df-8639-0b157f4ae11b/inline.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8fa05f85-ca8c-4513-9b41-1fee2b782786/inline.module.js"() {
       if (document.getElementById("3e1b2856fc") === null) {
         const element = document.createElement("style");
         element.id = "3e1b2856fc";
@@ -1401,10 +1401,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/16fb1a0a-ef97-4e11-8779-8a0c9706f46c/stack.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/55dd81ec-12a1-4307-ba1c-d043ddf748c9/stack.module.js
   var stack_module_default;
   var init_stack_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/16fb1a0a-ef97-4e11-8779-8a0c9706f46c/stack.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/55dd81ec-12a1-4307-ba1c-d043ddf748c9/stack.module.js"() {
       if (document.getElementById("317515cc3f") === null) {
         const element = document.createElement("style");
         element.id = "317515cc3f";
@@ -1447,10 +1447,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/35fa1ee5-4684-445c-9b17-abc7b6a6d6cb/radio-buttons.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5f30a351-9fd5-4d02-a47f-430714a833e2/radio-buttons.module.js
   var radio_buttons_module_default;
   var init_radio_buttons_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/35fa1ee5-4684-445c-9b17-abc7b6a6d6cb/radio-buttons.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5f30a351-9fd5-4d02-a47f-430714a833e2/radio-buttons.module.js"() {
       if (document.getElementById("a066c67891") === null) {
         const element = document.createElement("style");
         element.id = "a066c67891";
@@ -1597,6 +1597,20 @@
     }
   });
 
+  // node_modules/@create-figma-plugin/ui/lib/icons/icon-16/icon-shape-text-16.js
+  var IconShapeText16;
+  var init_icon_shape_text_16 = __esm({
+    "node_modules/@create-figma-plugin/ui/lib/icons/icon-16/icon-shape-text-16.js"() {
+      init_preact_module();
+      init_create_icon();
+      IconShapeText16 = createIcon(_(
+        "svg",
+        { fill: "none", height: "16", viewBox: "0 0 16 16", width: "16", xmlns: "http://www.w3.org/2000/svg" },
+        _("path", { "clip-rule": "evenodd", d: "M4.5 4h7c.2761 0 .5.22386.5.5v7c0 .2761-.2239.5-.5.5h-7c-.27614 0-.5-.2239-.5-.5v-7c0-.27614.22386-.5.5-.5M3 4.5C3 3.67157 3.67157 3 4.5 3h7c.8284 0 1.5.67157 1.5 1.5v7c0 .8284-.6716 1.5-1.5 1.5h-7c-.82843 0-1.5-.6716-1.5-1.5zm3 1c-.27614 0-.5.22386-.5.5v.5c0 .27614.22386.5.5.5s.5-.22386.5-.5h1v3c-.27614 0-.5.22386-.5.5 0 .2761.22386.5.5.5h1c.27614 0 .5-.2239.5-.5 0-.27614-.22386-.5-.5-.5v-3h1c0 .27614.22386.5.5.5.2761 0 .5-.22386.5-.5V6c0-.27614-.2239-.5-.5-.5H6", fill: "currentColor", "fill-rule": "evenodd" })
+      ));
+    }
+  });
+
   // node_modules/@create-figma-plugin/ui/lib/icons/icon-16/icon-text-16.js
   var IconText16;
   var init_icon_text_16 = __esm({
@@ -1639,10 +1653,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/06640244-ceb7-4664-bae4-cfc46db4fab1/columns.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0f680378-d814-43c6-8984-ebfaa82a307f/columns.module.js
   var columns_module_default;
   var init_columns_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/06640244-ceb7-4664-bae4-cfc46db4fab1/columns.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0f680378-d814-43c6-8984-ebfaa82a307f/columns.module.js"() {
       if (document.getElementById("07bfb18928") === null) {
         const element = document.createElement("style");
         element.id = "07bfb18928";
@@ -1711,10 +1725,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6a7f62a2-e441-4dbe-82d0-2ac7e78c9ca7/container.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6703aab7-2e3c-41c0-a748-6c208eca102f/container.module.js
   var container_module_default;
   var init_container_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6a7f62a2-e441-4dbe-82d0-2ac7e78c9ca7/container.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6703aab7-2e3c-41c0-a748-6c208eca102f/container.module.js"() {
       if (document.getElementById("b49e1406f9") === null) {
         const element = document.createElement("style");
         element.id = "b49e1406f9";
@@ -1755,10 +1769,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/19007746-8b80-48d3-bf1e-ff8f60f871b2/vertical-space.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/824ce951-c3f2-456f-8b38-d54a821efef9/vertical-space.module.js
   var vertical_space_module_default;
   var init_vertical_space_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/19007746-8b80-48d3-bf1e-ff8f60f871b2/vertical-space.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/824ce951-c3f2-456f-8b38-d54a821efef9/vertical-space.module.js"() {
       if (document.getElementById("ba0eea5114") === null) {
         const element = document.createElement("style");
         element.id = "ba0eea5114";
@@ -1799,9 +1813,9 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1810c12c-db09-410a-8a21-892ae823529e/base.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/fbcdbb6c-61e3-4574-a6a6-05b7ec38ae6a/base.js
   var init_base = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1810c12c-db09-410a-8a21-892ae823529e/base.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/fbcdbb6c-61e3-4574-a6a6-05b7ec38ae6a/base.js"() {
       if (document.getElementById("0597dd81e7") === null) {
         const element = document.createElement("style");
         element.id = "0597dd81e7";
@@ -1954,6 +1968,7 @@ svg {
       init_text();
       init_icon_home_16();
       init_icon_link_16();
+      init_icon_shape_text_16();
       init_icon_text_16();
       init_icon_interaction_click_small_24();
       init_icon_time_small_24();
@@ -2622,9 +2637,9 @@ svg {
     ), /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(
       ToolCard,
       {
-        title: "Mockup markup quick apply",
-        description: "Apply Mockup markup typography and text colors to selection.",
-        icon: /* @__PURE__ */ _(IconText16, null),
+        title: "Mockup Markup Quick Apply",
+        description: "Apply text styles and colors",
+        icon: /* @__PURE__ */ _(IconShapeText16, null),
         onClick: () => props.goTo("mockup-markup-tool")
       }
     )));
@@ -2640,26 +2655,12 @@ svg {
   });
 
   // src/app/tools/mockup-markup/presets.ts
-  function getTypographyPresetLabel(preset) {
-    switch (preset) {
-      case "h1":
-        return "H1";
-      case "h2":
-        return "H2";
-      case "h3":
-        return "H3";
-      case "description":
-        return "Description text";
-      case "paragraph":
-        return "Paragraph text";
-    }
-  }
   function getColorPresetLabel(preset) {
     switch (preset) {
       case "text":
-        return "Text";
+        return "Default";
       case "text-secondary":
-        return "Text secondary";
+        return "Secondary";
       case "purple":
         return "Purple";
     }
@@ -2671,6 +2672,96 @@ svg {
   });
 
   // src/app/views/mockup-markup-tool/MockupMarkupToolView.tsx
+  function TextStylePresetGrid(props) {
+    const Option = (p3) => {
+      const selected = props.value === p3.value;
+      return /* @__PURE__ */ _(
+        "button",
+        {
+          type: "button",
+          onClick: () => props.onChange(p3.value),
+          style: {
+            width: "100%",
+            padding: "8px 8px",
+            borderRadius: 8,
+            border: selected ? "1px solid var(--figma-color-border-selected)" : "1px solid var(--figma-color-border)",
+            background: selected ? "var(--figma-color-bg-selected)" : "var(--figma-color-bg)",
+            cursor: "pointer",
+            textAlign: "left"
+          }
+        },
+        /* @__PURE__ */ _(Text, null, p3.label)
+      );
+    };
+    return /* @__PURE__ */ _("div", { style: { display: "flex", flexDirection: "column", gap: 8 } }, /* @__PURE__ */ _("div", { style: { display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 8 } }, /* @__PURE__ */ _(Option, { value: "paragraph", label: "Paragraph" }), /* @__PURE__ */ _(Option, { value: "description", label: "Description" })), /* @__PURE__ */ _("div", { style: { display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 8 } }, /* @__PURE__ */ _(Option, { value: "h1", label: "H1" }), /* @__PURE__ */ _(Option, { value: "h2", label: "H2" }), /* @__PURE__ */ _(Option, { value: "h3", label: "H3" })));
+  }
+  function ColorPresetGrid(props) {
+    const Option = (p3) => {
+      const selected = props.value === p3.value;
+      return /* @__PURE__ */ _(
+        "button",
+        {
+          type: "button",
+          onClick: () => props.onChange(p3.value),
+          style: {
+            width: "100%",
+            padding: "8px 8px",
+            borderRadius: 8,
+            border: selected ? "1px solid var(--figma-color-border-selected)" : "1px solid var(--figma-color-border)",
+            background: selected ? "var(--figma-color-bg-selected)" : "var(--figma-color-bg)",
+            cursor: "pointer",
+            textAlign: "left",
+            display: "flex",
+            alignItems: "center",
+            gap: 8
+          }
+        },
+        /* @__PURE__ */ _(ColorSwatch, { hex: p3.swatch.hex, opacityPercent: p3.swatch.opacityPercent }),
+        /* @__PURE__ */ _(Text, null, p3.label)
+      );
+    };
+    return /* @__PURE__ */ _("div", { style: { display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 8 } }, /* @__PURE__ */ _(Option, { value: "text", label: getColorPresetLabel("text"), swatch: props.previews.text }), /* @__PURE__ */ _(Option, { value: "text-secondary", label: getColorPresetLabel("text-secondary"), swatch: props.previews.textSecondary }), /* @__PURE__ */ _(Option, { value: "purple", label: getColorPresetLabel("purple"), swatch: props.previews.purple }));
+  }
+  function ModeSegmented(props) {
+    const Item = (p3) => {
+      const selected = props.value === p3.value;
+      return /* @__PURE__ */ _(
+        "button",
+        {
+          type: "button",
+          onClick: () => props.onChange(p3.value),
+          style: {
+            flex: 1,
+            height: 24,
+            borderRadius: 6,
+            border: selected ? "1px solid var(--figma-color-border)" : "1px solid transparent",
+            background: selected ? "var(--figma-color-bg)" : "transparent",
+            color: selected ? "var(--figma-color-text)" : "var(--figma-color-text-secondary)",
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "0 8px"
+          }
+        },
+        /* @__PURE__ */ _(Text, null, p3.label)
+      );
+    };
+    return /* @__PURE__ */ _(
+      "div",
+      {
+        style: {
+          display: "flex",
+          padding: 2,
+          gap: 2,
+          borderRadius: 8,
+          background: "var(--figma-color-bg-secondary)"
+        }
+      },
+      /* @__PURE__ */ _(Item, { value: "dark", label: "Dark" }),
+      /* @__PURE__ */ _(Item, { value: "light", label: "Light" })
+    );
+  }
   function MockupMarkupToolView(props) {
     const [request, setRequest] = d2(DEFAULT_REQUEST);
     const [state, setState] = d2({ selectionSize: 0, textNodeCount: 0, hasSourceTextNode: false });
@@ -2709,10 +2800,6 @@ svg {
       );
     }, [request.forceModeName]);
     const isWorking = status.status === "working";
-    const hint = T2(() => {
-      if (state.textNodeCount === 0) return "No text layers found in selection.";
-      return null;
-    }, [state.selectionSize, state.textNodeCount]);
     const primaryAction = T2(() => {
       if (state.textNodeCount > 0) {
         return { label: "Apply to selection", disabled: isWorking, messageType: UI_TO_MAIN.MOCKUP_MARKUP_APPLY };
@@ -2722,64 +2809,36 @@ svg {
     return /* @__PURE__ */ _(Page, null, /* @__PURE__ */ _(
       ToolHeader,
       {
-        title: "Mockup markup quick apply",
+        title: "Mockup Markup Quick Apply",
         left: /* @__PURE__ */ _(IconButton, { onClick: props.onBack, title: "Home" }, /* @__PURE__ */ _(IconHome16, null))
       }
-    ), /* @__PURE__ */ _("div", { style: { flex: 1, minHeight: 0, display: "flex", flexDirection: "column" } }, /* @__PURE__ */ _("div", { style: { flex: 1, minHeight: 0, overflowY: "auto", overflowX: "hidden" } }, /* @__PURE__ */ _(Container, { space: "small" }, /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, state.selectionSize > 0 ? `Selection: ${state.selectionSize} layer(s), ${state.textNodeCount} text layer(s)` : "Selection: none"), /* @__PURE__ */ _(VerticalSpace, { space: "extraSmall" }), /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, state.textNodeCount > 0 ? `Preview: will apply to ${state.textNodeCount} text layer(s)` : "Preview: will create 1 text layer"), /* @__PURE__ */ _(VerticalSpace, { space: "large" }), /* @__PURE__ */ _(Text, null, "Text style"), /* @__PURE__ */ _(VerticalSpace, { space: "extraSmall" }), /* @__PURE__ */ _(
-      RadioButtons,
-      {
-        value: request.presetTypography,
-        onValueChange: (value) => setRequest((r3) => __spreadProps(__spreadValues({}, r3), {
-          presetTypography: value === "paragraph" || value === "description" || value === "h1" || value === "h2" || value === "h3" ? value : "paragraph"
-        })),
-        options: ["paragraph", "description", "h1", "h2", "h3"].map((p3) => ({
-          value: p3,
-          children: /* @__PURE__ */ _(Text, null, getTypographyPresetLabel(p3))
-        }))
-      }
-    ), /* @__PURE__ */ _(VerticalSpace, { space: "large" }), /* @__PURE__ */ _(Text, null, "Color"), /* @__PURE__ */ _(VerticalSpace, { space: "extraSmall" }), /* @__PURE__ */ _(
-      RadioButtons,
+    ), /* @__PURE__ */ _("div", { style: { flex: 1, minHeight: 0, display: "flex", flexDirection: "column" } }, /* @__PURE__ */ _("div", { style: { flex: 1, minHeight: 0, overflowY: "auto", overflowX: "hidden" } }, /* @__PURE__ */ _(Container, { space: "small" }, /* @__PURE__ */ _("div", { style: { display: "flex", flexDirection: "column", minHeight: "100%" } }, /* @__PURE__ */ _(VerticalSpace, { space: "medium" }), /* @__PURE__ */ _(Text, null, "Color"), /* @__PURE__ */ _(VerticalSpace, { space: "extraSmall" }), /* @__PURE__ */ _(
+      ColorPresetGrid,
       {
         value: request.presetColor,
-        onValueChange: (value) => setRequest((r3) => __spreadProps(__spreadValues({}, r3), {
-          presetColor: value === "text-secondary" || value === "purple" ? value : "text"
-        })),
-        options: [
-          {
-            value: "text",
-            children: /* @__PURE__ */ _("div", { style: { display: "flex", alignItems: "center", gap: 8 } }, /* @__PURE__ */ _(ColorSwatch, { hex: colorPreviews.text.hex, opacityPercent: colorPreviews.text.opacityPercent }), /* @__PURE__ */ _(Text, null, getColorPresetLabel("text")))
-          },
-          {
-            value: "text-secondary",
-            children: /* @__PURE__ */ _("div", { style: { display: "flex", alignItems: "center", gap: 8 } }, /* @__PURE__ */ _(
-              ColorSwatch,
-              {
-                hex: colorPreviews.textSecondary.hex,
-                opacityPercent: colorPreviews.textSecondary.opacityPercent
-              }
-            ), /* @__PURE__ */ _(Text, null, getColorPresetLabel("text-secondary")))
-          },
-          {
-            value: "purple",
-            children: /* @__PURE__ */ _("div", { style: { display: "flex", alignItems: "center", gap: 8 } }, /* @__PURE__ */ _(ColorSwatch, { hex: colorPreviews.purple.hex, opacityPercent: colorPreviews.purple.opacityPercent }), /* @__PURE__ */ _(Text, null, getColorPresetLabel("purple")))
-          }
-        ]
+        previews: colorPreviews,
+        onChange: (value) => setRequest((r3) => __spreadProps(__spreadValues({}, r3), { presetColor: value }))
+      }
+    ), /* @__PURE__ */ _(VerticalSpace, { space: "large" }), /* @__PURE__ */ _(Text, null, "Text style"), /* @__PURE__ */ _(VerticalSpace, { space: "extraSmall" }), /* @__PURE__ */ _(
+      TextStylePresetGrid,
+      {
+        value: request.presetTypography,
+        onChange: (value) => setRequest((r3) => __spreadProps(__spreadValues({}, r3), { presetTypography: value }))
       }
     ), /* @__PURE__ */ _(VerticalSpace, { space: "large" }), /* @__PURE__ */ _(
-      Checkbox,
-      {
-        value: request.forceModeName === "dark",
-        onValueChange: (value) => setRequest((r3) => __spreadProps(__spreadValues({}, r3), { forceModeName: value ? "dark" : "none" }))
-      },
-      /* @__PURE__ */ _(Text, null, "Dark mode")
-    ), /* @__PURE__ */ _(VerticalSpace, { space: "extraSmall" }), /* @__PURE__ */ _(
       Checkbox,
       {
         value: request.width400,
         onValueChange: (value) => setRequest((r3) => __spreadProps(__spreadValues({}, r3), { width400: value }))
       },
-      /* @__PURE__ */ _(Text, null, "Width 400")
-    ), hint ? /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(VerticalSpace, { space: "large" }), /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, hint)) : null, /* @__PURE__ */ _(VerticalSpace, { space: "large" }))), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(Container, { space: "small" }, /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(
+      /* @__PURE__ */ _(Text, null, "Width 400px")
+    ), /* @__PURE__ */ _("div", { style: { flex: 1 } }), /* @__PURE__ */ _(VerticalSpace, { space: "large" }), /* @__PURE__ */ _(
+      ModeSegmented,
+      {
+        value: request.forceModeName,
+        onChange: (value) => setRequest((r3) => __spreadProps(__spreadValues({}, r3), { forceModeName: value }))
+      }
+    ), /* @__PURE__ */ _(VerticalSpace, { space: "medium" })))), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(Container, { space: "small" }, /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(
       Button,
       {
         fullWidth: true,

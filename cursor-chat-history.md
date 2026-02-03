@@ -292,7 +292,22 @@
 - Debug (Figma MCP): Checked current selection nodes. Found sample typography nodes matching Markup H1/H2/H3/Description/Paragraph, and sample color nodes using tokens `--markup-text`, `--markup-text-secondary`, `--markup-purple` (purple resolves to `#DE3CE1` in the design context).
 - Improvement: On first open, tool now auto-imports required Mockup Markup variables (Text/Text Secondary/Purple) once via `clientStorage` flag, so subsequent lookups by id work and swatches resolve immediately.
 - UI: Added “Width 400” checkbox; when enabled, Create/Apply sets TextNodes to fixed width 400 with auto-height.
-- Naming: Renamed the tool label to “Mockup markup quick apply” (menu item, home card, window title/header).
+- Naming: Renamed the tool label to “Mockup Markup Quick Apply” (menu item, home card, window title/header).
+- UI: Color selector moved above Text style and switched from RadioButtons to a SegmentedControl (with swatches).
+- UI: Increased padding/spacing inside color segments (segmented control) for better visual balance.
+- UI: Made Text style presets more obvious: custom 2-row layout (Paragraph/Description on first row, H1/H2/H3 on second) with “fake” larger preview typography for headings.
+- UI: Applied the same 2-row “tile grid” treatment to colors (Text/Text secondary on first row, Purple on second), replacing the segmented control.
+- UI: Removed extra secondary text under Paragraph/Description tiles.
+- UI: Replaced the Dark mode checkbox with a bottom “Mode” segmented control (Dark/Light).
+- UI: Replaced the (broken) library segmented control for Mode with a custom inline segmented UI to ensure correct rendering in the plugin iframe.
+- UI: Tightened preset tiles styling: less internal padding/gap, no bold labels, and use default `Text` sizing for labels.
+- UI: Removed secondary grey helper texts (selection/preview/empty hint) to keep the tool compact.
+- UI: Home card icon updated for this tool.
+- Fix: Applying typography could result in “Nothing applied (skipped 1)” when the Mockup markup text styles weren’t imported into the current file. We now attempt to import the text style from the library using `figma.importStyleByKeyAsync(...)` (deriving the key from the hardcoded `S:<key>,...` style id) before applying.
+- UI: Moved “Mode” to the **bottom of the content area** (still scrollable content), anchored above the divider/button footer.
+- Fix: Creating text could fail when “Width 400px” is enabled if the text node font wasn’t loaded (or style apply failed). We now load the text node’s current font before setting `characters`, and set `textAutoResize = "HEIGHT"` safely before resizing.
+- Fix: Prevented “Uncaught (in promise)” errors by awaiting all tool `onActivate()` handlers and wrapping `figma.ui.onmessage` in a top-level try/catch (logs + `figma.notify`).
+- Fix: Some environments throw “Unable to create style” when trying to import/apply remote text styles. We now **never auto-import text styles** and we avoid applying **remote** styles by id; typography is applied only if the style is already present in the file (local/imported, resolved by key/name). Otherwise the tool still Create/Apply color/width and shows a clear notify to import text styles into the file.
 
 ## Git (initialize repo)
 
