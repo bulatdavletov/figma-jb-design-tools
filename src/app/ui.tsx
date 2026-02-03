@@ -5,9 +5,10 @@ import { useEffect, useState } from "preact/hooks"
 import { MAIN_TO_UI, type MainToUiMessage, UI_TO_MAIN } from "./messages"
 import { ColorChainToolView } from "./views/color-chain-tool/ColorChainToolView"
 import { HomeView } from "./views/home/HomeView"
+import { MockupMarkupToolView } from "./views/mockup-markup-tool/MockupMarkupToolView"
 import { PrintColorUsagesToolView } from "./views/print-color-usages-tool/PrintColorUsagesToolView"
 
-type Route = "home" | "color-chain-tool" | "print-color-usages-tool"
+type Route = "home" | "color-chain-tool" | "print-color-usages-tool" | "mockup-markup-tool"
 
 export function App() {
   const [route, setRoute] = useState<Route>("home")
@@ -24,6 +25,8 @@ export function App() {
             ? "color-chain-tool"
             : msg.command === "print-color-usages-tool"
               ? "print-color-usages-tool"
+              : msg.command === "mockup-markup-tool"
+                ? "mockup-markup-tool"
               : "home"
         )
       }
@@ -33,6 +36,26 @@ export function App() {
     return () => window.removeEventListener("message", handleMessage)
   }, [])
 
+  // Inform main thread which tool is currently visible (so it can route selection updates).
+  useEffect(() => {
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: UI_TO_MAIN.SET_ACTIVE_TOOL,
+          tool:
+            route === "home"
+              ? "home"
+              : route === "color-chain-tool"
+                ? "color-chain-tool"
+                : route === "print-color-usages-tool"
+                  ? "print-color-usages-tool"
+                  : "mockup-markup-tool",
+        },
+      },
+      "*"
+    )
+  }, [route])
+
   if (route === "home") {
     return <HomeView goTo={setRoute} />
   }
@@ -41,7 +64,15 @@ export function App() {
     return <ColorChainToolView onBack={() => setRoute("home")} initialSelectionEmpty={selectionSize === 0} />
   }
 
-  return <PrintColorUsagesToolView onBack={() => setRoute("home")} />
+  if (route === "print-color-usages-tool") {
+    return <PrintColorUsagesToolView onBack={() => setRoute("home")} />
+  }
+
+  if (route === "mockup-markup-tool") {
+    return <MockupMarkupToolView onBack={() => setRoute("home")} />
+  }
+
+  return <HomeView goTo={setRoute} />
 }
 
 export default render(App)

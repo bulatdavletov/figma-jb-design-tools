@@ -4,7 +4,7 @@ import { h } from "preact"
 import { Page } from "../../components/Page"
 import { ToolCard } from "../../components/ToolCard"
 
-type Route = "home" | "color-chain-tool" | "print-color-usages-tool"
+type Route = "home" | "color-chain-tool" | "print-color-usages-tool" | "mockup-markup-tool"
 
 export function HomeView(props: { goTo: (route: Route) => void }) {
   return (
@@ -25,6 +25,13 @@ export function HomeView(props: { goTo: (route: Route) => void }) {
           description="Print unique colors as text labels near selection."
           icon={<IconText16 />}
           onClick={() => props.goTo("print-color-usages-tool")}
+        />
+        <VerticalSpace space="small" />
+        <ToolCard
+          title="Mockup markup quick apply"
+          description="Apply Mockup markup typography and text colors to selection."
+          icon={<IconText16 />}
+          onClick={() => props.goTo("mockup-markup-tool")}
         />
       </Container>
     </Page>

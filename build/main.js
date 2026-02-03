@@ -65,11 +65,16 @@ var init_messages = __esm({
     "use strict";
     UI_TO_MAIN = {
       BOOT: "BOOT",
+      SET_ACTIVE_TOOL: "SET_ACTIVE_TOOL",
       INSPECT_SELECTION_FOR_VARIABLE_CHAINS: "INSPECT_SELECTION_FOR_VARIABLE_CHAINS",
       PRINT_COLOR_USAGES_LOAD_SETTINGS: "PRINT_COLOR_USAGES_LOAD_SETTINGS",
       PRINT_COLOR_USAGES_SAVE_SETTINGS: "PRINT_COLOR_USAGES_SAVE_SETTINGS",
       PRINT_COLOR_USAGES_PRINT: "PRINT_COLOR_USAGES_PRINT",
-      PRINT_COLOR_USAGES_UPDATE: "PRINT_COLOR_USAGES_UPDATE"
+      PRINT_COLOR_USAGES_UPDATE: "PRINT_COLOR_USAGES_UPDATE",
+      MOCKUP_MARKUP_LOAD_STATE: "MOCKUP_MARKUP_LOAD_STATE",
+      MOCKUP_MARKUP_APPLY: "MOCKUP_MARKUP_APPLY",
+      MOCKUP_MARKUP_CREATE_TEXT: "MOCKUP_MARKUP_CREATE_TEXT",
+      MOCKUP_MARKUP_GET_COLOR_PREVIEWS: "MOCKUP_MARKUP_GET_COLOR_PREVIEWS"
     };
     MAIN_TO_UI = {
       BOOTSTRAPPED: "BOOTSTRAPPED",
@@ -79,6 +84,9 @@ var init_messages = __esm({
       PRINT_COLOR_USAGES_SETTINGS: "PRINT_COLOR_USAGES_SETTINGS",
       PRINT_COLOR_USAGES_SELECTION: "PRINT_COLOR_USAGES_SELECTION",
       PRINT_COLOR_USAGES_STATUS: "PRINT_COLOR_USAGES_STATUS",
+      MOCKUP_MARKUP_STATE: "MOCKUP_MARKUP_STATE",
+      MOCKUP_MARKUP_STATUS: "MOCKUP_MARKUP_STATUS",
+      MOCKUP_MARKUP_COLOR_PREVIEWS: "MOCKUP_MARKUP_COLOR_PREVIEWS",
       ERROR: "ERROR"
     };
   }
@@ -326,9 +334,10 @@ var init_variable_chain = __esm({
 });
 
 // src/app/tools/color-chain-tool/main-thread.ts
-function startColorChainTool(command) {
+function registerColorChainTool(getActiveTool) {
   let pendingTimer = null;
   const sendUpdate = async () => {
+    if (getActiveTool() !== "color-chain-tool") return;
     if (figma.currentPage.selection.length === 0) {
       figma.ui.postMessage({ type: MAIN_TO_UI.SELECTION_EMPTY });
       return;
@@ -337,6 +346,7 @@ function startColorChainTool(command) {
     figma.ui.postMessage({ type: MAIN_TO_UI.VARIABLE_CHAINS_RESULT_V2, results });
   };
   const scheduleUpdate = () => {
+    if (getActiveTool() !== "color-chain-tool") return;
     if (pendingTimer != null) clearTimeout(pendingTimer);
     pendingTimer = setTimeout(() => {
       pendingTimer = null;
@@ -364,6 +374,7 @@ function startColorChainTool(command) {
     return node != null && typeof node === "object" && "id" in node && "type" in node && "parent" in node;
   };
   const handleDocumentChange = (event) => {
+    if (getActiveTool() !== "color-chain-tool") return;
     if (figma.currentPage.selection.length === 0) return;
     for (const change of event.documentChanges) {
       const node = "node" in change ? change.node : null;
@@ -382,20 +393,11 @@ function startColorChainTool(command) {
     } catch (e) {
     }
   })();
-  figma.ui.onmessage = async (msg) => {
+  const onMessage = async (msg) => {
     try {
-      if (msg.type === UI_TO_MAIN.BOOT) {
-        figma.ui.postMessage({
-          type: MAIN_TO_UI.BOOTSTRAPPED,
-          command,
-          selectionSize: figma.currentPage.selection.length
-        });
-        await sendUpdate();
-        return;
-      }
       if (msg.type === UI_TO_MAIN.INSPECT_SELECTION_FOR_VARIABLE_CHAINS) {
         await sendUpdate();
-        return;
+        return true;
       }
     } catch (e) {
       figma.ui.postMessage({
@@ -403,6 +405,13 @@ function startColorChainTool(command) {
         message: e instanceof Error ? e.message : String(e)
       });
     }
+    return false;
+  };
+  return {
+    onActivate: () => {
+      scheduleUpdate();
+    },
+    onMessage
   };
 }
 var init_main_thread = __esm({
@@ -410,6 +419,560 @@ var init_main_thread = __esm({
     "use strict";
     init_messages();
     init_variable_chain();
+  }
+});
+
+// src/app/tools/mockup-markup/presets.ts
+function getColorVariableNameCandidates(preset) {
+  switch (preset) {
+    case "text":
+      return ["Markup Text", "Text"];
+    case "text-secondary":
+      return ["Markup Text Secondary", "Text Secondary", "Markup Text secondary", "Text secondary"];
+    case "purple":
+      return ["Markup Purple", "Purple"];
+  }
+}
+var MOCKUP_MARKUP_LIBRARY_NAME, TEXT_STYLE_ID_BY_PRESET, COLOR_VARIABLE_ID_RAW_BY_PRESET;
+var init_presets = __esm({
+  "src/app/tools/mockup-markup/presets.ts"() {
+    "use strict";
+    MOCKUP_MARKUP_LIBRARY_NAME = "Mockup markup";
+    TEXT_STYLE_ID_BY_PRESET = {
+      h1: "S:3e9bacca6574fd3bb647bc3f3fec124903d58931,1190:2",
+      h2: "S:d8f137455e6ade1a64398ac113cf0a49c2991ff6,1190:1",
+      h3: "S:a7abb8bbbf3b902fa8801548a013157907e75bc2,1260:33",
+      description: "S:d8195a8211b3819b1a888e4d1edf6218ff5d2fd5,1282:7",
+      paragraph: "S:a6d1706e317719d0750eae3655a3b4360ad2b9ef,1260:39"
+    };
+    COLOR_VARIABLE_ID_RAW_BY_PRESET = {
+      text: "VariableID:35e0b230bbdc8fa1906c60a25117319e726f2bd7/1116:1",
+      "text-secondary": "VariableID:84f084bc9e1c3ed3add7febfe9326d633010f8a2/1260:12",
+      purple: "VariableID:cefb32503d23428db2c20bac7615cff7b5feab07/1210:6"
+    };
+  }
+});
+
+// src/app/tools/mockup-markup/resolve.ts
+function leafName(name) {
+  const idx = (name != null ? name : "").lastIndexOf("/");
+  return idx >= 0 ? name.slice(idx + 1) || name : name;
+}
+function namesMatch(candidate, wanted) {
+  const c = (candidate != null ? candidate : "").trim().toLowerCase();
+  const w = (wanted != null ? wanted : "").trim().toLowerCase();
+  if (!c || !w) return false;
+  return c === w || leafName(c) === w;
+}
+function libraryNameMatches(candidate, wanted) {
+  const c = (candidate != null ? candidate : "").trim().toLowerCase();
+  const w = (wanted != null ? wanted : "").trim().toLowerCase();
+  if (!c || !w) return false;
+  return c === w;
+}
+async function resolveLocalTextStyleIdByNameRegex(regex) {
+  var _a;
+  try {
+    const styles = await figma.getLocalTextStylesAsync();
+    const match = styles.find((s) => {
+      var _a2;
+      return regex.test((_a2 = s.name) != null ? _a2 : "");
+    });
+    return (_a = match == null ? void 0 : match.id) != null ? _a : null;
+  } catch (e) {
+    return null;
+  }
+}
+async function resolveTextStyleIdForPreset(preset) {
+  var _a, _b;
+  const preferred = TEXT_STYLE_ID_BY_PRESET[preset];
+  try {
+    const style = await figma.getStyleByIdAsync(preferred);
+    const name = style == null ? void 0 : style.name;
+    const type = style == null ? void 0 : style.type;
+    if (style && type === "TEXT") {
+      const n = (name != null ? name : "").toLowerCase();
+      if (preset === "description" && n.includes("h3")) {
+        return (_a = await resolveLocalTextStyleIdByNameRegex(/description/i)) != null ? _a : preferred;
+      }
+      if (preset === "h3" && n.includes("description")) {
+        return (_b = await resolveLocalTextStyleIdByNameRegex(/\bh3\b/i)) != null ? _b : preferred;
+      }
+      return preferred;
+    }
+  } catch (e) {
+  }
+  const byName = preset === "h1" ? await resolveLocalTextStyleIdByNameRegex(/\bh1\b/i) : preset === "h2" ? await resolveLocalTextStyleIdByNameRegex(/\bh2\b/i) : preset === "h3" ? await resolveLocalTextStyleIdByNameRegex(/\bh3\b/i) : preset === "description" ? await resolveLocalTextStyleIdByNameRegex(/description/i) : await resolveLocalTextStyleIdByNameRegex(/paragraph|body/i);
+  return byName != null ? byName : preferred;
+}
+async function loadFontForTextStyleId(textStyleId) {
+  try {
+    const style = await figma.getStyleByIdAsync(textStyleId);
+    if (style && style.type === "TEXT") {
+      const fontName = style.fontName;
+      if (fontName) await figma.loadFontAsync(fontName);
+    }
+  } catch (e) {
+  }
+}
+function makeSolidPaintBoundToColorVariable(variableId) {
+  const paint = { type: "SOLID", color: { r: 0, g: 0, b: 0 }, opacity: 1 };
+  paint.boundVariables = { color: { type: "VARIABLE_ALIAS", id: variableId } };
+  return paint;
+}
+function normalizeVariableId(raw) {
+  const trimmed = (raw != null ? raw : "").trim();
+  if (!trimmed) return "";
+  const slashIdx = trimmed.indexOf("/");
+  return (slashIdx >= 0 ? trimmed.slice(0, slashIdx) : trimmed).trim();
+}
+async function resolveColorVariableId(rawId, fallbackNames) {
+  const normalized = normalizeVariableId(rawId);
+  if (normalized) {
+    try {
+      const v = await figma.variables.getVariableByIdAsync(normalized);
+      if (v == null ? void 0 : v.id) return v.id;
+    } catch (e) {
+    }
+  }
+  const importedId = await resolveColorVariableIdByNameFromEnabledLibraries(fallbackNames);
+  if (!importedId) {
+    console.log("[Mockup Markup] Color variable not found", {
+      rawId,
+      normalizedId: normalized || null,
+      fallbackNames,
+      note: "Enable the Mockup markup library OR import the variable into this file."
+    });
+  }
+  return importedId;
+}
+async function resolveColorVariableIdByNameFromEnabledLibraries(variableNameCandidates) {
+  try {
+    const locals = await figma.variables.getLocalVariablesAsync("COLOR");
+    for (const wanted of variableNameCandidates) {
+      const match = locals.find((v) => {
+        var _a;
+        return namesMatch((_a = v.name) != null ? _a : "", wanted);
+      });
+      if (match == null ? void 0 : match.id) return match.id;
+    }
+  } catch (e) {
+  }
+  try {
+    const collections = await figma.teamLibrary.getAvailableLibraryVariableCollectionsAsync();
+    const preferred = collections.filter((c) => libraryNameMatches(c.libraryName, MOCKUP_MARKUP_LIBRARY_NAME));
+    const rest = collections.filter((c) => !libraryNameMatches(c.libraryName, MOCKUP_MARKUP_LIBRARY_NAME));
+    const ordered = preferred.length > 0 ? [...preferred, ...rest] : collections;
+    for (const c of ordered) {
+      try {
+        const vars = await figma.teamLibrary.getVariablesInLibraryCollectionAsync(c.key);
+        for (const wanted of variableNameCandidates) {
+          const libMatch = vars.find(
+            (v) => {
+              var _a;
+              return v.resolvedType === "COLOR" && namesMatch((_a = v.name) != null ? _a : "", wanted);
+            }
+          );
+          if (libMatch == null ? void 0 : libMatch.key) {
+            const imported = await figma.variables.importVariableByKeyAsync(libMatch.key);
+            if (imported == null ? void 0 : imported.id) return imported.id;
+          }
+        }
+      } catch (e) {
+      }
+    }
+  } catch (e) {
+  }
+  return null;
+}
+async function resolveColorVariableForPreset(preset) {
+  const rawId = COLOR_VARIABLE_ID_RAW_BY_PRESET[preset];
+  const fallbackNames = getColorVariableNameCandidates(preset);
+  const id = await resolveColorVariableId(rawId, fallbackNames.length > 0 ? fallbackNames : ["Unknown"]);
+  if (!id) {
+    console.log("[Mockup Markup] Failed to resolve color preset", { preset, rawId, fallbackNames });
+  }
+  return id;
+}
+async function setExplicitModeForColorVariableCollection(variableId, modeName) {
+  var _a, _b;
+  try {
+    const variable = await figma.variables.getVariableByIdAsync(variableId);
+    const collectionId = variable == null ? void 0 : variable.variableCollectionId;
+    if (!collectionId) return;
+    const collection = await figma.variables.getVariableCollectionByIdAsync(collectionId);
+    if (!collection) return;
+    const wanted = modeName === "dark" ? "dark" : modeName;
+    const modes = Array.isArray(collection.modes) ? collection.modes : [];
+    const match = modes.find((m) => {
+      var _a2;
+      return ((_a2 = m.name) != null ? _a2 : "").trim().toLowerCase() === wanted;
+    });
+    const modeId = (_b = (_a = match == null ? void 0 : match.modeId) != null ? _a : collection.defaultModeId) != null ? _b : null;
+    if (!modeId) return;
+    figma.currentPage.setExplicitVariableModeForCollection(collection, modeId);
+  } catch (e) {
+    console.log("[Mockup Markup] Failed to set explicit variable mode", { variableId, modeName });
+  }
+}
+var init_resolve = __esm({
+  "src/app/tools/mockup-markup/resolve.ts"() {
+    "use strict";
+    init_presets();
+  }
+});
+
+// src/app/tools/mockup-markup/apply.ts
+function collectTextNodesRecursivelyFromSelection(selection) {
+  const result = [];
+  const seen = /* @__PURE__ */ new Set();
+  const add = (node) => {
+    if (node.type !== "TEXT") return;
+    if (seen.has(node.id)) return;
+    seen.add(node.id);
+    result.push(node);
+  };
+  const walk = (node) => {
+    add(node);
+    if (!("children" in node)) return;
+    const children = node.children;
+    if (!children || !Array.isArray(children)) return;
+    for (const child of children) {
+      walk(child);
+    }
+  };
+  for (const root of selection) {
+    walk(root);
+  }
+  return result;
+}
+async function applyMockupMarkupToSelection(request) {
+  var _a;
+  const selection = figma.currentPage.selection;
+  if (selection.length === 0) {
+    figma.notify("Select a text layer (or a frame with text) first");
+    return { applied: 0, skipped: 0 };
+  }
+  const textNodes = collectTextNodesRecursivelyFromSelection(selection);
+  if (textNodes.length === 0) {
+    figma.notify("No text layers found in selection");
+    return { applied: 0, skipped: 0 };
+  }
+  const styleId = await resolveTextStyleIdForPreset(request.presetTypography);
+  await loadFontForTextStyleId(styleId);
+  const colorVariableId = await resolveColorVariableForPreset(request.presetColor);
+  const fills = colorVariableId ? [makeSolidPaintBoundToColorVariable(colorVariableId)] : null;
+  if (request.forceModeName === "dark" && colorVariableId) {
+    await setExplicitModeForColorVariableCollection(colorVariableId, "dark");
+  }
+  if (!fills) {
+    console.log("[Mockup Markup] Apply: color preset not applied", { presetColor: request.presetColor });
+  }
+  let applied = 0;
+  let skipped = 0;
+  const changed = [];
+  for (let idx = 0; idx < textNodes.length; idx++) {
+    const text = textNodes[idx];
+    try {
+      await text.setTextStyleIdAsync(styleId);
+      const len = ((_a = text.characters) != null ? _a : "").length;
+      if (len > 0) await text.setRangeTextStyleIdAsync(0, len, styleId);
+      if (request.width400) {
+        try {
+          ;
+          text.textAutoResize = "HEIGHT";
+          text.resize(400, text.height);
+        } catch (e) {
+        }
+      }
+      if (fills) text.fills = fills;
+      applied++;
+      changed.push(text);
+    } catch (e) {
+      skipped++;
+    }
+  }
+  if (applied > 0) {
+    figma.currentPage.selection = changed;
+    try {
+      figma.viewport.scrollAndZoomIntoView([changed[0]]);
+    } catch (e) {
+    }
+  }
+  figma.notify(
+    applied > 0 ? `Applied markup to ${applied} text layer(s)${skipped ? `, skipped ${skipped}` : ""}` : skipped ? `Nothing applied (skipped ${skipped})` : "Nothing applied"
+  );
+  return { applied, skipped };
+}
+var init_apply = __esm({
+  "src/app/tools/mockup-markup/apply.ts"() {
+    "use strict";
+    init_resolve();
+  }
+});
+
+// src/app/tools/mockup-markup/color-previews.ts
+function clamp012(n) {
+  return Math.max(0, Math.min(1, n));
+}
+function toHexByte(n01) {
+  const v = Math.round(clamp012(n01) * 255);
+  return v.toString(16).padStart(2, "0").toUpperCase();
+}
+function rgbToHex(rgb) {
+  return `#${toHexByte(rgb.r)}${toHexByte(rgb.g)}${toHexByte(rgb.b)}`;
+}
+async function resolveModeIdForVariable(variableId, forceModeName) {
+  var _a, _b, _c, _d, _e;
+  try {
+    const variable = await figma.variables.getVariableByIdAsync(variableId);
+    const collectionId = variable == null ? void 0 : variable.variableCollectionId;
+    if (!collectionId) return null;
+    const collection = await figma.variables.getVariableCollectionByIdAsync(collectionId);
+    if (!collection) return null;
+    if (forceModeName === "dark") {
+      const match = ((_a = collection.modes) != null ? _a : []).find((m) => {
+        var _a2;
+        return ((_a2 = m.name) != null ? _a2 : "").trim().toLowerCase() === "dark";
+      });
+      if (match == null ? void 0 : match.modeId) return match.modeId;
+    }
+    const explicit = (_b = figma.currentPage.explicitVariableModes) == null ? void 0 : _b[collectionId];
+    if (typeof explicit === "string" && explicit) return explicit;
+    const defaultModeId = collection.defaultModeId;
+    if (defaultModeId) return defaultModeId;
+    return (_e = (_d = ((_c = collection.modes) != null ? _c : [])[0]) == null ? void 0 : _d.modeId) != null ? _e : null;
+  } catch (e) {
+    return null;
+  }
+}
+async function resolveColorPreviewFromVariableId(variableId, forceModeName) {
+  var _a;
+  const seen = /* @__PURE__ */ new Set();
+  let currentId = variableId;
+  for (let steps = 0; steps < 10; steps++) {
+    if (!currentId) break;
+    if (seen.has(currentId)) break;
+    seen.add(currentId);
+    try {
+      const variable = await figma.variables.getVariableByIdAsync(currentId);
+      if (!variable) break;
+      const modeId = await resolveModeIdForVariable(currentId, forceModeName);
+      const valuesByMode = variable.valuesByMode;
+      const value = modeId && valuesByMode ? valuesByMode[modeId] : void 0;
+      if (value && typeof value === "object" && "type" in value && value.type === "VARIABLE_ALIAS") {
+        currentId = (_a = value.id) != null ? _a : null;
+        continue;
+      }
+      if (value && typeof value === "object" && "r" in value && "g" in value && "b" in value) {
+        const rgb = value;
+        const hex = rgbToHex({ r: rgb.r, g: rgb.g, b: rgb.b });
+        const a = typeof rgb.a === "number" ? clamp012(rgb.a) : 1;
+        const opacityPercent = Math.round(a * 100);
+        return { hex, opacityPercent };
+      }
+    } catch (e) {
+      break;
+    }
+  }
+  return { hex: null, opacityPercent: null };
+}
+async function getMockupMarkupColorPreviews(forceModeName) {
+  const textId = await resolveColorVariableForPreset("text");
+  const textSecondaryId = await resolveColorVariableForPreset("text-secondary");
+  const purpleId = await resolveColorVariableForPreset("purple");
+  const [text, textSecondary, purple] = await Promise.all([
+    textId ? resolveColorPreviewFromVariableId(textId, forceModeName) : Promise.resolve({ hex: null, opacityPercent: null }),
+    textSecondaryId ? resolveColorPreviewFromVariableId(textSecondaryId, forceModeName) : Promise.resolve({ hex: null, opacityPercent: null }),
+    purpleId ? resolveColorPreviewFromVariableId(purpleId, forceModeName) : Promise.resolve({ hex: null, opacityPercent: null })
+  ]);
+  return { text, textSecondary, purple };
+}
+var init_color_previews = __esm({
+  "src/app/tools/mockup-markup/color-previews.ts"() {
+    "use strict";
+    init_resolve();
+  }
+});
+
+// src/app/tools/mockup-markup/create.ts
+async function createMockupMarkupText(request) {
+  var _a;
+  const text = figma.createText();
+  const center = figma.viewport.center;
+  text.x = center.x;
+  text.y = center.y;
+  const styleId = await resolveTextStyleIdForPreset(request.presetTypography);
+  await loadFontForTextStyleId(styleId);
+  try {
+    await text.setTextStyleIdAsync(styleId);
+  } catch (e) {
+  }
+  try {
+    text.characters = "Text";
+    const len = ((_a = text.characters) != null ? _a : "").length;
+    if (len > 0) {
+      try {
+        await text.setRangeTextStyleIdAsync(0, len, styleId);
+      } catch (e) {
+      }
+    }
+  } catch (e) {
+  }
+  if (request.width400) {
+    try {
+      ;
+      text.textAutoResize = "HEIGHT";
+      text.resize(400, text.height);
+    } catch (e) {
+    }
+  }
+  const variableId = await resolveColorVariableForPreset(request.presetColor);
+  if (variableId) {
+    if (request.forceModeName === "dark") {
+      await setExplicitModeForColorVariableCollection(variableId, "dark");
+    }
+    text.fills = [makeSolidPaintBoundToColorVariable(variableId)];
+  } else {
+    console.log("[Mockup Markup] Create text: color preset not applied", { presetColor: request.presetColor });
+  }
+  figma.currentPage.selection = [text];
+  figma.viewport.scrollAndZoomIntoView([text]);
+  return text;
+}
+var init_create = __esm({
+  "src/app/tools/mockup-markup/create.ts"() {
+    "use strict";
+    init_resolve();
+  }
+});
+
+// src/app/tools/mockup-markup/import-once.ts
+async function importMockupMarkupVariablesOnce() {
+  try {
+    const already = await figma.clientStorage.getAsync(IMPORT_ONCE_KEY);
+    if (already === true) return;
+  } catch (e) {
+  }
+  await Promise.all([
+    resolveColorVariableForPreset("text"),
+    resolveColorVariableForPreset("text-secondary"),
+    resolveColorVariableForPreset("purple")
+  ]);
+  try {
+    await figma.clientStorage.setAsync(IMPORT_ONCE_KEY, true);
+  } catch (e) {
+  }
+}
+var IMPORT_ONCE_KEY;
+var init_import_once = __esm({
+  "src/app/tools/mockup-markup/import-once.ts"() {
+    "use strict";
+    init_resolve();
+    IMPORT_ONCE_KEY = "mockup-markup.imported-v1";
+  }
+});
+
+// src/app/tools/mockup-markup/main-thread.ts
+function collectTextNodesRecursivelyFromSelection2(selection) {
+  const result = [];
+  const seen = /* @__PURE__ */ new Set();
+  const add = (node) => {
+    if (node.type !== "TEXT") return;
+    if (seen.has(node.id)) return;
+    seen.add(node.id);
+    result.push(node);
+  };
+  const walk = (node) => {
+    add(node);
+    if (!("children" in node)) return;
+    const children = node.children;
+    if (!children || !Array.isArray(children)) return;
+    for (const child of children) {
+      walk(child);
+    }
+  };
+  for (const root of selection) {
+    walk(root);
+  }
+  return result;
+}
+function getState() {
+  const selection = figma.currentPage.selection;
+  const textNodes = selection.length > 0 ? collectTextNodesRecursivelyFromSelection2(selection) : [];
+  return {
+    selectionSize: selection.length,
+    textNodeCount: textNodes.length,
+    hasSourceTextNode: textNodes.length > 0
+  };
+}
+function registerMockupMarkupTool(getActiveTool) {
+  const postState = () => {
+    if (getActiveTool() !== "mockup-markup-tool") return;
+    figma.ui.postMessage({ type: MAIN_TO_UI.MOCKUP_MARKUP_STATE, state: getState() });
+  };
+  figma.on("selectionchange", postState);
+  const onActivate = async () => {
+    postState();
+    figma.ui.postMessage({ type: MAIN_TO_UI.MOCKUP_MARKUP_STATUS, status: { status: "working", message: "Preparing\u2026" } });
+    await importMockupMarkupVariablesOnce();
+    const previews = await getMockupMarkupColorPreviews("dark");
+    figma.ui.postMessage({ type: MAIN_TO_UI.MOCKUP_MARKUP_COLOR_PREVIEWS, previews });
+    figma.ui.postMessage({ type: MAIN_TO_UI.MOCKUP_MARKUP_STATUS, status: { status: "idle" } });
+  };
+  const onMessage = async (msg) => {
+    try {
+      if (msg.type === UI_TO_MAIN.MOCKUP_MARKUP_LOAD_STATE) {
+        await onActivate();
+        return true;
+      }
+      if (msg.type === UI_TO_MAIN.MOCKUP_MARKUP_APPLY) {
+        figma.ui.postMessage({
+          type: MAIN_TO_UI.MOCKUP_MARKUP_STATUS,
+          status: { status: "working", message: "Applying\u2026" }
+        });
+        await applyMockupMarkupToSelection(msg.request);
+        figma.ui.postMessage({ type: MAIN_TO_UI.MOCKUP_MARKUP_STATUS, status: { status: "idle" } });
+        postState();
+        return true;
+      }
+      if (msg.type === UI_TO_MAIN.MOCKUP_MARKUP_CREATE_TEXT) {
+        figma.ui.postMessage({
+          type: MAIN_TO_UI.MOCKUP_MARKUP_STATUS,
+          status: { status: "working", message: "Creating text\u2026" }
+        });
+        await createMockupMarkupText(msg.request);
+        figma.ui.postMessage({ type: MAIN_TO_UI.MOCKUP_MARKUP_STATUS, status: { status: "idle" } });
+        postState();
+        return true;
+      }
+      if (msg.type === UI_TO_MAIN.MOCKUP_MARKUP_GET_COLOR_PREVIEWS) {
+        const previews = await getMockupMarkupColorPreviews(msg.forceModeName);
+        figma.ui.postMessage({ type: MAIN_TO_UI.MOCKUP_MARKUP_COLOR_PREVIEWS, previews });
+        return true;
+      }
+    } catch (e) {
+      try {
+        figma.notify(e instanceof Error ? e.message : String(e));
+      } catch (e2) {
+      }
+      figma.ui.postMessage({ type: MAIN_TO_UI.MOCKUP_MARKUP_STATUS, status: { status: "idle" } });
+    }
+    return false;
+  };
+  return {
+    onActivate,
+    onMessage
+  };
+}
+var init_main_thread2 = __esm({
+  "src/app/tools/mockup-markup/main-thread.ts"() {
+    "use strict";
+    init_messages();
+    init_apply();
+    init_color_previews();
+    init_create();
+    init_import_once();
   }
 });
 
@@ -470,30 +1033,30 @@ function multiplyPaintOpacity(paints, multiplier) {
     return p;
   });
 }
-function normalizeVariableId(raw) {
+function normalizeVariableId2(raw) {
   const trimmed = (raw != null ? raw : "").trim();
   if (!trimmed) return "";
   const slashIdx = trimmed.indexOf("/");
   return (slashIdx >= 0 ? trimmed.slice(0, slashIdx) : trimmed).trim();
 }
-function leafName(name) {
+function leafName2(name) {
   const idx = (name != null ? name : "").lastIndexOf("/");
   return idx >= 0 ? name.slice(idx + 1) || name : name;
 }
-function namesMatch(candidate, wanted) {
+function namesMatch2(candidate, wanted) {
   const c = (candidate != null ? candidate : "").trim().toLowerCase();
   const w = (wanted != null ? wanted : "").trim().toLowerCase();
   if (!c || !w) return false;
-  return c === w || leafName(c) === w;
+  return c === w || leafName2(c) === w;
 }
-function libraryNameMatches(candidate, wanted) {
+function libraryNameMatches2(candidate, wanted) {
   const c = (candidate != null ? candidate : "").trim().toLowerCase();
   const w = (wanted != null ? wanted : "").trim().toLowerCase();
   if (!c || !w) return false;
   return c === w;
 }
-async function resolveColorVariableId(rawId, fallbackName) {
-  const normalized = normalizeVariableId(rawId);
+async function resolveColorVariableId2(rawId, fallbackName) {
+  const normalized = normalizeVariableId2(rawId);
   if (normalized) {
     try {
       const v = await figma.variables.getVariableByIdAsync(normalized);
@@ -505,15 +1068,15 @@ async function resolveColorVariableId(rawId, fallbackName) {
     const locals = await figma.variables.getLocalVariablesAsync("COLOR");
     const match = locals.find((v) => {
       var _a;
-      return namesMatch((_a = v.name) != null ? _a : "", fallbackName);
+      return namesMatch2((_a = v.name) != null ? _a : "", fallbackName);
     });
     if (match == null ? void 0 : match.id) return { id: match.id, source: "local-name" };
   } catch (e) {
   }
   try {
     const collections = await figma.teamLibrary.getAvailableLibraryVariableCollectionsAsync();
-    const preferred = collections.filter((c) => libraryNameMatches(c.libraryName, MARKUP_LIBRARY_NAME));
-    const rest = collections.filter((c) => !libraryNameMatches(c.libraryName, MARKUP_LIBRARY_NAME));
+    const preferred = collections.filter((c) => libraryNameMatches2(c.libraryName, MARKUP_LIBRARY_NAME));
+    const rest = collections.filter((c) => !libraryNameMatches2(c.libraryName, MARKUP_LIBRARY_NAME));
     const ordered = preferred.length > 0 ? [...preferred, ...rest] : collections;
     for (const c of ordered) {
       try {
@@ -521,7 +1084,7 @@ async function resolveColorVariableId(rawId, fallbackName) {
         const libMatch = vars.find(
           (v) => {
             var _a;
-            return v.resolvedType === "COLOR" && namesMatch((_a = v.name) != null ? _a : "", fallbackName);
+            return v.resolvedType === "COLOR" && namesMatch2((_a = v.name) != null ? _a : "", fallbackName);
           }
         );
         if (libMatch == null ? void 0 : libMatch.key) {
@@ -549,14 +1112,14 @@ async function resolveMarkupTextFills(themeColors) {
   const fallbackSecondary = [makeSolidPaint(themeColors.secondary, 0.5)];
   let primary = fallbackPrimary;
   let secondary = fallbackSecondary;
-  const resolvedPrimary = await resolveColorVariableId(MARKUP_TEXT_COLOR_VARIABLE_ID_RAW, MARKUP_TEXT_VARIABLE_NAME);
+  const resolvedPrimary = await resolveColorVariableId2(MARKUP_TEXT_COLOR_VARIABLE_ID_RAW, MARKUP_TEXT_VARIABLE_NAME);
   if (resolvedPrimary == null ? void 0 : resolvedPrimary.id) {
     const paint = { type: "SOLID", color: { r: 0, g: 0, b: 0 }, opacity: 1 };
     paint.boundVariables = { color: { type: "VARIABLE_ALIAS", id: resolvedPrimary.id } };
     primary = [paint];
     debugLog("Markup Text variable resolved", {
       raw: MARKUP_TEXT_COLOR_VARIABLE_ID_RAW,
-      normalized: normalizeVariableId(MARKUP_TEXT_COLOR_VARIABLE_ID_RAW),
+      normalized: normalizeVariableId2(MARKUP_TEXT_COLOR_VARIABLE_ID_RAW),
       resolvedId: resolvedPrimary.id,
       source: resolvedPrimary.source,
       nameTried: MARKUP_TEXT_VARIABLE_NAME
@@ -564,11 +1127,11 @@ async function resolveMarkupTextFills(themeColors) {
   } else {
     debugLog("Markup Text variable NOT resolved (using theme)", {
       raw: MARKUP_TEXT_COLOR_VARIABLE_ID_RAW,
-      normalized: normalizeVariableId(MARKUP_TEXT_COLOR_VARIABLE_ID_RAW),
+      normalized: normalizeVariableId2(MARKUP_TEXT_COLOR_VARIABLE_ID_RAW),
       nameTried: MARKUP_TEXT_VARIABLE_NAME
     });
   }
-  const resolvedSecondary = await resolveColorVariableId(
+  const resolvedSecondary = await resolveColorVariableId2(
     MARKUP_TEXT_SECONDARY_COLOR_VARIABLE_ID_RAW,
     MARKUP_TEXT_SECONDARY_VARIABLE_NAME
   );
@@ -578,7 +1141,7 @@ async function resolveMarkupTextFills(themeColors) {
     secondary = [paint];
     debugLog("Markup Text Secondary variable resolved", {
       raw: MARKUP_TEXT_SECONDARY_COLOR_VARIABLE_ID_RAW,
-      normalized: normalizeVariableId(MARKUP_TEXT_SECONDARY_COLOR_VARIABLE_ID_RAW),
+      normalized: normalizeVariableId2(MARKUP_TEXT_SECONDARY_COLOR_VARIABLE_ID_RAW),
       resolvedId: resolvedSecondary.id,
       source: resolvedSecondary.source,
       nameTried: MARKUP_TEXT_SECONDARY_VARIABLE_NAME
@@ -587,7 +1150,7 @@ async function resolveMarkupTextFills(themeColors) {
     if (primary !== fallbackPrimary) secondary = multiplyPaintOpacity(primary, 0.5);
     debugLog("Markup Text Secondary variable NOT resolved", {
       raw: MARKUP_TEXT_SECONDARY_COLOR_VARIABLE_ID_RAW,
-      normalized: normalizeVariableId(MARKUP_TEXT_SECONDARY_COLOR_VARIABLE_ID_RAW),
+      normalized: normalizeVariableId2(MARKUP_TEXT_SECONDARY_COLOR_VARIABLE_ID_RAW),
       nameTried: MARKUP_TEXT_SECONDARY_VARIABLE_NAME,
       usingFallback50pctOfPrimary: primary !== fallbackPrimary,
       secondarySource: primary !== fallbackPrimary ? "derived" : "theme"
@@ -797,7 +1360,7 @@ var init_shared = __esm({
 });
 
 // src/app/tools/print-color-usages/analyze.ts
-function rgbToHex(rgb) {
+function rgbToHex2(rgb) {
   const red = Math.round(rgb.r * 255);
   const green = Math.round(rgb.g * 255);
   const blue = Math.round(rgb.b * 255);
@@ -866,7 +1429,7 @@ async function resolveVariableLabelPartsFromVariable(variableId, showLinkedColor
       }
     } catch (e) {
     }
-    if (!secondaryText) secondaryText = rgbToHex(rgb);
+    if (!secondaryText) secondaryText = rgbToHex2(rgb);
     if (alpha !== void 0 && alpha !== 1) {
       secondaryText += ` ${Math.round(alpha * 100)}%`;
     }
@@ -918,7 +1481,7 @@ async function getColorUsage(paint, showLinkedColors = true, node, hideFolderNam
     };
   }
   if (paint.type === "SOLID") {
-    const label = rgbToHex(paint.color) + (paint.opacity !== void 0 && paint.opacity !== 1 ? ` ${Math.round(paint.opacity * 100)}%` : "");
+    const label = rgbToHex2(paint.color) + (paint.opacity !== void 0 && paint.opacity !== 1 ? ` ${Math.round(paint.opacity * 100)}%` : "");
     return { label, layerName: label, uniqueKey: label };
   }
   return { label: "unknown color", layerName: "unknown color", uniqueKey: "unknown color" };
@@ -1188,7 +1751,7 @@ async function resolveVariableLabelPartsFromVariable2(variableId, showLinkedColo
   }
   return { primaryText, secondaryText, modeContext };
 }
-function collectTextNodesRecursivelyFromSelection(selection) {
+function collectTextNodesRecursivelyFromSelection3(selection) {
   const result = [];
   const seen = /* @__PURE__ */ new Set();
   const add = (node) => {
@@ -1226,7 +1789,7 @@ async function updateSelectedTextNodesByVariableId(settings) {
   const labelFills = await resolveMarkupTextFills(themeColors);
   const primaryFills = labelFills.primary;
   const secondaryFills = labelFills.secondary;
-  const textNodes = hasSelection ? collectTextNodesRecursivelyFromSelection(selection) : figma.currentPage.findAll((n) => n.type === "TEXT").map((n) => n).filter((t) => {
+  const textNodes = hasSelection ? collectTextNodesRecursivelyFromSelection3(selection) : figma.currentPage.findAll((n) => n.type === "TEXT").map((n) => n).filter((t) => {
     var _a2;
     return ((_a2 = t.name) != null ? _a2 : "").trim().startsWith("VariableID");
   });
@@ -1378,32 +1941,26 @@ async function postSettings() {
   const settings = await loadPrintColorUsagesSettings();
   figma.ui.postMessage({ type: MAIN_TO_UI.PRINT_COLOR_USAGES_SETTINGS, settings: __spreadProps(__spreadValues({}, settings), { textTheme: "dark" }) });
 }
-function startPrintColorUsagesTool(command) {
+function registerPrintColorUsagesTool(getActiveTool) {
   const postSelection = () => {
+    if (getActiveTool() !== "print-color-usages-tool") return;
     figma.ui.postMessage({ type: MAIN_TO_UI.PRINT_COLOR_USAGES_SELECTION, selectionSize: figma.currentPage.selection.length });
   };
   figma.on("selectionchange", postSelection);
-  figma.ui.onmessage = async (msg) => {
+  const onActivate = async () => {
+    postSelection();
+    await postSettings();
+    figma.ui.postMessage({ type: MAIN_TO_UI.PRINT_COLOR_USAGES_STATUS, status: { status: "idle" } });
+  };
+  const onMessage = async (msg) => {
     try {
-      if (msg.type === UI_TO_MAIN.BOOT) {
-        figma.ui.postMessage({
-          type: MAIN_TO_UI.BOOTSTRAPPED,
-          command,
-          selectionSize: figma.currentPage.selection.length
-        });
-        postSelection();
-        await postSettings();
-        figma.ui.postMessage({ type: MAIN_TO_UI.PRINT_COLOR_USAGES_STATUS, status: { status: "idle" } });
-        return;
-      }
       if (msg.type === UI_TO_MAIN.PRINT_COLOR_USAGES_LOAD_SETTINGS) {
-        postSelection();
-        await postSettings();
-        return;
+        await onActivate();
+        return true;
       }
       if (msg.type === UI_TO_MAIN.PRINT_COLOR_USAGES_SAVE_SETTINGS) {
         await savePrintColorUsagesSettings(__spreadProps(__spreadValues({}, msg.settings), { textTheme: "dark" }));
-        return;
+        return true;
       }
       if (msg.type === UI_TO_MAIN.PRINT_COLOR_USAGES_PRINT) {
         const settings = __spreadProps(__spreadValues({}, msg.settings), { textTheme: "dark" });
@@ -1413,7 +1970,7 @@ function startPrintColorUsagesTool(command) {
         });
         await printColorUsagesFromSelection(settings);
         figma.ui.postMessage({ type: MAIN_TO_UI.PRINT_COLOR_USAGES_STATUS, status: { status: "idle" } });
-        return;
+        return true;
       }
       if (msg.type === UI_TO_MAIN.PRINT_COLOR_USAGES_UPDATE) {
         const settings = __spreadProps(__spreadValues({}, msg.settings), { textTheme: "dark" });
@@ -1423,7 +1980,7 @@ function startPrintColorUsagesTool(command) {
         });
         await updateSelectedTextNodesByVariableId(settings);
         figma.ui.postMessage({ type: MAIN_TO_UI.PRINT_COLOR_USAGES_STATUS, status: { status: "idle" } });
-        return;
+        return true;
       }
     } catch (e) {
       try {
@@ -1435,9 +1992,14 @@ function startPrintColorUsagesTool(command) {
         status: { status: "idle" }
       });
     }
+    return false;
+  };
+  return {
+    onActivate,
+    onMessage
   };
 }
-var init_main_thread2 = __esm({
+var init_main_thread3 = __esm({
   "src/app/tools/print-color-usages/main-thread.ts"() {
     "use strict";
     init_messages();
@@ -1453,25 +2015,47 @@ function run(command) {
     {
       width: 360,
       height: 500,
-      title: command === "color-chain-tool" ? "View Colors Chain" : command === "print-color-usages-tool" ? "Print Color Usages" : "JetBrains Design Tools"
+      title: command === "color-chain-tool" ? "View Colors Chain" : command === "print-color-usages-tool" ? "Print Color Usages" : command === "mockup-markup-tool" ? "Mockup markup quick apply" : "JetBrains Design Tools"
     },
     { command }
   );
-  if (command === "color-chain-tool") {
-    startColorChainTool(command);
-    return;
-  }
-  if (command === "print-color-usages-tool") {
-    startPrintColorUsagesTool(command);
-    return;
-  }
+  let activeTool = command === "color-chain-tool" || command === "print-color-usages-tool" || command === "mockup-markup-tool" ? command : "home";
+  const getActiveTool = () => activeTool;
+  const colorChain = registerColorChainTool(getActiveTool);
+  const printColorUsages = registerPrintColorUsagesTool(getActiveTool);
+  const mockupMarkup = registerMockupMarkupTool(getActiveTool);
+  const activate = async (tool) => {
+    activeTool = tool;
+    if (tool === "color-chain-tool") {
+      colorChain.onActivate();
+      return;
+    }
+    if (tool === "print-color-usages-tool") {
+      await printColorUsages.onActivate();
+      return;
+    }
+    if (tool === "mockup-markup-tool") {
+      mockupMarkup.onActivate();
+      return;
+    }
+  };
   figma.ui.onmessage = async (msg) => {
-    if (msg.type !== UI_TO_MAIN.BOOT) return;
-    figma.ui.postMessage({
-      type: MAIN_TO_UI.BOOTSTRAPPED,
-      command,
-      selectionSize: figma.currentPage.selection.length
-    });
+    if (msg.type === UI_TO_MAIN.BOOT) {
+      figma.ui.postMessage({
+        type: MAIN_TO_UI.BOOTSTRAPPED,
+        command,
+        selectionSize: figma.currentPage.selection.length
+      });
+      await activate(activeTool);
+      return;
+    }
+    if (msg.type === UI_TO_MAIN.SET_ACTIVE_TOOL) {
+      await activate(msg.tool);
+      return;
+    }
+    if (await mockupMarkup.onMessage(msg)) return;
+    if (await printColorUsages.onMessage(msg)) return;
+    if (await colorChain.onMessage(msg)) return;
   };
 }
 var init_run = __esm({
@@ -1481,6 +2065,7 @@ var init_run = __esm({
     init_messages();
     init_main_thread();
     init_main_thread2();
+    init_main_thread3();
   }
 });
 
@@ -1529,7 +2114,22 @@ var init_main3 = __esm({
   }
 });
 
+// src/mockup-markup-tool/main.ts
+var main_exports4 = {};
+__export(main_exports4, {
+  default: () => main_default4
+});
+function main_default4() {
+  run("mockup-markup-tool");
+}
+var init_main4 = __esm({
+  "src/mockup-markup-tool/main.ts"() {
+    "use strict";
+    init_run();
+  }
+});
+
 // <stdin>
-var modules = { "src/home/main.ts--default": (init_main(), __toCommonJS(main_exports))["default"], "src/color-chain-tool/main.ts--default": (init_main2(), __toCommonJS(main_exports2))["default"], "src/print-color-usages-tool/main.ts--default": (init_main3(), __toCommonJS(main_exports3))["default"] };
+var modules = { "src/home/main.ts--default": (init_main(), __toCommonJS(main_exports))["default"], "src/color-chain-tool/main.ts--default": (init_main2(), __toCommonJS(main_exports2))["default"], "src/print-color-usages-tool/main.ts--default": (init_main3(), __toCommonJS(main_exports3))["default"], "src/mockup-markup-tool/main.ts--default": (init_main4(), __toCommonJS(main_exports4))["default"] };
 var commandId = typeof figma.command === "undefined" || figma.command === "" || figma.command === "generate" ? "src/home/main.ts--default" : figma.command;
 modules[commandId]();

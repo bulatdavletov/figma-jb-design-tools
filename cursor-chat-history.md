@@ -250,6 +250,50 @@
 - Change: when updating with a selection, the tool now finds **all text layers inside the selection recursively** (not only directly selected text layers).
 - Verification: `npm run build` passed.
 
+### 2026-02-03
+
+#### New tool: Mockup markup tool (apply Mockup Markup text styles/colors)
+- Goal: Add a new tool that can **apply** (and possibly “paste/apply to selection”) text styles and text colors from the **“Mockup markup”** library to selected text layers.
+- Reference: reuse the existing Markup Kit resolution logic in `src/app/tools/print-color-usages/markup-kit.ts` (resolves “Markup Text” / “Markup Text Secondary” variable-based paints + preferred label text style id with safe fallbacks).
+- Expected behavior: select one or more text layers (or frames/groups containing text) → run tool → plugin applies chosen markup typography + primary/secondary text color tokens to the selection.
+
+#### Mockup Markup tool — issues + requested UX
+- Issue: UI shows “Selection: none” even when selection exists (likely when navigating from Tools Home → tool card; main thread tool handler not active).
+- Request: Add explicit presets:
+  - Typography: H1, H2, H3, Description text, Paragraph text
+  - Colors: Text, Text secondary, Purple
+- Request: One-time debug logging to discover the needed IDs/keys (styles + variables) for the “Mockup markup” library in the current file.
+- Question: Can we set a default variable mode (e.g. apply “Dark”) for whole page/document? (Investigate Figma variables mode APIs.)
+
+#### Mockup Markup tool — implemented (presets + debug + force dark)
+- Fix: Added active-tool routing between UI and main thread so tools opened from “Tools Home” receive selection updates (prevents “Selection: none” when selection exists).
+- UI: Added preset selectors for typography (H1/H2/H3/Description/Paragraph) and color (Text/Text secondary/Purple).
+- UI: Added “Force variables mode: Dark” toggle (sets explicit mode for the involved variable collection when applying preset color).
+- Debug: Added “Debug: log IDs to console” button to print filtered local text styles + local color variables + enabled library variable collections for “Mockup markup”.
+- Debug update: also logs filtered COLOR variables inside the preferred “Mockup markup” library variable collection(s) (helps identify exact variable names/keys like “Purple”).
+
+#### Mockup Markup tool — new workflow: learn presets from selection
+- User idea: place sample nodes for required typography + colors on canvas, select them, and let the tool extract and reuse them.
+- Implemented: “Learn presets from selection” button saves learned presets to `figma.clientStorage` and reuses them for applying typography/color presets (prefers learned `textStyleId` and learned `fills`).
+
+#### Mockup Markup tool — spec-based simplification (hardcoded IDs + cleaner UI)
+- Source of truth: `Specs/Mockup markup tool.md` with fixed text style IDs and variable IDs.
+- Change: Tool now uses **hardcoded** text style IDs (H1/H2/H3/Description/Paragraph) and **hardcoded** color variable IDs (Text/Text Secondary/Purple), resolving/importing variables as needed.
+- UI: per `Specs/Design Best Practices.md`, removed competing bottom actions. Now there is **one primary action**:
+  - If selection contains text → **Apply to selection**
+  - If selection has no text → **Create text**
+  Includes a small preview line (“will apply to N text layers” / “will create 1 text layer”).
+- Debug: Added console logs when a color preset variable can’t be resolved/applied (prints preset name + raw VariableID + fallback name).
+- Fix: Updated Description text style ID to `S:d8195a8211b3819b1a888e4d1edf6218ff5d2fd5,1282:7` (no longer shares H3 id).
+- Fix: Dark mode now applies page-wide by calling `figma.currentPage.setExplicitVariableModeForCollection(...)` (previously we incorrectly called it on `figma`, so it didn’t stick).
+- UI: Typography preset order now matches spec (Paragraph → Description → H1 → H2 → H3); default preset is Paragraph.
+- UI: Added color swatches next to Text/Text secondary/Purple by resolving the variable colors on the main thread and sending hex previews to UI.
+- Fix: Purple variable fallback name matching now uses “Markup Purple” (per spec) instead of only “Purple”, and resolution tries all candidate names when import-by-id fails.
+- Debug (Figma MCP): Checked current selection nodes. Found sample typography nodes matching Markup H1/H2/H3/Description/Paragraph, and sample color nodes using tokens `--markup-text`, `--markup-text-secondary`, `--markup-purple` (purple resolves to `#DE3CE1` in the design context).
+- Improvement: On first open, tool now auto-imports required Mockup Markup variables (Text/Text Secondary/Purple) once via `clientStorage` flag, so subsequent lookups by id work and swatches resolve immediately.
+- UI: Added “Width 400” checkbox; when enabled, Create/Apply sets TextNodes to fixed width 400 with auto-height.
+- Naming: Renamed the tool label to “Mockup markup quick apply” (menu item, home card, window title/header).
+
 ## Git (initialize repo)
 
 ### 2026-01-29

@@ -1,10 +1,11 @@
-import { MAIN_TO_UI, UI_TO_MAIN, type UiToMainMessage } from "../../messages"
+import { MAIN_TO_UI, UI_TO_MAIN, type ActiveTool, type UiToMainMessage } from "../../messages"
 import { inspectSelectionForVariableChainsByLayerV2 } from "../../variable-chain"
 
-export function startColorChainTool(command: string): void {
+export function registerColorChainTool(getActiveTool: () => ActiveTool) {
   let pendingTimer: number | null = null
 
   const sendUpdate = async () => {
+    if (getActiveTool() !== "color-chain-tool") return
     if (figma.currentPage.selection.length === 0) {
       figma.ui.postMessage({ type: MAIN_TO_UI.SELECTION_EMPTY })
       return
@@ -14,6 +15,7 @@ export function startColorChainTool(command: string): void {
   }
 
   const scheduleUpdate = () => {
+    if (getActiveTool() !== "color-chain-tool") return
     if (pendingTimer != null) clearTimeout(pendingTimer)
     pendingTimer = setTimeout(() => {
       pendingTimer = null
@@ -45,6 +47,7 @@ export function startColorChainTool(command: string): void {
   }
 
   const handleDocumentChange = (event: DocumentChangeEvent) => {
+    if (getActiveTool() !== "color-chain-tool") return
     if (figma.currentPage.selection.length === 0) return
     for (const change of event.documentChanges) {
       const node = "node" in change ? (change as any).node : null
@@ -66,21 +69,11 @@ export function startColorChainTool(command: string): void {
     }
   })()
 
-  figma.ui.onmessage = async (msg: UiToMainMessage) => {
+  const onMessage = async (msg: UiToMainMessage) => {
     try {
-      if (msg.type === UI_TO_MAIN.BOOT) {
-        figma.ui.postMessage({
-          type: MAIN_TO_UI.BOOTSTRAPPED,
-          command,
-          selectionSize: figma.currentPage.selection.length,
-        })
-        await sendUpdate()
-        return
-      }
-
       if (msg.type === UI_TO_MAIN.INSPECT_SELECTION_FOR_VARIABLE_CHAINS) {
         await sendUpdate()
-        return
+        return true
       }
     } catch (e) {
       figma.ui.postMessage({
@@ -88,6 +81,14 @@ export function startColorChainTool(command: string): void {
         message: e instanceof Error ? e.message : String(e),
       })
     }
+    return false
+  }
+
+  return {
+    onActivate: () => {
+      scheduleUpdate()
+    },
+    onMessage,
   }
 }
 

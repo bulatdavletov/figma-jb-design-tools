@@ -1,4 +1,4 @@
-import { MAIN_TO_UI, UI_TO_MAIN, type PrintColorUsagesUiSettings, type UiToMainMessage } from "../../messages"
+import { MAIN_TO_UI, UI_TO_MAIN, type ActiveTool, type PrintColorUsagesUiSettings, type UiToMainMessage } from "../../messages"
 import { loadPrintColorUsagesSettings, savePrintColorUsagesSettings } from "./settings"
 import { printColorUsagesFromSelection } from "./print"
 import { updateSelectedTextNodesByVariableId } from "./update"
@@ -9,38 +9,32 @@ async function postSettings(): Promise<void> {
   figma.ui.postMessage({ type: MAIN_TO_UI.PRINT_COLOR_USAGES_SETTINGS, settings: { ...settings, textTheme: "dark" } })
 }
 
-export function startPrintColorUsagesTool(command: string): void {
+export function registerPrintColorUsagesTool(getActiveTool: () => ActiveTool) {
   const postSelection = () => {
+    if (getActiveTool() !== "print-color-usages-tool") return
     figma.ui.postMessage({ type: MAIN_TO_UI.PRINT_COLOR_USAGES_SELECTION, selectionSize: figma.currentPage.selection.length })
   }
 
   figma.on("selectionchange", postSelection)
 
-  figma.ui.onmessage = async (msg: UiToMainMessage) => {
-    try {
-      if (msg.type === UI_TO_MAIN.BOOT) {
-        figma.ui.postMessage({
-          type: MAIN_TO_UI.BOOTSTRAPPED,
-          command,
-          selectionSize: figma.currentPage.selection.length,
-        })
-        postSelection()
-        await postSettings()
-        figma.ui.postMessage({ type: MAIN_TO_UI.PRINT_COLOR_USAGES_STATUS, status: { status: "idle" } })
-        return
-      }
+  const onActivate = async () => {
+    postSelection()
+    await postSettings()
+    figma.ui.postMessage({ type: MAIN_TO_UI.PRINT_COLOR_USAGES_STATUS, status: { status: "idle" } })
+  }
 
+  const onMessage = async (msg: UiToMainMessage) => {
+    try {
       if (msg.type === UI_TO_MAIN.PRINT_COLOR_USAGES_LOAD_SETTINGS) {
         // The UI mounts *after* the initial BOOTSTRAPPED/SELECTION messages.
         // Re-post current selection so the view can render correct "Update…" label immediately.
-        postSelection()
-        await postSettings()
-        return
+        await onActivate()
+        return true
       }
 
       if (msg.type === UI_TO_MAIN.PRINT_COLOR_USAGES_SAVE_SETTINGS) {
         await savePrintColorUsagesSettings({ ...msg.settings, textTheme: "dark" })
-        return
+        return true
       }
 
       if (msg.type === UI_TO_MAIN.PRINT_COLOR_USAGES_PRINT) {
@@ -52,7 +46,7 @@ export function startPrintColorUsagesTool(command: string): void {
         await printColorUsagesFromSelection(settings)
         // Result is communicated via native `figma.notify` inside the action.
         figma.ui.postMessage({ type: MAIN_TO_UI.PRINT_COLOR_USAGES_STATUS, status: { status: "idle" } })
-        return
+        return true
       }
 
       if (msg.type === UI_TO_MAIN.PRINT_COLOR_USAGES_UPDATE) {
@@ -64,7 +58,7 @@ export function startPrintColorUsagesTool(command: string): void {
         await updateSelectedTextNodesByVariableId(settings)
         // Result is communicated via native `figma.notify` inside the action.
         figma.ui.postMessage({ type: MAIN_TO_UI.PRINT_COLOR_USAGES_STATUS, status: { status: "idle" } })
-        return
+        return true
       }
     } catch (e) {
       // Prefer native Figma toast for errors.
@@ -78,6 +72,12 @@ export function startPrintColorUsagesTool(command: string): void {
         status: { status: "idle" },
       })
     }
+    return false
+  }
+
+  return {
+    onActivate,
+    onMessage,
   }
 }
 

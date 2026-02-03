@@ -666,10 +666,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9dfe6aad-c534-4f08-90c5-cb725300176a/loading-indicator.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d95f0fe4-9650-4831-8af1-9d3a8f3c6601/loading-indicator.module.js
   var loading_indicator_module_default;
   var init_loading_indicator_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9dfe6aad-c534-4f08-90c5-cb725300176a/loading-indicator.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d95f0fe4-9650-4831-8af1-9d3a8f3c6601/loading-indicator.module.js"() {
       if (document.getElementById("3fe0db8eb7") === null) {
         const element = document.createElement("style");
         element.id = "3fe0db8eb7";
@@ -730,10 +730,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7c755ef6-a228-4514-8ca2-7cae7d6acc14/button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/045553fc-62e5-4b1a-95b5-8f55e88b3acd/button.module.js
   var button_module_default;
   var init_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7c755ef6-a228-4514-8ca2-7cae7d6acc14/button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/045553fc-62e5-4b1a-95b5-8f55e88b3acd/button.module.js"() {
       if (document.getElementById("1dddd0e4df") === null) {
         const element = document.createElement("style");
         element.id = "1dddd0e4df";
@@ -1001,10 +1001,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/becf86fa-9ce4-4acd-8fde-ca7f0bc01644/checkbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7b20e808-f530-4b6c-b504-06b95949011c/checkbox.module.js
   var checkbox_module_default;
   var init_checkbox_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/becf86fa-9ce4-4acd-8fde-ca7f0bc01644/checkbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7b20e808-f530-4b6c-b504-06b95949011c/checkbox.module.js"() {
       if (document.getElementById("f38d076240") === null) {
         const element = document.createElement("style");
         element.id = "f38d076240";
@@ -1153,10 +1153,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1029ae01-264e-4aa1-ab35-47675ec58d98/divider.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/abe1fcf3-5129-485b-a0f3-0b1ba3cd517d/divider.module.js
   var divider_module_default;
   var init_divider_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1029ae01-264e-4aa1-ab35-47675ec58d98/divider.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/abe1fcf3-5129-485b-a0f3-0b1ba3cd517d/divider.module.js"() {
       if (document.getElementById("4bf06403b9") === null) {
         const element = document.createElement("style");
         element.id = "4bf06403b9";
@@ -1194,10 +1194,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4d15b889-8d1e-41de-8446-53ab61ba51a7/icon-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/fe502bd5-d032-4478-9562-0f5ad9c03c89/icon-button.module.js
   var icon_button_module_default;
   var init_icon_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4d15b889-8d1e-41de-8446-53ab61ba51a7/icon-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/fe502bd5-d032-4478-9562-0f5ad9c03c89/icon-button.module.js"() {
       if (document.getElementById("c8b08e6568") === null) {
         const element = document.createElement("style");
         element.id = "c8b08e6568";
@@ -1275,10 +1275,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9c166f24-16d1-4452-84e5-2e546e460b24/text.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d0e09cff-41ea-47f4-9f71-7a8a06013ffe/text.module.js
   var text_module_default;
   var init_text_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9c166f24-16d1-4452-84e5-2e546e460b24/text.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d0e09cff-41ea-47f4-9f71-7a8a06013ffe/text.module.js"() {
       if (document.getElementById("1278016d5c") === null) {
         const element = document.createElement("style");
         element.id = "1278016d5c";
@@ -1336,10 +1336,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/3ce30067-c5f7-4fe9-b967-af83f420c40b/inline.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/698d06fc-1a67-40df-8639-0b157f4ae11b/inline.module.js
   var inline_module_default;
   var init_inline_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/3ce30067-c5f7-4fe9-b967-af83f420c40b/inline.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/698d06fc-1a67-40df-8639-0b157f4ae11b/inline.module.js"() {
       if (document.getElementById("3e1b2856fc") === null) {
         const element = document.createElement("style");
         element.id = "3e1b2856fc";
@@ -1401,10 +1401,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a15aa110-bcdd-415a-bcbb-25c3da8daa49/stack.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/16fb1a0a-ef97-4e11-8779-8a0c9706f46c/stack.module.js
   var stack_module_default;
   var init_stack_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a15aa110-bcdd-415a-bcbb-25c3da8daa49/stack.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/16fb1a0a-ef97-4e11-8779-8a0c9706f46c/stack.module.js"() {
       if (document.getElementById("317515cc3f") === null) {
         const element = document.createElement("style");
         element.id = "317515cc3f";
@@ -1447,10 +1447,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2aba7482-cfcf-40eb-b83f-2340b87690b4/radio-buttons.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/35fa1ee5-4684-445c-9b17-abc7b6a6d6cb/radio-buttons.module.js
   var radio_buttons_module_default;
   var init_radio_buttons_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2aba7482-cfcf-40eb-b83f-2340b87690b4/radio-buttons.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/35fa1ee5-4684-445c-9b17-abc7b6a6d6cb/radio-buttons.module.js"() {
       if (document.getElementById("a066c67891") === null) {
         const element = document.createElement("style");
         element.id = "a066c67891";
@@ -1639,10 +1639,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7ee02e27-f14f-4670-97fe-ee79df6f45fe/columns.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/06640244-ceb7-4664-bae4-cfc46db4fab1/columns.module.js
   var columns_module_default;
   var init_columns_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7ee02e27-f14f-4670-97fe-ee79df6f45fe/columns.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/06640244-ceb7-4664-bae4-cfc46db4fab1/columns.module.js"() {
       if (document.getElementById("07bfb18928") === null) {
         const element = document.createElement("style");
         element.id = "07bfb18928";
@@ -1711,10 +1711,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4fe2d2bc-b6a6-4d05-97ef-4951624c84d8/container.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6a7f62a2-e441-4dbe-82d0-2ac7e78c9ca7/container.module.js
   var container_module_default;
   var init_container_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4fe2d2bc-b6a6-4d05-97ef-4951624c84d8/container.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6a7f62a2-e441-4dbe-82d0-2ac7e78c9ca7/container.module.js"() {
       if (document.getElementById("b49e1406f9") === null) {
         const element = document.createElement("style");
         element.id = "b49e1406f9";
@@ -1755,10 +1755,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/44bd5d5c-1c42-478f-8420-95de00904d27/vertical-space.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/19007746-8b80-48d3-bf1e-ff8f60f871b2/vertical-space.module.js
   var vertical_space_module_default;
   var init_vertical_space_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/44bd5d5c-1c42-478f-8420-95de00904d27/vertical-space.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/19007746-8b80-48d3-bf1e-ff8f60f871b2/vertical-space.module.js"() {
       if (document.getElementById("ba0eea5114") === null) {
         const element = document.createElement("style");
         element.id = "ba0eea5114";
@@ -1799,9 +1799,9 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8a6cdd53-6064-474d-93e0-d01a4df0712f/base.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1810c12c-db09-410a-8a21-892ae823529e/base.js
   var init_base = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8a6cdd53-6064-474d-93e0-d01a4df0712f/base.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1810c12c-db09-410a-8a21-892ae823529e/base.js"() {
       if (document.getElementById("0597dd81e7") === null) {
         const element = document.createElement("style");
         element.id = "0597dd81e7";
@@ -1971,11 +1971,16 @@ svg {
       "use strict";
       UI_TO_MAIN = {
         BOOT: "BOOT",
+        SET_ACTIVE_TOOL: "SET_ACTIVE_TOOL",
         INSPECT_SELECTION_FOR_VARIABLE_CHAINS: "INSPECT_SELECTION_FOR_VARIABLE_CHAINS",
         PRINT_COLOR_USAGES_LOAD_SETTINGS: "PRINT_COLOR_USAGES_LOAD_SETTINGS",
         PRINT_COLOR_USAGES_SAVE_SETTINGS: "PRINT_COLOR_USAGES_SAVE_SETTINGS",
         PRINT_COLOR_USAGES_PRINT: "PRINT_COLOR_USAGES_PRINT",
-        PRINT_COLOR_USAGES_UPDATE: "PRINT_COLOR_USAGES_UPDATE"
+        PRINT_COLOR_USAGES_UPDATE: "PRINT_COLOR_USAGES_UPDATE",
+        MOCKUP_MARKUP_LOAD_STATE: "MOCKUP_MARKUP_LOAD_STATE",
+        MOCKUP_MARKUP_APPLY: "MOCKUP_MARKUP_APPLY",
+        MOCKUP_MARKUP_CREATE_TEXT: "MOCKUP_MARKUP_CREATE_TEXT",
+        MOCKUP_MARKUP_GET_COLOR_PREVIEWS: "MOCKUP_MARKUP_GET_COLOR_PREVIEWS"
       };
       MAIN_TO_UI = {
         BOOTSTRAPPED: "BOOTSTRAPPED",
@@ -1985,6 +1990,9 @@ svg {
         PRINT_COLOR_USAGES_SETTINGS: "PRINT_COLOR_USAGES_SETTINGS",
         PRINT_COLOR_USAGES_SELECTION: "PRINT_COLOR_USAGES_SELECTION",
         PRINT_COLOR_USAGES_STATUS: "PRINT_COLOR_USAGES_STATUS",
+        MOCKUP_MARKUP_STATE: "MOCKUP_MARKUP_STATE",
+        MOCKUP_MARKUP_STATUS: "MOCKUP_MARKUP_STATUS",
+        MOCKUP_MARKUP_COLOR_PREVIEWS: "MOCKUP_MARKUP_COLOR_PREVIEWS",
         ERROR: "ERROR"
       };
     }
@@ -2611,6 +2619,14 @@ svg {
         icon: /* @__PURE__ */ _(IconText16, null),
         onClick: () => props.goTo("print-color-usages-tool")
       }
+    ), /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(
+      ToolCard,
+      {
+        title: "Mockup markup quick apply",
+        description: "Apply Mockup markup typography and text colors to selection.",
+        icon: /* @__PURE__ */ _(IconText16, null),
+        onClick: () => props.goTo("mockup-markup-tool")
+      }
     )));
   }
   var init_HomeView = __esm({
@@ -2620,6 +2636,186 @@ svg {
       init_preact_module();
       init_Page();
       init_ToolCard();
+    }
+  });
+
+  // src/app/tools/mockup-markup/presets.ts
+  function getTypographyPresetLabel(preset) {
+    switch (preset) {
+      case "h1":
+        return "H1";
+      case "h2":
+        return "H2";
+      case "h3":
+        return "H3";
+      case "description":
+        return "Description text";
+      case "paragraph":
+        return "Paragraph text";
+    }
+  }
+  function getColorPresetLabel(preset) {
+    switch (preset) {
+      case "text":
+        return "Text";
+      case "text-secondary":
+        return "Text secondary";
+      case "purple":
+        return "Purple";
+    }
+  }
+  var init_presets = __esm({
+    "src/app/tools/mockup-markup/presets.ts"() {
+      "use strict";
+    }
+  });
+
+  // src/app/views/mockup-markup-tool/MockupMarkupToolView.tsx
+  function MockupMarkupToolView(props) {
+    const [request, setRequest] = d2(DEFAULT_REQUEST);
+    const [state, setState] = d2({ selectionSize: 0, textNodeCount: 0, hasSourceTextNode: false });
+    const [status, setStatus] = d2({ status: "idle" });
+    const [colorPreviews, setColorPreviews] = d2({
+      text: { hex: null, opacityPercent: null },
+      textSecondary: { hex: null, opacityPercent: null },
+      purple: { hex: null, opacityPercent: null }
+    });
+    y2(() => {
+      const handleMessage = (event) => {
+        var _a;
+        const msg = (_a = event.data) == null ? void 0 : _a.pluginMessage;
+        if (!msg) return;
+        if (msg.type === MAIN_TO_UI.MOCKUP_MARKUP_STATE) {
+          setState(msg.state);
+          return;
+        }
+        if (msg.type === MAIN_TO_UI.MOCKUP_MARKUP_STATUS) {
+          setStatus(msg.status);
+          return;
+        }
+        if (msg.type === MAIN_TO_UI.MOCKUP_MARKUP_COLOR_PREVIEWS) {
+          setColorPreviews(msg.previews);
+          return;
+        }
+      };
+      window.addEventListener("message", handleMessage);
+      parent.postMessage({ pluginMessage: { type: UI_TO_MAIN.MOCKUP_MARKUP_LOAD_STATE } }, "*");
+      return () => window.removeEventListener("message", handleMessage);
+    }, []);
+    y2(() => {
+      parent.postMessage(
+        { pluginMessage: { type: UI_TO_MAIN.MOCKUP_MARKUP_GET_COLOR_PREVIEWS, forceModeName: request.forceModeName } },
+        "*"
+      );
+    }, [request.forceModeName]);
+    const isWorking = status.status === "working";
+    const hint = T2(() => {
+      if (state.textNodeCount === 0) return "No text layers found in selection.";
+      return null;
+    }, [state.selectionSize, state.textNodeCount]);
+    const primaryAction = T2(() => {
+      if (state.textNodeCount > 0) {
+        return { label: "Apply to selection", disabled: isWorking, messageType: UI_TO_MAIN.MOCKUP_MARKUP_APPLY };
+      }
+      return { label: "Create text", disabled: isWorking, messageType: UI_TO_MAIN.MOCKUP_MARKUP_CREATE_TEXT };
+    }, [isWorking, state.textNodeCount]);
+    return /* @__PURE__ */ _(Page, null, /* @__PURE__ */ _(
+      ToolHeader,
+      {
+        title: "Mockup markup quick apply",
+        left: /* @__PURE__ */ _(IconButton, { onClick: props.onBack, title: "Home" }, /* @__PURE__ */ _(IconHome16, null))
+      }
+    ), /* @__PURE__ */ _("div", { style: { flex: 1, minHeight: 0, display: "flex", flexDirection: "column" } }, /* @__PURE__ */ _("div", { style: { flex: 1, minHeight: 0, overflowY: "auto", overflowX: "hidden" } }, /* @__PURE__ */ _(Container, { space: "small" }, /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, state.selectionSize > 0 ? `Selection: ${state.selectionSize} layer(s), ${state.textNodeCount} text layer(s)` : "Selection: none"), /* @__PURE__ */ _(VerticalSpace, { space: "extraSmall" }), /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, state.textNodeCount > 0 ? `Preview: will apply to ${state.textNodeCount} text layer(s)` : "Preview: will create 1 text layer"), /* @__PURE__ */ _(VerticalSpace, { space: "large" }), /* @__PURE__ */ _(Text, null, "Text style"), /* @__PURE__ */ _(VerticalSpace, { space: "extraSmall" }), /* @__PURE__ */ _(
+      RadioButtons,
+      {
+        value: request.presetTypography,
+        onValueChange: (value) => setRequest((r3) => __spreadProps(__spreadValues({}, r3), {
+          presetTypography: value === "paragraph" || value === "description" || value === "h1" || value === "h2" || value === "h3" ? value : "paragraph"
+        })),
+        options: ["paragraph", "description", "h1", "h2", "h3"].map((p3) => ({
+          value: p3,
+          children: /* @__PURE__ */ _(Text, null, getTypographyPresetLabel(p3))
+        }))
+      }
+    ), /* @__PURE__ */ _(VerticalSpace, { space: "large" }), /* @__PURE__ */ _(Text, null, "Color"), /* @__PURE__ */ _(VerticalSpace, { space: "extraSmall" }), /* @__PURE__ */ _(
+      RadioButtons,
+      {
+        value: request.presetColor,
+        onValueChange: (value) => setRequest((r3) => __spreadProps(__spreadValues({}, r3), {
+          presetColor: value === "text-secondary" || value === "purple" ? value : "text"
+        })),
+        options: [
+          {
+            value: "text",
+            children: /* @__PURE__ */ _("div", { style: { display: "flex", alignItems: "center", gap: 8 } }, /* @__PURE__ */ _(ColorSwatch, { hex: colorPreviews.text.hex, opacityPercent: colorPreviews.text.opacityPercent }), /* @__PURE__ */ _(Text, null, getColorPresetLabel("text")))
+          },
+          {
+            value: "text-secondary",
+            children: /* @__PURE__ */ _("div", { style: { display: "flex", alignItems: "center", gap: 8 } }, /* @__PURE__ */ _(
+              ColorSwatch,
+              {
+                hex: colorPreviews.textSecondary.hex,
+                opacityPercent: colorPreviews.textSecondary.opacityPercent
+              }
+            ), /* @__PURE__ */ _(Text, null, getColorPresetLabel("text-secondary")))
+          },
+          {
+            value: "purple",
+            children: /* @__PURE__ */ _("div", { style: { display: "flex", alignItems: "center", gap: 8 } }, /* @__PURE__ */ _(ColorSwatch, { hex: colorPreviews.purple.hex, opacityPercent: colorPreviews.purple.opacityPercent }), /* @__PURE__ */ _(Text, null, getColorPresetLabel("purple")))
+          }
+        ]
+      }
+    ), /* @__PURE__ */ _(VerticalSpace, { space: "large" }), /* @__PURE__ */ _(
+      Checkbox,
+      {
+        value: request.forceModeName === "dark",
+        onValueChange: (value) => setRequest((r3) => __spreadProps(__spreadValues({}, r3), { forceModeName: value ? "dark" : "none" }))
+      },
+      /* @__PURE__ */ _(Text, null, "Dark mode")
+    ), /* @__PURE__ */ _(VerticalSpace, { space: "extraSmall" }), /* @__PURE__ */ _(
+      Checkbox,
+      {
+        value: request.width400,
+        onValueChange: (value) => setRequest((r3) => __spreadProps(__spreadValues({}, r3), { width400: value }))
+      },
+      /* @__PURE__ */ _(Text, null, "Width 400")
+    ), hint ? /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(VerticalSpace, { space: "large" }), /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, hint)) : null, /* @__PURE__ */ _(VerticalSpace, { space: "large" }))), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(Container, { space: "small" }, /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(
+      Button,
+      {
+        fullWidth: true,
+        loading: isWorking,
+        disabled: primaryAction.disabled || primaryAction.messageType === UI_TO_MAIN.MOCKUP_MARKUP_APPLY && state.textNodeCount === 0,
+        onClick: () => parent.postMessage(
+          {
+            pluginMessage: {
+              type: primaryAction.messageType,
+              request
+            }
+          },
+          "*"
+        )
+      },
+      primaryAction.label
+    ), /* @__PURE__ */ _(VerticalSpace, { space: "small" }))));
+  }
+  var DEFAULT_REQUEST;
+  var init_MockupMarkupToolView = __esm({
+    "src/app/views/mockup-markup-tool/MockupMarkupToolView.tsx"() {
+      "use strict";
+      init_lib2();
+      init_preact_module();
+      init_hooks_module();
+      init_messages();
+      init_Page();
+      init_ColorSwatch();
+      init_ToolHeader();
+      init_presets();
+      DEFAULT_REQUEST = {
+        presetColor: "text",
+        presetTypography: "paragraph",
+        forceModeName: "dark",
+        width400: false
+      };
     }
   });
 
@@ -2753,7 +2949,7 @@ svg {
         if (msg.type === MAIN_TO_UI.BOOTSTRAPPED) {
           setSelectionSize(msg.selectionSize);
           setRoute(
-            msg.command === "color-chain-tool" ? "color-chain-tool" : msg.command === "print-color-usages-tool" ? "print-color-usages-tool" : "home"
+            msg.command === "color-chain-tool" ? "color-chain-tool" : msg.command === "print-color-usages-tool" ? "print-color-usages-tool" : msg.command === "mockup-markup-tool" ? "mockup-markup-tool" : "home"
           );
         }
       };
@@ -2761,13 +2957,30 @@ svg {
       parent.postMessage({ pluginMessage: { type: UI_TO_MAIN.BOOT } }, "*");
       return () => window.removeEventListener("message", handleMessage);
     }, []);
+    y2(() => {
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: UI_TO_MAIN.SET_ACTIVE_TOOL,
+            tool: route === "home" ? "home" : route === "color-chain-tool" ? "color-chain-tool" : route === "print-color-usages-tool" ? "print-color-usages-tool" : "mockup-markup-tool"
+          }
+        },
+        "*"
+      );
+    }, [route]);
     if (route === "home") {
       return /* @__PURE__ */ _(HomeView, { goTo: setRoute });
     }
     if (route === "color-chain-tool") {
       return /* @__PURE__ */ _(ColorChainToolView, { onBack: () => setRoute("home"), initialSelectionEmpty: selectionSize === 0 });
     }
-    return /* @__PURE__ */ _(PrintColorUsagesToolView, { onBack: () => setRoute("home") });
+    if (route === "print-color-usages-tool") {
+      return /* @__PURE__ */ _(PrintColorUsagesToolView, { onBack: () => setRoute("home") });
+    }
+    if (route === "mockup-markup-tool") {
+      return /* @__PURE__ */ _(MockupMarkupToolView, { onBack: () => setRoute("home") });
+    }
+    return /* @__PURE__ */ _(HomeView, { goTo: setRoute });
   }
   var ui_default;
   var init_ui = __esm({
@@ -2779,6 +2992,7 @@ svg {
       init_messages();
       init_ColorChainToolView();
       init_HomeView();
+      init_MockupMarkupToolView();
       init_PrintColorUsagesToolView();
       ui_default = render(App);
     }
@@ -2786,7 +3000,7 @@ svg {
 
   // <stdin>
   var rootNode = document.getElementById("create-figma-plugin");
-  var modules = { "src/home/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/color-chain-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/print-color-usages-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"] };
+  var modules = { "src/home/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/color-chain-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/print-color-usages-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/mockup-markup-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"] };
   var commandId = __FIGMA_COMMAND__ === "" ? "src/home/main.ts--default" : __FIGMA_COMMAND__;
   if (typeof modules[commandId] === "undefined") {
     throw new Error(

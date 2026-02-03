@@ -19,6 +19,10 @@
     {
       "name": "Print Color Usages",
       "command": "src/print-color-usages-tool/main.ts--default"
+    },
+    {
+      "name": "Mockup markup quick apply",
+      "command": "src/mockup-markup-tool/main.ts--default"
     }
   ],
   "networkAccess": {
