@@ -342,6 +342,14 @@
   - Message listener setup in all 3 view files
   - Fixed footer pattern in Print Color Usages and Mockup Markup views
 
+#### Testing Figma plugins — documentation
+- Created `Specs/How to Test Figma Plugins.md` with comprehensive guide on testing strategies:
+  - **Unit tests** for pure logic with Vitest (recommended first step)
+  - **figma-api-stub** for mocking basic Figma API (limited — doesn't support variables)
+  - **In-Figma test runners** (experimental, complex setup)
+  - **Manual testing checklist** (current approach, keep maintaining)
+- Key insight: Community mocks don't support Figma's newer variable APIs, so best ROI is extracting pure logic and unit testing it.
+
 ## Git (initialize repo)
 
 ### 2026-01-29

@@ -8,6 +8,9 @@ Gather together all my figma plugins into one nice plugin.
 - ../Variables helper - I don't remember what this one does.
 - ../Nicely detach color variable - this one should be able to detach top layer of variable, but i'm not sure that it works.
 
+**Copies of useful external plugins:**
+- Many Paster
+
 I'm not sure which one to include, yet, this is just list of my plugins
 
 **Ideas:**
