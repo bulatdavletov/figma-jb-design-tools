@@ -309,6 +309,39 @@
 - Fix: Prevented “Uncaught (in promise)” errors by awaiting all tool `onActivate()` handlers and wrapping `figma.ui.onmessage` in a top-level try/catch (logs + `figma.notify`).
 - Fix: Some environments throw “Unable to create style” when trying to import/apply remote text styles. We now **never auto-import text styles** and we avoid applying **remote** styles by id; typography is applied only if the style is already present in the file (local/imported, resolved by key/name). Otherwise the tool still Create/Apply color/width and shows a clear notify to import text styles into the file.
 
+#### Mockup Markup tool — major refactoring for robustness
+- Issue: Colors/styles sometimes didn't apply due to several root causes:
+  1. Import-once caching bug: stored `true` even if imports failed
+  2. Silent error swallowing: too many `catch { // ignore }` blocks
+  3. Complex fallback logic with unclear failure paths
+  4. No validation after applying fills/styles
+  5. Duplicated code (`collectTextNodesRecursivelyFromSelection` in 2 files)
+  6. Font loading timing issues
+- Refactoring:
+  - Added `utils.ts`: shared utilities (`collectTextNodesFromSelection`, `OperationResult` type, `loadFont`, `logDebug`, `logWarn`)
+  - Rewrote `resolve.ts`: cleaner resolution strategies with explicit logging
+  - Fixed `import-once.ts`: now tracks success **per variable** (v2 storage key), retries failed ones
+  - Rewrote `apply.ts`: validates that fills/styles were actually applied, aggregates errors
+  - Rewrote `create.ts`: proper font loading order (load style font → apply style → load current font → set characters)
+  - Cleaned `main-thread.ts`: uses shared utilities, clearer structure
+  - Updated `color-previews.ts`: uses shared utilities
+- Simplified `resolve.ts` text style resolution: now uses `figma.importStyleByKeyAsync(key)` directly (like variables) instead of overly defensive logic that rejected remote styles. Works correctly when library is enabled.
+
+### 2026-02-04
+
+#### Full project audit — refactoring suggestions
+- Goal: Audit the entire project for code quality improvements: structure, simplification, deduplication, efficiency, robustness, extracting reusable parts, pattern consistency.
+- Scope: Reviewed all source files (run.ts, messages.ts, variable-chain.ts, all 3 tools main-thread + UI views, all components, presets, shared utilities).
+- Output: Merged findings into `Specs/Refactoring Ideas.md` with prioritized recommendations:
+  - **P0**: Shared utilities extraction (color-utils, figma-variables, logging), debounce settings, stale-result guard
+  - **P1**: Pattern consistency (standardize message handlers, usePluginMessages hook, ToolFooterActions component)
+  - **P2**: Project structure reorganization (deferred)
+- Key duplications found:
+  - Color conversion in `variable-chain.ts` and `analyze.ts`
+  - Variable resolution in 4 files (resolve.ts, markup-kit.ts, shared.ts, variable-chain.ts)
+  - Message listener setup in all 3 view files
+  - Fixed footer pattern in Print Color Usages and Mockup Markup views
+
 ## Git (initialize repo)
 
 ### 2026-01-29

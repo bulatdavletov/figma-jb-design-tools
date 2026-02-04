@@ -1,3 +1,7 @@
+/**
+ * Main thread handler for Mockup Markup tool.
+ */
+
 import {
   MAIN_TO_UI,
   UI_TO_MAIN,
@@ -9,38 +13,14 @@ import { applyMockupMarkupToSelection } from "./apply"
 import { getMockupMarkupColorPreviews } from "./color-previews"
 import { createMockupMarkupText } from "./create"
 import { importMockupMarkupVariablesOnce } from "./import-once"
+import { collectTextNodesFromSelection, logDebug, logWarn } from "./utils"
 
-function collectTextNodesRecursivelyFromSelection(selection: readonly SceneNode[]): TextNode[] {
-  const result: TextNode[] = []
-  const seen = new Set<string>()
-
-  const add = (node: SceneNode) => {
-    if (node.type !== "TEXT") return
-    if (seen.has(node.id)) return
-    seen.add(node.id)
-    result.push(node as TextNode)
-  }
-
-  const walk = (node: SceneNode) => {
-    add(node)
-    if (!("children" in node)) return
-    const children = (node as any).children as SceneNode[] | undefined
-    if (!children || !Array.isArray(children)) return
-    for (const child of children) {
-      walk(child)
-    }
-  }
-
-  for (const root of selection) {
-    walk(root)
-  }
-
-  return result
-}
-
+/**
+ * Computes the current state based on selection.
+ */
 function getState(): MockupMarkupState {
   const selection = figma.currentPage.selection
-  const textNodes = selection.length > 0 ? collectTextNodesRecursivelyFromSelection(selection) : []
+  const textNodes = selection.length > 0 ? collectTextNodesFromSelection(selection) : []
   return {
     selectionSize: selection.length,
     textNodeCount: textNodes.length,
@@ -48,66 +28,112 @@ function getState(): MockupMarkupState {
   }
 }
 
+/**
+ * Registers the Mockup Markup tool handlers.
+ */
 export function registerMockupMarkupTool(getActiveTool: () => ActiveTool) {
+  /**
+   * Posts the current state to the UI if this tool is active.
+   */
   const postState = () => {
     if (getActiveTool() !== "mockup-markup-tool") return
     figma.ui.postMessage({ type: MAIN_TO_UI.MOCKUP_MARKUP_STATE, state: getState() })
   }
 
+  // Update state when selection changes
   figma.on("selectionchange", postState)
 
+  /**
+   * Called when the tool is activated.
+   */
   const onActivate = async () => {
     postState()
-    figma.ui.postMessage({ type: MAIN_TO_UI.MOCKUP_MARKUP_STATUS, status: { status: "working", message: "Preparing…" } })
-    await importMockupMarkupVariablesOnce()
-    // Prime swatches immediately (default is dark mode in UI).
+
+    // Show working status
+    figma.ui.postMessage({
+      type: MAIN_TO_UI.MOCKUP_MARKUP_STATUS,
+      status: { status: "working", message: "Preparing…" },
+    })
+
+    // Import variables (tracks success per variable, retries failed ones)
+    const importStatus = await importMockupMarkupVariablesOnce()
+    logDebug("main", "Import status", importStatus)
+
+    // Get color previews for UI (default: dark mode)
     const previews = await getMockupMarkupColorPreviews("dark")
     figma.ui.postMessage({ type: MAIN_TO_UI.MOCKUP_MARKUP_COLOR_PREVIEWS, previews })
+
+    // Ready
     figma.ui.postMessage({ type: MAIN_TO_UI.MOCKUP_MARKUP_STATUS, status: { status: "idle" } })
   }
 
-  const onMessage = async (msg: UiToMainMessage) => {
+  /**
+   * Handles messages from the UI.
+   */
+  const onMessage = async (msg: UiToMainMessage): Promise<boolean> => {
     try {
-      if (msg.type === UI_TO_MAIN.MOCKUP_MARKUP_LOAD_STATE) {
-        await onActivate()
-        return true
-      }
+      switch (msg.type) {
+        case UI_TO_MAIN.MOCKUP_MARKUP_LOAD_STATE: {
+          await onActivate()
+          return true
+        }
 
-      if (msg.type === UI_TO_MAIN.MOCKUP_MARKUP_APPLY) {
-        figma.ui.postMessage({
-          type: MAIN_TO_UI.MOCKUP_MARKUP_STATUS,
-          status: { status: "working", message: "Applying…" },
-        })
-        await applyMockupMarkupToSelection(msg.request)
-        figma.ui.postMessage({ type: MAIN_TO_UI.MOCKUP_MARKUP_STATUS, status: { status: "idle" } })
-        postState()
-        return true
-      }
+        case UI_TO_MAIN.MOCKUP_MARKUP_APPLY: {
+          figma.ui.postMessage({
+            type: MAIN_TO_UI.MOCKUP_MARKUP_STATUS,
+            status: { status: "working", message: "Applying…" },
+          })
 
-      if (msg.type === UI_TO_MAIN.MOCKUP_MARKUP_CREATE_TEXT) {
-        figma.ui.postMessage({
-          type: MAIN_TO_UI.MOCKUP_MARKUP_STATUS,
-          status: { status: "working", message: "Creating text…" },
-        })
-        await createMockupMarkupText(msg.request)
-        figma.ui.postMessage({ type: MAIN_TO_UI.MOCKUP_MARKUP_STATUS, status: { status: "idle" } })
-        postState()
-        return true
-      }
+          const result = await applyMockupMarkupToSelection(msg.request)
+          logDebug("main", "Apply result", result)
 
-      if (msg.type === UI_TO_MAIN.MOCKUP_MARKUP_GET_COLOR_PREVIEWS) {
-        const previews = await getMockupMarkupColorPreviews(msg.forceModeName)
-        figma.ui.postMessage({ type: MAIN_TO_UI.MOCKUP_MARKUP_COLOR_PREVIEWS, previews })
-        return true
+          figma.ui.postMessage({
+            type: MAIN_TO_UI.MOCKUP_MARKUP_STATUS,
+            status: { status: "idle" },
+          })
+          postState()
+          return true
+        }
+
+        case UI_TO_MAIN.MOCKUP_MARKUP_CREATE_TEXT: {
+          figma.ui.postMessage({
+            type: MAIN_TO_UI.MOCKUP_MARKUP_STATUS,
+            status: { status: "working", message: "Creating text…" },
+          })
+
+          const result = await createMockupMarkupText(msg.request)
+          logDebug("main", "Create result", result)
+
+          figma.ui.postMessage({
+            type: MAIN_TO_UI.MOCKUP_MARKUP_STATUS,
+            status: { status: "idle" },
+          })
+          postState()
+          return true
+        }
+
+        case UI_TO_MAIN.MOCKUP_MARKUP_GET_COLOR_PREVIEWS: {
+          const previews = await getMockupMarkupColorPreviews(msg.forceModeName)
+          figma.ui.postMessage({ type: MAIN_TO_UI.MOCKUP_MARKUP_COLOR_PREVIEWS, previews })
+          return true
+        }
       }
     } catch (e) {
+      const errorMsg = e instanceof Error ? e.message : String(e)
+      logWarn("main", "Error handling message", { type: msg.type, error: errorMsg })
+
       try {
-        figma.notify(e instanceof Error ? e.message : String(e))
+        figma.notify(errorMsg)
       } catch {
-        // ignore
+        // Notify can fail in some contexts
       }
-      figma.ui.postMessage({ type: MAIN_TO_UI.MOCKUP_MARKUP_STATUS, status: { status: "idle" } })
+
+      figma.ui.postMessage({
+        type: MAIN_TO_UI.MOCKUP_MARKUP_STATUS,
+        status: { status: "idle" },
+      })
     }
+
     return false
   }
 
@@ -116,4 +142,3 @@ export function registerMockupMarkupTool(getActiveTool: () => ActiveTool) {
     onMessage,
   }
 }
-

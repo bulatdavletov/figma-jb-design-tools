@@ -1,302 +1,525 @@
 ## Refactoring & Optimisation Ideas (tech spec)
 
+**Last updated**: 2026-02-04
+
 ### Goal
 Improve **performance**, **reliability** (no stale results / race conditions), and **maintainability** of the plugin as more tools get added — without changing the user-visible behavior of existing tools.
 
 ### Scope (what this spec covers)
-- Refactors to make “many tools in one plugin” easier to scale
-- `View Colors Chain` performance + correctness improvements
-- `Print Color Usages` UI efficiency + maintainability improvements
+- Refactors to make "many tools in one plugin" easier to scale
+- Cross-tool code deduplication and consistency
+- Tool-specific performance + correctness improvements
 - Lightweight testing + rollout guidance (non-developer friendly)
 
 ### Non-goals (for now)
 - Adding new user-facing features
-- Rewriting UI components or changing UI visuals
-- Automated test harness (we’ll use a manual checklist)
+- Major UI visual redesigns
+- Automated test harness (we'll use a manual checklist)
+
+---
+
+## Priority Overview
+
+| Priority | Impact | Risk | Items |
+|----------|--------|------|-------|
+| **P0** | High | Low | Shared utilities extraction, debounce settings, stale-result guard |
+| **P1** | Medium | Low-Medium | Pattern consistency, component extraction, hooks |
+| **P2** | Low | Medium | Project structure reorganization, type safety |
+
+---
+
+## Cross-tool: Shared Code Extraction
+
+### P0.1 Extract shared color utilities
+**Status**: Not started
+
+**Problem**
+Duplicate color conversion functions exist in multiple files:
+- `src/app/variable-chain.ts`: `colorToRgbHex()`, `toByteHex()`, `clamp01()`
+- `src/app/tools/print-color-usages/analyze.ts`: `rgbToHex()`
+
+**What changes**
+- Create `src/app/shared/color-utils.ts` with:
+  - `rgbToHex(color: RGB): string`
+  - `rgbaToHex(color: RGBA): string`
+  - `colorToOpacityPercent(color: ColorValue): number`
+  - `clamp01(n: number): number`
+
+**Why it's a good idea**
+- Single source of truth for color conversions
+- Easier to fix bugs (fix once, applies everywhere)
+
+**Implementation steps**
+1. Create shared file with consolidated functions
+2. Update imports in `variable-chain.ts`
+3. Update imports in `analyze.ts`
+4. Run `npm run build` and test
+
+---
+
+### P0.2 Extract shared Figma variable resolution utilities
+**Status**: Not started
+
+**Problem**
+Similar variable/collection resolution logic with caching exists in multiple files:
+- `src/app/variable-chain.ts` (getVariable/getCollection with caches)
+- `src/app/tools/print-color-usages/shared.ts` (getVariableCollectionCached)
+- `src/app/tools/mockup-markup/resolve.ts` (getVariableById, findLocalVariableByName, importVariableFromLibrary)
+- `src/app/tools/print-color-usages/markup-kit.ts` (resolveColorVariableId)
+
+**What changes**
+- Create `src/app/shared/figma-variables.ts` with:
+  - `getVariableByIdCached(id: string, cache?: Map): Promise<Variable | null>`
+  - `getVariableCollectionByIdCached(id: string, cache?: Map): Promise<VariableCollection | null>`
+  - `resolveColorVariableByIdOrName(rawId: string, fallbackNames: string[]): Promise<string | null>`
+  - `importVariableFromLibrary(nameCandidates: string[], preferredLibrary?: string): Promise<Variable | null>`
+  - `namesMatch(candidate: string, wanted: string): boolean`
+  - `normalizeVariableId(rawId: string): string`
+
+**Why it's a good idea**
+- Reduces ~200 lines of duplicated code
+- Consistent behavior across tools
+- Caching logic in one place
+
+**Will it break any existing functionality?**
+- No. Same logic, consolidated.
+
+**Implementation steps**
+1. Create shared file with consolidated functions
+2. Update Mockup Markup `resolve.ts` to use shared functions
+3. Update Print Color Usages `markup-kit.ts` to use shared functions
+4. Update `variable-chain.ts` to use shared functions
+5. Run tests
+
+---
+
+### P0.3 Extract shared logging utility
+**Status**: Not started
+
+**Problem**
+Inconsistent logging patterns across tools:
+- Mockup Markup: `logDebug()`, `logWarn()` with consistent prefixes
+- Print Color Usages: `debugLog()` with DEBUG_MARKUP_IDS flag
+- Color Chain: No structured logging
+
+**What changes**
+- Create `src/app/shared/logging.ts`:
+```typescript
+type LogContext = string
+const DEBUG = false // or read from environment
+
+export function logDebug(context: LogContext, message: string, data?: Record<string, unknown>): void
+export function logWarn(context: LogContext, message: string, data?: Record<string, unknown>): void
+export function logError(context: LogContext, message: string, error?: Error | unknown): void
+```
+
+**Why it's a good idea**
+- Consistent log formatting across all tools
+- Easy to enable/disable debug logging globally
+- Searchable log prefixes
+
+---
+
+## Cross-tool: Pattern Consistency
+
+### P1.1 Standardize message handler pattern (use switch)
+**Status**: Not started
+
+**Problem**
+Mixed patterns for handling messages in main-thread files:
+- Color Chain: `if (msg.type === ...) { ... return true }`
+- Print Color Usages: `if (msg.type === ...) { ... return true }`
+- Mockup Markup: `switch (msg.type) { case ...: }`
+
+**What changes**
+- Standardize on `switch` statement pattern (like Mockup Markup)
+- More readable, easier to add new message types
+
+**Implementation steps**
+1. Update `color-chain-tool/main-thread.ts`
+2. Update `print-color-usages/main-thread.ts`
+3. Verify consistent return patterns
+
+---
+
+### P1.2 Extract `usePluginMessages` hook
+**Status**: Not started
+
+**Problem**
+Each UI view has nearly identical message listener setup code (~15 lines each).
+
+**What changes**
+- Create `src/app/hooks/usePluginMessages.ts`:
+```typescript
+export function usePluginMessages<T extends { type: string }>(
+  handlers: Partial<Record<T['type'], (msg: T) => void>>
+): void {
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      const msg = event.data?.pluginMessage as T | undefined
+      if (!msg || !('type' in msg)) return
+      const handler = handlers[msg.type as keyof typeof handlers]
+      handler?.(msg as any)
+    }
+    window.addEventListener("message", handleMessage)
+    return () => window.removeEventListener("message", handleMessage)
+  }, [])
+}
+```
+
+**Why it's a good idea**
+- DRY: reduces ~45 lines of duplicated code (3 views × 15 lines)
+- Consistent message handling
+- Easier to add global error handling
+
+**Risks**
+- Medium: refactor touches multiple views; do incrementally
+
+---
+
+### P1.3 Simplify UI routing logic
+**Status**: Not started
+
+**Problem**
+Repetitive ternary conditionals for route mapping:
+```typescript
+setRoute(
+  msg.command === "color-chain-tool"
+    ? "color-chain-tool"
+    : msg.command === "print-color-usages-tool"
+      ? "print-color-usages-tool"
+      : // ... more
+)
+```
+
+**What changes**
+```typescript
+const VALID_ROUTES = ["color-chain-tool", "print-color-usages-tool", "mockup-markup-tool"] as const
+type Route = (typeof VALID_ROUTES)[number] | "home"
+
+const route: Route = VALID_ROUTES.includes(msg.command as any) 
+  ? (msg.command as Route) 
+  : "home"
+```
+
+**Why it's a good idea**
+- Less code
+- Adding new tools = just add to array
+- Type-safe route validation
+
+---
+
+## Cross-tool: Component Extraction
+
+### P1.4 Extract `ToolFooterActions` component
+**Status**: Not started
+
+**Problem**
+Both Print Color Usages and Mockup Markup have similar "fixed bottom actions" layout:
+```tsx
+<Divider />
+<Container space="small">
+  <VerticalSpace space="small" />
+  {/* buttons */}
+  <VerticalSpace space="small" />
+</Container>
+```
+
+**What changes**
+- Create `src/app/components/ToolFooterActions.tsx`:
+```typescript
+export function ToolFooterActions(props: { children: preact.ComponentChildren }) {
+  return (
+    <>
+      <Divider />
+      <Container space="small">
+        <VerticalSpace space="small" />
+        {props.children}
+        <VerticalSpace space="small" />
+      </Container>
+    </>
+  )
+}
+```
+
+**Why it's a good idea**
+- Consistent footer spacing across tools
+- Less layout code per view
+
+---
+
+## Cross-tool: Reliability
+
+### P0.4 Prevent stale UI updates (race-proof async work)
+**Status**: Not started
+
+**Problem**
+Tool runners can "fire and forget" async work. Quick user actions (selection changes) can result in older work posting results after newer work started, causing UI flicker.
+
+**What changes**
+- Add an incrementing `updateId` to each tool runner
+- Only post results if the finished computation matches the latest `updateId`
+
+**Example**:
+```typescript
+let currentUpdateId = 0
+
+const sendUpdate = async () => {
+  const thisUpdateId = ++currentUpdateId
+  const results = await computeExpensiveResults()
+  if (thisUpdateId !== currentUpdateId) return // stale, discard
+  figma.ui.postMessage({ type: MAIN_TO_UI.RESULTS, results })
+}
+```
+
+**Why it's a good idea**
+- Prevents flicker and "wrong selection results" moments
+- No expected behavior change; only prevents outdated updates
+
+**Manual test checklist**
+- Rapidly change selection between two layers → UI should not briefly show the wrong layer's results
 
 ---
 
 ## Tool: View Colors Chain
 
-### Current architecture (relevant parts)
+### P0.5 Compute only the chain we actually display
+**Status**: ✅ Done (V2 payload implemented)
 
-#### Data flow
-- **Main thread**: `src/app/run.ts`
-  - Opens UI, listens to selection/document changes, sends results to UI.
-- **Scanner + resolver**: `src/app/variable-chain.ts`
-  - Walks selected node trees, extracts bound variable IDs from paints, resolves alias chains.
-- **UI**: `src/app/views/color-chain-tool/ColorChainToolView.tsx`
-  - Renders a list/tree; for each variable it typically displays **only one chain** (current applied mode if known, otherwise the first chain).
+The V2 payload optimization has been implemented:
+- `VARIABLE_CHAINS_RESULT_V2` sends `chainToRender` instead of `chains[]`
+- UI supports both V1 and V2 payloads for backward compatibility
 
-#### Observed inefficiency
-- Main thread can resolve **chains for every mode** of a collection, even though UI typically renders **one** chain.
+### P0.6 Add caching during chain resolution
+**Status**: Partially done
 
-### Proposals (prioritised)
+Caching exists in `getFoundVariablesFromRoots()` but not passed through to `resolveChainForMode()`.
 
-#### P0.1 Compute only the chain we actually display
 **What changes**
-- Change the data contract so main thread sends:
-  - `chainToRender` (single chain) instead of `chains[]` (all modes),
-  - plus metadata like `appliedMode` and optionally `hasOtherModes`.
-
-**Why it’s a good idea**
-- Massive reduction in variable-alias traversal and Figma API calls.
-- Keeps UI output the same (UI already chooses 1 chain to show).
-
-**Will it break any existing functionality?**
-- Low risk if we keep the same selection rules and chain rendering logic.
-- Requires a coordinated change across:
-  - `src/app/messages.ts` (types)
-  - `src/app/variable-chain.ts` (output shape)
-  - `src/app/views/color-chain-tool/ColorChainToolView.tsx` (consume new shape)
-
-**How main user flow will change**
-- It won’t. User still selects layers and sees the same list.
-
-**Implementation steps (safe rollout)**
-1. Add a new message payload type (versioned) alongside the old one.
-2. Update UI to support both shapes (backward compatibility).
-3. Switch main thread to send only the new payload.
-4. Remove old payload once stable.
-
-**Manual test checklist**
-- Empty selection → shows empty state.
-- Selection with variable-bound fill → shows variable name + chain steps + final HEX.
-- Mixed-mode selection (if possible) → still shows something sensible (fallback chain).
-
----
-
-#### P0.2 Add caching for variable + collection fetches during chain resolution
-**What changes**
-- Reuse a `Map<string, Variable | null>` and `Map<string, VariableCollection | null>` across:
-  - extraction,
-  - chain traversal (alias resolution).
-
-**Why it’s a good idea**
-- Many alias chains converge to the same variables; caching avoids repeated async calls.
-
-**Will it break any existing functionality?**
-- Very unlikely. Caching does not change values, only reduces repeated fetches.
-
-**How main user flow will change**
-- None; it should just feel faster.
+- Pass the existing caches into `resolveChainForMode()` to avoid repeated `getVariableByIdAsync()` calls during alias chain traversal
 
 **Implementation steps**
-1. Create shared caches in `inspectSelectionForVariableChainsByLayer()`.
-2. Pass caches into `resolveChainForMode()` (or its replacement).
-
-**Manual test checklist**
-- Same selection repeatedly (click different layers back and forth) → results appear faster and consistently.
+1. Add cache parameters to `resolveChainForMode()`
+2. Use caches in the recursive `step()` function
+3. Test with deep alias chains
 
 ---
 
-#### P1.1 Deduplicate variable IDs during scan (reduce repeated work)
+### P1.5 Move `variable-chain.ts` to tool folder
+**Status**: Not started
+
 **What changes**
-- Before calling `onVariable(id, …)`, deduplicate ids per node (or per selection) using a `Set`.
+- Move `src/app/variable-chain.ts` → `src/app/tools/color-chain-tool/variable-chain.ts`
 
 **Why**
-- Large selections can produce the same variable ID many times (fills/strokes/text, many descendants).
-
-**Risks**
-- Low. The only subtle risk is applied mode detection: ensure we still collect mode IDs from nodes where the variable appears.
-
-**Manual test**
-- A component with many nested layers using the same token → list should still contain that variable once (as today).
-
----
-
-#### P1.2 Remove dead/duplicated code paths in `variable-chain.ts`
-**What changes**
-- Keep one “find variables” implementation (node-based).
-- Remove unused helpers if not referenced anywhere.
-
-**Why**
-- Less code means fewer bugs and easier future refactors.
-
-**Risks**
-- Low, but confirm no other tool imports the old function.
+- Consistency with other tools (each tool's logic in its folder)
+- Currently the only tool-specific file outside its folder
 
 ---
 
 ## Tool: Print Color Usages
 
-### Current architecture (relevant parts)
+### P0.7 Stop "save-after-load" + debounce settings persistence
+**Status**: Not started
 
-#### Data flow
-- **Main thread tool runner**: `src/app/tools/print-color-usages/main-thread.ts`
-  - Posts selection + settings to UI, runs Print/Update actions, saves settings.
-- **UI**: `src/app/views/print-color-usages-tool/PrintColorUsagesToolView.tsx`
-  - Renders settings form + bottom actions, sends settings updates back to main thread.
+**Problem**
+- Settings are persisted immediately after being loaded (no user action)
+- Every toggle posts a save message
 
-#### Observed inefficiency / pain points
-- **Save-after-load**: UI currently persists settings immediately after receiving `PRINT_COLOR_USAGES_SETTINGS` (no user action).
-- **Chatty saves**: every quick toggle posts a save message (and main thread writes to `figma.clientStorage`).
-- **Working status not visible**: UI sets `status`, but doesn’t display `status.message` anywhere (only button loading).
-- **Layout is “hand-rolled”**: this view re-implements “scrollable body + fixed actions”, while other tools already have standard layout building blocks (e.g. `ToolBody`).
-
-### Proposals (prioritised)
-
-#### P0.1 Stop “save-after-load” by separating hydration vs user edits
 **What changes**
-- Introduce a “hydration” concept so settings received from main thread do not trigger persistence back.
-  - Examples: `hydratedRef`, `skipNextSaveRef`, or `dirty` flag that is only set by UI interactions.
+1. Introduce a `dirty` flag or `hydratedRef` to skip persistence on initial load
+2. Debounce settings saves (300ms)
+3. Flush pending saves before `Print` / `Update` actions
+4. Flush on component unmount
 
-**Why it’s a good idea**
-- Removes redundant message traffic and storage writes.
-- Makes it harder to accidentally create a save loop as the tool grows.
+**Implementation**:
+```typescript
+const [settings, setSettings] = useState(DEFAULT_SETTINGS)
+const [isHydrated, setIsHydrated] = useState(false)
+const saveTimeoutRef = useRef<number | null>(null)
 
-**Will it break any existing functionality?**
-- Low risk. Biggest subtlety: ensure user changes still persist reliably.
+// On hydration from main thread
+useEffect(() => {
+  if (msg.type === MAIN_TO_UI.PRINT_COLOR_USAGES_SETTINGS) {
+    setSettings(msg.settings)
+    setIsHydrated(true) // Don't trigger save
+  }
+}, [])
 
-**How main user flow will change**
-- It won’t. The UI behaves the same; it just does less background work.
+// Debounced save
+useEffect(() => {
+  if (!isHydrated) return
+  if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current)
+  saveTimeoutRef.current = setTimeout(() => {
+    parent.postMessage({ pluginMessage: { type: UI_TO_MAIN.SAVE_SETTINGS, settings } }, "*")
+  }, 300)
+  return () => { if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current) }
+}, [settings, isHydrated])
+```
 
 **Manual test checklist**
-- Open tool → no save happens until you change a setting.
-- Change a setting → close tool → reopen → change is persisted.
+- Open tool → no save happens until you change a setting
+- Toggle multiple options quickly → only one save after 300ms
+- Change a setting → immediately click `Print` → output uses the latest setting
 
 ---
 
-#### P0.2 Debounce settings persistence + flush before actions
+### P1.6 Display status message inline
+**Status**: Not started
+
 **What changes**
-- Debounce settings saves (e.g. 250–500ms) so multiple rapid toggles result in one save.
-- Flush any pending save before triggering `Print` / `Update` (so actions always use the latest settings).
+- Render `status.message` as secondary text near bottom actions when status is `working`
 
 **Why**
-- Less message traffic + fewer storage writes.
-- Avoids subtle “last toggle wasn’t saved yet” situations.
-
-**Risks**
-- Medium-low. Risk is losing last change if plugin closes before debounce fires.
-  - Mitigation: flush on unmount + flush before Print/Update.
-
-**Manual test checklist**
-- Toggle multiple options quickly → settings still persist after closing + reopening.
-- Change a setting → immediately click `Print` → output uses the latest setting.
+- Better feedback than just "loading" button state
 
 ---
 
-#### P1.1 Display `status.message` inline (small, secondary text)
+## Tool: Mockup Markup
+
+The Mockup Markup tool has already undergone significant refactoring (2026-02-03) and is in good shape:
+- ✅ Extracted shared utilities (`utils.ts`)
+- ✅ Clean resolution logic (`resolve.ts`)
+- ✅ Proper error aggregation (`OperationResult` type)
+- ✅ Consistent logging
+
+### P1.7 Use shared utilities instead of local ones
+**Status**: After P0.1/P0.2
+
+Once shared utilities exist, update Mockup Markup to use them:
+- Replace local `logDebug/logWarn` with shared logging
+- Replace local variable resolution with shared functions
+
+---
+
+## Project Structure
+
+### P2.1 Consider `src/plugin` vs `src/ui` vs `src/shared` split
+**Status**: Deferred
+
+**Suggested structure**:
+```
+src/
+├── plugin/                    # Figma main thread code
+│   ├── tools/
+│   │   ├── color-chain/
+│   │   ├── print-color-usages/
+│   │   └── mockup-markup/
+│   └── run.ts
+├── ui/                        # Preact UI
+│   ├── components/
+│   ├── views/
+│   └── App.tsx
+└── shared/                    # Shared types & utilities
+    ├── messages.ts
+    ├── color-utils.ts
+    └── figma-variables.ts
+```
+
+**Why deferred**
+- Medium risk (file moves + import path churn)
+- Current structure works well enough
+- Consider when adding more tools
+
+---
+
+### P2.2 Type safety: reduce `any` usage
+**Status**: Deferred
+
+**Problem**
+Many places cast to `any` for Figma API properties:
+```typescript
+const node = "node" in change ? (change as any).node : null
+```
+
 **What changes**
-- Render the current status message (“Printing…”, “Updating…”) near the bottom actions or below header (secondary text).
+- Create typed helper functions or interfaces for common Figma patterns
+- Add type guards where appropriate
 
-**Why**
-- Better feedback: “loading” buttons alone can be ambiguous.
-
-**Risks**
-- Very low.
+**Why deferred**
+- Low impact on functionality
+- Figma types are sometimes incomplete
 
 ---
 
-#### P1.2 Use shared tool layout primitives (`ToolBody` + a reusable “fixed actions” wrapper)
+### P2.3 Add lightweight performance instrumentation
+**Status**: Deferred
+
 **What changes**
-- Align this view with other tools by using `ToolBody` for the scrollable content area.
-- Optional follow-up: introduce a shared `ToolFooterActions` component (divider + container + button row) so multiple tools can reuse it.
+- Add timing logs behind a `DEBUG_PERF` flag
+- Log scan + resolve durations
 
-**Why**
-- Consistency and less custom layout code per tool.
-
-**Risks**
-- Low-medium: visual spacing might shift slightly; validate in Figma UI.
+**Why deferred**
+- Nice to have for debugging regressions
+- Low priority vs functional improvements
 
 ---
 
-#### P1.3 Consolidate message wiring into a reusable UI hook
-**What changes**
-- Extract common “listen to `window.message` + route by `msg.type`” logic into something like `usePluginMessages(...)`.
+## Rollout Plan (Recommended Order)
 
-**Why**
-- Most tools will need the same wiring; reduces copy/paste and subtle message handling bugs.
+### Phase 1: Shared Utilities (P0.1–P0.3)
+1. Extract shared color utilities
+2. Extract shared variable resolution
+3. Extract shared logging
 
-**Risks**
-- Medium: refactor touches multiple tools if adopted widely; do it incrementally.
+### Phase 2: Quick Wins (P0.4, P0.6, P0.7)
+4. Add stale-result guard
+5. Complete caching in chain resolution
+6. Debounce Print Color Usages settings
+
+### Phase 3: Consistency (P1.1–P1.4)
+7. Standardize message handler pattern
+8. Extract `usePluginMessages` hook
+9. Simplify routing logic
+10. Extract `ToolFooterActions` component
+
+### Phase 4: Cleanup (P1.5–P1.7)
+11. Move `variable-chain.ts` to tool folder
+12. Add inline status display
+13. Update Mockup Markup to use shared utilities
+
+### Phase 5: Structural (P2.x) — As needed
+14. Consider folder reorganization
+15. Improve type safety
+16. Add performance instrumentation
 
 ---
 
-## Rollout plan (recommended order)
-1. **Cross-tool reliability**: stale-result guard for async work (see below) — easiest to validate.
-2. **View Colors Chain**: caching — quick performance win.
-3. **View Colors Chain**: “only compute what we render” — biggest performance win, requires message/type updates.
-4. **Print Color Usages**: stop save-after-load + debounce saves — reduces background work and avoids future loops.
-5. P1 items as cleanup once both tools feel stable and fast.
-
----
-
-## Testing & safety (non-developer friendly)
+## Testing & Safety
 
 ### Is it a good idea to do these refactors?
 **Yes**, because they target:
-- performance (less scanning / fewer API calls),
-- reliability (no stale UI state),
-- maintainability (easier to add more tools safely).
+- **Maintainability**: less duplicate code, consistent patterns
+- **Reliability**: race-proof updates, proper error handling
+- **Performance**: caching, reduced API calls
 
 ### Will it break any existing functionality?
-It shouldn’t if we:
-- ship changes incrementally (one refactor at a time),
-- keep backward compatibility for the message payload during the transition,
-- always run the manual checklist in a “golden test file”.
+It shouldn't if we:
+- Ship changes incrementally (one refactor at a time)
+- Keep backward compatibility during transitions
+- Always run the manual checklist
 
 ### How main user flow will change
-It should **not change**. The user will do the same actions (select layers, view chain); it just becomes faster and less glitchy.
+It should **not change**. Users do the same actions; the plugin becomes faster and more maintainable.
 
-### Minimum “release” checklist
+### Minimum "release" checklist
 - Run `npm run build`
 - In Figma:
-  - Run **Tools Home**
-  - Run **View Colors Chain**
-  - Test empty selection, simple selection, and a nested selection
+  - Run **Tools Home** — verify all tool cards appear
+  - Run **View Colors Chain** — test empty, simple, and nested selection
+  - Run **Print Color Usages** — test Print and Update actions
+  - Run **Mockup Markup Quick Apply** — test Apply and Create actions
 
 ---
 
-## Cross-tool / platform proposals
+## Quick Reference: File Locations
 
-### P0.1 Prevent stale UI updates when async work completes out of order (race-proof updates)
-**Problem**
-- Tool runners can “fire and forget” async work; quick user actions (selection changes, reruns, etc.) can result in older work posting results after newer work started.
-
-**What changes**
-- Add an incrementing `updateId` (or request ID) and only post results if the finished computation matches the latest `updateId`.
-
-**Why it’s a good idea**
-- Prevents flicker and “wrong selection results” moments.
-
-**Will it break any existing functionality?**
-- No expected behavior change; it only prevents outdated updates from rendering.
-
-**How main user flow will change**
-- None; it will feel more stable.
-
-**Manual test checklist**
-- Rapidly change selection between two layers → UI should not briefly show the wrong layer’s results.
-
----
-
-### P1.1 Improve module boundaries: `src/plugin` vs `src/ui` vs `src/shared`
-**What changes (suggested structure)**
-- `src/plugin/` — Figma main thread code (tool runners, scanners, figma API calls)
-- `src/ui/` — Preact UI
-- `src/shared/` — message contracts (`messages.ts`) and shared types
-
-**Why**
-- Cleaner separation as more tools are added.
-- Prevents accidental UI-to-plugin coupling.
-
-**Risks**
-- Medium (file moves + import path churn).
-
-**Manual test**
-- `npm run build` succeeds
-- Plugin still loads in Figma, all menu commands open correctly
-
----
-
-### P2.1 Add lightweight performance instrumentation (debug-only)
-**What changes**
-- Time “main thread scan + resolve” work (`Date.now()` before/after) and log to console, or post a debug metric to UI behind a `DEBUG_PERF` flag.
-
-**Why**
-- Helps detect regressions as tools grow.
-
-**Risks**
-- Very low if gated behind a flag.
-
+| Category | Files |
+|----------|-------|
+| Entry points | `src/home/main.ts`, `src/*-tool/main.ts` |
+| Shared runner | `src/app/run.ts` |
+| Messages | `src/app/messages.ts` |
+| Components | `src/app/components/*.tsx` |
+| Views | `src/app/views/<tool>/*.tsx` |
+| Tool logic | `src/app/tools/<tool>/*.ts` |
+| Variable chain | `src/app/variable-chain.ts` (→ move to tool folder) |

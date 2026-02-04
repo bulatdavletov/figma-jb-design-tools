@@ -1,3 +1,8 @@
+/**
+ * Resolution logic for Mockup Markup tool.
+ * Handles resolving text styles and color variables from presets.
+ */
+
 import type { MockupMarkupColorPreset, MockupMarkupTypographyPreset } from "../../messages"
 import {
   COLOR_VARIABLE_ID_RAW_BY_PRESET,
@@ -5,265 +10,374 @@ import {
   TEXT_STYLE_ID_BY_PRESET,
   getColorVariableNameCandidates,
 } from "./presets"
+import { logDebug, logWarn, type OperationResult } from "./utils"
 
-function leafName(name: string): string {
-  const idx = (name ?? "").lastIndexOf("/")
-  return idx >= 0 ? name.slice(idx + 1) || name : name
+// ============================================================================
+// TEXT STYLE RESOLUTION
+// ============================================================================
+
+/**
+ * Extracts the style key from a full style ID.
+ * Style IDs look like: "S:<key>,<nodeId>"
+ */
+function extractStyleKey(styleId: string): string | null {
+  const match = /^S:([^,]+)/.exec(styleId?.trim() ?? "")
+  return match?.[1] ?? null
 }
 
-function namesMatch(candidate: string, wanted: string): boolean {
-  const c = (candidate ?? "").trim().toLowerCase()
-  const w = (wanted ?? "").trim().toLowerCase()
-  if (!c || !w) return false
-  return c === w || leafName(c) === w
-}
-
-function libraryNameMatches(candidate: string, wanted: string): boolean {
-  const c = (candidate ?? "").trim().toLowerCase()
-  const w = (wanted ?? "").trim().toLowerCase()
-  if (!c || !w) return false
-  return c === w
-}
-
-function extractStyleKeyFromStyleId(styleId: string): string | null {
-  // Style ids look like: "S:<key>,<nodeId>"
-  const m = /^S:([^,]+)/.exec((styleId ?? "").trim())
-  return m?.[1] ?? null
-}
-
-async function resolveLocalTextStyleIdByKey(key: string): Promise<string | null> {
-  const k = (key ?? "").trim()
-  if (!k) return null
+/**
+ * Imports a text style from an enabled library by its key.
+ * This is the simplest and most reliable way if the library is enabled.
+ */
+async function importStyleByKey(key: string): Promise<TextStyle | null> {
+  if (!key) return null
   try {
-    const styles = await figma.getLocalTextStylesAsync()
-    const match = styles.find((s) => ((s as any).key as string | undefined) === k)
-    return match?.id ?? null
-  } catch {
-    return null
-  }
-}
-
-async function resolveLocalTextStyleIdByNameRegex(regex: RegExp): Promise<string | null> {
-  try {
-    const styles = await figma.getLocalTextStylesAsync()
-    const match = styles.find((s) => regex.test(s.name ?? ""))
-    return match?.id ?? null
-  } catch {
-    return null
-  }
-}
-
-async function resolveAccessibleTextStyleIdById(styleId: string): Promise<string | null> {
-  try {
-    const style = await figma.getStyleByIdAsync(styleId)
-    if (style && (style as any).type === "TEXT") return styleId
-  } catch {
-    // ignore
+    const style = await figma.importStyleByKeyAsync(key)
+    if (style && (style as any).type === "TEXT") {
+      return style as TextStyle
+    }
+  } catch (e) {
+    logDebug("importStyleByKey", `Could not import style`, {
+      key,
+      error: e instanceof Error ? e.message : String(e),
+    })
   }
   return null
 }
 
-export async function resolveTextStyleIdForPreset(preset: MockupMarkupTypographyPreset): Promise<string | null> {
-  const preferred = TEXT_STYLE_ID_BY_PRESET[preset]
-
-  // IMPORTANT: We intentionally do NOT call `figma.importStyleByKeyAsync` here.
-  // In some environments this throws "Unable to create style" and can surface as an
-  // unhandled promise rejection in Figma's host. We only apply typography using
-  // styles that are already present in the file (local/imported).
-
-  // 1) If the style id is accessible AND already present, we can use it safely.
-  const accessibleById = await resolveAccessibleTextStyleIdById(preferred)
-  if (accessibleById) {
-    // If the spec historically had Description/H3 swapped, prefer local-by-name when present.
-    try {
-      const style = await figma.getStyleByIdAsync(preferred)
-      const name = (style as any)?.name as string | undefined
-      const remote = Boolean((style as any)?.remote)
-      const n = (name ?? "").toLowerCase()
-      if (remote) {
-        // Remote styles can't reliably be applied via id unless imported into the file.
-        // Fall through to local resolution by key/name.
-        throw new Error("remote-style")
-      }
-      if (preset === "description" && n.includes("h3")) {
-        return (await resolveLocalTextStyleIdByNameRegex(/description/i)) ?? preferred
-      }
-      if (preset === "h3" && n.includes("description")) {
-        return (await resolveLocalTextStyleIdByNameRegex(/\bh3\b/i)) ?? preferred
-      }
-    } catch {
-      // ignore
-    }
-    return preferred
+/**
+ * Finds a local text style by name pattern (fallback).
+ */
+async function findLocalStyleByName(namePattern: RegExp): Promise<TextStyle | null> {
+  try {
+    const styles = await figma.getLocalTextStylesAsync()
+    return styles.find((s) => namePattern.test(s.name ?? "")) ?? null
+  } catch {
+    return null
   }
+}
 
-  // 2) Prefer resolving to a *local imported* style by key, when possible.
-  const key = extractStyleKeyFromStyleId(preferred)
+/**
+ * Gets the name pattern for finding a style by preset type.
+ */
+function getStyleNamePattern(preset: MockupMarkupTypographyPreset): RegExp {
+  switch (preset) {
+    case "h1":
+      return /\bh1\b/i
+    case "h2":
+      return /\bh2\b/i
+    case "h3":
+      return /\bh3\b/i
+    case "description":
+      return /description/i
+    case "paragraph":
+      return /paragraph|body/i
+  }
+}
+
+/**
+ * Resolves the text style ID for a given typography preset.
+ *
+ * Simple approach:
+ * 1. Import the style by key from the enabled library (just like we do for variables)
+ * 2. Fall back to finding local styles by name pattern
+ */
+export async function resolveTextStyleIdForPreset(
+  preset: MockupMarkupTypographyPreset
+): Promise<string | null> {
+  const preferredId = TEXT_STYLE_ID_BY_PRESET[preset]
+  const key = extractStyleKey(preferredId)
+
+  // Strategy 1: Import from library (simplest if library is enabled)
   if (key) {
-    const byKey = await resolveLocalTextStyleIdByKey(key)
-    if (byKey) return byKey
-  }
-
-  // As a fallback, try resolving by local style name.
-  const byName =
-    preset === "h1"
-      ? await resolveLocalTextStyleIdByNameRegex(/\bh1\b/i)
-      : preset === "h2"
-        ? await resolveLocalTextStyleIdByNameRegex(/\bh2\b/i)
-        : preset === "h3"
-          ? await resolveLocalTextStyleIdByNameRegex(/\bh3\b/i)
-          : preset === "description"
-            ? await resolveLocalTextStyleIdByNameRegex(/description/i)
-            : await resolveLocalTextStyleIdByNameRegex(/paragraph|body/i)
-
-  return byName ?? null
-}
-
-export async function loadFontForTextStyleId(textStyleId: string): Promise<void> {
-  try {
-    const style = await figma.getStyleByIdAsync(textStyleId)
-    if (style && (style as any).type === "TEXT") {
-      const fontName = (style as any).fontName as FontName | undefined
-      if (fontName) await figma.loadFontAsync(fontName)
+    const imported = await importStyleByKey(key)
+    if (imported?.id) {
+      logDebug("resolveTextStyleId", `Imported style for ${preset}`, { styleId: imported.id })
+      return imported.id
     }
-  } catch {
-    // ignore
   }
+
+  // Strategy 2: Find by name pattern in local styles
+  const namePattern = getStyleNamePattern(preset)
+  const byName = await findLocalStyleByName(namePattern)
+  if (byName?.id) {
+    logDebug("resolveTextStyleId", `Found local style by name for ${preset}`, {
+      styleId: byName.id,
+      pattern: namePattern.source,
+    })
+    return byName.id
+  }
+
+  logWarn("resolveTextStyleId", `Could not resolve style for ${preset}`, {
+    preferredId,
+    key,
+    hint: "Enable the Mockup markup library in Assets → Libraries",
+  })
+  return null
 }
 
-export async function loadFontForTextStyle(style: TextStyle): Promise<void> {
+/**
+ * Loads the font for a text style so it can be applied to text nodes.
+ */
+export async function loadFontForTextStyle(styleId: string): Promise<OperationResult> {
   try {
+    const style = await figma.getStyleByIdAsync(styleId)
+    if (!style || (style as any).type !== "TEXT") {
+      return { ok: false, reason: "Style not found or not a text style" }
+    }
     const fontName = (style as any).fontName as FontName | undefined
-    if (fontName) await figma.loadFontAsync(fontName)
-  } catch {
-    // ignore
+    if (!fontName) {
+      return { ok: false, reason: "Style has no font name" }
+    }
+    await figma.loadFontAsync(fontName)
+    return { ok: true, value: undefined }
+  } catch (e) {
+    return { ok: false, reason: e instanceof Error ? e.message : String(e) }
   }
 }
 
-export function makeSolidPaintBoundToColorVariable(variableId: string): SolidPaint {
-  const paint: SolidPaint = { type: "SOLID", color: { r: 0, g: 0, b: 0 }, opacity: 1 } as SolidPaint
-  ;(paint as any).boundVariables = { color: { type: "VARIABLE_ALIAS", id: variableId } }
-  return paint
-}
+// ============================================================================
+// COLOR VARIABLE RESOLUTION
+// ============================================================================
 
-function normalizeVariableId(raw: string): string {
-  const trimmed = (raw ?? "").trim()
+/**
+ * Normalizes a raw variable ID by removing the trailing node ID part.
+ * Raw IDs look like: "VariableID:<hash>/<nodeId>"
+ */
+function normalizeVariableId(rawId: string): string {
+  const trimmed = (rawId ?? "").trim()
   if (!trimmed) return ""
   const slashIdx = trimmed.indexOf("/")
   return (slashIdx >= 0 ? trimmed.slice(0, slashIdx) : trimmed).trim()
 }
 
-export async function resolveColorVariableId(rawId: string, fallbackNames: string[]): Promise<string | null> {
-  const normalized = normalizeVariableId(rawId)
+/**
+ * Checks if two names match (case-insensitive, handles "Group/Name" format).
+ */
+function namesMatch(candidate: string, wanted: string): boolean {
+  const normalize = (s: string) => (s ?? "").trim().toLowerCase()
+  const c = normalize(candidate)
+  const w = normalize(wanted)
+  if (!c || !w) return false
 
-  // 1) Try by ID (works only if variable is local/imported).
-  if (normalized) {
-    try {
-      const v = await figma.variables.getVariableByIdAsync(normalized)
-      if (v?.id) return v.id
-    } catch {
-      // ignore
-    }
-  }
+  // Direct match
+  if (c === w) return true
 
-  // 2) Otherwise resolve by name from enabled libraries (imports variable by key).
-  const importedId = await resolveColorVariableIdByNameFromEnabledLibraries(fallbackNames)
-  if (!importedId) {
-    // eslint-disable-next-line no-console
-    console.log("[Mockup Markup] Color variable not found", {
-      rawId,
-      normalizedId: normalized || null,
-      fallbackNames,
-      note: "Enable the Mockup markup library OR import the variable into this file.",
-    })
-  }
-  return importedId
+  // Match just the leaf name (after last "/")
+  const leafIdx = c.lastIndexOf("/")
+  const leaf = leafIdx >= 0 ? c.slice(leafIdx + 1) : c
+  return leaf === w
 }
 
-export async function resolveColorVariableIdByNameFromEnabledLibraries(variableNameCandidates: string[]): Promise<string | null> {
-  // 1) Try local variables by name (imported variables become "local" in the file).
+/**
+ * Tries to get a variable by its ID (works if already imported/local).
+ */
+async function getVariableById(variableId: string): Promise<Variable | null> {
+  try {
+    const v = await figma.variables.getVariableByIdAsync(variableId)
+    return v ?? null
+  } catch {
+    return null
+  }
+}
+
+/**
+ * Searches local variables for one matching the given names.
+ */
+async function findLocalVariableByName(nameCandidates: string[]): Promise<Variable | null> {
   try {
     const locals = await figma.variables.getLocalVariablesAsync("COLOR" as any)
-    for (const wanted of variableNameCandidates) {
+    for (const wanted of nameCandidates) {
       const match = locals.find((v) => namesMatch((v as any).name ?? "", wanted))
-      if (match?.id) return match.id
+      if (match) return match
     }
   } catch {
-    // ignore
+    // Local variables API failed
   }
-
-  // 2) Search enabled libraries and import by key.
-  try {
-    const collections = await figma.teamLibrary.getAvailableLibraryVariableCollectionsAsync()
-    const preferred = collections.filter((c) => libraryNameMatches(c.libraryName, MOCKUP_MARKUP_LIBRARY_NAME))
-    const rest = collections.filter((c) => !libraryNameMatches(c.libraryName, MOCKUP_MARKUP_LIBRARY_NAME))
-    const ordered = preferred.length > 0 ? [...preferred, ...rest] : collections
-
-    for (const c of ordered) {
-      try {
-        const vars = await figma.teamLibrary.getVariablesInLibraryCollectionAsync(c.key)
-        for (const wanted of variableNameCandidates) {
-          const libMatch = vars.find(
-            (v) => (v.resolvedType as any) === "COLOR" && namesMatch(v.name ?? "", wanted)
-          )
-          if (libMatch?.key) {
-            const imported = await figma.variables.importVariableByKeyAsync(libMatch.key)
-            if (imported?.id) return imported.id
-          }
-        }
-      } catch {
-        // ignore this collection
-      }
-    }
-  } catch {
-    // ignore
-  }
-
   return null
 }
 
-export async function resolveColorVariableForPreset(preset: MockupMarkupColorPreset): Promise<string | null> {
-  const rawId = COLOR_VARIABLE_ID_RAW_BY_PRESET[preset]
-  const fallbackNames = getColorVariableNameCandidates(preset)
-  const id = await resolveColorVariableId(rawId, fallbackNames.length > 0 ? fallbackNames : ["Unknown"])
-  if (!id) {
-    // eslint-disable-next-line no-console
-    console.log("[Mockup Markup] Failed to resolve color preset", { preset, rawId, fallbackNames })
-  }
-  return id
-}
-
-export async function setExplicitModeForColorVariableCollection(variableId: string, modeName: "dark" | "light"): Promise<void> {
+/**
+ * Imports a variable from an enabled library by searching for matching names.
+ * Prefers the "Mockup markup" library but falls back to others.
+ */
+async function importVariableFromLibrary(nameCandidates: string[]): Promise<Variable | null> {
   try {
-    const variable = await figma.variables.getVariableByIdAsync(variableId)
-    const collectionId = (variable as any)?.variableCollectionId as string | undefined
-    if (!collectionId) return
+    const collections = await figma.teamLibrary.getAvailableLibraryVariableCollectionsAsync()
 
-    const collection = await figma.variables.getVariableCollectionByIdAsync(collectionId)
-    if (!collection) return
+    // Prefer Mockup markup library
+    const libraryName = MOCKUP_MARKUP_LIBRARY_NAME.toLowerCase()
+    const preferred = collections.filter(
+      (c) => (c.libraryName ?? "").trim().toLowerCase() === libraryName
+    )
+    const rest = collections.filter(
+      (c) => (c.libraryName ?? "").trim().toLowerCase() !== libraryName
+    )
+    const ordered = [...preferred, ...rest]
 
-    const modes: Array<{ modeId: string; name: string }> = Array.isArray((collection as any).modes) ? (collection as any).modes : []
-    const match = modes.find((m) => (m.name ?? "").trim().toLowerCase() === modeName)
-    const modeId = match?.modeId ?? null
-
-    if (modeId) {
-      // This is a *node/page* API (ExplicitVariableModesMixin). Set it on the current page
-      // so the mode applies across the page.
-      figma.currentPage.setExplicitVariableModeForCollection(collection, modeId)
-      return
-    }
-
-    // If "Light" mode doesn't exist in this collection, clear explicit mode to fall back to defaults.
-    if (modeName === "light") {
+    for (const collection of ordered) {
       try {
-        figma.currentPage.clearExplicitVariableModeForCollection(collection)
+        const vars = await figma.teamLibrary.getVariablesInLibraryCollectionAsync(collection.key)
+        for (const wanted of nameCandidates) {
+          const match = vars.find(
+            (v) => (v.resolvedType as any) === "COLOR" && namesMatch(v.name ?? "", wanted)
+          )
+          if (match?.key) {
+            const imported = await figma.variables.importVariableByKeyAsync(match.key)
+            if (imported) {
+              logDebug("importVariableFromLibrary", `Imported variable`, {
+                name: match.name,
+                library: collection.libraryName,
+              })
+              return imported
+            }
+          }
+        }
       } catch {
-        // ignore
+        // Skip this collection
       }
     }
   } catch {
-    // eslint-disable-next-line no-console
-    console.log("[Mockup Markup] Failed to set explicit variable mode", { variableId, modeName })
+    // Team library API failed
+  }
+  return null
+}
+
+/**
+ * Resolves a color variable for a given preset.
+ *
+ * Resolution order:
+ * 1. Try to get by normalized ID (works if already imported)
+ * 2. Search local variables by name
+ * 3. Import from enabled library
+ *
+ * Returns the variable ID or null if not found.
+ */
+export async function resolveColorVariableForPreset(
+  preset: MockupMarkupColorPreset
+): Promise<string | null> {
+  const rawId = COLOR_VARIABLE_ID_RAW_BY_PRESET[preset]
+  const normalizedId = normalizeVariableId(rawId)
+  const nameCandidates = getColorVariableNameCandidates(preset)
+
+  // Strategy 1: Direct lookup by ID
+  if (normalizedId) {
+    const byId = await getVariableById(normalizedId)
+    if (byId?.id) {
+      logDebug("resolveColorVariable", `Found variable by ID for ${preset}`, { id: byId.id })
+      return byId.id
+    }
+  }
+
+  // Strategy 2: Find in local variables
+  const local = await findLocalVariableByName(nameCandidates)
+  if (local?.id) {
+    logDebug("resolveColorVariable", `Found local variable for ${preset}`, { id: local.id })
+    return local.id
+  }
+
+  // Strategy 3: Import from library
+  const imported = await importVariableFromLibrary(nameCandidates)
+  if (imported?.id) {
+    logDebug("resolveColorVariable", `Imported variable for ${preset}`, { id: imported.id })
+    return imported.id
+  }
+
+  logWarn("resolveColorVariable", `Could not resolve variable for ${preset}`, {
+    rawId,
+    nameCandidates,
+    hint: "Enable the Mockup markup library in Assets → Libraries",
+  })
+  return null
+}
+
+// ============================================================================
+// APPLYING COLOR VARIABLES
+// ============================================================================
+
+/**
+ * Creates a SolidPaint bound to a color variable.
+ */
+export function createVariableBoundPaint(variableId: string): SolidPaint {
+  const paint: SolidPaint = {
+    type: "SOLID",
+    color: { r: 0, g: 0, b: 0 },
+    opacity: 1,
+  }
+  ;(paint as any).boundVariables = {
+    color: { type: "VARIABLE_ALIAS", id: variableId },
+  }
+  return paint
+}
+
+/**
+ * Sets the explicit variable mode for a variable's collection on the current page.
+ */
+export async function setPageVariableMode(
+  variableId: string,
+  modeName: "dark" | "light"
+): Promise<OperationResult> {
+  try {
+    const variable = await figma.variables.getVariableByIdAsync(variableId)
+    if (!variable) {
+      return { ok: false, reason: "Variable not found" }
+    }
+
+    const collectionId = (variable as any).variableCollectionId as string | undefined
+    if (!collectionId) {
+      return { ok: false, reason: "Variable has no collection" }
+    }
+
+    const collection = await figma.variables.getVariableCollectionByIdAsync(collectionId)
+    if (!collection) {
+      return { ok: false, reason: "Collection not found" }
+    }
+
+    const modes = (collection.modes ?? []) as Array<{ modeId: string; name: string }>
+    const targetMode = modes.find((m) => (m.name ?? "").trim().toLowerCase() === modeName)
+
+    if (targetMode?.modeId) {
+      figma.currentPage.setExplicitVariableModeForCollection(collection, targetMode.modeId)
+      logDebug("setPageVariableMode", `Set mode to ${modeName}`, { modeId: targetMode.modeId })
+      return { ok: true, value: undefined }
+    }
+
+    // If target mode doesn't exist, clear explicit mode for "light"
+    if (modeName === "light") {
+      try {
+        figma.currentPage.clearExplicitVariableModeForCollection(collection)
+        logDebug("setPageVariableMode", "Cleared explicit mode (light fallback)")
+        return { ok: true, value: undefined }
+      } catch {
+        // Ignore
+      }
+    }
+
+    return { ok: false, reason: `Mode "${modeName}" not found in collection` }
+  } catch (e) {
+    return { ok: false, reason: e instanceof Error ? e.message : String(e) }
   }
 }
 
+// ============================================================================
+// EXPORTS FOR BACKWARD COMPATIBILITY
+// ============================================================================
+
+// These are kept for backward compatibility with existing code
+export const loadFontForTextStyleId = loadFontForTextStyle
+export const makeSolidPaintBoundToColorVariable = createVariableBoundPaint
+export const setExplicitModeForColorVariableCollection = setPageVariableMode
+export const resolveColorVariableId = async (
+  rawId: string,
+  fallbackNames: string[]
+): Promise<string | null> => {
+  const normalizedId = normalizeVariableId(rawId)
+  if (normalizedId) {
+    const byId = await getVariableById(normalizedId)
+    if (byId?.id) return byId.id
+  }
+  const local = await findLocalVariableByName(fallbackNames)
+  if (local?.id) return local.id
+  const imported = await importVariableFromLibrary(fallbackNames)
+  return imported?.id ?? null
+}

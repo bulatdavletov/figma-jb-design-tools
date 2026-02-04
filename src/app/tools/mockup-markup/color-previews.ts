@@ -1,73 +1,118 @@
+/**
+ * Color preview resolution for Mockup Markup tool.
+ * Resolves actual colors from variables for UI display.
+ */
+
 import type { MockupMarkupColorPreview, MockupMarkupColorPreviews } from "../../messages"
 import { resolveColorVariableForPreset } from "./resolve"
+import { logDebug } from "./utils"
 
+/**
+ * Clamps a number to the 0-1 range.
+ */
 function clamp01(n: number): number {
   return Math.max(0, Math.min(1, n))
 }
 
+/**
+ * Converts a 0-1 value to a 2-digit hex byte.
+ */
 function toHexByte(n01: number): string {
   const v = Math.round(clamp01(n01) * 255)
   return v.toString(16).padStart(2, "0").toUpperCase()
 }
 
+/**
+ * Converts RGB values (0-1 range) to a hex color string.
+ */
 function rgbToHex(rgb: { r: number; g: number; b: number }): string {
   return `#${toHexByte(rgb.r)}${toHexByte(rgb.g)}${toHexByte(rgb.b)}`
 }
 
-async function resolveModeIdForVariable(variableId: string, forceModeName: "dark" | "light"): Promise<string | null> {
+/**
+ * Gets the mode ID for a variable, preferring the specified mode name.
+ */
+async function getModeIdForVariable(
+  variableId: string,
+  preferredModeName: "dark" | "light"
+): Promise<string | null> {
   try {
     const variable = await figma.variables.getVariableByIdAsync(variableId)
-    const collectionId = (variable as any)?.variableCollectionId as string | undefined
+    if (!variable) return null
+
+    const collectionId = (variable as any).variableCollectionId as string | undefined
     if (!collectionId) return null
 
     const collection = await figma.variables.getVariableCollectionByIdAsync(collectionId)
     if (!collection) return null
 
-    const match = (collection.modes ?? []).find((m) => (m.name ?? "").trim().toLowerCase() === forceModeName)
-    if (match?.modeId) return match.modeId
+    const modes = (collection.modes ?? []) as Array<{ modeId: string; name: string }>
 
-    // If the page has an explicit mode, use it; otherwise default.
-    const explicit = (figma.currentPage as any).explicitVariableModes?.[collectionId]
-    if (typeof explicit === "string" && explicit) return explicit
+    // Try to find the preferred mode
+    const preferredMode = modes.find(
+      (m) => (m.name ?? "").trim().toLowerCase() === preferredModeName
+    )
+    if (preferredMode?.modeId) {
+      return preferredMode.modeId
+    }
 
+    // Check if there's an explicit mode set on the page
+    const explicitModes = (figma.currentPage as any).explicitVariableModes as
+      | Record<string, string>
+      | undefined
+    if (explicitModes?.[collectionId]) {
+      return explicitModes[collectionId]
+    }
+
+    // Fall back to default mode
     const defaultModeId = (collection as any).defaultModeId as string | undefined
     if (defaultModeId) return defaultModeId
 
-    return (collection.modes ?? [])[0]?.modeId ?? null
+    // Fall back to first mode
+    return modes[0]?.modeId ?? null
   } catch {
     return null
   }
 }
 
-async function resolveColorPreviewFromVariableId(
+/**
+ * Resolves a color variable to its actual RGB value, following alias chains.
+ */
+async function resolveVariableColor(
   variableId: string,
-  forceModeName: "dark" | "light"
+  modeName: "dark" | "light"
 ): Promise<MockupMarkupColorPreview> {
   const seen = new Set<string>()
   let currentId: string | null = variableId
 
-  for (let steps = 0; steps < 10; steps++) {
-    if (!currentId) break
-    if (seen.has(currentId)) break
+  // Follow alias chain (max 10 steps to prevent infinite loops)
+  for (let step = 0; step < 10; step++) {
+    if (!currentId || seen.has(currentId)) break
     seen.add(currentId)
 
     try {
       const variable = await figma.variables.getVariableByIdAsync(currentId)
       if (!variable) break
-      const modeId = await resolveModeIdForVariable(currentId, forceModeName)
-      const valuesByMode = (variable as any).valuesByMode as Record<string, any> | undefined
-      const value = modeId && valuesByMode ? valuesByMode[modeId] : undefined
 
-      if (value && typeof value === "object" && "type" in value && (value as any).type === "VARIABLE_ALIAS") {
-        currentId = (value as any).id ?? null
+      const modeId = await getModeIdForVariable(currentId, modeName)
+      if (!modeId) break
+
+      const valuesByMode = (variable as any).valuesByMode as Record<string, any> | undefined
+      const value = valuesByMode?.[modeId]
+
+      // If it's an alias, follow it
+      if (value && typeof value === "object" && value.type === "VARIABLE_ALIAS") {
+        currentId = value.id ?? null
         continue
       }
 
+      // If it's an RGB value, return it
       if (value && typeof value === "object" && "r" in value && "g" in value && "b" in value) {
-        const rgb = value as any
-        const hex = rgbToHex({ r: rgb.r, g: rgb.g, b: rgb.b })
-        const a = typeof rgb.a === "number" ? clamp01(rgb.a) : 1
-        const opacityPercent = Math.round(a * 100)
+        const hex = rgbToHex({ r: value.r, g: value.g, b: value.b })
+        const opacity = typeof value.a === "number" ? clamp01(value.a) : 1
+        const opacityPercent = Math.round(opacity * 100)
+
+        logDebug("colorPreviews", `Resolved color`, { variableId, hex, opacityPercent })
         return { hex, opacityPercent }
       }
     } catch {
@@ -75,22 +120,33 @@ async function resolveColorPreviewFromVariableId(
     }
   }
 
+  logDebug("colorPreviews", `Could not resolve color`, { variableId })
   return { hex: null, opacityPercent: null }
 }
 
-export async function getMockupMarkupColorPreviews(forceModeName: "dark" | "light"): Promise<MockupMarkupColorPreviews> {
-  const textId = await resolveColorVariableForPreset("text")
-  const textSecondaryId = await resolveColorVariableForPreset("text-secondary")
-  const purpleId = await resolveColorVariableForPreset("purple")
+/**
+ * Gets color previews for all presets.
+ */
+export async function getMockupMarkupColorPreviews(
+  forceModeName: "dark" | "light"
+): Promise<MockupMarkupColorPreviews> {
+  // Resolve all variable IDs in parallel
+  const [textId, textSecondaryId, purpleId] = await Promise.all([
+    resolveColorVariableForPreset("text"),
+    resolveColorVariableForPreset("text-secondary"),
+    resolveColorVariableForPreset("purple"),
+  ])
 
+  // Resolve all colors in parallel
   const [text, textSecondary, purple] = await Promise.all([
-    textId ? resolveColorPreviewFromVariableId(textId, forceModeName) : Promise.resolve({ hex: null, opacityPercent: null }),
+    textId ? resolveVariableColor(textId, forceModeName) : Promise.resolve({ hex: null, opacityPercent: null }),
     textSecondaryId
-      ? resolveColorPreviewFromVariableId(textSecondaryId, forceModeName)
+      ? resolveVariableColor(textSecondaryId, forceModeName)
       : Promise.resolve({ hex: null, opacityPercent: null }),
-    purpleId ? resolveColorPreviewFromVariableId(purpleId, forceModeName) : Promise.resolve({ hex: null, opacityPercent: null }),
+    purpleId
+      ? resolveVariableColor(purpleId, forceModeName)
+      : Promise.resolve({ hex: null, opacityPercent: null }),
   ])
 
   return { text, textSecondary, purple }
 }
-
