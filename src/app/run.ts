@@ -5,32 +5,65 @@ import type { ActiveTool } from "./messages"
 import { registerColorChainTool } from "./tools/color-chain-tool/main-thread"
 import { registerMockupMarkupTool } from "./tools/mockup-markup/main-thread"
 import { registerPrintColorUsagesTool } from "./tools/print-color-usages/main-thread"
+import { registerVariablesBatchRenameTool } from "./tools/variables-batch-rename/main-thread"
+import { registerVariablesExportImportTool } from "./tools/variables-export-import/main-thread"
+import { registerVariablesCreateLinkedColorsTool } from "./tools/variables-create-linked-colors/main-thread"
+import { registerVariablesReplaceUsagesTool } from "./tools/variables-replace-usages/main-thread"
+
+function getToolTitle(command: string): string {
+  switch (command) {
+    case "color-chain-tool":
+      return "View Colors Chain"
+    case "print-color-usages-tool":
+      return "Print Color Usages"
+    case "mockup-markup-tool":
+      return "Mockup Markup Quick Apply"
+    case "variables-batch-rename-tool":
+      return "Variables Batch Rename"
+    case "variables-export-import-tool":
+      return "Variables Export Import"
+    case "variables-create-linked-colors-tool":
+      return "Variables Create Linked Colors"
+    case "variables-replace-usages-tool":
+      return "Variables Replace Usages"
+    default:
+      return "JetBrains Design Tools"
+  }
+}
 
 export function run(command: string) {
   showUI(
     {
       width: 360,
       height: 500,
-      title:
-        command === "color-chain-tool"
-          ? "View Colors Chain"
-          : command === "print-color-usages-tool"
-            ? "Print Color Usages"
-            : command === "mockup-markup-tool"
-              ? "Mockup Markup Quick Apply"
-            : "JetBrains Design Tools",
+      title: getToolTitle(command),
     },
     { command }
   )
 
-  let activeTool: ActiveTool =
-    command === "color-chain-tool" || command === "print-color-usages-tool" || command === "mockup-markup-tool" ? command : "home"
+  const toolCommands: ActiveTool[] = [
+    "color-chain-tool",
+    "print-color-usages-tool",
+    "mockup-markup-tool",
+    "variables-batch-rename-tool",
+    "variables-export-import-tool",
+    "variables-create-linked-colors-tool",
+    "variables-replace-usages-tool",
+  ]
+
+  let activeTool: ActiveTool = toolCommands.includes(command as ActiveTool)
+    ? (command as ActiveTool)
+    : "home"
 
   const getActiveTool = () => activeTool
 
   const colorChain = registerColorChainTool(getActiveTool)
   const printColorUsages = registerPrintColorUsagesTool(getActiveTool)
   const mockupMarkup = registerMockupMarkupTool(getActiveTool)
+  const variablesBatchRename = registerVariablesBatchRenameTool(getActiveTool)
+  const variablesExportImport = registerVariablesExportImportTool(getActiveTool)
+  const variablesCreateLinkedColors = registerVariablesCreateLinkedColorsTool(getActiveTool)
+  const variablesReplaceUsages = registerVariablesReplaceUsagesTool(getActiveTool)
 
   const activate = async (tool: ActiveTool) => {
     activeTool = tool
@@ -44,6 +77,22 @@ export function run(command: string) {
     }
     if (tool === "mockup-markup-tool") {
       await mockupMarkup.onActivate()
+      return
+    }
+    if (tool === "variables-batch-rename-tool") {
+      await variablesBatchRename.onActivate()
+      return
+    }
+    if (tool === "variables-export-import-tool") {
+      await variablesExportImport.onActivate()
+      return
+    }
+    if (tool === "variables-create-linked-colors-tool") {
+      await variablesCreateLinkedColors.onActivate()
+      return
+    }
+    if (tool === "variables-replace-usages-tool") {
+      await variablesReplaceUsages.onActivate()
       return
     }
   }
@@ -69,6 +118,10 @@ export function run(command: string) {
       if (await mockupMarkup.onMessage(msg)) return
       if (await printColorUsages.onMessage(msg)) return
       if (await colorChain.onMessage(msg)) return
+      if (await variablesBatchRename.onMessage(msg)) return
+      if (await variablesExportImport.onMessage(msg)) return
+      if (await variablesCreateLinkedColors.onMessage(msg)) return
+      if (await variablesReplaceUsages.onMessage(msg)) return
     } catch (e) {
       // eslint-disable-next-line no-console
       console.log("[run] Unhandled error in onmessage", e)

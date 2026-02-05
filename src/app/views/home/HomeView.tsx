@@ -1,10 +1,28 @@
-import { Container, IconLink16, IconShapeText16, IconText16, Text, VerticalSpace } from "@create-figma-plugin/ui"
+import {
+  Container,
+  IconLink16,
+  IconShapeText16,
+  IconText16,
+  IconVariable16,
+  IconAdjust16,
+  IconFolder16,
+  Text,
+  VerticalSpace,
+} from "@create-figma-plugin/ui"
 import { h } from "preact"
 
 import { Page } from "../../components/Page"
 import { ToolCard } from "../../components/ToolCard"
 
-type Route = "home" | "color-chain-tool" | "print-color-usages-tool" | "mockup-markup-tool"
+type Route =
+  | "home"
+  | "color-chain-tool"
+  | "print-color-usages-tool"
+  | "mockup-markup-tool"
+  | "variables-batch-rename-tool"
+  | "variables-export-import-tool"
+  | "variables-create-linked-colors-tool"
+  | "variables-replace-usages-tool"
 
 export function HomeView(props: { goTo: (route: Route) => void }) {
   return (
@@ -32,6 +50,37 @@ export function HomeView(props: { goTo: (route: Route) => void }) {
           description="Apply text styles and colors"
           icon={<IconShapeText16 />}
           onClick={() => props.goTo("mockup-markup-tool")}
+        />
+
+        <VerticalSpace space="medium" />
+        <Text>Variables</Text>
+        <VerticalSpace space="small" />
+        <ToolCard
+          title="Batch Rename"
+          description="Rename multiple variables at once via CSV or inline editing."
+          icon={<IconVariable16 />}
+          onClick={() => props.goTo("variables-batch-rename-tool")}
+        />
+        <VerticalSpace space="small" />
+        <ToolCard
+          title="Export / Import"
+          description="Export variable collections to JSON, import from backup."
+          icon={<IconFolder16 />}
+          onClick={() => props.goTo("variables-export-import-tool")}
+        />
+        <VerticalSpace space="small" />
+        <ToolCard
+          title="Create Linked Colors"
+          description="Create new color variables or rename existing ones."
+          icon={<IconLink16 />}
+          onClick={() => props.goTo("variables-create-linked-colors-tool")}
+        />
+        <VerticalSpace space="small" />
+        <ToolCard
+          title="Replace Usages"
+          description="Replace variable bindings in selection with different variables."
+          icon={<IconAdjust16 />}
+          onClick={() => props.goTo("variables-replace-usages-tool")}
         />
       </Container>
     </Page>

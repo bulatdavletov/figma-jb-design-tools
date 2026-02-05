@@ -163,7 +163,7 @@
     };
   }
   function O(n2, u3, t3, i3, o3, r3, e3, f3, c3, s3) {
-    var a3, h3, p3, v3, y3, _3, m3, b2, S2, C3, M2, $2, P4, A4, H3, L2, T4, j4 = u3.type;
+    var a3, h3, p3, v3, y3, _3, m3, b2, S2, C3, M2, $3, P4, A4, H3, L2, T4, j4 = u3.type;
     if (void 0 !== u3.constructor) return null;
     128 & t3.__u && (c3 = !!(32 & t3.__u), r3 = [f3 = u3.__e = t3.__e]), (a3 = l.__b) && a3(u3);
     n: if ("function" == typeof j4) try {
@@ -172,7 +172,7 @@
         if (S2 && null == j4.getDerivedStateFromProps && b2 !== v3 && null != h3.componentWillReceiveProps && h3.componentWillReceiveProps(b2, M2), u3.__v == t3.__v || !h3.__e && null != h3.shouldComponentUpdate && false === h3.shouldComponentUpdate(b2, h3.__s, M2)) {
           for (u3.__v != t3.__v && (h3.props = b2, h3.state = h3.__s, h3.__d = false), u3.__e = t3.__e, u3.__k = t3.__k, u3.__k.some(function(n3) {
             n3 && (n3.__ = u3);
-          }), $2 = 0; $2 < h3._sb.length; $2++) h3.__h.push(h3._sb[$2]);
+          }), $3 = 0; $3 < h3._sb.length; $3++) h3.__h.push(h3._sb[$3]);
           h3._sb = [], h3.__h.length && e3.push(h3);
           break n;
         }
@@ -503,6 +503,31 @@
   function B3() {
     this.i = null, this.l = null;
   }
+  function Z(n2) {
+    return this.getChildContext = function() {
+      return n2.context;
+    }, n2.children;
+  }
+  function Y(n2) {
+    var e3 = this, r3 = n2.h;
+    if (e3.componentWillUnmount = function() {
+      G(null, e3.v), e3.v = null, e3.h = null;
+    }, e3.h && e3.h !== r3 && e3.componentWillUnmount(), !e3.v) {
+      for (var u3 = e3.__v; null !== u3 && !u3.__m && null !== u3.__; ) u3 = u3.__;
+      e3.h = r3, e3.v = { nodeType: 1, parentNode: r3, childNodes: [], __k: { __m: u3.__m }, contains: function() {
+        return true;
+      }, insertBefore: function(n3, t3) {
+        this.childNodes.push(n3), e3.h.insertBefore(n3, t3);
+      }, removeChild: function(n3) {
+        this.childNodes.splice(this.childNodes.indexOf(n3) >>> 1, 1), e3.h.removeChild(n3);
+      } };
+    }
+    G(_(Z, { context: e3.context }, n2.__v), e3.v);
+  }
+  function $2(n2, e3) {
+    var r3 = _(Y, { __v: n2, h: e3 });
+    return r3.containerInfo = e3, r3;
+  }
   function rn() {
   }
   function un() {
@@ -666,10 +691,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7717649e-9ed7-44af-87e5-1ea4212e64f8/loading-indicator.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/49df3063-50b6-4cc5-af8d-ae0ac7878112/loading-indicator.module.js
   var loading_indicator_module_default;
   var init_loading_indicator_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7717649e-9ed7-44af-87e5-1ea4212e64f8/loading-indicator.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/49df3063-50b6-4cc5-af8d-ae0ac7878112/loading-indicator.module.js"() {
       if (document.getElementById("3fe0db8eb7") === null) {
         const element = document.createElement("style");
         element.id = "3fe0db8eb7";
@@ -730,10 +755,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/399f4e45-f084-43b8-b32a-96b146be01fd/button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/08877b29-eb53-4691-b3e4-532c09d776c9/button.module.js
   var button_module_default;
   var init_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/399f4e45-f084-43b8-b32a-96b146be01fd/button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/08877b29-eb53-4691-b3e4-532c09d776c9/button.module.js"() {
       if (document.getElementById("1dddd0e4df") === null) {
         const element = document.createElement("style");
         element.id = "1dddd0e4df";
@@ -931,10 +956,11 @@
   });
 
   // node_modules/@create-figma-plugin/utilities/lib/mixed-values.js
-  var MIXED_BOOLEAN;
+  var MIXED_BOOLEAN, MIXED_STRING;
   var init_mixed_values = __esm({
     "node_modules/@create-figma-plugin/utilities/lib/mixed-values.js"() {
       MIXED_BOOLEAN = null;
+      MIXED_STRING = "999999999999999";
     }
   });
 
@@ -1001,10 +1027,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/231b1b59-6f20-4ba3-8e41-368432a45de2/checkbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/09965155-6d08-4ca0-bc03-8680f0a846de/checkbox.module.js
   var checkbox_module_default;
   var init_checkbox_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/231b1b59-6f20-4ba3-8e41-368432a45de2/checkbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/09965155-6d08-4ca0-bc03-8680f0a846de/checkbox.module.js"() {
       if (document.getElementById("f38d076240") === null) {
         const element = document.createElement("style");
         element.id = "f38d076240";
@@ -1153,10 +1179,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2dbe717f-acf3-4411-99b2-beb08e545367/divider.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/50d3230e-6132-4699-a210-7b0718951cee/divider.module.js
   var divider_module_default;
   var init_divider_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2dbe717f-acf3-4411-99b2-beb08e545367/divider.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/50d3230e-6132-4699-a210-7b0718951cee/divider.module.js"() {
       if (document.getElementById("4bf06403b9") === null) {
         const element = document.createElement("style");
         element.id = "4bf06403b9";
@@ -1186,18 +1212,965 @@
     }
   });
 
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/258b3a86-3979-4e65-a331-2f16e67836e0/menu.module.js
+  var menu_module_default;
+  var init_menu_module = __esm({
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/258b3a86-3979-4e65-a331-2f16e67836e0/menu.module.js"() {
+      if (document.getElementById("29044db304") === null) {
+        const element = document.createElement("style");
+        element.id = "29044db304";
+        element.textContent = `._menu_1f0pn_1 {
+  position: absolute;
+  z-index: var(--z-index-2);
+  left: 0;
+  min-width: 100%;
+  padding: var(--space-8);
+  border-radius: var(--border-radius-12);
+  background-color: var(--color-bg-menu);
+  box-shadow: var(--box-shadow-menu);
+  color: var(--figma-color-text-onbrand);
+  font-size: var(--font-size-12);
+  overflow-y: auto;
+}
+._menu_1f0pn_1::-webkit-scrollbar {
+  display: none;
+}
+._menu_1f0pn_1:empty {
+  display: none;
+}
+
+._hidden_1f0pn_21 {
+  position: fixed;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio: 1.5),
+  screen and (min-resolution: 1.5dppx) {
+  ._menu_1f0pn_1 {
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+._optionHeader_1f0pn_34,
+._optionValue_1f0pn_35 {
+  overflow: hidden;
+  padding: var(--space-4) var(--space-12) var(--space-4) var(--space-28);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+._optionHeader_1f0pn_34 {
+  color: rgba(255, 255, 255, 0.7); /* FIXME */
+  font-size: var(--font-size-12);
+}
+
+._optionValue_1f0pn_35 {
+  position: relative;
+  border-radius: var(--border-radius-4);
+}
+._optionValueSelected_1f0pn_51 {
+  background-color: var(--figma-color-bg-brand);
+}
+._optionValueDisabled_1f0pn_54 {
+  color: rgba(255, 255, 255, 0.4); /* FIXME */
+}
+
+._optionSeparator_1f0pn_58 {
+  width: 100%;
+  height: 1px;
+  margin: var(--space-extra-small) 0;
+  background-color: #444444; /* FIXME */
+}
+
+._input_1f0pn_65 {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+._checkIcon_1f0pn_76 {
+  position: absolute;
+  top: var(--space-4);
+  left: var(--space-4);
+}
+
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm5vZGVfbW9kdWxlcy9AY3JlYXRlLWZpZ21hLXBsdWdpbi91aS9saWIvY3NzL21lbnUubW9kdWxlLmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFLGtCQUFrQjtFQUNsQix5QkFBeUI7RUFDekIsT0FBTztFQUNQLGVBQWU7RUFDZix1QkFBdUI7RUFDdkIsc0NBQXNDO0VBQ3RDLHNDQUFzQztFQUN0QyxrQ0FBa0M7RUFDbEMsc0NBQXNDO0VBQ3RDLDhCQUE4QjtFQUM5QixnQkFBZ0I7QUFDbEI7QUFDQTtFQUNFLGFBQWE7QUFDZjtBQUNBO0VBQ0UsYUFBYTtBQUNmOztBQUVBO0VBQ0UsZUFBZTtFQUNmLG9CQUFvQjtFQUNwQixrQkFBa0I7QUFDcEI7O0FBRUE7O0VBRUU7SUFDRSxtQ0FBbUM7RUFDckM7QUFDRjs7QUFFQTs7RUFFRSxnQkFBZ0I7RUFDaEIsc0VBQXNFO0VBQ3RFLHVCQUF1QjtFQUN2QixtQkFBbUI7QUFDckI7O0FBRUE7RUFDRSwrQkFBK0IsRUFBRSxVQUFVO0VBQzNDLDhCQUE4QjtBQUNoQzs7QUFFQTtFQUNFLGtCQUFrQjtFQUNsQixxQ0FBcUM7QUFDdkM7QUFDQTtFQUNFLDZDQUE2QztBQUMvQztBQUNBO0VBQ0UsK0JBQStCLEVBQUUsVUFBVTtBQUM3Qzs7QUFFQTtFQUNFLFdBQVc7RUFDWCxXQUFXO0VBQ1gsa0NBQWtDO0VBQ2xDLHlCQUF5QixFQUFFLFVBQVU7QUFDdkM7O0FBRUE7RUFDRSxrQkFBa0I7RUFDbEIsTUFBTTtFQUNOLFFBQVE7RUFDUixTQUFTO0VBQ1QsT0FBTztFQUNQLGNBQWM7RUFDZCxXQUFXO0VBQ1gsWUFBWTtBQUNkOztBQUVBO0VBQ0Usa0JBQWtCO0VBQ2xCLG1CQUFtQjtFQUNuQixvQkFBb0I7QUFDdEIiLCJmaWxlIjoibm9kZV9tb2R1bGVzL0BjcmVhdGUtZmlnbWEtcGx1Z2luL3VpL2xpYi9jc3MvbWVudS5tb2R1bGUuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLm1lbnUge1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIHotaW5kZXg6IHZhcigtLXotaW5kZXgtMik7XG4gIGxlZnQ6IDA7XG4gIG1pbi13aWR0aDogMTAwJTtcbiAgcGFkZGluZzogdmFyKC0tc3BhY2UtOCk7XG4gIGJvcmRlci1yYWRpdXM6IHZhcigtLWJvcmRlci1yYWRpdXMtMTIpO1xuICBiYWNrZ3JvdW5kLWNvbG9yOiB2YXIoLS1jb2xvci1iZy1tZW51KTtcbiAgYm94LXNoYWRvdzogdmFyKC0tYm94LXNoYWRvdy1tZW51KTtcbiAgY29sb3I6IHZhcigtLWZpZ21hLWNvbG9yLXRleHQtb25icmFuZCk7XG4gIGZvbnQtc2l6ZTogdmFyKC0tZm9udC1zaXplLTEyKTtcbiAgb3ZlcmZsb3cteTogYXV0bztcbn1cbi5tZW51Ojotd2Via2l0LXNjcm9sbGJhciB7XG4gIGRpc3BsYXk6IG5vbmU7XG59XG4ubWVudTplbXB0eSB7XG4gIGRpc3BsYXk6IG5vbmU7XG59XG5cbi5oaWRkZW4ge1xuICBwb3NpdGlvbjogZml4ZWQ7XG4gIHBvaW50ZXItZXZlbnRzOiBub25lO1xuICB2aXNpYmlsaXR5OiBoaWRkZW47XG59XG5cbkBtZWRpYSBzY3JlZW4gYW5kICgtd2Via2l0LW1pbi1kZXZpY2UtcGl4ZWwtcmF0aW86IDEuNSksXG4gIHNjcmVlbiBhbmQgKG1pbi1yZXNvbHV0aW9uOiAxLjVkcHB4KSB7XG4gIC5tZW51IHtcbiAgICAtd2Via2l0LWZvbnQtc21vb3RoaW5nOiBhbnRpYWxpYXNlZDtcbiAgfVxufVxuXG4ub3B0aW9uSGVhZGVyLFxuLm9wdGlvblZhbHVlIHtcbiAgb3ZlcmZsb3c6IGhpZGRlbjtcbiAgcGFkZGluZzogdmFyKC0tc3BhY2UtNCkgdmFyKC0tc3BhY2UtMTIpIHZhcigtLXNwYWNlLTQpIHZhcigtLXNwYWNlLTI4KTtcbiAgdGV4dC1vdmVyZmxvdzogZWxsaXBzaXM7XG4gIHdoaXRlLXNwYWNlOiBub3dyYXA7XG59XG5cbi5vcHRpb25IZWFkZXIge1xuICBjb2xvcjogcmdiYSgyNTUsIDI1NSwgMjU1LCAwLjcpOyAvKiBGSVhNRSAqL1xuICBmb250LXNpemU6IHZhcigtLWZvbnQtc2l6ZS0xMik7XG59XG5cbi5vcHRpb25WYWx1ZSB7XG4gIHBvc2l0aW9uOiByZWxhdGl2ZTtcbiAgYm9yZGVyLXJhZGl1czogdmFyKC0tYm9yZGVyLXJhZGl1cy00KTtcbn1cbi5vcHRpb25WYWx1ZVNlbGVjdGVkIHtcbiAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItYmctYnJhbmQpO1xufVxuLm9wdGlvblZhbHVlRGlzYWJsZWQge1xuICBjb2xvcjogcmdiYSgyNTUsIDI1NSwgMjU1LCAwLjQpOyAvKiBGSVhNRSAqL1xufVxuXG4ub3B0aW9uU2VwYXJhdG9yIHtcbiAgd2lkdGg6IDEwMCU7XG4gIGhlaWdodDogMXB4O1xuICBtYXJnaW46IHZhcigtLXNwYWNlLWV4dHJhLXNtYWxsKSAwO1xuICBiYWNrZ3JvdW5kLWNvbG9yOiAjNDQ0NDQ0OyAvKiBGSVhNRSAqL1xufVxuXG4uaW5wdXQge1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIHRvcDogMDtcbiAgcmlnaHQ6IDA7XG4gIGJvdHRvbTogMDtcbiAgbGVmdDogMDtcbiAgZGlzcGxheTogYmxvY2s7XG4gIHdpZHRoOiAxMDAlO1xuICBoZWlnaHQ6IDEwMCU7XG59XG5cbi5jaGVja0ljb24ge1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIHRvcDogdmFyKC0tc3BhY2UtNCk7XG4gIGxlZnQ6IHZhcigtLXNwYWNlLTQpO1xufVxuIl19 */`;
+        document.head.append(element);
+      }
+      menu_module_default = { "menu": "_menu_1f0pn_1", "hidden": "_hidden_1f0pn_21", "optionHeader": "_optionHeader_1f0pn_34", "optionValue": "_optionValue_1f0pn_35", "optionValueSelected": "_optionValueSelected_1f0pn_51", "optionValueDisabled": "_optionValueDisabled_1f0pn_54", "optionSeparator": "_optionSeparator_1f0pn_58", "input": "_input_1f0pn_65", "checkIcon": "_checkIcon_1f0pn_76" };
+    }
+  });
+
+  // node_modules/@create-figma-plugin/ui/lib/hooks/use-mouse-down-outside.js
+  function useMouseDownOutside(options) {
+    const { ref, onMouseDownOutside } = options;
+    y2(function() {
+      function handleBlur() {
+        onMouseDownOutside();
+      }
+      function handleMouseDown(event) {
+        const element = getCurrentFromRef(ref);
+        if (element === event.target || element.contains(event.target)) {
+          return;
+        }
+        onMouseDownOutside();
+      }
+      window.addEventListener("blur", handleBlur);
+      window.addEventListener("mousedown", handleMouseDown);
+      return function() {
+        window.removeEventListener("blur", handleBlur);
+        window.removeEventListener("mousedown", handleMouseDown);
+      };
+    }, [ref, onMouseDownOutside]);
+  }
+  var init_use_mouse_down_outside = __esm({
+    "node_modules/@create-figma-plugin/ui/lib/hooks/use-mouse-down-outside.js"() {
+      init_hooks_module();
+      init_get_current_from_ref();
+    }
+  });
+
+  // node_modules/@create-figma-plugin/ui/lib/hooks/use-scrollable-menu.js
+  function useScrollableMenu(options) {
+    const { itemIdDataAttributeName, menuElementRef, selectedId, setSelectedId } = options;
+    const getItemElements = q2(function() {
+      return Array.from(getCurrentFromRef(menuElementRef).querySelectorAll(`[${itemIdDataAttributeName}]`)).filter(function(element) {
+        return element.hasAttribute("disabled") === false;
+      });
+    }, [itemIdDataAttributeName, menuElementRef]);
+    const findIndexByItemId = q2(function(id) {
+      if (id === null) {
+        return -1;
+      }
+      const index = getItemElements().findIndex(function(element) {
+        return element.getAttribute(itemIdDataAttributeName) === id;
+      });
+      if (index === -1) {
+        throw new Error("`index` is `-1`");
+      }
+      return index;
+    }, [getItemElements, itemIdDataAttributeName]);
+    const updateScrollPosition = q2(function(id) {
+      const itemElements = getItemElements();
+      const index = findIndexByItemId(id);
+      const selectedElement = itemElements[index];
+      const selectedElementOffsetTop = selectedElement.getBoundingClientRect().top;
+      const menuElement = getCurrentFromRef(menuElementRef);
+      const menuElementOffsetTop = menuElement.getBoundingClientRect().top;
+      if (selectedElementOffsetTop < menuElementOffsetTop) {
+        selectedElement.scrollIntoView();
+        return;
+      }
+      const offsetBottom = selectedElementOffsetTop + selectedElement.offsetHeight;
+      if (offsetBottom > menuElementOffsetTop + menuElement.offsetHeight) {
+        selectedElement.scrollIntoView();
+      }
+    }, [findIndexByItemId, getItemElements, menuElementRef]);
+    const handleScrollableMenuKeyDown = q2(function(event) {
+      const key = event.key;
+      if (key === "ArrowDown" || key === "ArrowUp") {
+        const itemElements = getItemElements();
+        const index = findIndexByItemId(selectedId);
+        let newIndex;
+        if (key === "ArrowDown") {
+          newIndex = index === -1 || index === itemElements.length - 1 ? 0 : index + 1;
+        } else {
+          newIndex = index === -1 || index === 0 ? itemElements.length - 1 : index - 1;
+        }
+        const selectedElement = itemElements[newIndex];
+        const newSelectedId = selectedElement.getAttribute(itemIdDataAttributeName);
+        setSelectedId(newSelectedId);
+        updateScrollPosition(newSelectedId);
+      }
+    }, [
+      getItemElements,
+      findIndexByItemId,
+      itemIdDataAttributeName,
+      setSelectedId,
+      selectedId,
+      updateScrollPosition
+    ]);
+    const handleScrollableMenuItemMouseMove = q2(function(event) {
+      const id = event.currentTarget.getAttribute(itemIdDataAttributeName);
+      if (id !== selectedId) {
+        setSelectedId(id);
+      }
+    }, [itemIdDataAttributeName, selectedId, setSelectedId]);
+    return {
+      handleScrollableMenuItemMouseMove,
+      handleScrollableMenuKeyDown
+    };
+  }
+  var init_use_scrollable_menu = __esm({
+    "node_modules/@create-figma-plugin/ui/lib/hooks/use-scrollable-menu.js"() {
+      init_hooks_module();
+      init_get_current_from_ref();
+    }
+  });
+
+  // node_modules/@create-figma-plugin/ui/lib/icons/icon-16/icon-chevron-down-16.js
+  var IconChevronDown16;
+  var init_icon_chevron_down_16 = __esm({
+    "node_modules/@create-figma-plugin/ui/lib/icons/icon-16/icon-chevron-down-16.js"() {
+      init_preact_module();
+      init_create_icon();
+      IconChevronDown16 = createIcon(_(
+        "svg",
+        { fill: "none", height: "16", viewBox: "0 0 16 16", width: "16", xmlns: "http://www.w3.org/2000/svg" },
+        _("path", { "clip-rule": "evenodd", d: "M10.4751 7.47486c.1953-.19526.1953-.51184 0-.70711-.1953-.19526-.51184-.19526-.7071 0L8.00023 8.53552 6.23246 6.76775c-.19526-.19526-.51184-.19526-.70711 0-.19526.19527-.19526.51185 0 .70711l2.12133 2.12132.35355.35355.35355-.35355z", fill: "currentColor", "fill-rule": "evenodd" })
+      ));
+    }
+  });
+
   // node_modules/@create-figma-plugin/ui/lib/utilities/private/constants.js
-  var ITEM_ID_DATA_ATTRIBUTE_NAME;
+  var INVALID_ID, VIEWPORT_MARGIN, ITEM_ID_DATA_ATTRIBUTE_NAME;
   var init_constants = __esm({
     "node_modules/@create-figma-plugin/ui/lib/utilities/private/constants.js"() {
+      INVALID_ID = null;
+      VIEWPORT_MARGIN = 12;
       ITEM_ID_DATA_ATTRIBUTE_NAME = "data-item-id";
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/16c7b802-d22c-402e-9a92-be83ebd900cd/icon-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b680ffe5-3201-42ad-a211-98086022cad4/dropdown.module.js
+  var dropdown_module_default;
+  var init_dropdown_module = __esm({
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b680ffe5-3201-42ad-a211-98086022cad4/dropdown.module.js"() {
+      if (document.getElementById("5a226eb00e") === null) {
+        const element = document.createElement("style");
+        element.id = "5a226eb00e";
+        element.textContent = `._dropdown_i81qm_1 {
+  position: relative;
+  z-index: var(--z-index-1);
+  display: flex;
+  width: 100%;
+  min-width: 0; /* See https://css-tricks.com/flexbox-truncated-text/ */
+  height: var(--space-24);
+  align-items: center;
+  border: var(--border-width-1) solid var(--figma-color-border);
+  border-radius: var(--border-radius-4);
+  color: var(--figma-color-text);
+}
+
+._dropdown_i81qm_1:not(._disabled_i81qm_14):focus-visible {
+  border-color: var(--figma-color-border-selected);
+}
+._dropdown_i81qm_1:not(._disabled_i81qm_14):focus-within {
+  z-index: var(--z-index-2); /* stack \`.dropdown\` over its sibling elements */
+  outline: 0;
+}
+
+._disabled_i81qm_14,
+._disabled_i81qm_14 * {
+  cursor: not-allowed;
+}
+
+._menu_i81qm_27 {
+  position: fixed;
+}
+
+._icon_i81qm_31 {
+  position: absolute;
+  top: 50%;
+  left: var(--space-12);
+  color: var(--figma-color-icon-secondary);
+  pointer-events: none;
+  text-align: center;
+  transform: translate(-50%, -50%);
+}
+._disabled_i81qm_14 ._icon_i81qm_31 {
+  color: var(--figma-color-icon-disabled);
+}
+
+._empty_i81qm_44,
+._placeholder_i81qm_45,
+._value_i81qm_46 {
+  flex-grow: 1;
+}
+
+._value_i81qm_46,
+._placeholder_i81qm_45 {
+  overflow: hidden;
+  padding-left: calc(var(--space-8) - var(--border-width-1));
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+._hasIcon_i81qm_57 ._value_i81qm_46,
+._hasIcon_i81qm_57 ._placeholder_i81qm_45 {
+  padding-left: calc(var(--space-24) - var(--border-width-1));
+}
+._placeholder_i81qm_45 {
+  color: var(--figma-color-text-tertiary);
+}
+
+._disabled_i81qm_14 ._value_i81qm_46 {
+  color: var(--figma-color-text-disabled);
+}
+
+._chevronIcon_i81qm_69 {
+  padding-right: var(--space-4);
+  color: var(--figma-color-icon);
+}
+._disabled_i81qm_14 ._chevronIcon_i81qm_69 {
+  color: var(--figma-color-icon-disabled);
+}
+
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm5vZGVfbW9kdWxlcy9AY3JlYXRlLWZpZ21hLXBsdWdpbi91aS9saWIvY29tcG9uZW50cy9kcm9wZG93bi9kcm9wZG93bi5tb2R1bGUuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0Usa0JBQWtCO0VBQ2xCLHlCQUF5QjtFQUN6QixhQUFhO0VBQ2IsV0FBVztFQUNYLFlBQVksRUFBRSx1REFBdUQ7RUFDckUsdUJBQXVCO0VBQ3ZCLG1CQUFtQjtFQUNuQiw2REFBNkQ7RUFDN0QscUNBQXFDO0VBQ3JDLDhCQUE4QjtBQUNoQzs7QUFFQTtFQUNFLGdEQUFnRDtBQUNsRDtBQUNBO0VBQ0UseUJBQXlCLEVBQUUsZ0RBQWdEO0VBQzNFLFVBQVU7QUFDWjs7QUFFQTs7RUFFRSxtQkFBbUI7QUFDckI7O0FBRUE7RUFDRSxlQUFlO0FBQ2pCOztBQUVBO0VBQ0Usa0JBQWtCO0VBQ2xCLFFBQVE7RUFDUixxQkFBcUI7RUFDckIsd0NBQXdDO0VBQ3hDLG9CQUFvQjtFQUNwQixrQkFBa0I7RUFDbEIsZ0NBQWdDO0FBQ2xDO0FBQ0E7RUFDRSx1Q0FBdUM7QUFDekM7O0FBRUE7OztFQUdFLFlBQVk7QUFDZDs7QUFFQTs7RUFFRSxnQkFBZ0I7RUFDaEIsMERBQTBEO0VBQzFELHVCQUF1QjtFQUN2QixtQkFBbUI7QUFDckI7QUFDQTs7RUFFRSwyREFBMkQ7QUFDN0Q7QUFDQTtFQUNFLHVDQUF1QztBQUN6Qzs7QUFFQTtFQUNFLHVDQUF1QztBQUN6Qzs7QUFFQTtFQUNFLDZCQUE2QjtFQUM3Qiw4QkFBOEI7QUFDaEM7QUFDQTtFQUNFLHVDQUF1QztBQUN6QyIsImZpbGUiOiJub2RlX21vZHVsZXMvQGNyZWF0ZS1maWdtYS1wbHVnaW4vdWkvbGliL2NvbXBvbmVudHMvZHJvcGRvd24vZHJvcGRvd24ubW9kdWxlLmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi5kcm9wZG93biB7XG4gIHBvc2l0aW9uOiByZWxhdGl2ZTtcbiAgei1pbmRleDogdmFyKC0tei1pbmRleC0xKTtcbiAgZGlzcGxheTogZmxleDtcbiAgd2lkdGg6IDEwMCU7XG4gIG1pbi13aWR0aDogMDsgLyogU2VlIGh0dHBzOi8vY3NzLXRyaWNrcy5jb20vZmxleGJveC10cnVuY2F0ZWQtdGV4dC8gKi9cbiAgaGVpZ2h0OiB2YXIoLS1zcGFjZS0yNCk7XG4gIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gIGJvcmRlcjogdmFyKC0tYm9yZGVyLXdpZHRoLTEpIHNvbGlkIHZhcigtLWZpZ21hLWNvbG9yLWJvcmRlcik7XG4gIGJvcmRlci1yYWRpdXM6IHZhcigtLWJvcmRlci1yYWRpdXMtNCk7XG4gIGNvbG9yOiB2YXIoLS1maWdtYS1jb2xvci10ZXh0KTtcbn1cblxuLmRyb3Bkb3duOm5vdCguZGlzYWJsZWQpOmZvY3VzLXZpc2libGUge1xuICBib3JkZXItY29sb3I6IHZhcigtLWZpZ21hLWNvbG9yLWJvcmRlci1zZWxlY3RlZCk7XG59XG4uZHJvcGRvd246bm90KC5kaXNhYmxlZCk6Zm9jdXMtd2l0aGluIHtcbiAgei1pbmRleDogdmFyKC0tei1pbmRleC0yKTsgLyogc3RhY2sgYC5kcm9wZG93bmAgb3ZlciBpdHMgc2libGluZyBlbGVtZW50cyAqL1xuICBvdXRsaW5lOiAwO1xufVxuXG4uZGlzYWJsZWQsXG4uZGlzYWJsZWQgKiB7XG4gIGN1cnNvcjogbm90LWFsbG93ZWQ7XG59XG5cbi5tZW51IHtcbiAgcG9zaXRpb246IGZpeGVkO1xufVxuXG4uaWNvbiB7XG4gIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgdG9wOiA1MCU7XG4gIGxlZnQ6IHZhcigtLXNwYWNlLTEyKTtcbiAgY29sb3I6IHZhcigtLWZpZ21hLWNvbG9yLWljb24tc2Vjb25kYXJ5KTtcbiAgcG9pbnRlci1ldmVudHM6IG5vbmU7XG4gIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgdHJhbnNmb3JtOiB0cmFuc2xhdGUoLTUwJSwgLTUwJSk7XG59XG4uZGlzYWJsZWQgLmljb24ge1xuICBjb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItaWNvbi1kaXNhYmxlZCk7XG59XG5cbi5lbXB0eSxcbi5wbGFjZWhvbGRlcixcbi52YWx1ZSB7XG4gIGZsZXgtZ3JvdzogMTtcbn1cblxuLnZhbHVlLFxuLnBsYWNlaG9sZGVyIHtcbiAgb3ZlcmZsb3c6IGhpZGRlbjtcbiAgcGFkZGluZy1sZWZ0OiBjYWxjKHZhcigtLXNwYWNlLTgpIC0gdmFyKC0tYm9yZGVyLXdpZHRoLTEpKTtcbiAgdGV4dC1vdmVyZmxvdzogZWxsaXBzaXM7XG4gIHdoaXRlLXNwYWNlOiBub3dyYXA7XG59XG4uaGFzSWNvbiAudmFsdWUsXG4uaGFzSWNvbiAucGxhY2Vob2xkZXIge1xuICBwYWRkaW5nLWxlZnQ6IGNhbGModmFyKC0tc3BhY2UtMjQpIC0gdmFyKC0tYm9yZGVyLXdpZHRoLTEpKTtcbn1cbi5wbGFjZWhvbGRlciB7XG4gIGNvbG9yOiB2YXIoLS1maWdtYS1jb2xvci10ZXh0LXRlcnRpYXJ5KTtcbn1cblxuLmRpc2FibGVkIC52YWx1ZSB7XG4gIGNvbG9yOiB2YXIoLS1maWdtYS1jb2xvci10ZXh0LWRpc2FibGVkKTtcbn1cblxuLmNoZXZyb25JY29uIHtcbiAgcGFkZGluZy1yaWdodDogdmFyKC0tc3BhY2UtNCk7XG4gIGNvbG9yOiB2YXIoLS1maWdtYS1jb2xvci1pY29uKTtcbn1cbi5kaXNhYmxlZCAuY2hldnJvbkljb24ge1xuICBjb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItaWNvbi1kaXNhYmxlZCk7XG59XG4iXX0= */`;
+        document.head.append(element);
+      }
+      dropdown_module_default = { "dropdown": "_dropdown_i81qm_1", "disabled": "_disabled_i81qm_14", "menu": "_menu_i81qm_27", "icon": "_icon_i81qm_31", "empty": "_empty_i81qm_44", "placeholder": "_placeholder_i81qm_45", "value": "_value_i81qm_46", "hasIcon": "_hasIcon_i81qm_57", "chevronIcon": "_chevronIcon_i81qm_69" };
+    }
+  });
+
+  // node_modules/@create-figma-plugin/ui/lib/components/dropdown/private/update-menu-element-layout.js
+  function updateMenuElementLayout(rootElement, menuElement, selectedId) {
+    const rootElementBoundingClientRect = rootElement.getBoundingClientRect();
+    const rootWidth = rootElement.offsetWidth;
+    const rootHeight = rootElement.offsetHeight;
+    const rootLeft = rootElementBoundingClientRect.left;
+    const rootTop = rootElementBoundingClientRect.top;
+    menuElement.style.minWidth = `${rootWidth}px`;
+    const menuElementMaxWidth = window.innerWidth - 2 * VIEWPORT_MARGIN;
+    menuElement.style.maxWidth = `${menuElementMaxWidth}px`;
+    const menuElementMaxHeight = window.innerHeight - 2 * VIEWPORT_MARGIN;
+    menuElement.style.maxHeight = `${menuElementMaxHeight}px`;
+    const menuWidth = menuElement.offsetWidth;
+    const menuHeight = menuElement.offsetHeight;
+    const menuScrollHeight = menuElement.scrollHeight;
+    const menuPaddingTop = parseInt(window.getComputedStyle(menuElement).paddingTop, 10);
+    const labelElement = getSelectedLabelElement(menuElement, selectedId);
+    const left = computeLeft({
+      menuWidth,
+      rootLeft
+    });
+    menuElement.style.left = `${left}px`;
+    const top = computeTop({
+      menuHeight,
+      rootTop,
+      selectedTop: labelElement.offsetTop
+    });
+    menuElement.style.top = `${top}px`;
+    const isScrollable = menuScrollHeight > menuHeight;
+    if (isScrollable === false) {
+      return;
+    }
+    menuElement.scrollTop = computeScrollTop({
+      menuHeight,
+      menuPaddingTop,
+      menuScrollHeight,
+      rootHeight,
+      rootTop,
+      selectedTop: labelElement.offsetTop
+    });
+  }
+  function getSelectedLabelElement(menuElement, selectedId) {
+    const inputElement = menuElement.querySelector(selectedId === INVALID_ID ? `[${ITEM_ID_DATA_ATTRIBUTE_NAME}]` : `[${ITEM_ID_DATA_ATTRIBUTE_NAME}='${selectedId}']`);
+    if (inputElement === null) {
+      throw new Error("`inputElement` is `null`");
+    }
+    const labelElement = inputElement.parentElement;
+    if (labelElement === null) {
+      throw new Error("`labelElement` is `null`");
+    }
+    return labelElement;
+  }
+  function computeLeft(options) {
+    const { menuWidth, rootLeft } = options;
+    if (rootLeft <= VIEWPORT_MARGIN) {
+      return VIEWPORT_MARGIN;
+    }
+    const viewportWidth = window.innerWidth;
+    if (rootLeft + menuWidth > viewportWidth - VIEWPORT_MARGIN) {
+      return viewportWidth - VIEWPORT_MARGIN - menuWidth;
+    }
+    return rootLeft;
+  }
+  function computeTop(options) {
+    const { menuHeight, rootTop, selectedTop } = options;
+    const viewportHeight = window.innerHeight;
+    if (rootTop <= VIEWPORT_MARGIN || menuHeight === viewportHeight - 2 * VIEWPORT_MARGIN) {
+      return VIEWPORT_MARGIN;
+    }
+    const top = rootTop - selectedTop;
+    const minimumTop = VIEWPORT_MARGIN;
+    const maximumTop = viewportHeight - VIEWPORT_MARGIN - menuHeight;
+    return restrictToRange(top, minimumTop, maximumTop);
+  }
+  function computeScrollTop(options) {
+    const { menuHeight, menuPaddingTop, menuScrollHeight, rootHeight, rootTop, selectedTop } = options;
+    const restrictedRootTop = restrictToRange(rootTop, VIEWPORT_MARGIN, window.innerHeight - VIEWPORT_MARGIN - rootHeight + menuPaddingTop / 2);
+    const scrollTop = selectedTop - (restrictedRootTop - VIEWPORT_MARGIN);
+    const minimumScrollTop = 0;
+    const maximumScrollTop = menuScrollHeight - menuHeight;
+    return restrictToRange(scrollTop, minimumScrollTop, maximumScrollTop);
+  }
+  function restrictToRange(number, minimum, maximum) {
+    return Math.min(Math.max(number, minimum), maximum);
+  }
+  var init_update_menu_element_layout = __esm({
+    "node_modules/@create-figma-plugin/ui/lib/components/dropdown/private/update-menu-element-layout.js"() {
+      init_constants();
+    }
+  });
+
+  // node_modules/@create-figma-plugin/ui/lib/components/dropdown/dropdown.js
+  function getDropdownOptionValue(option) {
+    if (typeof option !== "string") {
+      if ("text" in option) {
+        return option.text;
+      }
+      if ("value" in option) {
+        return option.value;
+      }
+    }
+    throw new Error("Invariant violation");
+  }
+  function findOptionIndexByValue(options, value) {
+    if (value === null) {
+      return -1;
+    }
+    let index = 0;
+    for (const option of options) {
+      if (typeof option !== "string" && "value" in option && option.value === value) {
+        return index;
+      }
+      index += 1;
+    }
+    return -1;
+  }
+  var Dropdown;
+  var init_dropdown = __esm({
+    "node_modules/@create-figma-plugin/ui/lib/components/dropdown/dropdown.js"() {
+      init_preact_module();
+      init_compat_module();
+      init_hooks_module();
+      init_menu_module();
+      init_use_mouse_down_outside();
+      init_use_scrollable_menu();
+      init_icon_check_16();
+      init_icon_chevron_down_16();
+      init_create_class_name();
+      init_create_component();
+      init_get_current_from_ref();
+      init_no_op();
+      init_constants();
+      init_dropdown_module();
+      init_update_menu_element_layout();
+      Dropdown = createComponent(function(_a, ref) {
+        var _b = _a, { disabled = false, icon, onChange = noop, onKeyDown = noop, onMouseDown = noop, onValueChange = noop, options, placeholder, propagateEscapeKeyDown = true, value } = _b, rest = __objRest(_b, ["disabled", "icon", "onChange", "onKeyDown", "onMouseDown", "onValueChange", "options", "placeholder", "propagateEscapeKeyDown", "value"]);
+        if (typeof icon === "string" && icon.length !== 1) {
+          throw new Error(`String \`icon\` must be a single character: "${icon}"`);
+        }
+        const rootElementRef = A2(null);
+        const menuElementRef = A2(null);
+        const [isMenuVisible, setIsMenuVisible] = d2(false);
+        const index = findOptionIndexByValue(options, value);
+        if (value !== null && index === -1) {
+          throw new Error(`Invalid \`value\`: ${value}`);
+        }
+        const [selectedId, setSelectedId] = d2(index === -1 ? INVALID_ID : `${index}`);
+        const children = typeof options[index] === "undefined" ? "" : getDropdownOptionValue(options[index]);
+        const { handleScrollableMenuKeyDown, handleScrollableMenuItemMouseMove } = useScrollableMenu({
+          itemIdDataAttributeName: ITEM_ID_DATA_ATTRIBUTE_NAME,
+          menuElementRef,
+          selectedId,
+          setSelectedId
+        });
+        const triggerRootBlur = q2(function() {
+          getCurrentFromRef(rootElementRef).blur();
+        }, []);
+        const triggerRootFocus = q2(function() {
+          getCurrentFromRef(rootElementRef).focus();
+        }, []);
+        const triggerMenuUpdateLayout = q2(function(selectedId2) {
+          const rootElement = getCurrentFromRef(rootElementRef);
+          const menuElement = getCurrentFromRef(menuElementRef);
+          updateMenuElementLayout(rootElement, menuElement, selectedId2);
+        }, []);
+        const triggerMenuHide = q2(function() {
+          setIsMenuVisible(false);
+          setSelectedId(INVALID_ID);
+        }, []);
+        const triggerMenuShow = q2(function() {
+          if (isMenuVisible === true) {
+            return;
+          }
+          setIsMenuVisible(true);
+          if (value === null) {
+            triggerMenuUpdateLayout(selectedId);
+            return;
+          }
+          const index2 = findOptionIndexByValue(options, value);
+          if (index2 === -1) {
+            throw new Error(`Invalid \`value\`: ${value}`);
+          }
+          const newSelectedId = `${index2}`;
+          setSelectedId(newSelectedId);
+          triggerMenuUpdateLayout(newSelectedId);
+        }, [isMenuVisible, options, selectedId, triggerMenuUpdateLayout, value]);
+        const handleRootKeyDown = q2(function(event) {
+          onKeyDown(event);
+          const key = event.key;
+          if (key === "ArrowUp" || key === "ArrowDown") {
+            event.preventDefault();
+            if (isMenuVisible === false) {
+              triggerMenuShow();
+              return;
+            }
+            handleScrollableMenuKeyDown(event);
+            return;
+          }
+          if (key === "Escape") {
+            event.preventDefault();
+            if (propagateEscapeKeyDown === false) {
+              event.stopPropagation();
+            }
+            if (isMenuVisible === true) {
+              triggerMenuHide();
+              return;
+            }
+            triggerRootBlur();
+            return;
+          }
+          if (key === "Enter") {
+            event.preventDefault();
+            if (isMenuVisible === false) {
+              triggerMenuShow();
+              return;
+            }
+            if (selectedId !== INVALID_ID) {
+              const selectedElement = getCurrentFromRef(menuElementRef).querySelector(`[${ITEM_ID_DATA_ATTRIBUTE_NAME}='${selectedId}']`);
+              if (selectedElement === null) {
+                throw new Error("`selectedElement` is `null`");
+              }
+              selectedElement.checked = true;
+              const changeEvent = new window.Event("change", {
+                bubbles: true,
+                cancelable: true
+              });
+              selectedElement.dispatchEvent(changeEvent);
+            }
+            triggerMenuHide();
+            return;
+          }
+          if (key === "Tab") {
+            triggerMenuHide();
+            return;
+          }
+        }, [
+          handleScrollableMenuKeyDown,
+          isMenuVisible,
+          onKeyDown,
+          propagateEscapeKeyDown,
+          selectedId,
+          triggerMenuHide,
+          triggerMenuShow,
+          triggerRootBlur
+        ]);
+        const handleRootMouseDown = q2(function(event) {
+          onMouseDown(event);
+          if (isMenuVisible === false) {
+            triggerMenuShow();
+          }
+        }, [isMenuVisible, onMouseDown, triggerMenuShow]);
+        const handleMenuMouseDown = q2(function(event) {
+          event.stopPropagation();
+        }, []);
+        const handleOptionChange = q2(function(event) {
+          onChange(event);
+          const id = event.currentTarget.getAttribute(ITEM_ID_DATA_ATTRIBUTE_NAME);
+          if (id === null) {
+            throw new Error("`id` is `null`");
+          }
+          const optionValue = options[parseInt(id, 10)];
+          const newValue = optionValue.value;
+          onValueChange(newValue);
+          triggerRootFocus();
+          triggerMenuHide();
+        }, [onChange, onValueChange, options, triggerMenuHide, triggerRootFocus]);
+        const handleSelectedOptionClick = q2(function() {
+          triggerRootFocus();
+          triggerMenuHide();
+        }, [triggerMenuHide, triggerRootFocus]);
+        const handleMouseDownOutside = q2(function() {
+          if (isMenuVisible === false) {
+            return;
+          }
+          triggerMenuHide();
+          triggerRootBlur();
+        }, [isMenuVisible, triggerRootBlur, triggerMenuHide]);
+        useMouseDownOutside({
+          onMouseDownOutside: handleMouseDownOutside,
+          ref: rootElementRef
+        });
+        y2(function() {
+          function handleWindowScroll() {
+            if (isMenuVisible === false) {
+              return;
+            }
+            triggerRootFocus();
+            triggerMenuHide();
+          }
+          window.addEventListener("scroll", handleWindowScroll);
+          return function() {
+            window.removeEventListener("scroll", handleWindowScroll);
+          };
+        }, [isMenuVisible, triggerMenuHide, triggerRootFocus]);
+        const refCallback = q2(function(rootElement) {
+          rootElementRef.current = rootElement;
+          if (ref === null) {
+            return;
+          }
+          if (typeof ref === "function") {
+            ref(rootElement);
+            return;
+          }
+          ref.current = rootElement;
+        }, [ref, rootElementRef]);
+        return _(
+          "div",
+          __spreadProps(__spreadValues({}, rest), { ref: refCallback, class: createClassName([
+            dropdown_module_default.dropdown,
+            typeof icon !== "undefined" ? dropdown_module_default.hasIcon : null,
+            disabled === true ? dropdown_module_default.disabled : null
+          ]), onKeyDown: disabled === true ? void 0 : handleRootKeyDown, onMouseDown: handleRootMouseDown, tabIndex: 0 }),
+          typeof icon === "undefined" ? null : _("div", { class: dropdown_module_default.icon }, icon),
+          value === null ? _("div", { class: createClassName([
+            dropdown_module_default.value,
+            dropdown_module_default.placeholder
+          ]) }, placeholder) : _("div", { class: dropdown_module_default.value }, children),
+          _(
+            "div",
+            { class: dropdown_module_default.chevronIcon },
+            _(IconChevronDown16, null)
+          ),
+          $2(_("div", { ref: menuElementRef, class: createClassName([
+            menu_module_default.menu,
+            dropdown_module_default.menu,
+            disabled === true || isMenuVisible === false ? menu_module_default.hidden : null
+          ]), onMouseDown: handleMenuMouseDown }, options.map(function(option, index2) {
+            if (typeof option === "string") {
+              return _("hr", { key: index2, class: menu_module_default.optionSeparator });
+            }
+            if ("header" in option) {
+              return _("h1", { key: index2, class: menu_module_default.optionHeader }, option.header);
+            }
+            return _(
+              "label",
+              { key: index2, class: createClassName([
+                menu_module_default.optionValue,
+                option.disabled === true ? menu_module_default.optionValueDisabled : null,
+                option.disabled !== true && `${index2}` === selectedId ? menu_module_default.optionValueSelected : null
+              ]) },
+              _("input", { checked: value === option.value, class: menu_module_default.input, disabled: option.disabled === true, onChange: value === option.value ? void 0 : handleOptionChange, onClick: value === option.value ? handleSelectedOptionClick : void 0, onMouseMove: handleScrollableMenuItemMouseMove, tabIndex: -1, type: "radio", value: `${option.value}`, [ITEM_ID_DATA_ATTRIBUTE_NAME]: `${index2}` }),
+              option.value === value ? _(
+                "div",
+                { class: menu_module_default.checkIcon },
+                _(IconCheck16, null)
+              ) : null,
+              typeof option.text === "undefined" ? option.value : option.text
+            );
+          })), document.body)
+        );
+      });
+    }
+  });
+
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/794d98a7-7334-4f06-a9ee-e86e6d539b4e/button.module.js
+  var button_module_default2;
+  var init_button_module2 = __esm({
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/794d98a7-7334-4f06-a9ee-e86e6d539b4e/button.module.js"() {
+      if (document.getElementById("1dddd0e4df") === null) {
+        const element = document.createElement("style");
+        element.id = "1dddd0e4df";
+        element.textContent = `._button_avmy7_1 {
+  position: relative;
+  z-index: var(--z-index-1);
+  display: inline-block;
+}
+
+._fullWidth_avmy7_7 {
+  display: block;
+}
+
+._disabled_avmy7_11,
+._disabled_avmy7_11 * {
+  cursor: not-allowed;
+}
+
+._button_avmy7_1 button {
+  position: relative;
+  display: inline-block;
+  height: var(--space-24);
+  padding: var(--space-0) var(--space-8);
+  border: var(--border-width-1) solid transparent;
+  border-radius: var(--border-radius-6);
+}
+
+._fullWidth_avmy7_7 button {
+  display: block;
+  overflow: hidden;
+  width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+._default_avmy7_33 button {
+  border-color: transparent;
+  background-color: var(--figma-color-bg-brand);
+  color: var(--figma-color-text-onbrand);
+}
+
+._default_avmy7_33:not(._disabled_avmy7_11) button:focus {
+  border-color: var(--figma-color-border-onbrand);
+}
+._default_avmy7_33:not(._disabled_avmy7_11) button:focus-visible {
+  box-shadow: 0 0 0 var(--border-width-1) var(--figma-color-bg) inset;
+}
+._default_avmy7_33:not(._disabled_avmy7_11) button:active {
+  background-color: var(--figma-color-bg-brand-pressed);
+}
+._default_avmy7_33._disabled_avmy7_11 button {
+  background-color: var(--figma-color-bg-disabled);
+  color: var(--figma-color-text-ondisabled);
+}
+
+._default_avmy7_33._danger_avmy7_53 button {
+  background-color: var(--figma-color-bg-danger);
+  color: var(--figma-color-text-ondanger);
+}
+._default_avmy7_33._danger_avmy7_53:not(._disabled_avmy7_11) button:focus {
+  border-color: var(--figma-color-border-danger-strong);
+}
+._default_avmy7_33._danger_avmy7_53:not(._disabled_avmy7_11) button:active {
+  background-color: var(--figma-color-bg-danger-pressed);
+}
+._default_avmy7_33._danger_avmy7_53._disabled_avmy7_11 button {
+  background-color: var(--figma-color-bg-disabled);
+  color: var(--figma-color-text-ondisabled);
+}
+
+._secondary_avmy7_68 button {
+  border-color: var(--figma-color-border);
+  background-color: transparent;
+  color: var(--figma-color-text);
+}
+._secondary_avmy7_68:not(._disabled_avmy7_11) button:focus {
+  border-color: var(--figma-color-border-selected);
+}
+._secondary_avmy7_68:not(._disabled_avmy7_11) button:active {
+  background-color: var(--figma-color-bg-pressed);
+}
+._secondary_avmy7_68._disabled_avmy7_11 button {
+  border-color: var(--figma-color-border-disabled);
+  color: var(--figma-color-text-disabled);
+}
+
+._secondary_avmy7_68._danger_avmy7_53 button {
+  border-color: var(--figma-color-border-danger);
+  color: var(--figma-color-text-danger);
+}
+._secondary_avmy7_68._danger_avmy7_53:not(._disabled_avmy7_11) button:focus {
+  border-color: var(--figma-color-border-danger-strong);
+}
+._secondary_avmy7_68._danger_avmy7_53._disabled_avmy7_11 button {
+  border-color: var(--figma-color-border-disabled-strong);
+  color: var(--figma-color-text-disabled);
+}
+
+._loadingIndicator_avmy7_96 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+._default_avmy7_33 ._loadingIndicator_avmy7_96 {
+  color: var(--figma-color-icon-onbrand);
+}
+._default_avmy7_33._disabled_avmy7_11 ._loadingIndicator_avmy7_96 {
+  color: var(--figma-color-icon-ondisabled);
+}
+
+._default_avmy7_33._danger_avmy7_53 ._loadingIndicator_avmy7_96 {
+  color: var(--figma-color-icon-ondanger);
+}
+._default_avmy7_33._danger_avmy7_53._disabled_avmy7_11 ._loadingIndicator_avmy7_96 {
+  color: var(--figma-color-icon-ondisabled);
+}
+
+._secondary_avmy7_68 ._loadingIndicator_avmy7_96 {
+  color: var(--figma-color-text);
+}
+._secondary_avmy7_68._disabled_avmy7_11 ._loadingIndicator_avmy7_96 {
+  color: var(--figma-color-text-disabled);
+}
+
+._secondary_avmy7_68._danger_avmy7_53 ._loadingIndicator_avmy7_96 {
+  color: var(--figma-color-text-danger);
+}
+._secondary_avmy7_68._danger_avmy7_53._disabled_avmy7_11 ._loadingIndicator_avmy7_96 {
+  color: var(--figma-color-text-disabled);
+}
+
+._children_avmy7_132 {
+  display: inline;
+  pointer-events: none;
+}
+._loading_avmy7_96 ._children_avmy7_132 {
+  visibility: hidden;
+}
+
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm5vZGVfbW9kdWxlcy9AY3JlYXRlLWZpZ21hLXBsdWdpbi91aS9saWIvY29tcG9uZW50cy9idXR0b24vYnV0dG9uLm1vZHVsZS5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSxrQkFBa0I7RUFDbEIseUJBQXlCO0VBQ3pCLHFCQUFxQjtBQUN2Qjs7QUFFQTtFQUNFLGNBQWM7QUFDaEI7O0FBRUE7O0VBRUUsbUJBQW1CO0FBQ3JCOztBQUVBO0VBQ0Usa0JBQWtCO0VBQ2xCLHFCQUFxQjtFQUNyQix1QkFBdUI7RUFDdkIsc0NBQXNDO0VBQ3RDLCtDQUErQztFQUMvQyxxQ0FBcUM7QUFDdkM7O0FBRUE7RUFDRSxjQUFjO0VBQ2QsZ0JBQWdCO0VBQ2hCLFdBQVc7RUFDWCx1QkFBdUI7RUFDdkIsbUJBQW1CO0FBQ3JCOztBQUVBO0VBQ0UseUJBQXlCO0VBQ3pCLDZDQUE2QztFQUM3QyxzQ0FBc0M7QUFDeEM7O0FBRUE7RUFDRSwrQ0FBK0M7QUFDakQ7QUFDQTtFQUNFLG1FQUFtRTtBQUNyRTtBQUNBO0VBQ0UscURBQXFEO0FBQ3ZEO0FBQ0E7RUFDRSxnREFBZ0Q7RUFDaEQseUNBQXlDO0FBQzNDOztBQUVBO0VBQ0UsOENBQThDO0VBQzlDLHVDQUF1QztBQUN6QztBQUNBO0VBQ0UscURBQXFEO0FBQ3ZEO0FBQ0E7RUFDRSxzREFBc0Q7QUFDeEQ7QUFDQTtFQUNFLGdEQUFnRDtFQUNoRCx5Q0FBeUM7QUFDM0M7O0FBRUE7RUFDRSx1Q0FBdUM7RUFDdkMsNkJBQTZCO0VBQzdCLDhCQUE4QjtBQUNoQztBQUNBO0VBQ0UsZ0RBQWdEO0FBQ2xEO0FBQ0E7RUFDRSwrQ0FBK0M7QUFDakQ7QUFDQTtFQUNFLGdEQUFnRDtFQUNoRCx1Q0FBdUM7QUFDekM7O0FBRUE7RUFDRSw4Q0FBOEM7RUFDOUMscUNBQXFDO0FBQ3ZDO0FBQ0E7RUFDRSxxREFBcUQ7QUFDdkQ7QUFDQTtFQUNFLHVEQUF1RDtFQUN2RCx1Q0FBdUM7QUFDekM7O0FBRUE7RUFDRSxrQkFBa0I7RUFDbEIsUUFBUTtFQUNSLFNBQVM7RUFDVCxvQkFBb0I7RUFDcEIsZ0NBQWdDO0FBQ2xDOztBQUVBO0VBQ0Usc0NBQXNDO0FBQ3hDO0FBQ0E7RUFDRSx5Q0FBeUM7QUFDM0M7O0FBRUE7RUFDRSx1Q0FBdUM7QUFDekM7QUFDQTtFQUNFLHlDQUF5QztBQUMzQzs7QUFFQTtFQUNFLDhCQUE4QjtBQUNoQztBQUNBO0VBQ0UsdUNBQXVDO0FBQ3pDOztBQUVBO0VBQ0UscUNBQXFDO0FBQ3ZDO0FBQ0E7RUFDRSx1Q0FBdUM7QUFDekM7O0FBRUE7RUFDRSxlQUFlO0VBQ2Ysb0JBQW9CO0FBQ3RCO0FBQ0E7RUFDRSxrQkFBa0I7QUFDcEIiLCJmaWxlIjoibm9kZV9tb2R1bGVzL0BjcmVhdGUtZmlnbWEtcGx1Z2luL3VpL2xpYi9jb21wb25lbnRzL2J1dHRvbi9idXR0b24ubW9kdWxlLmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi5idXR0b24ge1xuICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gIHotaW5kZXg6IHZhcigtLXotaW5kZXgtMSk7XG4gIGRpc3BsYXk6IGlubGluZS1ibG9jaztcbn1cblxuLmZ1bGxXaWR0aCB7XG4gIGRpc3BsYXk6IGJsb2NrO1xufVxuXG4uZGlzYWJsZWQsXG4uZGlzYWJsZWQgKiB7XG4gIGN1cnNvcjogbm90LWFsbG93ZWQ7XG59XG5cbi5idXR0b24gYnV0dG9uIHtcbiAgcG9zaXRpb246IHJlbGF0aXZlO1xuICBkaXNwbGF5OiBpbmxpbmUtYmxvY2s7XG4gIGhlaWdodDogdmFyKC0tc3BhY2UtMjQpO1xuICBwYWRkaW5nOiB2YXIoLS1zcGFjZS0wKSB2YXIoLS1zcGFjZS04KTtcbiAgYm9yZGVyOiB2YXIoLS1ib3JkZXItd2lkdGgtMSkgc29saWQgdHJhbnNwYXJlbnQ7XG4gIGJvcmRlci1yYWRpdXM6IHZhcigtLWJvcmRlci1yYWRpdXMtNik7XG59XG5cbi5mdWxsV2lkdGggYnV0dG9uIHtcbiAgZGlzcGxheTogYmxvY2s7XG4gIG92ZXJmbG93OiBoaWRkZW47XG4gIHdpZHRoOiAxMDAlO1xuICB0ZXh0LW92ZXJmbG93OiBlbGxpcHNpcztcbiAgd2hpdGUtc3BhY2U6IG5vd3JhcDtcbn1cblxuLmRlZmF1bHQgYnV0dG9uIHtcbiAgYm9yZGVyLWNvbG9yOiB0cmFuc3BhcmVudDtcbiAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItYmctYnJhbmQpO1xuICBjb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItdGV4dC1vbmJyYW5kKTtcbn1cblxuLmRlZmF1bHQ6bm90KC5kaXNhYmxlZCkgYnV0dG9uOmZvY3VzIHtcbiAgYm9yZGVyLWNvbG9yOiB2YXIoLS1maWdtYS1jb2xvci1ib3JkZXItb25icmFuZCk7XG59XG4uZGVmYXVsdDpub3QoLmRpc2FibGVkKSBidXR0b246Zm9jdXMtdmlzaWJsZSB7XG4gIGJveC1zaGFkb3c6IDAgMCAwIHZhcigtLWJvcmRlci13aWR0aC0xKSB2YXIoLS1maWdtYS1jb2xvci1iZykgaW5zZXQ7XG59XG4uZGVmYXVsdDpub3QoLmRpc2FibGVkKSBidXR0b246YWN0aXZlIHtcbiAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItYmctYnJhbmQtcHJlc3NlZCk7XG59XG4uZGVmYXVsdC5kaXNhYmxlZCBidXR0b24ge1xuICBiYWNrZ3JvdW5kLWNvbG9yOiB2YXIoLS1maWdtYS1jb2xvci1iZy1kaXNhYmxlZCk7XG4gIGNvbG9yOiB2YXIoLS1maWdtYS1jb2xvci10ZXh0LW9uZGlzYWJsZWQpO1xufVxuXG4uZGVmYXVsdC5kYW5nZXIgYnV0dG9uIHtcbiAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItYmctZGFuZ2VyKTtcbiAgY29sb3I6IHZhcigtLWZpZ21hLWNvbG9yLXRleHQtb25kYW5nZXIpO1xufVxuLmRlZmF1bHQuZGFuZ2VyOm5vdCguZGlzYWJsZWQpIGJ1dHRvbjpmb2N1cyB7XG4gIGJvcmRlci1jb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItYm9yZGVyLWRhbmdlci1zdHJvbmcpO1xufVxuLmRlZmF1bHQuZGFuZ2VyOm5vdCguZGlzYWJsZWQpIGJ1dHRvbjphY3RpdmUge1xuICBiYWNrZ3JvdW5kLWNvbG9yOiB2YXIoLS1maWdtYS1jb2xvci1iZy1kYW5nZXItcHJlc3NlZCk7XG59XG4uZGVmYXVsdC5kYW5nZXIuZGlzYWJsZWQgYnV0dG9uIHtcbiAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItYmctZGlzYWJsZWQpO1xuICBjb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItdGV4dC1vbmRpc2FibGVkKTtcbn1cblxuLnNlY29uZGFyeSBidXR0b24ge1xuICBib3JkZXItY29sb3I6IHZhcigtLWZpZ21hLWNvbG9yLWJvcmRlcik7XG4gIGJhY2tncm91bmQtY29sb3I6IHRyYW5zcGFyZW50O1xuICBjb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItdGV4dCk7XG59XG4uc2Vjb25kYXJ5Om5vdCguZGlzYWJsZWQpIGJ1dHRvbjpmb2N1cyB7XG4gIGJvcmRlci1jb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItYm9yZGVyLXNlbGVjdGVkKTtcbn1cbi5zZWNvbmRhcnk6bm90KC5kaXNhYmxlZCkgYnV0dG9uOmFjdGl2ZSB7XG4gIGJhY2tncm91bmQtY29sb3I6IHZhcigtLWZpZ21hLWNvbG9yLWJnLXByZXNzZWQpO1xufVxuLnNlY29uZGFyeS5kaXNhYmxlZCBidXR0b24ge1xuICBib3JkZXItY29sb3I6IHZhcigtLWZpZ21hLWNvbG9yLWJvcmRlci1kaXNhYmxlZCk7XG4gIGNvbG9yOiB2YXIoLS1maWdtYS1jb2xvci10ZXh0LWRpc2FibGVkKTtcbn1cblxuLnNlY29uZGFyeS5kYW5nZXIgYnV0dG9uIHtcbiAgYm9yZGVyLWNvbG9yOiB2YXIoLS1maWdtYS1jb2xvci1ib3JkZXItZGFuZ2VyKTtcbiAgY29sb3I6IHZhcigtLWZpZ21hLWNvbG9yLXRleHQtZGFuZ2VyKTtcbn1cbi5zZWNvbmRhcnkuZGFuZ2VyOm5vdCguZGlzYWJsZWQpIGJ1dHRvbjpmb2N1cyB7XG4gIGJvcmRlci1jb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItYm9yZGVyLWRhbmdlci1zdHJvbmcpO1xufVxuLnNlY29uZGFyeS5kYW5nZXIuZGlzYWJsZWQgYnV0dG9uIHtcbiAgYm9yZGVyLWNvbG9yOiB2YXIoLS1maWdtYS1jb2xvci1ib3JkZXItZGlzYWJsZWQtc3Ryb25nKTtcbiAgY29sb3I6IHZhcigtLWZpZ21hLWNvbG9yLXRleHQtZGlzYWJsZWQpO1xufVxuXG4ubG9hZGluZ0luZGljYXRvciB7XG4gIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgdG9wOiA1MCU7XG4gIGxlZnQ6IDUwJTtcbiAgcG9pbnRlci1ldmVudHM6IG5vbmU7XG4gIHRyYW5zZm9ybTogdHJhbnNsYXRlKC01MCUsIC01MCUpO1xufVxuXG4uZGVmYXVsdCAubG9hZGluZ0luZGljYXRvciB7XG4gIGNvbG9yOiB2YXIoLS1maWdtYS1jb2xvci1pY29uLW9uYnJhbmQpO1xufVxuLmRlZmF1bHQuZGlzYWJsZWQgLmxvYWRpbmdJbmRpY2F0b3Ige1xuICBjb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItaWNvbi1vbmRpc2FibGVkKTtcbn1cblxuLmRlZmF1bHQuZGFuZ2VyIC5sb2FkaW5nSW5kaWNhdG9yIHtcbiAgY29sb3I6IHZhcigtLWZpZ21hLWNvbG9yLWljb24tb25kYW5nZXIpO1xufVxuLmRlZmF1bHQuZGFuZ2VyLmRpc2FibGVkIC5sb2FkaW5nSW5kaWNhdG9yIHtcbiAgY29sb3I6IHZhcigtLWZpZ21hLWNvbG9yLWljb24tb25kaXNhYmxlZCk7XG59XG5cbi5zZWNvbmRhcnkgLmxvYWRpbmdJbmRpY2F0b3Ige1xuICBjb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItdGV4dCk7XG59XG4uc2Vjb25kYXJ5LmRpc2FibGVkIC5sb2FkaW5nSW5kaWNhdG9yIHtcbiAgY29sb3I6IHZhcigtLWZpZ21hLWNvbG9yLXRleHQtZGlzYWJsZWQpO1xufVxuXG4uc2Vjb25kYXJ5LmRhbmdlciAubG9hZGluZ0luZGljYXRvciB7XG4gIGNvbG9yOiB2YXIoLS1maWdtYS1jb2xvci10ZXh0LWRhbmdlcik7XG59XG4uc2Vjb25kYXJ5LmRhbmdlci5kaXNhYmxlZCAubG9hZGluZ0luZGljYXRvciB7XG4gIGNvbG9yOiB2YXIoLS1maWdtYS1jb2xvci10ZXh0LWRpc2FibGVkKTtcbn1cblxuLmNoaWxkcmVuIHtcbiAgZGlzcGxheTogaW5saW5lO1xuICBwb2ludGVyLWV2ZW50czogbm9uZTtcbn1cbi5sb2FkaW5nIC5jaGlsZHJlbiB7XG4gIHZpc2liaWxpdHk6IGhpZGRlbjtcbn1cbiJdfQ== */`;
+        document.head.append(element);
+      }
+      button_module_default2 = { "button": "_button_avmy7_1", "fullWidth": "_fullWidth_avmy7_7", "disabled": "_disabled_avmy7_11", "default": "_default_avmy7_33", "danger": "_danger_avmy7_53", "secondary": "_secondary_avmy7_68", "loadingIndicator": "_loadingIndicator_avmy7_96", "children": "_children_avmy7_132", "loading": "_loading_avmy7_96" };
+    }
+  });
+
+  // node_modules/@create-figma-plugin/ui/lib/components/file-upload/private/file-comparator.js
+  function fileComparator(a3, b2) {
+    const aName = a3.name.toLowerCase();
+    const bName = b2.name.toLowerCase();
+    if (aName !== bName) {
+      return aName.localeCompare(bName);
+    }
+    return a3.lastModified - b2.lastModified;
+  }
+  var init_file_comparator = __esm({
+    "node_modules/@create-figma-plugin/ui/lib/components/file-upload/private/file-comparator.js"() {
+    }
+  });
+
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6dde20a7-e4b7-4401-a092-70165e38d3fa/file-upload-button.module.js
+  var file_upload_button_module_default;
+  var init_file_upload_button_module = __esm({
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6dde20a7-e4b7-4401-a092-70165e38d3fa/file-upload-button.module.js"() {
+      if (document.getElementById("f115bb30c8") === null) {
+        const element = document.createElement("style");
+        element.id = "f115bb30c8";
+        element.textContent = `._input_jvo9b_1 {
+  position: absolute;
+  z-index: var(--z-index-1);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  text-indent: -9999em;
+}
+
+/* Rules below are copied from \`button.module.css\` */
+
+._default_jvo9b_13:not(._disabled_jvo9b_13) input:focus ~ button {
+  border-color: var(--figma-color-border-onbrand);
+}
+._default_jvo9b_13:not(._disabled_jvo9b_13) input:focus-visible ~ button {
+  box-shadow: 0 0 0 var(--border-width-1) var(--figma-color-bg) inset;
+}
+._default_jvo9b_13:not(._disabled_jvo9b_13) input:active ~ button {
+  background-color: var(--figma-color-bg-brand-pressed);
+}
+
+._secondary_jvo9b_23:not(._disabled_jvo9b_13) input:focus ~ button {
+  border-color: var(--figma-color-border-selected);
+}
+._secondary_jvo9b_23:not(._disabled_jvo9b_13) input:active ~ button {
+  background-color: var(--figma-color-bg-pressed);
+}
+
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm5vZGVfbW9kdWxlcy9AY3JlYXRlLWZpZ21hLXBsdWdpbi91aS9saWIvY29tcG9uZW50cy9maWxlLXVwbG9hZC9maWxlLXVwbG9hZC1idXR0b24vZmlsZS11cGxvYWQtYnV0dG9uLm1vZHVsZS5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSxrQkFBa0I7RUFDbEIseUJBQXlCO0VBQ3pCLE1BQU07RUFDTixRQUFRO0VBQ1IsU0FBUztFQUNULE9BQU87RUFDUCxvQkFBb0I7QUFDdEI7O0FBRUEsb0RBQW9EOztBQUVwRDtFQUNFLCtDQUErQztBQUNqRDtBQUNBO0VBQ0UsbUVBQW1FO0FBQ3JFO0FBQ0E7RUFDRSxxREFBcUQ7QUFDdkQ7O0FBRUE7RUFDRSxnREFBZ0Q7QUFDbEQ7QUFDQTtFQUNFLCtDQUErQztBQUNqRCIsImZpbGUiOiJub2RlX21vZHVsZXMvQGNyZWF0ZS1maWdtYS1wbHVnaW4vdWkvbGliL2NvbXBvbmVudHMvZmlsZS11cGxvYWQvZmlsZS11cGxvYWQtYnV0dG9uL2ZpbGUtdXBsb2FkLWJ1dHRvbi5tb2R1bGUuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmlucHV0IHtcbiAgcG9zaXRpb246IGFic29sdXRlO1xuICB6LWluZGV4OiB2YXIoLS16LWluZGV4LTEpO1xuICB0b3A6IDA7XG4gIHJpZ2h0OiAwO1xuICBib3R0b206IDA7XG4gIGxlZnQ6IDA7XG4gIHRleHQtaW5kZW50OiAtOTk5OWVtO1xufVxuXG4vKiBSdWxlcyBiZWxvdyBhcmUgY29waWVkIGZyb20gYGJ1dHRvbi5tb2R1bGUuY3NzYCAqL1xuXG4uZGVmYXVsdDpub3QoLmRpc2FibGVkKSBpbnB1dDpmb2N1cyB+IGJ1dHRvbiB7XG4gIGJvcmRlci1jb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItYm9yZGVyLW9uYnJhbmQpO1xufVxuLmRlZmF1bHQ6bm90KC5kaXNhYmxlZCkgaW5wdXQ6Zm9jdXMtdmlzaWJsZSB+IGJ1dHRvbiB7XG4gIGJveC1zaGFkb3c6IDAgMCAwIHZhcigtLWJvcmRlci13aWR0aC0xKSB2YXIoLS1maWdtYS1jb2xvci1iZykgaW5zZXQ7XG59XG4uZGVmYXVsdDpub3QoLmRpc2FibGVkKSBpbnB1dDphY3RpdmUgfiBidXR0b24ge1xuICBiYWNrZ3JvdW5kLWNvbG9yOiB2YXIoLS1maWdtYS1jb2xvci1iZy1icmFuZC1wcmVzc2VkKTtcbn1cblxuLnNlY29uZGFyeTpub3QoLmRpc2FibGVkKSBpbnB1dDpmb2N1cyB+IGJ1dHRvbiB7XG4gIGJvcmRlci1jb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItYm9yZGVyLXNlbGVjdGVkKTtcbn1cbi5zZWNvbmRhcnk6bm90KC5kaXNhYmxlZCkgaW5wdXQ6YWN0aXZlIH4gYnV0dG9uIHtcbiAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItYmctcHJlc3NlZCk7XG59XG4iXX0= */`;
+        document.head.append(element);
+      }
+      file_upload_button_module_default = { "input": "_input_jvo9b_1", "default": "_default_jvo9b_13", "disabled": "_disabled_jvo9b_13", "secondary": "_secondary_jvo9b_23" };
+    }
+  });
+
+  // node_modules/@create-figma-plugin/ui/lib/components/file-upload/file-upload-button/file-upload-button.js
+  function parseFileList(fileList) {
+    return Array.prototype.slice.call(fileList).sort(fileComparator);
+  }
+  var FileUploadButton;
+  var init_file_upload_button = __esm({
+    "node_modules/@create-figma-plugin/ui/lib/components/file-upload/file-upload-button/file-upload-button.js"() {
+      init_preact_module();
+      init_hooks_module();
+      init_create_class_name();
+      init_create_component();
+      init_no_op();
+      init_button_module2();
+      init_loading_indicator();
+      init_file_comparator();
+      init_file_upload_button_module();
+      FileUploadButton = createComponent(function(_a, ref) {
+        var _b = _a, { acceptedFileTypes = [], children, disabled = false, fullWidth = false, loading = false, multiple = false, onChange = noop, onClick = noop, onKeyDown = noop, onMouseDown = noop, onSelectedFiles = noop, propagateEscapeKeyDown = true, secondary = false } = _b, rest = __objRest(_b, ["acceptedFileTypes", "children", "disabled", "fullWidth", "loading", "multiple", "onChange", "onClick", "onKeyDown", "onMouseDown", "onSelectedFiles", "propagateEscapeKeyDown", "secondary"]);
+        const handleChange = q2(function(event) {
+          onChange(event);
+          const fileList = event.currentTarget.files;
+          if (fileList === null) {
+            throw new Error("`event.currentTarget.files` is `null`");
+          }
+          const files = parseFileList(fileList);
+          if (files.length > 0) {
+            onSelectedFiles(files);
+          }
+        }, [onChange, onSelectedFiles]);
+        const handleClick = q2(function(event) {
+          onClick(event);
+          if (loading === true) {
+            event.preventDefault();
+          }
+        }, [onClick, loading]);
+        const handleMouseDown = q2(function(event) {
+          onMouseDown(event);
+          event.currentTarget.focus();
+        }, [onMouseDown]);
+        const handleKeyDown = q2(function(event) {
+          onKeyDown(event);
+          if (event.key === "Escape") {
+            if (propagateEscapeKeyDown === false) {
+              event.stopPropagation();
+            }
+            event.currentTarget.blur();
+          }
+        }, [onKeyDown, propagateEscapeKeyDown]);
+        return _(
+          "div",
+          { class: createClassName([
+            button_module_default2.button,
+            secondary === true ? button_module_default2.secondary : button_module_default2.default,
+            secondary === true ? file_upload_button_module_default.secondary : file_upload_button_module_default.default,
+            fullWidth === true ? button_module_default2.fullWidth : null,
+            disabled === true ? button_module_default2.disabled : null,
+            disabled === true ? file_upload_button_module_default.disabled : null,
+            loading === true ? button_module_default2.loading : null
+          ]) },
+          _("input", __spreadProps(__spreadValues({}, rest), { ref, accept: acceptedFileTypes.length === 0 ? void 0 : acceptedFileTypes.join(","), class: file_upload_button_module_default.input, disabled: disabled === true, multiple, onChange: handleChange, onClick: handleClick, onKeyDown: handleKeyDown, onMouseDown: handleMouseDown, tabIndex: 0, title: "", type: "file" })),
+          _(
+            "button",
+            { disabled: disabled === true, tabIndex: -1 },
+            _("div", { class: button_module_default2.children }, children)
+          ),
+          loading === true ? _(
+            "div",
+            { class: button_module_default2.loadingIndicator },
+            _(LoadingIndicator, null)
+          ) : null
+        );
+      });
+    }
+  });
+
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/afd7bba5-877c-475e-9674-0eea08d71e89/icon-button.module.js
   var icon_button_module_default;
   var init_icon_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/16c7b802-d22c-402e-9a92-be83ebd900cd/icon-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/afd7bba5-877c-475e-9674-0eea08d71e89/icon-button.module.js"() {
       if (document.getElementById("c8b08e6568") === null) {
         const element = document.createElement("style");
         element.id = "c8b08e6568";
@@ -1275,10 +2248,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/585e6759-f216-43ea-87bc-ad31c45f0510/text.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/62c69a6e-4592-4ee6-b086-f46f0cdc14c3/text.module.js
   var text_module_default;
   var init_text_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/585e6759-f216-43ea-87bc-ad31c45f0510/text.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/62c69a6e-4592-4ee6-b086-f46f0cdc14c3/text.module.js"() {
       if (document.getElementById("1278016d5c") === null) {
         const element = document.createElement("style");
         element.id = "1278016d5c";
@@ -1336,10 +2309,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b00ba7f8-0e5e-4b0a-8433-83bad4a90ddf/inline.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/362185fd-669c-48c0-99d1-1c16418f6138/inline.module.js
   var inline_module_default;
   var init_inline_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b00ba7f8-0e5e-4b0a-8433-83bad4a90ddf/inline.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/362185fd-669c-48c0-99d1-1c16418f6138/inline.module.js"() {
       if (document.getElementById("3e1b2856fc") === null) {
         const element = document.createElement("style");
         element.id = "3e1b2856fc";
@@ -1401,10 +2374,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9ab4cb29-3fd4-480a-9572-49a8157663ef/stack.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/889c7bf4-f7a3-4148-b532-dc5bba1eaac4/stack.module.js
   var stack_module_default;
   var init_stack_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9ab4cb29-3fd4-480a-9572-49a8157663ef/stack.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/889c7bf4-f7a3-4148-b532-dc5bba1eaac4/stack.module.js"() {
       if (document.getElementById("317515cc3f") === null) {
         const element = document.createElement("style");
         element.id = "317515cc3f";
@@ -1447,10 +2420,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1bbb858b-ce9c-4262-879a-819a28086e58/radio-buttons.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a061b63a-534b-4843-b907-dc01b5cf8cd1/radio-buttons.module.js
   var radio_buttons_module_default;
   var init_radio_buttons_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1bbb858b-ce9c-4262-879a-819a28086e58/radio-buttons.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a061b63a-534b-4843-b907-dc01b5cf8cd1/radio-buttons.module.js"() {
       if (document.getElementById("a066c67891") === null) {
         const element = document.createElement("style");
         element.id = "a066c67891";
@@ -1569,6 +2542,247 @@
     }
   });
 
+  // node_modules/@create-figma-plugin/ui/lib/components/textbox/private/is-keycode-character-generating.js
+  function isKeyCodeCharacterGenerating(keyCode) {
+    return keyCode === 32 || keyCode >= 48 && keyCode <= 57 || keyCode >= 65 && keyCode <= 90 || keyCode >= 96 && keyCode <= 105 || keyCode >= 186 && keyCode <= 192 || keyCode >= 219 && keyCode <= 222;
+  }
+  var init_is_keycode_character_generating = __esm({
+    "node_modules/@create-figma-plugin/ui/lib/components/textbox/private/is-keycode-character-generating.js"() {
+    }
+  });
+
+  // node_modules/@create-figma-plugin/ui/lib/components/textbox/textbox/private/raw-textbox.js
+  var EMPTY_STRING, RawTextbox;
+  var init_raw_textbox = __esm({
+    "node_modules/@create-figma-plugin/ui/lib/components/textbox/textbox/private/raw-textbox.js"() {
+      init_lib();
+      init_preact_module();
+      init_hooks_module();
+      init_create_component();
+      init_get_current_from_ref();
+      init_no_op();
+      init_is_keycode_character_generating();
+      EMPTY_STRING = "";
+      RawTextbox = createComponent(function(_a, ref) {
+        var _b = _a, { disabled = false, onBlur = noop, onFocus = noop, onInput = noop, onKeyDown = noop, onMouseDown = noop, onValueInput = noop, password = false, placeholder, propagateEscapeKeyDown = true, revertOnEscapeKeyDown = false, spellCheck = false, validateOnBlur, value } = _b, rest = __objRest(_b, ["disabled", "onBlur", "onFocus", "onInput", "onKeyDown", "onMouseDown", "onValueInput", "password", "placeholder", "propagateEscapeKeyDown", "revertOnEscapeKeyDown", "spellCheck", "validateOnBlur", "value"]);
+        const inputElementRef = A2(null);
+        const [originalValue, setOriginalValue] = d2(EMPTY_STRING);
+        const setTextboxValue = q2(function(value2) {
+          const inputElement = getCurrentFromRef(inputElementRef);
+          inputElement.value = value2;
+          const inputEvent = new window.Event("input", {
+            bubbles: true,
+            cancelable: true
+          });
+          inputElement.dispatchEvent(inputEvent);
+        }, []);
+        const handleBlur = q2(function(event) {
+          onBlur(event);
+          if (typeof validateOnBlur !== "undefined") {
+            const result = validateOnBlur(value);
+            if (typeof result === "string") {
+              setTextboxValue(result);
+              setOriginalValue(EMPTY_STRING);
+              return;
+            }
+            if (result === false) {
+              if (value !== originalValue) {
+                setTextboxValue(originalValue);
+              }
+              setOriginalValue(EMPTY_STRING);
+              return;
+            }
+          }
+          setOriginalValue(EMPTY_STRING);
+        }, [onBlur, originalValue, setTextboxValue, validateOnBlur, value]);
+        const handleFocus = q2(function(event) {
+          onFocus(event);
+          setOriginalValue(value);
+          event.currentTarget.select();
+        }, [onFocus, value]);
+        const handleInput = q2(function(event) {
+          onInput(event);
+          const newValue = event.currentTarget.value;
+          onValueInput(newValue);
+        }, [onInput, onValueInput]);
+        const handleKeyDown = q2(function(event) {
+          onKeyDown(event);
+          if (event.key === "Escape") {
+            if (revertOnEscapeKeyDown === true) {
+              setTextboxValue(originalValue);
+              setOriginalValue(EMPTY_STRING);
+            }
+            if (propagateEscapeKeyDown === false) {
+              event.stopPropagation();
+            }
+            event.currentTarget.blur();
+            return;
+          }
+          if (value === MIXED_STRING && isKeyCodeCharacterGenerating(event.keyCode) === false) {
+            event.preventDefault();
+            event.currentTarget.select();
+          }
+        }, [
+          onKeyDown,
+          originalValue,
+          propagateEscapeKeyDown,
+          revertOnEscapeKeyDown,
+          setTextboxValue,
+          value
+        ]);
+        const handleMouseDown = q2(function(event) {
+          onMouseDown(event);
+          if (value === MIXED_STRING) {
+            event.preventDefault();
+            event.currentTarget.select();
+          }
+        }, [onMouseDown, value]);
+        const refCallback = q2(function(inputElement) {
+          inputElementRef.current = inputElement;
+          if (ref === null) {
+            return;
+          }
+          if (typeof ref === "function") {
+            ref(inputElement);
+            return;
+          }
+          ref.current = inputElement;
+        }, [ref]);
+        return _("input", __spreadProps(__spreadValues({}, rest), { ref: refCallback, disabled: disabled === true, onBlur: handleBlur, onFocus: handleFocus, onInput: handleInput, onKeyDown: handleKeyDown, onMouseDown: handleMouseDown, placeholder, spellcheck: spellCheck, tabIndex: 0, type: password === true ? "password" : "text", value: value === MIXED_STRING ? "Mixed" : value }));
+      });
+    }
+  });
+
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/bf864da3-391e-4413-b2a4-8d16a0b7a66a/textbox.module.js
+  var textbox_module_default;
+  var init_textbox_module = __esm({
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/bf864da3-391e-4413-b2a4-8d16a0b7a66a/textbox.module.js"() {
+      if (document.getElementById("5c1c5c2d3d") === null) {
+        const element = document.createElement("style");
+        element.id = "5c1c5c2d3d";
+        element.textContent = `._textbox_1m1e8_1 {
+  position: relative;
+  z-index: var(--z-index-1);
+}
+
+._textbox_1m1e8_1:focus-within {
+  z-index: var(--z-index-2); /* Stack \`.textbox\` over its sibling elements */
+}
+
+._disabled_1m1e8_10,
+._disabled_1m1e8_10 * {
+  cursor: not-allowed;
+}
+
+._input_1m1e8_15 {
+  display: block;
+  width: 100%;
+  height: var(--space-24);
+  padding: var(--space-0) calc(var(--space-8) - var(--border-width-1));
+  border: var(--border-width-1) solid transparent;
+  border-radius: var(--border-radius-4);
+  background-color: var(--figma-color-bg-secondary);
+  color: var(--figma-color-text);
+}
+._input_1m1e8_15:hover {
+  border-color: var(--figma-color-border);
+}
+._input_1m1e8_15:focus {
+  border-color: var(--figma-color-border-selected);
+}
+._disabled_1m1e8_10 ._input_1m1e8_15 {
+  border-color: var(--figma-color-border-disabled);
+  background-color: transparent;
+  color: var(--figma-color-text-disabled);
+}
+._hasIcon_1m1e8_36 ._input_1m1e8_15 {
+  padding-left: calc(var(--space-24) - var(--border-width-1));
+}
+
+._input_1m1e8_15::placeholder {
+  color: var(--figma-color-text-tertiary);
+}
+
+._icon_1m1e8_44 {
+  position: absolute;
+  top: 50%;
+  left: var(--space-12);
+  color: var(--figma-color-icon-secondary);
+  pointer-events: none;
+  text-align: center;
+  transform: translate(-50%, -50%);
+}
+._disabled_1m1e8_10 ._icon_1m1e8_44 {
+  color: var(--figma-color-icon-disabled);
+}
+
+._icon_1m1e8_44 svg {
+  fill: currentColor;
+}
+
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm5vZGVfbW9kdWxlcy9AY3JlYXRlLWZpZ21hLXBsdWdpbi91aS9saWIvY29tcG9uZW50cy90ZXh0Ym94L3RleHRib3gvdGV4dGJveC5tb2R1bGUuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0Usa0JBQWtCO0VBQ2xCLHlCQUF5QjtBQUMzQjs7QUFFQTtFQUNFLHlCQUF5QixFQUFFLCtDQUErQztBQUM1RTs7QUFFQTs7RUFFRSxtQkFBbUI7QUFDckI7O0FBRUE7RUFDRSxjQUFjO0VBQ2QsV0FBVztFQUNYLHVCQUF1QjtFQUN2QixvRUFBb0U7RUFDcEUsK0NBQStDO0VBQy9DLHFDQUFxQztFQUNyQyxpREFBaUQ7RUFDakQsOEJBQThCO0FBQ2hDO0FBQ0E7RUFDRSx1Q0FBdUM7QUFDekM7QUFDQTtFQUNFLGdEQUFnRDtBQUNsRDtBQUNBO0VBQ0UsZ0RBQWdEO0VBQ2hELDZCQUE2QjtFQUM3Qix1Q0FBdUM7QUFDekM7QUFDQTtFQUNFLDJEQUEyRDtBQUM3RDs7QUFFQTtFQUNFLHVDQUF1QztBQUN6Qzs7QUFFQTtFQUNFLGtCQUFrQjtFQUNsQixRQUFRO0VBQ1IscUJBQXFCO0VBQ3JCLHdDQUF3QztFQUN4QyxvQkFBb0I7RUFDcEIsa0JBQWtCO0VBQ2xCLGdDQUFnQztBQUNsQztBQUNBO0VBQ0UsdUNBQXVDO0FBQ3pDOztBQUVBO0VBQ0Usa0JBQWtCO0FBQ3BCIiwiZmlsZSI6Im5vZGVfbW9kdWxlcy9AY3JlYXRlLWZpZ21hLXBsdWdpbi91aS9saWIvY29tcG9uZW50cy90ZXh0Ym94L3RleHRib3gvdGV4dGJveC5tb2R1bGUuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLnRleHRib3gge1xuICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gIHotaW5kZXg6IHZhcigtLXotaW5kZXgtMSk7XG59XG5cbi50ZXh0Ym94OmZvY3VzLXdpdGhpbiB7XG4gIHotaW5kZXg6IHZhcigtLXotaW5kZXgtMik7IC8qIFN0YWNrIGAudGV4dGJveGAgb3ZlciBpdHMgc2libGluZyBlbGVtZW50cyAqL1xufVxuXG4uZGlzYWJsZWQsXG4uZGlzYWJsZWQgKiB7XG4gIGN1cnNvcjogbm90LWFsbG93ZWQ7XG59XG5cbi5pbnB1dCB7XG4gIGRpc3BsYXk6IGJsb2NrO1xuICB3aWR0aDogMTAwJTtcbiAgaGVpZ2h0OiB2YXIoLS1zcGFjZS0yNCk7XG4gIHBhZGRpbmc6IHZhcigtLXNwYWNlLTApIGNhbGModmFyKC0tc3BhY2UtOCkgLSB2YXIoLS1ib3JkZXItd2lkdGgtMSkpO1xuICBib3JkZXI6IHZhcigtLWJvcmRlci13aWR0aC0xKSBzb2xpZCB0cmFuc3BhcmVudDtcbiAgYm9yZGVyLXJhZGl1czogdmFyKC0tYm9yZGVyLXJhZGl1cy00KTtcbiAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItYmctc2Vjb25kYXJ5KTtcbiAgY29sb3I6IHZhcigtLWZpZ21hLWNvbG9yLXRleHQpO1xufVxuLmlucHV0OmhvdmVyIHtcbiAgYm9yZGVyLWNvbG9yOiB2YXIoLS1maWdtYS1jb2xvci1ib3JkZXIpO1xufVxuLmlucHV0OmZvY3VzIHtcbiAgYm9yZGVyLWNvbG9yOiB2YXIoLS1maWdtYS1jb2xvci1ib3JkZXItc2VsZWN0ZWQpO1xufVxuLmRpc2FibGVkIC5pbnB1dCB7XG4gIGJvcmRlci1jb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItYm9yZGVyLWRpc2FibGVkKTtcbiAgYmFja2dyb3VuZC1jb2xvcjogdHJhbnNwYXJlbnQ7XG4gIGNvbG9yOiB2YXIoLS1maWdtYS1jb2xvci10ZXh0LWRpc2FibGVkKTtcbn1cbi5oYXNJY29uIC5pbnB1dCB7XG4gIHBhZGRpbmctbGVmdDogY2FsYyh2YXIoLS1zcGFjZS0yNCkgLSB2YXIoLS1ib3JkZXItd2lkdGgtMSkpO1xufVxuXG4uaW5wdXQ6OnBsYWNlaG9sZGVyIHtcbiAgY29sb3I6IHZhcigtLWZpZ21hLWNvbG9yLXRleHQtdGVydGlhcnkpO1xufVxuXG4uaWNvbiB7XG4gIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgdG9wOiA1MCU7XG4gIGxlZnQ6IHZhcigtLXNwYWNlLTEyKTtcbiAgY29sb3I6IHZhcigtLWZpZ21hLWNvbG9yLWljb24tc2Vjb25kYXJ5KTtcbiAgcG9pbnRlci1ldmVudHM6IG5vbmU7XG4gIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgdHJhbnNmb3JtOiB0cmFuc2xhdGUoLTUwJSwgLTUwJSk7XG59XG4uZGlzYWJsZWQgLmljb24ge1xuICBjb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItaWNvbi1kaXNhYmxlZCk7XG59XG5cbi5pY29uIHN2ZyB7XG4gIGZpbGw6IGN1cnJlbnRDb2xvcjtcbn1cbiJdfQ== */`;
+        document.head.append(element);
+      }
+      textbox_module_default = { "textbox": "_textbox_1m1e8_1", "disabled": "_disabled_1m1e8_10", "input": "_input_1m1e8_15", "hasIcon": "_hasIcon_1m1e8_36", "icon": "_icon_1m1e8_44" };
+    }
+  });
+
+  // node_modules/@create-figma-plugin/ui/lib/components/textbox/textbox/textbox.js
+  var Textbox;
+  var init_textbox = __esm({
+    "node_modules/@create-figma-plugin/ui/lib/components/textbox/textbox/textbox.js"() {
+      init_preact_module();
+      init_create_class_name();
+      init_create_component();
+      init_raw_textbox();
+      init_textbox_module();
+      Textbox = createComponent(function(_a, ref) {
+        var _b = _a, { icon } = _b, rest = __objRest(_b, ["icon"]);
+        if (typeof icon === "string" && icon.length !== 1) {
+          throw new Error(`String \`icon\` must be a single character: ${icon}`);
+        }
+        return _(
+          "div",
+          { class: createClassName([
+            textbox_module_default.textbox,
+            typeof icon === "undefined" ? null : textbox_module_default.hasIcon,
+            rest.disabled === true ? textbox_module_default.disabled : null
+          ]) },
+          _(RawTextbox, __spreadProps(__spreadValues({}, rest), { ref, class: textbox_module_default.input })),
+          typeof icon === "undefined" ? null : _("div", { class: textbox_module_default.icon }, icon)
+        );
+      });
+    }
+  });
+
+  // node_modules/@create-figma-plugin/ui/lib/icons/icon-16/icon-adjust-16.js
+  var IconAdjust16;
+  var init_icon_adjust_16 = __esm({
+    "node_modules/@create-figma-plugin/ui/lib/icons/icon-16/icon-adjust-16.js"() {
+      init_preact_module();
+      init_create_icon();
+      IconAdjust16 = createIcon(_(
+        "svg",
+        { fill: "none", height: "16", viewBox: "0 0 16 16", width: "16", xmlns: "http://www.w3.org/2000/svg" },
+        _("path", { "clip-rule": "evenodd", d: "M5 3.5c0-.27614.22386-.5.5-.5s.5.22386.5.5v4.58535c.5826.20592 1 .76154 1 1.41465s-.4174 1.2087-1 1.4146V12.5c0 .2761-.22386.5-.5.5s-.5-.2239-.5-.5v-1.5854c-.5826-.2059-1-.7615-1-1.4146s.4174-1.20873 1-1.41465zm0 6c0-.27614.22386-.5.5-.5s.5.22386.5.5-.22386.5-.5.5-.5-.22386-.5-.5m5 3c0 .2761.2239.5.5.5s.5-.2239.5-.5V7.91465c.5826-.20592 1-.76154 1-1.41465s-.4174-1.20873-1-1.41465V3.5c0-.27614-.2239-.5-.5-.5s-.5.22386-.5.5v1.58535C9.4174 5.29127 9 5.84689 9 6.5s.4174 1.20873 1 1.41465zm0-6c0 .27614.2239.5.5.5s.5-.22386.5-.5-.2239-.5-.5-.5-.5.22386-.5.5", fill: "currentColor", "fill-rule": "evenodd" })
+      ));
+    }
+  });
+
+  // node_modules/@create-figma-plugin/ui/lib/icons/icon-16/icon-folder-16.js
+  var IconFolder16;
+  var init_icon_folder_16 = __esm({
+    "node_modules/@create-figma-plugin/ui/lib/icons/icon-16/icon-folder-16.js"() {
+      init_preact_module();
+      init_create_icon();
+      IconFolder16 = createIcon(_(
+        "svg",
+        { fill: "none", height: "16", viewBox: "0 0 16 16", width: "16", xmlns: "http://www.w3.org/2000/svg" },
+        _("path", { "clip-rule": "evenodd", d: "M4 4h3v1H4zM3 5V4c0-.55229.44771-1 1-1h3c.55229 0 1 .44771 1 1v1h4c.5523 0 1 .44771 1 1v5c0 .5523-.4477 1-1 1H4c-.55229 0-1-.4477-1-1V5m5 1H4v5h8V6z", fill: "currentColor", "fill-rule": "evenodd" })
+      ));
+    }
+  });
+
   // node_modules/@create-figma-plugin/ui/lib/icons/icon-16/icon-home-16.js
   var IconHome16;
   var init_icon_home_16 = __esm({
@@ -1625,6 +2839,20 @@
     }
   });
 
+  // node_modules/@create-figma-plugin/ui/lib/icons/icon-16/icon-variable-16.js
+  var IconVariable16;
+  var init_icon_variable_16 = __esm({
+    "node_modules/@create-figma-plugin/ui/lib/icons/icon-16/icon-variable-16.js"() {
+      init_preact_module();
+      init_create_icon();
+      IconVariable16 = createIcon(_(
+        "svg",
+        { fill: "none", height: "16", viewBox: "0 0 16 16", width: "16", xmlns: "http://www.w3.org/2000/svg" },
+        _("path", { "clip-rule": "evenodd", d: "M12.5 4.2534 9 2.23267c-.6188-.35726-1.3812-.35726-2 0L3.5 4.2534c-.6188.35726-1 1.01752-1 1.73205v4.04145c0 .7145.3812 1.3748 1 1.732L7 13.7797c.6188.3572 1.3812.3572 2 0l3.5-2.0208c.6188-.3572 1-1.0175 1-1.732V5.98545c0-.71453-.3812-1.37479-1-1.73205m-5-1.1547a1 1 0 0 1 1 0L12 5.11942a1 1 0 0 1 .5.86603v4.04145c0 .3573-.1906.6874-.5.866l-3.5 2.0207a.9997.9997 0 0 1-1 0L4 10.8929a.9999.9999 0 0 1-.5-.866V5.98545a1 1 0 0 1 .5-.86603zM9 7.00002H7v2h2z", fill: "currentColor", "fill-rule": "evenodd" })
+      ));
+    }
+  });
+
   // node_modules/@create-figma-plugin/ui/lib/icons/icon-24/icon-interaction-click-small-24.js
   var IconInteractionClickSmall24;
   var init_icon_interaction_click_small_24 = __esm({
@@ -1653,10 +2881,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/215d3728-f48b-4e47-ba62-5763eb23d0bc/columns.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ff459f63-454d-4e2c-a5b7-f84b52495b17/columns.module.js
   var columns_module_default;
   var init_columns_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/215d3728-f48b-4e47-ba62-5763eb23d0bc/columns.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ff459f63-454d-4e2c-a5b7-f84b52495b17/columns.module.js"() {
       if (document.getElementById("07bfb18928") === null) {
         const element = document.createElement("style");
         element.id = "07bfb18928";
@@ -1725,10 +2953,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/26aa3a62-b7ac-42e7-bcee-a24021b4bd58/container.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/19b956e2-a7da-45bd-aeba-b13628762f31/container.module.js
   var container_module_default;
   var init_container_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/26aa3a62-b7ac-42e7-bcee-a24021b4bd58/container.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/19b956e2-a7da-45bd-aeba-b13628762f31/container.module.js"() {
       if (document.getElementById("b49e1406f9") === null) {
         const element = document.createElement("style");
         element.id = "b49e1406f9";
@@ -1769,10 +2997,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0cd0f67b-b84c-4064-bec4-5e149a8475ef/vertical-space.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b89387b9-1604-4bb7-b3b0-678962a7aed7/vertical-space.module.js
   var vertical_space_module_default;
   var init_vertical_space_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0cd0f67b-b84c-4064-bec4-5e149a8475ef/vertical-space.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b89387b9-1604-4bb7-b3b0-678962a7aed7/vertical-space.module.js"() {
       if (document.getElementById("ba0eea5114") === null) {
         const element = document.createElement("style");
         element.id = "ba0eea5114";
@@ -1813,9 +3041,9 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4dabecce-ab0e-4749-9631-f4776347b87d/base.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/02b89404-8cec-421d-bd88-210e0513d9d4/base.js
   var init_base = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4dabecce-ab0e-4749-9631-f4776347b87d/base.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/02b89404-8cec-421d-bd88-210e0513d9d4/base.js"() {
       if (document.getElementById("0597dd81e7") === null) {
         const element = document.createElement("style");
         element.id = "0597dd81e7";
@@ -1963,17 +3191,26 @@ svg {
       init_button();
       init_checkbox();
       init_divider();
+      init_dropdown();
+      init_file_upload_button();
       init_icon_button();
+      init_loading_indicator();
       init_radio_buttons();
       init_text();
+      init_textbox();
+      init_icon_adjust_16();
+      init_icon_folder_16();
       init_icon_home_16();
       init_icon_link_16();
       init_icon_shape_text_16();
       init_icon_text_16();
+      init_icon_variable_16();
       init_icon_interaction_click_small_24();
       init_icon_time_small_24();
       init_columns();
       init_container();
+      init_inline();
+      init_stack();
       init_vertical_space();
       init_render();
     }
@@ -1995,7 +3232,22 @@ svg {
         MOCKUP_MARKUP_LOAD_STATE: "MOCKUP_MARKUP_LOAD_STATE",
         MOCKUP_MARKUP_APPLY: "MOCKUP_MARKUP_APPLY",
         MOCKUP_MARKUP_CREATE_TEXT: "MOCKUP_MARKUP_CREATE_TEXT",
-        MOCKUP_MARKUP_GET_COLOR_PREVIEWS: "MOCKUP_MARKUP_GET_COLOR_PREVIEWS"
+        MOCKUP_MARKUP_GET_COLOR_PREVIEWS: "MOCKUP_MARKUP_GET_COLOR_PREVIEWS",
+        // Variables Batch Rename
+        BATCH_RENAME_EXPORT_NAME_SET: "BATCH_RENAME_EXPORT_NAME_SET",
+        BATCH_RENAME_PREVIEW_IMPORT: "BATCH_RENAME_PREVIEW_IMPORT",
+        BATCH_RENAME_APPLY_IMPORT: "BATCH_RENAME_APPLY_IMPORT",
+        // Variables Export Import
+        EXPORT_IMPORT_EXPORT_SNAPSHOT: "EXPORT_IMPORT_EXPORT_SNAPSHOT",
+        EXPORT_IMPORT_PREVIEW_SNAPSHOT: "EXPORT_IMPORT_PREVIEW_SNAPSHOT",
+        EXPORT_IMPORT_APPLY_SNAPSHOT: "EXPORT_IMPORT_APPLY_SNAPSHOT",
+        // Variables Create Linked Colors
+        LINKED_COLORS_CREATE: "LINKED_COLORS_CREATE",
+        LINKED_COLORS_APPLY_EXISTING: "LINKED_COLORS_APPLY_EXISTING",
+        LINKED_COLORS_RENAME: "LINKED_COLORS_RENAME",
+        // Variables Replace Usages
+        REPLACE_USAGES_PREVIEW: "REPLACE_USAGES_PREVIEW",
+        REPLACE_USAGES_APPLY: "REPLACE_USAGES_APPLY"
       };
       MAIN_TO_UI = {
         BOOTSTRAPPED: "BOOTSTRAPPED",
@@ -2008,7 +3260,29 @@ svg {
         MOCKUP_MARKUP_STATE: "MOCKUP_MARKUP_STATE",
         MOCKUP_MARKUP_STATUS: "MOCKUP_MARKUP_STATUS",
         MOCKUP_MARKUP_COLOR_PREVIEWS: "MOCKUP_MARKUP_COLOR_PREVIEWS",
-        ERROR: "ERROR"
+        ERROR: "ERROR",
+        // Variables Batch Rename
+        BATCH_RENAME_COLLECTIONS_LIST: "BATCH_RENAME_COLLECTIONS_LIST",
+        BATCH_RENAME_NAME_SET_READY: "BATCH_RENAME_NAME_SET_READY",
+        BATCH_RENAME_IMPORT_PREVIEW: "BATCH_RENAME_IMPORT_PREVIEW",
+        BATCH_RENAME_APPLY_PROGRESS: "BATCH_RENAME_APPLY_PROGRESS",
+        BATCH_RENAME_APPLY_RESULT: "BATCH_RENAME_APPLY_RESULT",
+        // Variables Export Import
+        EXPORT_IMPORT_COLLECTIONS_LIST: "EXPORT_IMPORT_COLLECTIONS_LIST",
+        EXPORT_IMPORT_SNAPSHOT_READY: "EXPORT_IMPORT_SNAPSHOT_READY",
+        EXPORT_IMPORT_PREVIEW: "EXPORT_IMPORT_PREVIEW",
+        EXPORT_IMPORT_APPLY_RESULT: "EXPORT_IMPORT_APPLY_RESULT",
+        // Variables Create Linked Colors
+        LINKED_COLORS_SELECTION: "LINKED_COLORS_SELECTION",
+        LINKED_COLORS_CREATE_SUCCESS: "LINKED_COLORS_CREATE_SUCCESS",
+        LINKED_COLORS_APPLY_SUCCESS: "LINKED_COLORS_APPLY_SUCCESS",
+        LINKED_COLORS_RENAME_SUCCESS: "LINKED_COLORS_RENAME_SUCCESS",
+        LINKED_COLORS_COLLECTIONS_LIST: "LINKED_COLORS_COLLECTIONS_LIST",
+        // Variables Replace Usages
+        REPLACE_USAGES_SELECTION: "REPLACE_USAGES_SELECTION",
+        REPLACE_USAGES_PREVIEW: "REPLACE_USAGES_PREVIEW",
+        REPLACE_USAGES_APPLY_PROGRESS: "REPLACE_USAGES_APPLY_PROGRESS",
+        REPLACE_USAGES_APPLY_RESULT: "REPLACE_USAGES_APPLY_RESULT"
       };
     }
   });
@@ -2062,7 +3336,7 @@ svg {
   });
 
   // src/app/components/custom-icons/generated.tsx
-  function IconChevronDown16(props) {
+  function IconChevronDown162(props) {
     var _a, _b;
     const color = (_a = props.color) != null ? _a : "currentColor";
     return /* @__PURE__ */ _("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none", "aria-label": props.title }, /* @__PURE__ */ _("path", { d: "M9.76731 6.76777C9.96257 6.5725 10.2801 6.5725 10.4753 6.76777C10.6702 6.96296 10.6702 7.2796 10.4753 7.4748L7.99973 9.94941L5.52512 7.4748C5.32986 7.27953 5.32986 6.96303 5.52512 6.76777C5.72039 6.5725 6.03689 6.5725 6.23216 6.76777L7.99973 8.53534L9.76731 6.76777Z", fill: color, fillOpacity: (_b = props.opacity) != null ? _b : 0.9 }));
@@ -2107,7 +3381,7 @@ svg {
           transformOrigin: "50% 50%"
         }
       },
-      /* @__PURE__ */ _(IconChevronDown16, null)
+      /* @__PURE__ */ _(IconChevronDown162, null)
     );
   }
   function TreeRow(props) {
@@ -2642,6 +3916,38 @@ svg {
         icon: /* @__PURE__ */ _(IconShapeText16, null),
         onClick: () => props.goTo("mockup-markup-tool")
       }
+    ), /* @__PURE__ */ _(VerticalSpace, { space: "medium" }), /* @__PURE__ */ _(Text, null, "Variables"), /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(
+      ToolCard,
+      {
+        title: "Batch Rename",
+        description: "Rename multiple variables at once via CSV or inline editing.",
+        icon: /* @__PURE__ */ _(IconVariable16, null),
+        onClick: () => props.goTo("variables-batch-rename-tool")
+      }
+    ), /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(
+      ToolCard,
+      {
+        title: "Export / Import",
+        description: "Export variable collections to JSON, import from backup.",
+        icon: /* @__PURE__ */ _(IconFolder16, null),
+        onClick: () => props.goTo("variables-export-import-tool")
+      }
+    ), /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(
+      ToolCard,
+      {
+        title: "Create Linked Colors",
+        description: "Create new color variables or rename existing ones.",
+        icon: /* @__PURE__ */ _(IconLink16, null),
+        onClick: () => props.goTo("variables-create-linked-colors-tool")
+      }
+    ), /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(
+      ToolCard,
+      {
+        title: "Replace Usages",
+        description: "Replace variable bindings in selection with different variables.",
+        icon: /* @__PURE__ */ _(IconAdjust16, null),
+        onClick: () => props.goTo("variables-replace-usages-tool")
+      }
     )));
   }
   var init_HomeView = __esm({
@@ -2991,6 +4297,1538 @@ svg {
     }
   });
 
+  // src/app/views/variables-batch-rename-tool/VariablesBatchRenameToolView.tsx
+  function downloadTextFile(filename, text) {
+    const blob = new Blob([text], { type: "application/json;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a3 = document.createElement("a");
+    a3.href = url;
+    a3.download = filename;
+    document.body.appendChild(a3);
+    a3.click();
+    a3.remove();
+    URL.revokeObjectURL(url);
+  }
+  async function copyTextToClipboard(text) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch (e3) {
+      try {
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.style.position = "fixed";
+        textarea.style.left = "-9999px";
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        textarea.remove();
+        return true;
+      } catch (e4) {
+        return false;
+      }
+    }
+  }
+  function getStatusPillStyle(status) {
+    if (status === "conflict") {
+      return { background: "#fff1f2", borderColor: "#fecdd3", color: "#9f1239" };
+    }
+    if (status === "rename" || status === "unchanged") {
+      return { background: "#ecfdf3", borderColor: "#b7f0c9", color: "#067647" };
+    }
+    return { background: "#fff7ed", borderColor: "#fed7aa", color: "#9a3412" };
+  }
+  function renderNameDiff(before, after) {
+    const a3 = String(before != null ? before : "");
+    const b2 = String(after != null ? after : "");
+    const aLen = a3.length;
+    const bLen = b2.length;
+    const min = Math.min(aLen, bLen);
+    let start = 0;
+    while (start < min && a3[start] === b2[start]) start += 1;
+    let endA = aLen - 1;
+    let endB = bLen - 1;
+    while (endA >= start && endB >= start && a3[endA] === b2[endB]) {
+      endA -= 1;
+      endB -= 1;
+    }
+    const prefix = a3.slice(0, start);
+    const aMid = a3.slice(start, endA + 1);
+    const suffix = a3.slice(endA + 1);
+    const bMid = b2.slice(start, endB + 1);
+    const removedStyle = {
+      background: "#fff1f2",
+      border: "1px solid #fecdd3",
+      color: "#9f1239",
+      borderRadius: 4,
+      padding: "0 2px",
+      fontWeight: 700
+    };
+    const addedStyle = {
+      background: "#ecfdf3",
+      border: "1px solid #b7f0c9",
+      color: "#067647",
+      borderRadius: 4,
+      padding: "0 2px",
+      fontWeight: 700
+    };
+    const beforeNode = /* @__PURE__ */ _("span", null, prefix ? /* @__PURE__ */ _("span", null, prefix) : null, aMid ? /* @__PURE__ */ _("span", { style: removedStyle }, aMid) : null, suffix ? /* @__PURE__ */ _("span", null, suffix) : null);
+    const afterNode = /* @__PURE__ */ _("span", null, prefix ? /* @__PURE__ */ _("span", null, prefix) : null, bMid ? /* @__PURE__ */ _("span", { style: addedStyle }, bMid) : null, suffix ? /* @__PURE__ */ _("span", null, suffix) : null);
+    return { beforeNode, afterNode };
+  }
+  function VariablesBatchRenameToolView({ onBack }) {
+    const [collections, setCollections] = d2([]);
+    const [errorMessage, setErrorMessage] = d2(null);
+    const [successMessage, setSuccessMessage] = d2(null);
+    const [exportSetName, setExportSetName] = d2("current");
+    const [exportIncludeCurrentName, setExportIncludeCurrentName] = d2(true);
+    const [exportSelectedCollectionIds, setExportSelectedCollectionIds] = d2([]);
+    const [exportStatus, setExportStatus] = d2(null);
+    const [lastExport, setLastExport] = d2(null);
+    const [importFilename, setImportFilename] = d2(null);
+    const [importFile, setImportFile] = d2(null);
+    const [importJsonText, setImportJsonText] = d2("");
+    const [importPreview, setImportPreview] = d2(null);
+    const [importBusy, setImportBusy] = d2(false);
+    const [importStage, setImportStage] = d2("idle");
+    const [importApplyProgress, setImportApplyProgress] = d2(null);
+    const [importResult, setImportResult] = d2(null);
+    y2(() => {
+      const handleMessage = (event) => {
+        var _a;
+        const msg = (_a = event.data) == null ? void 0 : _a.pluginMessage;
+        if (!msg) return;
+        if (msg.type === MAIN_TO_UI.BATCH_RENAME_COLLECTIONS_LIST) {
+          setCollections(msg.collections);
+        }
+        if (msg.type === MAIN_TO_UI.BATCH_RENAME_NAME_SET_READY) {
+          downloadTextFile(msg.payload.filename, msg.payload.jsonText);
+          setExportStatus(`Exported: ${msg.payload.filename}`);
+          setSuccessMessage(`Exported "${msg.payload.filename}"`);
+          setLastExport({ filename: msg.payload.filename, jsonText: msg.payload.jsonText });
+        }
+        if (msg.type === MAIN_TO_UI.BATCH_RENAME_IMPORT_PREVIEW) {
+          setImportPreview(msg.payload);
+          setImportBusy(false);
+          setImportStage("idle");
+          setImportResult(null);
+          setErrorMessage(null);
+          setSuccessMessage(
+            `Import preview ready: rename ${msg.payload.totals.renames}, conflicts ${msg.payload.totals.conflicts}, missing ${msg.payload.totals.missing}`
+          );
+        }
+        if (msg.type === MAIN_TO_UI.BATCH_RENAME_APPLY_PROGRESS) {
+          setImportApplyProgress(msg.progress);
+        }
+        if (msg.type === MAIN_TO_UI.BATCH_RENAME_APPLY_RESULT) {
+          setImportBusy(false);
+          setImportStage("idle");
+          setImportApplyProgress(null);
+          setImportResult(msg.payload);
+          setSuccessMessage(
+            `Applied: renamed ${msg.payload.totals.renamed}, unchanged ${msg.payload.totals.unchanged}, skipped ${msg.payload.totals.skipped}, failed ${msg.payload.totals.failed}`
+          );
+        }
+        if (msg.type === MAIN_TO_UI.ERROR) {
+          setErrorMessage(msg.message);
+          setImportBusy(false);
+          setImportStage("idle");
+        }
+      };
+      window.addEventListener("message", handleMessage);
+      return () => window.removeEventListener("message", handleMessage);
+    }, []);
+    y2(() => {
+      if (!successMessage) return;
+      const t3 = window.setTimeout(() => setSuccessMessage(null), 4500);
+      return () => window.clearTimeout(t3);
+    }, [successMessage]);
+    const exportCollectionsOptions = T2(
+      () => collections.slice().sort((a3, b2) => a3.name.localeCompare(b2.name)),
+      [collections]
+    );
+    const allCollectionIds = T2(
+      () => exportCollectionsOptions.map((c3) => c3.id),
+      [exportCollectionsOptions]
+    );
+    const importRows = T2(() => {
+      var _a;
+      const entries = (_a = importPreview == null ? void 0 : importPreview.entries) != null ? _a : [];
+      const order = (status) => {
+        switch (status) {
+          case "conflict":
+            return 0;
+          case "missing":
+            return 1;
+          case "invalid":
+            return 2;
+          case "out_of_scope":
+            return 3;
+          case "stale":
+            return 4;
+          case "rename":
+            return 5;
+          case "unchanged":
+            return 6;
+          default:
+            return 10;
+        }
+      };
+      return entries.slice().sort(
+        (a3, b2) => {
+          var _a2, _b;
+          return order(a3.status) - order(b2.status) || ((_a2 = a3.currentName) != null ? _a2 : "").localeCompare((_b = b2.currentName) != null ? _b : "");
+        }
+      );
+    }, [importPreview]);
+    const canApplyImportedRenames = importPreview !== null && importPreview.totals.renames > 0 && importPreview.totals.conflicts === 0;
+    const handleExport = () => {
+      setExportStatus(null);
+      setSuccessMessage(null);
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: UI_TO_MAIN.BATCH_RENAME_EXPORT_NAME_SET,
+            request: {
+              setName: exportSetName.trim(),
+              description: "",
+              collectionIds: exportSelectedCollectionIds.length > 0 ? exportSelectedCollectionIds : null,
+              types: [],
+              includeCurrentName: exportIncludeCurrentName
+            }
+          }
+        },
+        "*"
+      );
+    };
+    const handleImportFile = async (files) => {
+      const file = files[0];
+      if (!file) return;
+      setImportBusy(true);
+      setImportStage("preview");
+      setImportApplyProgress(null);
+      setSuccessMessage(null);
+      setImportFilename(file.name);
+      setImportFile(file);
+      const text = await file.text();
+      setImportJsonText(text);
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: UI_TO_MAIN.BATCH_RENAME_PREVIEW_IMPORT,
+            request: { jsonText: text }
+          }
+        },
+        "*"
+      );
+    };
+    const handlePreviewAgain = async () => {
+      const cached = importJsonText.trim();
+      if (!importFile && !cached) return;
+      setImportBusy(true);
+      setImportStage("preview");
+      setImportApplyProgress(null);
+      setSuccessMessage(null);
+      if (importFile) {
+        const text = await importFile.text();
+        setImportJsonText(text);
+        parent.postMessage(
+          {
+            pluginMessage: {
+              type: UI_TO_MAIN.BATCH_RENAME_PREVIEW_IMPORT,
+              request: { jsonText: text }
+            }
+          },
+          "*"
+        );
+        return;
+      }
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: UI_TO_MAIN.BATCH_RENAME_PREVIEW_IMPORT,
+            request: { jsonText: importJsonText }
+          }
+        },
+        "*"
+      );
+    };
+    const handleApplyRenames = () => {
+      if (!importPreview) return;
+      setImportBusy(true);
+      setImportStage("apply");
+      setSuccessMessage(null);
+      const entries = importPreview.entries.filter((e3) => e3.status === "rename" && e3.newName).map((e3) => ({
+        variableId: e3.variableId,
+        expectedOldName: e3.expectedOldName,
+        newName: e3.newName
+      }));
+      setImportApplyProgress({ current: 0, total: entries.length, message: "Starting..." });
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: UI_TO_MAIN.BATCH_RENAME_APPLY_IMPORT,
+            request: { entries }
+          }
+        },
+        "*"
+      );
+    };
+    return /* @__PURE__ */ _(Page, null, /* @__PURE__ */ _(
+      ToolHeader,
+      {
+        title: "Variables Batch Rename",
+        left: /* @__PURE__ */ _(IconButton, { onClick: onBack, title: "Home" }, /* @__PURE__ */ _(IconHome16, null))
+      }
+    ), /* @__PURE__ */ _(Container, { space: "medium" }, /* @__PURE__ */ _(VerticalSpace, { space: "medium" }), errorMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#fff1f2", borderRadius: 4, marginBottom: 12 } }, /* @__PURE__ */ _(Text, { style: { color: "#9f1239" } }, errorMessage))), successMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#ecfdf3", borderRadius: 4, marginBottom: 12 } }, /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, successMessage))), /* @__PURE__ */ _(Stack, { space: "medium" }, /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Export name set (JSON)"), /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "Backup/baseline file. Edit newName values and import back to rename by ID.")), /* @__PURE__ */ _(
+      Textbox,
+      {
+        value: exportSetName,
+        placeholder: "Set name",
+        onValueInput: (value) => setExportSetName(value)
+      }
+    ), /* @__PURE__ */ _(
+      Checkbox,
+      {
+        value: exportIncludeCurrentName,
+        onValueChange: setExportIncludeCurrentName
+      },
+      /* @__PURE__ */ _(Text, null, "Include currentName (for review/editing)")
+    ), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, null, "Collections (optional - if none selected, exports all)"), /* @__PURE__ */ _(Inline, { space: "extraSmall" }, /* @__PURE__ */ _(
+      Button,
+      {
+        secondary: true,
+        disabled: exportCollectionsOptions.length === 0,
+        onClick: () => setExportSelectedCollectionIds(allCollectionIds)
+      },
+      "Select all"
+    ), /* @__PURE__ */ _(Button, { secondary: true, onClick: () => setExportSelectedCollectionIds([]) }, "Clear")), /* @__PURE__ */ _("div", { style: { maxHeight: 120, overflowY: "auto" } }, exportCollectionsOptions.length === 0 ? /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "No collections loaded yet.") : null, exportCollectionsOptions.map((c3) => {
+      const checked = exportSelectedCollectionIds.includes(c3.id);
+      return /* @__PURE__ */ _(
+        Checkbox,
+        {
+          key: c3.id,
+          value: checked,
+          onValueChange: (next) => {
+            setExportSelectedCollectionIds((prev) => {
+              if (next) {
+                return prev.includes(c3.id) ? prev : [...prev, c3.id];
+              }
+              return prev.filter((id) => id !== c3.id);
+            });
+          }
+        },
+        /* @__PURE__ */ _(Text, null, c3.name)
+      );
+    }))), /* @__PURE__ */ _(Inline, { space: "extraSmall" }, /* @__PURE__ */ _(Button, { disabled: !exportSetName.trim(), onClick: handleExport }, "Export name set"), /* @__PURE__ */ _(
+      Button,
+      {
+        secondary: true,
+        disabled: !lastExport,
+        onClick: async () => {
+          if (!lastExport) return;
+          const ok = await copyTextToClipboard(lastExport.jsonText);
+          setSuccessMessage(ok ? `Copied "${lastExport.filename}" JSON` : "Copy failed");
+        }
+      },
+      "Copy last export"
+    )), exportStatus && /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, exportStatus)), /* @__PURE__ */ _(VerticalSpace, { space: "large" }), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(VerticalSpace, { space: "large" }), /* @__PURE__ */ _(Stack, { space: "medium" }, /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Import name set (JSON) \u2192 Preview \u2192 Apply"), /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "Renames are applied by variable ID. If currentName doesn't match, you'll see a warning but it can still apply safely.")), /* @__PURE__ */ _(Inline, { space: "extraSmall" }, /* @__PURE__ */ _(
+      FileUploadButton,
+      {
+        acceptedFileTypes: [".json", "application/json"],
+        onSelectedFiles: handleImportFile
+      },
+      "Choose JSON file\u2026"
+    ), /* @__PURE__ */ _(
+      Button,
+      {
+        secondary: true,
+        disabled: !importFile && !importJsonText.trim() || importBusy,
+        onClick: handlePreviewAgain
+      },
+      "Preview again"
+    )), importBusy && /* @__PURE__ */ _(Inline, { space: "extraSmall" }, /* @__PURE__ */ _(LoadingIndicator, null), /* @__PURE__ */ _(Text, null, importStage === "apply" ? `Applying renames\u2026 ${importApplyProgress ? `${importApplyProgress.current} / ${importApplyProgress.total}` : ""}` : "Building import preview\u2026")), importPreview && /* @__PURE__ */ _(Stack, { space: "small" }, importPreview.meta.description && /* @__PURE__ */ _(Text, null, importPreview.meta.description), importFilename && /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "Loaded file: ", importFilename), /* @__PURE__ */ _(Text, null, "Rows: ", importPreview.totals.considered, " \xB7 rename ", importPreview.totals.renames, " \xB7 unchanged ", importPreview.totals.unchanged, " \xB7 conflicts", " ", importPreview.totals.conflicts, " \xB7 missing ", importPreview.totals.missing, " \xB7 invalid", " ", importPreview.totals.invalid, " \xB7 out_of_scope ", importPreview.totals.outOfScope), /* @__PURE__ */ _(
+      Button,
+      {
+        loading: importBusy,
+        disabled: importBusy || !canApplyImportedRenames,
+        onClick: handleApplyRenames
+      },
+      "Apply renames"
+    ), !canApplyImportedRenames && importPreview.totals.conflicts > 0 && /* @__PURE__ */ _(Text, { style: { color: "#9f1239" } }, "Resolve conflicts in the JSON (duplicate newName) before applying."), importResult && /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, "Renamed: ", importResult.totals.renamed, ", Unchanged: ", importResult.totals.unchanged, ", Skipped: ", importResult.totals.skipped, ", Failed: ", importResult.totals.failed), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(
+      "div",
+      {
+        style: {
+          maxHeight: 320,
+          overflowY: "auto",
+          overflowX: "auto",
+          border: "1px solid #e3e3e3",
+          borderRadius: 6
+        }
+      },
+      /* @__PURE__ */ _("table", { style: { width: "100%", borderCollapse: "collapse", fontSize: 12 } }, /* @__PURE__ */ _("thead", null, /* @__PURE__ */ _("tr", null, /* @__PURE__ */ _(
+        "th",
+        {
+          style: {
+            borderBottom: "1px solid #e3e3e3",
+            textAlign: "left",
+            padding: "6px 8px",
+            position: "sticky",
+            top: 0,
+            background: "#fafafa"
+          }
+        },
+        "Status"
+      ), /* @__PURE__ */ _(
+        "th",
+        {
+          style: {
+            borderBottom: "1px solid #e3e3e3",
+            textAlign: "left",
+            padding: "6px 8px",
+            position: "sticky",
+            top: 0,
+            background: "#fafafa"
+          }
+        },
+        "Current"
+      ), /* @__PURE__ */ _(
+        "th",
+        {
+          style: {
+            borderBottom: "1px solid #e3e3e3",
+            textAlign: "left",
+            padding: "6px 8px",
+            position: "sticky",
+            top: 0,
+            background: "#fafafa"
+          }
+        },
+        "New"
+      ), /* @__PURE__ */ _(
+        "th",
+        {
+          style: {
+            borderBottom: "1px solid #e3e3e3",
+            textAlign: "left",
+            padding: "6px 8px",
+            position: "sticky",
+            top: 0,
+            background: "#fafafa"
+          }
+        },
+        "Note"
+      ))), /* @__PURE__ */ _("tbody", null, importRows.map((entry) => {
+        var _a, _b, _c, _d;
+        const pillStyle = getStatusPillStyle(entry.status);
+        const { beforeNode, afterNode } = renderNameDiff(
+          (_a = entry.currentName) != null ? _a : "",
+          (_b = entry.newName) != null ? _b : ""
+        );
+        return /* @__PURE__ */ _("tr", { key: entry.variableId }, /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top" } }, /* @__PURE__ */ _(
+          "span",
+          {
+            style: {
+              display: "inline-block",
+              padding: "2px 6px",
+              borderRadius: 4,
+              fontSize: 10,
+              fontWeight: 600,
+              background: pillStyle.background,
+              border: `1px solid ${pillStyle.borderColor}`,
+              color: pillStyle.color
+            }
+          },
+          entry.status
+        )), /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top" } }, entry.status === "rename" ? beforeNode : (_c = entry.currentName) != null ? _c : "\u2014"), /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top" } }, entry.status === "rename" ? afterNode : (_d = entry.newName) != null ? _d : "\u2014"), /* @__PURE__ */ _(
+          "td",
+          {
+            style: {
+              padding: "4px 8px",
+              verticalAlign: "top",
+              color: "#666"
+            }
+          },
+          entry.reason || entry.warning || ""
+        ));
+      })))
+    ))), /* @__PURE__ */ _(VerticalSpace, { space: "large" })));
+  }
+  var init_VariablesBatchRenameToolView = __esm({
+    "src/app/views/variables-batch-rename-tool/VariablesBatchRenameToolView.tsx"() {
+      "use strict";
+      init_lib2();
+      init_preact_module();
+      init_hooks_module();
+      init_messages();
+      init_Page();
+      init_ToolHeader();
+    }
+  });
+
+  // src/app/views/variables-export-import-tool/VariablesExportImportToolView.tsx
+  function downloadTextFile2(filename, text) {
+    const blob = new Blob([text], { type: "application/json;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a3 = document.createElement("a");
+    a3.href = url;
+    a3.download = filename;
+    document.body.appendChild(a3);
+    a3.click();
+    a3.remove();
+    URL.revokeObjectURL(url);
+  }
+  function getStatusPillStyle2(status) {
+    if (status === "conflict" || status === "missing_collection" || status === "invalid") {
+      return { background: "#fff1f2", borderColor: "#fecdd3", color: "#9f1239" };
+    }
+    if (status === "create" || status === "update" || status === "rename") {
+      return { background: "#ecfdf3", borderColor: "#b7f0c9", color: "#067647" };
+    }
+    return { background: "#fff7ed", borderColor: "#fed7aa", color: "#9a3412" };
+  }
+  function VariablesExportImportToolView({ onBack }) {
+    const [collections, setCollections] = d2([]);
+    const [errorMessage, setErrorMessage] = d2(null);
+    const [successMessage, setSuccessMessage] = d2(null);
+    const [exportSelectedCollectionIds, setExportSelectedCollectionIds] = d2([]);
+    const [snapshotFiles, setSnapshotFiles] = d2([]);
+    const [snapshotStatus, setSnapshotStatus] = d2(null);
+    const [exportBusy, setExportBusy] = d2(false);
+    const [importFilename, setImportFilename] = d2(null);
+    const [importFile, setImportFile] = d2(null);
+    const [importJsonText, setImportJsonText] = d2("");
+    const [importPreview, setImportPreview] = d2(null);
+    const [importBusy, setImportBusy] = d2(false);
+    const [importResult, setImportResult] = d2(null);
+    y2(() => {
+      const handleMessage = (event) => {
+        var _a;
+        const msg = (_a = event.data) == null ? void 0 : _a.pluginMessage;
+        if (!msg) return;
+        if (msg.type === MAIN_TO_UI.EXPORT_IMPORT_COLLECTIONS_LIST) {
+          setCollections(msg.collections);
+        }
+        if (msg.type === MAIN_TO_UI.EXPORT_IMPORT_SNAPSHOT_READY) {
+          const files = Array.isArray(msg.payload.files) ? msg.payload.files : [];
+          setSnapshotFiles(files);
+          setExportBusy(false);
+          if (files.length === 0) {
+            setSnapshotStatus("No collections to export.");
+            setSuccessMessage("Snapshot export: nothing to export");
+            return;
+          }
+          if (files.length === 1) {
+            downloadTextFile2(files[0].filename, files[0].jsonText);
+            setSnapshotStatus(`Exported: ${files[0].filename}`);
+            setSuccessMessage(`Snapshot exported "${files[0].filename}"`);
+            return;
+          }
+          setSnapshotStatus(
+            `Snapshot ready: ${files.length} file(s). Use Download buttons below.`
+          );
+          setSuccessMessage(`Snapshot ready (${files.length} files)`);
+        }
+        if (msg.type === MAIN_TO_UI.EXPORT_IMPORT_PREVIEW) {
+          setImportPreview(msg.payload);
+          setImportBusy(false);
+          setImportResult(null);
+          setErrorMessage(null);
+          setSuccessMessage(
+            `Snapshot preview: create ${msg.payload.totals.create}, update ${msg.payload.totals.update}, rename ${msg.payload.totals.rename}, conflicts ${msg.payload.totals.conflicts}`
+          );
+        }
+        if (msg.type === MAIN_TO_UI.EXPORT_IMPORT_APPLY_RESULT) {
+          setImportBusy(false);
+          setImportResult(msg.payload);
+          setSuccessMessage(
+            `Snapshot imported: created ${msg.payload.totals.created}, updated ${msg.payload.totals.updated}, renamed ${msg.payload.totals.renamed}, failed ${msg.payload.totals.failed}`
+          );
+        }
+        if (msg.type === MAIN_TO_UI.ERROR) {
+          setErrorMessage(msg.message);
+          setExportBusy(false);
+          setImportBusy(false);
+        }
+      };
+      window.addEventListener("message", handleMessage);
+      return () => window.removeEventListener("message", handleMessage);
+    }, []);
+    y2(() => {
+      if (!successMessage) return;
+      const t3 = window.setTimeout(() => setSuccessMessage(null), 4500);
+      return () => window.clearTimeout(t3);
+    }, [successMessage]);
+    const exportCollectionsOptions = T2(
+      () => collections.slice().sort((a3, b2) => a3.name.localeCompare(b2.name)),
+      [collections]
+    );
+    const allCollectionIds = T2(
+      () => exportCollectionsOptions.map((c3) => c3.id),
+      [exportCollectionsOptions]
+    );
+    const importRows = T2(() => {
+      var _a;
+      const entries = (_a = importPreview == null ? void 0 : importPreview.entries) != null ? _a : [];
+      const order = (status) => {
+        switch (status) {
+          case "conflict":
+            return 0;
+          case "missing_collection":
+            return 1;
+          case "invalid":
+            return 2;
+          case "create":
+            return 3;
+          case "rename":
+            return 4;
+          case "update":
+            return 5;
+          default:
+            return 10;
+        }
+      };
+      return entries.slice().sort(
+        (a3, b2) => order(a3.status) - order(b2.status) || a3.collectionName.localeCompare(b2.collectionName) || a3.variableName.localeCompare(b2.variableName)
+      );
+    }, [importPreview]);
+    const canApplyImport = importPreview !== null && (importPreview.totals.create > 0 || importPreview.totals.update > 0 || importPreview.totals.rename > 0) && importPreview.totals.conflicts === 0;
+    const handleExport = () => {
+      setSnapshotStatus(null);
+      setSuccessMessage(null);
+      setSnapshotFiles([]);
+      setExportBusy(true);
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: UI_TO_MAIN.EXPORT_IMPORT_EXPORT_SNAPSHOT,
+            request: {
+              collectionIds: exportSelectedCollectionIds.length > 0 ? exportSelectedCollectionIds : null
+            }
+          }
+        },
+        "*"
+      );
+    };
+    const handleImportFile = async (files) => {
+      const file = files[0];
+      if (!file) return;
+      setImportBusy(true);
+      setSuccessMessage(null);
+      setImportFilename(file.name);
+      setImportFile(file);
+      const text = await file.text();
+      setImportJsonText(text);
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: UI_TO_MAIN.EXPORT_IMPORT_PREVIEW_SNAPSHOT,
+            request: { jsonText: text }
+          }
+        },
+        "*"
+      );
+    };
+    const handlePreviewAgain = async () => {
+      const cached = importJsonText.trim();
+      if (!importFile && !cached) return;
+      setImportBusy(true);
+      setSuccessMessage(null);
+      if (importFile) {
+        const text = await importFile.text();
+        setImportJsonText(text);
+        parent.postMessage(
+          {
+            pluginMessage: {
+              type: UI_TO_MAIN.EXPORT_IMPORT_PREVIEW_SNAPSHOT,
+              request: { jsonText: text }
+            }
+          },
+          "*"
+        );
+        return;
+      }
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: UI_TO_MAIN.EXPORT_IMPORT_PREVIEW_SNAPSHOT,
+            request: { jsonText: importJsonText }
+          }
+        },
+        "*"
+      );
+    };
+    const handleApplyImport = () => {
+      if (!importJsonText.trim()) return;
+      setImportBusy(true);
+      setSuccessMessage(null);
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: UI_TO_MAIN.EXPORT_IMPORT_APPLY_SNAPSHOT,
+            request: { jsonText: importJsonText }
+          }
+        },
+        "*"
+      );
+    };
+    return /* @__PURE__ */ _(Page, null, /* @__PURE__ */ _(
+      ToolHeader,
+      {
+        title: "Variables Export/Import",
+        left: /* @__PURE__ */ _(IconButton, { onClick: onBack, title: "Home" }, /* @__PURE__ */ _(IconHome16, null))
+      }
+    ), /* @__PURE__ */ _(Container, { space: "medium" }, /* @__PURE__ */ _(VerticalSpace, { space: "medium" }), errorMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#fff1f2", borderRadius: 4, marginBottom: 12 } }, /* @__PURE__ */ _(Text, { style: { color: "#9f1239" } }, errorMessage))), successMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#ecfdf3", borderRadius: 4, marginBottom: 12 } }, /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, successMessage))), /* @__PURE__ */ _(Stack, { space: "medium" }, /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Export Variables Snapshot"), /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "Export variables as JSON files. Each collection is exported as a separate file.")), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, null, "Collections (optional - if none selected, exports all)"), /* @__PURE__ */ _(Inline, { space: "extraSmall" }, /* @__PURE__ */ _(
+      Button,
+      {
+        secondary: true,
+        disabled: exportCollectionsOptions.length === 0 || exportBusy,
+        onClick: () => setExportSelectedCollectionIds(allCollectionIds)
+      },
+      "Select all"
+    ), /* @__PURE__ */ _(
+      Button,
+      {
+        secondary: true,
+        disabled: exportBusy,
+        onClick: () => setExportSelectedCollectionIds([])
+      },
+      "Clear"
+    )), /* @__PURE__ */ _("div", { style: { maxHeight: 120, overflowY: "auto" } }, exportCollectionsOptions.length === 0 ? /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "No collections loaded yet.") : null, exportCollectionsOptions.map((c3) => {
+      const checked = exportSelectedCollectionIds.includes(c3.id);
+      return /* @__PURE__ */ _(
+        Checkbox,
+        {
+          key: c3.id,
+          value: checked,
+          onValueChange: (next) => {
+            setExportSelectedCollectionIds((prev) => {
+              if (next) {
+                return prev.includes(c3.id) ? prev : [...prev, c3.id];
+              }
+              return prev.filter((id) => id !== c3.id);
+            });
+          }
+        },
+        /* @__PURE__ */ _(Text, null, c3.name, " (", c3.variableCount, " vars, ", c3.modeCount, " modes)")
+      );
+    }))), /* @__PURE__ */ _(Button, { onClick: handleExport, disabled: exportBusy }, exportBusy ? "Exporting..." : "Export Snapshot"), exportBusy && /* @__PURE__ */ _(Inline, { space: "extraSmall" }, /* @__PURE__ */ _(LoadingIndicator, null), /* @__PURE__ */ _(Text, null, "Generating snapshot files...")), snapshotStatus && /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, snapshotStatus), snapshotFiles.length > 1 && /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, null, "Download individual files:"), /* @__PURE__ */ _("div", { style: { maxHeight: 100, overflowY: "auto" } }, snapshotFiles.map((f3, i3) => /* @__PURE__ */ _("div", { key: i3, style: { marginBottom: 4 } }, /* @__PURE__ */ _(
+      Button,
+      {
+        secondary: true,
+        onClick: () => downloadTextFile2(f3.filename, f3.jsonText)
+      },
+      f3.filename
+    )))))), /* @__PURE__ */ _(VerticalSpace, { space: "large" }), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(VerticalSpace, { space: "large" }), /* @__PURE__ */ _(Stack, { space: "medium" }, /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Import Variables Snapshot"), /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "Import a snapshot JSON file. Variables will be created, updated, or renamed based on the snapshot content.")), /* @__PURE__ */ _(Inline, { space: "extraSmall" }, /* @__PURE__ */ _(
+      FileUploadButton,
+      {
+        acceptedFileTypes: [".json", "application/json"],
+        onSelectedFiles: handleImportFile
+      },
+      "Choose JSON file\u2026"
+    ), /* @__PURE__ */ _(
+      Button,
+      {
+        secondary: true,
+        disabled: !importFile && !importJsonText.trim() || importBusy,
+        onClick: handlePreviewAgain
+      },
+      "Preview again"
+    )), importBusy && /* @__PURE__ */ _(Inline, { space: "extraSmall" }, /* @__PURE__ */ _(LoadingIndicator, null), /* @__PURE__ */ _(Text, null, "Processing import...")), importPreview && /* @__PURE__ */ _(Stack, { space: "small" }, importFilename && /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "Loaded file: ", importFilename), /* @__PURE__ */ _(Text, null, "Rows: ", importPreview.totals.considered, " \xB7 create ", importPreview.totals.create, " \xB7 update ", importPreview.totals.update, " \xB7 rename ", importPreview.totals.rename, " \xB7 conflicts ", importPreview.totals.conflicts, " \xB7 missing collections", " ", importPreview.totals.missingCollections, " \xB7 invalid ", importPreview.totals.invalid), /* @__PURE__ */ _(
+      Button,
+      {
+        loading: importBusy,
+        disabled: importBusy || !canApplyImport,
+        onClick: handleApplyImport
+      },
+      "Apply Import"
+    ), !canApplyImport && importPreview.totals.conflicts > 0 && /* @__PURE__ */ _(Text, { style: { color: "#9f1239" } }, "Resolve conflicts before applying."), importResult && /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, "Created: ", importResult.totals.created, ", Updated: ", importResult.totals.updated, ", Renamed: ", importResult.totals.renamed, ", Skipped: ", importResult.totals.skipped, ", Failed: ", importResult.totals.failed), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(
+      "div",
+      {
+        style: {
+          maxHeight: 280,
+          overflowY: "auto",
+          overflowX: "auto",
+          border: "1px solid #e3e3e3",
+          borderRadius: 6
+        }
+      },
+      /* @__PURE__ */ _("table", { style: { width: "100%", borderCollapse: "collapse", fontSize: 12 } }, /* @__PURE__ */ _("thead", null, /* @__PURE__ */ _("tr", null, /* @__PURE__ */ _(
+        "th",
+        {
+          style: {
+            borderBottom: "1px solid #e3e3e3",
+            textAlign: "left",
+            padding: "6px 8px",
+            position: "sticky",
+            top: 0,
+            background: "#fafafa"
+          }
+        },
+        "Status"
+      ), /* @__PURE__ */ _(
+        "th",
+        {
+          style: {
+            borderBottom: "1px solid #e3e3e3",
+            textAlign: "left",
+            padding: "6px 8px",
+            position: "sticky",
+            top: 0,
+            background: "#fafafa"
+          }
+        },
+        "Collection"
+      ), /* @__PURE__ */ _(
+        "th",
+        {
+          style: {
+            borderBottom: "1px solid #e3e3e3",
+            textAlign: "left",
+            padding: "6px 8px",
+            position: "sticky",
+            top: 0,
+            background: "#fafafa"
+          }
+        },
+        "Variable"
+      ), /* @__PURE__ */ _(
+        "th",
+        {
+          style: {
+            borderBottom: "1px solid #e3e3e3",
+            textAlign: "left",
+            padding: "6px 8px",
+            position: "sticky",
+            top: 0,
+            background: "#fafafa"
+          }
+        },
+        "Note"
+      ))), /* @__PURE__ */ _("tbody", null, importRows.map((entry, i3) => {
+        const pillStyle = getStatusPillStyle2(entry.status);
+        return /* @__PURE__ */ _("tr", { key: i3 }, /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top" } }, /* @__PURE__ */ _(
+          "span",
+          {
+            style: {
+              display: "inline-block",
+              padding: "2px 6px",
+              borderRadius: 4,
+              fontSize: 10,
+              fontWeight: 600,
+              background: pillStyle.background,
+              border: `1px solid ${pillStyle.borderColor}`,
+              color: pillStyle.color
+            }
+          },
+          entry.status
+        )), /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top" } }, entry.collectionName), /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top" } }, entry.variableName), /* @__PURE__ */ _(
+          "td",
+          {
+            style: {
+              padding: "4px 8px",
+              verticalAlign: "top",
+              color: "#666"
+            }
+          },
+          entry.reason || ""
+        ));
+      })))
+    ))), /* @__PURE__ */ _(VerticalSpace, { space: "large" })));
+  }
+  var init_VariablesExportImportToolView = __esm({
+    "src/app/views/variables-export-import-tool/VariablesExportImportToolView.tsx"() {
+      "use strict";
+      init_lib2();
+      init_preact_module();
+      init_hooks_module();
+      init_messages();
+      init_Page();
+      init_ToolHeader();
+    }
+  });
+
+  // src/app/views/variables-create-linked-colors-tool/VariablesCreateLinkedColorsToolView.tsx
+  function computeNameForGroupRestriction(currentName, groupFilterValue) {
+    const raw = String(currentName || "").trim();
+    if (!raw) return "";
+    const targetGroup = String(groupFilterValue || "").trim();
+    if (!targetGroup) return raw;
+    const parts = raw.split("/").map((p3) => p3.trim()).filter(Boolean);
+    if (!parts.length) return "";
+    const oldGroup = parts.length >= 2 ? parts[0] : "";
+    const lastIndex = parts.length - 1;
+    const last = parts[lastIndex] || "";
+    let nextLast = last;
+    if (oldGroup && last.startsWith(oldGroup + "-")) {
+      if (targetGroup === "Ungrouped") {
+        nextLast = last.slice((oldGroup + "-").length);
+      } else {
+        nextLast = `${targetGroup}-${last.slice((oldGroup + "-").length)}`;
+      }
+    }
+    if (targetGroup === "Ungrouped") {
+      const rest = parts.length >= 2 ? parts.slice(1) : parts;
+      const adjustedLastIndex = lastIndex - (parts.length >= 2 ? 1 : 0);
+      rest[adjustedLastIndex] = nextLast;
+      return rest.join("/");
+    }
+    if (parts.length >= 2) {
+      parts[0] = targetGroup;
+      parts[lastIndex] = nextLast;
+      return parts.join("/");
+    }
+    return nextLast;
+  }
+  function VariablesCreateLinkedColorsToolView({ onBack }) {
+    const [collections, setCollections] = d2([]);
+    const [selection, setSelection] = d2(null);
+    const [errorMessage, setErrorMessage] = d2(null);
+    const [successMessage, setSuccessMessage] = d2(null);
+    const [isWorking, setIsWorking] = d2(false);
+    const [selectedVariableId, setSelectedVariableId] = d2(null);
+    const [restrictGroup, setRestrictGroup] = d2(null);
+    const [createName, setCreateName] = d2("");
+    const [createNameTouched, setCreateNameTouched] = d2(false);
+    const [applyTargetVariableId, setApplyTargetVariableId] = d2(null);
+    const [replaceSearch, setReplaceSearch] = d2("");
+    y2(() => {
+      const handleMessage = (event) => {
+        var _a;
+        const msg = (_a = event.data) == null ? void 0 : _a.pluginMessage;
+        if (!msg) return;
+        if (msg.type === MAIN_TO_UI.LINKED_COLORS_COLLECTIONS_LIST) {
+          setCollections(msg.collections);
+        }
+        if (msg.type === MAIN_TO_UI.LINKED_COLORS_SELECTION) {
+          setSelection(msg.payload);
+          setErrorMessage(null);
+          setSelectedVariableId((prev) => {
+            if (!msg.payload.variables.length) return null;
+            if (prev && msg.payload.variables.some((v3) => v3.id === prev)) return prev;
+            return msg.payload.variables[0].id;
+          });
+        }
+        if (msg.type === MAIN_TO_UI.LINKED_COLORS_CREATE_SUCCESS) {
+          setIsWorking(false);
+          if (msg.result.success) {
+            setSuccessMessage(msg.result.message);
+            setCreateName("");
+            setCreateNameTouched(false);
+          } else {
+            setErrorMessage(msg.result.message);
+          }
+        }
+        if (msg.type === MAIN_TO_UI.LINKED_COLORS_APPLY_SUCCESS) {
+          setIsWorking(false);
+          if (msg.result.success) {
+            setSuccessMessage(msg.result.message);
+            setApplyTargetVariableId(null);
+          } else {
+            setErrorMessage(msg.result.message);
+          }
+        }
+        if (msg.type === MAIN_TO_UI.LINKED_COLORS_RENAME_SUCCESS) {
+          setIsWorking(false);
+          if (msg.result.success) {
+            setSuccessMessage(msg.result.message);
+          } else {
+            setErrorMessage(msg.result.message);
+          }
+        }
+        if (msg.type === MAIN_TO_UI.ERROR) {
+          setErrorMessage(msg.message);
+          setIsWorking(false);
+        }
+      };
+      window.addEventListener("message", handleMessage);
+      return () => window.removeEventListener("message", handleMessage);
+    }, []);
+    y2(() => {
+      if (!successMessage) return;
+      const t3 = window.setTimeout(() => setSuccessMessage(null), 4500);
+      return () => window.clearTimeout(t3);
+    }, [successMessage]);
+    const selectedUsage = T2(() => {
+      var _a;
+      if (!selection || !selectedVariableId) return null;
+      return (_a = selection.variables.find((v3) => v3.id === selectedVariableId)) != null ? _a : null;
+    }, [selection, selectedVariableId]);
+    const variableOptions = T2(() => {
+      if (!selectedUsage) return [];
+      const opts = selectedUsage.options.slice();
+      if (restrictGroup && restrictGroup !== "All") {
+        return opts.filter((v3) => v3.name.startsWith(restrictGroup + "/") || v3.name === restrictGroup).sort((a3, b2) => a3.name.localeCompare(b2.name)).map((v3) => ({ value: v3.id, text: `${v3.collectionName} \u2014 ${v3.name}` }));
+      }
+      return opts.sort((a3, b2) => a3.name.localeCompare(b2.name)).map((v3) => ({ value: v3.id, text: `${v3.collectionName} \u2014 ${v3.name}` }));
+    }, [selectedUsage, restrictGroup]);
+    const filteredOptions = T2(() => {
+      if (!replaceSearch.trim()) return variableOptions;
+      const search = replaceSearch.toLowerCase();
+      return variableOptions.filter((opt) => opt.text.toLowerCase().includes(search));
+    }, [variableOptions, replaceSearch]);
+    const variableGroups = T2(() => {
+      if (!selectedUsage) return [];
+      return [
+        { value: "All", text: "All groups" },
+        ...selectedUsage.groups.map((g4) => ({ value: g4 || "Ungrouped", text: g4 || "Ungrouped" }))
+      ];
+    }, [selectedUsage]);
+    const selectedVariableOptions = T2(() => {
+      var _a;
+      const vars = (_a = selection == null ? void 0 : selection.variables) != null ? _a : [];
+      return vars.map((v3) => ({ value: v3.id, text: `${v3.collectionName} \u2014 ${v3.name}` }));
+    }, [selection]);
+    y2(() => {
+      if (!selectedUsage) {
+        setRestrictGroup(null);
+        setApplyTargetVariableId(null);
+        setCreateNameTouched(false);
+        setCreateName("");
+        return;
+      }
+      if (!createNameTouched) {
+        const suggested = restrictGroup && restrictGroup !== "All" ? computeNameForGroupRestriction(selectedUsage.name, restrictGroup) : selectedUsage.name;
+        setCreateName(suggested);
+      }
+    }, [selectedUsage, restrictGroup, createNameTouched]);
+    y2(() => {
+      setApplyTargetVariableId(null);
+      setReplaceSearch("");
+    }, [selectedVariableId]);
+    const handleCreateLinkedVariable = () => {
+      if (!selectedVariableId || !createName.trim()) return;
+      setIsWorking(true);
+      setSuccessMessage(null);
+      setErrorMessage(null);
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: UI_TO_MAIN.LINKED_COLORS_CREATE,
+            request: {
+              variableId: selectedVariableId,
+              targetVariableId: createName.trim()
+              // This is actually the new name
+            }
+          }
+        },
+        "*"
+      );
+    };
+    const handleApplyExisting = () => {
+      if (!selectedVariableId || !applyTargetVariableId) return;
+      setIsWorking(true);
+      setSuccessMessage(null);
+      setErrorMessage(null);
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: UI_TO_MAIN.LINKED_COLORS_APPLY_EXISTING,
+            request: {
+              variableId: selectedVariableId,
+              targetVariableId: applyTargetVariableId
+            }
+          }
+        },
+        "*"
+      );
+    };
+    const handleRename = (newName) => {
+      if (!selectedVariableId || !newName.trim()) return;
+      setIsWorking(true);
+      setSuccessMessage(null);
+      setErrorMessage(null);
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: UI_TO_MAIN.LINKED_COLORS_RENAME,
+            request: {
+              variableId: selectedVariableId,
+              newName: newName.trim()
+            }
+          }
+        },
+        "*"
+      );
+    };
+    return /* @__PURE__ */ _(Page, null, /* @__PURE__ */ _(
+      ToolHeader,
+      {
+        title: "Create Linked Colors",
+        left: /* @__PURE__ */ _(IconButton, { onClick: onBack, title: "Home" }, /* @__PURE__ */ _(IconHome16, null))
+      }
+    ), /* @__PURE__ */ _(Container, { space: "medium" }, /* @__PURE__ */ _(VerticalSpace, { space: "medium" }), errorMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#fff1f2", borderRadius: 4, marginBottom: 12 } }, /* @__PURE__ */ _(Text, { style: { color: "#9f1239" } }, errorMessage))), successMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#ecfdf3", borderRadius: 4, marginBottom: 12 } }, /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, successMessage))), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Selection"), selection ? selection.selectionSize === 0 ? /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "Select layers with color variables to manage them.") : /* @__PURE__ */ _(Text, null, selection.selectionSize, " nodes, ", selection.variables.length, " color variables") : /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "Loading...")), selection && selection.variables.length > 0 && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(VerticalSpace, { space: "medium" }), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Select Variable to Manage"), /* @__PURE__ */ _(
+      Dropdown,
+      {
+        options: selectedVariableOptions,
+        value: selectedVariableId,
+        onChange: (e3) => setSelectedVariableId(e3.currentTarget.value || null),
+        disabled: isWorking
+      }
+    )), selectedUsage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(VerticalSpace, { space: "medium" }), /* @__PURE__ */ _(
+      "div",
+      {
+        style: {
+          padding: 8,
+          background: "var(--figma-color-bg-secondary)",
+          borderRadius: 4
+        }
+      },
+      /* @__PURE__ */ _(Text, { style: { fontSize: 11 } }, /* @__PURE__ */ _("strong", null, selectedUsage.name), /* @__PURE__ */ _("br", null), "Collection: ", selectedUsage.collectionName, /* @__PURE__ */ _("br", null), "Used in: ", selectedUsage.nodes.length, " nodes", /* @__PURE__ */ _("br", null), "Properties: ", selectedUsage.properties.join(", "))
+    ), /* @__PURE__ */ _(VerticalSpace, { space: "large" }), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(VerticalSpace, { space: "medium" }), selectedUsage.groups.length > 0 && /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Filter by Group"), /* @__PURE__ */ _(
+      Dropdown,
+      {
+        options: variableGroups,
+        value: restrictGroup != null ? restrictGroup : "All",
+        onChange: (e3) => setRestrictGroup(e3.currentTarget.value || null),
+        disabled: isWorking
+      }
+    )), /* @__PURE__ */ _(VerticalSpace, { space: "medium" }), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Replace with Existing Variable"), /* @__PURE__ */ _(Text, { style: { fontSize: 11, color: "var(--figma-color-text-secondary)" } }, "Select a variable to replace the current binding in selected layers."), /* @__PURE__ */ _(
+      Textbox,
+      {
+        placeholder: "Search variables...",
+        value: replaceSearch,
+        onValueInput: setReplaceSearch,
+        disabled: isWorking
+      }
+    ), /* @__PURE__ */ _("div", { style: { maxHeight: 150, overflowY: "auto" } }, filteredOptions.length === 0 ? /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)", padding: 8 } }, "No matching variables found") : filteredOptions.slice(0, 50).map((opt) => /* @__PURE__ */ _(
+      "div",
+      {
+        key: opt.value,
+        onClick: () => !isWorking && setApplyTargetVariableId(opt.value),
+        style: {
+          padding: "6px 8px",
+          cursor: isWorking ? "default" : "pointer",
+          background: applyTargetVariableId === opt.value ? "var(--figma-color-bg-brand)" : "transparent",
+          color: applyTargetVariableId === opt.value ? "var(--figma-color-text-onbrand)" : "inherit",
+          borderRadius: 4,
+          fontSize: 12
+        }
+      },
+      opt.text
+    ))), /* @__PURE__ */ _(
+      Button,
+      {
+        onClick: handleApplyExisting,
+        disabled: !applyTargetVariableId || isWorking
+      },
+      "Apply Selected Variable"
+    )), /* @__PURE__ */ _(VerticalSpace, { space: "large" }), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(VerticalSpace, { space: "medium" }), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Create Linked Variable (Alias)"), /* @__PURE__ */ _(Text, { style: { fontSize: 11, color: "var(--figma-color-text-secondary)" } }, "Create a new variable that aliases the selected variable, and rebind layers to use the new variable."), /* @__PURE__ */ _(
+      Textbox,
+      {
+        placeholder: "New variable name",
+        value: createName,
+        onValueInput: (v3) => {
+          setCreateName(v3);
+          setCreateNameTouched(true);
+        },
+        disabled: isWorking
+      }
+    ), /* @__PURE__ */ _(Button, { onClick: handleCreateLinkedVariable, disabled: !createName.trim() || isWorking }, "Create & Apply")), /* @__PURE__ */ _(VerticalSpace, { space: "large" }), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(VerticalSpace, { space: "medium" }), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Rename Variable"), /* @__PURE__ */ _(Text, { style: { fontSize: 11, color: "var(--figma-color-text-secondary)" } }, "Rename the selected variable. Current name: ", selectedUsage.name), /* @__PURE__ */ _(
+      Textbox,
+      {
+        placeholder: "New name",
+        value: createName,
+        onValueInput: (v3) => {
+          setCreateName(v3);
+          setCreateNameTouched(true);
+        },
+        disabled: isWorking
+      }
+    ), /* @__PURE__ */ _(
+      Button,
+      {
+        onClick: () => handleRename(createName),
+        disabled: !createName.trim() || createName === selectedUsage.name || isWorking,
+        secondary: true
+      },
+      "Rename Variable"
+    )))), /* @__PURE__ */ _(VerticalSpace, { space: "large" })));
+  }
+  var init_VariablesCreateLinkedColorsToolView = __esm({
+    "src/app/views/variables-create-linked-colors-tool/VariablesCreateLinkedColorsToolView.tsx"() {
+      "use strict";
+      init_lib2();
+      init_preact_module();
+      init_hooks_module();
+      init_messages();
+      init_Page();
+      init_ToolHeader();
+    }
+  });
+
+  // src/app/views/variables-replace-usages-tool/VariablesReplaceUsagesToolView.tsx
+  function getStatusPillStyle3(status) {
+    if (status === "ok") {
+      return { background: "#ecfdf3", borderColor: "#b7f0c9", color: "#067647" };
+    }
+    return { background: "#fff1f2", borderColor: "#fecdd3", color: "#9f1239" };
+  }
+  function VariablesReplaceUsagesToolView({ onBack }) {
+    const [errorMessage, setErrorMessage] = d2(null);
+    const [successMessage, setSuccessMessage] = d2(null);
+    const [scope, setScope] = d2("selection");
+    const [renamePrints, setRenamePrints] = d2(false);
+    const [includeHidden, setIncludeHidden] = d2(false);
+    const [mappingFilename, setMappingFilename] = d2(null);
+    const [mappingFile, setMappingFile] = d2(null);
+    const [mappingJsonText, setMappingJsonText] = d2("");
+    const [preview, setPreview] = d2(null);
+    const [isBusy, setIsBusy] = d2(false);
+    const [stage, setStage] = d2("idle");
+    const [applyProgress, setApplyProgress] = d2(null);
+    const [applyResult, setApplyResult] = d2(null);
+    y2(() => {
+      const handleMessage = (event) => {
+        var _a;
+        const msg = (_a = event.data) == null ? void 0 : _a.pluginMessage;
+        if (!msg) return;
+        if (msg.type === MAIN_TO_UI.REPLACE_USAGES_PREVIEW) {
+          setPreview(msg.payload);
+          setIsBusy(false);
+          setStage("idle");
+          setApplyResult(null);
+          setErrorMessage(null);
+          const t3 = msg.payload.totals;
+          setSuccessMessage(
+            `Preview ready: ${t3.mappings} valid mappings, ${t3.bindingsWithChanges} bindings to change in ${t3.nodesWithChanges} nodes`
+          );
+        }
+        if (msg.type === MAIN_TO_UI.REPLACE_USAGES_APPLY_PROGRESS) {
+          setApplyProgress(msg.progress);
+        }
+        if (msg.type === MAIN_TO_UI.REPLACE_USAGES_APPLY_RESULT) {
+          setIsBusy(false);
+          setStage("idle");
+          setApplyProgress(null);
+          setApplyResult(msg.payload);
+          const t3 = msg.payload.totals;
+          setSuccessMessage(
+            `Applied: ${t3.bindingsChanged} bindings changed in ${t3.nodesChanged} nodes, ${t3.printsRenamed} prints renamed`
+          );
+        }
+        if (msg.type === MAIN_TO_UI.ERROR) {
+          setErrorMessage(msg.message);
+          setIsBusy(false);
+          setStage("idle");
+        }
+      };
+      window.addEventListener("message", handleMessage);
+      return () => window.removeEventListener("message", handleMessage);
+    }, []);
+    y2(() => {
+      if (!successMessage) return;
+      const t3 = window.setTimeout(() => setSuccessMessage(null), 5e3);
+      return () => window.clearTimeout(t3);
+    }, [successMessage]);
+    const sortedMappings = T2(() => {
+      if (!preview) return [];
+      return preview.mappings.slice().sort((a3, b2) => b2.bindingsTotal - a3.bindingsTotal || a3.sourceName.localeCompare(b2.sourceName));
+    }, [preview]);
+    const sortedInvalidRows = T2(() => {
+      if (!preview) return [];
+      return preview.invalidMappingRows.slice().filter((r3) => r3.status !== "ok").sort((a3, b2) => a3.from.localeCompare(b2.from));
+    }, [preview]);
+    const canApply = preview !== null && preview.totals.mappings > 0 && preview.totals.bindingsWithChanges > 0;
+    const handleLoadMappingFile = async (files) => {
+      const file = files[0];
+      if (!file) return;
+      setMappingFilename(file.name);
+      setMappingFile(file);
+      const text = await file.text();
+      setMappingJsonText(text);
+      setPreview(null);
+      setApplyResult(null);
+      setSuccessMessage(`Loaded mapping file: ${file.name}`);
+    };
+    const handlePreview = async () => {
+      const json = mappingFile ? await mappingFile.text() : mappingJsonText.trim();
+      if (!json) {
+        setErrorMessage("Please load a mapping JSON file first.");
+        return;
+      }
+      setIsBusy(true);
+      setStage("preview");
+      setSuccessMessage(null);
+      setMappingJsonText(json);
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: UI_TO_MAIN.REPLACE_USAGES_PREVIEW,
+            request: {
+              scope,
+              renamePrints,
+              includeHidden,
+              mappingJsonText: json
+            }
+          }
+        },
+        "*"
+      );
+    };
+    const handleApply = () => {
+      var _a;
+      if (!canApply || !mappingJsonText.trim()) return;
+      setIsBusy(true);
+      setStage("apply");
+      setSuccessMessage(null);
+      setApplyProgress({ current: 0, total: (_a = preview == null ? void 0 : preview.totals.nodesWithChanges) != null ? _a : 0, message: "Starting..." });
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: UI_TO_MAIN.REPLACE_USAGES_APPLY,
+            request: {
+              scope,
+              renamePrints,
+              includeHidden,
+              mappingJsonText
+            }
+          }
+        },
+        "*"
+      );
+    };
+    return /* @__PURE__ */ _(Page, null, /* @__PURE__ */ _(
+      ToolHeader,
+      {
+        title: "Replace Variable Usages",
+        left: /* @__PURE__ */ _(IconButton, { onClick: onBack, title: "Home" }, /* @__PURE__ */ _(IconHome16, null))
+      }
+    ), /* @__PURE__ */ _(Container, { space: "medium" }, /* @__PURE__ */ _(VerticalSpace, { space: "medium" }), errorMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#fff1f2", borderRadius: 4, marginBottom: 12 } }, /* @__PURE__ */ _(Text, { style: { color: "#9f1239" } }, errorMessage))), successMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#ecfdf3", borderRadius: 4, marginBottom: 12 } }, /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, successMessage))), /* @__PURE__ */ _(Stack, { space: "medium" }, /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Replace Variable Usages"), /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, 'Load a JSON mapping file to replace variable bindings in layers. The mapping file should specify "from \u2192 to" variable names within a collection.')), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Scope"), /* @__PURE__ */ _(Inline, { space: "medium" }, /* @__PURE__ */ _(
+      Checkbox,
+      {
+        value: scope === "selection",
+        onValueChange: () => setScope("selection")
+      },
+      /* @__PURE__ */ _(Text, null, "Selection only")
+    ), /* @__PURE__ */ _(
+      Checkbox,
+      {
+        value: scope === "page",
+        onValueChange: () => setScope("page")
+      },
+      /* @__PURE__ */ _(Text, null, "Entire page")
+    ))), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Options"), /* @__PURE__ */ _(Checkbox, { value: renamePrints, onValueChange: setRenamePrints }, /* @__PURE__ */ _(Text, null, 'Rename "Prints" layers (layers prefixed with VariableID:...)')), /* @__PURE__ */ _(Checkbox, { value: includeHidden, onValueChange: setIncludeHidden }, /* @__PURE__ */ _(Text, null, "Include hidden layers"))), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Mapping File"), /* @__PURE__ */ _(Text, { style: { fontSize: 11, color: "var(--figma-color-text-secondary)" } }, "JSON format: ", "{", ' version: 1, collectionName: "...", replacements: [', "{", ' from: "OldName", to: "NewName" ', "}", "] ", "}"), /* @__PURE__ */ _(
+      FileUploadButton,
+      {
+        acceptedFileTypes: [".json", "application/json"],
+        onSelectedFiles: handleLoadMappingFile
+      },
+      mappingFilename ? `Loaded: ${mappingFilename}` : "Choose mapping JSON file\u2026"
+    )), /* @__PURE__ */ _(Inline, { space: "extraSmall" }, /* @__PURE__ */ _(Button, { onClick: handlePreview, disabled: !mappingJsonText.trim() || isBusy }, isBusy && stage === "preview" ? "Previewing..." : "Preview"), /* @__PURE__ */ _(Button, { onClick: handleApply, disabled: !canApply || isBusy }, isBusy && stage === "apply" ? "Applying..." : "Apply Replacements")), isBusy && /* @__PURE__ */ _(Inline, { space: "extraSmall" }, /* @__PURE__ */ _(LoadingIndicator, null), /* @__PURE__ */ _(Text, null, stage === "apply" ? `Applying... ${applyProgress ? `${applyProgress.current} / ${applyProgress.total}` : ""}` : "Building preview..."))), /* @__PURE__ */ _(VerticalSpace, { space: "large" }), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(VerticalSpace, { space: "medium" }), preview && /* @__PURE__ */ _(Stack, { space: "medium" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Preview Results"), /* @__PURE__ */ _(
+      "div",
+      {
+        style: {
+          padding: 8,
+          background: "var(--figma-color-bg-secondary)",
+          borderRadius: 4
+        }
+      },
+      /* @__PURE__ */ _(Text, { style: { fontSize: 11 } }, /* @__PURE__ */ _("strong", null, "Scope:"), " ", preview.scope, /* @__PURE__ */ _("br", null), /* @__PURE__ */ _("strong", null, "Mappings:"), " ", preview.totals.mappings, " valid,", " ", sortedInvalidRows.length, " invalid", /* @__PURE__ */ _("br", null), /* @__PURE__ */ _("strong", null, "Bindings to change:"), " ", preview.totals.bindingsWithChanges, /* @__PURE__ */ _("br", null), /* @__PURE__ */ _("strong", null, "Nodes affected:"), " ", preview.totals.nodesWithChanges, /* @__PURE__ */ _("br", null), renamePrints && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("strong", null, "Prints rename candidates:"), " ", preview.totals.printsRenameCandidates))
+    ), /* @__PURE__ */ _(
+      "div",
+      {
+        style: {
+          padding: 8,
+          background: "var(--figma-color-bg-secondary)",
+          borderRadius: 4
+        }
+      },
+      /* @__PURE__ */ _(Text, { style: { fontSize: 11, fontWeight: 600, marginBottom: 4 } }, "Bindings by Phase"),
+      /* @__PURE__ */ _(Text, { style: { fontSize: 10 } }, "Component: ", preview.totals.bindingsWithChangesByPhase.component, " bindings (", preview.totals.nodesWithChangesByPhase.component, " nodes)", /* @__PURE__ */ _("br", null), "Instance in Component:", " ", preview.totals.bindingsWithChangesByPhase.instance_in_component, " bindings (", preview.totals.nodesWithChangesByPhase.instance_in_component, " nodes)", /* @__PURE__ */ _("br", null), "Other: ", preview.totals.bindingsWithChangesByPhase.other, " bindings (", preview.totals.nodesWithChangesByPhase.other, " nodes)")
+    ), sortedMappings.length > 0 && /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Mappings with Changes"), /* @__PURE__ */ _(
+      "div",
+      {
+        style: {
+          maxHeight: 200,
+          overflowY: "auto",
+          overflowX: "auto",
+          border: "1px solid #e3e3e3",
+          borderRadius: 6
+        }
+      },
+      /* @__PURE__ */ _("table", { style: { width: "100%", borderCollapse: "collapse", fontSize: 11 } }, /* @__PURE__ */ _("thead", null, /* @__PURE__ */ _("tr", null, /* @__PURE__ */ _(
+        "th",
+        {
+          style: {
+            borderBottom: "1px solid #e3e3e3",
+            textAlign: "left",
+            padding: "6px 8px",
+            position: "sticky",
+            top: 0,
+            background: "#fafafa"
+          }
+        },
+        "From"
+      ), /* @__PURE__ */ _(
+        "th",
+        {
+          style: {
+            borderBottom: "1px solid #e3e3e3",
+            textAlign: "left",
+            padding: "6px 8px",
+            position: "sticky",
+            top: 0,
+            background: "#fafafa"
+          }
+        },
+        "To"
+      ), /* @__PURE__ */ _(
+        "th",
+        {
+          style: {
+            borderBottom: "1px solid #e3e3e3",
+            textAlign: "right",
+            padding: "6px 8px",
+            position: "sticky",
+            top: 0,
+            background: "#fafafa"
+          }
+        },
+        "Bindings"
+      ), /* @__PURE__ */ _(
+        "th",
+        {
+          style: {
+            borderBottom: "1px solid #e3e3e3",
+            textAlign: "right",
+            padding: "6px 8px",
+            position: "sticky",
+            top: 0,
+            background: "#fafafa"
+          }
+        },
+        "Nodes"
+      ))), /* @__PURE__ */ _("tbody", null, sortedMappings.map((row) => /* @__PURE__ */ _("tr", { key: row.sourceId }, /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top" } }, row.sourceName), /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top" } }, row.targetName), /* @__PURE__ */ _(
+        "td",
+        {
+          style: { padding: "4px 8px", verticalAlign: "top", textAlign: "right" }
+        },
+        row.bindingsTotal
+      ), /* @__PURE__ */ _(
+        "td",
+        {
+          style: { padding: "4px 8px", verticalAlign: "top", textAlign: "right" }
+        },
+        row.nodesTotal
+      )))))
+    )), sortedInvalidRows.length > 0 && /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600, color: "#9f1239" } }, "Invalid Mapping Rows (", sortedInvalidRows.length, ")"), /* @__PURE__ */ _(
+      "div",
+      {
+        style: {
+          maxHeight: 150,
+          overflowY: "auto",
+          overflowX: "auto",
+          border: "1px solid #e3e3e3",
+          borderRadius: 6
+        }
+      },
+      /* @__PURE__ */ _("table", { style: { width: "100%", borderCollapse: "collapse", fontSize: 11 } }, /* @__PURE__ */ _("thead", null, /* @__PURE__ */ _("tr", null, /* @__PURE__ */ _(
+        "th",
+        {
+          style: {
+            borderBottom: "1px solid #e3e3e3",
+            textAlign: "left",
+            padding: "6px 8px",
+            position: "sticky",
+            top: 0,
+            background: "#fafafa"
+          }
+        },
+        "Status"
+      ), /* @__PURE__ */ _(
+        "th",
+        {
+          style: {
+            borderBottom: "1px solid #e3e3e3",
+            textAlign: "left",
+            padding: "6px 8px",
+            position: "sticky",
+            top: 0,
+            background: "#fafafa"
+          }
+        },
+        "From"
+      ), /* @__PURE__ */ _(
+        "th",
+        {
+          style: {
+            borderBottom: "1px solid #e3e3e3",
+            textAlign: "left",
+            padding: "6px 8px",
+            position: "sticky",
+            top: 0,
+            background: "#fafafa"
+          }
+        },
+        "To"
+      ), /* @__PURE__ */ _(
+        "th",
+        {
+          style: {
+            borderBottom: "1px solid #e3e3e3",
+            textAlign: "left",
+            padding: "6px 8px",
+            position: "sticky",
+            top: 0,
+            background: "#fafafa"
+          }
+        },
+        "Reason"
+      ))), /* @__PURE__ */ _("tbody", null, sortedInvalidRows.map((row, i3) => {
+        const pillStyle = getStatusPillStyle3(row.status);
+        return /* @__PURE__ */ _("tr", { key: i3 }, /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top" } }, /* @__PURE__ */ _(
+          "span",
+          {
+            style: {
+              display: "inline-block",
+              padding: "2px 6px",
+              borderRadius: 4,
+              fontSize: 9,
+              fontWeight: 600,
+              background: pillStyle.background,
+              border: `1px solid ${pillStyle.borderColor}`,
+              color: pillStyle.color
+            }
+          },
+          row.status
+        )), /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top" } }, row.from || "\u2014"), /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top" } }, row.to || "\u2014"), /* @__PURE__ */ _(
+          "td",
+          {
+            style: {
+              padding: "4px 8px",
+              verticalAlign: "top",
+              color: "#666"
+            }
+          },
+          row.reason || ""
+        ));
+      })))
+    )), applyResult && /* @__PURE__ */ _(
+      "div",
+      {
+        style: {
+          padding: 8,
+          background: "#ecfdf3",
+          borderRadius: 4
+        }
+      },
+      /* @__PURE__ */ _(Text, { style: { color: "#067647", fontWeight: 600 } }, "Apply Result"),
+      /* @__PURE__ */ _(Text, { style: { fontSize: 11, marginTop: 4 } }, "Nodes visited: ", applyResult.totals.nodesVisited, /* @__PURE__ */ _("br", null), "Nodes changed: ", applyResult.totals.nodesChanged, /* @__PURE__ */ _("br", null), "Bindings changed: ", applyResult.totals.bindingsChanged, /* @__PURE__ */ _("br", null), "Nodes skipped (locked): ", applyResult.totals.nodesSkippedLocked, /* @__PURE__ */ _("br", null), "Bindings skipped (unsupported): ", applyResult.totals.bindingsSkippedUnsupported, /* @__PURE__ */ _("br", null), "Bindings failed: ", applyResult.totals.bindingsFailed, /* @__PURE__ */ _("br", null), "Prints renamed: ", applyResult.totals.printsRenamed)
+    )), /* @__PURE__ */ _(VerticalSpace, { space: "large" })));
+  }
+  var init_VariablesReplaceUsagesToolView = __esm({
+    "src/app/views/variables-replace-usages-tool/VariablesReplaceUsagesToolView.tsx"() {
+      "use strict";
+      init_lib2();
+      init_preact_module();
+      init_hooks_module();
+      init_messages();
+      init_Page();
+      init_ToolHeader();
+    }
+  });
+
   // src/app/ui.tsx
   var ui_exports = {};
   __export(ui_exports, {
@@ -3007,8 +5845,17 @@ svg {
         if (!msg) return;
         if (msg.type === MAIN_TO_UI.BOOTSTRAPPED) {
           setSelectionSize(msg.selectionSize);
+          const validRoutes = [
+            "color-chain-tool",
+            "print-color-usages-tool",
+            "mockup-markup-tool",
+            "variables-batch-rename-tool",
+            "variables-export-import-tool",
+            "variables-create-linked-colors-tool",
+            "variables-replace-usages-tool"
+          ];
           setRoute(
-            msg.command === "color-chain-tool" ? "color-chain-tool" : msg.command === "print-color-usages-tool" ? "print-color-usages-tool" : msg.command === "mockup-markup-tool" ? "mockup-markup-tool" : "home"
+            validRoutes.includes(msg.command) ? msg.command : "home"
           );
         }
       };
@@ -3021,7 +5868,7 @@ svg {
         {
           pluginMessage: {
             type: UI_TO_MAIN.SET_ACTIVE_TOOL,
-            tool: route === "home" ? "home" : route === "color-chain-tool" ? "color-chain-tool" : route === "print-color-usages-tool" ? "print-color-usages-tool" : "mockup-markup-tool"
+            tool: route
           }
         },
         "*"
@@ -3039,6 +5886,18 @@ svg {
     if (route === "mockup-markup-tool") {
       return /* @__PURE__ */ _(MockupMarkupToolView, { onBack: () => setRoute("home") });
     }
+    if (route === "variables-batch-rename-tool") {
+      return /* @__PURE__ */ _(VariablesBatchRenameToolView, { onBack: () => setRoute("home") });
+    }
+    if (route === "variables-export-import-tool") {
+      return /* @__PURE__ */ _(VariablesExportImportToolView, { onBack: () => setRoute("home") });
+    }
+    if (route === "variables-create-linked-colors-tool") {
+      return /* @__PURE__ */ _(VariablesCreateLinkedColorsToolView, { onBack: () => setRoute("home") });
+    }
+    if (route === "variables-replace-usages-tool") {
+      return /* @__PURE__ */ _(VariablesReplaceUsagesToolView, { onBack: () => setRoute("home") });
+    }
     return /* @__PURE__ */ _(HomeView, { goTo: setRoute });
   }
   var ui_default;
@@ -3053,13 +5912,17 @@ svg {
       init_HomeView();
       init_MockupMarkupToolView();
       init_PrintColorUsagesToolView();
+      init_VariablesBatchRenameToolView();
+      init_VariablesExportImportToolView();
+      init_VariablesCreateLinkedColorsToolView();
+      init_VariablesReplaceUsagesToolView();
       ui_default = render(App);
     }
   });
 
   // <stdin>
   var rootNode = document.getElementById("create-figma-plugin");
-  var modules = { "src/home/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/color-chain-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/print-color-usages-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/mockup-markup-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"] };
+  var modules = { "src/home/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/color-chain-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/print-color-usages-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/mockup-markup-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/variables-batch-rename-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/variables-export-import-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/variables-create-linked-colors-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/variables-replace-usages-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"] };
   var commandId = __FIGMA_COMMAND__ === "" ? "src/home/main.ts--default" : __FIGMA_COMMAND__;
   if (typeof modules[commandId] === "undefined") {
     throw new Error(

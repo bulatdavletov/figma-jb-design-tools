@@ -10,6 +10,21 @@ export const UI_TO_MAIN = {
   MOCKUP_MARKUP_APPLY: "MOCKUP_MARKUP_APPLY",
   MOCKUP_MARKUP_CREATE_TEXT: "MOCKUP_MARKUP_CREATE_TEXT",
   MOCKUP_MARKUP_GET_COLOR_PREVIEWS: "MOCKUP_MARKUP_GET_COLOR_PREVIEWS",
+  // Variables Batch Rename
+  BATCH_RENAME_EXPORT_NAME_SET: "BATCH_RENAME_EXPORT_NAME_SET",
+  BATCH_RENAME_PREVIEW_IMPORT: "BATCH_RENAME_PREVIEW_IMPORT",
+  BATCH_RENAME_APPLY_IMPORT: "BATCH_RENAME_APPLY_IMPORT",
+  // Variables Export Import
+  EXPORT_IMPORT_EXPORT_SNAPSHOT: "EXPORT_IMPORT_EXPORT_SNAPSHOT",
+  EXPORT_IMPORT_PREVIEW_SNAPSHOT: "EXPORT_IMPORT_PREVIEW_SNAPSHOT",
+  EXPORT_IMPORT_APPLY_SNAPSHOT: "EXPORT_IMPORT_APPLY_SNAPSHOT",
+  // Variables Create Linked Colors
+  LINKED_COLORS_CREATE: "LINKED_COLORS_CREATE",
+  LINKED_COLORS_APPLY_EXISTING: "LINKED_COLORS_APPLY_EXISTING",
+  LINKED_COLORS_RENAME: "LINKED_COLORS_RENAME",
+  // Variables Replace Usages
+  REPLACE_USAGES_PREVIEW: "REPLACE_USAGES_PREVIEW",
+  REPLACE_USAGES_APPLY: "REPLACE_USAGES_APPLY",
 } as const
 
 export const MAIN_TO_UI = {
@@ -24,6 +39,28 @@ export const MAIN_TO_UI = {
   MOCKUP_MARKUP_STATUS: "MOCKUP_MARKUP_STATUS",
   MOCKUP_MARKUP_COLOR_PREVIEWS: "MOCKUP_MARKUP_COLOR_PREVIEWS",
   ERROR: "ERROR",
+  // Variables Batch Rename
+  BATCH_RENAME_COLLECTIONS_LIST: "BATCH_RENAME_COLLECTIONS_LIST",
+  BATCH_RENAME_NAME_SET_READY: "BATCH_RENAME_NAME_SET_READY",
+  BATCH_RENAME_IMPORT_PREVIEW: "BATCH_RENAME_IMPORT_PREVIEW",
+  BATCH_RENAME_APPLY_PROGRESS: "BATCH_RENAME_APPLY_PROGRESS",
+  BATCH_RENAME_APPLY_RESULT: "BATCH_RENAME_APPLY_RESULT",
+  // Variables Export Import
+  EXPORT_IMPORT_COLLECTIONS_LIST: "EXPORT_IMPORT_COLLECTIONS_LIST",
+  EXPORT_IMPORT_SNAPSHOT_READY: "EXPORT_IMPORT_SNAPSHOT_READY",
+  EXPORT_IMPORT_PREVIEW: "EXPORT_IMPORT_PREVIEW",
+  EXPORT_IMPORT_APPLY_RESULT: "EXPORT_IMPORT_APPLY_RESULT",
+  // Variables Create Linked Colors
+  LINKED_COLORS_SELECTION: "LINKED_COLORS_SELECTION",
+  LINKED_COLORS_CREATE_SUCCESS: "LINKED_COLORS_CREATE_SUCCESS",
+  LINKED_COLORS_APPLY_SUCCESS: "LINKED_COLORS_APPLY_SUCCESS",
+  LINKED_COLORS_RENAME_SUCCESS: "LINKED_COLORS_RENAME_SUCCESS",
+  LINKED_COLORS_COLLECTIONS_LIST: "LINKED_COLORS_COLLECTIONS_LIST",
+  // Variables Replace Usages
+  REPLACE_USAGES_SELECTION: "REPLACE_USAGES_SELECTION",
+  REPLACE_USAGES_PREVIEW: "REPLACE_USAGES_PREVIEW",
+  REPLACE_USAGES_APPLY_PROGRESS: "REPLACE_USAGES_APPLY_PROGRESS",
+  REPLACE_USAGES_APPLY_RESULT: "REPLACE_USAGES_APPLY_RESULT",
 } as const
 
 export type UiToMainMessage =
@@ -38,8 +75,31 @@ export type UiToMainMessage =
   | { type: typeof UI_TO_MAIN.MOCKUP_MARKUP_APPLY; request: MockupMarkupApplyRequest }
   | { type: typeof UI_TO_MAIN.MOCKUP_MARKUP_CREATE_TEXT; request: MockupMarkupApplyRequest }
   | { type: typeof UI_TO_MAIN.MOCKUP_MARKUP_GET_COLOR_PREVIEWS; forceModeName: MockupMarkupApplyRequest["forceModeName"] }
+  // Variables Batch Rename
+  | { type: typeof UI_TO_MAIN.BATCH_RENAME_EXPORT_NAME_SET; request: BatchRenameExportNameSetRequest }
+  | { type: typeof UI_TO_MAIN.BATCH_RENAME_PREVIEW_IMPORT; request: BatchRenamePreviewImportRequest }
+  | { type: typeof UI_TO_MAIN.BATCH_RENAME_APPLY_IMPORT; request: BatchRenameApplyImportRequest }
+  // Variables Export Import
+  | { type: typeof UI_TO_MAIN.EXPORT_IMPORT_EXPORT_SNAPSHOT; request: ExportImportExportRequest }
+  | { type: typeof UI_TO_MAIN.EXPORT_IMPORT_PREVIEW_SNAPSHOT; request: ExportImportPreviewRequest }
+  | { type: typeof UI_TO_MAIN.EXPORT_IMPORT_APPLY_SNAPSHOT; request: ExportImportApplyRequest }
+  // Variables Create Linked Colors
+  | { type: typeof UI_TO_MAIN.LINKED_COLORS_CREATE; request: LinkedColorsCreateAliasRequest }
+  | { type: typeof UI_TO_MAIN.LINKED_COLORS_APPLY_EXISTING; request: LinkedColorsApplyExistingRequest }
+  | { type: typeof UI_TO_MAIN.LINKED_COLORS_RENAME; request: LinkedColorsRenameVariableRequest }
+  // Variables Replace Usages
+  | { type: typeof UI_TO_MAIN.REPLACE_USAGES_PREVIEW; request: ReplaceUsagesPreviewRequest }
+  | { type: typeof UI_TO_MAIN.REPLACE_USAGES_APPLY; request: ReplaceUsagesApplyRequest }
 
-export type ActiveTool = "home" | "color-chain-tool" | "print-color-usages-tool" | "mockup-markup-tool"
+export type ActiveTool =
+  | "home"
+  | "color-chain-tool"
+  | "print-color-usages-tool"
+  | "mockup-markup-tool"
+  | "variables-batch-rename-tool"
+  | "variables-export-import-tool"
+  | "variables-create-linked-colors-tool"
+  | "variables-replace-usages-tool"
 
 export type PrintColorUsagesUiSettings = {
   textPosition: "left" | "right"
@@ -153,4 +213,484 @@ export type MainToUiMessage =
   | { type: typeof MAIN_TO_UI.MOCKUP_MARKUP_STATUS; status: MockupMarkupStatus }
   | { type: typeof MAIN_TO_UI.MOCKUP_MARKUP_COLOR_PREVIEWS; previews: MockupMarkupColorPreviews }
   | { type: typeof MAIN_TO_UI.ERROR; message: string }
+  // Variables Batch Rename
+  | { type: typeof MAIN_TO_UI.BATCH_RENAME_COLLECTIONS_LIST; collections: VariableCollectionInfo[] }
+  | { type: typeof MAIN_TO_UI.BATCH_RENAME_NAME_SET_READY; payload: BatchRenameNameSetReadyPayload }
+  | { type: typeof MAIN_TO_UI.BATCH_RENAME_IMPORT_PREVIEW; payload: BatchRenamePreviewPayload }
+  | { type: typeof MAIN_TO_UI.BATCH_RENAME_APPLY_PROGRESS; progress: BatchRenameProgress }
+  | { type: typeof MAIN_TO_UI.BATCH_RENAME_APPLY_RESULT; payload: BatchRenameApplyResultPayload }
+  // Variables Export Import
+  | { type: typeof MAIN_TO_UI.EXPORT_IMPORT_COLLECTIONS_LIST; collections: VariableCollectionInfo[] }
+  | { type: typeof MAIN_TO_UI.EXPORT_IMPORT_SNAPSHOT_READY; payload: ExportImportSnapshotReadyPayload }
+  | { type: typeof MAIN_TO_UI.EXPORT_IMPORT_PREVIEW; payload: ExportImportPreviewPayload }
+  | { type: typeof MAIN_TO_UI.EXPORT_IMPORT_APPLY_RESULT; payload: ExportImportApplyResultPayload }
+  // Variables Create Linked Colors
+  | { type: typeof MAIN_TO_UI.LINKED_COLORS_SELECTION; payload: LinkedColorsSelectionPayload }
+  | { type: typeof MAIN_TO_UI.LINKED_COLORS_CREATE_SUCCESS; result: LinkedColorsCreateResult }
+  | { type: typeof MAIN_TO_UI.LINKED_COLORS_APPLY_SUCCESS; result: LinkedColorsApplyResult }
+  | { type: typeof MAIN_TO_UI.LINKED_COLORS_RENAME_SUCCESS; result: LinkedColorsRenameResult }
+  | { type: typeof MAIN_TO_UI.LINKED_COLORS_COLLECTIONS_LIST; collections: VariableCollectionInfo[] }
+  // Variables Replace Usages
+  | { type: typeof MAIN_TO_UI.REPLACE_USAGES_SELECTION; payload: LinkedColorsSelectionPayload }
+  | { type: typeof MAIN_TO_UI.REPLACE_USAGES_PREVIEW; payload: ReplaceUsagesPreviewPayload }
+  | { type: typeof MAIN_TO_UI.REPLACE_USAGES_APPLY_PROGRESS; progress: ReplaceUsagesProgress }
+  | { type: typeof MAIN_TO_UI.REPLACE_USAGES_APPLY_RESULT; payload: ReplaceUsagesApplyResultPayload }
 
+// ============================================================================
+// Variables Batch Rename Types
+// ============================================================================
+
+export type VariableCollectionInfo = {
+  id: string
+  name: string
+  modeCount: number
+  variableCount: number
+}
+
+export type BatchRenameExportNameSetRequest = {
+  setName: string
+  description?: string
+  collectionId?: string | null
+  collectionIds?: string[] | null
+  types?: VariableResolvedDataType[]
+  includeCurrentName?: boolean
+}
+
+export type BatchRenameNameSetReadyPayload = {
+  filename: string
+  jsonText: string
+}
+
+export type BatchRenamePreviewImportRequest = {
+  jsonText: string
+}
+
+export type BatchRenameApplyImportRequest = {
+  entries: Array<{
+    variableId: string
+    expectedOldName?: string
+    newName: string
+  }>
+}
+
+export type BatchRenamePreviewEntryStatus =
+  | "rename"
+  | "unchanged"
+  | "conflict"
+  | "missing"
+  | "stale"
+  | "invalid"
+  | "out_of_scope"
+
+export type BatchRenamePreviewEntry = {
+  variableId: string
+  collectionId?: string
+  collectionName?: string
+  resolvedType?: VariableResolvedDataType
+  currentName?: string
+  expectedOldName?: string
+  newName?: string
+  status: BatchRenamePreviewEntryStatus
+  reason?: string
+  warning?: string
+  conflictWith?: Array<{ variableId: string; name: string }>
+}
+
+export type BatchRenamePlanMeta = {
+  version: 1
+  title?: string
+  description?: string
+  createdAt?: string
+  scope?: { collectionId: string | null; types: VariableResolvedDataType[] }
+}
+
+export type BatchRenamePreviewPayload = {
+  meta: BatchRenamePlanMeta
+  totals: {
+    considered: number
+    renames: number
+    unchanged: number
+    conflicts: number
+    missing: number
+    stale: number
+    invalid: number
+    outOfScope: number
+  }
+  entries: BatchRenamePreviewEntry[]
+}
+
+export type BatchRenameApplyEntryResult = {
+  variableId: string
+  beforeName?: string
+  afterName?: string
+  status: "renamed" | "unchanged" | "skipped" | "failed"
+  reason?: string
+}
+
+export type BatchRenameApplyResultPayload = {
+  totals: { renamed: number; unchanged: number; skipped: number; failed: number }
+  results: BatchRenameApplyEntryResult[]
+}
+
+export type BatchRenameProgress = {
+  current: number
+  total: number
+  message: string
+}
+
+// Legacy types for backward compatibility
+export type BatchRenameImportData = {
+  collectionId: string
+  mappings: BatchRenameMapping[]
+}
+
+export type BatchRenameMapping = {
+  variableId: string
+  oldName: string
+  newName: string
+}
+
+export type BatchRenameNameSetData = {
+  collectionId: string
+  collectionName: string
+  variables: Array<{
+    id: string
+    name: string
+  }>
+}
+
+export type BatchRenamePreviewResult = {
+  valid: boolean
+  changes: BatchRenameMapping[]
+  errors: string[]
+}
+
+export type BatchRenameApplyResult = {
+  success: boolean
+  renamed: number
+  errors: string[]
+}
+
+// Types re-exported for use in messages
+export type VariableResolvedDataType = "BOOLEAN" | "COLOR" | "FLOAT" | "STRING"
+
+// ============================================================================
+// Variables Export Import Types
+// ============================================================================
+
+export type ExportImportExportRequest = {
+  collectionIds?: string[] | null
+}
+
+export type ExportImportSnapshotReadyPayload = {
+  files: Array<{ filename: string; jsonText: string }>
+}
+
+export type ExportImportPreviewRequest = {
+  jsonText: string
+}
+
+export type ExportImportApplyRequest = {
+  jsonText: string
+}
+
+export type ExportImportPreviewEntryStatus =
+  | "create"
+  | "update"
+  | "rename"
+  | "conflict"
+  | "missing_collection"
+  | "invalid"
+
+export type ExportImportPreviewEntry = {
+  collectionName: string
+  variableName: string
+  status: ExportImportPreviewEntryStatus
+  reason?: string
+}
+
+export type ExportImportPreviewPayload = {
+  totals: {
+    considered: number
+    create: number
+    update: number
+    rename: number
+    conflicts: number
+    missingCollections: number
+    invalid: number
+  }
+  entries: ExportImportPreviewEntry[]
+}
+
+export type ExportImportApplyResultPayload = {
+  totals: { created: number; updated: number; renamed: number; skipped: number; failed: number }
+  results: Array<{
+    collectionName: string
+    variableName: string
+    status: "created" | "updated" | "renamed" | "skipped" | "failed"
+    reason?: string
+  }>
+}
+
+// Legacy types for backward compatibility
+export type ExportImportSnapshotData = {
+  collectionId: string
+  snapshot: ExportImportSnapshot
+}
+
+export type ExportImportSnapshot = {
+  version: string
+  collectionId: string
+  collectionName: string
+  modes: Array<{
+    id: string
+    name: string
+  }>
+  variables: Array<ExportImportVariableEntry>
+}
+
+export type ExportImportVariableEntry = {
+  id: string
+  name: string
+  resolvedType: string
+  values: Record<string, unknown> // modeId -> value
+}
+
+export type ExportImportPreviewResult = {
+  valid: boolean
+  additions: number
+  modifications: number
+  deletions: number
+  errors: string[]
+}
+
+export type ExportImportApplyResult = {
+  success: boolean
+  added: number
+  modified: number
+  deleted: number
+  errors: string[]
+}
+
+// ============================================================================
+// Variables Create Linked Colors Types
+// ============================================================================
+
+export type LinkedColorsVariableMatch = {
+  id: string
+  name: string
+  collectionId: string
+  collectionName: string
+}
+
+export type LinkedColorsVariableUsage = {
+  id: string
+  name: string
+  collectionId: string
+  collectionName: string
+  resolvedType: VariableResolvedDataType
+  properties: string[]
+  nodes: Array<{ id: string; name: string }>
+  defaultName: string
+  matches: LinkedColorsVariableMatch[]
+  options: LinkedColorsVariableMatch[]
+  groups: string[]
+}
+
+export type LinkedColorsColorUsage = {
+  hex: string
+  properties: string[]
+  nodes: Array<{ id: string; name: string }>
+}
+
+export type LinkedColorsSelectionPayload = {
+  variables: LinkedColorsVariableUsage[]
+  selectionSize: number
+  colors: LinkedColorsColorUsage[]
+}
+
+export type LinkedColorsCreateAliasRequest = {
+  variableId: string
+  targetVariableId: string
+}
+
+export type LinkedColorsApplyExistingRequest = {
+  variableId: string
+  targetVariableId: string
+}
+
+export type LinkedColorsRenameVariableRequest = {
+  variableId: string
+  newName: string
+}
+
+export type LinkedColorsCreateResult = {
+  success: boolean
+  message: string
+  variableId?: string
+}
+
+export type LinkedColorsApplyResult = {
+  success: boolean
+  message: string
+  nodesChanged?: number
+}
+
+export type LinkedColorsRenameResult = {
+  success: boolean
+  message: string
+  newName?: string
+}
+
+// Legacy types for backward compatibility
+export type LinkedColorsCreateRequest = {
+  collectionId: string
+  variableName: string
+  colorValues: Record<string, string> // modeId -> hex color
+}
+
+export type LinkedColorsApplyRequest = {
+  nodeIds: string[]
+  variableId: string
+}
+
+export type LinkedColorsRenameRequest = {
+  variableId: string
+  newName: string
+}
+
+export type LinkedColorsSelectionInfo = {
+  nodeCount: number
+  colorVariables: Array<{
+    variableId: string
+    variableName: string
+    collectionName: string
+    usageCount: number
+    hex: string | null
+  }>
+}
+
+export type LinkedColorsResult = {
+  success: boolean
+  message: string
+  variableId?: string
+  variableName?: string
+}
+
+// ============================================================================
+// Variables Replace Usages Types
+// ============================================================================
+
+export type ReplaceUsagesScope = "selection" | "page"
+
+export type ReplaceUsagesPhase = "component" | "instance_in_component" | "other"
+
+export type ReplaceUsagesPreviewRequest = {
+  scope: ReplaceUsagesScope
+  renamePrints: boolean
+  includeHidden: boolean
+  mappingJsonText?: string
+}
+
+export type ReplaceUsagesApplyRequest = {
+  scope: ReplaceUsagesScope
+  renamePrints: boolean
+  includeHidden: boolean
+  mappingJsonText?: string
+}
+
+export type ReplaceUsagesMappingRow = {
+  sourceId: string
+  sourceName: string
+  sourceCollectionId: string
+  sourceCollectionName: string
+  targetId: string
+  targetName: string
+  reason: string
+  bindingsTotal: number
+  bindingsByPhase: Record<ReplaceUsagesPhase, number>
+  nodesTotal: number
+  nodesByPhase: Record<ReplaceUsagesPhase, number>
+  defaultName: string
+}
+
+export type ReplaceUsagesInvalidMappingRow = {
+  from: string
+  to: string
+  status: "ok" | "missing_source" | "missing_target" | "duplicate_from" | "invalid"
+  reason?: string
+}
+
+export type ReplaceUsagesPreviewPayload = {
+  scope: ReplaceUsagesScope
+  totals: {
+    mappings: number
+    invalidMappingRows: number
+    nodesWithChanges: number
+    bindingsWithChanges: number
+    nodesWithChangesByPhase: Record<ReplaceUsagesPhase, number>
+    bindingsWithChangesByPhase: Record<ReplaceUsagesPhase, number>
+    printsRenameCandidates: number
+  }
+  mappings: ReplaceUsagesMappingRow[]
+  invalidMappingRows: ReplaceUsagesInvalidMappingRow[]
+}
+
+export type ReplaceUsagesApplyResultPayload = {
+  totals: {
+    nodesVisited: number
+    nodesChanged: number
+    bindingsChanged: number
+    nodesSkippedLocked: number
+    bindingsSkippedUnsupported: number
+    bindingsFailed: number
+    printsRenamed: number
+  }
+}
+
+export type ReplaceUsagesProgress = {
+  current: number
+  total: number
+  message: string
+}
+
+// Legacy types for backward compatibility
+export type ReplaceUsagesMapping = {
+  fromVariableId: string
+  toVariableId: string
+}
+
+export type ReplaceUsagesSelectionInfo = {
+  nodeCount: number
+  variableUsages: Array<{
+    variableId: string
+    variableName: string
+    collectionName: string
+    usageCount: number
+    property: string // e.g., "fill", "stroke", "effect"
+  }>
+  allVariables: Array<{
+    id: string
+    name: string
+    collectionName: string
+    resolvedType: string
+  }>
+}
+
+export type ReplaceUsagesPreviewResult = {
+  valid: boolean
+  replacements: Array<{
+    nodeId: string
+    nodeName: string
+    property: string
+    fromVariableName: string
+    toVariableName: string
+  }>
+  errors: string[]
+}
+
+export type ReplaceUsagesApplyResult = {
+  success: boolean
+  replaced: number
+  errors: string[]
+}

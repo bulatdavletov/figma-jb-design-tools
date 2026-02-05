@@ -74,7 +74,22 @@ var init_messages = __esm({
       MOCKUP_MARKUP_LOAD_STATE: "MOCKUP_MARKUP_LOAD_STATE",
       MOCKUP_MARKUP_APPLY: "MOCKUP_MARKUP_APPLY",
       MOCKUP_MARKUP_CREATE_TEXT: "MOCKUP_MARKUP_CREATE_TEXT",
-      MOCKUP_MARKUP_GET_COLOR_PREVIEWS: "MOCKUP_MARKUP_GET_COLOR_PREVIEWS"
+      MOCKUP_MARKUP_GET_COLOR_PREVIEWS: "MOCKUP_MARKUP_GET_COLOR_PREVIEWS",
+      // Variables Batch Rename
+      BATCH_RENAME_EXPORT_NAME_SET: "BATCH_RENAME_EXPORT_NAME_SET",
+      BATCH_RENAME_PREVIEW_IMPORT: "BATCH_RENAME_PREVIEW_IMPORT",
+      BATCH_RENAME_APPLY_IMPORT: "BATCH_RENAME_APPLY_IMPORT",
+      // Variables Export Import
+      EXPORT_IMPORT_EXPORT_SNAPSHOT: "EXPORT_IMPORT_EXPORT_SNAPSHOT",
+      EXPORT_IMPORT_PREVIEW_SNAPSHOT: "EXPORT_IMPORT_PREVIEW_SNAPSHOT",
+      EXPORT_IMPORT_APPLY_SNAPSHOT: "EXPORT_IMPORT_APPLY_SNAPSHOT",
+      // Variables Create Linked Colors
+      LINKED_COLORS_CREATE: "LINKED_COLORS_CREATE",
+      LINKED_COLORS_APPLY_EXISTING: "LINKED_COLORS_APPLY_EXISTING",
+      LINKED_COLORS_RENAME: "LINKED_COLORS_RENAME",
+      // Variables Replace Usages
+      REPLACE_USAGES_PREVIEW: "REPLACE_USAGES_PREVIEW",
+      REPLACE_USAGES_APPLY: "REPLACE_USAGES_APPLY"
     };
     MAIN_TO_UI = {
       BOOTSTRAPPED: "BOOTSTRAPPED",
@@ -87,7 +102,29 @@ var init_messages = __esm({
       MOCKUP_MARKUP_STATE: "MOCKUP_MARKUP_STATE",
       MOCKUP_MARKUP_STATUS: "MOCKUP_MARKUP_STATUS",
       MOCKUP_MARKUP_COLOR_PREVIEWS: "MOCKUP_MARKUP_COLOR_PREVIEWS",
-      ERROR: "ERROR"
+      ERROR: "ERROR",
+      // Variables Batch Rename
+      BATCH_RENAME_COLLECTIONS_LIST: "BATCH_RENAME_COLLECTIONS_LIST",
+      BATCH_RENAME_NAME_SET_READY: "BATCH_RENAME_NAME_SET_READY",
+      BATCH_RENAME_IMPORT_PREVIEW: "BATCH_RENAME_IMPORT_PREVIEW",
+      BATCH_RENAME_APPLY_PROGRESS: "BATCH_RENAME_APPLY_PROGRESS",
+      BATCH_RENAME_APPLY_RESULT: "BATCH_RENAME_APPLY_RESULT",
+      // Variables Export Import
+      EXPORT_IMPORT_COLLECTIONS_LIST: "EXPORT_IMPORT_COLLECTIONS_LIST",
+      EXPORT_IMPORT_SNAPSHOT_READY: "EXPORT_IMPORT_SNAPSHOT_READY",
+      EXPORT_IMPORT_PREVIEW: "EXPORT_IMPORT_PREVIEW",
+      EXPORT_IMPORT_APPLY_RESULT: "EXPORT_IMPORT_APPLY_RESULT",
+      // Variables Create Linked Colors
+      LINKED_COLORS_SELECTION: "LINKED_COLORS_SELECTION",
+      LINKED_COLORS_CREATE_SUCCESS: "LINKED_COLORS_CREATE_SUCCESS",
+      LINKED_COLORS_APPLY_SUCCESS: "LINKED_COLORS_APPLY_SUCCESS",
+      LINKED_COLORS_RENAME_SUCCESS: "LINKED_COLORS_RENAME_SUCCESS",
+      LINKED_COLORS_COLLECTIONS_LIST: "LINKED_COLORS_COLLECTIONS_LIST",
+      // Variables Replace Usages
+      REPLACE_USAGES_SELECTION: "REPLACE_USAGES_SELECTION",
+      REPLACE_USAGES_PREVIEW: "REPLACE_USAGES_PREVIEW",
+      REPLACE_USAGES_APPLY_PROGRESS: "REPLACE_USAGES_APPLY_PROGRESS",
+      REPLACE_USAGES_APPLY_RESULT: "REPLACE_USAGES_APPLY_RESULT"
     };
   }
 });
@@ -215,28 +252,28 @@ async function collectVariablesFromNodeTree(root, onVariable) {
   }
 }
 async function getFoundVariablesFromRoots(roots) {
-  const variableCache = /* @__PURE__ */ new Map();
-  const collectionCache = /* @__PURE__ */ new Map();
-  async function getVariable(id) {
+  const variableCache2 = /* @__PURE__ */ new Map();
+  const collectionCache2 = /* @__PURE__ */ new Map();
+  async function getVariable2(id) {
     var _a;
-    if (!variableCache.has(id)) {
-      variableCache.set(id, await figma.variables.getVariableByIdAsync(id));
+    if (!variableCache2.has(id)) {
+      variableCache2.set(id, await figma.variables.getVariableByIdAsync(id));
     }
-    return (_a = variableCache.get(id)) != null ? _a : null;
+    return (_a = variableCache2.get(id)) != null ? _a : null;
   }
-  async function getCollection(id) {
+  async function getCollection2(id) {
     var _a;
-    if (!collectionCache.has(id)) {
-      collectionCache.set(id, await figma.variables.getVariableCollectionByIdAsync(id));
+    if (!collectionCache2.has(id)) {
+      collectionCache2.set(id, await figma.variables.getVariableCollectionByIdAsync(id));
     }
-    return (_a = collectionCache.get(id)) != null ? _a : null;
+    return (_a = collectionCache2.get(id)) != null ? _a : null;
   }
   const found = /* @__PURE__ */ new Map();
   for (const root of roots) {
     await collectVariablesFromNodeTree(root, async (variableId, nodeContext) => {
-      const variable = await getVariable(variableId);
+      const variable = await getVariable2(variableId);
       if (variable == null) return;
-      const collection = await getCollection(variable.variableCollectionId);
+      const collection = await getCollection2(variable.variableCollectionId);
       if (collection == null) return;
       const existing = found.get(variable.id);
       const entry = existing != null ? existing : { variable, collection, appliedModeIds: /* @__PURE__ */ new Set() };
@@ -2289,21 +2326,2379 @@ var init_main_thread3 = __esm({
   }
 });
 
+// src/app/tools/variables-shared/caching.ts
+var variableCache, collectionCache, localVariablesCache, getVariable, getCollection, getLocalVariablesForType, getAllLocalVariables, buildExistingNamesByCollection, buildLocalVariablesIndex, updateVariableInCache, clearLocalVariablesCache;
+var init_caching = __esm({
+  "src/app/tools/variables-shared/caching.ts"() {
+    "use strict";
+    variableCache = /* @__PURE__ */ new Map();
+    collectionCache = /* @__PURE__ */ new Map();
+    localVariablesCache = /* @__PURE__ */ new Map();
+    getVariable = async (id) => {
+      if (!id) return null;
+      const cached = variableCache.get(id);
+      if (cached) return cached;
+      try {
+        const variable = await figma.variables.getVariableByIdAsync(id);
+        if (variable) {
+          variableCache.set(id, variable);
+        }
+        return variable;
+      } catch (e) {
+        return null;
+      }
+    };
+    getCollection = async (id) => {
+      if (!id) return null;
+      const cached = collectionCache.get(id);
+      if (cached) return cached;
+      try {
+        const collection = await figma.variables.getVariableCollectionByIdAsync(id);
+        if (collection) {
+          collectionCache.set(id, collection);
+        }
+        return collection;
+      } catch (e) {
+        return null;
+      }
+    };
+    getLocalVariablesForType = async (resolvedType) => {
+      const cached = localVariablesCache.get(resolvedType);
+      if (cached) return cached;
+      const variables = await figma.variables.getLocalVariablesAsync(resolvedType);
+      localVariablesCache.set(resolvedType, variables);
+      return variables;
+    };
+    getAllLocalVariables = async (types) => {
+      const variablesByType = await Promise.all(
+        types.map(async (type) => getLocalVariablesForType(type))
+      );
+      return variablesByType.flat();
+    };
+    buildExistingNamesByCollection = async (scopeTypes, scopeCollectionId) => {
+      var _a;
+      const allVariables = await getAllLocalVariables(scopeTypes);
+      const scoped = scopeCollectionId ? allVariables.filter((v) => v.variableCollectionId === scopeCollectionId) : allVariables;
+      const result = /* @__PURE__ */ new Map();
+      for (const variable of scoped) {
+        let byName = result.get(variable.variableCollectionId);
+        if (!byName) {
+          byName = /* @__PURE__ */ new Map();
+          result.set(variable.variableCollectionId, byName);
+        }
+        const bucket = (_a = byName.get(variable.name)) != null ? _a : [];
+        bucket.push(variable.id);
+        byName.set(variable.name, bucket);
+      }
+      return result;
+    };
+    buildLocalVariablesIndex = async () => {
+      const allTypes = ["COLOR", "FLOAT", "STRING", "BOOLEAN"];
+      const allVars = await getAllLocalVariables(allTypes);
+      const byId = /* @__PURE__ */ new Map();
+      const byCollectionAndName = /* @__PURE__ */ new Map();
+      for (const v of allVars) {
+        byId.set(v.id, v);
+        let byName = byCollectionAndName.get(v.variableCollectionId);
+        if (!byName) {
+          byName = /* @__PURE__ */ new Map();
+          byCollectionAndName.set(v.variableCollectionId, byName);
+        }
+        if (!byName.has(v.name)) {
+          byName.set(v.name, v);
+        }
+      }
+      return { byId, byCollectionAndName };
+    };
+    updateVariableInCache = (variable) => {
+      variableCache.set(variable.id, variable);
+    };
+    clearLocalVariablesCache = (resolvedType) => {
+      localVariablesCache.delete(resolvedType);
+    };
+  }
+});
+
+// src/app/tools/variables-shared/json-parsers.ts
+var isString, parseImportedRenamePlan, parseSnapshotDoc, snapshotTypeToResolvedType, flattenSnapshotVariablesTree, flattenSnapshotDoc, parseUsagesReplaceMappingJson, resolveAliasFromSnapshotValue;
+var init_json_parsers = __esm({
+  "src/app/tools/variables-shared/json-parsers.ts"() {
+    "use strict";
+    isString = (value) => typeof value === "string";
+    parseImportedRenamePlan = (jsonText) => {
+      var _a, _b, _c, _d, _e, _f;
+      let raw;
+      try {
+        raw = JSON.parse(jsonText);
+      } catch (e) {
+        throw new Error("Invalid JSON. Please check the file contents.");
+      }
+      if (!raw || typeof raw !== "object") {
+        throw new Error("Invalid plan: expected a JSON object.");
+      }
+      const obj = raw;
+      if (obj.version !== 1) {
+        throw new Error("Invalid plan: version must be 1.");
+      }
+      const entriesRaw = Array.isArray(obj.entries) ? obj.entries : Array.isArray(obj.tokens) ? obj.tokens : null;
+      if (!entriesRaw) {
+        throw new Error('Invalid plan: expected "entries" or "tokens" array.');
+      }
+      const setRaw = (_a = obj.set) != null ? _a : null;
+      const titleRaw = (_c = (_b = obj.title) != null ? _b : obj.name) != null ? _c : setRaw == null ? void 0 : setRaw.name;
+      const descriptionRaw = (_d = obj.description) != null ? _d : setRaw == null ? void 0 : setRaw.description;
+      const createdAtRaw = (_e = obj.createdAt) != null ? _e : setRaw == null ? void 0 : setRaw.createdAt;
+      const scopeRaw = (_f = obj.scope) != null ? _f : null;
+      const scopeTypesRaw = scopeRaw == null ? void 0 : scopeRaw.types;
+      const scopeCollectionIdRaw = scopeRaw == null ? void 0 : scopeRaw.collectionId;
+      const types = Array.isArray(scopeTypesRaw) && scopeTypesRaw.length ? scopeTypesRaw.filter(isString) : ["COLOR", "FLOAT", "STRING", "BOOLEAN"];
+      const scopeCollectionId = scopeCollectionIdRaw === null || scopeCollectionIdRaw === void 0 ? null : isString(scopeCollectionIdRaw) ? scopeCollectionIdRaw : null;
+      const entries = entriesRaw.map((entry) => {
+        if (!entry || typeof entry !== "object") {
+          return { id: "", newName: "" };
+        }
+        const e = entry;
+        const id = isString(e.id) ? e.id.trim() : "";
+        const currentName = isString(e.currentName) ? e.currentName.trim() : void 0;
+        const newName = isString(e.newName) ? e.newName.trim() : isString(e.name) ? e.name.trim() : currentName ? currentName : "";
+        const expectedOldName = isString(e.expectedOldName) ? e.expectedOldName.trim() : currentName;
+        return { id, expectedOldName, newName };
+      });
+      const plan = {
+        version: 1,
+        title: isString(titleRaw) ? titleRaw : void 0,
+        createdAt: isString(createdAtRaw) ? createdAtRaw : void 0,
+        scope: { collectionId: scopeCollectionId, types },
+        entries
+      };
+      const meta = {
+        version: 1,
+        title: plan.title,
+        description: isString(descriptionRaw) ? descriptionRaw : void 0,
+        createdAt: plan.createdAt,
+        scope: { collectionId: scopeCollectionId, types }
+      };
+      return { plan, meta };
+    };
+    parseSnapshotDoc = (jsonText) => {
+      let raw;
+      try {
+        raw = JSON.parse(jsonText);
+      } catch (e) {
+        throw new Error("Invalid JSON. Please check the file contents.");
+      }
+      if (!raw || typeof raw !== "object") {
+        throw new Error("Invalid snapshot: expected a JSON object.");
+      }
+      const obj = raw;
+      const collectionsRaw = obj.collections;
+      if (!Array.isArray(collectionsRaw)) {
+        throw new Error('Invalid snapshot: expected "collections" array.');
+      }
+      return { collections: collectionsRaw };
+    };
+    snapshotTypeToResolvedType = (type) => {
+      const t = String(type || "").toLowerCase();
+      if (t === "color") return "COLOR";
+      if (t === "number") return "FLOAT";
+      if (t === "string") return "STRING";
+      if (t === "boolean") return "BOOLEAN";
+      return null;
+    };
+    flattenSnapshotVariablesTree = (collectionName, node, prefix, out) => {
+      if (!node || typeof node !== "object" || Array.isArray(node)) {
+        return;
+      }
+      const obj = node;
+      if ("type" in obj && "values" in obj && obj.values && typeof obj.values === "object" && !Array.isArray(obj.values)) {
+        const resolvedType = snapshotTypeToResolvedType(obj.type);
+        const values = obj.values;
+        const name = prefix.join("/").trim();
+        if (!name || !resolvedType) {
+          return;
+        }
+        const id = isString(obj.id) ? obj.id.trim() : void 0;
+        const description = isString(obj.description) ? obj.description : void 0;
+        const scopes = Array.isArray(obj.scopes) ? obj.scopes.filter(isString) : void 0;
+        out.push({ collectionName, variableName: name, id, resolvedType, values, description, scopes });
+        return;
+      }
+      for (const [key, child] of Object.entries(obj)) {
+        const nextKey = String(key || "").trim();
+        if (!nextKey) continue;
+        flattenSnapshotVariablesTree(collectionName, child, [...prefix, nextKey], out);
+      }
+    };
+    flattenSnapshotDoc = (doc) => {
+      var _a;
+      const entries = [];
+      for (const c of (_a = doc.collections) != null ? _a : []) {
+        const name = String(c.name || "").trim();
+        const vars = c.variables;
+        if (!name || !vars) continue;
+        flattenSnapshotVariablesTree(name, vars, [], entries);
+      }
+      return entries;
+    };
+    parseUsagesReplaceMappingJson = (jsonText) => {
+      let raw;
+      try {
+        raw = JSON.parse(jsonText);
+      } catch (e) {
+        throw new Error("Invalid JSON. Please check the file contents.");
+      }
+      if (!raw || typeof raw !== "object") {
+        throw new Error("Invalid mapping: expected a JSON object.");
+      }
+      const obj = raw;
+      if (obj.version !== 1) {
+        throw new Error("Invalid mapping: version must be 1.");
+      }
+      const replacementsRaw = obj.replacements;
+      if (!Array.isArray(replacementsRaw)) {
+        throw new Error('Invalid mapping: expected "replacements" array.');
+      }
+      const collectionName = isString(obj.collectionName) ? obj.collectionName.trim() : void 0;
+      const collectionId = isString(obj.collectionId) ? obj.collectionId.trim() : void 0;
+      const replacements = replacementsRaw.map((r) => {
+        if (!r || typeof r !== "object") return { from: "", to: "" };
+        const row = r;
+        return {
+          from: isString(row.from) ? row.from.trim() : "",
+          to: isString(row.to) ? row.to.trim() : ""
+        };
+      });
+      return { version: 1, collectionName, collectionId, replacements };
+    };
+    resolveAliasFromSnapshotValue = async (raw, byCollectionName, byCollectionAndName) => {
+      var _a;
+      const aliasString = (() => {
+        if (raw && typeof raw === "object" && !Array.isArray(raw) && isString(raw.$alias)) {
+          return String(raw.$alias).trim();
+        }
+        return null;
+      })();
+      if (!aliasString) return null;
+      const idx = aliasString.indexOf(":");
+      if (idx <= 0) return null;
+      const collectionName = aliasString.slice(0, idx).trim();
+      const variableName = aliasString.slice(idx + 1).trim();
+      if (!collectionName || !variableName) return null;
+      const col = byCollectionName.get(collectionName);
+      if (!col) return null;
+      const target = (_a = byCollectionAndName.get(col.id)) == null ? void 0 : _a.get(variableName);
+      if (!target) return null;
+      return { type: "VARIABLE_ALIAS", id: target.id };
+    };
+  }
+});
+
+// src/app/tools/variables-batch-rename/main-thread.ts
+function registerVariablesBatchRenameTool(getActiveTool) {
+  const sendCollectionsList = async () => {
+    const collections = await figma.variables.getLocalVariableCollectionsAsync();
+    const collectionsInfo = await Promise.all(
+      collections.map(async (c) => {
+        var _a;
+        const collection = await figma.variables.getVariableCollectionByIdAsync(c.id);
+        return {
+          id: c.id,
+          name: c.name,
+          modeCount: c.modes.length,
+          variableCount: (_a = collection == null ? void 0 : collection.variableIds.length) != null ? _a : 0
+        };
+      })
+    );
+    figma.ui.postMessage({
+      type: MAIN_TO_UI.BATCH_RENAME_COLLECTIONS_LIST,
+      collections: collectionsInfo
+    });
+  };
+  const exportNameSet = async (setName, description, collectionId, collectionIds, types, includeCurrentName) => {
+    const trimmedName = setName.trim();
+    if (!trimmedName) {
+      throw new Error("Set name is required.");
+    }
+    const resolvedTypes = types.length > 0 ? types : ["COLOR", "FLOAT", "STRING", "BOOLEAN"];
+    const resolvedCollectionIds = Array.isArray(collectionIds) ? collectionIds.filter(isString).map((id) => id.trim()).filter(Boolean) : [];
+    const allVariables = await getAllLocalVariables(resolvedTypes);
+    const scoped = resolvedCollectionIds.length ? allVariables.filter((v) => resolvedCollectionIds.includes(v.variableCollectionId)) : collectionId ? allVariables.filter((v) => v.variableCollectionId === collectionId) : allVariables;
+    const setObject = {
+      version: 1,
+      name: trimmedName,
+      description: (description == null ? void 0 : description.trim()) || void 0,
+      createdAt: (/* @__PURE__ */ new Date()).toISOString().slice(0, 10),
+      scope: {
+        collectionId: resolvedCollectionIds.length ? null : collectionId,
+        collectionIds: resolvedCollectionIds.length ? resolvedCollectionIds : void 0
+      },
+      tokens: scoped.slice().sort((a, b) => a.name.localeCompare(b.name)).map(
+        (v) => includeCurrentName ? { currentName: v.name, newName: v.name, id: v.id } : { newName: v.name, id: v.id }
+      )
+    };
+    const safeName = trimmedName.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 60);
+    return {
+      filename: `${safeName || "name-set"}-${setObject.createdAt}.json`,
+      jsonText: JSON.stringify(setObject, null, 2)
+    };
+  };
+  const buildImportedRenamePreview = async (jsonText) => {
+    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n;
+    const { plan, meta } = parseImportedRenamePlan(jsonText);
+    const scopeCollectionId = (_b = (_a = plan.scope) == null ? void 0 : _a.collectionId) != null ? _b : null;
+    const scopeTypes = ((_d = (_c = plan.scope) == null ? void 0 : _c.types) == null ? void 0 : _d.length) ? plan.scope.types : ["COLOR", "FLOAT", "STRING", "BOOLEAN"];
+    const existingNamesByCollection = await buildExistingNamesByCollection(scopeTypes, scopeCollectionId);
+    const previewEntries = [];
+    const variables = await Promise.all(
+      plan.entries.map(async (entry) => entry.id ? getVariable(entry.id) : null)
+    );
+    const plannedByCollection = /* @__PURE__ */ new Map();
+    plan.entries.forEach((entry, index) => {
+      var _a2;
+      const variable = variables[index];
+      if (!variable || !entry.id || !entry.newName) return;
+      const colId = variable.variableCollectionId;
+      let byName = plannedByCollection.get(colId);
+      if (!byName) {
+        byName = /* @__PURE__ */ new Map();
+        plannedByCollection.set(colId, byName);
+      }
+      const bucket = (_a2 = byName.get(entry.newName)) != null ? _a2 : [];
+      bucket.push(variable.id);
+      byName.set(entry.newName, bucket);
+    });
+    let renames = 0;
+    let unchanged = 0;
+    let conflicts = 0;
+    let missing = 0;
+    let stale = 0;
+    let invalid = 0;
+    let outOfScope = 0;
+    for (let i = 0; i < plan.entries.length; i += 1) {
+      const entry = plan.entries[i];
+      const variable = variables[i];
+      if (!entry.id || !entry.newName) {
+        invalid += 1;
+        previewEntries.push({
+          variableId: entry.id || `row-${i + 1}`,
+          expectedOldName: entry.expectedOldName,
+          newName: entry.newName,
+          status: "invalid",
+          reason: "Missing id or newName."
+        });
+        continue;
+      }
+      if (!variable) {
+        missing += 1;
+        previewEntries.push({
+          variableId: entry.id,
+          expectedOldName: entry.expectedOldName,
+          newName: entry.newName,
+          status: "missing",
+          reason: "Variable not found (maybe deleted or not local)."
+        });
+        continue;
+      }
+      const collection = await getCollection(variable.variableCollectionId);
+      const currentName = variable.name;
+      if (scopeCollectionId && variable.variableCollectionId !== scopeCollectionId) {
+        outOfScope += 1;
+        previewEntries.push({
+          variableId: variable.id,
+          collectionId: variable.variableCollectionId,
+          collectionName: (_e = collection == null ? void 0 : collection.name) != null ? _e : "Unknown collection",
+          resolvedType: variable.resolvedType,
+          currentName,
+          expectedOldName: entry.expectedOldName,
+          newName: entry.newName,
+          status: "out_of_scope",
+          reason: "Variable is outside of plan scope collection."
+        });
+        continue;
+      }
+      if (scopeTypes.length && !scopeTypes.includes(variable.resolvedType)) {
+        outOfScope += 1;
+        previewEntries.push({
+          variableId: variable.id,
+          collectionId: variable.variableCollectionId,
+          collectionName: (_f = collection == null ? void 0 : collection.name) != null ? _f : "Unknown collection",
+          resolvedType: variable.resolvedType,
+          currentName,
+          expectedOldName: entry.expectedOldName,
+          newName: entry.newName,
+          status: "out_of_scope",
+          reason: "Variable type not in plan scope."
+        });
+        continue;
+      }
+      const nameMismatchWarning = entry.expectedOldName && entry.expectedOldName !== currentName ? `Expected "${entry.expectedOldName}" but variable is currently "${currentName}".` : void 0;
+      if (entry.expectedOldName && entry.expectedOldName !== currentName) {
+        stale += 1;
+        previewEntries.push({
+          variableId: variable.id,
+          collectionId: variable.variableCollectionId,
+          collectionName: (_g = collection == null ? void 0 : collection.name) != null ? _g : "Unknown collection",
+          resolvedType: variable.resolvedType,
+          currentName,
+          expectedOldName: entry.expectedOldName,
+          newName: entry.newName,
+          status: "stale",
+          reason: "Variable name changed since plan was created.",
+          warning: nameMismatchWarning
+        });
+        continue;
+      }
+      if (currentName === entry.newName) {
+        unchanged += 1;
+        previewEntries.push({
+          variableId: variable.id,
+          collectionId: variable.variableCollectionId,
+          collectionName: (_h = collection == null ? void 0 : collection.name) != null ? _h : "Unknown collection",
+          resolvedType: variable.resolvedType,
+          currentName,
+          expectedOldName: entry.expectedOldName,
+          newName: entry.newName,
+          status: "unchanged",
+          warning: nameMismatchWarning
+        });
+        continue;
+      }
+      const byExisting = (_i = existingNamesByCollection.get(variable.variableCollectionId)) != null ? _i : /* @__PURE__ */ new Map();
+      const existingIds = (_j = byExisting.get(entry.newName)) != null ? _j : [];
+      const byPlanned = (_k = plannedByCollection.get(variable.variableCollectionId)) != null ? _k : /* @__PURE__ */ new Map();
+      const plannedIds = (_l = byPlanned.get(entry.newName)) != null ? _l : [];
+      const existingConflict = existingIds.some((id) => id !== variable.id);
+      const plannedConflict = plannedIds.length > 1;
+      if (existingConflict || plannedConflict) {
+        conflicts += 1;
+        const conflicting = [
+          ...existingIds.filter((id) => id !== variable.id),
+          ...plannedIds.filter((id) => id !== variable.id)
+        ].map((id) => ({ variableId: id, name: entry.newName }));
+        previewEntries.push({
+          variableId: variable.id,
+          collectionId: variable.variableCollectionId,
+          collectionName: (_m = collection == null ? void 0 : collection.name) != null ? _m : "Unknown collection",
+          resolvedType: variable.resolvedType,
+          currentName,
+          expectedOldName: entry.expectedOldName,
+          newName: entry.newName,
+          status: "conflict",
+          reason: "Name already exists or multiple plan entries map to the same newName.",
+          conflictWith: conflicting,
+          warning: nameMismatchWarning
+        });
+        continue;
+      }
+      renames += 1;
+      previewEntries.push({
+        variableId: variable.id,
+        collectionId: variable.variableCollectionId,
+        collectionName: (_n = collection == null ? void 0 : collection.name) != null ? _n : "Unknown collection",
+        resolvedType: variable.resolvedType,
+        currentName,
+        expectedOldName: entry.expectedOldName,
+        newName: entry.newName,
+        status: "rename",
+        warning: nameMismatchWarning
+      });
+    }
+    return {
+      meta,
+      totals: {
+        considered: plan.entries.length,
+        renames,
+        unchanged,
+        conflicts,
+        missing,
+        stale,
+        invalid,
+        outOfScope
+      },
+      entries: previewEntries
+    };
+  };
+  const applyImportedRenamePlan = async (entries, onProgress) => {
+    var _a, _b, _c, _d;
+    const results = [];
+    let renamed = 0;
+    let unchanged = 0;
+    let skipped = 0;
+    let failed = 0;
+    const allTypes = ["COLOR", "FLOAT", "STRING", "BOOLEAN"];
+    const existingNamesByCollection = await buildExistingNamesByCollection(allTypes, null);
+    const total = entries.length;
+    let done = 0;
+    if (onProgress) {
+      onProgress(0, total);
+    }
+    for (const entry of entries) {
+      const variable = await getVariable(entry.variableId);
+      if (!variable) {
+        skipped += 1;
+        results.push({ variableId: entry.variableId, status: "skipped", reason: "Variable not found." });
+        done += 1;
+        if (onProgress && (done % 20 === 0 || done === total)) {
+          onProgress(done, total);
+        }
+        continue;
+      }
+      const beforeName = variable.name;
+      const newName = entry.newName.trim();
+      if (!newName) {
+        failed += 1;
+        results.push({
+          variableId: variable.id,
+          beforeName,
+          status: "failed",
+          reason: "New name is empty."
+        });
+        done += 1;
+        if (onProgress && (done % 20 === 0 || done === total)) {
+          onProgress(done, total);
+        }
+        continue;
+      }
+      if (beforeName === newName) {
+        unchanged += 1;
+        results.push({ variableId: variable.id, beforeName, afterName: newName, status: "unchanged" });
+        done += 1;
+        if (onProgress && (done % 20 === 0 || done === total)) {
+          onProgress(done, total);
+        }
+        continue;
+      }
+      const byName = (_a = existingNamesByCollection.get(variable.variableCollectionId)) != null ? _a : /* @__PURE__ */ new Map();
+      const existingIds = (_b = byName.get(newName)) != null ? _b : [];
+      const hasConflict = existingIds.some((id) => id !== variable.id);
+      if (hasConflict) {
+        skipped += 1;
+        results.push({
+          variableId: variable.id,
+          beforeName,
+          afterName: newName,
+          status: "skipped",
+          reason: "Target name already exists in this collection."
+        });
+        done += 1;
+        if (onProgress && (done % 20 === 0 || done === total)) {
+          onProgress(done, total);
+        }
+        continue;
+      }
+      try {
+        const oldBucket = (_c = byName.get(beforeName)) != null ? _c : [];
+        byName.set(
+          beforeName,
+          oldBucket.filter((id) => id !== variable.id)
+        );
+        const newBucket = (_d = byName.get(newName)) != null ? _d : [];
+        newBucket.push(variable.id);
+        byName.set(newName, newBucket);
+        existingNamesByCollection.set(variable.variableCollectionId, byName);
+        variable.name = newName;
+        updateVariableInCache(variable);
+        clearLocalVariablesCache(variable.resolvedType);
+        renamed += 1;
+        results.push({ variableId: variable.id, beforeName, afterName: newName, status: "renamed" });
+      } catch (error) {
+        failed += 1;
+        const message = error instanceof Error ? error.message : "Rename failed.";
+        results.push({
+          variableId: variable.id,
+          beforeName,
+          afterName: newName,
+          status: "failed",
+          reason: message
+        });
+      }
+      done += 1;
+      if (onProgress && (done % 20 === 0 || done === total)) {
+        onProgress(done, total);
+      }
+    }
+    return { totals: { renamed, unchanged, skipped, failed }, results };
+  };
+  return {
+    async onActivate() {
+      await sendCollectionsList();
+    },
+    async onMessage(msg) {
+      if (getActiveTool() !== "variables-batch-rename-tool") return false;
+      if (msg.type === UI_TO_MAIN.BATCH_RENAME_EXPORT_NAME_SET) {
+        try {
+          const { setName, description, collectionId, collectionIds, types, includeCurrentName } = msg.request;
+          const payload = await exportNameSet(
+            setName,
+            description,
+            collectionId != null ? collectionId : null,
+            collectionIds != null ? collectionIds : null,
+            types != null ? types : [],
+            includeCurrentName !== false
+          );
+          figma.ui.postMessage({
+            type: MAIN_TO_UI.BATCH_RENAME_NAME_SET_READY,
+            payload
+          });
+        } catch (e) {
+          figma.notify(e instanceof Error ? e.message : "Export failed");
+          figma.ui.postMessage({
+            type: MAIN_TO_UI.ERROR,
+            message: e instanceof Error ? e.message : "Export failed"
+          });
+        }
+        return true;
+      }
+      if (msg.type === UI_TO_MAIN.BATCH_RENAME_PREVIEW_IMPORT) {
+        try {
+          const payload = await buildImportedRenamePreview(msg.request.jsonText);
+          figma.ui.postMessage({
+            type: MAIN_TO_UI.BATCH_RENAME_IMPORT_PREVIEW,
+            payload
+          });
+        } catch (e) {
+          figma.notify(e instanceof Error ? e.message : "Preview failed");
+          figma.ui.postMessage({
+            type: MAIN_TO_UI.ERROR,
+            message: e instanceof Error ? e.message : "Preview failed"
+          });
+        }
+        return true;
+      }
+      if (msg.type === UI_TO_MAIN.BATCH_RENAME_APPLY_IMPORT) {
+        try {
+          const payload = await applyImportedRenamePlan(msg.request.entries, (done, total) => {
+            figma.ui.postMessage({
+              type: MAIN_TO_UI.BATCH_RENAME_APPLY_PROGRESS,
+              progress: {
+                current: done,
+                total,
+                message: `Renaming variables... ${done}/${total}`
+              }
+            });
+          });
+          figma.ui.postMessage({
+            type: MAIN_TO_UI.BATCH_RENAME_APPLY_RESULT,
+            payload
+          });
+          const { renamed, failed, skipped } = payload.totals;
+          if (failed === 0 && skipped === 0) {
+            figma.notify(`Renamed ${renamed} variables`);
+          } else {
+            figma.notify(
+              `Renamed ${renamed} variables, ${skipped} skipped, ${failed} failed`
+            );
+          }
+          await sendCollectionsList();
+        } catch (e) {
+          figma.notify(e instanceof Error ? e.message : "Apply failed");
+          figma.ui.postMessage({
+            type: MAIN_TO_UI.ERROR,
+            message: e instanceof Error ? e.message : "Apply failed"
+          });
+        }
+        return true;
+      }
+      return false;
+    }
+  };
+}
+var init_main_thread4 = __esm({
+  "src/app/tools/variables-batch-rename/main-thread.ts"() {
+    "use strict";
+    init_messages();
+    init_caching();
+    init_json_parsers();
+  }
+});
+
+// src/app/tools/variables-export-import/main-thread.ts
+function registerVariablesExportImportTool(getActiveTool) {
+  const sendCollectionsList = async () => {
+    const collections = await figma.variables.getLocalVariableCollectionsAsync();
+    const collectionsInfo = await Promise.all(
+      collections.map(async (c) => {
+        var _a;
+        const collection = await figma.variables.getVariableCollectionByIdAsync(c.id);
+        return {
+          id: c.id,
+          name: c.name,
+          modeCount: c.modes.length,
+          variableCount: (_a = collection == null ? void 0 : collection.variableIds.length) != null ? _a : 0
+        };
+      })
+    );
+    figma.ui.postMessage({
+      type: MAIN_TO_UI.EXPORT_IMPORT_COLLECTIONS_LIST,
+      collections: collectionsInfo
+    });
+  };
+  const exportVariablesSnapshot = async (collectionIds) => {
+    var _a, _b;
+    const collections = await figma.variables.getLocalVariableCollectionsAsync();
+    const wantedIds = Array.isArray(collectionIds) && collectionIds.length ? collectionIds.filter(isString).map((id) => id.trim()).filter(Boolean) : [];
+    const scopedCollections = wantedIds.length ? collections.filter((c) => wantedIds.includes(c.id)) : collections;
+    const allTypes = ["COLOR", "FLOAT", "STRING", "BOOLEAN"];
+    const allVars = await getAllLocalVariables(allTypes);
+    const files = [];
+    const nameCounts = /* @__PURE__ */ new Map();
+    for (const collection of scopedCollections) {
+      const variables = allVars.filter((v) => v.variableCollectionId === collection.id);
+      const variablesTree = {};
+      for (const variable of variables) {
+        const parts = variable.name.split("/").map((p) => p.trim());
+        const cleanParts = parts.filter(Boolean);
+        if (!cleanParts.length) continue;
+        const leafKey = cleanParts[cleanParts.length - 1];
+        const groupPath = cleanParts.slice(0, -1);
+        const type = variable.resolvedType === "COLOR" ? "color" : variable.resolvedType === "FLOAT" ? "number" : variable.resolvedType === "STRING" ? "string" : variable.resolvedType === "BOOLEAN" ? "boolean" : "unknown";
+        const values = {};
+        for (const mode of collection.modes) {
+          const modeName = mode.name;
+          const rawValue = (_a = variable.valuesByMode) == null ? void 0 : _a[mode.modeId];
+          if (rawValue === null || rawValue === void 0) {
+            values[modeName] = "";
+            continue;
+          }
+          if (typeof rawValue === "object" && rawValue && rawValue.type === "VARIABLE_ALIAS" && isString(rawValue.id)) {
+            values[modeName] = await formatAliasRef(
+              String(rawValue.id)
+            );
+            continue;
+          }
+          if (variable.resolvedType === "COLOR" && typeof rawValue === "object" && rawValue) {
+            const v = rawValue;
+            if (typeof v.r === "number" && typeof v.g === "number" && typeof v.b === "number") {
+              values[modeName] = rgbaToHex({
+                r: v.r,
+                g: v.g,
+                b: v.b,
+                a: typeof v.a === "number" ? v.a : 1
+              });
+              continue;
+            }
+          }
+          values[modeName] = rawValue;
+        }
+        const description = typeof variable.description === "string" && variable.description.trim() ? String(variable.description) : void 0;
+        const scopesRaw = Array.isArray(variable.scopes) ? variable.scopes : [];
+        const scopes = scopesRaw.filter(isString);
+        const entry = {
+          id: variable.id,
+          type,
+          values,
+          description,
+          scopes: scopes.length ? scopes : void 0
+        };
+        const path = [...groupPath, leafKey];
+        setNestedObject(variablesTree, path, entry);
+      }
+      const doc = {
+        collections: [
+          {
+            name: collection.name,
+            modes: collection.modes.map((m) => m.name),
+            variables: variablesTree
+          }
+        ]
+      };
+      const baseFilename = `${collection.name}.json`;
+      const prev = (_b = nameCounts.get(baseFilename)) != null ? _b : 0;
+      nameCounts.set(baseFilename, prev + 1);
+      const filename = prev === 0 ? baseFilename : `${collection.name}-${prev + 1}.json`;
+      files.push({ filename, jsonText: JSON.stringify(doc, null, 4) });
+    }
+    return { files };
+  };
+  const buildVariablesSnapshotImportPreview = async (jsonText) => {
+    var _a, _b, _c, _d;
+    const doc = parseSnapshotDoc(jsonText);
+    const flat = flattenSnapshotDoc(doc);
+    const localCollections = await figma.variables.getLocalVariableCollectionsAsync();
+    const byCollectionName = new Map(localCollections.map((c) => [c.name, c]));
+    const { byId, byCollectionAndName } = await buildLocalVariablesIndex();
+    const plannedNamesByCollection = /* @__PURE__ */ new Map();
+    const entries = [];
+    let create = 0;
+    let update = 0;
+    let rename = 0;
+    let conflicts = 0;
+    let missingCollections = 0;
+    let invalid = 0;
+    for (const row of flat) {
+      const collection = byCollectionName.get(row.collectionName);
+      if (!collection) {
+        missingCollections += 1;
+        entries.push({
+          collectionName: row.collectionName,
+          variableName: row.variableName,
+          status: "missing_collection",
+          reason: "Collection not found in this Figma file."
+        });
+        continue;
+      }
+      if (!row.variableName || !row.resolvedType) {
+        invalid += 1;
+        entries.push({
+          collectionName: row.collectionName,
+          variableName: row.variableName || "(missing)",
+          status: "invalid"
+        });
+        continue;
+      }
+      const set = (_a = plannedNamesByCollection.get(collection.id)) != null ? _a : /* @__PURE__ */ new Set();
+      if (set.has(row.variableName)) {
+        conflicts += 1;
+        entries.push({
+          collectionName: row.collectionName,
+          variableName: row.variableName,
+          status: "conflict",
+          reason: "Duplicate variable name in snapshot for this collection."
+        });
+        continue;
+      }
+      set.add(row.variableName);
+      plannedNamesByCollection.set(collection.id, set);
+      const existingByName = (_c = (_b = byCollectionAndName.get(collection.id)) == null ? void 0 : _b.get(row.variableName)) != null ? _c : null;
+      const existingById = row.id ? (_d = byId.get(row.id)) != null ? _d : null : null;
+      const target = existingById != null ? existingById : existingByName;
+      if (target) {
+        if (target.variableCollectionId !== collection.id) {
+          conflicts += 1;
+          entries.push({
+            collectionName: row.collectionName,
+            variableName: row.variableName,
+            status: "conflict",
+            reason: "Snapshot variable id refers to a variable in a different collection."
+          });
+          continue;
+        }
+        if (target.resolvedType !== row.resolvedType) {
+          conflicts += 1;
+          entries.push({
+            collectionName: row.collectionName,
+            variableName: row.variableName,
+            status: "conflict",
+            reason: "Type mismatch between snapshot and existing variable."
+          });
+          continue;
+        }
+        if (existingById && target.name !== row.variableName) {
+          rename += 1;
+          entries.push({
+            collectionName: row.collectionName,
+            variableName: row.variableName,
+            status: "rename"
+          });
+          continue;
+        }
+        update += 1;
+        entries.push({
+          collectionName: row.collectionName,
+          variableName: row.variableName,
+          status: "update"
+        });
+        continue;
+      }
+      create += 1;
+      entries.push({
+        collectionName: row.collectionName,
+        variableName: row.variableName,
+        status: "create"
+      });
+    }
+    return {
+      totals: {
+        considered: flat.length,
+        create,
+        update,
+        rename,
+        conflicts,
+        missingCollections,
+        invalid
+      },
+      entries
+    };
+  };
+  const applyVariablesSnapshotImport = async (jsonText) => {
+    var _a, _b, _c, _d, _e, _f, _g, _h;
+    const doc = parseSnapshotDoc(jsonText);
+    const flat = flattenSnapshotDoc(doc);
+    const localCollections = await figma.variables.getLocalVariableCollectionsAsync();
+    const byCollectionName = new Map(localCollections.map((c) => [c.name, c]));
+    const { byId, byCollectionAndName } = await buildLocalVariablesIndex();
+    const results = [];
+    let created = 0;
+    let updated = 0;
+    let renamed = 0;
+    let skipped = 0;
+    let failed = 0;
+    for (const row of flat) {
+      const collection = byCollectionName.get(row.collectionName);
+      if (!collection) {
+        skipped += 1;
+        results.push({
+          collectionName: row.collectionName,
+          variableName: row.variableName,
+          status: "skipped",
+          reason: "Missing collection in this file."
+        });
+        continue;
+      }
+      const existingByName = (_b = (_a = byCollectionAndName.get(collection.id)) == null ? void 0 : _a.get(row.variableName)) != null ? _b : null;
+      const existingById = row.id ? (_c = byId.get(row.id)) != null ? _c : null : null;
+      const target = existingById != null ? existingById : existingByName;
+      if (target) continue;
+      try {
+        const v = figma.variables.createVariable(row.variableName, collection, row.resolvedType);
+        updateVariableInCache(v);
+        byId.set(v.id, v);
+        let byName = byCollectionAndName.get(collection.id);
+        if (!byName) {
+          byName = /* @__PURE__ */ new Map();
+          byCollectionAndName.set(collection.id, byName);
+        }
+        byName.set(v.name, v);
+        clearLocalVariablesCache(v.resolvedType);
+        created += 1;
+        results.push({
+          collectionName: row.collectionName,
+          variableName: row.variableName,
+          status: "created"
+        });
+      } catch (error) {
+        failed += 1;
+        const message = error instanceof Error ? error.message : "Create failed.";
+        results.push({
+          collectionName: row.collectionName,
+          variableName: row.variableName,
+          status: "failed",
+          reason: message
+        });
+      }
+    }
+    for (const row of flat) {
+      const collection = byCollectionName.get(row.collectionName);
+      if (!collection) continue;
+      const existingByName = (_e = (_d = byCollectionAndName.get(collection.id)) == null ? void 0 : _d.get(row.variableName)) != null ? _e : null;
+      const existingById = row.id ? (_f = byId.get(row.id)) != null ? _f : null : null;
+      const target = existingById != null ? existingById : existingByName;
+      if (!target) continue;
+      if (target.variableCollectionId !== collection.id) {
+        skipped += 1;
+        results.push({
+          collectionName: row.collectionName,
+          variableName: row.variableName,
+          status: "skipped",
+          reason: "Variable belongs to a different collection."
+        });
+        continue;
+      }
+      if (target.resolvedType !== row.resolvedType) {
+        skipped += 1;
+        results.push({
+          collectionName: row.collectionName,
+          variableName: row.variableName,
+          status: "skipped",
+          reason: "Type mismatch; not updating."
+        });
+        continue;
+      }
+      try {
+        if (existingById && target.name !== row.variableName) {
+          const oldName = target.name;
+          target.name = row.variableName;
+          renamed += 1;
+          const byName = (_g = byCollectionAndName.get(collection.id)) != null ? _g : /* @__PURE__ */ new Map();
+          byName.delete(oldName);
+          byName.set(target.name, target);
+          byCollectionAndName.set(collection.id, byName);
+        }
+        if (isString(row.description)) {
+          try {
+            target.description = row.description;
+          } catch (e) {
+          }
+        }
+        if (Array.isArray(row.scopes) && row.scopes.length) {
+          try {
+            target.scopes = row.scopes;
+          } catch (e) {
+          }
+        }
+        const modeNameToId = new Map(collection.modes.map((m) => [m.name, m.modeId]));
+        for (const [modeName, rawValue] of Object.entries((_h = row.values) != null ? _h : {})) {
+          const modeId = modeNameToId.get(modeName);
+          if (!modeId) continue;
+          const alias = await resolveAliasFromSnapshotValue(
+            rawValue,
+            byCollectionName,
+            byCollectionAndName
+          );
+          if (alias) {
+            target.setValueForMode(modeId, alias);
+            continue;
+          }
+          if (row.resolvedType === "COLOR") {
+            const rgba = typeof rawValue === "string" ? hexToRgba(rawValue) : null;
+            if (rgba) {
+              target.setValueForMode(modeId, rgba);
+            }
+            continue;
+          }
+          if (row.resolvedType === "FLOAT" && typeof rawValue === "number") {
+            target.setValueForMode(modeId, rawValue);
+            continue;
+          }
+          if (row.resolvedType === "BOOLEAN" && typeof rawValue === "boolean") {
+            target.setValueForMode(modeId, rawValue);
+            continue;
+          }
+          if (row.resolvedType === "STRING" && typeof rawValue === "string") {
+            target.setValueForMode(modeId, rawValue);
+            continue;
+          }
+        }
+        if (!existingById) {
+          updated += 1;
+        }
+      } catch (error) {
+        failed += 1;
+        const message = error instanceof Error ? error.message : "Update failed.";
+        results.push({
+          collectionName: row.collectionName,
+          variableName: row.variableName,
+          status: "failed",
+          reason: message
+        });
+      }
+    }
+    return { totals: { created, updated, renamed, skipped, failed }, results };
+  };
+  return {
+    async onActivate() {
+      await sendCollectionsList();
+    },
+    async onMessage(msg) {
+      var _a;
+      if (getActiveTool() !== "variables-export-import-tool") return false;
+      if (msg.type === UI_TO_MAIN.EXPORT_IMPORT_EXPORT_SNAPSHOT) {
+        try {
+          const payload = await exportVariablesSnapshot((_a = msg.request.collectionIds) != null ? _a : null);
+          figma.ui.postMessage({
+            type: MAIN_TO_UI.EXPORT_IMPORT_SNAPSHOT_READY,
+            payload
+          });
+          if (payload.files.length === 0) {
+            figma.notify("No collections to export");
+          } else if (payload.files.length === 1) {
+            figma.notify(`Exported: ${payload.files[0].filename}`);
+          } else {
+            figma.notify(`Snapshot ready: ${payload.files.length} file(s)`);
+          }
+        } catch (e) {
+          figma.notify(e instanceof Error ? e.message : "Export failed");
+          figma.ui.postMessage({
+            type: MAIN_TO_UI.ERROR,
+            message: e instanceof Error ? e.message : "Export failed"
+          });
+        }
+        return true;
+      }
+      if (msg.type === UI_TO_MAIN.EXPORT_IMPORT_PREVIEW_SNAPSHOT) {
+        try {
+          const payload = await buildVariablesSnapshotImportPreview(msg.request.jsonText);
+          figma.ui.postMessage({
+            type: MAIN_TO_UI.EXPORT_IMPORT_PREVIEW,
+            payload
+          });
+        } catch (e) {
+          figma.notify(e instanceof Error ? e.message : "Preview failed");
+          figma.ui.postMessage({
+            type: MAIN_TO_UI.ERROR,
+            message: e instanceof Error ? e.message : "Preview failed"
+          });
+        }
+        return true;
+      }
+      if (msg.type === UI_TO_MAIN.EXPORT_IMPORT_APPLY_SNAPSHOT) {
+        try {
+          const payload = await applyVariablesSnapshotImport(msg.request.jsonText);
+          figma.ui.postMessage({
+            type: MAIN_TO_UI.EXPORT_IMPORT_APPLY_RESULT,
+            payload
+          });
+          const { created, updated, renamed, failed } = payload.totals;
+          if (failed === 0) {
+            figma.notify(
+              `Snapshot imported: created ${created}, updated ${updated}, renamed ${renamed}`
+            );
+          } else {
+            figma.notify(
+              `Snapshot imported: created ${created}, updated ${updated}, renamed ${renamed}, failed ${failed}`
+            );
+          }
+          await sendCollectionsList();
+        } catch (e) {
+          figma.notify(e instanceof Error ? e.message : "Apply failed");
+          figma.ui.postMessage({
+            type: MAIN_TO_UI.ERROR,
+            message: e instanceof Error ? e.message : "Apply failed"
+          });
+        }
+        return true;
+      }
+      return false;
+    }
+  };
+}
+var rgbaToHex, hexToRgba, setNestedObject, formatAliasRef;
+var init_main_thread5 = __esm({
+  "src/app/tools/variables-export-import/main-thread.ts"() {
+    "use strict";
+    init_messages();
+    init_caching();
+    init_json_parsers();
+    rgbaToHex = (value) => {
+      var _a, _b;
+      const clamp013 = (n) => Math.max(0, Math.min(1, n));
+      const toHex = (n) => Math.round(clamp013(n) * 255).toString(16).padStart(2, "0");
+      const r = toHex(value.r);
+      const g = toHex(value.g);
+      const b = toHex(value.b);
+      const a = toHex((_a = value.a) != null ? _a : 1);
+      const hasAlpha = ((_b = value.a) != null ? _b : 1) < 1;
+      return `#${r}${g}${b}${hasAlpha ? a : ""}`.toUpperCase();
+    };
+    hexToRgba = (hex) => {
+      const raw = String(hex || "").trim();
+      if (!raw.startsWith("#")) return null;
+      const h = raw.slice(1);
+      if (!(h.length === 6 || h.length === 8)) return null;
+      const int = (s) => parseInt(s, 16);
+      const r = int(h.slice(0, 2));
+      const g = int(h.slice(2, 4));
+      const b = int(h.slice(4, 6));
+      const a = h.length === 8 ? int(h.slice(6, 8)) : 255;
+      if ([r, g, b, a].some((n) => Number.isNaN(n))) return null;
+      return { r: r / 255, g: g / 255, b: b / 255, a: a / 255 };
+    };
+    setNestedObject = (root, path, value) => {
+      var _a, _b;
+      let cursor = root;
+      for (let i = 0; i < path.length - 1; i += 1) {
+        const key = (_a = path[i]) != null ? _a : "";
+        if (!key) continue;
+        const existing = cursor[key];
+        if (!existing || typeof existing !== "object" || Array.isArray(existing)) {
+          cursor[key] = {};
+        }
+        cursor = cursor[key];
+      }
+      const last = (_b = path[path.length - 1]) != null ? _b : "";
+      if (last) {
+        cursor[last] = value;
+      }
+    };
+    formatAliasRef = async (aliasId) => {
+      var _a;
+      const aliasedVar = await getVariable(aliasId);
+      if (!aliasedVar) {
+        return { $alias: "" };
+      }
+      const col = await getCollection(aliasedVar.variableCollectionId);
+      const colName = (_a = col == null ? void 0 : col.name) != null ? _a : "Unknown collection";
+      return { $alias: `${colName}:${aliasedVar.name}` };
+    };
+  }
+});
+
+// src/app/tools/variables-shared/node-utils.ts
+var hasChildren, isNodeVisible, hasBoundVariables, hasFills, hasStrokes, hasFillStyleId, hasStrokeStyleId, collectNodesForScope, readBindings, solidPaintToHex, collectSolidColors, paintStyleCache, getPaintStyle, collectStyleAliases, setBoundVariableTry, getVariableNameSuffix, getVariableGroupName, getVariableIdPrefixFromLayerName;
+var init_node_utils = __esm({
+  "src/app/tools/variables-shared/node-utils.ts"() {
+    "use strict";
+    hasChildren = (node) => {
+      return "children" in node && Array.isArray(node.children);
+    };
+    isNodeVisible = (node) => {
+      return node.visible !== false;
+    };
+    hasBoundVariables = (node) => {
+      return "boundVariables" in node && node.boundVariables !== void 0;
+    };
+    hasFills = (node) => {
+      return "fills" in node;
+    };
+    hasStrokes = (node) => {
+      return "strokes" in node;
+    };
+    hasFillStyleId = (node) => {
+      return "fillStyleId" in node && node.fillStyleId !== void 0;
+    };
+    hasStrokeStyleId = (node) => {
+      return "strokeStyleId" in node && node.strokeStyleId !== void 0;
+    };
+    collectNodesForScope = (scope, includeHidden) => {
+      const roots = scope === "selection" ? figma.currentPage.selection : figma.currentPage.children;
+      const stack = roots.map(
+        (n) => ({
+          node: n,
+          inComponent: false,
+          inInstance: false
+        })
+      );
+      const result = [];
+      while (stack.length) {
+        const item = stack.pop();
+        if (!item) continue;
+        const node = item.node;
+        if (!includeHidden && !isNodeVisible(node)) continue;
+        const phase = item.inComponent ? item.inInstance ? "instance_in_component" : "component" : "other";
+        result.push({ node, phase });
+        if (hasChildren(node)) {
+          const nextInComponent = item.inComponent || node.type === "COMPONENT";
+          const nextInInstance = item.inInstance || node.type === "INSTANCE";
+          for (const child of node.children) {
+            stack.push({ node: child, inComponent: nextInComponent, inInstance: nextInInstance });
+          }
+        }
+      }
+      return result;
+    };
+    readBindings = (boundVariables) => {
+      const entries = [];
+      for (const [property, binding] of Object.entries(boundVariables)) {
+        if (!binding) continue;
+        if (Array.isArray(binding)) {
+          for (const item of binding) {
+            if (item == null ? void 0 : item.id) {
+              entries.push({ variableId: item.id, property });
+            }
+          }
+        } else if (typeof binding === "object" && "id" in binding && binding.id) {
+          entries.push({ variableId: binding.id, property });
+        }
+      }
+      return entries;
+    };
+    solidPaintToHex = (paint) => {
+      var _a;
+      const toHex = (value) => Math.round(value * 255).toString(16).padStart(2, "0");
+      const r = toHex(paint.color.r);
+      const g = toHex(paint.color.g);
+      const b = toHex(paint.color.b);
+      const opacity = (_a = paint.opacity) != null ? _a : 1;
+      if (opacity < 1) {
+        const a = toHex(opacity);
+        return `#${(r + g + b + a).toUpperCase()}`;
+      }
+      return `#${(r + g + b).toUpperCase()}`;
+    };
+    collectSolidColors = (node) => {
+      const entries = [];
+      if (hasFills(node)) {
+        const paints = node.fills;
+        if (paints && paints !== figma.mixed) {
+          for (const paint of paints) {
+            if (paint.type === "SOLID" && paint.visible !== false) {
+              entries.push({ hex: solidPaintToHex(paint), property: "fills" });
+            }
+          }
+        }
+      }
+      if (hasStrokes(node)) {
+        const paints = node.strokes;
+        if (paints && paints !== figma.mixed) {
+          for (const paint of paints) {
+            if (paint.type === "SOLID" && paint.visible !== false) {
+              entries.push({ hex: solidPaintToHex(paint), property: "strokes" });
+            }
+          }
+        }
+      }
+      return entries;
+    };
+    paintStyleCache = /* @__PURE__ */ new Map();
+    getPaintStyle = async (styleId) => {
+      var _a;
+      if (paintStyleCache.has(styleId)) {
+        return (_a = paintStyleCache.get(styleId)) != null ? _a : null;
+      }
+      try {
+        const style = await figma.getStyleByIdAsync(styleId);
+        if (style && style.type === "PAINT") {
+          paintStyleCache.set(styleId, style);
+          return style;
+        }
+        paintStyleCache.set(styleId, null);
+        return null;
+      } catch (e) {
+        paintStyleCache.set(styleId, null);
+        return null;
+      }
+    };
+    collectStyleAliases = (style) => {
+      var _a, _b, _c;
+      const aliasIds = [];
+      const styleLevelAliases = (_b = (_a = style.boundVariables) == null ? void 0 : _a.paints) != null ? _b : [];
+      for (const alias of styleLevelAliases) {
+        if (alias == null ? void 0 : alias.id) {
+          aliasIds.push(alias.id);
+        }
+      }
+      for (const paint of style.paints) {
+        if (paint.type !== "SOLID") continue;
+        const bound = (_c = paint.boundVariables) == null ? void 0 : _c.color;
+        if (bound == null ? void 0 : bound.id) {
+          aliasIds.push(bound.id);
+        }
+      }
+      return aliasIds;
+    };
+    setBoundVariableTry = (node, property, variable) => {
+      const target = node;
+      try {
+        target.setBoundVariable(property, variable);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    };
+    getVariableNameSuffix = (name) => {
+      const parts = name.split("/");
+      return parts[parts.length - 1] || "";
+    };
+    getVariableGroupName = (name) => {
+      const parts = name.split("/");
+      if (parts.length <= 1) return "";
+      return parts.slice(0, -1).join("/");
+    };
+    getVariableIdPrefixFromLayerName = (name) => {
+      const match = /^VariableID:[^\s]+/.exec(String(name || ""));
+      return match ? match[0] : null;
+    };
+  }
+});
+
+// src/app/tools/variables-create-linked-colors/main-thread.ts
+function registerVariablesCreateLinkedColorsTool(getActiveTool) {
+  const getSelectionWithDescendants = (selection) => {
+    const stack = [...selection];
+    const result = [];
+    while (stack.length) {
+      const node = stack.pop();
+      if (!node) continue;
+      if (!isNodeVisible(node)) continue;
+      result.push(node);
+      if (hasChildren(node)) {
+        stack.push(...node.children);
+      }
+    }
+    return result;
+  };
+  const addVariableUsage = async (variableId, property, node, variableMap) => {
+    var _a;
+    const variable = await getVariable(variableId);
+    if (!variable) return;
+    let usage = variableMap.get(variable.id);
+    if (!usage) {
+      const collection = await getCollection(variable.variableCollectionId);
+      usage = {
+        id: variable.id,
+        name: variable.name,
+        collectionId: variable.variableCollectionId,
+        collectionName: (_a = collection == null ? void 0 : collection.name) != null ? _a : "Unknown collection",
+        resolvedType: variable.resolvedType,
+        properties: [],
+        nodes: [],
+        defaultName: variable.name,
+        matches: [],
+        options: [],
+        groups: []
+      };
+      variableMap.set(variable.id, usage);
+    }
+    if (!usage.properties.includes(property)) {
+      usage.properties.push(property);
+    }
+    if (!usage.nodes.some((entry) => entry.id === node.id)) {
+      usage.nodes.push({ id: node.id, name: node.name || node.type });
+    }
+  };
+  const collectStyleVariableBindings = async (node, variableMap) => {
+    const promises = [];
+    if (hasFillStyleId(node)) {
+      const styleId = node.fillStyleId;
+      if (typeof styleId === "string" && styleId.length) {
+        promises.push(
+          (async () => {
+            const style = await getPaintStyle(styleId);
+            if (!style) return;
+            const aliases = collectStyleAliases(style);
+            for (const alias of aliases) {
+              await addVariableUsage(alias, `fills (style ${style.name})`, node, variableMap);
+            }
+          })()
+        );
+      }
+    }
+    if (hasStrokeStyleId(node)) {
+      const styleId = node.strokeStyleId;
+      if (typeof styleId === "string" && styleId.length) {
+        promises.push(
+          (async () => {
+            const style = await getPaintStyle(styleId);
+            if (!style) return;
+            const aliases = collectStyleAliases(style);
+            for (const alias of aliases) {
+              await addVariableUsage(alias, `strokes (style ${style.name})`, node, variableMap);
+            }
+          })()
+        );
+      }
+    }
+    if (promises.length) {
+      await Promise.all(promises);
+    }
+  };
+  const attachMatchesToVariables = async (variableMap) => {
+    const usages = Array.from(variableMap.values());
+    await Promise.all(
+      usages.map(async (usage) => {
+        var _a;
+        const variable = await getVariable(usage.id);
+        if (!variable) {
+          usage.matches = [];
+          return;
+        }
+        const suffix = getVariableNameSuffix(variable.name);
+        usage.defaultName = variable.name;
+        const candidates = await getLocalVariablesForType(variable.resolvedType);
+        const candidateSummaries = [];
+        for (const candidate of candidates) {
+          if (candidate.id === variable.id) continue;
+          const collection = await getCollection(candidate.variableCollectionId);
+          candidateSummaries.push({
+            id: candidate.id,
+            name: candidate.name,
+            collectionId: candidate.variableCollectionId,
+            collectionName: (_a = collection == null ? void 0 : collection.name) != null ? _a : "Unknown collection"
+          });
+        }
+        candidateSummaries.sort((a, b) => a.name.localeCompare(b.name));
+        usage.options = candidateSummaries;
+        const groupSet = /* @__PURE__ */ new Set();
+        for (const option of candidateSummaries) {
+          groupSet.add(getVariableGroupName(option.name));
+        }
+        usage.groups = Array.from(groupSet).sort((a, b) => a.localeCompare(b));
+        if (!suffix) {
+          usage.matches = [];
+          return;
+        }
+        const suffixLower = suffix.toLowerCase();
+        const matches = candidateSummaries.filter(
+          (candidate) => candidate.name.toLowerCase().includes(suffixLower)
+        );
+        usage.matches = matches.sort((a, b) => a.name.localeCompare(b.name));
+      })
+    );
+  };
+  const getVariablesFromSelection = async () => {
+    const selection = figma.currentPage.selection;
+    const nodesToInspect = getSelectionWithDescendants(selection);
+    const variableMap = /* @__PURE__ */ new Map();
+    const colorMap = /* @__PURE__ */ new Map();
+    for (const node of nodesToInspect) {
+      if (hasBoundVariables(node)) {
+        const bindings = readBindings(node.boundVariables);
+        for (const binding of bindings) {
+          await addVariableUsage(binding.variableId, binding.property, node, variableMap);
+        }
+      }
+      await collectStyleVariableBindings(node, variableMap);
+      const solidColors = collectSolidColors(node);
+      for (const colorEntry of solidColors) {
+        let usage = colorMap.get(colorEntry.hex);
+        if (!usage) {
+          usage = {
+            hex: colorEntry.hex,
+            properties: [],
+            nodes: []
+          };
+          colorMap.set(colorEntry.hex, usage);
+        }
+        if (!usage.properties.includes(colorEntry.property)) {
+          usage.properties.push(colorEntry.property);
+        }
+        if (!usage.nodes.some((entry) => entry.id === node.id)) {
+          usage.nodes.push({ id: node.id, name: node.name || node.type });
+        }
+      }
+    }
+    await attachMatchesToVariables(variableMap);
+    const variables = Array.from(variableMap.values()).sort(
+      (a, b) => a.name.localeCompare(b.name)
+    );
+    const colors = Array.from(colorMap.values()).sort((a, b) => a.hex.localeCompare(b.hex));
+    return { variables, selectionSize: selection.length, colors };
+  };
+  const sendSelectionInfo = async () => {
+    const payload = await getVariablesFromSelection();
+    figma.ui.postMessage({
+      type: MAIN_TO_UI.LINKED_COLORS_SELECTION,
+      payload
+    });
+  };
+  const sendCollectionsList = async () => {
+    const collections = await figma.variables.getLocalVariableCollectionsAsync();
+    const collectionsInfo = await Promise.all(
+      collections.map(async (c) => {
+        var _a;
+        const collection = await figma.variables.getVariableCollectionByIdAsync(c.id);
+        return {
+          id: c.id,
+          name: c.name,
+          modeCount: c.modes.length,
+          variableCount: (_a = collection == null ? void 0 : collection.variableIds.length) != null ? _a : 0
+        };
+      })
+    );
+    figma.ui.postMessage({
+      type: MAIN_TO_UI.LINKED_COLORS_COLLECTIONS_LIST,
+      collections: collectionsInfo
+    });
+  };
+  const rebindSelectionToVariable = (sourceVariableId, targetVariable) => {
+    const selection = figma.currentPage.selection;
+    const nodes = getSelectionWithDescendants(selection);
+    for (const node of nodes) {
+      if (!hasBoundVariables(node) || !node.boundVariables) continue;
+      for (const [property, binding] of Object.entries(node.boundVariables)) {
+        if (!binding) continue;
+        if (property === "fills" && Array.isArray(binding)) {
+          if (hasFills(node)) {
+            const paints = node.fills;
+            if (paints && paints !== figma.mixed) {
+              const updated = paints.map((paint, index) => {
+                const alias = binding[index];
+                if (!(alias == null ? void 0 : alias.id) || alias.id !== sourceVariableId || paint.type !== "SOLID") {
+                  return paint;
+                }
+                return figma.variables.setBoundVariableForPaint(paint, "color", targetVariable);
+              });
+              const changed = updated.some((p, i) => p !== paints[i]);
+              if (changed) {
+                node.fills = updated;
+              }
+            }
+          }
+          continue;
+        }
+        if (property === "strokes" && Array.isArray(binding)) {
+          if (hasStrokes(node)) {
+            const paints = node.strokes;
+            if (paints) {
+              const updated = paints.map((paint, index) => {
+                const alias = binding[index];
+                if (!(alias == null ? void 0 : alias.id) || alias.id !== sourceVariableId || paint.type !== "SOLID") {
+                  return paint;
+                }
+                return figma.variables.setBoundVariableForPaint(paint, "color", targetVariable);
+              });
+              const changed = updated.some((p, i) => p !== paints[i]);
+              if (changed) {
+                node.strokes = updated;
+              }
+            }
+          }
+          continue;
+        }
+        if (!Array.isArray(binding) && binding.id === sourceVariableId) {
+          try {
+            const target = node;
+            target.setBoundVariable(property, targetVariable);
+          } catch (e) {
+          }
+        }
+      }
+    }
+  };
+  const createLinkedVariable = async (sourceVariableId, requestedName) => {
+    const trimmedName = requestedName.trim();
+    if (!trimmedName) {
+      throw new Error("Provide a name for the new variable.");
+    }
+    const sourceVariable = await getVariable(sourceVariableId);
+    if (!sourceVariable) {
+      throw new Error("Source variable no longer exists.");
+    }
+    const collection = await getCollection(sourceVariable.variableCollectionId);
+    if (!collection) {
+      throw new Error("Collection missing for the selected variable.");
+    }
+    const newVariable = figma.variables.createVariable(
+      trimmedName,
+      collection,
+      sourceVariable.resolvedType
+    );
+    updateVariableInCache(newVariable);
+    for (const mode of collection.modes) {
+      newVariable.setValueForMode(mode.modeId, {
+        type: "VARIABLE_ALIAS",
+        id: sourceVariable.id
+      });
+    }
+    rebindSelectionToVariable(sourceVariable.id, newVariable);
+    return { variableName: newVariable.name, collectionName: collection.name };
+  };
+  const applyExistingVariable = async (sourceVariableId, targetVariableId) => {
+    var _a;
+    const targetVariable = await getVariable(targetVariableId);
+    if (!targetVariable) {
+      throw new Error("Selected variable no longer exists.");
+    }
+    rebindSelectionToVariable(sourceVariableId, targetVariable);
+    const collection = await getCollection(targetVariable.variableCollectionId);
+    return {
+      variableName: targetVariable.name,
+      collectionName: (_a = collection == null ? void 0 : collection.name) != null ? _a : "Unknown collection"
+    };
+  };
+  const renameVariable = async (variableId, requestedName) => {
+    var _a;
+    const trimmedName = requestedName.trim();
+    if (!trimmedName) {
+      throw new Error("Provide a name to rename the variable.");
+    }
+    const variable = await getVariable(variableId);
+    if (!variable) {
+      throw new Error("Selected variable no longer exists.");
+    }
+    if (variable.name !== trimmedName) {
+      variable.name = trimmedName;
+      updateVariableInCache(variable);
+      clearLocalVariablesCache(variable.resolvedType);
+    }
+    const collection = await getCollection(variable.variableCollectionId);
+    return { variableName: variable.name, collectionName: (_a = collection == null ? void 0 : collection.name) != null ? _a : "Unknown collection" };
+  };
+  figma.on("selectionchange", () => {
+    if (getActiveTool() === "variables-create-linked-colors-tool") {
+      sendSelectionInfo();
+    }
+  });
+  return {
+    async onActivate() {
+      await sendSelectionInfo();
+      await sendCollectionsList();
+    },
+    async onMessage(msg) {
+      if (getActiveTool() !== "variables-create-linked-colors-tool") return false;
+      if (msg.type === UI_TO_MAIN.LINKED_COLORS_CREATE) {
+        try {
+          const { variableId, targetVariableId } = msg.request;
+          const result = await createLinkedVariable(variableId, targetVariableId);
+          figma.ui.postMessage({
+            type: MAIN_TO_UI.LINKED_COLORS_CREATE_SUCCESS,
+            result: {
+              success: true,
+              message: `Created variable "${result.variableName}"`
+            }
+          });
+          figma.notify(`Created variable "${result.variableName}"`);
+          await sendSelectionInfo();
+        } catch (e) {
+          figma.ui.postMessage({
+            type: MAIN_TO_UI.LINKED_COLORS_CREATE_SUCCESS,
+            result: {
+              success: false,
+              message: e instanceof Error ? e.message : String(e)
+            }
+          });
+        }
+        return true;
+      }
+      if (msg.type === UI_TO_MAIN.LINKED_COLORS_APPLY_EXISTING) {
+        try {
+          const { variableId, targetVariableId } = msg.request;
+          const result = await applyExistingVariable(variableId, targetVariableId);
+          figma.ui.postMessage({
+            type: MAIN_TO_UI.LINKED_COLORS_APPLY_SUCCESS,
+            result: {
+              success: true,
+              message: `Applied "${result.variableName}"`
+            }
+          });
+          figma.notify(`Applied variable "${result.variableName}"`);
+          await sendSelectionInfo();
+        } catch (e) {
+          figma.ui.postMessage({
+            type: MAIN_TO_UI.LINKED_COLORS_APPLY_SUCCESS,
+            result: {
+              success: false,
+              message: e instanceof Error ? e.message : String(e)
+            }
+          });
+        }
+        return true;
+      }
+      if (msg.type === UI_TO_MAIN.LINKED_COLORS_RENAME) {
+        try {
+          const { variableId, newName } = msg.request;
+          const result = await renameVariable(variableId, newName);
+          figma.ui.postMessage({
+            type: MAIN_TO_UI.LINKED_COLORS_RENAME_SUCCESS,
+            result: {
+              success: true,
+              message: `Renamed to "${result.variableName}"`,
+              newName: result.variableName
+            }
+          });
+          figma.notify(`Renamed variable to "${result.variableName}"`);
+          await sendSelectionInfo();
+        } catch (e) {
+          figma.ui.postMessage({
+            type: MAIN_TO_UI.LINKED_COLORS_RENAME_SUCCESS,
+            result: {
+              success: false,
+              message: e instanceof Error ? e.message : String(e)
+            }
+          });
+        }
+        return true;
+      }
+      return false;
+    }
+  };
+}
+var init_main_thread6 = __esm({
+  "src/app/tools/variables-create-linked-colors/main-thread.ts"() {
+    "use strict";
+    init_messages();
+    init_caching();
+    init_node_utils();
+  }
+});
+
+// src/app/tools/variables-replace-usages/main-thread.ts
+function registerVariablesReplaceUsagesTool(getActiveTool) {
+  const getSelectionWithDescendants = (selection) => {
+    const stack = [...selection];
+    const result = [];
+    while (stack.length) {
+      const node = stack.pop();
+      if (!node) continue;
+      if (!isNodeVisible(node)) continue;
+      result.push(node);
+      if (hasChildren(node)) {
+        stack.push(...node.children);
+      }
+    }
+    return result;
+  };
+  const addVariableUsage = async (variableId, property, node, variableMap) => {
+    var _a;
+    const variable = await getVariable(variableId);
+    if (!variable) return;
+    let usage = variableMap.get(variable.id);
+    if (!usage) {
+      const collection = await getCollection(variable.variableCollectionId);
+      usage = {
+        id: variable.id,
+        name: variable.name,
+        collectionId: variable.variableCollectionId,
+        collectionName: (_a = collection == null ? void 0 : collection.name) != null ? _a : "Unknown collection",
+        resolvedType: variable.resolvedType,
+        properties: [],
+        nodes: [],
+        defaultName: variable.name,
+        matches: [],
+        options: [],
+        groups: []
+      };
+      variableMap.set(variable.id, usage);
+    }
+    if (!usage.properties.includes(property)) {
+      usage.properties.push(property);
+    }
+    if (!usage.nodes.some((entry) => entry.id === node.id)) {
+      usage.nodes.push({ id: node.id, name: node.name || node.type });
+    }
+  };
+  const getVariablesFromSelection = async () => {
+    var _a;
+    const selection = figma.currentPage.selection;
+    const nodesToInspect = getSelectionWithDescendants(selection);
+    const variableMap = /* @__PURE__ */ new Map();
+    const colorMap = /* @__PURE__ */ new Map();
+    for (const node of nodesToInspect) {
+      if (hasBoundVariables(node)) {
+        const bindings = readBindings(node.boundVariables);
+        for (const binding of bindings) {
+          await addVariableUsage(binding.variableId, binding.property, node, variableMap);
+        }
+      }
+      const solidColors = collectSolidColors(node);
+      for (const colorEntry of solidColors) {
+        let usage = colorMap.get(colorEntry.hex);
+        if (!usage) {
+          usage = {
+            hex: colorEntry.hex,
+            properties: [],
+            nodes: []
+          };
+          colorMap.set(colorEntry.hex, usage);
+        }
+        if (!usage.properties.includes(colorEntry.property)) {
+          usage.properties.push(colorEntry.property);
+        }
+        if (!usage.nodes.some((entry) => entry.id === node.id)) {
+          usage.nodes.push({ id: node.id, name: node.name || node.type });
+        }
+      }
+    }
+    for (const usage of Array.from(variableMap.values())) {
+      const variable = await getVariable(usage.id);
+      if (!variable) continue;
+      const suffix = getVariableNameSuffix(variable.name);
+      usage.defaultName = variable.name;
+      const candidates = await getAllLocalVariables([variable.resolvedType]);
+      const candidateSummaries = [];
+      for (const candidate of candidates) {
+        if (candidate.id === variable.id) continue;
+        const collection = await getCollection(candidate.variableCollectionId);
+        candidateSummaries.push({
+          id: candidate.id,
+          name: candidate.name,
+          collectionId: candidate.variableCollectionId,
+          collectionName: (_a = collection == null ? void 0 : collection.name) != null ? _a : "Unknown collection"
+        });
+      }
+      candidateSummaries.sort((a, b) => a.name.localeCompare(b.name));
+      usage.options = candidateSummaries;
+      const groupSet = /* @__PURE__ */ new Set();
+      for (const option of candidateSummaries) {
+        groupSet.add(getVariableGroupName(option.name));
+      }
+      usage.groups = Array.from(groupSet).sort((a, b) => a.localeCompare(b));
+      if (suffix) {
+        const suffixLower = suffix.toLowerCase();
+        usage.matches = candidateSummaries.filter((c) => c.name.toLowerCase().includes(suffixLower)).sort((a, b) => a.name.localeCompare(b.name));
+      } else {
+        usage.matches = [];
+      }
+    }
+    const variables = Array.from(variableMap.values()).sort(
+      (a, b) => a.name.localeCompare(b.name)
+    );
+    const colors = Array.from(colorMap.values()).sort((a, b) => a.hex.localeCompare(b.hex));
+    return { variables, selectionSize: selection.length, colors };
+  };
+  const sendSelectionInfo = async () => {
+    const payload = await getVariablesFromSelection();
+    figma.ui.postMessage({
+      type: MAIN_TO_UI.REPLACE_USAGES_SELECTION,
+      payload
+    });
+  };
+  const resolveCollectionForMapping = async (doc) => {
+    if (doc.collectionId) {
+      const byId = await getCollection(doc.collectionId);
+      if (!byId) {
+        throw new Error("Mapping collectionId not found in this file.");
+      }
+      return byId;
+    }
+    if (doc.collectionName) {
+      const collections = await figma.variables.getLocalVariableCollectionsAsync();
+      const match = collections.find((c) => c.name === doc.collectionName);
+      if (!match) {
+        throw new Error("Mapping collectionName not found in this file.");
+      }
+      return match;
+    }
+    throw new Error("Mapping must include collectionName or collectionId.");
+  };
+  const buildUsagesReplaceMappingFromJson = async (jsonText) => {
+    var _a, _b;
+    const doc = parseUsagesReplaceMappingJson(jsonText);
+    const collection = await resolveCollectionForMapping(doc);
+    const vars = await getAllLocalVariables(["COLOR"]);
+    const byName = /* @__PURE__ */ new Map();
+    for (const v of vars) {
+      if (v.variableCollectionId !== collection.id) continue;
+      if (!byName.has(v.name)) byName.set(v.name, v);
+    }
+    const entries = [];
+    const invalidMappingRows = [];
+    const seenFrom = /* @__PURE__ */ new Set();
+    for (const r of doc.replacements) {
+      const from = r.from;
+      const to = r.to;
+      if (!from || !to) {
+        invalidMappingRows.push({ from, to, status: "invalid", reason: "Missing from/to." });
+        continue;
+      }
+      if (seenFrom.has(from)) {
+        invalidMappingRows.push({
+          from,
+          to,
+          status: "duplicate_from",
+          reason: 'Duplicate "from" row (keep only one).'
+        });
+        continue;
+      }
+      seenFrom.add(from);
+      const sourceVar = (_a = byName.get(from)) != null ? _a : null;
+      if (!sourceVar) {
+        invalidMappingRows.push({
+          from,
+          to,
+          status: "missing_source",
+          reason: "Source variable not found by name."
+        });
+        continue;
+      }
+      const targetVar = (_b = byName.get(to)) != null ? _b : null;
+      if (!targetVar) {
+        invalidMappingRows.push({
+          from,
+          to,
+          status: "missing_target",
+          reason: "Target variable not found by name."
+        });
+        continue;
+      }
+      if (sourceVar.id === targetVar.id) {
+        invalidMappingRows.push({ from, to, status: "ok", reason: "No-op (same variable)." });
+        continue;
+      }
+      const row = {
+        sourceId: sourceVar.id,
+        sourceName: sourceVar.name,
+        sourceCollectionId: sourceVar.variableCollectionId,
+        sourceCollectionName: collection.name,
+        targetId: targetVar.id,
+        targetName: targetVar.name,
+        reason: "imported mapping",
+        bindingsTotal: 0,
+        bindingsByPhase: { component: 0, instance_in_component: 0, other: 0 },
+        nodesTotal: 0,
+        nodesByPhase: { component: 0, instance_in_component: 0, other: 0 },
+        defaultName: sourceVar.name
+      };
+      entries.push({ row, targetVariable: targetVar });
+      invalidMappingRows.push({ from, to, status: "ok" });
+    }
+    entries.sort((a, b) => a.row.sourceName.localeCompare(b.row.sourceName));
+    return { entries, invalidMappingRows };
+  };
+  const scanUsagesReplacePreview = async (scope, renamePrints, includeHidden, mappingJsonText) => {
+    if (!mappingJsonText.trim()) {
+      throw new Error("Mapping JSON is required. Please load a mapping file.");
+    }
+    const { entries, invalidMappingRows } = await buildUsagesReplaceMappingFromJson(mappingJsonText);
+    const bySourceId = new Map(
+      entries.map((e) => [e.row.sourceId, e])
+    );
+    const perRowNodeSets = /* @__PURE__ */ new Map();
+    for (const e of entries) {
+      perRowNodeSets.set(e.row.sourceId, {
+        component: /* @__PURE__ */ new Set(),
+        instance_in_component: /* @__PURE__ */ new Set(),
+        other: /* @__PURE__ */ new Set()
+      });
+    }
+    const nodesWithChangesByPhase = {
+      component: /* @__PURE__ */ new Set(),
+      instance_in_component: /* @__PURE__ */ new Set(),
+      other: /* @__PURE__ */ new Set()
+    };
+    let bindingsWithChanges = 0;
+    const bindingsWithChangesByPhase = {
+      component: 0,
+      instance_in_component: 0,
+      other: 0
+    };
+    let printsRenameCandidates = 0;
+    const nodes = collectNodesForScope(scope, includeHidden);
+    for (const { node, phase } of nodes) {
+      if (node.locked === true) {
+        continue;
+      }
+      if (!hasBoundVariables(node) || !node.boundVariables) {
+        if (renamePrints && node.type === "TEXT") {
+          const sourceIdFromName = getVariableIdPrefixFromLayerName(node.name);
+          if (sourceIdFromName && bySourceId.has(sourceIdFromName)) {
+            printsRenameCandidates += 1;
+          }
+        }
+        continue;
+      }
+      for (const [property, binding] of Object.entries(node.boundVariables)) {
+        if (!binding) continue;
+        const handleId = (id) => {
+          const hit = bySourceId.get(id);
+          if (!hit) return;
+          hit.row.bindingsTotal += 1;
+          hit.row.bindingsByPhase[phase] += 1;
+          bindingsWithChanges += 1;
+          bindingsWithChangesByPhase[phase] += 1;
+          nodesWithChangesByPhase[phase].add(node.id);
+          const sets = perRowNodeSets.get(id);
+          sets == null ? void 0 : sets[phase].add(node.id);
+        };
+        if ((property === "fills" || property === "strokes") && Array.isArray(binding)) {
+          for (const item of binding) {
+            if (item == null ? void 0 : item.id) {
+              handleId(item.id);
+            }
+          }
+          continue;
+        }
+        if (!Array.isArray(binding) && typeof binding === "object" && "id" in binding && binding.id) {
+          handleId(String(binding.id));
+        }
+      }
+      if (renamePrints && node.type === "TEXT") {
+        const sourceIdFromName = getVariableIdPrefixFromLayerName(node.name);
+        if (sourceIdFromName && bySourceId.has(sourceIdFromName)) {
+          printsRenameCandidates += 1;
+        }
+      }
+    }
+    for (const e of entries) {
+      const sets = perRowNodeSets.get(e.row.sourceId);
+      if (!sets) continue;
+      e.row.nodesByPhase.component = sets.component.size;
+      e.row.nodesByPhase.instance_in_component = sets.instance_in_component.size;
+      e.row.nodesByPhase.other = sets.other.size;
+      e.row.nodesTotal = sets.component.size + sets.instance_in_component.size + sets.other.size;
+    }
+    const nodesWithChanges = nodesWithChangesByPhase.component.size + nodesWithChangesByPhase.instance_in_component.size + nodesWithChangesByPhase.other.size;
+    return {
+      scope,
+      totals: {
+        mappings: entries.length,
+        invalidMappingRows: invalidMappingRows.length,
+        nodesWithChanges,
+        bindingsWithChanges,
+        nodesWithChangesByPhase: {
+          component: nodesWithChangesByPhase.component.size,
+          instance_in_component: nodesWithChangesByPhase.instance_in_component.size,
+          other: nodesWithChangesByPhase.other.size
+        },
+        bindingsWithChangesByPhase,
+        printsRenameCandidates
+      },
+      mappings: entries.map((e) => e.row).filter((r) => r.bindingsTotal > 0),
+      invalidMappingRows
+    };
+  };
+  const applyUsagesReplace = async (scope, renamePrints, includeHidden, mappingJsonText, onProgress) => {
+    if (!mappingJsonText.trim()) {
+      throw new Error("Mapping JSON is required. Please load a mapping file.");
+    }
+    const { entries } = await buildUsagesReplaceMappingFromJson(mappingJsonText);
+    const mappingBySourceId = new Map(
+      entries.map((e) => [e.row.sourceId, e.targetVariable])
+    );
+    const nodes = collectNodesForScope(scope, includeHidden);
+    const buckets = {
+      component: [],
+      instance_in_component: [],
+      other: []
+    };
+    for (const item of nodes) {
+      buckets[item.phase].push(item.node);
+    }
+    const ordered = [
+      ...buckets.component,
+      ...buckets.instance_in_component,
+      ...buckets.other
+    ];
+    const total = ordered.length;
+    let done = 0;
+    let nodesVisited = 0;
+    let nodesChanged = 0;
+    let bindingsChanged = 0;
+    let nodesSkippedLocked = 0;
+    let bindingsSkippedUnsupported = 0;
+    let bindingsFailed = 0;
+    let printsRenamed = 0;
+    if (onProgress) {
+      onProgress(0, total);
+    }
+    for (const node of ordered) {
+      nodesVisited += 1;
+      if (node.locked === true) {
+        nodesSkippedLocked += 1;
+        done += 1;
+        if (onProgress && (done % 50 === 0 || done === total)) onProgress(done, total);
+        continue;
+      }
+      let nodeHadChanges = false;
+      const sourceIdFromName = renamePrints && node.type === "TEXT" ? getVariableIdPrefixFromLayerName(node.name) : null;
+      if (renamePrints && node.type === "TEXT" && sourceIdFromName) {
+        const targetVar = mappingBySourceId.get(sourceIdFromName);
+        if (targetVar) {
+          const prefix = sourceIdFromName;
+          const rest = node.name.slice(prefix.length);
+          const nextName = `${targetVar.id}${rest}`;
+          if (nextName !== node.name) {
+            node.name = nextName;
+            printsRenamed += 1;
+            nodeHadChanges = true;
+          }
+        }
+      }
+      if (!hasBoundVariables(node) || !node.boundVariables) {
+        if (nodeHadChanges) {
+          nodesChanged += 1;
+        }
+        done += 1;
+        if (onProgress && (done % 50 === 0 || done === total)) onProgress(done, total);
+        continue;
+      }
+      for (const [property, binding] of Object.entries(node.boundVariables)) {
+        if (!binding) continue;
+        if (property === "fills" && Array.isArray(binding)) {
+          if (!hasFills(node)) {
+            bindingsSkippedUnsupported += binding.length;
+            continue;
+          }
+          const paintsValue = node.fills;
+          if (!paintsValue || paintsValue === figma.mixed) {
+            continue;
+          }
+          const updated = paintsValue.map((paint, index) => {
+            const alias = binding[index];
+            if (!(alias == null ? void 0 : alias.id) || paint.type !== "SOLID") {
+              return paint;
+            }
+            const targetVar = mappingBySourceId.get(alias.id);
+            if (!targetVar) {
+              return paint;
+            }
+            return figma.variables.setBoundVariableForPaint(paint, "color", targetVar);
+          });
+          const changed = updated.some((p, i) => p !== paintsValue[i]);
+          if (changed) {
+            node.fills = updated;
+            for (const alias of binding) {
+              if ((alias == null ? void 0 : alias.id) && mappingBySourceId.has(alias.id)) {
+                bindingsChanged += 1;
+              }
+            }
+            nodeHadChanges = true;
+          }
+          continue;
+        }
+        if (property === "strokes" && Array.isArray(binding)) {
+          if (!hasStrokes(node)) {
+            bindingsSkippedUnsupported += binding.length;
+            continue;
+          }
+          const paintsValue = node.strokes;
+          if (!paintsValue) {
+            continue;
+          }
+          const updated = paintsValue.map((paint, index) => {
+            const alias = binding[index];
+            if (!(alias == null ? void 0 : alias.id) || paint.type !== "SOLID") {
+              return paint;
+            }
+            const targetVar = mappingBySourceId.get(alias.id);
+            if (!targetVar) {
+              return paint;
+            }
+            return figma.variables.setBoundVariableForPaint(paint, "color", targetVar);
+          });
+          const changed = updated.some((p, i) => p !== paintsValue[i]);
+          if (changed) {
+            node.strokes = updated;
+            for (const alias of binding) {
+              if ((alias == null ? void 0 : alias.id) && mappingBySourceId.has(alias.id)) {
+                bindingsChanged += 1;
+              }
+            }
+            nodeHadChanges = true;
+          }
+          continue;
+        }
+        if (!Array.isArray(binding) && typeof binding === "object" && "id" in binding && binding.id) {
+          const sourceId = String(binding.id);
+          const targetVar = mappingBySourceId.get(sourceId);
+          if (!targetVar) {
+            continue;
+          }
+          const ok = setBoundVariableTry(node, property, targetVar);
+          if (ok) {
+            bindingsChanged += 1;
+            nodeHadChanges = true;
+          } else {
+            bindingsFailed += 1;
+          }
+          continue;
+        }
+        if (Array.isArray(binding)) {
+          bindingsSkippedUnsupported += binding.length;
+        }
+      }
+      if (nodeHadChanges) {
+        nodesChanged += 1;
+      }
+      done += 1;
+      if (onProgress && (done % 50 === 0 || done === total)) {
+        onProgress(done, total);
+      }
+    }
+    return {
+      totals: {
+        nodesVisited,
+        nodesChanged,
+        bindingsChanged,
+        nodesSkippedLocked,
+        bindingsSkippedUnsupported,
+        bindingsFailed,
+        printsRenamed
+      }
+    };
+  };
+  figma.on("selectionchange", () => {
+    if (getActiveTool() === "variables-replace-usages-tool") {
+      sendSelectionInfo();
+    }
+  });
+  return {
+    async onActivate() {
+      await sendSelectionInfo();
+    },
+    async onMessage(msg) {
+      if (getActiveTool() !== "variables-replace-usages-tool") return false;
+      if (msg.type === UI_TO_MAIN.REPLACE_USAGES_PREVIEW) {
+        try {
+          const { scope, renamePrints, includeHidden, mappingJsonText } = msg.request;
+          const payload = await scanUsagesReplacePreview(
+            scope,
+            renamePrints,
+            includeHidden,
+            mappingJsonText != null ? mappingJsonText : ""
+          );
+          figma.ui.postMessage({
+            type: MAIN_TO_UI.REPLACE_USAGES_PREVIEW,
+            payload
+          });
+        } catch (e) {
+          figma.notify(e instanceof Error ? e.message : "Preview failed");
+          figma.ui.postMessage({
+            type: MAIN_TO_UI.ERROR,
+            message: e instanceof Error ? e.message : "Preview failed"
+          });
+        }
+        return true;
+      }
+      if (msg.type === UI_TO_MAIN.REPLACE_USAGES_APPLY) {
+        try {
+          const { scope, renamePrints, includeHidden, mappingJsonText } = msg.request;
+          const payload = await applyUsagesReplace(
+            scope,
+            renamePrints,
+            includeHidden,
+            mappingJsonText != null ? mappingJsonText : "",
+            (done, total) => {
+              figma.ui.postMessage({
+                type: MAIN_TO_UI.REPLACE_USAGES_APPLY_PROGRESS,
+                progress: {
+                  current: done,
+                  total,
+                  message: `Replacing usages... ${done}/${total}`
+                }
+              });
+            }
+          );
+          figma.ui.postMessage({
+            type: MAIN_TO_UI.REPLACE_USAGES_APPLY_RESULT,
+            payload
+          });
+          const { nodesChanged, bindingsChanged, printsRenamed } = payload.totals;
+          figma.notify(
+            `Replaced: ${bindingsChanged} bindings in ${nodesChanged} nodes, ${printsRenamed} prints renamed`
+          );
+          await sendSelectionInfo();
+        } catch (e) {
+          figma.notify(e instanceof Error ? e.message : "Apply failed");
+          figma.ui.postMessage({
+            type: MAIN_TO_UI.ERROR,
+            message: e instanceof Error ? e.message : "Apply failed"
+          });
+        }
+        return true;
+      }
+      return false;
+    }
+  };
+}
+var init_main_thread7 = __esm({
+  "src/app/tools/variables-replace-usages/main-thread.ts"() {
+    "use strict";
+    init_messages();
+    init_caching();
+    init_node_utils();
+    init_json_parsers();
+  }
+});
+
 // src/app/run.ts
+function getToolTitle(command) {
+  switch (command) {
+    case "color-chain-tool":
+      return "View Colors Chain";
+    case "print-color-usages-tool":
+      return "Print Color Usages";
+    case "mockup-markup-tool":
+      return "Mockup Markup Quick Apply";
+    case "variables-batch-rename-tool":
+      return "Variables Batch Rename";
+    case "variables-export-import-tool":
+      return "Variables Export Import";
+    case "variables-create-linked-colors-tool":
+      return "Variables Create Linked Colors";
+    case "variables-replace-usages-tool":
+      return "Variables Replace Usages";
+    default:
+      return "JetBrains Design Tools";
+  }
+}
 function run(command) {
   showUI(
     {
       width: 360,
       height: 500,
-      title: command === "color-chain-tool" ? "View Colors Chain" : command === "print-color-usages-tool" ? "Print Color Usages" : command === "mockup-markup-tool" ? "Mockup Markup Quick Apply" : "JetBrains Design Tools"
+      title: getToolTitle(command)
     },
     { command }
   );
-  let activeTool = command === "color-chain-tool" || command === "print-color-usages-tool" || command === "mockup-markup-tool" ? command : "home";
+  const toolCommands = [
+    "color-chain-tool",
+    "print-color-usages-tool",
+    "mockup-markup-tool",
+    "variables-batch-rename-tool",
+    "variables-export-import-tool",
+    "variables-create-linked-colors-tool",
+    "variables-replace-usages-tool"
+  ];
+  let activeTool = toolCommands.includes(command) ? command : "home";
   const getActiveTool = () => activeTool;
   const colorChain = registerColorChainTool(getActiveTool);
   const printColorUsages = registerPrintColorUsagesTool(getActiveTool);
   const mockupMarkup = registerMockupMarkupTool(getActiveTool);
+  const variablesBatchRename = registerVariablesBatchRenameTool(getActiveTool);
+  const variablesExportImport = registerVariablesExportImportTool(getActiveTool);
+  const variablesCreateLinkedColors = registerVariablesCreateLinkedColorsTool(getActiveTool);
+  const variablesReplaceUsages = registerVariablesReplaceUsagesTool(getActiveTool);
   const activate = async (tool) => {
     activeTool = tool;
     if (tool === "color-chain-tool") {
@@ -2316,6 +4711,22 @@ function run(command) {
     }
     if (tool === "mockup-markup-tool") {
       await mockupMarkup.onActivate();
+      return;
+    }
+    if (tool === "variables-batch-rename-tool") {
+      await variablesBatchRename.onActivate();
+      return;
+    }
+    if (tool === "variables-export-import-tool") {
+      await variablesExportImport.onActivate();
+      return;
+    }
+    if (tool === "variables-create-linked-colors-tool") {
+      await variablesCreateLinkedColors.onActivate();
+      return;
+    }
+    if (tool === "variables-replace-usages-tool") {
+      await variablesReplaceUsages.onActivate();
       return;
     }
   };
@@ -2337,6 +4748,10 @@ function run(command) {
       if (await mockupMarkup.onMessage(msg)) return;
       if (await printColorUsages.onMessage(msg)) return;
       if (await colorChain.onMessage(msg)) return;
+      if (await variablesBatchRename.onMessage(msg)) return;
+      if (await variablesExportImport.onMessage(msg)) return;
+      if (await variablesCreateLinkedColors.onMessage(msg)) return;
+      if (await variablesReplaceUsages.onMessage(msg)) return;
     } catch (e) {
       console.log("[run] Unhandled error in onmessage", e);
       try {
@@ -2354,6 +4769,10 @@ var init_run = __esm({
     init_main_thread();
     init_main_thread2();
     init_main_thread3();
+    init_main_thread4();
+    init_main_thread5();
+    init_main_thread6();
+    init_main_thread7();
   }
 });
 
@@ -2417,7 +4836,67 @@ var init_main4 = __esm({
   }
 });
 
+// src/variables-batch-rename-tool/main.ts
+var main_exports5 = {};
+__export(main_exports5, {
+  default: () => main_default5
+});
+function main_default5() {
+  run("variables-batch-rename-tool");
+}
+var init_main5 = __esm({
+  "src/variables-batch-rename-tool/main.ts"() {
+    "use strict";
+    init_run();
+  }
+});
+
+// src/variables-export-import-tool/main.ts
+var main_exports6 = {};
+__export(main_exports6, {
+  default: () => main_default6
+});
+function main_default6() {
+  run("variables-export-import-tool");
+}
+var init_main6 = __esm({
+  "src/variables-export-import-tool/main.ts"() {
+    "use strict";
+    init_run();
+  }
+});
+
+// src/variables-create-linked-colors-tool/main.ts
+var main_exports7 = {};
+__export(main_exports7, {
+  default: () => main_default7
+});
+function main_default7() {
+  run("variables-create-linked-colors-tool");
+}
+var init_main7 = __esm({
+  "src/variables-create-linked-colors-tool/main.ts"() {
+    "use strict";
+    init_run();
+  }
+});
+
+// src/variables-replace-usages-tool/main.ts
+var main_exports8 = {};
+__export(main_exports8, {
+  default: () => main_default8
+});
+function main_default8() {
+  run("variables-replace-usages-tool");
+}
+var init_main8 = __esm({
+  "src/variables-replace-usages-tool/main.ts"() {
+    "use strict";
+    init_run();
+  }
+});
+
 // <stdin>
-var modules = { "src/home/main.ts--default": (init_main(), __toCommonJS(main_exports))["default"], "src/color-chain-tool/main.ts--default": (init_main2(), __toCommonJS(main_exports2))["default"], "src/print-color-usages-tool/main.ts--default": (init_main3(), __toCommonJS(main_exports3))["default"], "src/mockup-markup-tool/main.ts--default": (init_main4(), __toCommonJS(main_exports4))["default"] };
+var modules = { "src/home/main.ts--default": (init_main(), __toCommonJS(main_exports))["default"], "src/color-chain-tool/main.ts--default": (init_main2(), __toCommonJS(main_exports2))["default"], "src/print-color-usages-tool/main.ts--default": (init_main3(), __toCommonJS(main_exports3))["default"], "src/mockup-markup-tool/main.ts--default": (init_main4(), __toCommonJS(main_exports4))["default"], "src/variables-batch-rename-tool/main.ts--default": (init_main5(), __toCommonJS(main_exports5))["default"], "src/variables-export-import-tool/main.ts--default": (init_main6(), __toCommonJS(main_exports6))["default"], "src/variables-create-linked-colors-tool/main.ts--default": (init_main7(), __toCommonJS(main_exports7))["default"], "src/variables-replace-usages-tool/main.ts--default": (init_main8(), __toCommonJS(main_exports8))["default"] };
 var commandId = typeof figma.command === "undefined" || figma.command === "" || figma.command === "generate" ? "src/home/main.ts--default" : figma.command;
 modules[commandId]();

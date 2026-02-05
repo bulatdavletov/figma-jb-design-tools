@@ -1,3 +1,10 @@
+## Coding Conventions / UI Patterns
+
+### @create-figma-plugin/ui components
+- **Checkbox / RadioButtons labels**: Always wrap label text in `<Text>` component to fix alignment issues. Example: `<Checkbox value={v} onValueChange={setV}><Text>Label</Text></Checkbox>`
+
+---
+
 ## Memory (Mem0 + OpenMemory)
 
 ### 2026-01-29
@@ -349,6 +356,28 @@
   - **In-Figma test runners** (experimental, complex setup)
   - **Manual testing checklist** (current approach, keep maintaining)
 - Key insight: Community mocks don't support Figma's newer variable APIs, so best ROI is extracting pure logic and unit testing it.
+
+### 2026-02-05
+
+#### Migration: Variables Rename Helper → 4 Separate Tools
+- Goal: Migrate the separate `variables-rename-helper` plugin (4-tab UI) into this combined plugin as 4 distinct tools.
+- User-specified tool names:
+  1. **Variables Batch Rename** — Rename multiple variables at once via inline editing or CSV export/import
+  2. **Variables Export Import** — Export variable collections to JSON snapshot, import from backup
+  3. **Variables Create Linked Colors** — Create new color variables or rename existing ones in selection
+  4. **Variables Replace Usages** — Replace variable bindings in selection with different variables
+- Architecture decision: Each tool is completely separate (own entry file, main-thread handler, view, messages) rather than a single "sub-home" with tabs.
+- Created files:
+  - Entry files: `src/variables-*-tool/main.ts` (4 files)
+  - Main-thread handlers: `src/app/tools/variables-*/main-thread.ts` (4 files)
+  - Views: `src/app/views/variables-*-tool/*ToolView.tsx` (4 files)
+  - Updated: `src/app/messages.ts` (added UI_TO_MAIN/MAIN_TO_UI constants + payload types)
+  - Updated: `src/app/run.ts` (tool registration + routing)
+  - Updated: `src/app/ui.tsx` (UI routing for 4 new views)
+  - Updated: `src/app/views/home/HomeView.tsx` (4 new ToolCards under "Variables" section)
+  - Updated: `package.json` (4 new menu entries)
+- Build: `npm run build` passed successfully.
+- Note: The main-thread handlers include basic working implementations; full feature parity with the original plugin may need additional refinement based on testing.
 
 ## Git (initialize repo)
 

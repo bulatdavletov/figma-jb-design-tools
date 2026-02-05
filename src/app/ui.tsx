@@ -7,8 +7,20 @@ import { ColorChainToolView } from "./views/color-chain-tool/ColorChainToolView"
 import { HomeView } from "./views/home/HomeView"
 import { MockupMarkupToolView } from "./views/mockup-markup-tool/MockupMarkupToolView"
 import { PrintColorUsagesToolView } from "./views/print-color-usages-tool/PrintColorUsagesToolView"
+import { VariablesBatchRenameToolView } from "./views/variables-batch-rename-tool/VariablesBatchRenameToolView"
+import { VariablesExportImportToolView } from "./views/variables-export-import-tool/VariablesExportImportToolView"
+import { VariablesCreateLinkedColorsToolView } from "./views/variables-create-linked-colors-tool/VariablesCreateLinkedColorsToolView"
+import { VariablesReplaceUsagesToolView } from "./views/variables-replace-usages-tool/VariablesReplaceUsagesToolView"
 
-type Route = "home" | "color-chain-tool" | "print-color-usages-tool" | "mockup-markup-tool"
+type Route =
+  | "home"
+  | "color-chain-tool"
+  | "print-color-usages-tool"
+  | "mockup-markup-tool"
+  | "variables-batch-rename-tool"
+  | "variables-export-import-tool"
+  | "variables-create-linked-colors-tool"
+  | "variables-replace-usages-tool"
 
 export function App() {
   const [route, setRoute] = useState<Route>("home")
@@ -20,14 +32,17 @@ export function App() {
       if (!msg) return
       if (msg.type === MAIN_TO_UI.BOOTSTRAPPED) {
         setSelectionSize(msg.selectionSize)
+        const validRoutes: Route[] = [
+          "color-chain-tool",
+          "print-color-usages-tool",
+          "mockup-markup-tool",
+          "variables-batch-rename-tool",
+          "variables-export-import-tool",
+          "variables-create-linked-colors-tool",
+          "variables-replace-usages-tool",
+        ]
         setRoute(
-          msg.command === "color-chain-tool"
-            ? "color-chain-tool"
-            : msg.command === "print-color-usages-tool"
-              ? "print-color-usages-tool"
-              : msg.command === "mockup-markup-tool"
-                ? "mockup-markup-tool"
-              : "home"
+          validRoutes.includes(msg.command as Route) ? (msg.command as Route) : "home"
         )
       }
     }
@@ -42,14 +57,7 @@ export function App() {
       {
         pluginMessage: {
           type: UI_TO_MAIN.SET_ACTIVE_TOOL,
-          tool:
-            route === "home"
-              ? "home"
-              : route === "color-chain-tool"
-                ? "color-chain-tool"
-                : route === "print-color-usages-tool"
-                  ? "print-color-usages-tool"
-                  : "mockup-markup-tool",
+          tool: route,
         },
       },
       "*"
@@ -70,6 +78,22 @@ export function App() {
 
   if (route === "mockup-markup-tool") {
     return <MockupMarkupToolView onBack={() => setRoute("home")} />
+  }
+
+  if (route === "variables-batch-rename-tool") {
+    return <VariablesBatchRenameToolView onBack={() => setRoute("home")} />
+  }
+
+  if (route === "variables-export-import-tool") {
+    return <VariablesExportImportToolView onBack={() => setRoute("home")} />
+  }
+
+  if (route === "variables-create-linked-colors-tool") {
+    return <VariablesCreateLinkedColorsToolView onBack={() => setRoute("home")} />
+  }
+
+  if (route === "variables-replace-usages-tool") {
+    return <VariablesReplaceUsagesToolView onBack={() => setRoute("home")} />
   }
 
   return <HomeView goTo={setRoute} />
