@@ -176,7 +176,7 @@ export type SnapshotExportDoc = {
 // Usages Replace Types
 // ============================================================================
 
-export type UsagesReplaceScope = "selection" | "page"
+export type UsagesReplaceScope = "selection" | "page" | "all_pages"
 
 export type UsagesReplacePhase = "component" | "instance_in_component" | "other"
 

@@ -23,10 +23,9 @@ export function ToolCard(props: {
         width: "100%",
         display: "flex",
         alignItems: "center",
-        gap: 12,
-        padding: 12,
-        border: hovered ? "1px solid var(--figma-color-border-strong)" : "1px solid var(--figma-color-border)",
-        borderRadius: 8,
+        gap: 8,
+        padding: "4px 8px 4px 4px",
+        borderRadius: 6,
         background: hovered ? "var(--figma-color-bg-hover)" : "var(--figma-color-bg)",
         cursor: "pointer",
         textAlign: "left",
@@ -38,9 +37,8 @@ export function ToolCard(props: {
         style={{
           width: 32,
           height: 32,
-          borderRadius: 8,
-          border: "1px solid var(--figma-color-border)",
-          background: "var(--figma-color-bg-secondary)",
+          borderRadius: 6,
+          background: "rgba(255, 255, 255, 0.08)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -57,7 +55,6 @@ export function ToolCard(props: {
         <div
           style={{
             fontSize: 11,
-            fontWeight: 600,
             color: "var(--figma-color-text)",
             overflow: "hidden",
             textOverflow: "ellipsis",
@@ -68,7 +65,7 @@ export function ToolCard(props: {
         </div>
         <div
           style={{
-            marginTop: 2,
+            marginTop: 1,
             fontSize: 10,
             color: "var(--figma-color-text-secondary)",
             overflow: "hidden",

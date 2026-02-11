@@ -31,6 +31,7 @@ import { ToolHeader } from "../../components/ToolHeader"
 
 type Props = {
   onBack: () => void
+  initialSelectionEmpty: boolean
 }
 
 function getStatusPillStyle(status: string): {
@@ -45,12 +46,15 @@ function getStatusPillStyle(status: string): {
   return { background: "#fff1f2", borderColor: "#fecdd3", color: "#9f1239" }
 }
 
-export function VariablesReplaceUsagesToolView({ onBack }: Props) {
+export function VariablesReplaceUsagesToolView({ onBack, initialSelectionEmpty }: Props) {
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [successMessage, setSuccessMessage] = useState<string | null>(null)
 
   // Scope/options
-  const [scope, setScope] = useState<ReplaceUsagesScope>("selection")
+  const [scope, setScope] = useState<ReplaceUsagesScope>(
+    initialSelectionEmpty ? "page" : "selection"
+  )
+  const [selectionSize, setSelectionSize] = useState<number>(initialSelectionEmpty ? 0 : 1)
   const [renamePrints, setRenamePrints] = useState(false)
   const [includeHidden, setIncludeHidden] = useState(false)
 
@@ -85,6 +89,13 @@ export function VariablesReplaceUsagesToolView({ onBack }: Props) {
 
       if (msg.type === MAIN_TO_UI.REPLACE_USAGES_APPLY_PROGRESS) {
         setApplyProgress(msg.progress)
+      }
+
+      if (msg.type === MAIN_TO_UI.REPLACE_USAGES_SELECTION) {
+        setSelectionSize(msg.payload.selectionSize)
+        // Always keep scope aligned with selection presence:
+        // selection exists -> Selection only, no selection -> Current page.
+        setScope(msg.payload.selectionSize > 0 ? "selection" : "page")
       }
 
       if (msg.type === MAIN_TO_UI.REPLACE_USAGES_APPLY_RESULT) {
@@ -196,6 +207,12 @@ export function VariablesReplaceUsagesToolView({ onBack }: Props) {
     )
   }
 
+  const hasSelection = selectionSize > 0
+  const selectScope = (nextScope: ReplaceUsagesScope) => {
+    if (nextScope === "selection" && !hasSelection) return
+    setScope(nextScope)
+  }
+
   return (
     <Page>
       <ToolHeader
@@ -233,20 +250,102 @@ export function VariablesReplaceUsagesToolView({ onBack }: Props) {
 
           <Stack space="small">
             <Text style={{ fontWeight: 600 }}>Scope</Text>
-            <Inline space="medium">
-              <Checkbox
-                value={scope === "selection"}
-                onValueChange={() => setScope("selection")}
+            <div
+              style={{
+                display: "flex",
+                gap: 2,
+                padding: 2,
+                borderRadius: 8,
+                background: "var(--figma-color-bg-secondary)",
+              }}
+            >
+              <button
+                type="button"
+                disabled={!hasSelection}
+                onClick={() => selectScope("selection")}
+                style={{
+                  flex: 1,
+                  height: 24,
+                  borderRadius: 6,
+                  border:
+                    scope === "selection"
+                      ? "1px solid var(--figma-color-border)"
+                      : "1px solid transparent",
+                  background:
+                    scope === "selection"
+                      ? "var(--figma-color-bg)"
+                      : "transparent",
+                  color:
+                    scope === "selection"
+                      ? "var(--figma-color-text)"
+                      : "var(--figma-color-text-secondary)",
+                  cursor: hasSelection ? "pointer" : "not-allowed",
+                  opacity: hasSelection ? 1 : 0.5,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  padding: "0 8px",
+                }}
               >
                 <Text>Selection only</Text>
-              </Checkbox>
-              <Checkbox
-                value={scope === "page"}
-                onValueChange={() => setScope("page")}
+              </button>
+              <button
+                type="button"
+                onClick={() => selectScope("page")}
+                style={{
+                  flex: 1,
+                  height: 24,
+                  borderRadius: 6,
+                  border:
+                    scope === "page"
+                      ? "1px solid var(--figma-color-border)"
+                      : "1px solid transparent",
+                  background:
+                    scope === "page"
+                      ? "var(--figma-color-bg)"
+                      : "transparent",
+                  color:
+                    scope === "page"
+                      ? "var(--figma-color-text)"
+                      : "var(--figma-color-text-secondary)",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  padding: "0 8px",
+                }}
               >
-                <Text>Entire page</Text>
-              </Checkbox>
-            </Inline>
+                <Text>Current page</Text>
+              </button>
+              <button
+                type="button"
+                onClick={() => selectScope("all_pages")}
+                style={{
+                  flex: 1,
+                  height: 24,
+                  borderRadius: 6,
+                  border:
+                    scope === "all_pages"
+                      ? "1px solid var(--figma-color-border)"
+                      : "1px solid transparent",
+                  background:
+                    scope === "all_pages"
+                      ? "var(--figma-color-bg)"
+                      : "transparent",
+                  color:
+                    scope === "all_pages"
+                      ? "var(--figma-color-text)"
+                      : "var(--figma-color-text-secondary)",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  padding: "0 8px",
+                }}
+              >
+                <Text>All pages</Text>
+              </button>
+            </div>
           </Stack>
 
           <Stack space="small">

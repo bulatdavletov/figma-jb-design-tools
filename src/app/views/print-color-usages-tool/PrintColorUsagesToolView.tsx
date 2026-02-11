@@ -10,6 +10,7 @@ import {
   UI_TO_MAIN,
 } from "../../messages"
 import { Page } from "../../components/Page"
+import { ToolBody } from "../../components/ToolBody"
 import { ToolHeader } from "../../components/ToolHeader"
 
 const DEFAULT_SETTINGS: PrintColorUsagesUiSettings = {
@@ -82,52 +83,49 @@ export function PrintColorUsagesToolView(props: { onBack: () => void }) {
       />
 
       <div style={{ flex: 1, minHeight: 0, display: "flex", flexDirection: "column" }}>
-        {/* Scrollable form */}
-        <div style={{ flex: 1, minHeight: 0, overflowY: "auto", overflowX: "hidden" }}>
-          <Container space="small">
-            <VerticalSpace space="small" />
+        <ToolBody mode="content">
+          <VerticalSpace space="small" />
 
-            <Text>Position</Text>
-            <VerticalSpace space="extraSmall" />
-            <RadioButtons
-              direction="horizontal"
-              value={settings.textPosition}
-              onValueChange={(value) =>
-                setSettings((s) => ({
-                  ...s,
-                  textPosition: value === "left" || value === "right" ? value : "right",
-                }))
-              }
-              options={[
-                { value: "left", children: <Text>Left</Text> },
-                { value: "right", children: <Text>Right</Text> },
-              ]}
-            />
+          <Text>Position</Text>
+          <VerticalSpace space="extraSmall" />
+          <RadioButtons
+            direction="horizontal"
+            value={settings.textPosition}
+            onValueChange={(value) =>
+              setSettings((s) => ({
+                ...s,
+                textPosition: value === "left" || value === "right" ? value : "right",
+              }))
+            }
+            options={[
+              { value: "left", children: <Text>Left</Text> },
+              { value: "right", children: <Text>Right</Text> },
+            ]}
+          />
 
-            <VerticalSpace space="large" />
-            <Checkbox
-              value={settings.showLinkedColors}
-              onValueChange={(value) => setSettings((s) => ({ ...s, showLinkedColors: value }))}
-            >
-              <Text>Show linked colors</Text>
-            </Checkbox>
+          <VerticalSpace space="large" />
+          <Checkbox
+            value={settings.showLinkedColors}
+            onValueChange={(value) => setSettings((s) => ({ ...s, showLinkedColors: value }))}
+          >
+            <Text>Show linked colors</Text>
+          </Checkbox>
 
-            <VerticalSpace space="extraSmall" />
-            <Checkbox
-              value={settings.hideFolderNames}
-              onValueChange={(value) => setSettings((s) => ({ ...s, hideFolderNames: value }))}
-            >
-              <Text>Hide folder prefixes (after “/”)</Text>
-            </Checkbox>
+          <VerticalSpace space="extraSmall" />
+          <Checkbox
+            value={settings.hideFolderNames}
+            onValueChange={(value) => setSettings((s) => ({ ...s, hideFolderNames: value }))}
+          >
+            <Text>Hide folder prefixes (after “/”)</Text>
+          </Checkbox>
 
-            <VerticalSpace space="large" />
-            <Text style={{ color: "var(--figma-color-text-secondary)" }}>
+          <VerticalSpace space="large" />
+          <Text style={{ color: "var(--figma-color-text-secondary)" }}>
             Text color is from Mockup markup
-            </Text>
+          </Text>
 
-            <VerticalSpace space="large" />
-          </Container>
-        </div>
+          <VerticalSpace space="large" />
+        </ToolBody>
 
         {/* Fixed bottom actions */}
         <Divider />

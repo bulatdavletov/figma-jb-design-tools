@@ -21,6 +21,9 @@
 - Indent child checkbox lists under parent for clear hierarchy.
 - Add visible spacing between parent row and child rows.
 
+## Selection UX (Segmented vs. Radios)
+- Prefer Segmented Button groups over traditional Radio Buttons for mutually exclusive choices. Segmented Buttons are more modern, visually clear, and fit Figma/modern UI conventions.
+
 ## Actions and Buttons
 - Prefer one clear primary action per section.
 - Button labels should reflect result count when possible (example: `Export N files`).
@@ -44,6 +47,7 @@
 - Reuse shared layout and header patterns across tools.
 - Use the same selection and empty-state patterns in all tools.
 - Reuse the shared `State` empty-state component for no-selection/nothing-found states.
+- For **No selection** state specifically, reuse the same centered `State` pattern (same icon family, tone, and concise guidance text) across tools.
 - Keep wording and interaction patterns consistent (same terms for same actions).
 
 ## Quality Gate

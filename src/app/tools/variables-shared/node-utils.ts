@@ -90,10 +90,15 @@ export const getSelectionWithDescendants = (
 export type NodeWithContext = { node: SceneNode; phase: UsagesReplacePhase }
 
 export const collectNodesForScope = (
-  scope: 'selection' | 'page',
+  scope: 'selection' | 'page' | 'all_pages',
   includeHidden: boolean
 ): NodeWithContext[] => {
-  const roots = scope === 'selection' ? figma.currentPage.selection : figma.currentPage.children
+  const roots =
+    scope === 'selection'
+      ? figma.currentPage.selection
+      : scope === 'page'
+        ? figma.currentPage.children
+        : figma.root.children.flatMap((page) => page.children)
   const stack: Array<{ node: SceneNode; inComponent: boolean; inInstance: boolean }> = roots.map(
     (n) => ({
       node: n,

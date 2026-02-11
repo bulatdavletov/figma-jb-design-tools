@@ -3569,7 +3569,7 @@ var init_node_utils = __esm({
       return "strokeStyleId" in node && node.strokeStyleId !== void 0;
     };
     collectNodesForScope = (scope, includeHidden) => {
-      const roots = scope === "selection" ? figma.currentPage.selection : figma.currentPage.children;
+      const roots = scope === "selection" ? figma.currentPage.selection : scope === "page" ? figma.currentPage.children : figma.root.children.flatMap((page) => page.children);
       const stack = roots.map(
         (n) => ({
           node: n,

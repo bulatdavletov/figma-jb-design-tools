@@ -691,10 +691,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a2338f99-6d1d-4863-b555-b7bd904ab67c/loading-indicator.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ee3aa685-9cea-4ecf-83fa-473bd71f8ef7/loading-indicator.module.js
   var loading_indicator_module_default;
   var init_loading_indicator_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a2338f99-6d1d-4863-b555-b7bd904ab67c/loading-indicator.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ee3aa685-9cea-4ecf-83fa-473bd71f8ef7/loading-indicator.module.js"() {
       if (document.getElementById("3fe0db8eb7") === null) {
         const element = document.createElement("style");
         element.id = "3fe0db8eb7";
@@ -755,10 +755,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/609ce9f8-4c60-459d-ba6c-c72e8ba4886c/button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f1cc5bf3-ea77-4eda-a681-2db2e639be30/button.module.js
   var button_module_default;
   var init_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/609ce9f8-4c60-459d-ba6c-c72e8ba4886c/button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f1cc5bf3-ea77-4eda-a681-2db2e639be30/button.module.js"() {
       if (document.getElementById("1dddd0e4df") === null) {
         const element = document.createElement("style");
         element.id = "1dddd0e4df";
@@ -1027,10 +1027,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b8e17d5b-c63c-40d5-9e4c-38b2357a50fb/checkbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6f7d3e87-ea44-4a58-a0ac-f792a9d91b18/checkbox.module.js
   var checkbox_module_default;
   var init_checkbox_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b8e17d5b-c63c-40d5-9e4c-38b2357a50fb/checkbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6f7d3e87-ea44-4a58-a0ac-f792a9d91b18/checkbox.module.js"() {
       if (document.getElementById("f38d076240") === null) {
         const element = document.createElement("style");
         element.id = "f38d076240";
@@ -1179,10 +1179,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/05e801f1-a7ec-409c-8dbd-9407fea176f5/divider.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5f788182-52de-41ab-afbe-1a71d9d53faa/divider.module.js
   var divider_module_default;
   var init_divider_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/05e801f1-a7ec-409c-8dbd-9407fea176f5/divider.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5f788182-52de-41ab-afbe-1a71d9d53faa/divider.module.js"() {
       if (document.getElementById("4bf06403b9") === null) {
         const element = document.createElement("style");
         element.id = "4bf06403b9";
@@ -1212,10 +1212,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e51ccf24-404b-4870-acdf-1c14bfd4c4bf/menu.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/21aeb4af-6e07-4ced-86c8-55712ad6497b/menu.module.js
   var menu_module_default;
   var init_menu_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e51ccf24-404b-4870-acdf-1c14bfd4c4bf/menu.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/21aeb4af-6e07-4ced-86c8-55712ad6497b/menu.module.js"() {
       if (document.getElementById("29044db304") === null) {
         const element = document.createElement("style");
         element.id = "29044db304";
@@ -1438,10 +1438,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e0d4ca0c-88ba-4344-87b8-f10f7ad8c019/dropdown.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/3ae93ef6-2b35-4028-842c-eaca54865da8/dropdown.module.js
   var dropdown_module_default;
   var init_dropdown_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e0d4ca0c-88ba-4344-87b8-f10f7ad8c019/dropdown.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/3ae93ef6-2b35-4028-842c-eaca54865da8/dropdown.module.js"() {
       if (document.getElementById("5a226eb00e") === null) {
         const element = document.createElement("style");
         element.id = "5a226eb00e";
@@ -1882,10 +1882,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d08b5ddb-a6ec-4fe1-81db-9381bd040345/button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/58001a4a-537f-41b5-a9ae-060f882a6f30/button.module.js
   var button_module_default2;
   var init_button_module2 = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d08b5ddb-a6ec-4fe1-81db-9381bd040345/button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/58001a4a-537f-41b5-a9ae-060f882a6f30/button.module.js"() {
       if (document.getElementById("1dddd0e4df") === null) {
         const element = document.createElement("style");
         element.id = "1dddd0e4df";
@@ -2049,10 +2049,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/011b6821-25b5-4645-964f-459b9a5c8f99/file-upload-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8f5b893c-c575-44dd-b389-6ed7d1dc4dfa/file-upload-button.module.js
   var file_upload_button_module_default;
   var init_file_upload_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/011b6821-25b5-4645-964f-459b9a5c8f99/file-upload-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8f5b893c-c575-44dd-b389-6ed7d1dc4dfa/file-upload-button.module.js"() {
       if (document.getElementById("f115bb30c8") === null) {
         const element = document.createElement("style");
         element.id = "f115bb30c8";
@@ -2167,10 +2167,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/907a2d7f-3061-4ff1-bd37-a40817df1736/icon-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9bcf7a78-ae2b-4576-b553-2301283e2e5d/icon-button.module.js
   var icon_button_module_default;
   var init_icon_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/907a2d7f-3061-4ff1-bd37-a40817df1736/icon-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9bcf7a78-ae2b-4576-b553-2301283e2e5d/icon-button.module.js"() {
       if (document.getElementById("c8b08e6568") === null) {
         const element = document.createElement("style");
         element.id = "c8b08e6568";
@@ -2248,10 +2248,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/df79588d-2884-4a62-aaf4-74187b33016d/text.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/41b7592e-dcf0-4c3a-bbb9-f092b81fcfa2/text.module.js
   var text_module_default;
   var init_text_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/df79588d-2884-4a62-aaf4-74187b33016d/text.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/41b7592e-dcf0-4c3a-bbb9-f092b81fcfa2/text.module.js"() {
       if (document.getElementById("1278016d5c") === null) {
         const element = document.createElement("style");
         element.id = "1278016d5c";
@@ -2309,10 +2309,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c043fe91-0d01-4684-9926-c5f922d26c59/inline.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/90631315-04a3-4e84-90df-3e25781b239c/inline.module.js
   var inline_module_default;
   var init_inline_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c043fe91-0d01-4684-9926-c5f922d26c59/inline.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/90631315-04a3-4e84-90df-3e25781b239c/inline.module.js"() {
       if (document.getElementById("3e1b2856fc") === null) {
         const element = document.createElement("style");
         element.id = "3e1b2856fc";
@@ -2374,10 +2374,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a7f48d05-9379-4902-bf77-0f26edae5a51/stack.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4e33de13-a282-4c5c-a69e-e6131e6910ce/stack.module.js
   var stack_module_default;
   var init_stack_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a7f48d05-9379-4902-bf77-0f26edae5a51/stack.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4e33de13-a282-4c5c-a69e-e6131e6910ce/stack.module.js"() {
       if (document.getElementById("317515cc3f") === null) {
         const element = document.createElement("style");
         element.id = "317515cc3f";
@@ -2420,10 +2420,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c606f438-f7d3-4de8-b382-71562658f1c5/radio-buttons.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8f371249-838e-4049-bd81-7fb9b1748c0a/radio-buttons.module.js
   var radio_buttons_module_default;
   var init_radio_buttons_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c606f438-f7d3-4de8-b382-71562658f1c5/radio-buttons.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8f371249-838e-4049-bd81-7fb9b1748c0a/radio-buttons.module.js"() {
       if (document.getElementById("a066c67891") === null) {
         const element = document.createElement("style");
         element.id = "a066c67891";
@@ -2653,10 +2653,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b436a221-7116-4e60-8d33-0c7cbb2f4a0a/textbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0e0dc0d1-e712-4d21-981a-0f62a6d4a085/textbox.module.js
   var textbox_module_default;
   var init_textbox_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b436a221-7116-4e60-8d33-0c7cbb2f4a0a/textbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0e0dc0d1-e712-4d21-981a-0f62a6d4a085/textbox.module.js"() {
       if (document.getElementById("5c1c5c2d3d") === null) {
         const element = document.createElement("style");
         element.id = "5c1c5c2d3d";
@@ -2853,6 +2853,20 @@
     }
   });
 
+  // node_modules/@create-figma-plugin/ui/lib/icons/icon-16/icon-variable-color-16.js
+  var IconVariableColor16;
+  var init_icon_variable_color_16 = __esm({
+    "node_modules/@create-figma-plugin/ui/lib/icons/icon-16/icon-variable-color-16.js"() {
+      init_preact_module();
+      init_create_icon();
+      IconVariableColor16 = createIcon(_(
+        "svg",
+        { fill: "none", height: "16", viewBox: "0 0 16 16", width: "16", xmlns: "http://www.w3.org/2000/svg" },
+        _("path", { "clip-rule": "evenodd", d: "M8 2c3.3137 0 6 2.68629 6 6 0 1.26533-1.1052 2-2.1067 2H10.5c-.2761 0-.5.2239-.5.5v1.3933C10 12.8948 9.26533 14 8 14c-3.31371 0-6-2.6863-6-6 0-3.31371 2.68629-6 6-6m5 6c0 .58572-.521 1-1.1067 1H10.5C9.67157 9 9 9.67157 9 10.5v1.3933C9 12.479 8.58572 13 8 13c-2.76142 0-5-2.2386-5-5 0-2.76142 2.23858-5 5-5 2.7614 0 5 2.23858 5 5M9 5c0 .55228-.44772 1-1 1s-1-.44772-1-1 .44772-1 1-1 1 .44772 1 1m.73205 2c.27615.47829.88775.64217 1.36605.36603.4783-.27615.6421-.88774.366-1.36603s-.8877-.64217-1.366-.36603c-.47832.27615-.64219.88774-.36605 1.36603m-3.73188 3.3662c-.4783.2761-1.08989.1123-1.36603-.366-.27614-.47833-.11227-1.08992.36603-1.36606.47829-.27614 1.08988-.11227 1.36602.36603.27614.47829.11227 1.08983-.36602 1.36603m-.50011-2.86626c.55228 0 1-.44771 1-1s-.44772-1-1-1-1 .44772-1 1 .44771 1 1 1", fill: "currentColor", "fill-rule": "evenodd" })
+      ));
+    }
+  });
+
   // node_modules/@create-figma-plugin/ui/lib/icons/icon-24/icon-interaction-click-small-24.js
   var IconInteractionClickSmall24;
   var init_icon_interaction_click_small_24 = __esm({
@@ -2881,10 +2895,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/203161f0-9359-4f4f-8b8d-35d51acb4671/columns.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ad6d18fa-8de5-4079-89ff-37bd2baf5c22/columns.module.js
   var columns_module_default;
   var init_columns_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/203161f0-9359-4f4f-8b8d-35d51acb4671/columns.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ad6d18fa-8de5-4079-89ff-37bd2baf5c22/columns.module.js"() {
       if (document.getElementById("07bfb18928") === null) {
         const element = document.createElement("style");
         element.id = "07bfb18928";
@@ -2953,10 +2967,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/af4b8d5a-0dfc-425a-a093-37b31c32d393/container.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2ab735fb-9578-478d-86af-03e26c5789ef/container.module.js
   var container_module_default;
   var init_container_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/af4b8d5a-0dfc-425a-a093-37b31c32d393/container.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2ab735fb-9578-478d-86af-03e26c5789ef/container.module.js"() {
       if (document.getElementById("b49e1406f9") === null) {
         const element = document.createElement("style");
         element.id = "b49e1406f9";
@@ -2997,10 +3011,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/22683713-8380-4f0a-9e62-8ab3fec867d6/vertical-space.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9e0e6ce1-163e-4202-85be-eae27ce95387/vertical-space.module.js
   var vertical_space_module_default;
   var init_vertical_space_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/22683713-8380-4f0a-9e62-8ab3fec867d6/vertical-space.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9e0e6ce1-163e-4202-85be-eae27ce95387/vertical-space.module.js"() {
       if (document.getElementById("ba0eea5114") === null) {
         const element = document.createElement("style");
         element.id = "ba0eea5114";
@@ -3041,9 +3055,9 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6ee030ef-a3af-4913-9815-4365f86b506d/base.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7a3d1dfa-814f-4c27-86de-89f7c8d725dc/base.js
   var init_base = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6ee030ef-a3af-4913-9815-4365f86b506d/base.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7a3d1dfa-814f-4c27-86de-89f7c8d725dc/base.js"() {
       if (document.getElementById("0597dd81e7") === null) {
         const element = document.createElement("style");
         element.id = "0597dd81e7";
@@ -3205,6 +3219,7 @@ svg {
       init_icon_shape_text_16();
       init_icon_text_16();
       init_icon_variable_16();
+      init_icon_variable_color_16();
       init_icon_interaction_click_small_24();
       init_icon_time_small_24();
       init_columns();
@@ -3807,10 +3822,9 @@ svg {
           width: "100%",
           display: "flex",
           alignItems: "center",
-          gap: 12,
-          padding: 12,
-          border: hovered ? "1px solid var(--figma-color-border-strong)" : "1px solid var(--figma-color-border)",
-          borderRadius: 8,
+          gap: 8,
+          padding: "4px 8px 4px 4px",
+          borderRadius: 6,
           background: hovered ? "var(--figma-color-bg-hover)" : "var(--figma-color-bg)",
           cursor: "pointer",
           textAlign: "left",
@@ -3824,9 +3838,8 @@ svg {
           style: {
             width: 32,
             height: 32,
-            borderRadius: 8,
-            border: "1px solid var(--figma-color-border)",
-            background: "var(--figma-color-bg-secondary)",
+            borderRadius: 6,
+            background: "rgba(255, 255, 255, 0.08)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -3841,7 +3854,6 @@ svg {
         {
           style: {
             fontSize: 11,
-            fontWeight: 600,
             color: "var(--figma-color-text)",
             overflow: "hidden",
             textOverflow: "ellipsis",
@@ -3853,7 +3865,7 @@ svg {
         "div",
         {
           style: {
-            marginTop: 2,
+            marginTop: 1,
             fontSize: 10,
             color: "var(--figma-color-text-secondary)",
             overflow: "hidden",
@@ -3892,23 +3904,23 @@ svg {
 
   // src/app/views/home/HomeView.tsx
   function HomeView(props) {
-    return /* @__PURE__ */ _(Page, null, /* @__PURE__ */ _(Container, { space: "small" }, /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(Text, null, "Colors"), /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(
+    return /* @__PURE__ */ _(Page, null, /* @__PURE__ */ _(Container, { space: "small" }, /* @__PURE__ */ _(VerticalSpace, { space: "large" }), /* @__PURE__ */ _(Text, { style: sectionTitleStyle }, "Colors"), /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(
       ToolCard,
       {
         title: "View Colors Chain",
-        description: "Inspect selection to see full variable alias chains.",
-        icon: /* @__PURE__ */ _(IconLink16, null),
+        description: "Inspect selection to see full variable alias chains",
+        icon: /* @__PURE__ */ _(IconVariableColor16, null),
         onClick: () => props.goTo("color-chain-tool")
       }
-    ), /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(
+    ), /* @__PURE__ */ _(
       ToolCard,
       {
         title: "Print Color Usages",
-        description: "Print unique colors as text labels near selection.",
+        description: "Print unique colors as text labels near selection",
         icon: /* @__PURE__ */ _(IconText16, null),
         onClick: () => props.goTo("print-color-usages-tool")
       }
-    ), /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(
+    ), /* @__PURE__ */ _(
       ToolCard,
       {
         title: "Mockup Markup Quick Apply",
@@ -3916,40 +3928,41 @@ svg {
         icon: /* @__PURE__ */ _(IconShapeText16, null),
         onClick: () => props.goTo("mockup-markup-tool")
       }
-    ), /* @__PURE__ */ _(VerticalSpace, { space: "medium" }), /* @__PURE__ */ _(Text, null, "Variables"), /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(
+    )), /* @__PURE__ */ _(VerticalSpace, { space: "large" }), /* @__PURE__ */ _(Text, { style: sectionTitleStyle }, "Variables"), /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(
       ToolCard,
       {
         title: "Batch Rename",
-        description: "Rename multiple variables at once via CSV or inline editing.",
+        description: "Rename multiple variables at once via CSV or inline editing",
         icon: /* @__PURE__ */ _(IconVariable16, null),
         onClick: () => props.goTo("variables-batch-rename-tool")
       }
-    ), /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(
+    ), /* @__PURE__ */ _(
       ToolCard,
       {
         title: "Export / Import",
-        description: "Export variable collections to JSON, import from backup.",
+        description: "Export variable collections to JSON, import from backup",
         icon: /* @__PURE__ */ _(IconFolder16, null),
         onClick: () => props.goTo("variables-export-import-tool")
       }
-    ), /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(
+    ), /* @__PURE__ */ _(
       ToolCard,
       {
         title: "Create Linked Colors",
-        description: "Create new color variables or rename existing ones.",
+        description: "Create new color variables or rename existing ones",
         icon: /* @__PURE__ */ _(IconLink16, null),
         onClick: () => props.goTo("variables-create-linked-colors-tool")
       }
-    ), /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(
+    ), /* @__PURE__ */ _(
       ToolCard,
       {
         title: "Replace Usages",
-        description: "Replace variable bindings in selection with different variables.",
+        description: "Replace variable bindings in selection with different variables",
         icon: /* @__PURE__ */ _(IconAdjust16, null),
         onClick: () => props.goTo("variables-replace-usages-tool")
       }
-    )));
+    )), /* @__PURE__ */ _(VerticalSpace, { space: "small" })));
   }
+  var sectionTitleStyle;
   var init_HomeView = __esm({
     "src/app/views/home/HomeView.tsx"() {
       "use strict";
@@ -3957,6 +3970,7 @@ svg {
       init_preact_module();
       init_Page();
       init_ToolCard();
+      sectionTitleStyle = { fontWeight: 600 };
     }
   });
 
@@ -4118,7 +4132,7 @@ svg {
         title: "Mockup Markup Quick Apply",
         left: /* @__PURE__ */ _(IconButton, { onClick: props.onBack, title: "Home" }, /* @__PURE__ */ _(IconHome16, null))
       }
-    ), /* @__PURE__ */ _("div", { style: { flex: 1, minHeight: 0, display: "flex", flexDirection: "column" } }, /* @__PURE__ */ _("div", { style: { flex: 1, minHeight: 0, overflowY: "auto", overflowX: "hidden" } }, /* @__PURE__ */ _(Container, { space: "small" }, /* @__PURE__ */ _("div", { style: { display: "flex", flexDirection: "column", minHeight: "100%" } }, /* @__PURE__ */ _(VerticalSpace, { space: "medium" }), /* @__PURE__ */ _(Text, null, "Color"), /* @__PURE__ */ _(VerticalSpace, { space: "extraSmall" }), /* @__PURE__ */ _(
+    ), /* @__PURE__ */ _("div", { style: { flex: 1, minHeight: 0, display: "flex", flexDirection: "column" } }, /* @__PURE__ */ _(ToolBody, { mode: "content" }, /* @__PURE__ */ _("div", { style: { display: "flex", flexDirection: "column", minHeight: "100%" } }, /* @__PURE__ */ _(VerticalSpace, { space: "medium" }), /* @__PURE__ */ _(Text, null, "Color"), /* @__PURE__ */ _(VerticalSpace, { space: "extraSmall" }), /* @__PURE__ */ _(
       ColorPresetGrid,
       {
         value: request.presetColor,
@@ -4144,7 +4158,7 @@ svg {
         value: request.forceModeName,
         onChange: (value) => setRequest((r3) => __spreadProps(__spreadValues({}, r3), { forceModeName: value }))
       }
-    ), /* @__PURE__ */ _(VerticalSpace, { space: "medium" })))), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(Container, { space: "small" }, /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(
+    ), /* @__PURE__ */ _(VerticalSpace, { space: "medium" }))), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(Container, { space: "small" }, /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(
       Button,
       {
         fullWidth: true,
@@ -4173,6 +4187,7 @@ svg {
       init_messages();
       init_Page();
       init_ColorSwatch();
+      init_ToolBody();
       init_ToolHeader();
       init_presets();
       DEFAULT_REQUEST = {
@@ -4232,7 +4247,7 @@ svg {
         title: "Print Color Usages",
         left: /* @__PURE__ */ _(IconButton, { onClick: props.onBack, title: "Home" }, /* @__PURE__ */ _(IconHome16, null))
       }
-    ), /* @__PURE__ */ _("div", { style: { flex: 1, minHeight: 0, display: "flex", flexDirection: "column" } }, /* @__PURE__ */ _("div", { style: { flex: 1, minHeight: 0, overflowY: "auto", overflowX: "hidden" } }, /* @__PURE__ */ _(Container, { space: "small" }, /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(Text, null, "Position"), /* @__PURE__ */ _(VerticalSpace, { space: "extraSmall" }), /* @__PURE__ */ _(
+    ), /* @__PURE__ */ _("div", { style: { flex: 1, minHeight: 0, display: "flex", flexDirection: "column" } }, /* @__PURE__ */ _(ToolBody, { mode: "content" }, /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(Text, null, "Position"), /* @__PURE__ */ _(VerticalSpace, { space: "extraSmall" }), /* @__PURE__ */ _(
       RadioButtons,
       {
         direction: "horizontal",
@@ -4259,7 +4274,7 @@ svg {
         onValueChange: (value) => setSettings((s3) => __spreadProps(__spreadValues({}, s3), { hideFolderNames: value }))
       },
       /* @__PURE__ */ _(Text, null, "Hide folder prefixes (after \u201C/\u201D)")
-    ), /* @__PURE__ */ _(VerticalSpace, { space: "large" }), /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "Text color is from Mockup markup"), /* @__PURE__ */ _(VerticalSpace, { space: "large" }))), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(Container, { space: "small" }, /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(Columns, { space: "small" }, /* @__PURE__ */ _(
+    ), /* @__PURE__ */ _(VerticalSpace, { space: "large" }), /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "Text color is from Mockup markup"), /* @__PURE__ */ _(VerticalSpace, { space: "large" })), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(Container, { space: "small" }, /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(Columns, { space: "small" }, /* @__PURE__ */ _(
       Button,
       {
         fullWidth: true,
@@ -4287,6 +4302,7 @@ svg {
       init_hooks_module();
       init_messages();
       init_Page();
+      init_ToolBody();
       init_ToolHeader();
       DEFAULT_SETTINGS = {
         textPosition: "right",
@@ -5412,7 +5428,7 @@ svg {
         icon: /* @__PURE__ */ _(IconInteractionClickSmall24, null),
         title: "Select layers with color variables to manage them."
       }
-    )) : /* @__PURE__ */ _(Container, { space: "medium" }, /* @__PURE__ */ _(VerticalSpace, { space: "medium" }), errorMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#fff1f2", borderRadius: 4, marginBottom: 12 } }, /* @__PURE__ */ _(Text, { style: { color: "#9f1239" } }, errorMessage))), successMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#ecfdf3", borderRadius: 4, marginBottom: 12 } }, /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, successMessage))), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Selection"), selection ? /* @__PURE__ */ _(Text, null, selection.selectionSize, " nodes, ", selection.variables.length, " color variables") : /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "Loading...")), selection && selection.variables.length > 0 && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(VerticalSpace, { space: "medium" }), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Select Variable to Manage"), /* @__PURE__ */ _(
+    )) : /* @__PURE__ */ _(ToolBody, { mode: "content" }, /* @__PURE__ */ _(Container, { space: "medium" }, /* @__PURE__ */ _(VerticalSpace, { space: "medium" }), errorMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#fff1f2", borderRadius: 4, marginBottom: 12 } }, /* @__PURE__ */ _(Text, { style: { color: "#9f1239" } }, errorMessage))), successMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#ecfdf3", borderRadius: 4, marginBottom: 12 } }, /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, successMessage))), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Selection"), selection ? /* @__PURE__ */ _(Text, null, selection.selectionSize, " nodes, ", selection.variables.length, " color variables") : /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "Loading...")), selection && selection.variables.length > 0 && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(VerticalSpace, { space: "medium" }), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Select Variable to Manage"), /* @__PURE__ */ _(
       Dropdown,
       {
         options: selectedVariableOptions,
@@ -5498,7 +5514,7 @@ svg {
         secondary: true
       },
       "Rename Variable"
-    )))), /* @__PURE__ */ _(VerticalSpace, { space: "large" })));
+    )))), /* @__PURE__ */ _(VerticalSpace, { space: "large" }))));
   }
   var init_VariablesCreateLinkedColorsToolView = __esm({
     "src/app/views/variables-create-linked-colors-tool/VariablesCreateLinkedColorsToolView.tsx"() {
@@ -5521,10 +5537,13 @@ svg {
     }
     return { background: "#fff1f2", borderColor: "#fecdd3", color: "#9f1239" };
   }
-  function VariablesReplaceUsagesToolView({ onBack }) {
+  function VariablesReplaceUsagesToolView({ onBack, initialSelectionEmpty }) {
     const [errorMessage, setErrorMessage] = d2(null);
     const [successMessage, setSuccessMessage] = d2(null);
-    const [scope, setScope] = d2("selection");
+    const [scope, setScope] = d2(
+      initialSelectionEmpty ? "page" : "selection"
+    );
+    const [selectionSize, setSelectionSize] = d2(initialSelectionEmpty ? 0 : 1);
     const [renamePrints, setRenamePrints] = d2(false);
     const [includeHidden, setIncludeHidden] = d2(false);
     const [mappingFilename, setMappingFilename] = d2(null);
@@ -5553,6 +5572,10 @@ svg {
         }
         if (msg.type === MAIN_TO_UI.REPLACE_USAGES_APPLY_PROGRESS) {
           setApplyProgress(msg.progress);
+        }
+        if (msg.type === MAIN_TO_UI.REPLACE_USAGES_SELECTION) {
+          setSelectionSize(msg.payload.selectionSize);
+          setScope(msg.payload.selectionSize > 0 ? "selection" : "page");
         }
         if (msg.type === MAIN_TO_UI.REPLACE_USAGES_APPLY_RESULT) {
           setIsBusy(false);
@@ -5645,27 +5668,94 @@ svg {
         "*"
       );
     };
+    const hasSelection = selectionSize > 0;
+    const selectScope = (nextScope) => {
+      if (nextScope === "selection" && !hasSelection) return;
+      setScope(nextScope);
+    };
     return /* @__PURE__ */ _(Page, null, /* @__PURE__ */ _(
       ToolHeader,
       {
         title: "Replace Variable Usages",
         left: /* @__PURE__ */ _(IconButton, { onClick: onBack, title: "Home" }, /* @__PURE__ */ _(IconHome16, null))
       }
-    ), /* @__PURE__ */ _(ToolBody, { mode: "content" }, /* @__PURE__ */ _(Stack, { space: "medium" }, errorMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#fff1f2", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "#9f1239" } }, errorMessage))), successMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#ecfdf3", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, successMessage))), /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, 'Load a JSON mapping file to replace variable bindings in layers. The mapping file should specify "from \u2192 to" variable names within a collection.')), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Scope"), /* @__PURE__ */ _(Inline, { space: "medium" }, /* @__PURE__ */ _(
-      Checkbox,
+    ), /* @__PURE__ */ _(ToolBody, { mode: "content" }, /* @__PURE__ */ _(Stack, { space: "medium" }, errorMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#fff1f2", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "#9f1239" } }, errorMessage))), successMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#ecfdf3", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, successMessage))), /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, 'Load a JSON mapping file to replace variable bindings in layers. The mapping file should specify "from \u2192 to" variable names within a collection.')), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Scope"), /* @__PURE__ */ _(
+      "div",
       {
-        value: scope === "selection",
-        onValueChange: () => setScope("selection")
+        style: {
+          display: "flex",
+          gap: 2,
+          padding: 2,
+          borderRadius: 8,
+          background: "var(--figma-color-bg-secondary)"
+        }
       },
-      /* @__PURE__ */ _(Text, null, "Selection only")
-    ), /* @__PURE__ */ _(
-      Checkbox,
-      {
-        value: scope === "page",
-        onValueChange: () => setScope("page")
-      },
-      /* @__PURE__ */ _(Text, null, "Entire page")
-    ))), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Options"), /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(Checkbox, { value: renamePrints, onValueChange: setRenamePrints }, /* @__PURE__ */ _(Text, null, 'Rename "Prints" layers (layers prefixed with VariableID:...)')), /* @__PURE__ */ _(Checkbox, { value: includeHidden, onValueChange: setIncludeHidden }, /* @__PURE__ */ _(Text, null, "Include hidden layers")))), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Mapping File"), /* @__PURE__ */ _(Text, { style: { fontSize: 11, color: "var(--figma-color-text-secondary)" } }, "JSON format: ", "{", ' version: 1, collectionName: "...", replacements: [', "{", ' from: "OldName", to: "NewName" ', "}", "] ", "}"), /* @__PURE__ */ _(
+      /* @__PURE__ */ _(
+        "button",
+        {
+          type: "button",
+          disabled: !hasSelection,
+          onClick: () => selectScope("selection"),
+          style: {
+            flex: 1,
+            height: 24,
+            borderRadius: 6,
+            border: scope === "selection" ? "1px solid var(--figma-color-border)" : "1px solid transparent",
+            background: scope === "selection" ? "var(--figma-color-bg)" : "transparent",
+            color: scope === "selection" ? "var(--figma-color-text)" : "var(--figma-color-text-secondary)",
+            cursor: hasSelection ? "pointer" : "not-allowed",
+            opacity: hasSelection ? 1 : 0.5,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "0 8px"
+          }
+        },
+        /* @__PURE__ */ _(Text, null, "Selection only")
+      ),
+      /* @__PURE__ */ _(
+        "button",
+        {
+          type: "button",
+          onClick: () => selectScope("page"),
+          style: {
+            flex: 1,
+            height: 24,
+            borderRadius: 6,
+            border: scope === "page" ? "1px solid var(--figma-color-border)" : "1px solid transparent",
+            background: scope === "page" ? "var(--figma-color-bg)" : "transparent",
+            color: scope === "page" ? "var(--figma-color-text)" : "var(--figma-color-text-secondary)",
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "0 8px"
+          }
+        },
+        /* @__PURE__ */ _(Text, null, "Current page")
+      ),
+      /* @__PURE__ */ _(
+        "button",
+        {
+          type: "button",
+          onClick: () => selectScope("all_pages"),
+          style: {
+            flex: 1,
+            height: 24,
+            borderRadius: 6,
+            border: scope === "all_pages" ? "1px solid var(--figma-color-border)" : "1px solid transparent",
+            background: scope === "all_pages" ? "var(--figma-color-bg)" : "transparent",
+            color: scope === "all_pages" ? "var(--figma-color-text)" : "var(--figma-color-text-secondary)",
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "0 8px"
+          }
+        },
+        /* @__PURE__ */ _(Text, null, "All pages")
+      )
+    )), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Options"), /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(Checkbox, { value: renamePrints, onValueChange: setRenamePrints }, /* @__PURE__ */ _(Text, null, 'Rename "Prints" layers (layers prefixed with VariableID:...)')), /* @__PURE__ */ _(Checkbox, { value: includeHidden, onValueChange: setIncludeHidden }, /* @__PURE__ */ _(Text, null, "Include hidden layers")))), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Mapping File"), /* @__PURE__ */ _(Text, { style: { fontSize: 11, color: "var(--figma-color-text-secondary)" } }, "JSON format: ", "{", ' version: 1, collectionName: "...", replacements: [', "{", ' from: "OldName", to: "NewName" ', "}", "] ", "}"), /* @__PURE__ */ _(
       FileUploadButton,
       {
         acceptedFileTypes: [".json", "application/json"],
@@ -5973,7 +6063,13 @@ svg {
       return /* @__PURE__ */ _(VariablesCreateLinkedColorsToolView, { onBack: () => setRoute("home") });
     }
     if (route === "variables-replace-usages-tool") {
-      return /* @__PURE__ */ _(VariablesReplaceUsagesToolView, { onBack: () => setRoute("home") });
+      return /* @__PURE__ */ _(
+        VariablesReplaceUsagesToolView,
+        {
+          onBack: () => setRoute("home"),
+          initialSelectionEmpty: selectionSize === 0
+        }
+      );
     }
     return /* @__PURE__ */ _(HomeView, { goTo: setRoute });
   }

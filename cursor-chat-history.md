@@ -90,6 +90,76 @@
 - Done: `VariablesCreateLinkedColorsToolView` now uses centered shared `State` component with click icon for no-selection state (same pattern family as Color Chain).
 - Done: added explicit principle to `Specs/design principles.md` to reuse shared `State` component for empty states.
 
+#### Design Principles deep audit request
+- Request: explicitly add no-selection empty-state reuse to principles and audit whole project for misalignment + improvements.
+- Done: confirmed principles include shared `State` empty-state reuse.
+- Audit: identified remaining alignment gaps (not all tools use shared `ToolBody`/`State` patterns yet; scope default heuristics not consistently enforced in all tools).
+
+#### Scope consistency pre-check (before applying high-priority fixes)
+- Request: list inconsistent scope places first, then apply only high-priority fixes.
+- Finding: explicit scope toggle exists in `VariablesReplaceUsagesToolView` and currently defaults to `"selection"` unconditionally; this is inconsistent with the principle to default to page when selection is empty.
+- Finding: other tools mostly use implicit selection/page behavior (e.g. Print Color Usages update action label changes by selection size) but do not expose a shared explicit scope control.
+
+#### Applied high-priority alignment fixes only
+- Request: apply only high-priority items from audit.
+- Done: `VariablesCreateLinkedColorsToolView` content branch now uses `ToolBody mode="content"` (keeps no-selection in `ToolBody mode="state"`).
+- Done: `MockupMarkupToolView` and `PrintColorUsagesToolView` now use shared `ToolBody mode="content"` for their main scrollable content (footer actions remain fixed as before).
+- Done: `VariablesReplaceUsagesToolView` now receives `initialSelectionEmpty` and defaults scope to `"page"` when selection is empty, `"selection"` otherwise; wired from `ui.tsx`.
+- Verification: `npm run build` passed; no linter errors in edited files.
+
+#### Replace Usages follow-up: live update + segmented scope control
+- Request: scope does not update live (only on startup) and checkboxes are not the right UI for mutually-exclusive scope options.
+- Root cause: main thread already posted `REPLACE_USAGES_SELECTION` on `selectionchange`, but the view did not consume it for scope behavior.
+- Done: `VariablesReplaceUsagesToolView` now listens to `REPLACE_USAGES_SELECTION`, updates current selection counter, and auto-syncs scope (`selection`/`page`) from live selection until user manually chooses scope.
+- Done: replaced scope checkboxes with custom segmented buttons (`Selection only` / `Entire page`) to reflect a single-choice control.
+- Verification: `npm run build` passed; no linter errors.
+
+#### Replace Usages follow-up: add "All pages" scope
+- Request: add one more scope option — `All pages`.
+- Done: added `all_pages` scope to types and requests (`messages.ts`, shared types).
+- Done: updated segmented scope control in `VariablesReplaceUsagesToolView` to include `All pages`.
+- Done: updated shared node traversal to collect roots from all pages when scope is `all_pages`.
+- Verification: `npm run build` passed; no linter errors.
+
+#### Replace Usages scope behavior refinement
+- Request: when selection exists, auto-choose Selection scope; when selection is empty, disable Selection and use Current page by default.
+- Done: removed manual-lock behavior and made scope always auto-sync on live selection updates (`selection > 0` => `selection`, `selection = 0` => `page`).
+- Done: disabled the `Selection only` segmented option when there is no selection.
+- Done: `Current page` label remains explicit in segmented scope options.
+- Verification: `npm run build` passed; no linter errors.
+
+#### Replace Usages UI cleanup
+- Request: remove helper text `Current selection: 0 nodes`.
+- Done: removed selection-count helper line under scope segmented control.
+- Verification: `npm run build` passed; no linter errors.
+
+#### Home page compact ToolCards + Color Chain swatch icon
+- Request: make Home `ToolCard` layout more compact and use a color swatch icon for Color Chain.
+- Done: compacted `ToolCard` sizing (reduced padding/gap/icon box size and slightly tighter text spacing).
+- Done: changed Home `View Colors Chain` card icon to use `ColorSwatch`.
+- Done: tightened vertical spacing between cards/sections on Home.
+- Verification: `npm run build` passed; no linter errors.
+
+#### Home icon correction (Color Chain)
+- Request: use icon (not swatch) and set `variable.color` icon for `View Colors Chain`.
+- Done: replaced Home `View Colors Chain` icon with `IconVariableColor16`.
+- Verification: `npm run build` passed; no linter errors.
+
+#### Home spacing refactor to Stack
+- Request: use `Stack` in `HomeView` instead of separate `VerticalSpace` blocks.
+- Done: refactored `HomeView` spacing/layout to nested `Stack` groups and removed `VerticalSpace` import/usage.
+- Verification: `npm run build` passed; no linter errors.
+
+#### ToolCard hover polish (icon background brighter)
+- Request: make tool icon background brighter on hover in Home cards.
+- Done: updated `ToolCard` icon tile background to switch from `--figma-color-bg-secondary` to `--figma-color-bg-selected-secondary` on hover.
+- Expected impact: visual feedback only; no behavior or flow changes.
+
+#### Home section title text cleanup
+- Request: improve Home section title text usage (`Colors`/`Variables`) in `HomeView`.
+- Done: replaced duplicated inline `fontWeight: "var(--font-weight-bold)"` with a shared `sectionTitleStyle` (`fontWeight: 600`) for cleaner, consistent title styling.
+- Expected impact: maintainability/readability improvement only; no behavior or flow changes.
+
 ### 2026-01-29
 
 #### Vision / scope (product)

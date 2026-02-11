@@ -581,7 +581,7 @@ export type LinkedColorsResult = {
 // Variables Replace Usages Types
 // ============================================================================
 
-export type ReplaceUsagesScope = "selection" | "page"
+export type ReplaceUsagesScope = "selection" | "page" | "all_pages"
 
 export type ReplaceUsagesPhase = "component" | "instance_in_component" | "other"
 

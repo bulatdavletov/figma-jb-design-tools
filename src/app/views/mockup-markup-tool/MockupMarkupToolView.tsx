@@ -6,7 +6,7 @@ import {
   IconHome16,
   IconButton,
   Text,
-  VerticalSpace,
+  VerticalSpace
 } from "@create-figma-plugin/ui"
 import { Fragment, h } from "preact"
 import { useEffect, useMemo, useState } from "preact/hooks"
@@ -24,6 +24,7 @@ import {
 } from "../../messages"
 import { Page } from "../../components/Page"
 import { ColorSwatch } from "../../components/ColorSwatch"
+import { ToolBody } from "../../components/ToolBody"
 import { ToolHeader } from "../../components/ToolHeader"
 import { getColorPresetLabel, getTypographyPresetLabel } from "../../tools/mockup-markup/presets"
 
@@ -235,47 +236,45 @@ export function MockupMarkupToolView(props: { onBack: () => void }) {
       />
 
       <div style={{ flex: 1, minHeight: 0, display: "flex", flexDirection: "column" }}>
-        <div style={{ flex: 1, minHeight: 0, overflowY: "auto", overflowX: "hidden" }}>
-          <Container space="small">
-            <div style={{ display: "flex", flexDirection: "column", minHeight: "100%" }}>
-              <VerticalSpace space="medium" />
+        <ToolBody mode="content">
+          <div style={{ display: "flex", flexDirection: "column", minHeight: "100%" }}>
+            <VerticalSpace space="medium" />
 
-              <Text>Color</Text>
-              <VerticalSpace space="extraSmall" />
-              <ColorPresetGrid
-                value={request.presetColor}
-                previews={colorPreviews}
-                onChange={(value) => setRequest((r) => ({ ...r, presetColor: value }))}
-              />
+            <Text>Color</Text>
+            <VerticalSpace space="extraSmall" />
+            <ColorPresetGrid
+              value={request.presetColor}
+              previews={colorPreviews}
+              onChange={(value) => setRequest((r) => ({ ...r, presetColor: value }))}
+            />
 
-              <VerticalSpace space="large" />
-              <Text>Text style</Text>
-              <VerticalSpace space="extraSmall" />
-              <TextStylePresetGrid
-                value={request.presetTypography}
-                onChange={(value) => setRequest((r) => ({ ...r, presetTypography: value }))}
-              />
+            <VerticalSpace space="large" />
+            <Text>Text style</Text>
+            <VerticalSpace space="extraSmall" />
+            <TextStylePresetGrid
+              value={request.presetTypography}
+              onChange={(value) => setRequest((r) => ({ ...r, presetTypography: value }))}
+            />
 
-              <VerticalSpace space="large" />
-              <Checkbox
-                value={request.width400}
-                onValueChange={(value) => setRequest((r) => ({ ...r, width400: value }))}
-              >
-                <Text>Width 400px</Text>
-              </Checkbox>
+            <VerticalSpace space="large" />
+            <Checkbox
+              value={request.width400}
+              onValueChange={(value) => setRequest((r) => ({ ...r, width400: value }))}
+            >
+              <Text>Width 400px</Text>
+            </Checkbox>
 
-              <div style={{ flex: 1 }} />
+            <div style={{ flex: 1 }} />
 
-              <VerticalSpace space="large" />
-              <ModeSegmented
-                value={request.forceModeName}
-                onChange={(value) => setRequest((r) => ({ ...r, forceModeName: value }))}
-              />
+            <VerticalSpace space="large" />
+            <ModeSegmented
+              value={request.forceModeName}
+              onChange={(value) => setRequest((r) => ({ ...r, forceModeName: value }))}
+            />
 
-              <VerticalSpace space="medium" />
-            </div>
-          </Container>
-        </div>
+            <VerticalSpace space="medium" />
+          </div>
+        </ToolBody>
 
         <Divider />
         <Container space="small">

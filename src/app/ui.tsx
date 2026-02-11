@@ -93,7 +93,12 @@ export function App() {
   }
 
   if (route === "variables-replace-usages-tool") {
-    return <VariablesReplaceUsagesToolView onBack={() => setRoute("home")} />
+    return (
+      <VariablesReplaceUsagesToolView
+        onBack={() => setRoute("home")}
+        initialSelectionEmpty={selectionSize === 0}
+      />
+    )
   }
 
   return <HomeView goTo={setRoute} />

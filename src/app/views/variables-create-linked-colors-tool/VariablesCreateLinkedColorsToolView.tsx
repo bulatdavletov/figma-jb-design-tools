@@ -299,6 +299,7 @@ export function VariablesCreateLinkedColorsToolView({ onBack }: Props) {
           />
         </ToolBody>
       ) : (
+      <ToolBody mode="content">
       <Container space="medium">
         <VerticalSpace space="medium" />
 
@@ -495,6 +496,7 @@ export function VariablesCreateLinkedColorsToolView({ onBack }: Props) {
 
         <VerticalSpace space="large" />
       </Container>
+      </ToolBody>
       )}
     </Page>
   )
