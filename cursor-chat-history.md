@@ -36,6 +36,46 @@
 
 ## Figma utilities “one plugin”
 
+### 2026-02-11
+
+#### Variables Export/Import UI — requested fix
+- Request: remove horizontal/vertical scrolling inside tool body for Variables Export/Import UI, fix checkbox behavior/visuals, and verify other tools for the same issues.
+- Expected impact: UI/layout only; no intended changes to export/import business logic.
+- Done: Removed nested scroll areas in Variables tools (Export/Import, Batch Rename, Replace Usages, Create Linked Colors list). Tables now use wrapping (`tableLayout: fixed` + `wordBreak`) instead of horizontal scroll.
+- Done: Export/Import collection checkboxes now disable while export is running to avoid inconsistent selection state during action.
+- Verification: `npm run build` passed after changes.
+
+#### Variables tools — checkbox spacing follow-up
+- Request: checkbox rows look too tight (hard to scan/click); add clearer spacing in this screen and check other tools for same issue.
+- Plan: adjust checkbox group spacing consistently in Variables tools and verify with build.
+- Done: added `Stack space="extraSmall"` around checkbox lists in Variables Export/Import and Variables Batch Rename collection sections.
+- Done: added extra spacing wrapper for checkbox options in Variables Replace Usages.
+- Verification: `npm run build` passed.
+
+#### Variables Export/Import — collections selection UX update
+- Request: preselect all collections by default, use one parent "Collections" checkbox with nested child checkboxes, and show button label as "Export N files".
+- Plan: update selection state defaults + parent/child checkbox logic + dynamic export button label.
+- Done: collections are now selected by default on first load.
+- Done: added parent `Collections` checkbox controlling all child checkboxes; child list is nested (indented).
+- Done: export CTA now shows dynamic label (`Export N files`) and is disabled for zero selected collections.
+- Verification: `npm run build` passed.
+- Follow-up: added parent-to-children spacing and enabled mixed state on parent checkbox when selection is partial.
+
+#### Cross-tool consistency + ordering questions
+- Request: apply same parent-checkbox principle in other tools (replace Select all/Clear), avoid internal scrolls, extract design principles into a spec file, and explain/fix ordering differences vs Figma for collections and exported colors in JSON.
+- Plan: update remaining Variables tool UI (Batch Rename), document design principles in `Specs/design principles.md`, then adjust ordering logic to align with Figma and explain behavior.
+- Done: `Variables Batch Rename` now uses parent `Collections` checkbox with nested children and mixed state (removed Select all/Clear buttons), with default all-selected on first load.
+- Done: removed alphabetical sorting for collections in affected Variables views to keep Figma order.
+- Done: export ordering logic updated to follow collection `variableIds` order (Export/Import snapshots and Batch Rename export tokens) for closer match with Figma.
+- Done: created `Specs/design principles.md` with UI/interaction principles extracted from this chat.
+- Verification: `npm run build` passed.
+
+#### Specs consolidation — Design Best Practices into Design Principles
+- Request: merge `Specs/Design Best Practices.md` into `Specs/Design Principles.md`.
+- Plan: consolidate unique rules into one principles file and remove duplicate source doc.
+- Done: merged practical behavior rules (auto-refresh small utilities, preview-before-apply for batch, scope defaults based on selection) into `Specs/Design Principles.md`.
+- Done: removed `Specs/Design Best Practices.md` to keep one source of truth.
+
 ### 2026-01-29
 
 #### Vision / scope (product)

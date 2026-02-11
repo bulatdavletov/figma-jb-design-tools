@@ -1,7 +1,6 @@
 import {
   Button,
   Checkbox,
-  Container,
   Divider,
   FileUploadButton,
   IconButton,
@@ -13,6 +12,7 @@ import {
   Textbox,
   VerticalSpace,
 } from "@create-figma-plugin/ui"
+import { MIXED_BOOLEAN } from "@create-figma-plugin/utilities"
 import { Fragment, h } from "preact"
 import { useEffect, useMemo, useState } from "preact/hooks"
 
@@ -28,6 +28,7 @@ import {
   type BatchRenameProgress,
 } from "../../messages"
 import { Page } from "../../components/Page"
+import { ToolBody } from "../../components/ToolBody"
 import { ToolHeader } from "../../components/ToolHeader"
 
 type Props = {
@@ -152,6 +153,7 @@ export function VariablesBatchRenameToolView({ onBack }: Props) {
   const [exportSetName, setExportSetName] = useState("current")
   const [exportIncludeCurrentName, setExportIncludeCurrentName] = useState(true)
   const [exportSelectedCollectionIds, setExportSelectedCollectionIds] = useState<string[]>([])
+  const [didInitExportSelection, setDidInitExportSelection] = useState(false)
   const [exportStatus, setExportStatus] = useState<string | null>(null)
   const [lastExport, setLastExport] = useState<{ filename: string; jsonText: string } | null>(null)
 
@@ -172,6 +174,10 @@ export function VariablesBatchRenameToolView({ onBack }: Props) {
 
       if (msg.type === MAIN_TO_UI.BATCH_RENAME_COLLECTIONS_LIST) {
         setCollections(msg.collections)
+        if (!didInitExportSelection) {
+          setExportSelectedCollectionIds(msg.collections.map((collection) => collection.id))
+          setDidInitExportSelection(true)
+        }
       }
 
       if (msg.type === MAIN_TO_UI.BATCH_RENAME_NAME_SET_READY) {
@@ -215,7 +221,7 @@ export function VariablesBatchRenameToolView({ onBack }: Props) {
 
     window.addEventListener("message", handleMessage)
     return () => window.removeEventListener("message", handleMessage)
-  }, [])
+  }, [didInitExportSelection])
 
   // Auto-hide success messages
   useEffect(() => {
@@ -225,7 +231,7 @@ export function VariablesBatchRenameToolView({ onBack }: Props) {
   }, [successMessage])
 
   const exportCollectionsOptions = useMemo(
-    () => collections.slice().sort((a, b) => a.name.localeCompare(b.name)),
+    () => collections,
     [collections]
   )
 
@@ -233,6 +239,15 @@ export function VariablesBatchRenameToolView({ onBack }: Props) {
     () => exportCollectionsOptions.map((c) => c.id),
     [exportCollectionsOptions]
   )
+  const selectedCollectionIdsInOptions = useMemo(
+    () => exportSelectedCollectionIds.filter((id) => allCollectionIds.includes(id)),
+    [allCollectionIds, exportSelectedCollectionIds]
+  )
+  const areAllCollectionsSelected =
+    exportCollectionsOptions.length > 0 &&
+    selectedCollectionIdsInOptions.length === exportCollectionsOptions.length
+  const hasSomeCollectionsSelected =
+    selectedCollectionIdsInOptions.length > 0 && !areAllCollectionsSelected
 
   const importRows = useMemo(() => {
     const entries = importPreview?.entries ?? []
@@ -271,6 +286,10 @@ export function VariablesBatchRenameToolView({ onBack }: Props) {
     importPreview.totals.conflicts === 0
 
   const handleExport = () => {
+    if (selectedCollectionIdsInOptions.length === 0) {
+      setErrorMessage("Select at least one collection to export.")
+      return
+    }
     setExportStatus(null)
     setSuccessMessage(null)
     parent.postMessage(
@@ -280,7 +299,7 @@ export function VariablesBatchRenameToolView({ onBack }: Props) {
           request: {
             setName: exportSetName.trim(),
             description: "",
-            collectionIds: exportSelectedCollectionIds.length > 0 ? exportSelectedCollectionIds : null,
+            collectionIds: selectedCollectionIdsInOptions,
             types: [],
             includeCurrentName: exportIncludeCurrentName,
           },
@@ -380,27 +399,24 @@ export function VariablesBatchRenameToolView({ onBack }: Props) {
           </IconButton>
         }
       />
-      <Container space="medium">
-        <VerticalSpace space="medium" />
-
-        {errorMessage && (
-          <Fragment>
-            <div style={{ padding: 8, background: "#fff1f2", borderRadius: 4, marginBottom: 12 }}>
-              <Text style={{ color: "#9f1239" }}>{errorMessage}</Text>
-            </div>
-          </Fragment>
-        )}
-
-        {successMessage && (
-          <Fragment>
-            <div style={{ padding: 8, background: "#ecfdf3", borderRadius: 4, marginBottom: 12 }}>
-              <Text style={{ color: "#067647" }}>{successMessage}</Text>
-            </div>
-          </Fragment>
-        )}
-
-        {/* Export Section */}
+      <ToolBody mode="content">
         <Stack space="medium">
+          {errorMessage && (
+            <Fragment>
+              <div style={{ padding: 8, background: "#fff1f2", borderRadius: 4 }}>
+                <Text style={{ color: "#9f1239" }}>{errorMessage}</Text>
+              </div>
+            </Fragment>
+          )}
+
+          {successMessage && (
+            <Fragment>
+              <div style={{ padding: 8, background: "#ecfdf3", borderRadius: 4 }}>
+                <Text style={{ color: "#067647" }}>{successMessage}</Text>
+              </div>
+            </Fragment>
+          )}
+
           <Stack space="extraSmall">
             <Text style={{ fontWeight: 600 }}>Export name set (JSON)</Text>
             <Text style={{ color: "var(--figma-color-text-secondary)" }}>
@@ -424,49 +440,50 @@ export function VariablesBatchRenameToolView({ onBack }: Props) {
           <Divider />
 
           <Stack space="small">
-            <Text>Collections (optional - if none selected, exports all)</Text>
-            <Inline space="extraSmall">
-              <Button
-                secondary
-                disabled={exportCollectionsOptions.length === 0}
-                onClick={() => setExportSelectedCollectionIds(allCollectionIds)}
-              >
-                Select all
-              </Button>
-              <Button secondary onClick={() => setExportSelectedCollectionIds([])}>
-                Clear
-              </Button>
-            </Inline>
-            <div style={{ maxHeight: 120, overflowY: "auto" }}>
+            <Text>Collections</Text>
+            <div>
               {exportCollectionsOptions.length === 0 ? (
                 <Text style={{ color: "var(--figma-color-text-secondary)" }}>
                   No collections loaded yet.
                 </Text>
               ) : null}
-              {exportCollectionsOptions.map((c) => {
-                const checked = exportSelectedCollectionIds.includes(c.id)
-                return (
-                  <Checkbox
-                    key={c.id}
-                    value={checked}
-                    onValueChange={(next) => {
-                      setExportSelectedCollectionIds((prev) => {
-                        if (next) {
-                          return prev.includes(c.id) ? prev : [...prev, c.id]
-                        }
-                        return prev.filter((id) => id !== c.id)
-                      })
-                    }}
-                  >
-                    <Text>{c.name}</Text>
-                  </Checkbox>
-                )
-              })}
+              {exportCollectionsOptions.length > 0 ? (
+                <Checkbox
+                  value={hasSomeCollectionsSelected ? MIXED_BOOLEAN : areAllCollectionsSelected}
+                  onValueChange={(next) =>
+                    setExportSelectedCollectionIds(next ? allCollectionIds : [])
+                  }
+                >
+                  <Text>Collections</Text>
+                </Checkbox>
+              ) : null}
+              <VerticalSpace space="extraSmall" />
+              <Stack space="extraSmall" style={{ marginLeft: 20 }}>
+                {exportCollectionsOptions.map((c) => {
+                  const checked = exportSelectedCollectionIds.includes(c.id)
+                  return (
+                    <Checkbox
+                      key={c.id}
+                      value={checked}
+                      onValueChange={(next) => {
+                        setExportSelectedCollectionIds((prev) => {
+                          if (next) {
+                            return prev.includes(c.id) ? prev : [...prev, c.id]
+                          }
+                          return prev.filter((id) => id !== c.id)
+                        })
+                      }}
+                    >
+                      <Text>{c.name}</Text>
+                    </Checkbox>
+                  )
+                })}
+              </Stack>
             </div>
           </Stack>
 
           <Inline space="extraSmall">
-            <Button disabled={!exportSetName.trim()} onClick={handleExport}>
+            <Button disabled={!exportSetName.trim() || selectedCollectionIdsInOptions.length === 0} onClick={handleExport}>
               Export name set
             </Button>
             <Button
@@ -574,14 +591,18 @@ export function VariablesBatchRenameToolView({ onBack }: Props) {
               {/* Preview Table */}
               <div
                 style={{
-                  maxHeight: 320,
-                  overflowY: "auto",
-                  overflowX: "auto",
                   border: "1px solid #e3e3e3",
                   borderRadius: 6,
                 }}
               >
-                <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
+                <table
+                  style={{
+                    width: "100%",
+                    borderCollapse: "collapse",
+                    fontSize: 12,
+                    tableLayout: "fixed",
+                  }}
+                >
                   <thead>
                     <tr>
                       <th
@@ -660,10 +681,10 @@ export function VariablesBatchRenameToolView({ onBack }: Props) {
                               {entry.status}
                             </span>
                           </td>
-                          <td style={{ padding: "4px 8px", verticalAlign: "top" }}>
+                          <td style={{ padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" }}>
                             {entry.status === "rename" ? beforeNode : entry.currentName ?? "—"}
                           </td>
-                          <td style={{ padding: "4px 8px", verticalAlign: "top" }}>
+                          <td style={{ padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" }}>
                             {entry.status === "rename" ? afterNode : entry.newName ?? "—"}
                           </td>
                           <td
@@ -671,6 +692,7 @@ export function VariablesBatchRenameToolView({ onBack }: Props) {
                               padding: "4px 8px",
                               verticalAlign: "top",
                               color: "#666",
+                              wordBreak: "break-word",
                             }}
                           >
                             {entry.reason || entry.warning || ""}
@@ -684,9 +706,7 @@ export function VariablesBatchRenameToolView({ onBack }: Props) {
             </Stack>
           )}
         </Stack>
-
-        <VerticalSpace space="large" />
-      </Container>
+      </ToolBody>
     </Page>
   )
 }

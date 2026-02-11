@@ -2615,6 +2615,7 @@ function registerVariablesBatchRenameTool(getActiveTool) {
     });
   };
   const exportNameSet = async (setName, description, collectionId, collectionIds, types, includeCurrentName) => {
+    var _a, _b, _c;
     const trimmedName = setName.trim();
     if (!trimmedName) {
       throw new Error("Set name is required.");
@@ -2623,6 +2624,26 @@ function registerVariablesBatchRenameTool(getActiveTool) {
     const resolvedCollectionIds = Array.isArray(collectionIds) ? collectionIds.filter(isString).map((id) => id.trim()).filter(Boolean) : [];
     const allVariables = await getAllLocalVariables(resolvedTypes);
     const scoped = resolvedCollectionIds.length ? allVariables.filter((v) => resolvedCollectionIds.includes(v.variableCollectionId)) : collectionId ? allVariables.filter((v) => v.variableCollectionId === collectionId) : allVariables;
+    const localCollections = await figma.variables.getLocalVariableCollectionsAsync();
+    const scopedByCollectionId = /* @__PURE__ */ new Map();
+    for (const variable of scoped) {
+      const bucket = (_a = scopedByCollectionId.get(variable.variableCollectionId)) != null ? _a : [];
+      bucket.push(variable);
+      scopedByCollectionId.set(variable.variableCollectionId, bucket);
+    }
+    const orderedScoped = [];
+    for (const collection of localCollections) {
+      const variablesInCollection = (_b = scopedByCollectionId.get(collection.id)) != null ? _b : [];
+      if (!variablesInCollection.length) continue;
+      const byId = new Map(variablesInCollection.map((variable) => [variable.id, variable]));
+      const collectionDetails = await figma.variables.getVariableCollectionByIdAsync(collection.id);
+      const orderedByCollectionIds = ((_c = collectionDetails == null ? void 0 : collectionDetails.variableIds) != null ? _c : []).map((id) => byId.get(id)).filter((variable) => variable != null);
+      const orderedIdSet = new Set(orderedByCollectionIds.map((variable) => variable.id));
+      orderedScoped.push(
+        ...orderedByCollectionIds,
+        ...variablesInCollection.filter((variable) => !orderedIdSet.has(variable.id))
+      );
+    }
     const setObject = {
       version: 1,
       name: trimmedName,
@@ -2632,7 +2653,7 @@ function registerVariablesBatchRenameTool(getActiveTool) {
         collectionId: resolvedCollectionIds.length ? null : collectionId,
         collectionIds: resolvedCollectionIds.length ? resolvedCollectionIds : void 0
       },
-      tokens: scoped.slice().sort((a, b) => a.name.localeCompare(b.name)).map(
+      tokens: orderedScoped.map(
         (v) => includeCurrentName ? { currentName: v.name, newName: v.name, id: v.id } : { newName: v.name, id: v.id }
       )
     };
@@ -3034,7 +3055,7 @@ function registerVariablesExportImportTool(getActiveTool) {
     });
   };
   const exportVariablesSnapshot = async (collectionIds) => {
-    var _a, _b;
+    var _a, _b, _c;
     const collections = await figma.variables.getLocalVariableCollectionsAsync();
     const wantedIds = Array.isArray(collectionIds) && collectionIds.length ? collectionIds.filter(isString).map((id) => id.trim()).filter(Boolean) : [];
     const scopedCollections = wantedIds.length ? collections.filter((c) => wantedIds.includes(c.id)) : collections;
@@ -3043,7 +3064,15 @@ function registerVariablesExportImportTool(getActiveTool) {
     const files = [];
     const nameCounts = /* @__PURE__ */ new Map();
     for (const collection of scopedCollections) {
-      const variables = allVars.filter((v) => v.variableCollectionId === collection.id);
+      const variablesInCollection = allVars.filter((v) => v.variableCollectionId === collection.id);
+      const variablesById = new Map(variablesInCollection.map((variable) => [variable.id, variable]));
+      const collectionDetails = await figma.variables.getVariableCollectionByIdAsync(collection.id);
+      const orderedByCollectionIds = ((_a = collectionDetails == null ? void 0 : collectionDetails.variableIds) != null ? _a : []).map((id) => variablesById.get(id)).filter((variable) => variable != null);
+      const orderedIdSet = new Set(orderedByCollectionIds.map((variable) => variable.id));
+      const variables = [
+        ...orderedByCollectionIds,
+        ...variablesInCollection.filter((variable) => !orderedIdSet.has(variable.id))
+      ];
       const variablesTree = {};
       for (const variable of variables) {
         const parts = variable.name.split("/").map((p) => p.trim());
@@ -3055,7 +3084,7 @@ function registerVariablesExportImportTool(getActiveTool) {
         const values = {};
         for (const mode of collection.modes) {
           const modeName = mode.name;
-          const rawValue = (_a = variable.valuesByMode) == null ? void 0 : _a[mode.modeId];
+          const rawValue = (_b = variable.valuesByMode) == null ? void 0 : _b[mode.modeId];
           if (rawValue === null || rawValue === void 0) {
             values[modeName] = "";
             continue;
@@ -3103,7 +3132,7 @@ function registerVariablesExportImportTool(getActiveTool) {
         ]
       };
       const baseFilename = `${collection.name}.json`;
-      const prev = (_b = nameCounts.get(baseFilename)) != null ? _b : 0;
+      const prev = (_c = nameCounts.get(baseFilename)) != null ? _c : 0;
       nameCounts.set(baseFilename, prev + 1);
       const filename = prev === 0 ? baseFilename : `${collection.name}-${prev + 1}.json`;
       files.push({ filename, jsonText: JSON.stringify(doc, null, 4) });

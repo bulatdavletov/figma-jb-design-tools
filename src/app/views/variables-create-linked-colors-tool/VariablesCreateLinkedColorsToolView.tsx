@@ -391,7 +391,7 @@ export function VariablesCreateLinkedColorsToolView({ onBack }: Props) {
                     onValueInput={setReplaceSearch}
                     disabled={isWorking}
                   />
-                  <div style={{ maxHeight: 150, overflowY: "auto" }}>
+                  <div>
                     {filteredOptions.length === 0 ? (
                       <Text style={{ color: "var(--figma-color-text-secondary)", padding: 8 }}>
                         No matching variables found

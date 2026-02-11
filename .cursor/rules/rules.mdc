@@ -1,7 +1,10 @@
 ---
+description: 
 alwaysApply: true
 ---
 
 Use Figma Docs to check latest iunfo about their plugin dev abilities.
 
 Every Tool should be in separate file
+
+Check Specs folder in order to align. Tell me if there are conflicts between them and my requiests.

@@ -121,7 +121,17 @@ export function registerVariablesExportImportTool(getActiveTool: () => ActiveToo
     const nameCounts = new Map<string, number>()
 
     for (const collection of scopedCollections) {
-      const variables = allVars.filter((v) => v.variableCollectionId === collection.id)
+      const variablesInCollection = allVars.filter((v) => v.variableCollectionId === collection.id)
+      const variablesById = new Map(variablesInCollection.map((variable) => [variable.id, variable]))
+      const collectionDetails = await figma.variables.getVariableCollectionByIdAsync(collection.id)
+      const orderedByCollectionIds = (collectionDetails?.variableIds ?? [])
+        .map((id) => variablesById.get(id))
+        .filter((variable): variable is Variable => variable != null)
+      const orderedIdSet = new Set(orderedByCollectionIds.map((variable) => variable.id))
+      const variables = [
+        ...orderedByCollectionIds,
+        ...variablesInCollection.filter((variable) => !orderedIdSet.has(variable.id)),
+      ]
 
       const variablesTree: Record<string, unknown> = {}
 

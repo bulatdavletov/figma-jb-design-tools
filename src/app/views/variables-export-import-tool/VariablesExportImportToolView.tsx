@@ -12,6 +12,7 @@ import {
   Text,
   VerticalSpace,
 } from "@create-figma-plugin/ui"
+import { MIXED_BOOLEAN } from "@create-figma-plugin/utilities"
 import { Fragment, h } from "preact"
 import { useEffect, useMemo, useState } from "preact/hooks"
 
@@ -27,6 +28,7 @@ import {
   type ExportImportApplyResultPayload,
 } from "../../messages"
 import { Page } from "../../components/Page"
+import { ToolBody } from "../../components/ToolBody"
 import { ToolHeader } from "../../components/ToolHeader"
 
 type Props = {
@@ -68,6 +70,7 @@ export function VariablesExportImportToolView({ onBack }: Props) {
 
   // Export state
   const [exportSelectedCollectionIds, setExportSelectedCollectionIds] = useState<string[]>([])
+  const [didInitExportSelection, setDidInitExportSelection] = useState(false)
   const [snapshotFiles, setSnapshotFiles] = useState<
     Array<{ filename: string; jsonText: string }>
   >([])
@@ -89,6 +92,10 @@ export function VariablesExportImportToolView({ onBack }: Props) {
 
       if (msg.type === MAIN_TO_UI.EXPORT_IMPORT_COLLECTIONS_LIST) {
         setCollections(msg.collections)
+        if (!didInitExportSelection) {
+          setExportSelectedCollectionIds(msg.collections.map((collection) => collection.id))
+          setDidInitExportSelection(true)
+        }
       }
 
       if (msg.type === MAIN_TO_UI.EXPORT_IMPORT_SNAPSHOT_READY) {
@@ -143,7 +150,7 @@ export function VariablesExportImportToolView({ onBack }: Props) {
 
     window.addEventListener("message", handleMessage)
     return () => window.removeEventListener("message", handleMessage)
-  }, [])
+  }, [didInitExportSelection])
 
   // Auto-hide success messages
   useEffect(() => {
@@ -153,7 +160,7 @@ export function VariablesExportImportToolView({ onBack }: Props) {
   }, [successMessage])
 
   const exportCollectionsOptions = useMemo(
-    () => collections.slice().sort((a, b) => a.name.localeCompare(b.name)),
+    () => collections,
     [collections]
   )
 
@@ -161,6 +168,17 @@ export function VariablesExportImportToolView({ onBack }: Props) {
     () => exportCollectionsOptions.map((c) => c.id),
     [exportCollectionsOptions]
   )
+  const selectedCollectionIdsInOptions = useMemo(
+    () => exportSelectedCollectionIds.filter((id) => allCollectionIds.includes(id)),
+    [allCollectionIds, exportSelectedCollectionIds]
+  )
+  const areAllCollectionsSelected =
+    exportCollectionsOptions.length > 0 &&
+    selectedCollectionIdsInOptions.length === exportCollectionsOptions.length
+  const hasSomeCollectionsSelected =
+    selectedCollectionIdsInOptions.length > 0 && !areAllCollectionsSelected
+  const exportSelectedFilesCount = selectedCollectionIdsInOptions.length
+  const exportButtonLabel = `Export ${exportSelectedFilesCount} file${exportSelectedFilesCount === 1 ? "" : "s"}`
 
   const importRows = useMemo(() => {
     const entries = importPreview?.entries ?? []
@@ -200,6 +218,10 @@ export function VariablesExportImportToolView({ onBack }: Props) {
     importPreview.totals.conflicts === 0
 
   const handleExport = () => {
+    if (selectedCollectionIdsInOptions.length === 0) {
+      setSnapshotStatus("Select at least one collection to export.")
+      return
+    }
     setSnapshotStatus(null)
     setSuccessMessage(null)
     setSnapshotFiles([])
@@ -209,8 +231,7 @@ export function VariablesExportImportToolView({ onBack }: Props) {
         pluginMessage: {
           type: UI_TO_MAIN.EXPORT_IMPORT_EXPORT_SNAPSHOT,
           request: {
-            collectionIds:
-              exportSelectedCollectionIds.length > 0 ? exportSelectedCollectionIds : null,
+            collectionIds: selectedCollectionIdsInOptions,
           },
         },
       },
@@ -295,82 +316,77 @@ export function VariablesExportImportToolView({ onBack }: Props) {
           </IconButton>
         }
       />
-      <Container space="medium">
-        <VerticalSpace space="medium" />
-
-        {errorMessage && (
-          <Fragment>
-            <div style={{ padding: 8, background: "#fff1f2", borderRadius: 4, marginBottom: 12 }}>
-              <Text style={{ color: "#9f1239" }}>{errorMessage}</Text>
-            </div>
-          </Fragment>
-        )}
-
-        {successMessage && (
-          <Fragment>
-            <div style={{ padding: 8, background: "#ecfdf3", borderRadius: 4, marginBottom: 12 }}>
-              <Text style={{ color: "#067647" }}>{successMessage}</Text>
-            </div>
-          </Fragment>
-        )}
-
-        {/* Export Section */}
+      <ToolBody mode="content">
         <Stack space="medium">
+          {errorMessage && (
+            <Fragment>
+              <div style={{ padding: 8, background: "#fff1f2", borderRadius: 4 }}>
+                <Text style={{ color: "#9f1239" }}>{errorMessage}</Text>
+              </div>
+            </Fragment>
+          )}
+
+          {successMessage && (
+            <Fragment>
+              <div style={{ padding: 8, background: "#ecfdf3", borderRadius: 4 }}>
+                <Text style={{ color: "#067647" }}>{successMessage}</Text>
+              </div>
+            </Fragment>
+          )}
+
           <Stack space="extraSmall">
-            <Text style={{ fontWeight: 600 }}>Export Variables Snapshot</Text>
             <Text style={{ color: "var(--figma-color-text-secondary)" }}>
-              Export variables as JSON files. Each collection is exported as a separate file.
+              Export variables as separate JSON files
             </Text>
           </Stack>
 
           <Stack space="small">
-            <Text>Collections (optional - if none selected, exports all)</Text>
-            <Inline space="extraSmall">
-              <Button
-                secondary
-                disabled={exportCollectionsOptions.length === 0 || exportBusy}
-                onClick={() => setExportSelectedCollectionIds(allCollectionIds)}
-              >
-                Select all
-              </Button>
-              <Button
-                secondary
-                disabled={exportBusy}
-                onClick={() => setExportSelectedCollectionIds([])}
-              >
-                Clear
-              </Button>
-            </Inline>
-            <div style={{ maxHeight: 120, overflowY: "auto" }}>
+            <Text>Collections</Text>
+            <div>
               {exportCollectionsOptions.length === 0 ? (
                 <Text style={{ color: "var(--figma-color-text-secondary)" }}>
                   No collections loaded yet.
                 </Text>
               ) : null}
-              {exportCollectionsOptions.map((c) => {
-                const checked = exportSelectedCollectionIds.includes(c.id)
-                return (
-                  <Checkbox
-                    key={c.id}
-                    value={checked}
-                    onValueChange={(next) => {
-                      setExportSelectedCollectionIds((prev) => {
-                        if (next) {
-                          return prev.includes(c.id) ? prev : [...prev, c.id]
-                        }
-                        return prev.filter((id) => id !== c.id)
-                      })
-                    }}
-                  >
-                    <Text>{c.name} ({c.variableCount} vars, {c.modeCount} modes)</Text>
-                  </Checkbox>
-                )
-              })}
+              {exportCollectionsOptions.length > 0 ? (
+                <Checkbox
+                  value={hasSomeCollectionsSelected ? MIXED_BOOLEAN : areAllCollectionsSelected}
+                  disabled={exportBusy}
+                  onValueChange={(next) =>
+                    setExportSelectedCollectionIds(next ? allCollectionIds : [])
+                  }
+                >
+                  <Text>Collections</Text>
+                </Checkbox>
+              ) : null}
+              <VerticalSpace space="extraSmall" />
+              <Stack space="extraSmall" style={{ marginLeft: 20 }}>
+                {exportCollectionsOptions.map((c) => {
+                  const checked = exportSelectedCollectionIds.includes(c.id)
+                  return (
+                    <Checkbox
+                      key={c.id}
+                      value={checked}
+                      disabled={exportBusy}
+                      onValueChange={(next) => {
+                        setExportSelectedCollectionIds((prev) => {
+                          if (next) {
+                            return prev.includes(c.id) ? prev : [...prev, c.id]
+                          }
+                          return prev.filter((id) => id !== c.id)
+                        })
+                      }}
+                    >
+                      <Text>{c.name} ({c.variableCount} vars, {c.modeCount} modes)</Text>
+                    </Checkbox>
+                  )
+                })}
+              </Stack>
             </div>
           </Stack>
 
-          <Button onClick={handleExport} disabled={exportBusy}>
-            {exportBusy ? "Exporting..." : "Export Snapshot"}
+          <Button onClick={handleExport} disabled={exportBusy || exportSelectedFilesCount === 0}>
+            {exportBusy ? "Exporting..." : exportButtonLabel}
           </Button>
 
           {exportBusy && (
@@ -387,7 +403,7 @@ export function VariablesExportImportToolView({ onBack }: Props) {
           {snapshotFiles.length > 1 && (
             <Stack space="small">
               <Text>Download individual files:</Text>
-              <div style={{ maxHeight: 100, overflowY: "auto" }}>
+              <div>
                 {snapshotFiles.map((f, i) => (
                   <div key={i} style={{ marginBottom: 4 }}>
                     <Button
@@ -482,14 +498,18 @@ export function VariablesExportImportToolView({ onBack }: Props) {
               {/* Preview Table */}
               <div
                 style={{
-                  maxHeight: 280,
-                  overflowY: "auto",
-                  overflowX: "auto",
                   border: "1px solid #e3e3e3",
                   borderRadius: 6,
                 }}
               >
-                <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
+                <table
+                  style={{
+                    width: "100%",
+                    borderCollapse: "collapse",
+                    fontSize: 12,
+                    tableLayout: "fixed",
+                  }}
+                >
                   <thead>
                     <tr>
                       <th
@@ -563,10 +583,10 @@ export function VariablesExportImportToolView({ onBack }: Props) {
                               {entry.status}
                             </span>
                           </td>
-                          <td style={{ padding: "4px 8px", verticalAlign: "top" }}>
+                          <td style={{ padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" }}>
                             {entry.collectionName}
                           </td>
-                          <td style={{ padding: "4px 8px", verticalAlign: "top" }}>
+                          <td style={{ padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" }}>
                             {entry.variableName}
                           </td>
                           <td
@@ -574,6 +594,7 @@ export function VariablesExportImportToolView({ onBack }: Props) {
                               padding: "4px 8px",
                               verticalAlign: "top",
                               color: "#666",
+                              wordBreak: "break-word",
                             }}
                           >
                             {entry.reason || ""}
@@ -587,9 +608,7 @@ export function VariablesExportImportToolView({ onBack }: Props) {
             </Stack>
           )}
         </Stack>
-
-        <VerticalSpace space="large" />
-      </Container>
+      </ToolBody>
     </Page>
   )
 }

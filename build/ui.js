@@ -691,10 +691,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/49df3063-50b6-4cc5-af8d-ae0ac7878112/loading-indicator.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6cbc6490-dc14-4ab1-a877-03163b0797e1/loading-indicator.module.js
   var loading_indicator_module_default;
   var init_loading_indicator_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/49df3063-50b6-4cc5-af8d-ae0ac7878112/loading-indicator.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6cbc6490-dc14-4ab1-a877-03163b0797e1/loading-indicator.module.js"() {
       if (document.getElementById("3fe0db8eb7") === null) {
         const element = document.createElement("style");
         element.id = "3fe0db8eb7";
@@ -755,10 +755,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/08877b29-eb53-4691-b3e4-532c09d776c9/button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/67fdc017-6238-4389-a888-9f42eb86d332/button.module.js
   var button_module_default;
   var init_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/08877b29-eb53-4691-b3e4-532c09d776c9/button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/67fdc017-6238-4389-a888-9f42eb86d332/button.module.js"() {
       if (document.getElementById("1dddd0e4df") === null) {
         const element = document.createElement("style");
         element.id = "1dddd0e4df";
@@ -1027,10 +1027,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/09965155-6d08-4ca0-bc03-8680f0a846de/checkbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2b8cd740-c846-4fa7-9d14-0eefe7a3b3bc/checkbox.module.js
   var checkbox_module_default;
   var init_checkbox_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/09965155-6d08-4ca0-bc03-8680f0a846de/checkbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2b8cd740-c846-4fa7-9d14-0eefe7a3b3bc/checkbox.module.js"() {
       if (document.getElementById("f38d076240") === null) {
         const element = document.createElement("style");
         element.id = "f38d076240";
@@ -1179,10 +1179,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/50d3230e-6132-4699-a210-7b0718951cee/divider.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4963305a-4189-40a9-9ecd-ccbd42da7c7c/divider.module.js
   var divider_module_default;
   var init_divider_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/50d3230e-6132-4699-a210-7b0718951cee/divider.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4963305a-4189-40a9-9ecd-ccbd42da7c7c/divider.module.js"() {
       if (document.getElementById("4bf06403b9") === null) {
         const element = document.createElement("style");
         element.id = "4bf06403b9";
@@ -1212,10 +1212,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/258b3a86-3979-4e65-a331-2f16e67836e0/menu.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2dab27ab-853f-4339-8a4a-138c4cc7472f/menu.module.js
   var menu_module_default;
   var init_menu_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/258b3a86-3979-4e65-a331-2f16e67836e0/menu.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2dab27ab-853f-4339-8a4a-138c4cc7472f/menu.module.js"() {
       if (document.getElementById("29044db304") === null) {
         const element = document.createElement("style");
         element.id = "29044db304";
@@ -1438,10 +1438,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b680ffe5-3201-42ad-a211-98086022cad4/dropdown.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/3a5376b3-33b7-4c0b-82dc-453bdd51af4c/dropdown.module.js
   var dropdown_module_default;
   var init_dropdown_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b680ffe5-3201-42ad-a211-98086022cad4/dropdown.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/3a5376b3-33b7-4c0b-82dc-453bdd51af4c/dropdown.module.js"() {
       if (document.getElementById("5a226eb00e") === null) {
         const element = document.createElement("style");
         element.id = "5a226eb00e";
@@ -1882,10 +1882,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/794d98a7-7334-4f06-a9ee-e86e6d539b4e/button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c967da18-259b-40f4-b79c-3e1e6b516857/button.module.js
   var button_module_default2;
   var init_button_module2 = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/794d98a7-7334-4f06-a9ee-e86e6d539b4e/button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c967da18-259b-40f4-b79c-3e1e6b516857/button.module.js"() {
       if (document.getElementById("1dddd0e4df") === null) {
         const element = document.createElement("style");
         element.id = "1dddd0e4df";
@@ -2049,10 +2049,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6dde20a7-e4b7-4401-a092-70165e38d3fa/file-upload-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1e600110-66de-4e5f-82ae-22ebb19933d9/file-upload-button.module.js
   var file_upload_button_module_default;
   var init_file_upload_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6dde20a7-e4b7-4401-a092-70165e38d3fa/file-upload-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1e600110-66de-4e5f-82ae-22ebb19933d9/file-upload-button.module.js"() {
       if (document.getElementById("f115bb30c8") === null) {
         const element = document.createElement("style");
         element.id = "f115bb30c8";
@@ -2167,10 +2167,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/afd7bba5-877c-475e-9674-0eea08d71e89/icon-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/511c07e9-ae5a-4fb4-b1eb-2c44e38cb3c5/icon-button.module.js
   var icon_button_module_default;
   var init_icon_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/afd7bba5-877c-475e-9674-0eea08d71e89/icon-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/511c07e9-ae5a-4fb4-b1eb-2c44e38cb3c5/icon-button.module.js"() {
       if (document.getElementById("c8b08e6568") === null) {
         const element = document.createElement("style");
         element.id = "c8b08e6568";
@@ -2248,10 +2248,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/62c69a6e-4592-4ee6-b086-f46f0cdc14c3/text.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2840fac3-bddb-4800-9a5b-5769f082ca44/text.module.js
   var text_module_default;
   var init_text_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/62c69a6e-4592-4ee6-b086-f46f0cdc14c3/text.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2840fac3-bddb-4800-9a5b-5769f082ca44/text.module.js"() {
       if (document.getElementById("1278016d5c") === null) {
         const element = document.createElement("style");
         element.id = "1278016d5c";
@@ -2309,10 +2309,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/362185fd-669c-48c0-99d1-1c16418f6138/inline.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7be754ee-7d7c-4b39-be1b-9726ca387d37/inline.module.js
   var inline_module_default;
   var init_inline_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/362185fd-669c-48c0-99d1-1c16418f6138/inline.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7be754ee-7d7c-4b39-be1b-9726ca387d37/inline.module.js"() {
       if (document.getElementById("3e1b2856fc") === null) {
         const element = document.createElement("style");
         element.id = "3e1b2856fc";
@@ -2374,10 +2374,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/889c7bf4-f7a3-4148-b532-dc5bba1eaac4/stack.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9f57f1d8-254d-44ad-82a1-b824b66a1e9d/stack.module.js
   var stack_module_default;
   var init_stack_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/889c7bf4-f7a3-4148-b532-dc5bba1eaac4/stack.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9f57f1d8-254d-44ad-82a1-b824b66a1e9d/stack.module.js"() {
       if (document.getElementById("317515cc3f") === null) {
         const element = document.createElement("style");
         element.id = "317515cc3f";
@@ -2420,10 +2420,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a061b63a-534b-4843-b907-dc01b5cf8cd1/radio-buttons.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1703b568-d4bb-4521-875c-0a2c0c475b70/radio-buttons.module.js
   var radio_buttons_module_default;
   var init_radio_buttons_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a061b63a-534b-4843-b907-dc01b5cf8cd1/radio-buttons.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1703b568-d4bb-4521-875c-0a2c0c475b70/radio-buttons.module.js"() {
       if (document.getElementById("a066c67891") === null) {
         const element = document.createElement("style");
         element.id = "a066c67891";
@@ -2653,10 +2653,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/bf864da3-391e-4413-b2a4-8d16a0b7a66a/textbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7a57e45f-a849-4a3b-be4e-836311c29f49/textbox.module.js
   var textbox_module_default;
   var init_textbox_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/bf864da3-391e-4413-b2a4-8d16a0b7a66a/textbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7a57e45f-a849-4a3b-be4e-836311c29f49/textbox.module.js"() {
       if (document.getElementById("5c1c5c2d3d") === null) {
         const element = document.createElement("style");
         element.id = "5c1c5c2d3d";
@@ -2881,10 +2881,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ff459f63-454d-4e2c-a5b7-f84b52495b17/columns.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/229ef8c0-8b77-471e-a888-431d065846e4/columns.module.js
   var columns_module_default;
   var init_columns_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ff459f63-454d-4e2c-a5b7-f84b52495b17/columns.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/229ef8c0-8b77-471e-a888-431d065846e4/columns.module.js"() {
       if (document.getElementById("07bfb18928") === null) {
         const element = document.createElement("style");
         element.id = "07bfb18928";
@@ -2953,10 +2953,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/19b956e2-a7da-45bd-aeba-b13628762f31/container.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c00f091d-9855-421d-b12b-fe91c3144c30/container.module.js
   var container_module_default;
   var init_container_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/19b956e2-a7da-45bd-aeba-b13628762f31/container.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c00f091d-9855-421d-b12b-fe91c3144c30/container.module.js"() {
       if (document.getElementById("b49e1406f9") === null) {
         const element = document.createElement("style");
         element.id = "b49e1406f9";
@@ -2997,10 +2997,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b89387b9-1604-4bb7-b3b0-678962a7aed7/vertical-space.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1c87b333-bbf6-48fe-8345-26b1f7454319/vertical-space.module.js
   var vertical_space_module_default;
   var init_vertical_space_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b89387b9-1604-4bb7-b3b0-678962a7aed7/vertical-space.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1c87b333-bbf6-48fe-8345-26b1f7454319/vertical-space.module.js"() {
       if (document.getElementById("ba0eea5114") === null) {
         const element = document.createElement("style");
         element.id = "ba0eea5114";
@@ -3041,9 +3041,9 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/02b89404-8cec-421d-bd88-210e0513d9d4/base.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/cb37da1f-0f38-4130-9413-7e1f4a8a3133/base.js
   var init_base = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/02b89404-8cec-421d-bd88-210e0513d9d4/base.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/cb37da1f-0f38-4130-9413-7e1f4a8a3133/base.js"() {
       if (document.getElementById("0597dd81e7") === null) {
         const element = document.createElement("style");
         element.id = "0597dd81e7";
@@ -4383,6 +4383,7 @@ svg {
     const [exportSetName, setExportSetName] = d2("current");
     const [exportIncludeCurrentName, setExportIncludeCurrentName] = d2(true);
     const [exportSelectedCollectionIds, setExportSelectedCollectionIds] = d2([]);
+    const [didInitExportSelection, setDidInitExportSelection] = d2(false);
     const [exportStatus, setExportStatus] = d2(null);
     const [lastExport, setLastExport] = d2(null);
     const [importFilename, setImportFilename] = d2(null);
@@ -4400,6 +4401,10 @@ svg {
         if (!msg) return;
         if (msg.type === MAIN_TO_UI.BATCH_RENAME_COLLECTIONS_LIST) {
           setCollections(msg.collections);
+          if (!didInitExportSelection) {
+            setExportSelectedCollectionIds(msg.collections.map((collection) => collection.id));
+            setDidInitExportSelection(true);
+          }
         }
         if (msg.type === MAIN_TO_UI.BATCH_RENAME_NAME_SET_READY) {
           downloadTextFile(msg.payload.filename, msg.payload.jsonText);
@@ -4437,20 +4442,26 @@ svg {
       };
       window.addEventListener("message", handleMessage);
       return () => window.removeEventListener("message", handleMessage);
-    }, []);
+    }, [didInitExportSelection]);
     y2(() => {
       if (!successMessage) return;
       const t3 = window.setTimeout(() => setSuccessMessage(null), 4500);
       return () => window.clearTimeout(t3);
     }, [successMessage]);
     const exportCollectionsOptions = T2(
-      () => collections.slice().sort((a3, b2) => a3.name.localeCompare(b2.name)),
+      () => collections,
       [collections]
     );
     const allCollectionIds = T2(
       () => exportCollectionsOptions.map((c3) => c3.id),
       [exportCollectionsOptions]
     );
+    const selectedCollectionIdsInOptions = T2(
+      () => exportSelectedCollectionIds.filter((id) => allCollectionIds.includes(id)),
+      [allCollectionIds, exportSelectedCollectionIds]
+    );
+    const areAllCollectionsSelected = exportCollectionsOptions.length > 0 && selectedCollectionIdsInOptions.length === exportCollectionsOptions.length;
+    const hasSomeCollectionsSelected = selectedCollectionIdsInOptions.length > 0 && !areAllCollectionsSelected;
     const importRows = T2(() => {
       var _a;
       const entries = (_a = importPreview == null ? void 0 : importPreview.entries) != null ? _a : [];
@@ -4483,6 +4494,10 @@ svg {
     }, [importPreview]);
     const canApplyImportedRenames = importPreview !== null && importPreview.totals.renames > 0 && importPreview.totals.conflicts === 0;
     const handleExport = () => {
+      if (selectedCollectionIdsInOptions.length === 0) {
+        setErrorMessage("Select at least one collection to export.");
+        return;
+      }
       setExportStatus(null);
       setSuccessMessage(null);
       parent.postMessage(
@@ -4492,7 +4507,7 @@ svg {
             request: {
               setName: exportSetName.trim(),
               description: "",
-              collectionIds: exportSelectedCollectionIds.length > 0 ? exportSelectedCollectionIds : null,
+              collectionIds: selectedCollectionIdsInOptions,
               types: [],
               includeCurrentName: exportIncludeCurrentName
             }
@@ -4580,7 +4595,7 @@ svg {
         title: "Variables Batch Rename",
         left: /* @__PURE__ */ _(IconButton, { onClick: onBack, title: "Home" }, /* @__PURE__ */ _(IconHome16, null))
       }
-    ), /* @__PURE__ */ _(Container, { space: "medium" }, /* @__PURE__ */ _(VerticalSpace, { space: "medium" }), errorMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#fff1f2", borderRadius: 4, marginBottom: 12 } }, /* @__PURE__ */ _(Text, { style: { color: "#9f1239" } }, errorMessage))), successMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#ecfdf3", borderRadius: 4, marginBottom: 12 } }, /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, successMessage))), /* @__PURE__ */ _(Stack, { space: "medium" }, /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Export name set (JSON)"), /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "Backup/baseline file. Edit newName values and import back to rename by ID.")), /* @__PURE__ */ _(
+    ), /* @__PURE__ */ _(ToolBody, { mode: "content" }, /* @__PURE__ */ _(Stack, { space: "medium" }, errorMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#fff1f2", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "#9f1239" } }, errorMessage))), successMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#ecfdf3", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, successMessage))), /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Export name set (JSON)"), /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "Backup/baseline file. Edit newName values and import back to rename by ID.")), /* @__PURE__ */ _(
       Textbox,
       {
         value: exportSetName,
@@ -4594,15 +4609,14 @@ svg {
         onValueChange: setExportIncludeCurrentName
       },
       /* @__PURE__ */ _(Text, null, "Include currentName (for review/editing)")
-    ), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, null, "Collections (optional - if none selected, exports all)"), /* @__PURE__ */ _(Inline, { space: "extraSmall" }, /* @__PURE__ */ _(
-      Button,
+    ), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, null, "Collections"), /* @__PURE__ */ _("div", null, exportCollectionsOptions.length === 0 ? /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "No collections loaded yet.") : null, exportCollectionsOptions.length > 0 ? /* @__PURE__ */ _(
+      Checkbox,
       {
-        secondary: true,
-        disabled: exportCollectionsOptions.length === 0,
-        onClick: () => setExportSelectedCollectionIds(allCollectionIds)
+        value: hasSomeCollectionsSelected ? MIXED_BOOLEAN : areAllCollectionsSelected,
+        onValueChange: (next) => setExportSelectedCollectionIds(next ? allCollectionIds : [])
       },
-      "Select all"
-    ), /* @__PURE__ */ _(Button, { secondary: true, onClick: () => setExportSelectedCollectionIds([]) }, "Clear")), /* @__PURE__ */ _("div", { style: { maxHeight: 120, overflowY: "auto" } }, exportCollectionsOptions.length === 0 ? /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "No collections loaded yet.") : null, exportCollectionsOptions.map((c3) => {
+      /* @__PURE__ */ _(Text, null, "Collections")
+    ) : null, /* @__PURE__ */ _(VerticalSpace, { space: "extraSmall" }), /* @__PURE__ */ _(Stack, { space: "extraSmall", style: { marginLeft: 20 } }, exportCollectionsOptions.map((c3) => {
       const checked = exportSelectedCollectionIds.includes(c3.id);
       return /* @__PURE__ */ _(
         Checkbox,
@@ -4620,7 +4634,7 @@ svg {
         },
         /* @__PURE__ */ _(Text, null, c3.name)
       );
-    }))), /* @__PURE__ */ _(Inline, { space: "extraSmall" }, /* @__PURE__ */ _(Button, { disabled: !exportSetName.trim(), onClick: handleExport }, "Export name set"), /* @__PURE__ */ _(
+    })))), /* @__PURE__ */ _(Inline, { space: "extraSmall" }, /* @__PURE__ */ _(Button, { disabled: !exportSetName.trim() || selectedCollectionIdsInOptions.length === 0, onClick: handleExport }, "Export name set"), /* @__PURE__ */ _(
       Button,
       {
         secondary: true,
@@ -4659,109 +4673,121 @@ svg {
       "div",
       {
         style: {
-          maxHeight: 320,
-          overflowY: "auto",
-          overflowX: "auto",
           border: "1px solid #e3e3e3",
           borderRadius: 6
         }
       },
-      /* @__PURE__ */ _("table", { style: { width: "100%", borderCollapse: "collapse", fontSize: 12 } }, /* @__PURE__ */ _("thead", null, /* @__PURE__ */ _("tr", null, /* @__PURE__ */ _(
-        "th",
+      /* @__PURE__ */ _(
+        "table",
         {
           style: {
-            borderBottom: "1px solid #e3e3e3",
-            textAlign: "left",
-            padding: "6px 8px",
-            position: "sticky",
-            top: 0,
-            background: "#fafafa"
+            width: "100%",
+            borderCollapse: "collapse",
+            fontSize: 12,
+            tableLayout: "fixed"
           }
         },
-        "Status"
-      ), /* @__PURE__ */ _(
-        "th",
-        {
-          style: {
-            borderBottom: "1px solid #e3e3e3",
-            textAlign: "left",
-            padding: "6px 8px",
-            position: "sticky",
-            top: 0,
-            background: "#fafafa"
-          }
-        },
-        "Current"
-      ), /* @__PURE__ */ _(
-        "th",
-        {
-          style: {
-            borderBottom: "1px solid #e3e3e3",
-            textAlign: "left",
-            padding: "6px 8px",
-            position: "sticky",
-            top: 0,
-            background: "#fafafa"
-          }
-        },
-        "New"
-      ), /* @__PURE__ */ _(
-        "th",
-        {
-          style: {
-            borderBottom: "1px solid #e3e3e3",
-            textAlign: "left",
-            padding: "6px 8px",
-            position: "sticky",
-            top: 0,
-            background: "#fafafa"
-          }
-        },
-        "Note"
-      ))), /* @__PURE__ */ _("tbody", null, importRows.map((entry) => {
-        var _a, _b, _c, _d;
-        const pillStyle = getStatusPillStyle(entry.status);
-        const { beforeNode, afterNode } = renderNameDiff(
-          (_a = entry.currentName) != null ? _a : "",
-          (_b = entry.newName) != null ? _b : ""
-        );
-        return /* @__PURE__ */ _("tr", { key: entry.variableId }, /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top" } }, /* @__PURE__ */ _(
-          "span",
+        /* @__PURE__ */ _("thead", null, /* @__PURE__ */ _("tr", null, /* @__PURE__ */ _(
+          "th",
           {
             style: {
-              display: "inline-block",
-              padding: "2px 6px",
-              borderRadius: 4,
-              fontSize: 10,
-              fontWeight: 600,
-              background: pillStyle.background,
-              border: `1px solid ${pillStyle.borderColor}`,
-              color: pillStyle.color
+              borderBottom: "1px solid #e3e3e3",
+              textAlign: "left",
+              padding: "6px 8px",
+              position: "sticky",
+              top: 0,
+              background: "#fafafa"
             }
           },
-          entry.status
-        )), /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top" } }, entry.status === "rename" ? beforeNode : (_c = entry.currentName) != null ? _c : "\u2014"), /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top" } }, entry.status === "rename" ? afterNode : (_d = entry.newName) != null ? _d : "\u2014"), /* @__PURE__ */ _(
-          "td",
+          "Status"
+        ), /* @__PURE__ */ _(
+          "th",
           {
             style: {
-              padding: "4px 8px",
-              verticalAlign: "top",
-              color: "#666"
+              borderBottom: "1px solid #e3e3e3",
+              textAlign: "left",
+              padding: "6px 8px",
+              position: "sticky",
+              top: 0,
+              background: "#fafafa"
             }
           },
-          entry.reason || entry.warning || ""
-        ));
-      })))
-    ))), /* @__PURE__ */ _(VerticalSpace, { space: "large" })));
+          "Current"
+        ), /* @__PURE__ */ _(
+          "th",
+          {
+            style: {
+              borderBottom: "1px solid #e3e3e3",
+              textAlign: "left",
+              padding: "6px 8px",
+              position: "sticky",
+              top: 0,
+              background: "#fafafa"
+            }
+          },
+          "New"
+        ), /* @__PURE__ */ _(
+          "th",
+          {
+            style: {
+              borderBottom: "1px solid #e3e3e3",
+              textAlign: "left",
+              padding: "6px 8px",
+              position: "sticky",
+              top: 0,
+              background: "#fafafa"
+            }
+          },
+          "Note"
+        ))),
+        /* @__PURE__ */ _("tbody", null, importRows.map((entry) => {
+          var _a, _b, _c, _d;
+          const pillStyle = getStatusPillStyle(entry.status);
+          const { beforeNode, afterNode } = renderNameDiff(
+            (_a = entry.currentName) != null ? _a : "",
+            (_b = entry.newName) != null ? _b : ""
+          );
+          return /* @__PURE__ */ _("tr", { key: entry.variableId }, /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top" } }, /* @__PURE__ */ _(
+            "span",
+            {
+              style: {
+                display: "inline-block",
+                padding: "2px 6px",
+                borderRadius: 4,
+                fontSize: 10,
+                fontWeight: 600,
+                background: pillStyle.background,
+                border: `1px solid ${pillStyle.borderColor}`,
+                color: pillStyle.color
+              }
+            },
+            entry.status
+          )), /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" } }, entry.status === "rename" ? beforeNode : (_c = entry.currentName) != null ? _c : "\u2014"), /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" } }, entry.status === "rename" ? afterNode : (_d = entry.newName) != null ? _d : "\u2014"), /* @__PURE__ */ _(
+            "td",
+            {
+              style: {
+                padding: "4px 8px",
+                verticalAlign: "top",
+                color: "#666",
+                wordBreak: "break-word"
+              }
+            },
+            entry.reason || entry.warning || ""
+          ));
+        }))
+      )
+    )))));
   }
   var init_VariablesBatchRenameToolView = __esm({
     "src/app/views/variables-batch-rename-tool/VariablesBatchRenameToolView.tsx"() {
       "use strict";
       init_lib2();
+      init_lib();
       init_preact_module();
       init_hooks_module();
       init_messages();
       init_Page();
+      init_ToolBody();
       init_ToolHeader();
     }
   });
@@ -4792,6 +4818,7 @@ svg {
     const [errorMessage, setErrorMessage] = d2(null);
     const [successMessage, setSuccessMessage] = d2(null);
     const [exportSelectedCollectionIds, setExportSelectedCollectionIds] = d2([]);
+    const [didInitExportSelection, setDidInitExportSelection] = d2(false);
     const [snapshotFiles, setSnapshotFiles] = d2([]);
     const [snapshotStatus, setSnapshotStatus] = d2(null);
     const [exportBusy, setExportBusy] = d2(false);
@@ -4808,6 +4835,10 @@ svg {
         if (!msg) return;
         if (msg.type === MAIN_TO_UI.EXPORT_IMPORT_COLLECTIONS_LIST) {
           setCollections(msg.collections);
+          if (!didInitExportSelection) {
+            setExportSelectedCollectionIds(msg.collections.map((collection) => collection.id));
+            setDidInitExportSelection(true);
+          }
         }
         if (msg.type === MAIN_TO_UI.EXPORT_IMPORT_SNAPSHOT_READY) {
           const files = Array.isArray(msg.payload.files) ? msg.payload.files : [];
@@ -4853,20 +4884,28 @@ svg {
       };
       window.addEventListener("message", handleMessage);
       return () => window.removeEventListener("message", handleMessage);
-    }, []);
+    }, [didInitExportSelection]);
     y2(() => {
       if (!successMessage) return;
       const t3 = window.setTimeout(() => setSuccessMessage(null), 4500);
       return () => window.clearTimeout(t3);
     }, [successMessage]);
     const exportCollectionsOptions = T2(
-      () => collections.slice().sort((a3, b2) => a3.name.localeCompare(b2.name)),
+      () => collections,
       [collections]
     );
     const allCollectionIds = T2(
       () => exportCollectionsOptions.map((c3) => c3.id),
       [exportCollectionsOptions]
     );
+    const selectedCollectionIdsInOptions = T2(
+      () => exportSelectedCollectionIds.filter((id) => allCollectionIds.includes(id)),
+      [allCollectionIds, exportSelectedCollectionIds]
+    );
+    const areAllCollectionsSelected = exportCollectionsOptions.length > 0 && selectedCollectionIdsInOptions.length === exportCollectionsOptions.length;
+    const hasSomeCollectionsSelected = selectedCollectionIdsInOptions.length > 0 && !areAllCollectionsSelected;
+    const exportSelectedFilesCount = selectedCollectionIdsInOptions.length;
+    const exportButtonLabel = `Export ${exportSelectedFilesCount} file${exportSelectedFilesCount === 1 ? "" : "s"}`;
     const importRows = T2(() => {
       var _a;
       const entries = (_a = importPreview == null ? void 0 : importPreview.entries) != null ? _a : [];
@@ -4894,6 +4933,10 @@ svg {
     }, [importPreview]);
     const canApplyImport = importPreview !== null && (importPreview.totals.create > 0 || importPreview.totals.update > 0 || importPreview.totals.rename > 0) && importPreview.totals.conflicts === 0;
     const handleExport = () => {
+      if (selectedCollectionIdsInOptions.length === 0) {
+        setSnapshotStatus("Select at least one collection to export.");
+        return;
+      }
       setSnapshotStatus(null);
       setSuccessMessage(null);
       setSnapshotFiles([]);
@@ -4903,7 +4946,7 @@ svg {
           pluginMessage: {
             type: UI_TO_MAIN.EXPORT_IMPORT_EXPORT_SNAPSHOT,
             request: {
-              collectionIds: exportSelectedCollectionIds.length > 0 ? exportSelectedCollectionIds : null
+              collectionIds: selectedCollectionIdsInOptions
             }
           }
         },
@@ -4978,29 +5021,22 @@ svg {
         title: "Variables Export/Import",
         left: /* @__PURE__ */ _(IconButton, { onClick: onBack, title: "Home" }, /* @__PURE__ */ _(IconHome16, null))
       }
-    ), /* @__PURE__ */ _(Container, { space: "medium" }, /* @__PURE__ */ _(VerticalSpace, { space: "medium" }), errorMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#fff1f2", borderRadius: 4, marginBottom: 12 } }, /* @__PURE__ */ _(Text, { style: { color: "#9f1239" } }, errorMessage))), successMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#ecfdf3", borderRadius: 4, marginBottom: 12 } }, /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, successMessage))), /* @__PURE__ */ _(Stack, { space: "medium" }, /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Export Variables Snapshot"), /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "Export variables as JSON files. Each collection is exported as a separate file.")), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, null, "Collections (optional - if none selected, exports all)"), /* @__PURE__ */ _(Inline, { space: "extraSmall" }, /* @__PURE__ */ _(
-      Button,
+    ), /* @__PURE__ */ _(ToolBody, { mode: "content" }, /* @__PURE__ */ _(Stack, { space: "medium" }, errorMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#fff1f2", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "#9f1239" } }, errorMessage))), successMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#ecfdf3", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, successMessage))), /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "Export variables as separate JSON files")), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, null, "Collections"), /* @__PURE__ */ _("div", null, exportCollectionsOptions.length === 0 ? /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "No collections loaded yet.") : null, exportCollectionsOptions.length > 0 ? /* @__PURE__ */ _(
+      Checkbox,
       {
-        secondary: true,
-        disabled: exportCollectionsOptions.length === 0 || exportBusy,
-        onClick: () => setExportSelectedCollectionIds(allCollectionIds)
-      },
-      "Select all"
-    ), /* @__PURE__ */ _(
-      Button,
-      {
-        secondary: true,
+        value: hasSomeCollectionsSelected ? MIXED_BOOLEAN : areAllCollectionsSelected,
         disabled: exportBusy,
-        onClick: () => setExportSelectedCollectionIds([])
+        onValueChange: (next) => setExportSelectedCollectionIds(next ? allCollectionIds : [])
       },
-      "Clear"
-    )), /* @__PURE__ */ _("div", { style: { maxHeight: 120, overflowY: "auto" } }, exportCollectionsOptions.length === 0 ? /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "No collections loaded yet.") : null, exportCollectionsOptions.map((c3) => {
+      /* @__PURE__ */ _(Text, null, "Collections")
+    ) : null, /* @__PURE__ */ _(VerticalSpace, { space: "extraSmall" }), /* @__PURE__ */ _(Stack, { space: "extraSmall", style: { marginLeft: 20 } }, exportCollectionsOptions.map((c3) => {
       const checked = exportSelectedCollectionIds.includes(c3.id);
       return /* @__PURE__ */ _(
         Checkbox,
         {
           key: c3.id,
           value: checked,
+          disabled: exportBusy,
           onValueChange: (next) => {
             setExportSelectedCollectionIds((prev) => {
               if (next) {
@@ -5012,7 +5048,7 @@ svg {
         },
         /* @__PURE__ */ _(Text, null, c3.name, " (", c3.variableCount, " vars, ", c3.modeCount, " modes)")
       );
-    }))), /* @__PURE__ */ _(Button, { onClick: handleExport, disabled: exportBusy }, exportBusy ? "Exporting..." : "Export Snapshot"), exportBusy && /* @__PURE__ */ _(Inline, { space: "extraSmall" }, /* @__PURE__ */ _(LoadingIndicator, null), /* @__PURE__ */ _(Text, null, "Generating snapshot files...")), snapshotStatus && /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, snapshotStatus), snapshotFiles.length > 1 && /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, null, "Download individual files:"), /* @__PURE__ */ _("div", { style: { maxHeight: 100, overflowY: "auto" } }, snapshotFiles.map((f3, i3) => /* @__PURE__ */ _("div", { key: i3, style: { marginBottom: 4 } }, /* @__PURE__ */ _(
+    })))), /* @__PURE__ */ _(Button, { onClick: handleExport, disabled: exportBusy || exportSelectedFilesCount === 0 }, exportBusy ? "Exporting..." : exportButtonLabel), exportBusy && /* @__PURE__ */ _(Inline, { space: "extraSmall" }, /* @__PURE__ */ _(LoadingIndicator, null), /* @__PURE__ */ _(Text, null, "Generating snapshot files...")), snapshotStatus && /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, snapshotStatus), snapshotFiles.length > 1 && /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, null, "Download individual files:"), /* @__PURE__ */ _("div", null, snapshotFiles.map((f3, i3) => /* @__PURE__ */ _("div", { key: i3, style: { marginBottom: 4 } }, /* @__PURE__ */ _(
       Button,
       {
         secondary: true,
@@ -5046,104 +5082,116 @@ svg {
       "div",
       {
         style: {
-          maxHeight: 280,
-          overflowY: "auto",
-          overflowX: "auto",
           border: "1px solid #e3e3e3",
           borderRadius: 6
         }
       },
-      /* @__PURE__ */ _("table", { style: { width: "100%", borderCollapse: "collapse", fontSize: 12 } }, /* @__PURE__ */ _("thead", null, /* @__PURE__ */ _("tr", null, /* @__PURE__ */ _(
-        "th",
+      /* @__PURE__ */ _(
+        "table",
         {
           style: {
-            borderBottom: "1px solid #e3e3e3",
-            textAlign: "left",
-            padding: "6px 8px",
-            position: "sticky",
-            top: 0,
-            background: "#fafafa"
+            width: "100%",
+            borderCollapse: "collapse",
+            fontSize: 12,
+            tableLayout: "fixed"
           }
         },
-        "Status"
-      ), /* @__PURE__ */ _(
-        "th",
-        {
-          style: {
-            borderBottom: "1px solid #e3e3e3",
-            textAlign: "left",
-            padding: "6px 8px",
-            position: "sticky",
-            top: 0,
-            background: "#fafafa"
-          }
-        },
-        "Collection"
-      ), /* @__PURE__ */ _(
-        "th",
-        {
-          style: {
-            borderBottom: "1px solid #e3e3e3",
-            textAlign: "left",
-            padding: "6px 8px",
-            position: "sticky",
-            top: 0,
-            background: "#fafafa"
-          }
-        },
-        "Variable"
-      ), /* @__PURE__ */ _(
-        "th",
-        {
-          style: {
-            borderBottom: "1px solid #e3e3e3",
-            textAlign: "left",
-            padding: "6px 8px",
-            position: "sticky",
-            top: 0,
-            background: "#fafafa"
-          }
-        },
-        "Note"
-      ))), /* @__PURE__ */ _("tbody", null, importRows.map((entry, i3) => {
-        const pillStyle = getStatusPillStyle2(entry.status);
-        return /* @__PURE__ */ _("tr", { key: i3 }, /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top" } }, /* @__PURE__ */ _(
-          "span",
+        /* @__PURE__ */ _("thead", null, /* @__PURE__ */ _("tr", null, /* @__PURE__ */ _(
+          "th",
           {
             style: {
-              display: "inline-block",
-              padding: "2px 6px",
-              borderRadius: 4,
-              fontSize: 10,
-              fontWeight: 600,
-              background: pillStyle.background,
-              border: `1px solid ${pillStyle.borderColor}`,
-              color: pillStyle.color
+              borderBottom: "1px solid #e3e3e3",
+              textAlign: "left",
+              padding: "6px 8px",
+              position: "sticky",
+              top: 0,
+              background: "#fafafa"
             }
           },
-          entry.status
-        )), /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top" } }, entry.collectionName), /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top" } }, entry.variableName), /* @__PURE__ */ _(
-          "td",
+          "Status"
+        ), /* @__PURE__ */ _(
+          "th",
           {
             style: {
-              padding: "4px 8px",
-              verticalAlign: "top",
-              color: "#666"
+              borderBottom: "1px solid #e3e3e3",
+              textAlign: "left",
+              padding: "6px 8px",
+              position: "sticky",
+              top: 0,
+              background: "#fafafa"
             }
           },
-          entry.reason || ""
-        ));
-      })))
-    ))), /* @__PURE__ */ _(VerticalSpace, { space: "large" })));
+          "Collection"
+        ), /* @__PURE__ */ _(
+          "th",
+          {
+            style: {
+              borderBottom: "1px solid #e3e3e3",
+              textAlign: "left",
+              padding: "6px 8px",
+              position: "sticky",
+              top: 0,
+              background: "#fafafa"
+            }
+          },
+          "Variable"
+        ), /* @__PURE__ */ _(
+          "th",
+          {
+            style: {
+              borderBottom: "1px solid #e3e3e3",
+              textAlign: "left",
+              padding: "6px 8px",
+              position: "sticky",
+              top: 0,
+              background: "#fafafa"
+            }
+          },
+          "Note"
+        ))),
+        /* @__PURE__ */ _("tbody", null, importRows.map((entry, i3) => {
+          const pillStyle = getStatusPillStyle2(entry.status);
+          return /* @__PURE__ */ _("tr", { key: i3 }, /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top" } }, /* @__PURE__ */ _(
+            "span",
+            {
+              style: {
+                display: "inline-block",
+                padding: "2px 6px",
+                borderRadius: 4,
+                fontSize: 10,
+                fontWeight: 600,
+                background: pillStyle.background,
+                border: `1px solid ${pillStyle.borderColor}`,
+                color: pillStyle.color
+              }
+            },
+            entry.status
+          )), /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" } }, entry.collectionName), /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" } }, entry.variableName), /* @__PURE__ */ _(
+            "td",
+            {
+              style: {
+                padding: "4px 8px",
+                verticalAlign: "top",
+                color: "#666",
+                wordBreak: "break-word"
+              }
+            },
+            entry.reason || ""
+          ));
+        }))
+      )
+    )))));
   }
   var init_VariablesExportImportToolView = __esm({
     "src/app/views/variables-export-import-tool/VariablesExportImportToolView.tsx"() {
       "use strict";
       init_lib2();
+      init_lib();
       init_preact_module();
       init_hooks_module();
       init_messages();
       init_Page();
+      init_ToolBody();
       init_ToolHeader();
     }
   });
@@ -5391,7 +5439,7 @@ svg {
         onValueInput: setReplaceSearch,
         disabled: isWorking
       }
-    ), /* @__PURE__ */ _("div", { style: { maxHeight: 150, overflowY: "auto" } }, filteredOptions.length === 0 ? /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)", padding: 8 } }, "No matching variables found") : filteredOptions.slice(0, 50).map((opt) => /* @__PURE__ */ _(
+    ), /* @__PURE__ */ _("div", null, filteredOptions.length === 0 ? /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)", padding: 8 } }, "No matching variables found") : filteredOptions.slice(0, 50).map((opt) => /* @__PURE__ */ _(
       "div",
       {
         key: opt.value,
@@ -5594,7 +5642,7 @@ svg {
         title: "Replace Variable Usages",
         left: /* @__PURE__ */ _(IconButton, { onClick: onBack, title: "Home" }, /* @__PURE__ */ _(IconHome16, null))
       }
-    ), /* @__PURE__ */ _(Container, { space: "medium" }, /* @__PURE__ */ _(VerticalSpace, { space: "medium" }), errorMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#fff1f2", borderRadius: 4, marginBottom: 12 } }, /* @__PURE__ */ _(Text, { style: { color: "#9f1239" } }, errorMessage))), successMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#ecfdf3", borderRadius: 4, marginBottom: 12 } }, /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, successMessage))), /* @__PURE__ */ _(Stack, { space: "medium" }, /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Replace Variable Usages"), /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, 'Load a JSON mapping file to replace variable bindings in layers. The mapping file should specify "from \u2192 to" variable names within a collection.')), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Scope"), /* @__PURE__ */ _(Inline, { space: "medium" }, /* @__PURE__ */ _(
+    ), /* @__PURE__ */ _(ToolBody, { mode: "content" }, /* @__PURE__ */ _(Stack, { space: "medium" }, errorMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#fff1f2", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "#9f1239" } }, errorMessage))), successMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#ecfdf3", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, successMessage))), /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Replace Variable Usages"), /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, 'Load a JSON mapping file to replace variable bindings in layers. The mapping file should specify "from \u2192 to" variable names within a collection.')), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Scope"), /* @__PURE__ */ _(Inline, { space: "medium" }, /* @__PURE__ */ _(
       Checkbox,
       {
         value: scope === "selection",
@@ -5608,7 +5656,7 @@ svg {
         onValueChange: () => setScope("page")
       },
       /* @__PURE__ */ _(Text, null, "Entire page")
-    ))), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Options"), /* @__PURE__ */ _(Checkbox, { value: renamePrints, onValueChange: setRenamePrints }, /* @__PURE__ */ _(Text, null, 'Rename "Prints" layers (layers prefixed with VariableID:...)')), /* @__PURE__ */ _(Checkbox, { value: includeHidden, onValueChange: setIncludeHidden }, /* @__PURE__ */ _(Text, null, "Include hidden layers"))), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Mapping File"), /* @__PURE__ */ _(Text, { style: { fontSize: 11, color: "var(--figma-color-text-secondary)" } }, "JSON format: ", "{", ' version: 1, collectionName: "...", replacements: [', "{", ' from: "OldName", to: "NewName" ', "}", "] ", "}"), /* @__PURE__ */ _(
+    ))), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Options"), /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(Checkbox, { value: renamePrints, onValueChange: setRenamePrints }, /* @__PURE__ */ _(Text, null, 'Rename "Prints" layers (layers prefixed with VariableID:...)')), /* @__PURE__ */ _(Checkbox, { value: includeHidden, onValueChange: setIncludeHidden }, /* @__PURE__ */ _(Text, null, "Include hidden layers")))), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Mapping File"), /* @__PURE__ */ _(Text, { style: { fontSize: 11, color: "var(--figma-color-text-secondary)" } }, "JSON format: ", "{", ' version: 1, collectionName: "...", replacements: [', "{", ' from: "OldName", to: "NewName" ', "}", "] ", "}"), /* @__PURE__ */ _(
       FileUploadButton,
       {
         acceptedFileTypes: [".json", "application/json"],
@@ -5640,170 +5688,189 @@ svg {
       "div",
       {
         style: {
-          maxHeight: 200,
-          overflowY: "auto",
-          overflowX: "auto",
           border: "1px solid #e3e3e3",
           borderRadius: 6
         }
       },
-      /* @__PURE__ */ _("table", { style: { width: "100%", borderCollapse: "collapse", fontSize: 11 } }, /* @__PURE__ */ _("thead", null, /* @__PURE__ */ _("tr", null, /* @__PURE__ */ _(
-        "th",
+      /* @__PURE__ */ _(
+        "table",
         {
           style: {
-            borderBottom: "1px solid #e3e3e3",
-            textAlign: "left",
-            padding: "6px 8px",
-            position: "sticky",
-            top: 0,
-            background: "#fafafa"
+            width: "100%",
+            borderCollapse: "collapse",
+            fontSize: 11,
+            tableLayout: "fixed"
           }
         },
-        "From"
-      ), /* @__PURE__ */ _(
-        "th",
-        {
-          style: {
-            borderBottom: "1px solid #e3e3e3",
-            textAlign: "left",
-            padding: "6px 8px",
-            position: "sticky",
-            top: 0,
-            background: "#fafafa"
-          }
-        },
-        "To"
-      ), /* @__PURE__ */ _(
-        "th",
-        {
-          style: {
-            borderBottom: "1px solid #e3e3e3",
-            textAlign: "right",
-            padding: "6px 8px",
-            position: "sticky",
-            top: 0,
-            background: "#fafafa"
-          }
-        },
-        "Bindings"
-      ), /* @__PURE__ */ _(
-        "th",
-        {
-          style: {
-            borderBottom: "1px solid #e3e3e3",
-            textAlign: "right",
-            padding: "6px 8px",
-            position: "sticky",
-            top: 0,
-            background: "#fafafa"
-          }
-        },
-        "Nodes"
-      ))), /* @__PURE__ */ _("tbody", null, sortedMappings.map((row) => /* @__PURE__ */ _("tr", { key: row.sourceId }, /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top" } }, row.sourceName), /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top" } }, row.targetName), /* @__PURE__ */ _(
-        "td",
-        {
-          style: { padding: "4px 8px", verticalAlign: "top", textAlign: "right" }
-        },
-        row.bindingsTotal
-      ), /* @__PURE__ */ _(
-        "td",
-        {
-          style: { padding: "4px 8px", verticalAlign: "top", textAlign: "right" }
-        },
-        row.nodesTotal
-      )))))
+        /* @__PURE__ */ _("thead", null, /* @__PURE__ */ _("tr", null, /* @__PURE__ */ _(
+          "th",
+          {
+            style: {
+              borderBottom: "1px solid #e3e3e3",
+              textAlign: "left",
+              padding: "6px 8px",
+              position: "sticky",
+              top: 0,
+              background: "#fafafa"
+            }
+          },
+          "From"
+        ), /* @__PURE__ */ _(
+          "th",
+          {
+            style: {
+              borderBottom: "1px solid #e3e3e3",
+              textAlign: "left",
+              padding: "6px 8px",
+              position: "sticky",
+              top: 0,
+              background: "#fafafa"
+            }
+          },
+          "To"
+        ), /* @__PURE__ */ _(
+          "th",
+          {
+            style: {
+              borderBottom: "1px solid #e3e3e3",
+              textAlign: "right",
+              padding: "6px 8px",
+              position: "sticky",
+              top: 0,
+              background: "#fafafa"
+            }
+          },
+          "Bindings"
+        ), /* @__PURE__ */ _(
+          "th",
+          {
+            style: {
+              borderBottom: "1px solid #e3e3e3",
+              textAlign: "right",
+              padding: "6px 8px",
+              position: "sticky",
+              top: 0,
+              background: "#fafafa"
+            }
+          },
+          "Nodes"
+        ))),
+        /* @__PURE__ */ _("tbody", null, sortedMappings.map((row) => /* @__PURE__ */ _("tr", { key: row.sourceId }, /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" } }, row.sourceName), /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" } }, row.targetName), /* @__PURE__ */ _(
+          "td",
+          {
+            style: { padding: "4px 8px", verticalAlign: "top", textAlign: "right" }
+          },
+          row.bindingsTotal
+        ), /* @__PURE__ */ _(
+          "td",
+          {
+            style: { padding: "4px 8px", verticalAlign: "top", textAlign: "right" }
+          },
+          row.nodesTotal
+        ))))
+      )
     )), sortedInvalidRows.length > 0 && /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600, color: "#9f1239" } }, "Invalid Mapping Rows (", sortedInvalidRows.length, ")"), /* @__PURE__ */ _(
       "div",
       {
         style: {
-          maxHeight: 150,
-          overflowY: "auto",
-          overflowX: "auto",
           border: "1px solid #e3e3e3",
           borderRadius: 6
         }
       },
-      /* @__PURE__ */ _("table", { style: { width: "100%", borderCollapse: "collapse", fontSize: 11 } }, /* @__PURE__ */ _("thead", null, /* @__PURE__ */ _("tr", null, /* @__PURE__ */ _(
-        "th",
+      /* @__PURE__ */ _(
+        "table",
         {
           style: {
-            borderBottom: "1px solid #e3e3e3",
-            textAlign: "left",
-            padding: "6px 8px",
-            position: "sticky",
-            top: 0,
-            background: "#fafafa"
+            width: "100%",
+            borderCollapse: "collapse",
+            fontSize: 11,
+            tableLayout: "fixed"
           }
         },
-        "Status"
-      ), /* @__PURE__ */ _(
-        "th",
-        {
-          style: {
-            borderBottom: "1px solid #e3e3e3",
-            textAlign: "left",
-            padding: "6px 8px",
-            position: "sticky",
-            top: 0,
-            background: "#fafafa"
-          }
-        },
-        "From"
-      ), /* @__PURE__ */ _(
-        "th",
-        {
-          style: {
-            borderBottom: "1px solid #e3e3e3",
-            textAlign: "left",
-            padding: "6px 8px",
-            position: "sticky",
-            top: 0,
-            background: "#fafafa"
-          }
-        },
-        "To"
-      ), /* @__PURE__ */ _(
-        "th",
-        {
-          style: {
-            borderBottom: "1px solid #e3e3e3",
-            textAlign: "left",
-            padding: "6px 8px",
-            position: "sticky",
-            top: 0,
-            background: "#fafafa"
-          }
-        },
-        "Reason"
-      ))), /* @__PURE__ */ _("tbody", null, sortedInvalidRows.map((row, i3) => {
-        const pillStyle = getStatusPillStyle3(row.status);
-        return /* @__PURE__ */ _("tr", { key: i3 }, /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top" } }, /* @__PURE__ */ _(
-          "span",
+        /* @__PURE__ */ _("thead", null, /* @__PURE__ */ _("tr", null, /* @__PURE__ */ _(
+          "th",
           {
             style: {
-              display: "inline-block",
-              padding: "2px 6px",
-              borderRadius: 4,
-              fontSize: 9,
-              fontWeight: 600,
-              background: pillStyle.background,
-              border: `1px solid ${pillStyle.borderColor}`,
-              color: pillStyle.color
+              borderBottom: "1px solid #e3e3e3",
+              textAlign: "left",
+              padding: "6px 8px",
+              position: "sticky",
+              top: 0,
+              background: "#fafafa"
             }
           },
-          row.status
-        )), /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top" } }, row.from || "\u2014"), /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top" } }, row.to || "\u2014"), /* @__PURE__ */ _(
-          "td",
+          "Status"
+        ), /* @__PURE__ */ _(
+          "th",
           {
             style: {
-              padding: "4px 8px",
-              verticalAlign: "top",
-              color: "#666"
+              borderBottom: "1px solid #e3e3e3",
+              textAlign: "left",
+              padding: "6px 8px",
+              position: "sticky",
+              top: 0,
+              background: "#fafafa"
             }
           },
-          row.reason || ""
-        ));
-      })))
+          "From"
+        ), /* @__PURE__ */ _(
+          "th",
+          {
+            style: {
+              borderBottom: "1px solid #e3e3e3",
+              textAlign: "left",
+              padding: "6px 8px",
+              position: "sticky",
+              top: 0,
+              background: "#fafafa"
+            }
+          },
+          "To"
+        ), /* @__PURE__ */ _(
+          "th",
+          {
+            style: {
+              borderBottom: "1px solid #e3e3e3",
+              textAlign: "left",
+              padding: "6px 8px",
+              position: "sticky",
+              top: 0,
+              background: "#fafafa"
+            }
+          },
+          "Reason"
+        ))),
+        /* @__PURE__ */ _("tbody", null, sortedInvalidRows.map((row, i3) => {
+          const pillStyle = getStatusPillStyle3(row.status);
+          return /* @__PURE__ */ _("tr", { key: i3 }, /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top" } }, /* @__PURE__ */ _(
+            "span",
+            {
+              style: {
+                display: "inline-block",
+                padding: "2px 6px",
+                borderRadius: 4,
+                fontSize: 9,
+                fontWeight: 600,
+                background: pillStyle.background,
+                border: `1px solid ${pillStyle.borderColor}`,
+                color: pillStyle.color
+              }
+            },
+            row.status
+          )), /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" } }, row.from || "\u2014"), /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" } }, row.to || "\u2014"), /* @__PURE__ */ _(
+            "td",
+            {
+              style: {
+                padding: "4px 8px",
+                verticalAlign: "top",
+                color: "#666",
+                wordBreak: "break-word"
+              }
+            },
+            row.reason || ""
+          ));
+        }))
+      )
     )), applyResult && /* @__PURE__ */ _(
       "div",
       {
@@ -5815,7 +5882,7 @@ svg {
       },
       /* @__PURE__ */ _(Text, { style: { color: "#067647", fontWeight: 600 } }, "Apply Result"),
       /* @__PURE__ */ _(Text, { style: { fontSize: 11, marginTop: 4 } }, "Nodes visited: ", applyResult.totals.nodesVisited, /* @__PURE__ */ _("br", null), "Nodes changed: ", applyResult.totals.nodesChanged, /* @__PURE__ */ _("br", null), "Bindings changed: ", applyResult.totals.bindingsChanged, /* @__PURE__ */ _("br", null), "Nodes skipped (locked): ", applyResult.totals.nodesSkippedLocked, /* @__PURE__ */ _("br", null), "Bindings skipped (unsupported): ", applyResult.totals.bindingsSkippedUnsupported, /* @__PURE__ */ _("br", null), "Bindings failed: ", applyResult.totals.bindingsFailed, /* @__PURE__ */ _("br", null), "Prints renamed: ", applyResult.totals.printsRenamed)
-    )), /* @__PURE__ */ _(VerticalSpace, { space: "large" })));
+    ))));
   }
   var init_VariablesReplaceUsagesToolView = __esm({
     "src/app/views/variables-replace-usages-tool/VariablesReplaceUsagesToolView.tsx"() {
@@ -5825,6 +5892,7 @@ svg {
       init_hooks_module();
       init_messages();
       init_Page();
+      init_ToolBody();
       init_ToolHeader();
     }
   });

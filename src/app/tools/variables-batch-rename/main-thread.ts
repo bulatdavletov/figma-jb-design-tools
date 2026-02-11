@@ -64,6 +64,28 @@ export function registerVariablesBatchRenameTool(getActiveTool: () => ActiveTool
       : collectionId
         ? allVariables.filter((v) => v.variableCollectionId === collectionId)
         : allVariables
+    const localCollections = await figma.variables.getLocalVariableCollectionsAsync()
+    const scopedByCollectionId = new Map<string, Variable[]>()
+    for (const variable of scoped) {
+      const bucket = scopedByCollectionId.get(variable.variableCollectionId) ?? []
+      bucket.push(variable)
+      scopedByCollectionId.set(variable.variableCollectionId, bucket)
+    }
+    const orderedScoped: Variable[] = []
+    for (const collection of localCollections) {
+      const variablesInCollection = scopedByCollectionId.get(collection.id) ?? []
+      if (!variablesInCollection.length) continue
+      const byId = new Map(variablesInCollection.map((variable) => [variable.id, variable]))
+      const collectionDetails = await figma.variables.getVariableCollectionByIdAsync(collection.id)
+      const orderedByCollectionIds = (collectionDetails?.variableIds ?? [])
+        .map((id) => byId.get(id))
+        .filter((variable): variable is Variable => variable != null)
+      const orderedIdSet = new Set(orderedByCollectionIds.map((variable) => variable.id))
+      orderedScoped.push(
+        ...orderedByCollectionIds,
+        ...variablesInCollection.filter((variable) => !orderedIdSet.has(variable.id))
+      )
+    }
 
     const setObject = {
       version: 1,
@@ -74,10 +96,7 @@ export function registerVariablesBatchRenameTool(getActiveTool: () => ActiveTool
         collectionId: resolvedCollectionIds.length ? null : collectionId,
         collectionIds: resolvedCollectionIds.length ? resolvedCollectionIds : undefined,
       },
-      tokens: scoped
-        .slice()
-        .sort((a, b) => a.name.localeCompare(b.name))
-        .map((v) =>
+      tokens: orderedScoped.map((v) =>
           includeCurrentName
             ? { currentName: v.name, newName: v.name, id: v.id }
             : { newName: v.name, id: v.id }

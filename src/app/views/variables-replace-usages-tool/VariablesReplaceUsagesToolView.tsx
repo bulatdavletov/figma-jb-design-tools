@@ -1,7 +1,6 @@
 import {
   Button,
   Checkbox,
-  Container,
   Divider,
   FileUploadButton,
   IconButton,
@@ -27,6 +26,7 @@ import {
   type ReplaceUsagesProgress,
 } from "../../messages"
 import { Page } from "../../components/Page"
+import { ToolBody } from "../../components/ToolBody"
 import { ToolHeader } from "../../components/ToolHeader"
 
 type Props = {
@@ -206,27 +206,24 @@ export function VariablesReplaceUsagesToolView({ onBack }: Props) {
           </IconButton>
         }
       />
-      <Container space="medium">
-        <VerticalSpace space="medium" />
-
-        {errorMessage && (
-          <Fragment>
-            <div style={{ padding: 8, background: "#fff1f2", borderRadius: 4, marginBottom: 12 }}>
-              <Text style={{ color: "#9f1239" }}>{errorMessage}</Text>
-            </div>
-          </Fragment>
-        )}
-
-        {successMessage && (
-          <Fragment>
-            <div style={{ padding: 8, background: "#ecfdf3", borderRadius: 4, marginBottom: 12 }}>
-              <Text style={{ color: "#067647" }}>{successMessage}</Text>
-            </div>
-          </Fragment>
-        )}
-
-        {/* Scope & Options */}
+      <ToolBody mode="content">
         <Stack space="medium">
+          {errorMessage && (
+            <Fragment>
+              <div style={{ padding: 8, background: "#fff1f2", borderRadius: 4 }}>
+                <Text style={{ color: "#9f1239" }}>{errorMessage}</Text>
+              </div>
+            </Fragment>
+          )}
+
+          {successMessage && (
+            <Fragment>
+              <div style={{ padding: 8, background: "#ecfdf3", borderRadius: 4 }}>
+                <Text style={{ color: "#067647" }}>{successMessage}</Text>
+              </div>
+            </Fragment>
+          )}
+
           <Stack space="extraSmall">
             <Text style={{ fontWeight: 600 }}>Replace Variable Usages</Text>
             <Text style={{ color: "var(--figma-color-text-secondary)" }}>
@@ -255,12 +252,14 @@ export function VariablesReplaceUsagesToolView({ onBack }: Props) {
 
           <Stack space="small">
             <Text style={{ fontWeight: 600 }}>Options</Text>
-            <Checkbox value={renamePrints} onValueChange={setRenamePrints}>
-              <Text>Rename "Prints" layers (layers prefixed with VariableID:...)</Text>
-            </Checkbox>
-            <Checkbox value={includeHidden} onValueChange={setIncludeHidden}>
-              <Text>Include hidden layers</Text>
-            </Checkbox>
+            <Stack space="extraSmall">
+              <Checkbox value={renamePrints} onValueChange={setRenamePrints}>
+                <Text>Rename "Prints" layers (layers prefixed with VariableID:...)</Text>
+              </Checkbox>
+              <Checkbox value={includeHidden} onValueChange={setIncludeHidden}>
+                <Text>Include hidden layers</Text>
+              </Checkbox>
+            </Stack>
           </Stack>
 
           <Divider />
@@ -371,14 +370,18 @@ export function VariablesReplaceUsagesToolView({ onBack }: Props) {
                 <Text style={{ fontWeight: 600 }}>Mappings with Changes</Text>
                 <div
                   style={{
-                    maxHeight: 200,
-                    overflowY: "auto",
-                    overflowX: "auto",
                     border: "1px solid #e3e3e3",
                     borderRadius: 6,
                   }}
                 >
-                  <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 11 }}>
+                  <table
+                    style={{
+                      width: "100%",
+                      borderCollapse: "collapse",
+                      fontSize: 11,
+                      tableLayout: "fixed",
+                    }}
+                  >
                     <thead>
                       <tr>
                         <th
@@ -434,10 +437,10 @@ export function VariablesReplaceUsagesToolView({ onBack }: Props) {
                     <tbody>
                       {sortedMappings.map((row: ReplaceUsagesMappingRow) => (
                         <tr key={row.sourceId}>
-                          <td style={{ padding: "4px 8px", verticalAlign: "top" }}>
+                          <td style={{ padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" }}>
                             {row.sourceName}
                           </td>
-                          <td style={{ padding: "4px 8px", verticalAlign: "top" }}>
+                          <td style={{ padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" }}>
                             {row.targetName}
                           </td>
                           <td
@@ -466,14 +469,18 @@ export function VariablesReplaceUsagesToolView({ onBack }: Props) {
                 </Text>
                 <div
                   style={{
-                    maxHeight: 150,
-                    overflowY: "auto",
-                    overflowX: "auto",
                     border: "1px solid #e3e3e3",
                     borderRadius: 6,
                   }}
                 >
-                  <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 11 }}>
+                  <table
+                    style={{
+                      width: "100%",
+                      borderCollapse: "collapse",
+                      fontSize: 11,
+                      tableLayout: "fixed",
+                    }}
+                  >
                     <thead>
                       <tr>
                         <th
@@ -547,10 +554,10 @@ export function VariablesReplaceUsagesToolView({ onBack }: Props) {
                                 {row.status}
                               </span>
                             </td>
-                            <td style={{ padding: "4px 8px", verticalAlign: "top" }}>
+                            <td style={{ padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" }}>
                               {row.from || "—"}
                             </td>
-                            <td style={{ padding: "4px 8px", verticalAlign: "top" }}>
+                            <td style={{ padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" }}>
                               {row.to || "—"}
                             </td>
                             <td
@@ -558,6 +565,7 @@ export function VariablesReplaceUsagesToolView({ onBack }: Props) {
                                 padding: "4px 8px",
                                 verticalAlign: "top",
                                 color: "#666",
+                                wordBreak: "break-word",
                               }}
                             >
                               {row.reason || ""}
@@ -600,9 +608,7 @@ export function VariablesReplaceUsagesToolView({ onBack }: Props) {
             )}
           </Stack>
         )}
-
-        <VerticalSpace space="large" />
-      </Container>
+      </ToolBody>
     </Page>
   )
 }
