@@ -691,10 +691,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/896d9cd1-d529-4b1c-a8e5-74871691ecf5/loading-indicator.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4bc17d08-5508-4dd3-9716-e6f7f8e0c827/loading-indicator.module.js
   var loading_indicator_module_default;
   var init_loading_indicator_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/896d9cd1-d529-4b1c-a8e5-74871691ecf5/loading-indicator.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4bc17d08-5508-4dd3-9716-e6f7f8e0c827/loading-indicator.module.js"() {
       if (document.getElementById("3fe0db8eb7") === null) {
         const element = document.createElement("style");
         element.id = "3fe0db8eb7";
@@ -755,10 +755,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/672fed97-121f-40d5-94b2-714dc51fbd6a/button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d93aa294-2d3f-4445-9923-e1faab639fef/button.module.js
   var button_module_default;
   var init_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/672fed97-121f-40d5-94b2-714dc51fbd6a/button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d93aa294-2d3f-4445-9923-e1faab639fef/button.module.js"() {
       if (document.getElementById("1dddd0e4df") === null) {
         const element = document.createElement("style");
         element.id = "1dddd0e4df";
@@ -1027,10 +1027,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c624c217-8d6b-48f2-9e60-d31d456222c3/checkbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/fbae81b1-8ae4-4983-91cf-e174166b90c3/checkbox.module.js
   var checkbox_module_default;
   var init_checkbox_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c624c217-8d6b-48f2-9e60-d31d456222c3/checkbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/fbae81b1-8ae4-4983-91cf-e174166b90c3/checkbox.module.js"() {
       if (document.getElementById("f38d076240") === null) {
         const element = document.createElement("style");
         element.id = "f38d076240";
@@ -1179,10 +1179,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9d7d554a-d0d9-4dce-82c4-66fd3a01ae23/divider.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5ccc46ec-88f7-43d3-9b8f-86995f342614/divider.module.js
   var divider_module_default;
   var init_divider_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9d7d554a-d0d9-4dce-82c4-66fd3a01ae23/divider.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5ccc46ec-88f7-43d3-9b8f-86995f342614/divider.module.js"() {
       if (document.getElementById("4bf06403b9") === null) {
         const element = document.createElement("style");
         element.id = "4bf06403b9";
@@ -1212,10 +1212,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/cd7d3dd6-4b15-4b70-a6c4-b83c9ca88130/menu.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9c1e5fc1-d1e9-4bb4-b126-b641b7616637/menu.module.js
   var menu_module_default;
   var init_menu_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/cd7d3dd6-4b15-4b70-a6c4-b83c9ca88130/menu.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9c1e5fc1-d1e9-4bb4-b126-b641b7616637/menu.module.js"() {
       if (document.getElementById("29044db304") === null) {
         const element = document.createElement("style");
         element.id = "29044db304";
@@ -1438,10 +1438,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/cd02cb9e-2a3d-4da7-b298-e9a8de119138/dropdown.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/39f1834d-f9f0-49ae-9597-a78744dbb13d/dropdown.module.js
   var dropdown_module_default;
   var init_dropdown_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/cd02cb9e-2a3d-4da7-b298-e9a8de119138/dropdown.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/39f1834d-f9f0-49ae-9597-a78744dbb13d/dropdown.module.js"() {
       if (document.getElementById("5a226eb00e") === null) {
         const element = document.createElement("style");
         element.id = "5a226eb00e";
@@ -1882,10 +1882,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5ca99aab-cd3c-4c9e-9b24-577b6816dddd/button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7ec15cd2-2279-474d-ba29-f21ef2c58ae6/button.module.js
   var button_module_default2;
   var init_button_module2 = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5ca99aab-cd3c-4c9e-9b24-577b6816dddd/button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7ec15cd2-2279-474d-ba29-f21ef2c58ae6/button.module.js"() {
       if (document.getElementById("1dddd0e4df") === null) {
         const element = document.createElement("style");
         element.id = "1dddd0e4df";
@@ -2049,10 +2049,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/02b830fd-1730-4296-bb9a-69405b499d24/file-upload-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1b0e0c8c-e511-4468-9a13-ec11d746ae9a/file-upload-button.module.js
   var file_upload_button_module_default;
   var init_file_upload_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/02b830fd-1730-4296-bb9a-69405b499d24/file-upload-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1b0e0c8c-e511-4468-9a13-ec11d746ae9a/file-upload-button.module.js"() {
       if (document.getElementById("f115bb30c8") === null) {
         const element = document.createElement("style");
         element.id = "f115bb30c8";
@@ -2167,10 +2167,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6366f504-0e5d-4ff7-ba52-aa71d8162a4f/icon-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/de5c68ef-078e-4095-8ed8-97af9daffee6/icon-button.module.js
   var icon_button_module_default;
   var init_icon_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6366f504-0e5d-4ff7-ba52-aa71d8162a4f/icon-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/de5c68ef-078e-4095-8ed8-97af9daffee6/icon-button.module.js"() {
       if (document.getElementById("c8b08e6568") === null) {
         const element = document.createElement("style");
         element.id = "c8b08e6568";
@@ -2248,10 +2248,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/02d06efd-6104-4fd7-8788-e94b88b02a48/text.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/fdc22cd8-54b8-489d-8693-402e0f5984e8/text.module.js
   var text_module_default;
   var init_text_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/02d06efd-6104-4fd7-8788-e94b88b02a48/text.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/fdc22cd8-54b8-489d-8693-402e0f5984e8/text.module.js"() {
       if (document.getElementById("1278016d5c") === null) {
         const element = document.createElement("style");
         element.id = "1278016d5c";
@@ -2309,10 +2309,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a2485398-2ccc-465f-aa33-bb1af0d5bee5/inline.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d28e14c4-925b-4b09-b7d4-18935bfd8498/inline.module.js
   var inline_module_default;
   var init_inline_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a2485398-2ccc-465f-aa33-bb1af0d5bee5/inline.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d28e14c4-925b-4b09-b7d4-18935bfd8498/inline.module.js"() {
       if (document.getElementById("3e1b2856fc") === null) {
         const element = document.createElement("style");
         element.id = "3e1b2856fc";
@@ -2374,10 +2374,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d6684859-bd7a-4292-ad62-63e526b7bf06/stack.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5d1a6917-cef5-49d2-9941-3649a29fea46/stack.module.js
   var stack_module_default;
   var init_stack_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d6684859-bd7a-4292-ad62-63e526b7bf06/stack.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5d1a6917-cef5-49d2-9941-3649a29fea46/stack.module.js"() {
       if (document.getElementById("317515cc3f") === null) {
         const element = document.createElement("style");
         element.id = "317515cc3f";
@@ -2420,10 +2420,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f0cd478e-b3c9-4c29-ad7e-778ae2f7ffd3/radio-buttons.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1d7f72d6-c30f-410f-8bb9-725c99f492bc/radio-buttons.module.js
   var radio_buttons_module_default;
   var init_radio_buttons_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f0cd478e-b3c9-4c29-ad7e-778ae2f7ffd3/radio-buttons.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1d7f72d6-c30f-410f-8bb9-725c99f492bc/radio-buttons.module.js"() {
       if (document.getElementById("a066c67891") === null) {
         const element = document.createElement("style");
         element.id = "a066c67891";
@@ -2653,10 +2653,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/79f4a22a-2564-4d8a-a686-84e2f22467c6/textbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/be38adfb-ded7-459b-b22a-5ad2cf332045/textbox.module.js
   var textbox_module_default;
   var init_textbox_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/79f4a22a-2564-4d8a-a686-84e2f22467c6/textbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/be38adfb-ded7-459b-b22a-5ad2cf332045/textbox.module.js"() {
       if (document.getElementById("5c1c5c2d3d") === null) {
         const element = document.createElement("style");
         element.id = "5c1c5c2d3d";
@@ -2909,10 +2909,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/bb1b3b83-a054-4fc7-926d-d1569756ea9b/columns.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b8da3409-d703-4aaa-a0e5-9cb50b4314a0/columns.module.js
   var columns_module_default;
   var init_columns_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/bb1b3b83-a054-4fc7-926d-d1569756ea9b/columns.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b8da3409-d703-4aaa-a0e5-9cb50b4314a0/columns.module.js"() {
       if (document.getElementById("07bfb18928") === null) {
         const element = document.createElement("style");
         element.id = "07bfb18928";
@@ -2981,10 +2981,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b29d63a9-01df-49e8-9c21-d18fa48f534b/container.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a3cc4c70-6a2a-4c36-93bc-3e7aea5765f8/container.module.js
   var container_module_default;
   var init_container_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b29d63a9-01df-49e8-9c21-d18fa48f534b/container.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a3cc4c70-6a2a-4c36-93bc-3e7aea5765f8/container.module.js"() {
       if (document.getElementById("b49e1406f9") === null) {
         const element = document.createElement("style");
         element.id = "b49e1406f9";
@@ -3025,10 +3025,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c78bce5c-a6be-4e16-b373-081b5c4b1010/vertical-space.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5c44c355-5b99-4316-bafe-8d3081032950/vertical-space.module.js
   var vertical_space_module_default;
   var init_vertical_space_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c78bce5c-a6be-4e16-b373-081b5c4b1010/vertical-space.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5c44c355-5b99-4316-bafe-8d3081032950/vertical-space.module.js"() {
       if (document.getElementById("ba0eea5114") === null) {
         const element = document.createElement("style");
         element.id = "ba0eea5114";
@@ -3069,9 +3069,9 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/469f21fd-0139-40e8-838a-2019247a67ed/base.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c58b5d22-3e43-4bdd-aea7-4c7904e495bb/base.js
   var init_base = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/469f21fd-0139-40e8-838a-2019247a67ed/base.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c58b5d22-3e43-4bdd-aea7-4c7904e495bb/base.js"() {
       if (document.getElementById("0597dd81e7") === null) {
         const element = document.createElement("style");
         element.id = "0597dd81e7";
@@ -4104,6 +4104,14 @@ svg {
     return /* @__PURE__ */ _(Page, null, /* @__PURE__ */ _(Container, { space: "small" }, /* @__PURE__ */ _(VerticalSpace, { space: "large" }), /* @__PURE__ */ _(Text, { style: sectionTitleStyle }, "Colors"), /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(
       ToolCard,
       {
+        title: "Mockup Markup Quick Apply",
+        description: "Apply text styles and colors",
+        icon: /* @__PURE__ */ _(IconShapeText16, null),
+        onClick: () => props.goTo("mockup-markup-tool")
+      }
+    ), /* @__PURE__ */ _(
+      ToolCard,
+      {
         title: "View Colors Chain",
         description: "Inspect selection to see full variable alias chains",
         icon: /* @__PURE__ */ _(IconVariableColor16, null),
@@ -4117,29 +4125,21 @@ svg {
         icon: /* @__PURE__ */ _(IconText16, null),
         onClick: () => props.goTo("print-color-usages-tool")
       }
-    ), /* @__PURE__ */ _(
-      ToolCard,
-      {
-        title: "Mockup Markup Quick Apply",
-        description: "Apply text styles and colors",
-        icon: /* @__PURE__ */ _(IconShapeText16, null),
-        onClick: () => props.goTo("mockup-markup-tool")
-      }
     )), /* @__PURE__ */ _(VerticalSpace, { space: "large" }), /* @__PURE__ */ _(Text, { style: sectionTitleStyle }, "Variables"), /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(
-      ToolCard,
-      {
-        title: "Batch Rename",
-        description: "Rename multiple variables at once via CSV or inline editing",
-        icon: /* @__PURE__ */ _(IconVariable16, null),
-        onClick: () => props.goTo("variables-batch-rename-tool")
-      }
-    ), /* @__PURE__ */ _(
       ToolCard,
       {
         title: "Export / Import",
         description: "Export variable collections to JSON, import from backup",
         icon: /* @__PURE__ */ _(IconFolder16, null),
         onClick: () => props.goTo("variables-export-import-tool")
+      }
+    ), /* @__PURE__ */ _(
+      ToolCard,
+      {
+        title: "Batch Rename",
+        description: "Rename multiple variables at once via CSV or inline editing",
+        icon: /* @__PURE__ */ _(IconVariable16, null),
+        onClick: () => props.goTo("variables-batch-rename-tool")
       }
     ), /* @__PURE__ */ _(
       ToolCard,

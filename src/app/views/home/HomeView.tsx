@@ -39,6 +39,12 @@ export function HomeView(props: { goTo: (route: Route) => void }) {
 
           <Stack space="extraSmall">
             <ToolCard
+              title="Mockup Markup Quick Apply"
+              description="Apply text styles and colors"
+              icon={<IconShapeText16 />}
+              onClick={() => props.goTo("mockup-markup-tool")}
+            />
+            <ToolCard
               title="View Colors Chain"
               description="Inspect selection to see full variable alias chains"
               icon={<IconVariableColor16 />}
@@ -50,12 +56,6 @@ export function HomeView(props: { goTo: (route: Route) => void }) {
               icon={<IconText16 />}
               onClick={() => props.goTo("print-color-usages-tool")}
             />
-            <ToolCard
-              title="Mockup Markup Quick Apply"
-              description="Apply text styles and colors"
-              icon={<IconShapeText16 />}
-              onClick={() => props.goTo("mockup-markup-tool")}
-            />
           </Stack>
 
           <VerticalSpace space="large" />
@@ -64,16 +64,16 @@ export function HomeView(props: { goTo: (route: Route) => void }) {
           
           <Stack space="extraSmall">
             <ToolCard
-              title="Batch Rename"
-              description="Rename multiple variables at once via CSV or inline editing"
-              icon={<IconVariable16 />}
-              onClick={() => props.goTo("variables-batch-rename-tool")}
-            />
-            <ToolCard
               title="Export / Import"
               description="Export variable collections to JSON, import from backup"
               icon={<IconFolder16 />}
               onClick={() => props.goTo("variables-export-import-tool")}
+            />
+            <ToolCard
+              title="Batch Rename"
+              description="Rename multiple variables at once via CSV or inline editing"
+              icon={<IconVariable16 />}
+              onClick={() => props.goTo("variables-batch-rename-tool")}
             />
             <ToolCard
               title="Create Linked Colors"
