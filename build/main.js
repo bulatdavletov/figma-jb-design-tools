@@ -67,6 +67,8 @@ var init_messages = __esm({
       BOOT: "BOOT",
       SET_ACTIVE_TOOL: "SET_ACTIVE_TOOL",
       INSPECT_SELECTION_FOR_VARIABLE_CHAINS: "INSPECT_SELECTION_FOR_VARIABLE_CHAINS",
+      COLOR_CHAIN_REPLACE_MAIN_COLOR: "COLOR_CHAIN_REPLACE_MAIN_COLOR",
+      COLOR_CHAIN_NOTIFY: "COLOR_CHAIN_NOTIFY",
       PRINT_COLOR_USAGES_LOAD_SETTINGS: "PRINT_COLOR_USAGES_LOAD_SETTINGS",
       PRINT_COLOR_USAGES_SAVE_SETTINGS: "PRINT_COLOR_USAGES_SAVE_SETTINGS",
       PRINT_COLOR_USAGES_PRINT: "PRINT_COLOR_USAGES_PRINT",
@@ -162,6 +164,7 @@ function isColorValue(value) {
 }
 async function resolveChainForMode(startVariable, modeId) {
   const chain = [startVariable.name];
+  const chainVariableIds = [startVariable.id];
   const visited = /* @__PURE__ */ new Set();
   let circularDetected = false;
   let note;
@@ -179,6 +182,7 @@ async function resolveChainForMode(startVariable, modeId) {
       const next = await figma.variables.getVariableByIdAsync(aliasId);
       if (next == null) return null;
       chain.push(next.name);
+      chainVariableIds.push(next.id);
       return await step(next, currentModeId);
     }
     const availableModeIds = Object.keys(variable.valuesByMode);
@@ -191,6 +195,7 @@ async function resolveChainForMode(startVariable, modeId) {
   const resolved = await step(startVariable, modeId);
   return {
     chain,
+    chainVariableIds,
     finalHex: resolved ? colorToRgbHex(resolved) : null,
     finalOpacityPercent: resolved ? colorToOpacityPercent(resolved) : null,
     circular: circularDetected,
@@ -301,7 +306,6 @@ async function getFoundVariablesFromRoots(roots) {
       appliedMode
     });
   }
-  results.sort((a, b) => a.name.localeCompare(b.name));
   return results;
 }
 async function buildVariableChainResultV2(found) {
@@ -333,6 +337,7 @@ async function buildVariableChainResultV2(found) {
       modeId: pickedMode.modeId,
       modeName: pickedMode.modeName,
       chain: resolved.chain,
+      chainVariableIds: resolved.chainVariableIds,
       finalHex: resolved.finalHex,
       finalOpacityPercent: resolved.finalOpacityPercent,
       circular: resolved.circular,
@@ -363,6 +368,97 @@ async function inspectSelectionForVariableChainsByLayerV2() {
     });
   }
   return results;
+}
+async function replaceVariableUsagesInSelection(sourceVariableId, targetVariableId) {
+  var _a, _b;
+  if (sourceVariableId === targetVariableId) {
+    throw new Error("Source and target colors are the same.");
+  }
+  if (figma.currentPage.selection.length === 0) {
+    throw new Error("Select at least one layer first.");
+  }
+  const sourceVariable = await figma.variables.getVariableByIdAsync(sourceVariableId);
+  if (sourceVariable == null) {
+    throw new Error("Source color variable was not found.");
+  }
+  if (sourceVariable.resolvedType !== "COLOR") {
+    throw new Error("Source variable must be a COLOR variable.");
+  }
+  const targetVariable = await figma.variables.getVariableByIdAsync(targetVariableId);
+  if (targetVariable == null) {
+    throw new Error("Selected chain color variable was not found.");
+  }
+  if (targetVariable.resolvedType !== "COLOR") {
+    throw new Error("Selected chain color must be a COLOR variable.");
+  }
+  const stack = [...figma.currentPage.selection];
+  let nodesChanged = 0;
+  let bindingsChanged = 0;
+  while (stack.length > 0) {
+    const node = stack.pop();
+    if (node.visible === false) continue;
+    if (node.locked === true) continue;
+    const anyNode = node;
+    let nodeHadChanges = false;
+    const boundVariables = anyNode.boundVariables;
+    if (boundVariables && typeof boundVariables === "object") {
+      for (const [property, binding] of Object.entries(boundVariables)) {
+        if (!binding) continue;
+        if (property === "fills" && Array.isArray(binding) && Array.isArray(anyNode.fills)) {
+          const paints = anyNode.fills;
+          const updated = paints.map((paint, index) => {
+            const alias = binding[index];
+            if (!(alias == null ? void 0 : alias.id) || alias.id !== sourceVariableId || paint.type !== "SOLID") return paint;
+            bindingsChanged += 1;
+            return figma.variables.setBoundVariableForPaint(paint, "color", targetVariable);
+          });
+          const changed = updated.some((paint, index) => paint !== paints[index]);
+          if (changed) {
+            ;
+            node.fills = updated;
+            nodeHadChanges = true;
+          }
+          continue;
+        }
+        if (property === "strokes" && Array.isArray(binding) && Array.isArray(anyNode.strokes)) {
+          const paints = anyNode.strokes;
+          const updated = paints.map((paint, index) => {
+            const alias = binding[index];
+            if (!(alias == null ? void 0 : alias.id) || alias.id !== sourceVariableId || paint.type !== "SOLID") return paint;
+            bindingsChanged += 1;
+            return figma.variables.setBoundVariableForPaint(paint, "color", targetVariable);
+          });
+          const changed = updated.some((paint, index) => paint !== paints[index]);
+          if (changed) {
+            ;
+            node.strokes = updated;
+            nodeHadChanges = true;
+          }
+          continue;
+        }
+        if (Array.isArray(binding)) continue;
+        if (typeof binding !== "object" || binding == null || !("id" in binding)) continue;
+        const currentId = String((_a = binding.id) != null ? _a : "");
+        if (currentId !== sourceVariableId) continue;
+        try {
+          (_b = anyNode.setBoundVariable) == null ? void 0 : _b.call(anyNode, property, targetVariable);
+          bindingsChanged += 1;
+          nodeHadChanges = true;
+        } catch (e) {
+        }
+      }
+    }
+    if (nodeHadChanges) nodesChanged += 1;
+    if ("children" in node) {
+      for (const child of node.children) stack.push(child);
+    }
+  }
+  return {
+    sourceName: sourceVariable.name,
+    targetName: targetVariable.name,
+    nodesChanged,
+    bindingsChanged
+  };
 }
 var init_variable_chain = __esm({
   "src/app/variable-chain.ts"() {
@@ -431,9 +527,28 @@ function registerColorChainTool(getActiveTool) {
     }
   })();
   const onMessage = async (msg) => {
+    var _a;
     try {
       if (msg.type === UI_TO_MAIN.INSPECT_SELECTION_FOR_VARIABLE_CHAINS) {
         await sendUpdate();
+        return true;
+      }
+      if (msg.type === UI_TO_MAIN.COLOR_CHAIN_REPLACE_MAIN_COLOR) {
+        const { sourceName, targetName, nodesChanged, bindingsChanged } = await replaceVariableUsagesInSelection(
+          msg.request.sourceVariableId,
+          msg.request.targetVariableId
+        );
+        figma.notify(
+          `Replaced usages: "${sourceName}" -> "${targetName}" (${bindingsChanged} bindings in ${nodesChanged} layers)`
+        );
+        await sendUpdate();
+        return true;
+      }
+      if (msg.type === UI_TO_MAIN.COLOR_CHAIN_NOTIFY) {
+        const message = String((_a = msg.message) != null ? _a : "").trim();
+        if (message.length > 0) {
+          figma.notify(message);
+        }
         return true;
       }
     } catch (e) {

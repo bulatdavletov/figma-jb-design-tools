@@ -2,6 +2,8 @@ export const UI_TO_MAIN = {
   BOOT: "BOOT",
   SET_ACTIVE_TOOL: "SET_ACTIVE_TOOL",
   INSPECT_SELECTION_FOR_VARIABLE_CHAINS: "INSPECT_SELECTION_FOR_VARIABLE_CHAINS",
+  COLOR_CHAIN_REPLACE_MAIN_COLOR: "COLOR_CHAIN_REPLACE_MAIN_COLOR",
+  COLOR_CHAIN_NOTIFY: "COLOR_CHAIN_NOTIFY",
   PRINT_COLOR_USAGES_LOAD_SETTINGS: "PRINT_COLOR_USAGES_LOAD_SETTINGS",
   PRINT_COLOR_USAGES_SAVE_SETTINGS: "PRINT_COLOR_USAGES_SAVE_SETTINGS",
   PRINT_COLOR_USAGES_PRINT: "PRINT_COLOR_USAGES_PRINT",
@@ -67,6 +69,8 @@ export type UiToMainMessage =
   | { type: typeof UI_TO_MAIN.BOOT }
   | { type: typeof UI_TO_MAIN.SET_ACTIVE_TOOL; tool: ActiveTool }
   | { type: typeof UI_TO_MAIN.INSPECT_SELECTION_FOR_VARIABLE_CHAINS }
+  | { type: typeof UI_TO_MAIN.COLOR_CHAIN_REPLACE_MAIN_COLOR; request: ColorChainReplaceMainColorRequest }
+  | { type: typeof UI_TO_MAIN.COLOR_CHAIN_NOTIFY; message: string }
   | { type: typeof UI_TO_MAIN.PRINT_COLOR_USAGES_LOAD_SETTINGS }
   | { type: typeof UI_TO_MAIN.PRINT_COLOR_USAGES_SAVE_SETTINGS; settings: PrintColorUsagesUiSettings }
   | { type: typeof UI_TO_MAIN.PRINT_COLOR_USAGES_PRINT; settings: PrintColorUsagesUiSettings }
@@ -149,6 +153,11 @@ export type ModeChain = {
   modeId: string
   modeName: string
   chain: Array<string>
+  /**
+   * Variable IDs for each chain item (same order/length as `chain`).
+   * Missing/legacy payloads may omit this field.
+   */
+  chainVariableIds?: Array<string>
   finalHex: string | null
   /**
    * Opacity of the resolved color as a percent (0..100).
@@ -199,6 +208,11 @@ export type LayerInspectionResultV2 = {
   layerName: string
   layerType: SceneNode["type"]
   colors: Array<VariableChainResultV2>
+}
+
+export type ColorChainReplaceMainColorRequest = {
+  sourceVariableId: string
+  targetVariableId: string
 }
 
 export type MainToUiMessage =

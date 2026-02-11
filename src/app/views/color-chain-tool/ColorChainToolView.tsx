@@ -1,5 +1,6 @@
 import {
   IconButton,
+  IconCopySmall24,
   IconInteractionClickSmall24,
   IconHome16,
   IconTimeSmall24,
@@ -24,11 +25,39 @@ import { Page } from "../../components/Page"
 import { ToolBody } from "../../components/ToolBody"
 
 type ViewState = "error" | "inspecting" | "selectionEmpty" | "nothingFound" | "content"
+type CopyResult = "copied" | "manual" | "failed"
 
 function formatHexWithOpacity(hex: string, opacityPercent: number | null): string {
   if (opacityPercent == null) return hex
   if (opacityPercent >= 100) return hex
   return `${hex} ${opacityPercent}%`
+}
+
+async function copyTextToClipboard(text: string): Promise<CopyResult> {
+  try {
+    await navigator.clipboard.writeText(text)
+    return "copied"
+  } catch {
+    try {
+      const textarea = document.createElement("textarea")
+      textarea.value = text
+      textarea.style.position = "fixed"
+      textarea.style.left = "-9999px"
+      document.body.appendChild(textarea)
+      textarea.select()
+      document.execCommand("copy")
+      textarea.remove()
+      return "copied"
+    } catch {
+      // Last-resort fallback for restricted clipboard environments.
+      try {
+        window.prompt("Copy:", text)
+        return "manual"
+      } catch {
+        return "failed"
+      }
+    }
+  }
 }
 
 function coerceResultsToV2(results: Array<LayerInspectionResult>): Array<LayerInspectionResultV2> {
@@ -61,6 +90,19 @@ export function ColorChainToolView(props: { onBack: () => void; initialSelection
   const [error, setError] = useState<string | null>(null)
   const [openById, setOpenById] = useState<Record<string, boolean>>({})
   const [selectionEmpty, setSelectionEmpty] = useState(props.initialSelectionEmpty)
+  const [replaceBusyRowId, setReplaceBusyRowId] = useState<string | null>(null)
+
+  const notify = (message: string) => {
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: UI_TO_MAIN.COLOR_CHAIN_NOTIFY,
+          message,
+        },
+      },
+      "*"
+    )
+  }
 
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
@@ -68,12 +110,14 @@ export function ColorChainToolView(props: { onBack: () => void; initialSelection
       if (!msg) return
       if (msg.type === MAIN_TO_UI.ERROR) {
         setLoading(false)
+        setReplaceBusyRowId(null)
         setError(msg.message)
         return
       }
 
       if (msg.type === MAIN_TO_UI.SELECTION_EMPTY) {
         setLoading(false)
+        setReplaceBusyRowId(null)
         setResults([])
         setOpenById({})
         setSelectionEmpty(true)
@@ -83,6 +127,7 @@ export function ColorChainToolView(props: { onBack: () => void; initialSelection
 
       if (msg.type === MAIN_TO_UI.VARIABLE_CHAINS_RESULT) {
         setLoading(false)
+        setReplaceBusyRowId(null)
         setResults(coerceResultsToV2(msg.results))
         // Expanded by default: reset state so Tree defaults to "open".
         setOpenById({})
@@ -93,6 +138,7 @@ export function ColorChainToolView(props: { onBack: () => void; initialSelection
 
       if (msg.type === MAIN_TO_UI.VARIABLE_CHAINS_RESULT_V2) {
         setLoading(false)
+        setReplaceBusyRowId(null)
         setResults(msg.results)
         // Expanded by default: reset state so Tree defaults to "open".
         setOpenById({})
@@ -118,10 +164,6 @@ export function ColorChainToolView(props: { onBack: () => void; initialSelection
     )
   }, [])
 
-  const sortedResults = useMemo(() => {
-    return results.slice().sort((a, b) => a.layerName.localeCompare(b.layerName))
-  }, [results])
-
   const totalColors = useMemo(() => {
     return results.reduce((sum, layer) => sum + (layer.colors?.length ?? 0), 0)
   }, [results])
@@ -129,8 +171,8 @@ export function ColorChainToolView(props: { onBack: () => void; initialSelection
   const viewState: ViewState = (() => {
     if (error) return "error"
     if (selectionEmpty) return "selectionEmpty"
-    if (loading && sortedResults.length === 0) return "inspecting"
-    if (sortedResults.length > 0 && totalColors === 0) return "nothingFound"
+    if (loading && results.length === 0) return "inspecting"
+    if (results.length > 0 && totalColors === 0) return "nothingFound"
     return "content"
   })()
 
@@ -166,17 +208,15 @@ export function ColorChainToolView(props: { onBack: () => void; initialSelection
         </ToolBody>
       ) : (
         <ToolBody mode="content">
-          {sortedResults.length > 0 ? (
+          {results.length > 0 ? (
             <Fragment>
               <Tree
                 nodes={((): Array<TreeNode> => {
                   const nodes: Array<TreeNode> = []
                   const groupSpacing = 16
 
-                  for (const layer of sortedResults) {
-                    const colors = layer.colors
-                      .slice()
-                      .sort((a, b) => a.variableName.localeCompare(b.variableName))
+                  for (const layer of results) {
+                    const colors = layer.colors.slice()
 
                     for (const c of colors) {
                       const chainToRender = c.chainToRender
@@ -184,23 +224,96 @@ export function ColorChainToolView(props: { onBack: () => void; initialSelection
                       const swatchOpacityPercent = chainToRender?.finalOpacityPercent ?? null
 
                       const chainSteps = chainToRender?.chain ? chainToRender.chain.slice(1) : []
+                      const chainStepIds = chainToRender?.chainVariableIds?.slice(1) ?? []
+                      const rowId = `${layer.layerId}:${c.variableId}`
 
                       nodes.push({
-                        id: `${layer.layerId}:${c.variableId}`,
+                        id: rowId,
                         title: c.variableName,
                         icon: <ColorSwatch hex={swatchHex} opacityPercent={swatchOpacityPercent} />,
                         titleStrong: true,
+                        actions: [
+                          {
+                            id: `${rowId}:copy`,
+                            label: "Copy name",
+                            kind: "iconButton",
+                            icon: <IconCopySmall24 />,
+                            onClick: async () => {
+                              const result = await copyTextToClipboard(c.variableName)
+                              if (result === "copied") notify("Name copied")
+                              else if (result === "manual") notify("Copy manually from prompt")
+                              else notify("Could not copy name")
+                            },
+                          },
+                        ],
                       })
 
                       for (let idx = 0; idx < chainSteps.length; idx++) {
                         const step = chainSteps[idx]
+                        const stepVariableId = chainStepIds[idx] ?? null
+                        const stepRowId = `${layer.layerId}:${c.variableId}:step:${idx}`
                         nodes.push({
-                          id: `${layer.layerId}:${c.variableId}:step:${idx}`,
+                          id: stepRowId,
                           title: step,
+                          actions: [
+                            {
+                              id: `${stepRowId}:copy`,
+                              label: "Copy name",
+                              kind: "iconButton",
+                              icon: <IconCopySmall24 />,
+                              onClick: async () => {
+                                const result = await copyTextToClipboard(step)
+                                if (result === "copied") notify("Name copied")
+                                else if (result === "manual") notify("Copy manually from prompt")
+                                else notify("Could not copy name")
+                              },
+                            },
+                            {
+                              id: `${stepRowId}:replace`,
+                              label: "Swap",
+                              kind: "button",
+                              disabled:
+                                replaceBusyRowId != null ||
+                                stepVariableId == null ||
+                                stepVariableId === c.variableId,
+                              onClick: () => {
+                                if (stepVariableId == null || stepVariableId === c.variableId) return
+                                setReplaceBusyRowId(stepRowId)
+                                parent.postMessage(
+                                  {
+                                    pluginMessage: {
+                                      type: UI_TO_MAIN.COLOR_CHAIN_REPLACE_MAIN_COLOR,
+                                      request: {
+                                        sourceVariableId: c.variableId,
+                                        targetVariableId: stepVariableId,
+                                      },
+                                    },
+                                  },
+                                  "*"
+                                )
+                              },
+                            },
+                          ],
                         })
                       }
                       nodes.push({
                         id: `${layer.layerId}:${c.variableId}:hex`,
+                        actions: [
+                          {
+                            id: `${layer.layerId}:${c.variableId}:hex:copy`,
+                            label: "Copy HEX",
+                            kind: "iconButton",
+                            icon: <IconCopySmall24 />,
+                            disabled: !chainToRender?.finalHex,
+                            onClick: async () => {
+                              if (!chainToRender?.finalHex) return
+                              const result = await copyTextToClipboard(chainToRender.finalHex)
+                              if (result === "copied") notify("HEX copied")
+                              else if (result === "manual") notify("Copy HEX manually from prompt")
+                              else notify("Could not copy HEX")
+                            },
+                          },
+                        ],
                         title:
                           chainToRender?.finalHex && typeof chainToRender.finalOpacityPercent === "number"
                             ? formatHexWithOpacity(chainToRender.finalHex, chainToRender.finalOpacityPercent)

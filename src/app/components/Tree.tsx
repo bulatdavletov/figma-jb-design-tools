@@ -1,6 +1,17 @@
 import { Fragment, h } from "preact"
+import { useState } from "preact/hooks"
+import { IconButton } from "@create-figma-plugin/ui"
 
 import { IconChevronDown16 } from "./AppIcons"
+
+export type TreeNodeAction = {
+  id: string
+  label: string
+  onClick: () => void | Promise<void>
+  icon?: preact.ComponentChildren
+  kind?: "iconButton" | "button"
+  disabled?: boolean
+}
 
 export type TreeNode =
   | {
@@ -14,6 +25,8 @@ export type TreeNode =
       collapsible?: boolean
       // Visual emphasis for main rows (e.g. variable name vs chain steps).
       titleStrong?: boolean
+      // Optional actions shown on row hover.
+      actions?: Array<TreeNodeAction>
     }
   | {
       kind: "spacer"
@@ -57,6 +70,7 @@ function TreeRow(props: {
   onToggle: () => void
 }) {
   const { node } = props
+  const [hovered, setHovered] = useState(false)
   const hasChildren = Array.isArray(node.children) && node.children.length > 0
   const isCollapsible = hasChildren && node.collapsible !== false
 
@@ -74,6 +88,8 @@ function TreeRow(props: {
       role={isCollapsible ? "button" : undefined}
       tabIndex={isCollapsible ? 0 : -1}
       onClick={handleToggle}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
       onKeyDown={(e) => {
         if (!isCollapsible) return
         if (e.key === "Enter" || e.key === " ") {
@@ -130,6 +146,73 @@ function TreeRow(props: {
           }}
         >
           {node.description}
+        </div>
+      ) : null}
+
+      {hovered && Array.isArray(node.actions) && node.actions.length > 0 ? (
+        <div
+          style={{ display: "flex", alignItems: "center", gap: 6 }}
+          onClick={(e) => {
+            e.preventDefault()
+            e.stopPropagation()
+          }}
+          onMouseDown={(e) => {
+            e.preventDefault()
+            e.stopPropagation()
+          }}
+        >
+          {node.actions.map((action) => (
+            action.kind === "button" ? (
+              <button
+                key={action.id}
+                type="button"
+                disabled={action.disabled === true}
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  if (action.disabled) return
+                  void action.onClick()
+                }}
+                onMouseDown={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                }}
+                title={action.label}
+                style={{
+                  height: 20,
+                  minWidth: 52,
+                  padding: "0 6px",
+                  border: "1px solid var(--figma-color-border)",
+                  background: "var(--figma-color-bg)",
+                  color: "var(--figma-color-text)",
+                  borderRadius: 4,
+                  fontSize: 10,
+                  lineHeight: 1,
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: action.disabled ? "not-allowed" : "pointer",
+                  opacity: action.disabled ? 0.5 : 1,
+                }}
+              >
+                {action.label}
+              </button>
+            ) : (
+              <IconButton
+                key={action.id}
+                disabled={action.disabled === true}
+                title={action.label}
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  if (action.disabled) return
+                  void action.onClick()
+                }}
+              >
+                {action.icon ?? action.label}
+              </IconButton>
+            )
+          ))}
         </div>
       ) : null}
     </div>

@@ -1,5 +1,5 @@
 import { MAIN_TO_UI, UI_TO_MAIN, type ActiveTool, type UiToMainMessage } from "../../messages"
-import { inspectSelectionForVariableChainsByLayerV2 } from "../../variable-chain"
+import { inspectSelectionForVariableChainsByLayerV2, replaceVariableUsagesInSelection } from "../../variable-chain"
 
 export function registerColorChainTool(getActiveTool: () => ActiveTool) {
   let pendingTimer: number | null = null
@@ -73,6 +73,26 @@ export function registerColorChainTool(getActiveTool: () => ActiveTool) {
     try {
       if (msg.type === UI_TO_MAIN.INSPECT_SELECTION_FOR_VARIABLE_CHAINS) {
         await sendUpdate()
+        return true
+      }
+
+      if (msg.type === UI_TO_MAIN.COLOR_CHAIN_REPLACE_MAIN_COLOR) {
+        const { sourceName, targetName, nodesChanged, bindingsChanged } = await replaceVariableUsagesInSelection(
+          msg.request.sourceVariableId,
+          msg.request.targetVariableId
+        )
+        figma.notify(
+          `Replaced usages: "${sourceName}" -> "${targetName}" (${bindingsChanged} bindings in ${nodesChanged} layers)`
+        )
+        await sendUpdate()
+        return true
+      }
+
+      if (msg.type === UI_TO_MAIN.COLOR_CHAIN_NOTIFY) {
+        const message = String(msg.message ?? "").trim()
+        if (message.length > 0) {
+          figma.notify(message)
+        }
         return true
       }
     } catch (e) {

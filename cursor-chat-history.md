@@ -160,6 +160,35 @@
 - Done: replaced duplicated inline `fontWeight: "var(--font-weight-bold)"` with a shared `sectionTitleStyle` (`fontWeight: 600`) for cleaner, consistent title styling.
 - Expected impact: maintainability/readability improvement only; no behavior or flow changes.
 
+#### Color Chain — hover actions (copy name + replace main color)
+- Request: in Color Chain rows, show action buttons on hover:
+  - copy color/variable name
+  - `Replace` action to set selected chain color as main color
+- Expected impact: faster in-list workflow for token cleanup/migration; no change to default read-only scanning behavior.
+- Done: added hover row actions in Color Chain list:
+  - copy icon button (`Copy name`) on main and chain-step variable rows
+  - `Replace` button on chain-step rows to replace the main variable alias with selected step variable
+- Done: added UI→main-thread message `COLOR_CHAIN_REPLACE_MAIN_COLOR` and replace logic for selected mode.
+- Done: chain payload now includes variable IDs per chain step (so Replace can target exact variable, not just by name).
+- Verification: `npm run build` passed; no linter errors in edited files.
+- Follow-up question: why custom bordered icon-like button was used instead of standard icon button.
+- Answer: this was an implementation shortcut in shared `Tree` row actions; standard borderless icon button is preferred for consistency with the existing UI kit usage and should be switched.
+- Follow-up request: implement the switch and fix broken behavior because both `Copy` and `Replace` currently do not work in testing.
+- Done: switched hover copy action to framework `IconButton` (borderless, standard UI kit style).
+- Done: hardened row-action click handling (`preventDefault`/`stopPropagation`) to avoid row container swallowing action clicks.
+- Done: updated replace implementation to use `figma.variables.createVariableAlias(...)` for mode value assignment.
+- Done: copy action now has a last-resort manual fallback prompt when browser clipboard APIs are blocked.
+- Behavior correction request: `Replace` must replace variable **usages in current selection** with chain variable, without changing original variable values.
+- Done: replaced `Replace` behavior in Color Chain to update **selected-layer bindings** (and descendants) from source variable to chosen chain variable.
+- Done: removed value-edit behavior (no `setValueForMode` on source variable anymore); original variable values are preserved.
+- Follow-up UX request: rename `Replace` button to better reflect usage-level replacement behavior.
+- Decision: rename action label to `Swap color`.
+- Follow-up request: keep colors order unchanged (no re-sorting in the Color Chain view).
+- Bug report: after `Swap color`, items still re-sort; hidden sorting likely remains in data preparation layer.
+- New request: add copy action for final HEX row and show notification after copy action.
+- Done: added `Copy HEX` action on final HEX row in Color Chain.
+- Done: added native notifications (via main thread `figma.notify`) after copy actions (name/HEX success + fallback/failure messages).
+
 ### 2026-01-29
 
 #### Vision / scope (product)
@@ -507,4 +536,15 @@
 
 ### 2026-01-29
 - Goal: Initialize a git repository in this project folder so changes can be tracked and safely reverted.
+
+---
+
+## General workflow / safety Q&A
+
+### 2026-02-11
+- Question: how to rename a folder and what can break.
+- Guidance: renaming is usually fine, but references can break (imports, paths in config/scripts/docs, CI/deploy paths, and hardcoded file paths).
+- Recommended safe flow: search references first, rename once, run build/tests, then quick manual smoke-check of main flows.
+- Clarification: user asked specifically about renaming the repository root folder (`figma-jb-variables-utilities`).
+- Extra risk note for root rename: local terminal scripts/shortcuts, Cursor workspace path, and any absolute paths outside the repo may need manual update; git history/remotes are typically unaffected.
 

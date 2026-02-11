@@ -691,10 +691,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ee3aa685-9cea-4ecf-83fa-473bd71f8ef7/loading-indicator.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/896d9cd1-d529-4b1c-a8e5-74871691ecf5/loading-indicator.module.js
   var loading_indicator_module_default;
   var init_loading_indicator_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ee3aa685-9cea-4ecf-83fa-473bd71f8ef7/loading-indicator.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/896d9cd1-d529-4b1c-a8e5-74871691ecf5/loading-indicator.module.js"() {
       if (document.getElementById("3fe0db8eb7") === null) {
         const element = document.createElement("style");
         element.id = "3fe0db8eb7";
@@ -755,10 +755,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f1cc5bf3-ea77-4eda-a681-2db2e639be30/button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/672fed97-121f-40d5-94b2-714dc51fbd6a/button.module.js
   var button_module_default;
   var init_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f1cc5bf3-ea77-4eda-a681-2db2e639be30/button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/672fed97-121f-40d5-94b2-714dc51fbd6a/button.module.js"() {
       if (document.getElementById("1dddd0e4df") === null) {
         const element = document.createElement("style");
         element.id = "1dddd0e4df";
@@ -1027,10 +1027,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6f7d3e87-ea44-4a58-a0ac-f792a9d91b18/checkbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c624c217-8d6b-48f2-9e60-d31d456222c3/checkbox.module.js
   var checkbox_module_default;
   var init_checkbox_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6f7d3e87-ea44-4a58-a0ac-f792a9d91b18/checkbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c624c217-8d6b-48f2-9e60-d31d456222c3/checkbox.module.js"() {
       if (document.getElementById("f38d076240") === null) {
         const element = document.createElement("style");
         element.id = "f38d076240";
@@ -1179,10 +1179,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5f788182-52de-41ab-afbe-1a71d9d53faa/divider.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9d7d554a-d0d9-4dce-82c4-66fd3a01ae23/divider.module.js
   var divider_module_default;
   var init_divider_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5f788182-52de-41ab-afbe-1a71d9d53faa/divider.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9d7d554a-d0d9-4dce-82c4-66fd3a01ae23/divider.module.js"() {
       if (document.getElementById("4bf06403b9") === null) {
         const element = document.createElement("style");
         element.id = "4bf06403b9";
@@ -1212,10 +1212,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/21aeb4af-6e07-4ced-86c8-55712ad6497b/menu.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/cd7d3dd6-4b15-4b70-a6c4-b83c9ca88130/menu.module.js
   var menu_module_default;
   var init_menu_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/21aeb4af-6e07-4ced-86c8-55712ad6497b/menu.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/cd7d3dd6-4b15-4b70-a6c4-b83c9ca88130/menu.module.js"() {
       if (document.getElementById("29044db304") === null) {
         const element = document.createElement("style");
         element.id = "29044db304";
@@ -1438,10 +1438,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/3ae93ef6-2b35-4028-842c-eaca54865da8/dropdown.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/cd02cb9e-2a3d-4da7-b298-e9a8de119138/dropdown.module.js
   var dropdown_module_default;
   var init_dropdown_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/3ae93ef6-2b35-4028-842c-eaca54865da8/dropdown.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/cd02cb9e-2a3d-4da7-b298-e9a8de119138/dropdown.module.js"() {
       if (document.getElementById("5a226eb00e") === null) {
         const element = document.createElement("style");
         element.id = "5a226eb00e";
@@ -1882,10 +1882,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/58001a4a-537f-41b5-a9ae-060f882a6f30/button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5ca99aab-cd3c-4c9e-9b24-577b6816dddd/button.module.js
   var button_module_default2;
   var init_button_module2 = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/58001a4a-537f-41b5-a9ae-060f882a6f30/button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5ca99aab-cd3c-4c9e-9b24-577b6816dddd/button.module.js"() {
       if (document.getElementById("1dddd0e4df") === null) {
         const element = document.createElement("style");
         element.id = "1dddd0e4df";
@@ -2049,10 +2049,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8f5b893c-c575-44dd-b389-6ed7d1dc4dfa/file-upload-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/02b830fd-1730-4296-bb9a-69405b499d24/file-upload-button.module.js
   var file_upload_button_module_default;
   var init_file_upload_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8f5b893c-c575-44dd-b389-6ed7d1dc4dfa/file-upload-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/02b830fd-1730-4296-bb9a-69405b499d24/file-upload-button.module.js"() {
       if (document.getElementById("f115bb30c8") === null) {
         const element = document.createElement("style");
         element.id = "f115bb30c8";
@@ -2167,10 +2167,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9bcf7a78-ae2b-4576-b553-2301283e2e5d/icon-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6366f504-0e5d-4ff7-ba52-aa71d8162a4f/icon-button.module.js
   var icon_button_module_default;
   var init_icon_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9bcf7a78-ae2b-4576-b553-2301283e2e5d/icon-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6366f504-0e5d-4ff7-ba52-aa71d8162a4f/icon-button.module.js"() {
       if (document.getElementById("c8b08e6568") === null) {
         const element = document.createElement("style");
         element.id = "c8b08e6568";
@@ -2248,10 +2248,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/41b7592e-dcf0-4c3a-bbb9-f092b81fcfa2/text.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/02d06efd-6104-4fd7-8788-e94b88b02a48/text.module.js
   var text_module_default;
   var init_text_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/41b7592e-dcf0-4c3a-bbb9-f092b81fcfa2/text.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/02d06efd-6104-4fd7-8788-e94b88b02a48/text.module.js"() {
       if (document.getElementById("1278016d5c") === null) {
         const element = document.createElement("style");
         element.id = "1278016d5c";
@@ -2309,10 +2309,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/90631315-04a3-4e84-90df-3e25781b239c/inline.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a2485398-2ccc-465f-aa33-bb1af0d5bee5/inline.module.js
   var inline_module_default;
   var init_inline_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/90631315-04a3-4e84-90df-3e25781b239c/inline.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a2485398-2ccc-465f-aa33-bb1af0d5bee5/inline.module.js"() {
       if (document.getElementById("3e1b2856fc") === null) {
         const element = document.createElement("style");
         element.id = "3e1b2856fc";
@@ -2374,10 +2374,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4e33de13-a282-4c5c-a69e-e6131e6910ce/stack.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d6684859-bd7a-4292-ad62-63e526b7bf06/stack.module.js
   var stack_module_default;
   var init_stack_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4e33de13-a282-4c5c-a69e-e6131e6910ce/stack.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d6684859-bd7a-4292-ad62-63e526b7bf06/stack.module.js"() {
       if (document.getElementById("317515cc3f") === null) {
         const element = document.createElement("style");
         element.id = "317515cc3f";
@@ -2420,10 +2420,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8f371249-838e-4049-bd81-7fb9b1748c0a/radio-buttons.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f0cd478e-b3c9-4c29-ad7e-778ae2f7ffd3/radio-buttons.module.js
   var radio_buttons_module_default;
   var init_radio_buttons_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8f371249-838e-4049-bd81-7fb9b1748c0a/radio-buttons.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f0cd478e-b3c9-4c29-ad7e-778ae2f7ffd3/radio-buttons.module.js"() {
       if (document.getElementById("a066c67891") === null) {
         const element = document.createElement("style");
         element.id = "a066c67891";
@@ -2653,10 +2653,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0e0dc0d1-e712-4d21-981a-0f62a6d4a085/textbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/79f4a22a-2564-4d8a-a686-84e2f22467c6/textbox.module.js
   var textbox_module_default;
   var init_textbox_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0e0dc0d1-e712-4d21-981a-0f62a6d4a085/textbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/79f4a22a-2564-4d8a-a686-84e2f22467c6/textbox.module.js"() {
       if (document.getElementById("5c1c5c2d3d") === null) {
         const element = document.createElement("style");
         element.id = "5c1c5c2d3d";
@@ -2867,6 +2867,20 @@
     }
   });
 
+  // node_modules/@create-figma-plugin/ui/lib/icons/icon-24/icon-copy-small-24.js
+  var IconCopySmall24;
+  var init_icon_copy_small_24 = __esm({
+    "node_modules/@create-figma-plugin/ui/lib/icons/icon-24/icon-copy-small-24.js"() {
+      init_preact_module();
+      init_create_icon();
+      IconCopySmall24 = createIcon(_(
+        "svg",
+        { fill: "none", height: "24", viewBox: "0 0 24 24", width: "24", xmlns: "http://www.w3.org/2000/svg" },
+        _("path", { "clip-rule": "evenodd", d: "M7.5 6C6.67157 6 6 6.67157 6 7.5v6c0 .8284.67157 1.5 1.5 1.5H9v1.5c0 .8284.67157 1.5 1.5 1.5h6c.8284 0 1.5-.6716 1.5-1.5v-6c0-.82843-.6716-1.5-1.5-1.5H15V7.5c0-.82843-.6716-1.5-1.5-1.5zm7.5 4v3.5c0 .8284-.6716 1.5-1.5 1.5H10v1.5c0 .2761.2239.5.5.5h6c.2761 0 .5-.2239.5-.5v-6c0-.2761-.2239-.5-.5-.5zM7 7.5c0-.27614.22386-.5.5-.5h6c.2761 0 .5.22386.5.5v6c0 .2761-.2239.5-.5.5h-6c-.27614 0-.5-.2239-.5-.5z", fill: "currentColor", "fill-rule": "evenodd" })
+      ));
+    }
+  });
+
   // node_modules/@create-figma-plugin/ui/lib/icons/icon-24/icon-interaction-click-small-24.js
   var IconInteractionClickSmall24;
   var init_icon_interaction_click_small_24 = __esm({
@@ -2895,10 +2909,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ad6d18fa-8de5-4079-89ff-37bd2baf5c22/columns.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/bb1b3b83-a054-4fc7-926d-d1569756ea9b/columns.module.js
   var columns_module_default;
   var init_columns_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ad6d18fa-8de5-4079-89ff-37bd2baf5c22/columns.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/bb1b3b83-a054-4fc7-926d-d1569756ea9b/columns.module.js"() {
       if (document.getElementById("07bfb18928") === null) {
         const element = document.createElement("style");
         element.id = "07bfb18928";
@@ -2967,10 +2981,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2ab735fb-9578-478d-86af-03e26c5789ef/container.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b29d63a9-01df-49e8-9c21-d18fa48f534b/container.module.js
   var container_module_default;
   var init_container_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2ab735fb-9578-478d-86af-03e26c5789ef/container.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b29d63a9-01df-49e8-9c21-d18fa48f534b/container.module.js"() {
       if (document.getElementById("b49e1406f9") === null) {
         const element = document.createElement("style");
         element.id = "b49e1406f9";
@@ -3011,10 +3025,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9e0e6ce1-163e-4202-85be-eae27ce95387/vertical-space.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c78bce5c-a6be-4e16-b373-081b5c4b1010/vertical-space.module.js
   var vertical_space_module_default;
   var init_vertical_space_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9e0e6ce1-163e-4202-85be-eae27ce95387/vertical-space.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c78bce5c-a6be-4e16-b373-081b5c4b1010/vertical-space.module.js"() {
       if (document.getElementById("ba0eea5114") === null) {
         const element = document.createElement("style");
         element.id = "ba0eea5114";
@@ -3055,9 +3069,9 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7a3d1dfa-814f-4c27-86de-89f7c8d725dc/base.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/469f21fd-0139-40e8-838a-2019247a67ed/base.js
   var init_base = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7a3d1dfa-814f-4c27-86de-89f7c8d725dc/base.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/469f21fd-0139-40e8-838a-2019247a67ed/base.js"() {
       if (document.getElementById("0597dd81e7") === null) {
         const element = document.createElement("style");
         element.id = "0597dd81e7";
@@ -3220,6 +3234,7 @@ svg {
       init_icon_text_16();
       init_icon_variable_16();
       init_icon_variable_color_16();
+      init_icon_copy_small_24();
       init_icon_interaction_click_small_24();
       init_icon_time_small_24();
       init_columns();
@@ -3240,6 +3255,8 @@ svg {
         BOOT: "BOOT",
         SET_ACTIVE_TOOL: "SET_ACTIVE_TOOL",
         INSPECT_SELECTION_FOR_VARIABLE_CHAINS: "INSPECT_SELECTION_FOR_VARIABLE_CHAINS",
+        COLOR_CHAIN_REPLACE_MAIN_COLOR: "COLOR_CHAIN_REPLACE_MAIN_COLOR",
+        COLOR_CHAIN_NOTIFY: "COLOR_CHAIN_NOTIFY",
         PRINT_COLOR_USAGES_LOAD_SETTINGS: "PRINT_COLOR_USAGES_LOAD_SETTINGS",
         PRINT_COLOR_USAGES_SAVE_SETTINGS: "PRINT_COLOR_USAGES_SAVE_SETTINGS",
         PRINT_COLOR_USAGES_PRINT: "PRINT_COLOR_USAGES_PRINT",
@@ -3402,6 +3419,7 @@ svg {
   function TreeRow(props) {
     var _a;
     const { node } = props;
+    const [hovered, setHovered] = d2(false);
     const hasChildren = Array.isArray(node.children) && node.children.length > 0;
     const isCollapsible = hasChildren && node.collapsible !== false;
     const paddingLeft = props.level * 16;
@@ -3417,6 +3435,8 @@ svg {
         role: isCollapsible ? "button" : void 0,
         tabIndex: isCollapsible ? 0 : -1,
         onClick: handleToggle,
+        onMouseEnter: () => setHovered(true),
+        onMouseLeave: () => setHovered(false),
         onKeyDown: (e3) => {
           if (!isCollapsible) return;
           if (e3.key === "Enter" || e3.key === " ") {
@@ -3469,6 +3489,73 @@ svg {
           }
         },
         node.description
+      ) : null,
+      hovered && Array.isArray(node.actions) && node.actions.length > 0 ? /* @__PURE__ */ _(
+        "div",
+        {
+          style: { display: "flex", alignItems: "center", gap: 6 },
+          onClick: (e3) => {
+            e3.preventDefault();
+            e3.stopPropagation();
+          },
+          onMouseDown: (e3) => {
+            e3.preventDefault();
+            e3.stopPropagation();
+          }
+        },
+        node.actions.map((action) => {
+          var _a2;
+          return action.kind === "button" ? /* @__PURE__ */ _(
+            "button",
+            {
+              key: action.id,
+              type: "button",
+              disabled: action.disabled === true,
+              onClick: (e3) => {
+                e3.preventDefault();
+                e3.stopPropagation();
+                if (action.disabled) return;
+                void action.onClick();
+              },
+              onMouseDown: (e3) => {
+                e3.preventDefault();
+                e3.stopPropagation();
+              },
+              title: action.label,
+              style: {
+                height: 20,
+                minWidth: 52,
+                padding: "0 6px",
+                border: "1px solid var(--figma-color-border)",
+                background: "var(--figma-color-bg)",
+                color: "var(--figma-color-text)",
+                borderRadius: 4,
+                fontSize: 10,
+                lineHeight: 1,
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: action.disabled ? "not-allowed" : "pointer",
+                opacity: action.disabled ? 0.5 : 1
+              }
+            },
+            action.label
+          ) : /* @__PURE__ */ _(
+            IconButton,
+            {
+              key: action.id,
+              disabled: action.disabled === true,
+              title: action.label,
+              onClick: (e3) => {
+                e3.preventDefault();
+                e3.stopPropagation();
+                if (action.disabled) return;
+                void action.onClick();
+              }
+            },
+            (_a2 = action.icon) != null ? _a2 : action.label
+          );
+        })
       ) : null
     );
   }
@@ -3498,6 +3585,8 @@ svg {
     "src/app/components/Tree.tsx"() {
       "use strict";
       init_preact_module();
+      init_hooks_module();
+      init_lib2();
       init_AppIcons();
     }
   });
@@ -3632,6 +3721,31 @@ svg {
     if (opacityPercent >= 100) return hex;
     return `${hex} ${opacityPercent}%`;
   }
+  async function copyTextToClipboard(text) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return "copied";
+    } catch (e3) {
+      try {
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.style.position = "fixed";
+        textarea.style.left = "-9999px";
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        textarea.remove();
+        return "copied";
+      } catch (e4) {
+        try {
+          window.prompt("Copy:", text);
+          return "manual";
+        } catch (e5) {
+          return "failed";
+        }
+      }
+    }
+  }
   function coerceResultsToV2(results) {
     return results.map((layer) => ({
       layerId: layer.layerId,
@@ -3662,6 +3776,18 @@ svg {
     const [error, setError] = d2(null);
     const [openById, setOpenById] = d2({});
     const [selectionEmpty, setSelectionEmpty] = d2(props.initialSelectionEmpty);
+    const [replaceBusyRowId, setReplaceBusyRowId] = d2(null);
+    const notify = (message) => {
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: UI_TO_MAIN.COLOR_CHAIN_NOTIFY,
+            message
+          }
+        },
+        "*"
+      );
+    };
     y2(() => {
       const handleMessage = (event) => {
         var _a;
@@ -3669,11 +3795,13 @@ svg {
         if (!msg) return;
         if (msg.type === MAIN_TO_UI.ERROR) {
           setLoading(false);
+          setReplaceBusyRowId(null);
           setError(msg.message);
           return;
         }
         if (msg.type === MAIN_TO_UI.SELECTION_EMPTY) {
           setLoading(false);
+          setReplaceBusyRowId(null);
           setResults([]);
           setOpenById({});
           setSelectionEmpty(true);
@@ -3682,6 +3810,7 @@ svg {
         }
         if (msg.type === MAIN_TO_UI.VARIABLE_CHAINS_RESULT) {
           setLoading(false);
+          setReplaceBusyRowId(null);
           setResults(coerceResultsToV2(msg.results));
           setOpenById({});
           setSelectionEmpty(false);
@@ -3690,6 +3819,7 @@ svg {
         }
         if (msg.type === MAIN_TO_UI.VARIABLE_CHAINS_RESULT_V2) {
           setLoading(false);
+          setReplaceBusyRowId(null);
           setResults(msg.results);
           setOpenById({});
           setSelectionEmpty(false);
@@ -3709,9 +3839,6 @@ svg {
         "*"
       );
     }, []);
-    const sortedResults = T2(() => {
-      return results.slice().sort((a3, b2) => a3.layerName.localeCompare(b2.layerName));
-    }, [results]);
     const totalColors = T2(() => {
       return results.reduce((sum, layer) => {
         var _a, _b;
@@ -3721,8 +3848,8 @@ svg {
     const viewState = (() => {
       if (error) return "error";
       if (selectionEmpty) return "selectionEmpty";
-      if (loading && sortedResults.length === 0) return "inspecting";
-      if (sortedResults.length > 0 && totalColors === 0) return "nothingFound";
+      if (loading && results.length === 0) return "inspecting";
+      if (results.length > 0 && totalColors === 0) return "nothingFound";
       return "content";
     })();
     return /* @__PURE__ */ _(Page, null, /* @__PURE__ */ _(
@@ -3737,36 +3864,106 @@ svg {
         icon: /* @__PURE__ */ _(IconInteractionClickSmall24, null),
         title: "Select a layer to see variables color chain."
       }
-    )) : viewState === "nothingFound" ? /* @__PURE__ */ _(ToolBody, { mode: "state" }, /* @__PURE__ */ _(State, { title: "No variable colors found in selection" })) : /* @__PURE__ */ _(ToolBody, { mode: "content" }, sortedResults.length > 0 ? /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(
+    )) : viewState === "nothingFound" ? /* @__PURE__ */ _(ToolBody, { mode: "state" }, /* @__PURE__ */ _(State, { title: "No variable colors found in selection" })) : /* @__PURE__ */ _(ToolBody, { mode: "content" }, results.length > 0 ? /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(
       Tree,
       {
         nodes: (() => {
-          var _a, _b, _c;
+          var _a, _b, _c, _d, _e, _f;
           const nodes = [];
           const groupSpacing = 16;
-          for (const layer of sortedResults) {
-            const colors = layer.colors.slice().sort((a3, b2) => a3.variableName.localeCompare(b2.variableName));
+          for (const layer of results) {
+            const colors = layer.colors.slice();
             for (const c3 of colors) {
               const chainToRender = c3.chainToRender;
               const swatchHex = (_a = chainToRender == null ? void 0 : chainToRender.finalHex) != null ? _a : null;
               const swatchOpacityPercent = (_b = chainToRender == null ? void 0 : chainToRender.finalOpacityPercent) != null ? _b : null;
               const chainSteps = (chainToRender == null ? void 0 : chainToRender.chain) ? chainToRender.chain.slice(1) : [];
+              const chainStepIds = (_d = (_c = chainToRender == null ? void 0 : chainToRender.chainVariableIds) == null ? void 0 : _c.slice(1)) != null ? _d : [];
+              const rowId = `${layer.layerId}:${c3.variableId}`;
               nodes.push({
-                id: `${layer.layerId}:${c3.variableId}`,
+                id: rowId,
                 title: c3.variableName,
                 icon: /* @__PURE__ */ _(ColorSwatch, { hex: swatchHex, opacityPercent: swatchOpacityPercent }),
-                titleStrong: true
+                titleStrong: true,
+                actions: [
+                  {
+                    id: `${rowId}:copy`,
+                    label: "Copy name",
+                    kind: "iconButton",
+                    icon: /* @__PURE__ */ _(IconCopySmall24, null),
+                    onClick: async () => {
+                      const result = await copyTextToClipboard(c3.variableName);
+                      if (result === "copied") notify("Name copied");
+                      else if (result === "manual") notify("Copy manually from prompt");
+                      else notify("Could not copy name");
+                    }
+                  }
+                ]
               });
               for (let idx = 0; idx < chainSteps.length; idx++) {
                 const step = chainSteps[idx];
+                const stepVariableId = (_e = chainStepIds[idx]) != null ? _e : null;
+                const stepRowId = `${layer.layerId}:${c3.variableId}:step:${idx}`;
                 nodes.push({
-                  id: `${layer.layerId}:${c3.variableId}:step:${idx}`,
-                  title: step
+                  id: stepRowId,
+                  title: step,
+                  actions: [
+                    {
+                      id: `${stepRowId}:copy`,
+                      label: "Copy name",
+                      kind: "iconButton",
+                      icon: /* @__PURE__ */ _(IconCopySmall24, null),
+                      onClick: async () => {
+                        const result = await copyTextToClipboard(step);
+                        if (result === "copied") notify("Name copied");
+                        else if (result === "manual") notify("Copy manually from prompt");
+                        else notify("Could not copy name");
+                      }
+                    },
+                    {
+                      id: `${stepRowId}:replace`,
+                      label: "Swap",
+                      kind: "button",
+                      disabled: replaceBusyRowId != null || stepVariableId == null || stepVariableId === c3.variableId,
+                      onClick: () => {
+                        if (stepVariableId == null || stepVariableId === c3.variableId) return;
+                        setReplaceBusyRowId(stepRowId);
+                        parent.postMessage(
+                          {
+                            pluginMessage: {
+                              type: UI_TO_MAIN.COLOR_CHAIN_REPLACE_MAIN_COLOR,
+                              request: {
+                                sourceVariableId: c3.variableId,
+                                targetVariableId: stepVariableId
+                              }
+                            }
+                          },
+                          "*"
+                        );
+                      }
+                    }
+                  ]
                 });
               }
               nodes.push({
                 id: `${layer.layerId}:${c3.variableId}:hex`,
-                title: (chainToRender == null ? void 0 : chainToRender.finalHex) && typeof chainToRender.finalOpacityPercent === "number" ? formatHexWithOpacity2(chainToRender.finalHex, chainToRender.finalOpacityPercent) : (_c = chainToRender == null ? void 0 : chainToRender.finalHex) != null ? _c : "N/A"
+                actions: [
+                  {
+                    id: `${layer.layerId}:${c3.variableId}:hex:copy`,
+                    label: "Copy HEX",
+                    kind: "iconButton",
+                    icon: /* @__PURE__ */ _(IconCopySmall24, null),
+                    disabled: !(chainToRender == null ? void 0 : chainToRender.finalHex),
+                    onClick: async () => {
+                      if (!(chainToRender == null ? void 0 : chainToRender.finalHex)) return;
+                      const result = await copyTextToClipboard(chainToRender.finalHex);
+                      if (result === "copied") notify("HEX copied");
+                      else if (result === "manual") notify("Copy HEX manually from prompt");
+                      else notify("Could not copy HEX");
+                    }
+                  }
+                ],
+                title: (chainToRender == null ? void 0 : chainToRender.finalHex) && typeof chainToRender.finalOpacityPercent === "number" ? formatHexWithOpacity2(chainToRender.finalHex, chainToRender.finalOpacityPercent) : (_f = chainToRender == null ? void 0 : chainToRender.finalHex) != null ? _f : "N/A"
               });
               nodes.push({
                 kind: "spacer",
@@ -4325,7 +4522,7 @@ svg {
     a3.remove();
     URL.revokeObjectURL(url);
   }
-  async function copyTextToClipboard(text) {
+  async function copyTextToClipboard2(text) {
     try {
       await navigator.clipboard.writeText(text);
       return true;
@@ -4657,7 +4854,7 @@ svg {
         disabled: !lastExport,
         onClick: async () => {
           if (!lastExport) return;
-          const ok = await copyTextToClipboard(lastExport.jsonText);
+          const ok = await copyTextToClipboard2(lastExport.jsonText);
           setSuccessMessage(ok ? `Copied "${lastExport.filename}" JSON` : "Copy failed");
         }
       },

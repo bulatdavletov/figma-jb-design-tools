@@ -61,12 +61,14 @@ async function resolveChainForMode(
   modeId: string
 ): Promise<{
   chain: Array<string>
+  chainVariableIds: Array<string>
   finalHex: string | null
   finalOpacityPercent: number | null
   circular: boolean
   note?: string
 }> {
   const chain: Array<string> = [startVariable.name]
+  const chainVariableIds: Array<string> = [startVariable.id]
   const visited = new Set<string>()
   let circularDetected = false
   let note: string | undefined
@@ -87,6 +89,7 @@ async function resolveChainForMode(
       const next = await figma.variables.getVariableByIdAsync(aliasId)
       if (next == null) return null
       chain.push(next.name)
+      chainVariableIds.push(next.id)
       return await step(next, currentModeId)
     }
 
@@ -102,6 +105,7 @@ async function resolveChainForMode(
   const resolved = await step(startVariable, modeId)
   return {
     chain,
+    chainVariableIds,
     finalHex: resolved ? colorToRgbHex(resolved) : null,
     finalOpacityPercent: resolved ? colorToOpacityPercent(resolved) : null,
     circular: circularDetected,
@@ -253,7 +257,6 @@ async function getFoundVariablesFromRoots(roots: Array<SceneNode>): Promise<Arra
     })
   }
 
-  results.sort((a, b) => a.name.localeCompare(b.name))
   return results
 }
 
@@ -270,6 +273,7 @@ async function buildVariableChainResult(found: FoundVariable): Promise<VariableC
       modeId: mode.modeId,
       modeName: mode.name,
       chain: resolved.chain,
+      chainVariableIds: resolved.chainVariableIds,
       finalHex: resolved.finalHex,
       finalOpacityPercent: resolved.finalOpacityPercent,
       circular: resolved.circular,
@@ -326,6 +330,7 @@ async function buildVariableChainResultV2(found: FoundVariable): Promise<Variabl
       modeId: pickedMode.modeId,
       modeName: pickedMode.modeName,
       chain: resolved.chain,
+      chainVariableIds: resolved.chainVariableIds,
       finalHex: resolved.finalHex,
       finalOpacityPercent: resolved.finalOpacityPercent,
       circular: resolved.circular,
@@ -385,5 +390,115 @@ export async function inspectSelectionForVariableChainsByLayerV2(): Promise<Arra
   }
 
   return results
+}
+
+export async function replaceVariableUsagesInSelection(
+  sourceVariableId: string,
+  targetVariableId: string
+): Promise<{ sourceName: string; targetName: string; nodesChanged: number; bindingsChanged: number }> {
+  if (sourceVariableId === targetVariableId) {
+    throw new Error("Source and target colors are the same.")
+  }
+  if (figma.currentPage.selection.length === 0) {
+    throw new Error("Select at least one layer first.")
+  }
+
+  const sourceVariable = await figma.variables.getVariableByIdAsync(sourceVariableId)
+  if (sourceVariable == null) {
+    throw new Error("Source color variable was not found.")
+  }
+  if (sourceVariable.resolvedType !== "COLOR") {
+    throw new Error("Source variable must be a COLOR variable.")
+  }
+
+  const targetVariable = await figma.variables.getVariableByIdAsync(targetVariableId)
+  if (targetVariable == null) {
+    throw new Error("Selected chain color variable was not found.")
+  }
+  if (targetVariable.resolvedType !== "COLOR") {
+    throw new Error("Selected chain color must be a COLOR variable.")
+  }
+
+  const stack: SceneNode[] = [...figma.currentPage.selection]
+  let nodesChanged = 0
+  let bindingsChanged = 0
+
+  while (stack.length > 0) {
+    const node = stack.pop()!
+    if (node.visible === false) continue
+    if ((node as SceneNode & { locked?: boolean }).locked === true) continue
+
+    const anyNode = node as SceneNode & {
+      boundVariables?: Record<string, unknown>
+      fills?: ReadonlyArray<Paint> | PluginAPI["mixed"]
+      strokes?: ReadonlyArray<Paint> | PluginAPI["mixed"]
+      setBoundVariable?: (field: string, variable: Variable) => void
+      children?: readonly SceneNode[]
+    }
+
+    let nodeHadChanges = false
+    const boundVariables = anyNode.boundVariables
+    if (boundVariables && typeof boundVariables === "object") {
+      for (const [property, binding] of Object.entries(boundVariables)) {
+        if (!binding) continue
+
+        if (property === "fills" && Array.isArray(binding) && Array.isArray(anyNode.fills)) {
+          const paints = anyNode.fills
+          const updated = paints.map((paint, index) => {
+            const alias = binding[index] as { id?: string } | undefined
+            if (!alias?.id || alias.id !== sourceVariableId || paint.type !== "SOLID") return paint
+            bindingsChanged += 1
+            return figma.variables.setBoundVariableForPaint(paint, "color", targetVariable)
+          })
+          const changed = updated.some((paint, index) => paint !== paints[index])
+          if (changed) {
+            ;(node as SceneNode & { fills: ReadonlyArray<Paint> }).fills = updated
+            nodeHadChanges = true
+          }
+          continue
+        }
+
+        if (property === "strokes" && Array.isArray(binding) && Array.isArray(anyNode.strokes)) {
+          const paints = anyNode.strokes
+          const updated = paints.map((paint, index) => {
+            const alias = binding[index] as { id?: string } | undefined
+            if (!alias?.id || alias.id !== sourceVariableId || paint.type !== "SOLID") return paint
+            bindingsChanged += 1
+            return figma.variables.setBoundVariableForPaint(paint, "color", targetVariable)
+          })
+          const changed = updated.some((paint, index) => paint !== paints[index])
+          if (changed) {
+            ;(node as SceneNode & { strokes: ReadonlyArray<Paint> }).strokes = updated
+            nodeHadChanges = true
+          }
+          continue
+        }
+
+        if (Array.isArray(binding)) continue
+        if (typeof binding !== "object" || binding == null || !("id" in binding)) continue
+        const currentId = String((binding as { id?: string }).id ?? "")
+        if (currentId !== sourceVariableId) continue
+        try {
+          anyNode.setBoundVariable?.(property, targetVariable)
+          bindingsChanged += 1
+          nodeHadChanges = true
+        } catch {
+          // Ignore unsupported fields for this node type.
+        }
+      }
+    }
+
+    if (nodeHadChanges) nodesChanged += 1
+    if ("children" in node) {
+      for (const child of node.children) stack.push(child)
+    }
+  }
+
+  return {
+    sourceName: sourceVariable.name,
+    targetName: targetVariable.name,
+    nodesChanged,
+    bindingsChanged,
+  }
 }
 
