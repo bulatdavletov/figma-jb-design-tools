@@ -3,6 +3,7 @@ import {
   Container,
   Divider,
   Dropdown,
+  IconInteractionClickSmall24,
   IconButton,
   IconHome16,
   Stack,
@@ -23,6 +24,8 @@ import {
   type LinkedColorsVariableMatch,
 } from "../../messages"
 import { Page } from "../../components/Page"
+import { State } from "../../components/State"
+import { ToolBody } from "../../components/ToolBody"
 import { ToolHeader } from "../../components/ToolHeader"
 
 type Props = {
@@ -276,6 +279,8 @@ export function VariablesCreateLinkedColorsToolView({ onBack }: Props) {
     )
   }
 
+  const isSelectionEmpty = selection?.selectionSize === 0
+
   return (
     <Page>
       <ToolHeader
@@ -286,6 +291,14 @@ export function VariablesCreateLinkedColorsToolView({ onBack }: Props) {
           </IconButton>
         }
       />
+      {isSelectionEmpty ? (
+        <ToolBody mode="state">
+          <State
+            icon={<IconInteractionClickSmall24 />}
+            title="Select layers with color variables to manage them."
+          />
+        </ToolBody>
+      ) : (
       <Container space="medium">
         <VerticalSpace space="medium" />
 
@@ -309,15 +322,9 @@ export function VariablesCreateLinkedColorsToolView({ onBack }: Props) {
         <Stack space="small">
           <Text style={{ fontWeight: 600 }}>Selection</Text>
           {selection ? (
-            selection.selectionSize === 0 ? (
-              <Text style={{ color: "var(--figma-color-text-secondary)" }}>
-                Select layers with color variables to manage them.
-              </Text>
-            ) : (
-              <Text>
-                {selection.selectionSize} nodes, {selection.variables.length} color variables
-              </Text>
-            )
+            <Text>
+              {selection.selectionSize} nodes, {selection.variables.length} color variables
+            </Text>
           ) : (
             <Text style={{ color: "var(--figma-color-text-secondary)" }}>Loading...</Text>
           )}
@@ -488,6 +495,7 @@ export function VariablesCreateLinkedColorsToolView({ onBack }: Props) {
 
         <VerticalSpace space="large" />
       </Container>
+      )}
     </Page>
   )
 }

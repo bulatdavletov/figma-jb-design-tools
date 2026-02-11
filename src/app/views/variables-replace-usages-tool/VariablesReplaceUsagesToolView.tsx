@@ -225,7 +225,6 @@ export function VariablesReplaceUsagesToolView({ onBack }: Props) {
           )}
 
           <Stack space="extraSmall">
-            <Text style={{ fontWeight: 600 }}>Replace Variable Usages</Text>
             <Text style={{ color: "var(--figma-color-text-secondary)" }}>
               Load a JSON mapping file to replace variable bindings in layers. The mapping file
               should specify "from → to" variable names within a collection.

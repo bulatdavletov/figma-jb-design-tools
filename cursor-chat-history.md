@@ -76,6 +76,20 @@
 - Done: merged practical behavior rules (auto-refresh small utilities, preview-before-apply for batch, scope defaults based on selection) into `Specs/Design Principles.md`.
 - Done: removed `Specs/Design Best Practices.md` to keep one source of truth.
 
+#### Replace Variable Usages — avoid duplicate title
+- Request: avoid showing the same title twice in the tool view.
+- Done: removed duplicated in-body title in `VariablesReplaceUsagesToolView`; keep single title in header.
+- Follow-up check: reviewed other tool views for the same duplicate-title pattern; no other exact header+body title duplicates found.
+
+#### Variables Batch Rename — vertical spacing/title rhythm alignment
+- Request: check vertical spacing and align with other tools.
+- Done: aligned top section rhythm with other Variables tools by removing extra in-body section heading and keeping concise intro text under header.
+
+#### Create Linked Colors — sync empty state pattern
+- Request: sync no-selection state with Color Chain tool empty state pattern and add principle to reuse empty-state patterns.
+- Done: `VariablesCreateLinkedColorsToolView` now uses centered shared `State` component with click icon for no-selection state (same pattern family as Color Chain).
+- Done: added explicit principle to `Specs/design principles.md` to reuse shared `State` component for empty states.
+
 ### 2026-01-29
 
 #### Vision / scope (product)

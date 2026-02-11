@@ -43,6 +43,7 @@
 ## Cross-Tool Consistency
 - Reuse shared layout and header patterns across tools.
 - Use the same selection and empty-state patterns in all tools.
+- Reuse the shared `State` empty-state component for no-selection/nothing-found states.
 - Keep wording and interaction patterns consistent (same terms for same actions).
 
 ## Quality Gate

@@ -691,10 +691,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6cbc6490-dc14-4ab1-a877-03163b0797e1/loading-indicator.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a2338f99-6d1d-4863-b555-b7bd904ab67c/loading-indicator.module.js
   var loading_indicator_module_default;
   var init_loading_indicator_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6cbc6490-dc14-4ab1-a877-03163b0797e1/loading-indicator.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a2338f99-6d1d-4863-b555-b7bd904ab67c/loading-indicator.module.js"() {
       if (document.getElementById("3fe0db8eb7") === null) {
         const element = document.createElement("style");
         element.id = "3fe0db8eb7";
@@ -755,10 +755,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/67fdc017-6238-4389-a888-9f42eb86d332/button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/609ce9f8-4c60-459d-ba6c-c72e8ba4886c/button.module.js
   var button_module_default;
   var init_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/67fdc017-6238-4389-a888-9f42eb86d332/button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/609ce9f8-4c60-459d-ba6c-c72e8ba4886c/button.module.js"() {
       if (document.getElementById("1dddd0e4df") === null) {
         const element = document.createElement("style");
         element.id = "1dddd0e4df";
@@ -1027,10 +1027,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2b8cd740-c846-4fa7-9d14-0eefe7a3b3bc/checkbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b8e17d5b-c63c-40d5-9e4c-38b2357a50fb/checkbox.module.js
   var checkbox_module_default;
   var init_checkbox_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2b8cd740-c846-4fa7-9d14-0eefe7a3b3bc/checkbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b8e17d5b-c63c-40d5-9e4c-38b2357a50fb/checkbox.module.js"() {
       if (document.getElementById("f38d076240") === null) {
         const element = document.createElement("style");
         element.id = "f38d076240";
@@ -1179,10 +1179,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4963305a-4189-40a9-9ecd-ccbd42da7c7c/divider.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/05e801f1-a7ec-409c-8dbd-9407fea176f5/divider.module.js
   var divider_module_default;
   var init_divider_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4963305a-4189-40a9-9ecd-ccbd42da7c7c/divider.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/05e801f1-a7ec-409c-8dbd-9407fea176f5/divider.module.js"() {
       if (document.getElementById("4bf06403b9") === null) {
         const element = document.createElement("style");
         element.id = "4bf06403b9";
@@ -1212,10 +1212,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2dab27ab-853f-4339-8a4a-138c4cc7472f/menu.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e51ccf24-404b-4870-acdf-1c14bfd4c4bf/menu.module.js
   var menu_module_default;
   var init_menu_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2dab27ab-853f-4339-8a4a-138c4cc7472f/menu.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e51ccf24-404b-4870-acdf-1c14bfd4c4bf/menu.module.js"() {
       if (document.getElementById("29044db304") === null) {
         const element = document.createElement("style");
         element.id = "29044db304";
@@ -1438,10 +1438,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/3a5376b3-33b7-4c0b-82dc-453bdd51af4c/dropdown.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e0d4ca0c-88ba-4344-87b8-f10f7ad8c019/dropdown.module.js
   var dropdown_module_default;
   var init_dropdown_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/3a5376b3-33b7-4c0b-82dc-453bdd51af4c/dropdown.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e0d4ca0c-88ba-4344-87b8-f10f7ad8c019/dropdown.module.js"() {
       if (document.getElementById("5a226eb00e") === null) {
         const element = document.createElement("style");
         element.id = "5a226eb00e";
@@ -1882,10 +1882,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c967da18-259b-40f4-b79c-3e1e6b516857/button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d08b5ddb-a6ec-4fe1-81db-9381bd040345/button.module.js
   var button_module_default2;
   var init_button_module2 = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c967da18-259b-40f4-b79c-3e1e6b516857/button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d08b5ddb-a6ec-4fe1-81db-9381bd040345/button.module.js"() {
       if (document.getElementById("1dddd0e4df") === null) {
         const element = document.createElement("style");
         element.id = "1dddd0e4df";
@@ -2049,10 +2049,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1e600110-66de-4e5f-82ae-22ebb19933d9/file-upload-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/011b6821-25b5-4645-964f-459b9a5c8f99/file-upload-button.module.js
   var file_upload_button_module_default;
   var init_file_upload_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1e600110-66de-4e5f-82ae-22ebb19933d9/file-upload-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/011b6821-25b5-4645-964f-459b9a5c8f99/file-upload-button.module.js"() {
       if (document.getElementById("f115bb30c8") === null) {
         const element = document.createElement("style");
         element.id = "f115bb30c8";
@@ -2167,10 +2167,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/511c07e9-ae5a-4fb4-b1eb-2c44e38cb3c5/icon-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/907a2d7f-3061-4ff1-bd37-a40817df1736/icon-button.module.js
   var icon_button_module_default;
   var init_icon_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/511c07e9-ae5a-4fb4-b1eb-2c44e38cb3c5/icon-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/907a2d7f-3061-4ff1-bd37-a40817df1736/icon-button.module.js"() {
       if (document.getElementById("c8b08e6568") === null) {
         const element = document.createElement("style");
         element.id = "c8b08e6568";
@@ -2248,10 +2248,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2840fac3-bddb-4800-9a5b-5769f082ca44/text.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/df79588d-2884-4a62-aaf4-74187b33016d/text.module.js
   var text_module_default;
   var init_text_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2840fac3-bddb-4800-9a5b-5769f082ca44/text.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/df79588d-2884-4a62-aaf4-74187b33016d/text.module.js"() {
       if (document.getElementById("1278016d5c") === null) {
         const element = document.createElement("style");
         element.id = "1278016d5c";
@@ -2309,10 +2309,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7be754ee-7d7c-4b39-be1b-9726ca387d37/inline.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c043fe91-0d01-4684-9926-c5f922d26c59/inline.module.js
   var inline_module_default;
   var init_inline_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7be754ee-7d7c-4b39-be1b-9726ca387d37/inline.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c043fe91-0d01-4684-9926-c5f922d26c59/inline.module.js"() {
       if (document.getElementById("3e1b2856fc") === null) {
         const element = document.createElement("style");
         element.id = "3e1b2856fc";
@@ -2374,10 +2374,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9f57f1d8-254d-44ad-82a1-b824b66a1e9d/stack.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a7f48d05-9379-4902-bf77-0f26edae5a51/stack.module.js
   var stack_module_default;
   var init_stack_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9f57f1d8-254d-44ad-82a1-b824b66a1e9d/stack.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a7f48d05-9379-4902-bf77-0f26edae5a51/stack.module.js"() {
       if (document.getElementById("317515cc3f") === null) {
         const element = document.createElement("style");
         element.id = "317515cc3f";
@@ -2420,10 +2420,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1703b568-d4bb-4521-875c-0a2c0c475b70/radio-buttons.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c606f438-f7d3-4de8-b382-71562658f1c5/radio-buttons.module.js
   var radio_buttons_module_default;
   var init_radio_buttons_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1703b568-d4bb-4521-875c-0a2c0c475b70/radio-buttons.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c606f438-f7d3-4de8-b382-71562658f1c5/radio-buttons.module.js"() {
       if (document.getElementById("a066c67891") === null) {
         const element = document.createElement("style");
         element.id = "a066c67891";
@@ -2653,10 +2653,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7a57e45f-a849-4a3b-be4e-836311c29f49/textbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b436a221-7116-4e60-8d33-0c7cbb2f4a0a/textbox.module.js
   var textbox_module_default;
   var init_textbox_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7a57e45f-a849-4a3b-be4e-836311c29f49/textbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b436a221-7116-4e60-8d33-0c7cbb2f4a0a/textbox.module.js"() {
       if (document.getElementById("5c1c5c2d3d") === null) {
         const element = document.createElement("style");
         element.id = "5c1c5c2d3d";
@@ -2881,10 +2881,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/229ef8c0-8b77-471e-a888-431d065846e4/columns.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/203161f0-9359-4f4f-8b8d-35d51acb4671/columns.module.js
   var columns_module_default;
   var init_columns_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/229ef8c0-8b77-471e-a888-431d065846e4/columns.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/203161f0-9359-4f4f-8b8d-35d51acb4671/columns.module.js"() {
       if (document.getElementById("07bfb18928") === null) {
         const element = document.createElement("style");
         element.id = "07bfb18928";
@@ -2953,10 +2953,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c00f091d-9855-421d-b12b-fe91c3144c30/container.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/af4b8d5a-0dfc-425a-a093-37b31c32d393/container.module.js
   var container_module_default;
   var init_container_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c00f091d-9855-421d-b12b-fe91c3144c30/container.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/af4b8d5a-0dfc-425a-a093-37b31c32d393/container.module.js"() {
       if (document.getElementById("b49e1406f9") === null) {
         const element = document.createElement("style");
         element.id = "b49e1406f9";
@@ -2997,10 +2997,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1c87b333-bbf6-48fe-8345-26b1f7454319/vertical-space.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/22683713-8380-4f0a-9e62-8ab3fec867d6/vertical-space.module.js
   var vertical_space_module_default;
   var init_vertical_space_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1c87b333-bbf6-48fe-8345-26b1f7454319/vertical-space.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/22683713-8380-4f0a-9e62-8ab3fec867d6/vertical-space.module.js"() {
       if (document.getElementById("ba0eea5114") === null) {
         const element = document.createElement("style");
         element.id = "ba0eea5114";
@@ -3041,9 +3041,9 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/cb37da1f-0f38-4130-9413-7e1f4a8a3133/base.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6ee030ef-a3af-4913-9815-4365f86b506d/base.js
   var init_base = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/cb37da1f-0f38-4130-9413-7e1f4a8a3133/base.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6ee030ef-a3af-4913-9815-4365f86b506d/base.js"() {
       if (document.getElementById("0597dd81e7") === null) {
         const element = document.createElement("style");
         element.id = "0597dd81e7";
@@ -4595,7 +4595,7 @@ svg {
         title: "Variables Batch Rename",
         left: /* @__PURE__ */ _(IconButton, { onClick: onBack, title: "Home" }, /* @__PURE__ */ _(IconHome16, null))
       }
-    ), /* @__PURE__ */ _(ToolBody, { mode: "content" }, /* @__PURE__ */ _(Stack, { space: "medium" }, errorMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#fff1f2", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "#9f1239" } }, errorMessage))), successMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#ecfdf3", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, successMessage))), /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Export name set (JSON)"), /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "Backup/baseline file. Edit newName values and import back to rename by ID.")), /* @__PURE__ */ _(
+    ), /* @__PURE__ */ _(ToolBody, { mode: "content" }, /* @__PURE__ */ _(Stack, { space: "medium" }, errorMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#fff1f2", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "#9f1239" } }, errorMessage))), successMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#ecfdf3", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, successMessage))), /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "Export and import rename sets by variable ID.")), /* @__PURE__ */ _(
       Textbox,
       {
         value: exportSetName,
@@ -5399,13 +5399,20 @@ svg {
         "*"
       );
     };
+    const isSelectionEmpty = (selection == null ? void 0 : selection.selectionSize) === 0;
     return /* @__PURE__ */ _(Page, null, /* @__PURE__ */ _(
       ToolHeader,
       {
         title: "Create Linked Colors",
         left: /* @__PURE__ */ _(IconButton, { onClick: onBack, title: "Home" }, /* @__PURE__ */ _(IconHome16, null))
       }
-    ), /* @__PURE__ */ _(Container, { space: "medium" }, /* @__PURE__ */ _(VerticalSpace, { space: "medium" }), errorMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#fff1f2", borderRadius: 4, marginBottom: 12 } }, /* @__PURE__ */ _(Text, { style: { color: "#9f1239" } }, errorMessage))), successMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#ecfdf3", borderRadius: 4, marginBottom: 12 } }, /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, successMessage))), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Selection"), selection ? selection.selectionSize === 0 ? /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "Select layers with color variables to manage them.") : /* @__PURE__ */ _(Text, null, selection.selectionSize, " nodes, ", selection.variables.length, " color variables") : /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "Loading...")), selection && selection.variables.length > 0 && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(VerticalSpace, { space: "medium" }), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Select Variable to Manage"), /* @__PURE__ */ _(
+    ), isSelectionEmpty ? /* @__PURE__ */ _(ToolBody, { mode: "state" }, /* @__PURE__ */ _(
+      State,
+      {
+        icon: /* @__PURE__ */ _(IconInteractionClickSmall24, null),
+        title: "Select layers with color variables to manage them."
+      }
+    )) : /* @__PURE__ */ _(Container, { space: "medium" }, /* @__PURE__ */ _(VerticalSpace, { space: "medium" }), errorMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#fff1f2", borderRadius: 4, marginBottom: 12 } }, /* @__PURE__ */ _(Text, { style: { color: "#9f1239" } }, errorMessage))), successMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#ecfdf3", borderRadius: 4, marginBottom: 12 } }, /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, successMessage))), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Selection"), selection ? /* @__PURE__ */ _(Text, null, selection.selectionSize, " nodes, ", selection.variables.length, " color variables") : /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "Loading...")), selection && selection.variables.length > 0 && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(VerticalSpace, { space: "medium" }), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Select Variable to Manage"), /* @__PURE__ */ _(
       Dropdown,
       {
         options: selectedVariableOptions,
@@ -5501,6 +5508,8 @@ svg {
       init_hooks_module();
       init_messages();
       init_Page();
+      init_State();
+      init_ToolBody();
       init_ToolHeader();
     }
   });
@@ -5642,7 +5651,7 @@ svg {
         title: "Replace Variable Usages",
         left: /* @__PURE__ */ _(IconButton, { onClick: onBack, title: "Home" }, /* @__PURE__ */ _(IconHome16, null))
       }
-    ), /* @__PURE__ */ _(ToolBody, { mode: "content" }, /* @__PURE__ */ _(Stack, { space: "medium" }, errorMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#fff1f2", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "#9f1239" } }, errorMessage))), successMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#ecfdf3", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, successMessage))), /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Replace Variable Usages"), /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, 'Load a JSON mapping file to replace variable bindings in layers. The mapping file should specify "from \u2192 to" variable names within a collection.')), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Scope"), /* @__PURE__ */ _(Inline, { space: "medium" }, /* @__PURE__ */ _(
+    ), /* @__PURE__ */ _(ToolBody, { mode: "content" }, /* @__PURE__ */ _(Stack, { space: "medium" }, errorMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#fff1f2", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "#9f1239" } }, errorMessage))), successMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#ecfdf3", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, successMessage))), /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, 'Load a JSON mapping file to replace variable bindings in layers. The mapping file should specify "from \u2192 to" variable names within a collection.')), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Scope"), /* @__PURE__ */ _(Inline, { space: "medium" }, /* @__PURE__ */ _(
       Checkbox,
       {
         value: scope === "selection",

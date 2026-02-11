@@ -418,9 +418,8 @@ export function VariablesBatchRenameToolView({ onBack }: Props) {
           )}
 
           <Stack space="extraSmall">
-            <Text style={{ fontWeight: 600 }}>Export name set (JSON)</Text>
             <Text style={{ color: "var(--figma-color-text-secondary)" }}>
-              Backup/baseline file. Edit newName values and import back to rename by ID.
+              Export and import rename sets by variable ID.
             </Text>
           </Stack>
 
