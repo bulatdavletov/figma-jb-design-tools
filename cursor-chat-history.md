@@ -99,6 +99,12 @@
 - Verification: `npm run build` passed; no linter errors in edited files.
 - Specs check: no conflicts found with current Specs; change improves naming clarity and matches actual flat-list behavior.
 
+#### ColorRow hover background
+- Request: add background highlight on hover to `ColorRow` component.
+- Safety: visual-only; no logic/flow changes. Component already tracked hover state for action fade.
+- Done: added `backgroundColor: var(--figma-color-bg-hover)` on hover with `borderRadius: 4` and `transition` in `src/app/components/ColorRow.tsx`.
+- Verification: `npm run build` passed.
+
 #### View Colors Chain — spacing and button order follow-up
 - Request: ensure consistent vertical spacing in data-filled `ToolBody`, add this as an explicit rule, reorder row actions (`Swap` before `Copy`), and make color-group spacing larger.
 - Safety expectation: visual/interaction polish only; no logic/data changes.
@@ -112,6 +118,11 @@
 - Investigation: confirmed build output IS up to date (groupSpacing=24, VerticalSpace rendered). Root cause: plugin must be re-run in Figma to load new UI bundle, plus the previous `VerticalSpace space="small"` (8px) was barely visible.
 - Done: increased `ToolBody` top/bottom `VerticalSpace` from `space="small"` (8px) to `space="medium"` (~12-16px) for clearly visible content padding across all tools.
 - Verification: `npm run build` passed; no linter errors.
+- Bug report: vertical spacing between color groups gets squeezed when there's lots of data.
+- Root cause: `ToolBody` inner `Container` had `flex: 1, display: flex, flexDirection: column` in ALL modes. In content mode with overflowing content, the flex algorithm was **shrinking spacer divs and VerticalSpaces** to fit everything inside the viewport, instead of letting the parent scroll.
+- Fix: `Container` now only uses flex layout in "state" mode (needed for centering empty/loading screens). In "content" mode, Container is a normal block element — children flow as blocks, heights are respected, and the outer div scrolls correctly.
+- Verification: `npm run build` passed; no linter errors.
+- Cross-tool impact: this fix applies to ALL tools using `ToolBody mode="content"` — any tool with enough content to scroll now keeps stable spacing.
 
 ### 2026-02-11
 

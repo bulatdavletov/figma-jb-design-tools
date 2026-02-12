@@ -37,7 +37,7 @@ export function ColorSwatch(props: {
 }) {
   // Defaults match `TextboxColor` `.chit` exactly (see `textbox-color.module.css`).
   const size = typeof props.size === "number" ? props.size : 14
-  const borderRadius = typeof props.borderRadius === "number" ? props.borderRadius : 2
+  const borderRadius = typeof props.borderRadius === "number" ? props.borderRadius : 3
 
   const opacityPercent = typeof props.opacityPercent === "number" ? props.opacityPercent : null
   const alpha = opacityPercent == null ? 1 : clamp01(opacityPercent / 100)
@@ -56,7 +56,7 @@ export function ColorSwatch(props: {
         overflow: "hidden",
         display: "flex",
         backgroundImage: CHECKERBOARD_BG_IMAGE,
-        boxShadow: "inset 0 0 0 0.5px rgba(0, 0, 0, 0.2), inset 0 0 0 0.5px rgba(255, 255, 255, 0.1)",
+        boxShadow: "inset 0 0 0 1px rgba(0, 0, 0, 0.2), inset 0 0 0 1px rgba(255, 255, 255, 0.1)",
       }}
     >
       {hex ? (

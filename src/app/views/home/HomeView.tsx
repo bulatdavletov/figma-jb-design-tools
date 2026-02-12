@@ -59,7 +59,7 @@ export function HomeView(props: { goTo: (route: Route) => void }) {
           </Stack>
 
           <VerticalSpace space="large" />
-            <Text style={sectionTitleStyle}>Variables</Text>
+            <Text style={sectionTitleStyle}>Variables Management</Text>
             <VerticalSpace space="small" />
           
           <Stack space="extraSmall">

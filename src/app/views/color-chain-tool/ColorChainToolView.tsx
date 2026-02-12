@@ -206,7 +206,7 @@ export function ColorChainToolView(props: { onBack: () => void; initialSelection
             <Fragment>
               {(() => {
                 const rows: Array<preact.ComponentChildren> = []
-                const groupSpacing = 24
+                const groupSpacing = 16
 
                 for (const layer of results) {
                   const colors = layer.colors.slice()
