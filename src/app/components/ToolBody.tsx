@@ -34,12 +34,16 @@ export function ToolBody(props: {
     >
       <Container
         space="small"
-        style={{
-          flex: 1,
-          minHeight: 0,
-          display: "flex",
-          flexDirection: "column",
-        }}
+        style={
+          resolvedScroll
+            ? undefined /* content mode: normal block flow so heights aren't flex-shrunk */
+            : {
+                flex: 1,
+                minHeight: 0,
+                display: "flex",
+                flexDirection: "column",
+              }
+        }
       >
         <VerticalSpace space="medium" />
         {props.children}
