@@ -50,13 +50,13 @@ export function ColorSwatch(props: {
     <div
       title={title}
       style={{
+        position: "relative",
         width: size,
         height: size,
         borderRadius,
         overflow: "hidden",
         display: "flex",
         backgroundImage: CHECKERBOARD_BG_IMAGE,
-        boxShadow: "inset 0 0 0 1px rgba(0, 0, 0, 0.2), inset 0 0 0 1px rgba(255, 255, 255, 0.1)",
       }}
     >
       {hex ? (
@@ -65,6 +65,16 @@ export function ColorSwatch(props: {
           {showTransparency ? <div style={{ flex: 1, backgroundColor: hex, opacity: alpha }} /> : null}
         </Fragment>
       ) : null}
+      {/* Border overlay — must be on top of color fills */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          borderRadius,
+          boxShadow: "inset 0 0 0 1px color-mix(in srgb, var(--figma-color-border-strong) 10%, transparent)",
+          pointerEvents: "none",
+        }}
+      />
     </div>
   )
 }
