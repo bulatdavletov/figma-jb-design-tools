@@ -38,7 +38,7 @@ export function ToolCard(props: {
           width: 32,
           height: 32,
           borderRadius: 6,
-          background: "rgba(255, 255, 255, 0.08)",
+          background: "color-mix(in srgb, var(--figma-color-bg-tertiary) 80%, transparent)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",

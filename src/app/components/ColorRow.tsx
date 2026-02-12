@@ -47,7 +47,7 @@ export function ColorRow(props: {
         paddingRight: 4,
         userSelect: "none",
         borderRadius: 4,
-        backgroundColor: hovered ? "var(--figma-color-bg-hover)" : "transparent",
+        backgroundColor: hovered ? "color-mix(in srgb, var(--figma-color-bg-hover) 50%, transparent)" : "transparent",
         transition: "background-color 120ms ease",
       }}
     >
