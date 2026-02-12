@@ -72,7 +72,10 @@ var init_messages = __esm({
       PRINT_COLOR_USAGES_LOAD_SETTINGS: "PRINT_COLOR_USAGES_LOAD_SETTINGS",
       PRINT_COLOR_USAGES_SAVE_SETTINGS: "PRINT_COLOR_USAGES_SAVE_SETTINGS",
       PRINT_COLOR_USAGES_PRINT: "PRINT_COLOR_USAGES_PRINT",
+      PRINT_COLOR_USAGES_PREVIEW_UPDATE: "PRINT_COLOR_USAGES_PREVIEW_UPDATE",
       PRINT_COLOR_USAGES_UPDATE: "PRINT_COLOR_USAGES_UPDATE",
+      PRINT_COLOR_USAGES_FOCUS_NODE: "PRINT_COLOR_USAGES_FOCUS_NODE",
+      PRINT_COLOR_USAGES_RESET_LAYER_NAME: "PRINT_COLOR_USAGES_RESET_LAYER_NAME",
       MOCKUP_MARKUP_LOAD_STATE: "MOCKUP_MARKUP_LOAD_STATE",
       MOCKUP_MARKUP_APPLY: "MOCKUP_MARKUP_APPLY",
       MOCKUP_MARKUP_CREATE_TEXT: "MOCKUP_MARKUP_CREATE_TEXT",
@@ -101,6 +104,7 @@ var init_messages = __esm({
       PRINT_COLOR_USAGES_SETTINGS: "PRINT_COLOR_USAGES_SETTINGS",
       PRINT_COLOR_USAGES_SELECTION: "PRINT_COLOR_USAGES_SELECTION",
       PRINT_COLOR_USAGES_STATUS: "PRINT_COLOR_USAGES_STATUS",
+      PRINT_COLOR_USAGES_UPDATE_PREVIEW: "PRINT_COLOR_USAGES_UPDATE_PREVIEW",
       MOCKUP_MARKUP_STATE: "MOCKUP_MARKUP_STATE",
       MOCKUP_MARKUP_STATUS: "MOCKUP_MARKUP_STATUS",
       MOCKUP_MARKUP_COLOR_PREVIEWS: "MOCKUP_MARKUP_COLOR_PREVIEWS",
@@ -1752,6 +1756,9 @@ async function resolveModeIdByName(variableCollectionId, modeName) {
     return ((_a2 = m.name) != null ? _a2 : "").trim().toLowerCase() === wanted;
   })) == null ? void 0 : _a.modeId) != null ? _b : null;
 }
+function isTextNode(node) {
+  return node.type === "TEXT";
+}
 async function findLocalVariableIdByName(name) {
   var _a, _b, _c;
   const wanted = name.trim().toLowerCase();
@@ -2048,6 +2055,7 @@ async function printColorUsagesFromSelection(settings) {
   const primaryFills = labelFills.primary;
   const secondaryFills = labelFills.secondary;
   const textNodes = [];
+  let groupsWithNoColors = 0;
   const groups = /* @__PURE__ */ new Map();
   for (const selected of selection) {
     const anchor = (_a = findOutermostContainingInstance(selected)) != null ? _a : selected;
@@ -2075,21 +2083,12 @@ async function printColorUsagesFromSelection(settings) {
       if (!aIsHex && bIsHex) return -1;
       return a.label.localeCompare(b.label);
     });
-    const parentContainer = (_b = findContainingFrame(anchor)) != null ? _b : figma.currentPage;
-    const nodeRect = getNodeRectInContainer(anchor, parentContainer);
     if (colorInfo.length === 0) {
-      const text = figma.createText();
-      text.characters = `No colors found in ${anchor.name}`;
-      await applyTypographyToLabel(text, markupDescriptionStyle);
-      const position = calculateTextPositionFromRect(nodeRect, textPosition, 0);
-      text.x = position.x;
-      text.y = position.y;
-      text.fills = primaryFills;
-      if (textPosition === "left") text.x = nodeRect.x - text.width - 16;
-      parentContainer.appendChild(text);
-      textNodes.push(text);
+      groupsWithNoColors++;
       continue;
     }
+    const parentContainer = (_b = findContainingFrame(anchor)) != null ? _b : figma.currentPage;
+    const nodeRect = getNodeRectInContainer(anchor, parentContainer);
     for (let i = 0; i < colorInfo.length; i++) {
       const info = colorInfo[i];
       const text = figma.createText();
@@ -2136,7 +2135,10 @@ async function printColorUsagesFromSelection(settings) {
       figma.viewport.scrollAndZoomIntoView([textNodes[0]]);
     } catch (e) {
     }
-    figma.notify(`Created ${textNodes.length} color usage text node(s)`);
+    const suffix = groupsWithNoColors > 0 ? `; no colors found in ${groupsWithNoColors} selection group(s)` : "";
+    figma.notify(`Created ${textNodes.length} color usage text node(s)${suffix}`);
+  } else {
+    figma.notify("No visible solid colors found in selection");
   }
   return textNodes.length;
 }
@@ -2206,11 +2208,175 @@ function collectTextNodesRecursivelyFromSelection(selection) {
   }
   return result;
 }
-async function updateSelectedTextNodesByVariableId(settings) {
-  var _a, _b, _c, _d, _e;
+async function resolveUpdateTargetForText(text, settings) {
+  var _a, _b, _c, _d, _e, _f, _g, _h;
+  const currentLayerName = ((_a = text.name) != null ? _a : "").trim();
+  if (!currentLayerName) return null;
+  let variableIdToUse = null;
+  let variableCollectionId = null;
+  let resolvedBy = "layer_name";
+  const variableIdFromPluginData = (() => {
+    try {
+      const v = text.getPluginData(PLUGIN_DATA_VARIABLE_ID);
+      return v ? v.trim() : "";
+    } catch (e) {
+      return "";
+    }
+  })();
+  const variableIdFromLayerName = extractVariableIdFromLayerName(currentLayerName);
+  const idCandidate = variableIdFromPluginData || variableIdFromLayerName || "";
+  const currentTextValue = ((_b = text.characters) != null ? _b : "").trim();
+  const currentTextPrimary = currentTextValue ? ((_c = currentTextValue.split(/\s{3,}/)[0]) != null ? _c : "").trim() : "";
+  try {
+    const v = await figma.variables.getVariableByIdAsync(idCandidate || currentLayerName);
+    if (v == null ? void 0 : v.id) {
+      variableIdToUse = v.id;
+      variableCollectionId = (_d = v == null ? void 0 : v.variableCollectionId) != null ? _d : null;
+      resolvedBy = variableIdFromPluginData ? "plugin_data" : "layer_variable_id";
+    }
+  } catch (e) {
+  }
+  if (!variableIdToUse) {
+    variableIdToUse = await findLocalVariableIdByName(stripTrailingModeSuffix(currentLayerName));
+    if (variableIdToUse) {
+      resolvedBy = "layer_name";
+      try {
+        const v = await figma.variables.getVariableByIdAsync(variableIdToUse);
+        variableCollectionId = (_e = v == null ? void 0 : v.variableCollectionId) != null ? _e : null;
+      } catch (e) {
+      }
+    }
+  }
+  if (!variableIdToUse) {
+    const contentCandidates = [currentTextPrimary, currentTextValue].map((s) => s.trim()).filter((s, i, arr) => s.length > 0 && arr.indexOf(s) === i);
+    for (const candidate of contentCandidates) {
+      const byContent = await findLocalVariableIdByName(candidate);
+      if (!byContent) continue;
+      variableIdToUse = byContent;
+      resolvedBy = "text_content";
+      try {
+        const v = await figma.variables.getVariableByIdAsync(variableIdToUse);
+        variableCollectionId = (_f = v == null ? void 0 : v.variableCollectionId) != null ? _f : null;
+      } catch (e) {
+      }
+      break;
+    }
+  }
+  if (!variableIdToUse) return null;
+  let explicitModeId = (() => {
+    try {
+      const fromData = text.getPluginData(PLUGIN_DATA_VARIABLE_MODE_ID);
+      return fromData ? fromData : null;
+    } catch (e) {
+      return null;
+    }
+  })();
+  if (!explicitModeId && variableCollectionId) {
+    const modeName = extractModeNameFromLayerName(currentLayerName);
+    if (modeName) explicitModeId = await resolveModeIdByName(variableCollectionId, modeName);
+  }
+  let parts;
+  try {
+    parts = await resolveVariableLabelPartsFromVariable2(
+      variableIdToUse,
+      settings.showLinkedColors,
+      text,
+      settings.hideFolderNames,
+      explicitModeId
+    );
+  } catch (e) {
+    return null;
+  }
+  const separator = "   ";
+  const hasSecondary = settings.showLinkedColors && !!parts.secondaryText;
+  const label = hasSecondary ? `${parts.primaryText}${separator}${parts.secondaryText}` : parts.primaryText;
+  const desiredLayerName = parts.modeContext.isNonDefaultMode && parts.modeContext.modeName ? `${variableIdToUse} (${parts.modeContext.modeName})` : variableIdToUse;
+  const needsCharactersUpdate = ((_g = text.characters) != null ? _g : "") !== label;
+  const needsNameUpdate = ((_h = text.name) != null ? _h : "") !== desiredLayerName;
+  const oldSecondaryText = (() => {
+    var _a2;
+    const raw = (_a2 = text.characters) != null ? _a2 : "";
+    const parts2 = raw.split(/\s{3,}/);
+    return parts2.length > 1 ? parts2.slice(1).join("   ").trim() : "";
+  })();
+  const linkedColorChanged = settings.showLinkedColors && (oldSecondaryText || "") !== (parts.secondaryText || "");
+  return {
+    label,
+    desiredLayerName,
+    hasSecondary,
+    parts,
+    variableIdToUse,
+    needsCharactersUpdate,
+    needsNameUpdate,
+    linkedColorChanged,
+    resolvedBy
+  };
+}
+async function previewUpdateSelectedTextNodesByVariableId(settings, scope = "page") {
+  var _a, _b;
+  let textNodes;
+  if (scope === "selection") {
+    const selection = figma.currentPage.selection;
+    textNodes = collectTextNodesRecursivelyFromSelection(selection);
+  } else if (scope === "all_pages") {
+    textNodes = [];
+    for (const page of figma.root.children) {
+      const nodes = page.findAll((n) => n.type === "TEXT").map((n) => n).filter((t) => {
+        var _a2;
+        return ((_a2 = t.name) != null ? _a2 : "").trim().startsWith("VariableID");
+      });
+      textNodes.push(...nodes);
+    }
+  } else {
+    textNodes = figma.currentPage.findAll((n) => n.type === "TEXT").map((n) => n).filter((t) => {
+      var _a2;
+      return ((_a2 = t.name) != null ? _a2 : "").trim().startsWith("VariableID");
+    });
+  }
+  const entries = [];
+  let changed = 0;
+  let unchanged = 0;
+  let skipped = 0;
+  for (const text of textNodes) {
+    const target = await resolveUpdateTargetForText(text, settings);
+    if (!target) {
+      skipped++;
+      continue;
+    }
+    if (!target.needsCharactersUpdate && !target.needsNameUpdate) {
+      unchanged++;
+      continue;
+    }
+    changed++;
+    entries.push({
+      nodeId: text.id,
+      nodeName: text.name || "Untitled",
+      oldText: (_a = text.characters) != null ? _a : "",
+      newText: target.label,
+      oldLayerName: (_b = text.name) != null ? _b : "",
+      newLayerName: target.desiredLayerName,
+      textChanged: target.needsCharactersUpdate,
+      layerNameChanged: target.needsNameUpdate,
+      linkedColorChanged: target.linkedColorChanged,
+      resolvedBy: target.resolvedBy
+    });
+  }
+  return {
+    scope,
+    candidates: textNodes.length,
+    changed,
+    unchanged,
+    skipped,
+    entries
+  };
+}
+async function updateSelectedTextNodesByVariableId(settings, options) {
+  var _a;
   await savePrintColorUsagesSettings(settings);
   const selection = figma.currentPage.selection;
   const hasSelection = selection.length > 0;
+  const targetNodeIds = (_a = options == null ? void 0 : options.targetNodeIds) != null ? _a : [];
+  const hasExplicitTargets = targetNodeIds.length > 0;
   let markupDescriptionStyle = null;
   try {
     markupDescriptionStyle = await resolveMarkupDescriptionTextStyle();
@@ -2221,15 +2387,28 @@ async function updateSelectedTextNodesByVariableId(settings) {
   const labelFills = await resolveMarkupTextFills(themeColors);
   const primaryFills = labelFills.primary;
   const secondaryFills = labelFills.secondary;
-  const textNodes = hasSelection ? collectTextNodesRecursivelyFromSelection(selection) : figma.currentPage.findAll((n) => n.type === "TEXT").map((n) => n).filter((t) => {
+  const explicitTargetTextNodes = hasExplicitTargets ? (await Promise.all(
+    targetNodeIds.map(async (id) => {
+      try {
+        return await figma.getNodeByIdAsync(id);
+      } catch (e) {
+        return null;
+      }
+    })
+  )).filter((node) => node !== null).filter(isTextNode) : [];
+  const textNodes = hasExplicitTargets ? explicitTargetTextNodes : hasSelection ? collectTextNodesRecursivelyFromSelection(selection) : figma.currentPage.findAll((n) => n.type === "TEXT").map((n) => n).filter((t) => {
     var _a2;
     return ((_a2 = t.name) != null ? _a2 : "").trim().startsWith("VariableID");
   });
-  if (hasSelection && textNodes.length === 0) {
+  if (hasExplicitTargets && textNodes.length === 0) {
+    figma.notify("No preview items selected");
+    return { updated: 0, unchanged: 0, skipped: 0 };
+  }
+  if (!hasExplicitTargets && hasSelection && textNodes.length === 0) {
     figma.notify("No text layers selected");
     return { updated: 0, unchanged: 0, skipped: 0 };
   }
-  if (!hasSelection && textNodes.length === 0) {
+  if (!hasExplicitTargets && !hasSelection && textNodes.length === 0) {
     figma.notify('No text layers found on this page with name starting "VariableID"');
     return { updated: 0, unchanged: 0, skipped: 0 };
   }
@@ -2237,108 +2416,41 @@ async function updateSelectedTextNodesByVariableId(settings) {
   let skipped = 0;
   let unchanged = 0;
   const changedNodes = [];
-  const total = textNodes.length;
-  for (let idx = 0; idx < textNodes.length; idx++) {
-    const text = textNodes[idx];
-    const currentLayerName = ((_a = text.name) != null ? _a : "").trim();
-    if (!currentLayerName) {
+  for (const text of textNodes) {
+    const target = await resolveUpdateTargetForText(text, settings);
+    if (!target) {
       skipped++;
       continue;
     }
-    let variableIdToUse = null;
-    let variableCollectionId = null;
-    const variableIdFromPluginData = (() => {
-      try {
-        const v = text.getPluginData(PLUGIN_DATA_VARIABLE_ID);
-        return v ? v.trim() : "";
-      } catch (e) {
-        return "";
-      }
-    })();
-    const variableIdFromLayerName = extractVariableIdFromLayerName(currentLayerName);
-    const idCandidate = variableIdFromPluginData || variableIdFromLayerName || "";
-    try {
-      const v = await figma.variables.getVariableByIdAsync(idCandidate || currentLayerName);
-      if (v == null ? void 0 : v.id) {
-        variableIdToUse = v.id;
-        variableCollectionId = (_b = v == null ? void 0 : v.variableCollectionId) != null ? _b : null;
-      }
-    } catch (e) {
-    }
-    if (!variableIdToUse) {
-      variableIdToUse = await findLocalVariableIdByName(stripTrailingModeSuffix(currentLayerName));
-      if (variableIdToUse) {
-        try {
-          const v = await figma.variables.getVariableByIdAsync(variableIdToUse);
-          variableCollectionId = (_c = v == null ? void 0 : v.variableCollectionId) != null ? _c : null;
-        } catch (e) {
-        }
-      }
-    }
-    if (!variableIdToUse) {
-      skipped++;
-      continue;
-    }
-    let explicitModeId = (() => {
-      try {
-        const fromData = text.getPluginData(PLUGIN_DATA_VARIABLE_MODE_ID);
-        return fromData ? fromData : null;
-      } catch (e) {
-        return null;
-      }
-    })();
-    if (!explicitModeId && variableCollectionId) {
-      const modeName = extractModeNameFromLayerName(currentLayerName);
-      if (modeName) explicitModeId = await resolveModeIdByName(variableCollectionId, modeName);
-    }
-    let parts;
-    try {
-      parts = await resolveVariableLabelPartsFromVariable2(
-        variableIdToUse,
-        settings.showLinkedColors,
-        text,
-        settings.hideFolderNames,
-        explicitModeId
-      );
-    } catch (e) {
-      skipped++;
-      continue;
-    }
-    const separator = "   ";
-    const hasSecondary = settings.showLinkedColors && !!parts.secondaryText;
-    const label = hasSecondary ? `${parts.primaryText}${separator}${parts.secondaryText}` : parts.primaryText;
-    const desiredLayerName = parts.modeContext.isNonDefaultMode && parts.modeContext.modeName ? `${variableIdToUse} (${parts.modeContext.modeName})` : variableIdToUse;
-    const needsCharactersUpdate = ((_d = text.characters) != null ? _d : "") !== label;
-    const needsNameUpdate = ((_e = text.name) != null ? _e : "") !== desiredLayerName;
-    if (!needsCharactersUpdate && !needsNameUpdate) {
+    if (!target.needsCharactersUpdate && !target.needsNameUpdate) {
       unchanged++;
       continue;
     }
     try {
-      if (needsCharactersUpdate) text.characters = label;
+      if (target.needsCharactersUpdate) text.characters = target.label;
     } catch (e) {
       skipped++;
       continue;
     }
-    if (needsNameUpdate) text.name = desiredLayerName;
+    if (target.needsNameUpdate) text.name = target.desiredLayerName;
     try {
       await applyTypographyToLabel(text, markupDescriptionStyle);
     } catch (e) {
     }
     text.fills = primaryFills;
-    if (hasSecondary) {
-      const secondaryStart = parts.primaryText.length + separator.length;
-      const secondaryEnd = secondaryStart + parts.secondaryText.length;
+    if (target.hasSecondary) {
+      const secondaryStart = target.parts.primaryText.length + 3;
+      const secondaryEnd = secondaryStart + target.parts.secondaryText.length;
       try {
         text.setRangeFills(secondaryStart, secondaryEnd, Array.from(secondaryFills));
       } catch (e) {
       }
     }
     try {
-      text.setPluginData(PLUGIN_DATA_VARIABLE_ID, variableIdToUse);
-      if (parts.modeContext.isNonDefaultMode && parts.modeContext.variableCollectionId && parts.modeContext.modeId) {
-        text.setPluginData(PLUGIN_DATA_VARIABLE_COLLECTION_ID, parts.modeContext.variableCollectionId);
-        text.setPluginData(PLUGIN_DATA_VARIABLE_MODE_ID, parts.modeContext.modeId);
+      text.setPluginData(PLUGIN_DATA_VARIABLE_ID, target.variableIdToUse);
+      if (target.parts.modeContext.isNonDefaultMode && target.parts.modeContext.variableCollectionId && target.parts.modeContext.modeId) {
+        text.setPluginData(PLUGIN_DATA_VARIABLE_COLLECTION_ID, target.parts.modeContext.variableCollectionId);
+        text.setPluginData(PLUGIN_DATA_VARIABLE_MODE_ID, target.parts.modeContext.modeId);
       } else {
         text.setPluginData(PLUGIN_DATA_VARIABLE_COLLECTION_ID, "");
         text.setPluginData(PLUGIN_DATA_VARIABLE_MODE_ID, "");
@@ -2348,7 +2460,7 @@ async function updateSelectedTextNodesByVariableId(settings) {
     updated++;
     changedNodes.push(text);
   }
-  const summaryMessage = updated > 0 ? `Updated ${updated} text layer(s)${unchanged ? `, unchanged ${unchanged}` : ""}${skipped ? `, skipped ${skipped}` : ""}${hasSelection ? "" : " (page scan)"}` : `No layers were updated${unchanged ? ` (${unchanged} unchanged)` : ""}${skipped ? `, skipped ${skipped}` : ""}${hasSelection ? "" : " (page scan)"}`;
+  const summaryMessage = updated > 0 ? `Updated ${updated} text layer(s)${unchanged ? `, unchanged ${unchanged}` : ""}${skipped ? `, skipped ${skipped}` : ""}${hasExplicitTargets ? " (preview selection)" : hasSelection ? "" : " (page scan)"}` : `No layers were updated${unchanged ? ` (${unchanged} unchanged)` : ""}${skipped ? `, skipped ${skipped}` : ""}${hasExplicitTargets ? " (preview selection)" : hasSelection ? "" : " (page scan)"}`;
   figma.notify(summaryMessage);
   if (changedNodes.length > 0) {
     figma.currentPage.selection = changedNodes;
@@ -2404,14 +2516,64 @@ function registerPrintColorUsagesTool(getActiveTool) {
         figma.ui.postMessage({ type: MAIN_TO_UI.PRINT_COLOR_USAGES_STATUS, status: { status: "idle" } });
         return true;
       }
+      if (msg.type === UI_TO_MAIN.PRINT_COLOR_USAGES_PREVIEW_UPDATE) {
+        const settings = __spreadProps(__spreadValues({}, msg.settings), { textTheme: "dark" });
+        figma.ui.postMessage({
+          type: MAIN_TO_UI.PRINT_COLOR_USAGES_STATUS,
+          status: { status: "working", message: "Checking changes\u2026" }
+        });
+        const preview = await previewUpdateSelectedTextNodesByVariableId(settings, msg.scope);
+        figma.ui.postMessage({
+          type: MAIN_TO_UI.PRINT_COLOR_USAGES_UPDATE_PREVIEW,
+          payload: {
+            scope: preview.scope,
+            totals: {
+              candidates: preview.candidates,
+              changed: preview.changed,
+              unchanged: preview.unchanged,
+              skipped: preview.skipped
+            },
+            entries: preview.entries
+          }
+        });
+        figma.ui.postMessage({ type: MAIN_TO_UI.PRINT_COLOR_USAGES_STATUS, status: { status: "idle" } });
+        return true;
+      }
       if (msg.type === UI_TO_MAIN.PRINT_COLOR_USAGES_UPDATE) {
         const settings = __spreadProps(__spreadValues({}, msg.settings), { textTheme: "dark" });
         figma.ui.postMessage({
           type: MAIN_TO_UI.PRINT_COLOR_USAGES_STATUS,
           status: { status: "working", message: "Updating\u2026" }
         });
-        await updateSelectedTextNodesByVariableId(settings);
+        await updateSelectedTextNodesByVariableId(settings, { targetNodeIds: msg.targetNodeIds });
         figma.ui.postMessage({ type: MAIN_TO_UI.PRINT_COLOR_USAGES_STATUS, status: { status: "idle" } });
+        return true;
+      }
+      if (msg.type === UI_TO_MAIN.PRINT_COLOR_USAGES_FOCUS_NODE) {
+        const node = await figma.getNodeByIdAsync(msg.nodeId);
+        if (!node || node.type !== "TEXT") {
+          figma.notify("Layer not found");
+          return true;
+        }
+        figma.currentPage.selection = [node];
+        try {
+          figma.viewport.scrollAndZoomIntoView([node]);
+        } catch (e) {
+        }
+        return true;
+      }
+      if (msg.type === UI_TO_MAIN.PRINT_COLOR_USAGES_RESET_LAYER_NAME) {
+        const node = await figma.getNodeByIdAsync(msg.nodeId);
+        if (!node || node.type !== "TEXT") {
+          figma.notify("Layer not found");
+          return true;
+        }
+        try {
+          node.name = "";
+          figma.notify("Layer name reset");
+        } catch (error) {
+          figma.notify(error instanceof Error ? error.message : "Failed to reset layer name");
+        }
         return true;
       }
     } catch (e) {
@@ -4798,16 +4960,16 @@ var init_main_thread7 = __esm({
 // src/app/run.ts
 function getToolTitle(command) {
   switch (command) {
+    case "mockup-markup-tool":
+      return "Mockup Markup Quick Apply";
     case "color-chain-tool":
       return "View Colors Chain";
     case "print-color-usages-tool":
       return "Print Color Usages";
-    case "mockup-markup-tool":
-      return "Mockup Markup Quick Apply";
-    case "variables-batch-rename-tool":
-      return "Variables Batch Rename";
     case "variables-export-import-tool":
       return "Variables Export Import";
+    case "variables-batch-rename-tool":
+      return "Variables Batch Rename";
     case "variables-create-linked-colors-tool":
       return "Variables Create Linked Colors";
     case "variables-replace-usages-tool":
@@ -4826,11 +4988,11 @@ function run(command) {
     { command }
   );
   const toolCommands = [
+    "mockup-markup-tool",
     "color-chain-tool",
     "print-color-usages-tool",
-    "mockup-markup-tool",
-    "variables-batch-rename-tool",
     "variables-export-import-tool",
+    "variables-batch-rename-tool",
     "variables-create-linked-colors-tool",
     "variables-replace-usages-tool"
   ];
@@ -4845,6 +5007,10 @@ function run(command) {
   const variablesReplaceUsages = registerVariablesReplaceUsagesTool(getActiveTool);
   const activate = async (tool) => {
     activeTool = tool;
+    if (tool === "mockup-markup-tool") {
+      await mockupMarkup.onActivate();
+      return;
+    }
     if (tool === "color-chain-tool") {
       await colorChain.onActivate();
       return;
@@ -4853,16 +5019,12 @@ function run(command) {
       await printColorUsages.onActivate();
       return;
     }
-    if (tool === "mockup-markup-tool") {
-      await mockupMarkup.onActivate();
+    if (tool === "variables-export-import-tool") {
+      await variablesExportImport.onActivate();
       return;
     }
     if (tool === "variables-batch-rename-tool") {
       await variablesBatchRename.onActivate();
-      return;
-    }
-    if (tool === "variables-export-import-tool") {
-      await variablesExportImport.onActivate();
       return;
     }
     if (tool === "variables-create-linked-colors-tool") {
@@ -4935,15 +5097,30 @@ var init_main = __esm({
   }
 });
 
-// src/color-chain-tool/main.ts
+// src/mockup-markup-tool/main.ts
 var main_exports2 = {};
 __export(main_exports2, {
   default: () => main_default2
 });
 function main_default2() {
-  run("color-chain-tool");
+  run("mockup-markup-tool");
 }
 var init_main2 = __esm({
+  "src/mockup-markup-tool/main.ts"() {
+    "use strict";
+    init_run();
+  }
+});
+
+// src/color-chain-tool/main.ts
+var main_exports3 = {};
+__export(main_exports3, {
+  default: () => main_default3
+});
+function main_default3() {
+  run("color-chain-tool");
+}
+var init_main3 = __esm({
   "src/color-chain-tool/main.ts"() {
     "use strict";
     init_run();
@@ -4951,60 +5128,45 @@ var init_main2 = __esm({
 });
 
 // src/print-color-usages-tool/main.ts
-var main_exports3 = {};
-__export(main_exports3, {
-  default: () => main_default3
+var main_exports4 = {};
+__export(main_exports4, {
+  default: () => main_default4
 });
-function main_default3() {
+function main_default4() {
   run("print-color-usages-tool");
 }
-var init_main3 = __esm({
+var init_main4 = __esm({
   "src/print-color-usages-tool/main.ts"() {
     "use strict";
     init_run();
   }
 });
 
-// src/mockup-markup-tool/main.ts
-var main_exports4 = {};
-__export(main_exports4, {
-  default: () => main_default4
+// src/variables-export-import-tool/main.ts
+var main_exports5 = {};
+__export(main_exports5, {
+  default: () => main_default5
 });
-function main_default4() {
-  run("mockup-markup-tool");
+function main_default5() {
+  run("variables-export-import-tool");
 }
-var init_main4 = __esm({
-  "src/mockup-markup-tool/main.ts"() {
+var init_main5 = __esm({
+  "src/variables-export-import-tool/main.ts"() {
     "use strict";
     init_run();
   }
 });
 
 // src/variables-batch-rename-tool/main.ts
-var main_exports5 = {};
-__export(main_exports5, {
-  default: () => main_default5
-});
-function main_default5() {
-  run("variables-batch-rename-tool");
-}
-var init_main5 = __esm({
-  "src/variables-batch-rename-tool/main.ts"() {
-    "use strict";
-    init_run();
-  }
-});
-
-// src/variables-export-import-tool/main.ts
 var main_exports6 = {};
 __export(main_exports6, {
   default: () => main_default6
 });
 function main_default6() {
-  run("variables-export-import-tool");
+  run("variables-batch-rename-tool");
 }
 var init_main6 = __esm({
-  "src/variables-export-import-tool/main.ts"() {
+  "src/variables-batch-rename-tool/main.ts"() {
     "use strict";
     init_run();
   }
@@ -5041,6 +5203,6 @@ var init_main8 = __esm({
 });
 
 // <stdin>
-var modules = { "src/home/main.ts--default": (init_main(), __toCommonJS(main_exports))["default"], "src/color-chain-tool/main.ts--default": (init_main2(), __toCommonJS(main_exports2))["default"], "src/print-color-usages-tool/main.ts--default": (init_main3(), __toCommonJS(main_exports3))["default"], "src/mockup-markup-tool/main.ts--default": (init_main4(), __toCommonJS(main_exports4))["default"], "src/variables-batch-rename-tool/main.ts--default": (init_main5(), __toCommonJS(main_exports5))["default"], "src/variables-export-import-tool/main.ts--default": (init_main6(), __toCommonJS(main_exports6))["default"], "src/variables-create-linked-colors-tool/main.ts--default": (init_main7(), __toCommonJS(main_exports7))["default"], "src/variables-replace-usages-tool/main.ts--default": (init_main8(), __toCommonJS(main_exports8))["default"] };
+var modules = { "src/home/main.ts--default": (init_main(), __toCommonJS(main_exports))["default"], "src/mockup-markup-tool/main.ts--default": (init_main2(), __toCommonJS(main_exports2))["default"], "src/color-chain-tool/main.ts--default": (init_main3(), __toCommonJS(main_exports3))["default"], "src/print-color-usages-tool/main.ts--default": (init_main4(), __toCommonJS(main_exports4))["default"], "src/variables-export-import-tool/main.ts--default": (init_main5(), __toCommonJS(main_exports5))["default"], "src/variables-batch-rename-tool/main.ts--default": (init_main6(), __toCommonJS(main_exports6))["default"], "src/variables-create-linked-colors-tool/main.ts--default": (init_main7(), __toCommonJS(main_exports7))["default"], "src/variables-replace-usages-tool/main.ts--default": (init_main8(), __toCommonJS(main_exports8))["default"] };
 var commandId = typeof figma.command === "undefined" || figma.command === "" || figma.command === "generate" ? "src/home/main.ts--default" : figma.command;
 modules[commandId]();

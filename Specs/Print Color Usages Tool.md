@@ -1,7 +1,6 @@
 ## Print Color Usages Tool
 
-### Original plugin
-`../Print Color Usages`
+Original plugin `../Print Color Usages`
 
 ### Persona (who it’s for)
 - **Primary**: **Product designer** (quickly understand what colors are used in an icon/component)
@@ -9,36 +8,49 @@
 - **Plugin owner**: supports reliable “print → update” workflow for repeatable audits
 
 ### Cases
-- Audit icons/components during migration work
-- See variable names + linked aliases + hex+opacity for a selection
-- Keep printed labels up to date after token changes (Update)
+- Write down color usages for developers during design handoff.
+- Print color usages for variables description in main UI Kit.
+- Keep printed labels up to date after token changes (update).
 
 ### Category
 Colors
-Diagnostics
 Variables
+Documentation
 
 ### What it does (plain language)
-Analyzes your **current selection** and creates **Text layers** near it listing all **unique** colors used.
+Print:
+- Analyzes your **current selection** and creates **Text layers** near it with all **unique** colors used.
+- If selection contains nodes inside instances, analysis is grouped by outermost selected instance context.
+- If no colors are found, tool shows a notification and does not create fallback text layers.
 
-For each color, it prefers to show:
-1) **Style names / variable names** (with optional “linked color” name)
-2) Then raw **HEX (+ opacity %)** when no style/variable name applies
+Label text priority:
+1) **Style names / variable names**
+2) Optional linked color info (for aliases, when enabled)
+3) Raw **HEX (+ opacity %)** when style/variable naming is not available
 
-### Main workflow (as implemented)
-- **Print** (headless command): runs immediately using saved settings and creates the labels.
-- **Settings…**: opens UI to change:
-  - label position (left/right, etc.)
-  - show linked colors
-  - hide folder prefixes (after `/`)
-  - light/dark text theme
-- **Update** (headless command): updates previously created labels (by stored Variable ID + optional mode info).
+Update:
+- Works from **Update** tab with a **preview-before-apply** flow.
+- Resolves target variable in this order:
+  1) plugin data saved on printed layer (internal metadata key `pcu_variableId` written by this tool)
+  2) VariableID in layer name
+  3) variable name from layer name
+  4) fallback: variable name from text content
+- Can update **selection scope** or **current page scope** (when selection is empty).
+- Apply can target **all preview rows** or only **selected preview rows**.
 
-### Key mechanics / safety
-- Uses `figma.clientStorage` to remember UI settings.
-- When a label represents a Variable, it stores:
-  - Variable ID in the text layer name/pluginData so “Update” can refresh reliably.
-- Handles special cases:
-  - If selection is inside an Instance, it anchors placement to the outer instance, but analyzes only the selected nodes.
-  - Ignores non-visible layers/properties.
+### Workflows
+**Print**:
+I need to create text labels for the colors used in the selection.
+I open the Print Color Usages tool.
+And just press the Print button.
+Tool creates text labels for the unique colors used in the selection.
+
+**Update**:
+I need to update previously printed text labels.
+I open the Print Color Usages tool, Update tab.
+I press the Check changes button.
+Tool gives me a preview of text/layer-name changes with per-row details.
+I can review rows, keep all, or unselect some rows.
+I press Apply in Selection (if selection exists) or Apply on Page (if selection is empty).
+Tool updates only selected preview rows in the active scope.
 

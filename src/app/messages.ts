@@ -7,7 +7,10 @@ export const UI_TO_MAIN = {
   PRINT_COLOR_USAGES_LOAD_SETTINGS: "PRINT_COLOR_USAGES_LOAD_SETTINGS",
   PRINT_COLOR_USAGES_SAVE_SETTINGS: "PRINT_COLOR_USAGES_SAVE_SETTINGS",
   PRINT_COLOR_USAGES_PRINT: "PRINT_COLOR_USAGES_PRINT",
+  PRINT_COLOR_USAGES_PREVIEW_UPDATE: "PRINT_COLOR_USAGES_PREVIEW_UPDATE",
   PRINT_COLOR_USAGES_UPDATE: "PRINT_COLOR_USAGES_UPDATE",
+  PRINT_COLOR_USAGES_FOCUS_NODE: "PRINT_COLOR_USAGES_FOCUS_NODE",
+  PRINT_COLOR_USAGES_RESET_LAYER_NAME: "PRINT_COLOR_USAGES_RESET_LAYER_NAME",
   MOCKUP_MARKUP_LOAD_STATE: "MOCKUP_MARKUP_LOAD_STATE",
   MOCKUP_MARKUP_APPLY: "MOCKUP_MARKUP_APPLY",
   MOCKUP_MARKUP_CREATE_TEXT: "MOCKUP_MARKUP_CREATE_TEXT",
@@ -37,6 +40,7 @@ export const MAIN_TO_UI = {
   PRINT_COLOR_USAGES_SETTINGS: "PRINT_COLOR_USAGES_SETTINGS",
   PRINT_COLOR_USAGES_SELECTION: "PRINT_COLOR_USAGES_SELECTION",
   PRINT_COLOR_USAGES_STATUS: "PRINT_COLOR_USAGES_STATUS",
+  PRINT_COLOR_USAGES_UPDATE_PREVIEW: "PRINT_COLOR_USAGES_UPDATE_PREVIEW",
   MOCKUP_MARKUP_STATE: "MOCKUP_MARKUP_STATE",
   MOCKUP_MARKUP_STATUS: "MOCKUP_MARKUP_STATUS",
   MOCKUP_MARKUP_COLOR_PREVIEWS: "MOCKUP_MARKUP_COLOR_PREVIEWS",
@@ -74,7 +78,10 @@ export type UiToMainMessage =
   | { type: typeof UI_TO_MAIN.PRINT_COLOR_USAGES_LOAD_SETTINGS }
   | { type: typeof UI_TO_MAIN.PRINT_COLOR_USAGES_SAVE_SETTINGS; settings: PrintColorUsagesUiSettings }
   | { type: typeof UI_TO_MAIN.PRINT_COLOR_USAGES_PRINT; settings: PrintColorUsagesUiSettings }
-  | { type: typeof UI_TO_MAIN.PRINT_COLOR_USAGES_UPDATE; settings: PrintColorUsagesUiSettings }
+  | { type: typeof UI_TO_MAIN.PRINT_COLOR_USAGES_PREVIEW_UPDATE; settings: PrintColorUsagesUiSettings; scope: "selection" | "page" | "all_pages" }
+  | { type: typeof UI_TO_MAIN.PRINT_COLOR_USAGES_UPDATE; settings: PrintColorUsagesUiSettings; targetNodeIds?: string[] }
+  | { type: typeof UI_TO_MAIN.PRINT_COLOR_USAGES_FOCUS_NODE; nodeId: string }
+  | { type: typeof UI_TO_MAIN.PRINT_COLOR_USAGES_RESET_LAYER_NAME; nodeId: string }
   | { type: typeof UI_TO_MAIN.MOCKUP_MARKUP_LOAD_STATE }
   | { type: typeof UI_TO_MAIN.MOCKUP_MARKUP_APPLY; request: MockupMarkupApplyRequest }
   | { type: typeof UI_TO_MAIN.MOCKUP_MARKUP_CREATE_TEXT; request: MockupMarkupApplyRequest }
@@ -97,11 +104,11 @@ export type UiToMainMessage =
 
 export type ActiveTool =
   | "home"
+  | "mockup-markup-tool"
   | "color-chain-tool"
   | "print-color-usages-tool"
-  | "mockup-markup-tool"
-  | "variables-batch-rename-tool"
   | "variables-export-import-tool"
+  | "variables-batch-rename-tool"
   | "variables-create-linked-colors-tool"
   | "variables-replace-usages-tool"
 
@@ -117,6 +124,30 @@ export type PrintColorUsagesStatus =
   | { status: "working"; message: string }
   | { status: "done"; message: string }
   | { status: "error"; message: string }
+
+export type PrintColorUsagesUpdatePreviewEntry = {
+  nodeId: string
+  nodeName: string
+  oldText: string
+  newText: string
+  oldLayerName: string
+  newLayerName: string
+  textChanged: boolean
+  layerNameChanged: boolean
+  linkedColorChanged: boolean
+  resolvedBy: "plugin_data" | "layer_variable_id" | "layer_name" | "text_content"
+}
+
+export type PrintColorUsagesUpdatePreviewPayload = {
+  scope: "selection" | "page" | "all_pages"
+  totals: {
+    candidates: number
+    changed: number
+    unchanged: number
+    skipped: number
+  }
+  entries: PrintColorUsagesUpdatePreviewEntry[]
+}
 
 export type MockupMarkupApplyRequest = {
   presetColor: MockupMarkupColorPreset
@@ -223,6 +254,7 @@ export type MainToUiMessage =
   | { type: typeof MAIN_TO_UI.PRINT_COLOR_USAGES_SETTINGS; settings: PrintColorUsagesUiSettings }
   | { type: typeof MAIN_TO_UI.PRINT_COLOR_USAGES_SELECTION; selectionSize: number }
   | { type: typeof MAIN_TO_UI.PRINT_COLOR_USAGES_STATUS; status: PrintColorUsagesStatus }
+  | { type: typeof MAIN_TO_UI.PRINT_COLOR_USAGES_UPDATE_PREVIEW; payload: PrintColorUsagesUpdatePreviewPayload }
   | { type: typeof MAIN_TO_UI.MOCKUP_MARKUP_STATE; state: MockupMarkupState }
   | { type: typeof MAIN_TO_UI.MOCKUP_MARKUP_STATUS; status: MockupMarkupStatus }
   | { type: typeof MAIN_TO_UI.MOCKUP_MARKUP_COLOR_PREVIEWS; previews: MockupMarkupColorPreviews }

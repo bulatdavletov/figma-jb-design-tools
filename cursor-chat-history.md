@@ -36,6 +36,83 @@
 
 ## Figma utilities “one plugin”
 
+### 2026-02-12
+
+#### Print Color Usages — no-color fallback behavior adjustment
+- Request: do not create a text layer when no colors are found; use notification only. Also clarify meaning of “plugin data saved on printed layer” in spec.
+- Safety expectation: better UX (less canvas noise); should not affect normal successful print flow.
+- Done: updated `src/app/tools/print-color-usages/print.ts` to skip fallback layer creation and show notify:
+  - if labels were created: summary includes optional note about groups with no colors
+  - if none were created: `No visible solid colors found in selection`
+- Done: updated `Specs/Print Color Usages Tool.md` line about no-color behavior to notification-only.
+- Done: clarified spec wording for update resolver priority item #1 (`plugin data`) as internal metadata key `pcu_variableId` stored on printed text layers.
+
+#### Print Color Usages spec alignment (code vs spec)
+- Request: compare current Print Color Usages implementation with `Specs/Print Color Usages Tool.md` and then update the spec to match actual behavior.
+- Findings captured: implementation matches core flow (Print from selection; Update with Check changes -> preview -> Apply), with additional behavior not fully documented before:
+  - Update can run on current page when selection is empty (scope fallback).
+  - Apply supports partial selection of preview rows (not only all rows).
+  - Preview includes per-row diff details and resolution source.
+- Expected impact: documentation-only update; no code logic or user flow changes.
+
+#### Color swatch visibility in light theme (white color)
+- Request: compare original swatch component vs copied one and verify whether white swatches should have a visible border in light theme.
+- Safety expectation: visual-only tweak; no logic/flow changes.
+- Finding: original `@create-figma-plugin/ui` `TextboxColor` has no border on the inner swatch (`.chit`), only on the full textbox control container.
+- Gap in our usage: copied `ColorSwatch` is used as a standalone icon in lists/grids (without the textbox container border), so pure/very light colors can disappear against light backgrounds.
+- Done: updated `src/app/components/ColorSwatch.tsx` to add a subtle border only for opaque very-light colors, preserving original behavior for non-light and transparent swatches.
+- Specs check: no conflict with `Specs/Print Color Usages Tool.md`; this improves readability/scanability without changing workflow.
+
+#### Color swatch visibility follow-up in dark theme
+- Request: apply the same visibility protection for dark theme.
+- Safety expectation: visual-only tweak; no logic/flow changes.
+- Done: extended contrast-border rule in `src/app/components/ColorSwatch.tsx` to also apply for opaque very-dark colors (in addition to very-light), so extreme swatches remain visible in both themes.
+- Specs check: no conflict with `Specs/Print Color Usages Tool.md`; workflow is unchanged.
+
+#### Color swatch visibility follow-up (still low contrast)
+- Request: user reports swatches are still barely noticeable for near-background dark colors.
+- Root cause: previous condition targeted only extreme dark/light luminance, so medium-dark colors close to dark theme background (e.g. around `#33353B`) were not getting a border.
+- Attempt 1: widened luminance thresholds with stronger border colors — resulted in borders that were too heavy/prominent (user feedback: "it looks too much now").
+- Final approach: removed all conditional luminance logic entirely. Replaced with a universal subtle `inset box-shadow` (`0.5px` dark + light layers) on every swatch. This:
+  - provides consistent edge definition in both themes without conditional jumping
+  - is subtle enough not to be distracting on mid-range colors
+  - is visible enough to define edges on near-background colors (white, near-black, etc.)
+- Code simplification: removed `getHexLuminance` and `getContrastBorderColor` helpers; component is now much simpler.
+- Specs check: no conflict with `Specs/Print Color Usages Tool.md`; visual readability only.
+
+#### Print Color Usages — large-data list hover/layout instability
+- Request: when list has lots of rows, UI becomes squeezed, rows jump on hover, and overall readability drops.
+- Plan: find root cause in shared list/row layout styles (likely hover action width/reflow), fix it in reusable components, and verify other tools using the same pattern.
+- Safety expectation: UI/styling behavior only; no change to tool logic/results.
+- Root cause found: `Tree` row actions were mounted/unmounted on hover, which changed row width and caused text reflow/jump in dense lists.
+- Done: updated shared `src/app/components/Tree.tsx` to reserve fixed action-slot width per row and fade actions via opacity (no layout shift on hover).
+- Cross-tool impact: `Tree` is reused for View Colors Chain (and preview app), so fix is centralized and future tools using `Tree` inherit stable hover behavior.
+- Verification: `npm run build` passed; no linter errors in edited file.
+- Specs check: no conflict with `Specs/Print Color Usages Tool.md` and `Specs/design principles.md` (change aligns with predictable, non-jumpy list behavior).
+
+#### View Colors Chain — replace pseudo-tree row with explicit `ColorRow`
+- Request: current list is no longer a real tree (no nesting/folding); rename row primitive to `ColorRow` and remove Tree-specific props from this screen. Keep `Tree` for future true nested usage.
+- Safety expectation: refactor only (naming/component structure), keep same row visuals/actions/flow.
+- Done: added new dedicated component `src/app/components/ColorRow.tsx` (supports swatch, title, optional actions).
+- Done: refactored `src/app/views/color-chain-tool/ColorChainToolView.tsx` to render `ColorRow` list directly; removed `Tree` usage and obsolete tree state from this view.
+- Stability retained: `ColorRow` keeps fixed action slot width + hover fade to avoid row jump/reflow under large data.
+- Verification: `npm run build` passed; no linter errors in edited files.
+- Specs check: no conflicts found with current Specs; change improves naming clarity and matches actual flat-list behavior.
+
+#### View Colors Chain — spacing and button order follow-up
+- Request: ensure consistent vertical spacing in data-filled `ToolBody`, add this as an explicit rule, reorder row actions (`Swap` before `Copy`), and make color-group spacing larger.
+- Safety expectation: visual/interaction polish only; no logic/data changes.
+- Plan: update `ColorChainToolView` row action order and group spacer size, and add spacing rule in `Specs/design principles.md`.
+- Done: in `ColorChainToolView`, step-row action order is now `Swap` first, then `Copy name`.
+- Done: increased color-group vertical spacer from `16` to `24` for clearer separation.
+- Done: added explicit spacing rule to `Specs/design principles.md` for `ToolBody` content with data (consistent vertical rhythm and group spacing).
+- Verification: `npm run build` passed; no linter errors in edited files.
+- Specs check: no conflicts found.
+- Follow-up: user reported not seeing any spacing in Figma plugin.
+- Investigation: confirmed build output IS up to date (groupSpacing=24, VerticalSpace rendered). Root cause: plugin must be re-run in Figma to load new UI bundle, plus the previous `VerticalSpace space="small"` (8px) was barely visible.
+- Done: increased `ToolBody` top/bottom `VerticalSpace` from `space="small"` (8px) to `space="medium"` (~12-16px) for clearly visible content padding across all tools.
+- Verification: `npm run build` passed; no linter errors.
+
 ### 2026-02-11
 
 #### Variables Export/Import UI — requested fix
@@ -106,6 +183,88 @@
 - Done: `MockupMarkupToolView` and `PrintColorUsagesToolView` now use shared `ToolBody mode="content"` for their main scrollable content (footer actions remain fixed as before).
 - Done: `VariablesReplaceUsagesToolView` now receives `initialSelectionEmpty` and defaults scope to `"page"` when selection is empty, `"selection"` otherwise; wired from `ui.tsx`.
 - Verification: `npm run build` passed; no linter errors in edited files.
+- New request: use proper `Tabs` component for Print/Update switch instead of radio-style selector.
+- Done: replaced Print/Update mode selector in `PrintColorUsagesToolView` from `RadioButtons` to `Tabs` from `@create-figma-plugin/ui`.
+- Verification: `npm run build` passed; no linter errors in edited file.
+- New request: fix UI polish issues from screenshot (tabs/scope controls rendering not matching intended segmented style).
+- Done: `ScopeControl` now uses `SegmentedControl` from `@create-figma-plugin/ui` (instead of `RadioButtons`), matching intended segmented look.
+- Done: scope indicator uses disabled/read-only segmented control so it no longer looks like editable radio inputs.
+- Done: Print/Update tab values switched to title-case (`Print`, `Update`) to avoid lower-case labels in UI.
+- Done: removed extra `Mode` label above tabs to reduce visual noise.
+- Verification: `npm run build` passed; no linter errors in edited files.
+- Follow-up request: tabs must be on very top of the tool content.
+- Done: moved Print/Update `Tabs` to top section directly under `ToolHeader` (outside scrollable tool body), with divider below tabs.
+- Done: removed former in-body tabs block and top spacer to avoid vertical gap before tabs.
+- Verification: `npm run build` passed; no linter errors in edited file.
+- New request: split Print Color Usages tool into two tabs (`Print`, `Update`), and always show Scope in `Update` tab to clarify where check applies.
+- Done: added mode tabs in `PrintColorUsagesToolView` (`Print` first, `Update` second) using `RadioButtons`.
+- Done: moved print-focused controls/content to `Print` tab; `Update` tab now contains check/apply workflow.
+- Done: `Update` tab always shows scope indicator (live from current selection before check) and keeps preview totals scope once preview is available.
+- Done: footer action is now tab-specific (`Print` on Print tab, `Apply` on Update tab).
+- Verification: `npm run build` passed; no linter errors in edited files.
+- New request: rename generic `SegmentedControl` to specific `ScopeControl` and use default segmented control from UI library.
+- Done: replaced custom segmented container with new `ScopeControl` component at `src/app/components/ScopeControl.tsx`, implemented with default `RadioButtons` from `@create-figma-plugin/ui`.
+- Done: updated `VariablesReplaceUsagesToolView` and `PrintColorUsagesScopeIndicator` to use `ScopeControl`.
+- Done: removed old `src/app/components/SegmentedControl.tsx`.
+- Verification: `npm run build` passed; no linter errors in edited files.
+- New request: Scope component should use the same segmented button component/pattern as Replace Usages tool for consistency.
+- Done: extracted a reusable segmented control component to `src/app/components/SegmentedControl.tsx`.
+- Done: replaced inline scope segmented markup in `VariablesReplaceUsagesToolView` with shared `SegmentedControl` (same behavior as before).
+- Done: updated `PrintColorUsagesScopeIndicator` to use the same `SegmentedControl` pattern (read-only visual state for preview scope).
+- Verification: `npm run build` passed; no linter errors in edited files.
+- User feedback: preview looked wrong ("it just shows different variable"). Clarification requested on what exactly Old/New represents and why values differ.
+- New idea request: find variable by selected print text content (example `control-border-raised`) and detect if linked color changed.
+- Done: update resolver now includes content fallback for selected print labels:
+  - keeps existing priority: plugin data / VariableID in layer name / layer-name lookup
+  - if unresolved, tries text content (`primary` part before triple-space separator, then full text) to find local variable by name.
+- Done: preview now reports `Resolved by` source (`plugin data`, `layer VariableID`, `layer name`, `text content fallback`) for each row.
+- Done: preview now flags linked-alias drift with `Linked color changed` badge (compares existing secondary linked part vs recomputed linked part).
+- Verification: `npm run build` passed; no linter errors in edited files.
+
+#### Print Color Usages — preview before applying update
+- Request: move update action inside tool body under divider; rename action to `Check changes`; show preview (before/after text) before apply; make each preview row clickable to focus corresponding canvas layer; then provide final `Apply` action.
+- Safety expectation: UX flow change only (adds review step before write), no intended change to print/update core logic.
+- Done: moved update flow into `PrintColorUsagesToolView` content area under a divider; fixed bottom bar now keeps only `Print`.
+- Done: added `Check changes` action that requests a main-thread preview (`PRINT_COLOR_USAGES_PREVIEW_UPDATE`) and returns per-layer before/after text rows.
+- Done: preview rows are clickable; clicking sends `PRINT_COLOR_USAGES_FOCUS_NODE` and focuses that text layer on canvas (`selection` + `scrollAndZoomIntoView`).
+- Done: added apply action after preview (`Apply in Selection` / `Apply on Page`) and disabled it when preview has no changes.
+- Technical: added new UI/main message types + payload in `src/app/messages.ts` and non-mutating preview computation in `src/app/tools/print-color-usages/update.ts`.
+- Verification: `npm run build` passed; no linter errors in edited files.
+- Follow-up request: in preview, user wants to deselect items so update applies only to chosen preview rows (and not be driven only by current canvas selection).
+- Done: preview rows now include per-row checkboxes; default is all selected after `Check changes`.
+- Done: added quick controls `Select all` / `Clear` and selected counter (`X / N`) in update preview.
+- Done: apply now sends explicit `targetNodeIds` from selected preview rows; update operation is no longer tied only to live canvas selection.
+- Technical: `PRINT_COLOR_USAGES_UPDATE` message now accepts optional `targetNodeIds`; main thread forwards IDs to update logic; update supports explicit target mode and notifies `No preview items selected` when empty.
+- Verification: `npm run build` passed; no linter errors in edited files.
+- Follow-up request: replace deprecated `figma.getNodeById(...)` with async `figma.getNodeByIdAsync(...)` in Print Color Usages focus handler (`main-thread.ts`) and verify build.
+- Done: updated focus handler in `src/app/tools/print-color-usages/main-thread.ts` to `await figma.getNodeByIdAsync(msg.nodeId)` (replaces deprecated sync API).
+- Verification: `npm run build` passed; no linter errors in edited file.
+- Visual review request: user asked to check current UI look of Print Color Usages preview after recent changes.
+- Follow-up request: apply visual polish (row readability/spacing and make Apply action easier to access/visible while previewing).
+- Done: improved preview row readability in `PrintColorUsagesToolView` (increased row padding, clearer line-height for Old/New text, selected-row background highlight).
+- Done: moved main `Apply` action to fixed footer (visible during preview) and paired it with `Print` as secondary action.
+- Done: removed duplicate in-body Apply button to avoid competing actions and keep primary action location stable.
+- Verification: `npm run build` passed; no linter errors in edited file.
+- Bug report: clicking a preview item focuses canvas but clears preview state and loses selection/check information.
+- Done: fixed preview clearing bug in `PrintColorUsagesToolView` by ignoring exactly one `PRINT_COLOR_USAGES_SELECTION` reset when selectionchange is triggered by preview-row focus click.
+- Verification: `npm run build` passed; no linter errors in edited file.
+- Follow-up request: keep preview persistent even when user changes focus/selection in Figma manually; do not auto-clear preview on selection updates.
+- Done: removed preview reset on `PRINT_COLOR_USAGES_SELECTION`; selection count still updates live, while preview and checked rows remain until user refreshes (`Check changes`) or changes settings.
+- Verification: `npm run build` passed; no linter errors in edited file.
+- Bug report: preview `New` text can look incomplete; this makes rows appear falsely changed.
+- Done: preview entries now include explicit change markers (`Text`, `Layer name`) and show full text with preserved whitespace/wrapping, plus old/new layer-name diff when applicable.
+- Technical: extended preview entry payload with `oldLayerName`, `newLayerName`, `textChanged`, `layerNameChanged` in `messages.ts` and `update.ts`.
+- Verification: `npm run build` passed; no linter errors in edited files.
+- Runtime issue reported: Apply still triggers dynamic-page error from sync `getNodeById` path; fix requires replacing remaining sync lookup(s) with async lookup(s).
+- Done: replaced remaining sync lookup in apply path (`update.ts` explicit targetNodeIds branch) with `figma.getNodeByIdAsync` via `Promise.all`, with safe per-id fallback to `null` on lookup errors.
+- Verification: `npm run build` passed; no linter errors in edited files.
+- New request: extract Scope into separate component and show engaged scope visually; add ability to reset layer name for selected preview item; show red/green inline diff in preview (reuse existing diff pattern from another tool).
+- Done: extracted scope line into `PrintColorUsagesScopeIndicator` component and made Selection scope visually engaged with a branded pill (`Selection (engaged)`).
+- Done: added reusable `renderInlineDiff` helper in `src/app/components/InlineTextDiff.tsx` (moved from Variables Batch Rename view) and reused it in both Batch Rename and Print Color Usages preview.
+- Done: Print Color Usages preview now renders old/new text with inline red/green changed segment highlighting.
+- Done: added per-row `Reset layer name` action in preview (enabled when that row is selected) via new message `PRINT_COLOR_USAGES_RESET_LAYER_NAME`; main thread resets text node name by setting `node.name = ""`.
+- Note: after reset, preview list is intentionally kept persistent; use `Check changes` to refresh computed diffs.
+- Verification: `npm run build` passed; no linter errors in edited files.
 
 #### Replace Usages follow-up: live update + segmented scope control
 - Request: scope does not update live (only on startup) and checkboxes are not the right UI for mutually-exclusive scope options.
@@ -159,6 +318,15 @@
 - Request: improve Home section title text usage (`Colors`/`Variables`) in `HomeView`.
 - Done: replaced duplicated inline `fontWeight: "var(--font-weight-bold)"` with a shared `sectionTitleStyle` (`fontWeight: 600`) for cleaner, consistent title styling.
 - Expected impact: maintainability/readability improvement only; no behavior or flow changes.
+
+#### Tool order alignment — Home as source of truth
+- Request: align tool order in other places with `HomeView` order.
+- Clarification: user wants all other places aligned **to HomeView** (not vice versa).
+- Home canonical order:
+  - Colors: Mockup Markup Quick Apply → View Colors Chain → Print Color Usages
+  - Variables: Export / Import → Batch Rename → Create Linked Colors → Replace Usages
+- Done: reordered corresponding command/route lists in `package.json`, `src/app/run.ts`, `src/app/ui.tsx`, and `src/app/messages.ts` to match Home order.
+- Specs check: no conflicts found; `Specs/Design Principles.md` supports stable/predictable ordering.
 
 #### Color Chain — hover actions (copy name + replace main color)
 - Request: in Color Chain rows, show action buttons on hover:

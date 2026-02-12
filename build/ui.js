@@ -691,10 +691,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4bc17d08-5508-4dd3-9716-e6f7f8e0c827/loading-indicator.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c7519fca-2610-4f71-966e-0593893b4abf/loading-indicator.module.js
   var loading_indicator_module_default;
   var init_loading_indicator_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4bc17d08-5508-4dd3-9716-e6f7f8e0c827/loading-indicator.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c7519fca-2610-4f71-966e-0593893b4abf/loading-indicator.module.js"() {
       if (document.getElementById("3fe0db8eb7") === null) {
         const element = document.createElement("style");
         element.id = "3fe0db8eb7";
@@ -755,10 +755,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d93aa294-2d3f-4445-9923-e1faab639fef/button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b6e9fa0a-e038-43a6-8f65-0a269b9dc487/button.module.js
   var button_module_default;
   var init_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d93aa294-2d3f-4445-9923-e1faab639fef/button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b6e9fa0a-e038-43a6-8f65-0a269b9dc487/button.module.js"() {
       if (document.getElementById("1dddd0e4df") === null) {
         const element = document.createElement("style");
         element.id = "1dddd0e4df";
@@ -1027,10 +1027,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/fbae81b1-8ae4-4983-91cf-e174166b90c3/checkbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0ab70863-b24f-49de-95b0-68fe8f474ec8/checkbox.module.js
   var checkbox_module_default;
   var init_checkbox_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/fbae81b1-8ae4-4983-91cf-e174166b90c3/checkbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0ab70863-b24f-49de-95b0-68fe8f474ec8/checkbox.module.js"() {
       if (document.getElementById("f38d076240") === null) {
         const element = document.createElement("style");
         element.id = "f38d076240";
@@ -1179,10 +1179,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5ccc46ec-88f7-43d3-9b8f-86995f342614/divider.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9aa884e0-4632-488f-bdea-5a00af560fd8/divider.module.js
   var divider_module_default;
   var init_divider_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5ccc46ec-88f7-43d3-9b8f-86995f342614/divider.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9aa884e0-4632-488f-bdea-5a00af560fd8/divider.module.js"() {
       if (document.getElementById("4bf06403b9") === null) {
         const element = document.createElement("style");
         element.id = "4bf06403b9";
@@ -1212,10 +1212,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9c1e5fc1-d1e9-4bb4-b126-b641b7616637/menu.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/40089b6e-1601-48de-a193-722a1c8df3c4/menu.module.js
   var menu_module_default;
   var init_menu_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9c1e5fc1-d1e9-4bb4-b126-b641b7616637/menu.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/40089b6e-1601-48de-a193-722a1c8df3c4/menu.module.js"() {
       if (document.getElementById("29044db304") === null) {
         const element = document.createElement("style");
         element.id = "29044db304";
@@ -1438,10 +1438,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/39f1834d-f9f0-49ae-9597-a78744dbb13d/dropdown.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/bfa61ad0-e171-4d79-821e-aa7bf0f5034e/dropdown.module.js
   var dropdown_module_default;
   var init_dropdown_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/39f1834d-f9f0-49ae-9597-a78744dbb13d/dropdown.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/bfa61ad0-e171-4d79-821e-aa7bf0f5034e/dropdown.module.js"() {
       if (document.getElementById("5a226eb00e") === null) {
         const element = document.createElement("style");
         element.id = "5a226eb00e";
@@ -1882,10 +1882,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7ec15cd2-2279-474d-ba29-f21ef2c58ae6/button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/88d2fd14-e286-4ff7-9198-62ca91eb7add/button.module.js
   var button_module_default2;
   var init_button_module2 = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7ec15cd2-2279-474d-ba29-f21ef2c58ae6/button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/88d2fd14-e286-4ff7-9198-62ca91eb7add/button.module.js"() {
       if (document.getElementById("1dddd0e4df") === null) {
         const element = document.createElement("style");
         element.id = "1dddd0e4df";
@@ -2049,10 +2049,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1b0e0c8c-e511-4468-9a13-ec11d746ae9a/file-upload-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/64dc42d6-2941-4394-9950-ecc044b973f0/file-upload-button.module.js
   var file_upload_button_module_default;
   var init_file_upload_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1b0e0c8c-e511-4468-9a13-ec11d746ae9a/file-upload-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/64dc42d6-2941-4394-9950-ecc044b973f0/file-upload-button.module.js"() {
       if (document.getElementById("f115bb30c8") === null) {
         const element = document.createElement("style");
         element.id = "f115bb30c8";
@@ -2167,10 +2167,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/de5c68ef-078e-4095-8ed8-97af9daffee6/icon-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6a387854-d665-4399-9bf3-c836f0389f25/icon-button.module.js
   var icon_button_module_default;
   var init_icon_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/de5c68ef-078e-4095-8ed8-97af9daffee6/icon-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6a387854-d665-4399-9bf3-c836f0389f25/icon-button.module.js"() {
       if (document.getElementById("c8b08e6568") === null) {
         const element = document.createElement("style");
         element.id = "c8b08e6568";
@@ -2248,10 +2248,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/fdc22cd8-54b8-489d-8693-402e0f5984e8/text.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/fe47e491-7c7c-439b-84b9-7ea9b44d2f65/text.module.js
   var text_module_default;
   var init_text_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/fdc22cd8-54b8-489d-8693-402e0f5984e8/text.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/fe47e491-7c7c-439b-84b9-7ea9b44d2f65/text.module.js"() {
       if (document.getElementById("1278016d5c") === null) {
         const element = document.createElement("style");
         element.id = "1278016d5c";
@@ -2309,10 +2309,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d28e14c4-925b-4b09-b7d4-18935bfd8498/inline.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/075df2ce-493f-4c18-8222-014dec7243a0/inline.module.js
   var inline_module_default;
   var init_inline_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d28e14c4-925b-4b09-b7d4-18935bfd8498/inline.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/075df2ce-493f-4c18-8222-014dec7243a0/inline.module.js"() {
       if (document.getElementById("3e1b2856fc") === null) {
         const element = document.createElement("style");
         element.id = "3e1b2856fc";
@@ -2374,10 +2374,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5d1a6917-cef5-49d2-9941-3649a29fea46/stack.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a70f6ff2-e08a-4558-ac65-130a5e838dce/stack.module.js
   var stack_module_default;
   var init_stack_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5d1a6917-cef5-49d2-9941-3649a29fea46/stack.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a70f6ff2-e08a-4558-ac65-130a5e838dce/stack.module.js"() {
       if (document.getElementById("317515cc3f") === null) {
         const element = document.createElement("style");
         element.id = "317515cc3f";
@@ -2420,10 +2420,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1d7f72d6-c30f-410f-8bb9-725c99f492bc/radio-buttons.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0a283f01-f314-4ec1-a506-66424d98cc41/radio-buttons.module.js
   var radio_buttons_module_default;
   var init_radio_buttons_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1d7f72d6-c30f-410f-8bb9-725c99f492bc/radio-buttons.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0a283f01-f314-4ec1-a506-66424d98cc41/radio-buttons.module.js"() {
       if (document.getElementById("a066c67891") === null) {
         const element = document.createElement("style");
         element.id = "a066c67891";
@@ -2542,6 +2542,219 @@
     }
   });
 
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f3b70020-ede0-440d-a5c4-ce843151e23e/segmented-control.module.js
+  var segmented_control_module_default;
+  var init_segmented_control_module = __esm({
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f3b70020-ede0-440d-a5c4-ce843151e23e/segmented-control.module.js"() {
+      if (document.getElementById("bc6858a1b5") === null) {
+        const element = document.createElement("style");
+        element.id = "bc6858a1b5";
+        element.textContent = `._segmentedControl_d5gb0_1 {
+  position: relative;
+  z-index: var(--z-index-1);
+  display: flex;
+  overflow: hidden;
+  border-radius: var(--border-radius-4);
+  background-color: var(--figma-color-bg-secondary);
+}
+
+._input_d5gb0_10 {
+  display: block;
+  width: 0;
+  height: 0;
+}
+
+._box_d5gb0_16 {
+  display: flex;
+  min-width: var(--space-24);
+  height: var(--space-24);
+  align-items: center;
+  justify-content: center;
+  border: var(--border-width-1) solid transparent;
+  border-radius: var(--border-radius-4);
+  color: var(--figma-color-text-secondary);
+}
+._input_d5gb0_10:checked ~ ._box_d5gb0_16 {
+  border-color: var(--figma-color-border);
+  background-color: var(--figma-color-bg);
+  color: var(--figma-color-text);
+}
+._input_d5gb0_10:focus-visible ~ ._box_d5gb0_16 {
+  border-color: var(--figma-color-border-selected);
+  color: var(--figma-color-text);
+}
+._input_d5gb0_10:disabled ~ ._box_d5gb0_16 {
+  color: var(--figma-color-text-disabled);
+}
+
+._text_d5gb0_39 {
+  padding: var(--space-4) var(--space-8);
+}
+
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm5vZGVfbW9kdWxlcy9AY3JlYXRlLWZpZ21hLXBsdWdpbi91aS9saWIvY29tcG9uZW50cy9zZWdtZW50ZWQtY29udHJvbC9zZWdtZW50ZWQtY29udHJvbC5tb2R1bGUuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0Usa0JBQWtCO0VBQ2xCLHlCQUF5QjtFQUN6QixhQUFhO0VBQ2IsZ0JBQWdCO0VBQ2hCLHFDQUFxQztFQUNyQyxpREFBaUQ7QUFDbkQ7O0FBRUE7RUFDRSxjQUFjO0VBQ2QsUUFBUTtFQUNSLFNBQVM7QUFDWDs7QUFFQTtFQUNFLGFBQWE7RUFDYiwwQkFBMEI7RUFDMUIsdUJBQXVCO0VBQ3ZCLG1CQUFtQjtFQUNuQix1QkFBdUI7RUFDdkIsK0NBQStDO0VBQy9DLHFDQUFxQztFQUNyQyx3Q0FBd0M7QUFDMUM7QUFDQTtFQUNFLHVDQUF1QztFQUN2Qyx1Q0FBdUM7RUFDdkMsOEJBQThCO0FBQ2hDO0FBQ0E7RUFDRSxnREFBZ0Q7RUFDaEQsOEJBQThCO0FBQ2hDO0FBQ0E7RUFDRSx1Q0FBdUM7QUFDekM7O0FBRUE7RUFDRSxzQ0FBc0M7QUFDeEMiLCJmaWxlIjoibm9kZV9tb2R1bGVzL0BjcmVhdGUtZmlnbWEtcGx1Z2luL3VpL2xpYi9jb21wb25lbnRzL3NlZ21lbnRlZC1jb250cm9sL3NlZ21lbnRlZC1jb250cm9sLm1vZHVsZS5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuc2VnbWVudGVkQ29udHJvbCB7XG4gIHBvc2l0aW9uOiByZWxhdGl2ZTtcbiAgei1pbmRleDogdmFyKC0tei1pbmRleC0xKTtcbiAgZGlzcGxheTogZmxleDtcbiAgb3ZlcmZsb3c6IGhpZGRlbjtcbiAgYm9yZGVyLXJhZGl1czogdmFyKC0tYm9yZGVyLXJhZGl1cy00KTtcbiAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItYmctc2Vjb25kYXJ5KTtcbn1cblxuLmlucHV0IHtcbiAgZGlzcGxheTogYmxvY2s7XG4gIHdpZHRoOiAwO1xuICBoZWlnaHQ6IDA7XG59XG5cbi5ib3gge1xuICBkaXNwbGF5OiBmbGV4O1xuICBtaW4td2lkdGg6IHZhcigtLXNwYWNlLTI0KTtcbiAgaGVpZ2h0OiB2YXIoLS1zcGFjZS0yNCk7XG4gIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gIGp1c3RpZnktY29udGVudDogY2VudGVyO1xuICBib3JkZXI6IHZhcigtLWJvcmRlci13aWR0aC0xKSBzb2xpZCB0cmFuc3BhcmVudDtcbiAgYm9yZGVyLXJhZGl1czogdmFyKC0tYm9yZGVyLXJhZGl1cy00KTtcbiAgY29sb3I6IHZhcigtLWZpZ21hLWNvbG9yLXRleHQtc2Vjb25kYXJ5KTtcbn1cbi5pbnB1dDpjaGVja2VkIH4gLmJveCB7XG4gIGJvcmRlci1jb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItYm9yZGVyKTtcbiAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItYmcpO1xuICBjb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItdGV4dCk7XG59XG4uaW5wdXQ6Zm9jdXMtdmlzaWJsZSB+IC5ib3gge1xuICBib3JkZXItY29sb3I6IHZhcigtLWZpZ21hLWNvbG9yLWJvcmRlci1zZWxlY3RlZCk7XG4gIGNvbG9yOiB2YXIoLS1maWdtYS1jb2xvci10ZXh0KTtcbn1cbi5pbnB1dDpkaXNhYmxlZCB+IC5ib3gge1xuICBjb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItdGV4dC1kaXNhYmxlZCk7XG59XG5cbi50ZXh0IHtcbiAgcGFkZGluZzogdmFyKC0tc3BhY2UtNCkgdmFyKC0tc3BhY2UtOCk7XG59XG4iXX0= */`;
+        document.head.append(element);
+      }
+      segmented_control_module_default = { "segmentedControl": "_segmentedControl_d5gb0_1", "input": "_input_d5gb0_10", "box": "_box_d5gb0_16", "text": "_text_d5gb0_39" };
+    }
+  });
+
+  // node_modules/@create-figma-plugin/ui/lib/components/segmented-control/segmented-control.js
+  var SegmentedControl;
+  var init_segmented_control = __esm({
+    "node_modules/@create-figma-plugin/ui/lib/components/segmented-control/segmented-control.js"() {
+      init_preact_module();
+      init_hooks_module();
+      init_create_class_name();
+      init_create_component();
+      init_no_op();
+      init_constants();
+      init_segmented_control_module();
+      SegmentedControl = createComponent(function(_a) {
+        var _b = _a, { disabled = false, onChange = noop, onKeyDown = noop, onValueChange = noop, options, propagateEscapeKeyDown = true, value } = _b, rest = __objRest(_b, ["disabled", "onChange", "onKeyDown", "onValueChange", "options", "propagateEscapeKeyDown", "value"]);
+        const handleChange = q2(function(event) {
+          onChange(event);
+          const id = event.currentTarget.getAttribute(ITEM_ID_DATA_ATTRIBUTE_NAME);
+          if (id === null) {
+            throw new Error("`id` is `null`");
+          }
+          const newValue = options[parseInt(id, 10)].value;
+          onValueChange(newValue);
+        }, [onChange, onValueChange, options]);
+        const handleKeyDown = q2(function(event) {
+          onKeyDown(event);
+          if (event.key === "Escape") {
+            if (propagateEscapeKeyDown === false) {
+              event.stopPropagation();
+            }
+            event.currentTarget.blur();
+          }
+        }, [onKeyDown, propagateEscapeKeyDown]);
+        return _("div", { class: createClassName([
+          segmented_control_module_default.segmentedControl,
+          disabled === true ? segmented_control_module_default.disabled : null
+        ]) }, options.map(function(option, index) {
+          const children = typeof option.children === "undefined" ? `${option.value}` : option.children;
+          const isOptionDisabled = disabled === true || option.disabled === true;
+          return _(
+            "label",
+            { key: index },
+            _("input", __spreadProps(__spreadValues({}, rest), { checked: value === option.value, class: segmented_control_module_default.input, disabled: isOptionDisabled === true, onChange: handleChange, onKeyDown: handleKeyDown, tabIndex: 0, type: "radio", value: `${option.value}`, [ITEM_ID_DATA_ATTRIBUTE_NAME]: `${index}` })),
+            _("div", { class: segmented_control_module_default.box }, typeof children === "string" ? _("div", { class: segmented_control_module_default.text }, children) : children)
+          );
+        }));
+      });
+    }
+  });
+
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ce7b4e42-d27a-403d-b928-6e878c40a0bd/tabs.module.js
+  var tabs_module_default;
+  var init_tabs_module = __esm({
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ce7b4e42-d27a-403d-b928-6e878c40a0bd/tabs.module.js"() {
+      if (document.getElementById("b2487bb7e6") === null) {
+        const element = document.createElement("style");
+        element.id = "b2487bb7e6";
+        element.textContent = `._tabs_14pnx_1 {
+  position: relative;
+  z-index: var(--z-index-1);
+  display: flex;
+  border-bottom: var(--border-width-1) solid var(--figma-color-border);
+}
+
+._tab_14pnx_1 {
+  padding: var(--space-8) var(--space-4);
+  color: var(--figma-color-text-secondary);
+}
+._tab_14pnx_1:first-child {
+  padding-left: var(--space-8);
+}
+._tab_14pnx_1:last-child {
+  padding-right: var(--space-8);
+}
+._tab_14pnx_1:hover {
+  color: var(--figma-color-text);
+}
+
+._input_14pnx_22 {
+  display: block;
+  width: 0;
+  height: 0;
+}
+
+._value_14pnx_28 {
+  height: var(--space-24);
+  padding: var(--space-4) var(--space-8);
+  border-radius: var(--border-radius-4);
+}
+label:hover ._input_14pnx_22 ~ ._value_14pnx_28 {
+  background-color: var(--figma-color-bg-secondary);
+}
+label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
+  background-color: var(--figma-color-bg-secondary);
+  color: var(--figma-color-text);
+  font-weight: var(--font-weight-bold);
+}
+
+._children_14pnx_42 {
+  color: var(--figma-color-text);
+}
+
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm5vZGVfbW9kdWxlcy9AY3JlYXRlLWZpZ21hLXBsdWdpbi91aS9saWIvY29tcG9uZW50cy90YWJzL3RhYnMubW9kdWxlLmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFLGtCQUFrQjtFQUNsQix5QkFBeUI7RUFDekIsYUFBYTtFQUNiLG9FQUFvRTtBQUN0RTs7QUFFQTtFQUNFLHNDQUFzQztFQUN0Qyx3Q0FBd0M7QUFDMUM7QUFDQTtFQUNFLDRCQUE0QjtBQUM5QjtBQUNBO0VBQ0UsNkJBQTZCO0FBQy9CO0FBQ0E7RUFDRSw4QkFBOEI7QUFDaEM7O0FBRUE7RUFDRSxjQUFjO0VBQ2QsUUFBUTtFQUNSLFNBQVM7QUFDWDs7QUFFQTtFQUNFLHVCQUF1QjtFQUN2QixzQ0FBc0M7RUFDdEMscUNBQXFDO0FBQ3ZDO0FBQ0E7RUFDRSxpREFBaUQ7QUFDbkQ7QUFDQTtFQUNFLGlEQUFpRDtFQUNqRCw4QkFBOEI7RUFDOUIsb0NBQW9DO0FBQ3RDOztBQUVBO0VBQ0UsOEJBQThCO0FBQ2hDIiwiZmlsZSI6Im5vZGVfbW9kdWxlcy9AY3JlYXRlLWZpZ21hLXBsdWdpbi91aS9saWIvY29tcG9uZW50cy90YWJzL3RhYnMubW9kdWxlLmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi50YWJzIHtcbiAgcG9zaXRpb246IHJlbGF0aXZlO1xuICB6LWluZGV4OiB2YXIoLS16LWluZGV4LTEpO1xuICBkaXNwbGF5OiBmbGV4O1xuICBib3JkZXItYm90dG9tOiB2YXIoLS1ib3JkZXItd2lkdGgtMSkgc29saWQgdmFyKC0tZmlnbWEtY29sb3ItYm9yZGVyKTtcbn1cblxuLnRhYiB7XG4gIHBhZGRpbmc6IHZhcigtLXNwYWNlLTgpIHZhcigtLXNwYWNlLTQpO1xuICBjb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItdGV4dC1zZWNvbmRhcnkpO1xufVxuLnRhYjpmaXJzdC1jaGlsZCB7XG4gIHBhZGRpbmctbGVmdDogdmFyKC0tc3BhY2UtOCk7XG59XG4udGFiOmxhc3QtY2hpbGQge1xuICBwYWRkaW5nLXJpZ2h0OiB2YXIoLS1zcGFjZS04KTtcbn1cbi50YWI6aG92ZXIge1xuICBjb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItdGV4dCk7XG59XG5cbi5pbnB1dCB7XG4gIGRpc3BsYXk6IGJsb2NrO1xuICB3aWR0aDogMDtcbiAgaGVpZ2h0OiAwO1xufVxuXG4udmFsdWUge1xuICBoZWlnaHQ6IHZhcigtLXNwYWNlLTI0KTtcbiAgcGFkZGluZzogdmFyKC0tc3BhY2UtNCkgdmFyKC0tc3BhY2UtOCk7XG4gIGJvcmRlci1yYWRpdXM6IHZhcigtLWJvcmRlci1yYWRpdXMtNCk7XG59XG5sYWJlbDpob3ZlciAuaW5wdXQgfiAudmFsdWUge1xuICBiYWNrZ3JvdW5kLWNvbG9yOiB2YXIoLS1maWdtYS1jb2xvci1iZy1zZWNvbmRhcnkpO1xufVxubGFiZWwgLmlucHV0OmNoZWNrZWQgfiAudmFsdWUge1xuICBiYWNrZ3JvdW5kLWNvbG9yOiB2YXIoLS1maWdtYS1jb2xvci1iZy1zZWNvbmRhcnkpO1xuICBjb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItdGV4dCk7XG4gIGZvbnQtd2VpZ2h0OiB2YXIoLS1mb250LXdlaWdodC1ib2xkKTtcbn1cblxuLmNoaWxkcmVuIHtcbiAgY29sb3I6IHZhcigtLWZpZ21hLWNvbG9yLXRleHQpO1xufVxuIl19 */`;
+        document.head.append(element);
+      }
+      tabs_module_default = { "tabs": "_tabs_14pnx_1", "tab": "_tab_14pnx_1", "input": "_input_14pnx_22", "value": "_value_14pnx_28", "children": "_children_14pnx_42" };
+    }
+  });
+
+  // node_modules/@create-figma-plugin/ui/lib/components/tabs/tabs.js
+  var Tabs;
+  var init_tabs = __esm({
+    "node_modules/@create-figma-plugin/ui/lib/components/tabs/tabs.js"() {
+      init_preact_module();
+      init_hooks_module();
+      init_create_component();
+      init_no_op();
+      init_constants();
+      init_tabs_module();
+      Tabs = createComponent(function(_a, ref) {
+        var _b = _a, { onChange = noop, onCommand, onKeyDown = noop, onValueChange = noop, options, propagateEscapeKeyDown = true, value } = _b, rest = __objRest(_b, ["onChange", "onCommand", "onKeyDown", "onValueChange", "options", "propagateEscapeKeyDown", "value"]);
+        const handleChange = q2(function(event) {
+          onChange(event);
+          const id = event.currentTarget.getAttribute(ITEM_ID_DATA_ATTRIBUTE_NAME);
+          if (id === null) {
+            throw new Error("`id` is `null`");
+          }
+          const newValue = options[parseInt(id, 10)].value;
+          onValueChange(newValue);
+        }, [onChange, onValueChange, options]);
+        const handleKeyDown = q2(function(event) {
+          onKeyDown(event);
+          if (event.key === "Escape") {
+            if (propagateEscapeKeyDown === false) {
+              event.stopPropagation();
+            }
+            event.currentTarget.blur();
+          }
+        }, [onKeyDown, propagateEscapeKeyDown]);
+        const activeOption = options.find(function(option) {
+          return option.value === value;
+        });
+        return _(
+          k,
+          null,
+          _("div", { ref, class: tabs_module_default.tabs }, options.map(function(option, index) {
+            return _(
+              "label",
+              { key: index, class: tabs_module_default.tab },
+              _("input", __spreadProps(__spreadValues({}, rest), { checked: value === option.value, class: tabs_module_default.input, onChange: handleChange, onKeyDown: handleKeyDown, tabIndex: 0, type: "radio", value: option.value, [ITEM_ID_DATA_ATTRIBUTE_NAME]: `${index}` })),
+              _("div", { class: tabs_module_default.value }, option.value)
+            );
+          })),
+          typeof activeOption === "undefined" ? null : _("div", { class: tabs_module_default.children }, activeOption.children)
+        );
+      });
+    }
+  });
+
   // node_modules/@create-figma-plugin/ui/lib/components/textbox/private/is-keycode-character-generating.js
   function isKeyCodeCharacterGenerating(keyCode) {
     return keyCode === 32 || keyCode >= 48 && keyCode <= 57 || keyCode >= 65 && keyCode <= 90 || keyCode >= 96 && keyCode <= 105 || keyCode >= 186 && keyCode <= 192 || keyCode >= 219 && keyCode <= 222;
@@ -2653,10 +2866,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/be38adfb-ded7-459b-b22a-5ad2cf332045/textbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/44d9ebe3-93e3-4c27-93fe-cc07b555f2cb/textbox.module.js
   var textbox_module_default;
   var init_textbox_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/be38adfb-ded7-459b-b22a-5ad2cf332045/textbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/44d9ebe3-93e3-4c27-93fe-cc07b555f2cb/textbox.module.js"() {
       if (document.getElementById("5c1c5c2d3d") === null) {
         const element = document.createElement("style");
         element.id = "5c1c5c2d3d";
@@ -2909,82 +3122,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b8da3409-d703-4aaa-a0e5-9cb50b4314a0/columns.module.js
-  var columns_module_default;
-  var init_columns_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b8da3409-d703-4aaa-a0e5-9cb50b4314a0/columns.module.js"() {
-      if (document.getElementById("07bfb18928") === null) {
-        const element = document.createElement("style");
-        element.id = "07bfb18928";
-        element.textContent = `._columns_ybv3x_1 {
-  display: flex;
-}
-._extraSmall_ybv3x_4 {
-  margin-left: calc(-1 * var(--space-extra-small));
-}
-._small_ybv3x_7 {
-  margin-left: calc(-1 * var(--space-small));
-}
-._medium_ybv3x_10 {
-  margin-left: calc(-1 * var(--space-medium));
-}
-._large_ybv3x_13 {
-  margin-left: calc(-1 * var(--space-large));
-}
-._extraLarge_ybv3x_16 {
-  margin-left: calc(-1 * var(--space-extra-large));
-}
-
-._child_ybv3x_20 {
-  flex-grow: 1;
-}
-._extraSmall_ybv3x_4 > ._child_ybv3x_20 {
-  padding-left: var(--space-extra-small);
-}
-._small_ybv3x_7 > ._child_ybv3x_20 {
-  padding-left: var(--space-small);
-}
-._medium_ybv3x_10 > ._child_ybv3x_20 {
-  padding-left: var(--space-medium);
-}
-._large_ybv3x_13 > ._child_ybv3x_20 {
-  padding-left: var(--space-large);
-}
-._extraLarge_ybv3x_16 > ._child_ybv3x_20 {
-  padding-left: var(--space-extra-large);
-}
-
-/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm5vZGVfbW9kdWxlcy9AY3JlYXRlLWZpZ21hLXBsdWdpbi91aS9saWIvbGF5b3V0L2NvbHVtbnMvY29sdW1ucy5tb2R1bGUuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsYUFBYTtBQUNmO0FBQ0E7RUFDRSxnREFBZ0Q7QUFDbEQ7QUFDQTtFQUNFLDBDQUEwQztBQUM1QztBQUNBO0VBQ0UsMkNBQTJDO0FBQzdDO0FBQ0E7RUFDRSwwQ0FBMEM7QUFDNUM7QUFDQTtFQUNFLGdEQUFnRDtBQUNsRDs7QUFFQTtFQUNFLFlBQVk7QUFDZDtBQUNBO0VBQ0Usc0NBQXNDO0FBQ3hDO0FBQ0E7RUFDRSxnQ0FBZ0M7QUFDbEM7QUFDQTtFQUNFLGlDQUFpQztBQUNuQztBQUNBO0VBQ0UsZ0NBQWdDO0FBQ2xDO0FBQ0E7RUFDRSxzQ0FBc0M7QUFDeEMiLCJmaWxlIjoibm9kZV9tb2R1bGVzL0BjcmVhdGUtZmlnbWEtcGx1Z2luL3VpL2xpYi9sYXlvdXQvY29sdW1ucy9jb2x1bW5zLm1vZHVsZS5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuY29sdW1ucyB7XG4gIGRpc3BsYXk6IGZsZXg7XG59XG4uZXh0cmFTbWFsbCB7XG4gIG1hcmdpbi1sZWZ0OiBjYWxjKC0xICogdmFyKC0tc3BhY2UtZXh0cmEtc21hbGwpKTtcbn1cbi5zbWFsbCB7XG4gIG1hcmdpbi1sZWZ0OiBjYWxjKC0xICogdmFyKC0tc3BhY2Utc21hbGwpKTtcbn1cbi5tZWRpdW0ge1xuICBtYXJnaW4tbGVmdDogY2FsYygtMSAqIHZhcigtLXNwYWNlLW1lZGl1bSkpO1xufVxuLmxhcmdlIHtcbiAgbWFyZ2luLWxlZnQ6IGNhbGMoLTEgKiB2YXIoLS1zcGFjZS1sYXJnZSkpO1xufVxuLmV4dHJhTGFyZ2Uge1xuICBtYXJnaW4tbGVmdDogY2FsYygtMSAqIHZhcigtLXNwYWNlLWV4dHJhLWxhcmdlKSk7XG59XG5cbi5jaGlsZCB7XG4gIGZsZXgtZ3JvdzogMTtcbn1cbi5leHRyYVNtYWxsID4gLmNoaWxkIHtcbiAgcGFkZGluZy1sZWZ0OiB2YXIoLS1zcGFjZS1leHRyYS1zbWFsbCk7XG59XG4uc21hbGwgPiAuY2hpbGQge1xuICBwYWRkaW5nLWxlZnQ6IHZhcigtLXNwYWNlLXNtYWxsKTtcbn1cbi5tZWRpdW0gPiAuY2hpbGQge1xuICBwYWRkaW5nLWxlZnQ6IHZhcigtLXNwYWNlLW1lZGl1bSk7XG59XG4ubGFyZ2UgPiAuY2hpbGQge1xuICBwYWRkaW5nLWxlZnQ6IHZhcigtLXNwYWNlLWxhcmdlKTtcbn1cbi5leHRyYUxhcmdlID4gLmNoaWxkIHtcbiAgcGFkZGluZy1sZWZ0OiB2YXIoLS1zcGFjZS1leHRyYS1sYXJnZSk7XG59XG4iXX0= */`;
-        document.head.append(element);
-      }
-      columns_module_default = { "columns": "_columns_ybv3x_1", "extraSmall": "_extraSmall_ybv3x_4", "small": "_small_ybv3x_7", "medium": "_medium_ybv3x_10", "large": "_large_ybv3x_13", "extraLarge": "_extraLarge_ybv3x_16", "child": "_child_ybv3x_20" };
-    }
-  });
-
-  // node_modules/@create-figma-plugin/ui/lib/layout/columns/columns.js
-  var Columns;
-  var init_columns = __esm({
-    "node_modules/@create-figma-plugin/ui/lib/layout/columns/columns.js"() {
-      init_preact_module();
-      init_create_class_name();
-      init_create_component();
-      init_columns_module();
-      Columns = createComponent(function(_a, ref) {
-        var _b = _a, { children, space } = _b, rest = __objRest(_b, ["children", "space"]);
-        return _("div", __spreadProps(__spreadValues({}, rest), { ref, class: createClassName([
-          columns_module_default.columns,
-          typeof space === "undefined" ? null : columns_module_default[space]
-        ]) }), H(children).map(function(element, index) {
-          return _("div", { key: index, class: columns_module_default.child }, element);
-        }));
-      });
-    }
-  });
-
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a3cc4c70-6a2a-4c36-93bc-3e7aea5765f8/container.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/760fd651-dd8b-4967-bbc8-e303d193bc24/container.module.js
   var container_module_default;
   var init_container_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a3cc4c70-6a2a-4c36-93bc-3e7aea5765f8/container.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/760fd651-dd8b-4967-bbc8-e303d193bc24/container.module.js"() {
       if (document.getElementById("b49e1406f9") === null) {
         const element = document.createElement("style");
         element.id = "b49e1406f9";
@@ -3025,10 +3166,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5c44c355-5b99-4316-bafe-8d3081032950/vertical-space.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1439dc2a-8c3a-4916-bd22-1b14aa777a76/vertical-space.module.js
   var vertical_space_module_default;
   var init_vertical_space_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5c44c355-5b99-4316-bafe-8d3081032950/vertical-space.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1439dc2a-8c3a-4916-bd22-1b14aa777a76/vertical-space.module.js"() {
       if (document.getElementById("ba0eea5114") === null) {
         const element = document.createElement("style");
         element.id = "ba0eea5114";
@@ -3069,9 +3210,9 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c58b5d22-3e43-4bdd-aea7-4c7904e495bb/base.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/971a4693-54fa-4910-bb0f-56a47346d3ec/base.js
   var init_base = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c58b5d22-3e43-4bdd-aea7-4c7904e495bb/base.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/971a4693-54fa-4910-bb0f-56a47346d3ec/base.js"() {
       if (document.getElementById("0597dd81e7") === null) {
         const element = document.createElement("style");
         element.id = "0597dd81e7";
@@ -3224,6 +3365,8 @@ svg {
       init_icon_button();
       init_loading_indicator();
       init_radio_buttons();
+      init_segmented_control();
+      init_tabs();
       init_text();
       init_textbox();
       init_icon_adjust_16();
@@ -3237,7 +3380,6 @@ svg {
       init_icon_copy_small_24();
       init_icon_interaction_click_small_24();
       init_icon_time_small_24();
-      init_columns();
       init_container();
       init_inline();
       init_stack();
@@ -3260,7 +3402,10 @@ svg {
         PRINT_COLOR_USAGES_LOAD_SETTINGS: "PRINT_COLOR_USAGES_LOAD_SETTINGS",
         PRINT_COLOR_USAGES_SAVE_SETTINGS: "PRINT_COLOR_USAGES_SAVE_SETTINGS",
         PRINT_COLOR_USAGES_PRINT: "PRINT_COLOR_USAGES_PRINT",
+        PRINT_COLOR_USAGES_PREVIEW_UPDATE: "PRINT_COLOR_USAGES_PREVIEW_UPDATE",
         PRINT_COLOR_USAGES_UPDATE: "PRINT_COLOR_USAGES_UPDATE",
+        PRINT_COLOR_USAGES_FOCUS_NODE: "PRINT_COLOR_USAGES_FOCUS_NODE",
+        PRINT_COLOR_USAGES_RESET_LAYER_NAME: "PRINT_COLOR_USAGES_RESET_LAYER_NAME",
         MOCKUP_MARKUP_LOAD_STATE: "MOCKUP_MARKUP_LOAD_STATE",
         MOCKUP_MARKUP_APPLY: "MOCKUP_MARKUP_APPLY",
         MOCKUP_MARKUP_CREATE_TEXT: "MOCKUP_MARKUP_CREATE_TEXT",
@@ -3289,6 +3434,7 @@ svg {
         PRINT_COLOR_USAGES_SETTINGS: "PRINT_COLOR_USAGES_SETTINGS",
         PRINT_COLOR_USAGES_SELECTION: "PRINT_COLOR_USAGES_SELECTION",
         PRINT_COLOR_USAGES_STATUS: "PRINT_COLOR_USAGES_STATUS",
+        PRINT_COLOR_USAGES_UPDATE_PREVIEW: "PRINT_COLOR_USAGES_UPDATE_PREVIEW",
         MOCKUP_MARKUP_STATE: "MOCKUP_MARKUP_STATE",
         MOCKUP_MARKUP_STATUS: "MOCKUP_MARKUP_STATUS",
         MOCKUP_MARKUP_COLOR_PREVIEWS: "MOCKUP_MARKUP_COLOR_PREVIEWS",
@@ -3350,7 +3496,8 @@ svg {
           borderRadius,
           overflow: "hidden",
           display: "flex",
-          backgroundImage: CHECKERBOARD_BG_IMAGE
+          backgroundImage: CHECKERBOARD_BG_IMAGE,
+          boxShadow: "inset 0 0 0 0.5px rgba(0, 0, 0, 0.2), inset 0 0 0 0.5px rgba(255, 255, 255, 0.1)"
         }
       },
       hex ? /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { flex: 1, backgroundColor: hex } }), showTransparency ? /* @__PURE__ */ _("div", { style: { flex: 1, backgroundColor: hex, opacity: alpha } }) : null) : null
@@ -3367,116 +3514,53 @@ svg {
     }
   });
 
-  // src/app/components/custom-icons/generated.tsx
-  function IconChevronDown162(props) {
-    var _a, _b;
-    const color = (_a = props.color) != null ? _a : "currentColor";
-    return /* @__PURE__ */ _("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none", "aria-label": props.title }, /* @__PURE__ */ _("path", { d: "M9.76731 6.76777C9.96257 6.5725 10.2801 6.5725 10.4753 6.76777C10.6702 6.96296 10.6702 7.2796 10.4753 7.4748L7.99973 9.94941L5.52512 7.4748C5.32986 7.27953 5.32986 6.96303 5.52512 6.76777C5.72039 6.5725 6.03689 6.5725 6.23216 6.76777L7.99973 8.53534L9.76731 6.76777Z", fill: color, fillOpacity: (_b = props.opacity) != null ? _b : 0.9 }));
+  // src/app/components/ColorRow.tsx
+  function getActionWidth(action) {
+    return action.kind === "button" ? 52 : 24;
   }
-  function IconChevronRight16(props) {
-    var _a, _b;
-    const color = (_a = props.color) != null ? _a : "currentColor";
-    return /* @__PURE__ */ _("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none", "aria-label": props.title }, /* @__PURE__ */ _("path", { d: "M6.76776 6.23269C6.5725 6.03743 6.5725 5.71994 6.76776 5.52468C6.96296 5.32976 7.2796 5.32976 7.47479 5.52468L9.9494 8.00027L7.47479 10.4749C7.27953 10.6701 6.96302 10.6701 6.76776 10.4749C6.5725 10.2796 6.5725 9.96311 6.76776 9.76785L8.53534 8.00027L6.76776 6.23269Z", fill: color, fillOpacity: (_b = props.opacity) != null ? _b : 0.9 }));
+  function getActionSlotWidth(actions) {
+    if (actions.length === 0) return 0;
+    const itemWidths = actions.reduce((sum, action) => sum + getActionWidth(action), 0);
+    const gapWidth = (actions.length - 1) * 6;
+    return itemWidths + gapWidth;
   }
-  var init_generated = __esm({
-    "src/app/components/custom-icons/generated.tsx"() {
-      "use strict";
-      init_preact_module();
-    }
-  });
-
-  // src/app/components/AppIcons.tsx
-  var init_AppIcons = __esm({
-    "src/app/components/AppIcons.tsx"() {
-      "use strict";
-      init_generated();
-    }
-  });
-
-  // src/app/components/Tree.tsx
-  function Caret(props) {
-    if (!props.showCaret) {
-      return null;
-    }
-    return /* @__PURE__ */ _(
-      "div",
-      {
-        style: {
-          width: 16,
-          height: 16,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          color: "var(--figma-color-icon)",
-          // Use chevron-down rotated left when collapsed (like Disclosure)
-          transform: props.open ? "rotate(0deg)" : "rotate(-90deg)",
-          transformOrigin: "50% 50%"
-        }
-      },
-      /* @__PURE__ */ _(IconChevronDown162, null)
-    );
-  }
-  function TreeRow(props) {
+  function ColorRow(props) {
     var _a;
-    const { node } = props;
     const [hovered, setHovered] = d2(false);
-    const hasChildren = Array.isArray(node.children) && node.children.length > 0;
-    const isCollapsible = hasChildren && node.collapsible !== false;
-    const paddingLeft = props.level * 16;
-    const DEBUG_ROW_BOUNDS = false;
-    const BASE_SIDE_PADDING = 4;
-    const handleToggle = () => {
-      if (!isCollapsible) return;
-      props.onToggle();
-    };
+    const actions = Array.isArray(props.actions) ? props.actions : [];
+    const hasActions = actions.length > 0;
+    const actionsSlotWidth = getActionSlotWidth(actions);
     return /* @__PURE__ */ _(
       "div",
       {
-        role: isCollapsible ? "button" : void 0,
-        tabIndex: isCollapsible ? 0 : -1,
-        onClick: handleToggle,
         onMouseEnter: () => setHovered(true),
         onMouseLeave: () => setHovered(false),
-        onKeyDown: (e3) => {
-          if (!isCollapsible) return;
-          if (e3.key === "Enter" || e3.key === " ") {
-            e3.preventDefault();
-            handleToggle();
-          }
-        },
         style: {
           display: "flex",
           alignItems: "center",
           gap: 8,
           height: 28,
-          // ToolBody's Container provides the base inset.
-          // Tree rows should only add indentation for nesting levels,
-          // so top-level rows align with the header content.
-          paddingLeft: `${BASE_SIDE_PADDING + paddingLeft}px`,
-          paddingRight: `${BASE_SIDE_PADDING}px`,
-          cursor: isCollapsible ? "pointer" : "default",
-          userSelect: "none",
-          backgroundColor: DEBUG_ROW_BOUNDS ? "rgba(255, 0, 0, 0.15)" : "transparent"
-        },
-        title: isCollapsible ? "Click to expand" : void 0
+          paddingLeft: 4,
+          paddingRight: 4,
+          userSelect: "none"
+        }
       },
-      isCollapsible ? /* @__PURE__ */ _(Caret, { open: props.open, showCaret: true }) : null,
-      /* @__PURE__ */ _("div", { style: { width: 16, height: 16, display: "flex", alignItems: "center", justifyContent: "center" } }, (_a = node.icon) != null ? _a : null),
+      /* @__PURE__ */ _("div", { style: { width: 16, height: 16, display: "flex", alignItems: "center", justifyContent: "center" } }, (_a = props.icon) != null ? _a : null),
       /* @__PURE__ */ _("div", { style: { flex: 1, minWidth: 0 } }, /* @__PURE__ */ _(
         "div",
         {
           style: {
             fontSize: 11,
             color: "var(--figma-color-text)",
-            fontWeight: node.titleStrong ? 600 : 400,
+            fontWeight: props.titleStrong ? 600 : 400,
             overflow: "hidden",
             textOverflow: "ellipsis",
             whiteSpace: "nowrap"
           }
         },
-        node.title
+        props.title
       )),
-      node.description ? /* @__PURE__ */ _(
+      props.description ? /* @__PURE__ */ _(
         "div",
         {
           style: {
@@ -3488,12 +3572,22 @@ svg {
             whiteSpace: "nowrap"
           }
         },
-        node.description
+        props.description
       ) : null,
-      hovered && Array.isArray(node.actions) && node.actions.length > 0 ? /* @__PURE__ */ _(
+      hasActions ? /* @__PURE__ */ _(
         "div",
         {
-          style: { display: "flex", alignItems: "center", gap: 6 },
+          style: {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-end",
+            gap: 6,
+            width: actionsSlotWidth,
+            minWidth: actionsSlotWidth,
+            opacity: hovered ? 1 : 0,
+            pointerEvents: hovered ? "auto" : "none",
+            transition: "opacity 120ms ease"
+          },
           onClick: (e3) => {
             e3.preventDefault();
             e3.stopPropagation();
@@ -3503,91 +3597,70 @@ svg {
             e3.stopPropagation();
           }
         },
-        node.actions.map((action) => {
-          var _a2;
-          return action.kind === "button" ? /* @__PURE__ */ _(
-            "button",
-            {
-              key: action.id,
-              type: "button",
-              disabled: action.disabled === true,
-              onClick: (e3) => {
-                e3.preventDefault();
-                e3.stopPropagation();
-                if (action.disabled) return;
-                void action.onClick();
+        actions.map(
+          (action) => {
+            var _a2;
+            return action.kind === "button" ? /* @__PURE__ */ _(
+              "button",
+              {
+                key: action.id,
+                type: "button",
+                disabled: action.disabled === true,
+                onClick: (e3) => {
+                  e3.preventDefault();
+                  e3.stopPropagation();
+                  if (action.disabled) return;
+                  void action.onClick();
+                },
+                onMouseDown: (e3) => {
+                  e3.preventDefault();
+                  e3.stopPropagation();
+                },
+                title: action.label,
+                style: {
+                  height: 20,
+                  minWidth: 52,
+                  padding: "0 6px",
+                  border: "1px solid var(--figma-color-border)",
+                  background: "var(--figma-color-bg)",
+                  color: "var(--figma-color-text)",
+                  borderRadius: 4,
+                  fontSize: 10,
+                  lineHeight: 1,
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: action.disabled ? "not-allowed" : "pointer",
+                  opacity: action.disabled ? 0.5 : 1
+                }
               },
-              onMouseDown: (e3) => {
-                e3.preventDefault();
-                e3.stopPropagation();
+              action.label
+            ) : /* @__PURE__ */ _(
+              IconButton,
+              {
+                key: action.id,
+                disabled: action.disabled === true,
+                title: action.label,
+                onClick: (e3) => {
+                  e3.preventDefault();
+                  e3.stopPropagation();
+                  if (action.disabled) return;
+                  void action.onClick();
+                }
               },
-              title: action.label,
-              style: {
-                height: 20,
-                minWidth: 52,
-                padding: "0 6px",
-                border: "1px solid var(--figma-color-border)",
-                background: "var(--figma-color-bg)",
-                color: "var(--figma-color-text)",
-                borderRadius: 4,
-                fontSize: 10,
-                lineHeight: 1,
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                cursor: action.disabled ? "not-allowed" : "pointer",
-                opacity: action.disabled ? 0.5 : 1
-              }
-            },
-            action.label
-          ) : /* @__PURE__ */ _(
-            IconButton,
-            {
-              key: action.id,
-              disabled: action.disabled === true,
-              title: action.label,
-              onClick: (e3) => {
-                e3.preventDefault();
-                e3.stopPropagation();
-                if (action.disabled) return;
-                void action.onClick();
-              }
-            },
-            (_a2 = action.icon) != null ? _a2 : action.label
-          );
-        })
+              (_a2 = action.icon) != null ? _a2 : action.label
+            );
+          }
+        )
       ) : null
     );
   }
-  function TreeNodeView(props) {
-    var _a;
-    if (props.node.kind === "spacer") {
-      return /* @__PURE__ */ _("div", { style: { height: (_a = props.node.height) != null ? _a : 12 } });
-    }
-    const hasChildren = Array.isArray(props.node.children) && props.node.children.length > 0;
-    const isCollapsible = hasChildren && props.node.collapsible !== false;
-    const open = isCollapsible && typeof props.openById[props.node.id] === "boolean" ? props.openById[props.node.id] === true : true;
-    return /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(TreeRow, { level: props.level, node: props.node, open, onToggle: () => props.onToggle(props.node.id) }), hasChildren && open ? props.node.children.map((child) => /* @__PURE__ */ _(
-      TreeNodeView,
-      {
-        key: child.id,
-        node: child,
-        level: props.level + 1,
-        openById: props.openById,
-        onToggle: props.onToggle
-      }
-    )) : null);
-  }
-  function Tree(props) {
-    return /* @__PURE__ */ _(k, null, props.nodes.map((node) => /* @__PURE__ */ _(TreeNodeView, { key: node.id, node, level: 0, openById: props.openById, onToggle: props.onToggle })));
-  }
-  var init_Tree = __esm({
-    "src/app/components/Tree.tsx"() {
+  var init_ColorRow = __esm({
+    "src/app/components/ColorRow.tsx"() {
       "use strict";
       init_preact_module();
       init_hooks_module();
       init_lib2();
-      init_AppIcons();
     }
   });
 
@@ -3701,9 +3774,9 @@ svg {
             flexDirection: "column"
           }
         },
-        /* @__PURE__ */ _(VerticalSpace, { space: "small" }),
+        /* @__PURE__ */ _(VerticalSpace, { space: "medium" }),
         props.children,
-        /* @__PURE__ */ _(VerticalSpace, { space: "small" })
+        /* @__PURE__ */ _(VerticalSpace, { space: "medium" })
       )
     );
   }
@@ -3774,7 +3847,6 @@ svg {
     const [loading, setLoading] = d2(true);
     const [results, setResults] = d2([]);
     const [error, setError] = d2(null);
-    const [openById, setOpenById] = d2({});
     const [selectionEmpty, setSelectionEmpty] = d2(props.initialSelectionEmpty);
     const [replaceBusyRowId, setReplaceBusyRowId] = d2(null);
     const notify = (message) => {
@@ -3803,7 +3875,6 @@ svg {
           setLoading(false);
           setReplaceBusyRowId(null);
           setResults([]);
-          setOpenById({});
           setSelectionEmpty(true);
           setError(null);
           return;
@@ -3812,7 +3883,6 @@ svg {
           setLoading(false);
           setReplaceBusyRowId(null);
           setResults(coerceResultsToV2(msg.results));
-          setOpenById({});
           setSelectionEmpty(false);
           setError(null);
           return;
@@ -3821,7 +3891,6 @@ svg {
           setLoading(false);
           setReplaceBusyRowId(null);
           setResults(msg.results);
-          setOpenById({});
           setSelectionEmpty(false);
           setError(null);
           return;
@@ -3864,127 +3933,122 @@ svg {
         icon: /* @__PURE__ */ _(IconInteractionClickSmall24, null),
         title: "Select a layer to see variables color chain."
       }
-    )) : viewState === "nothingFound" ? /* @__PURE__ */ _(ToolBody, { mode: "state" }, /* @__PURE__ */ _(State, { title: "No variable colors found in selection" })) : /* @__PURE__ */ _(ToolBody, { mode: "content" }, results.length > 0 ? /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(
-      Tree,
-      {
-        nodes: (() => {
-          var _a, _b, _c, _d, _e, _f;
-          const nodes = [];
-          const groupSpacing = 16;
-          for (const layer of results) {
-            const colors = layer.colors.slice();
-            for (const c3 of colors) {
-              const chainToRender = c3.chainToRender;
-              const swatchHex = (_a = chainToRender == null ? void 0 : chainToRender.finalHex) != null ? _a : null;
-              const swatchOpacityPercent = (_b = chainToRender == null ? void 0 : chainToRender.finalOpacityPercent) != null ? _b : null;
-              const chainSteps = (chainToRender == null ? void 0 : chainToRender.chain) ? chainToRender.chain.slice(1) : [];
-              const chainStepIds = (_d = (_c = chainToRender == null ? void 0 : chainToRender.chainVariableIds) == null ? void 0 : _c.slice(1)) != null ? _d : [];
-              const rowId = `${layer.layerId}:${c3.variableId}`;
-              nodes.push({
-                id: rowId,
+    )) : viewState === "nothingFound" ? /* @__PURE__ */ _(ToolBody, { mode: "state" }, /* @__PURE__ */ _(State, { title: "No variable colors found in selection" })) : /* @__PURE__ */ _(ToolBody, { mode: "content" }, results.length > 0 ? /* @__PURE__ */ _(k, null, (() => {
+      var _a, _b, _c, _d, _e, _f;
+      const rows = [];
+      const groupSpacing = 24;
+      for (const layer of results) {
+        const colors = layer.colors.slice();
+        for (const c3 of colors) {
+          const chainToRender = c3.chainToRender;
+          const swatchHex = (_a = chainToRender == null ? void 0 : chainToRender.finalHex) != null ? _a : null;
+          const swatchOpacityPercent = (_b = chainToRender == null ? void 0 : chainToRender.finalOpacityPercent) != null ? _b : null;
+          const chainSteps = (chainToRender == null ? void 0 : chainToRender.chain) ? chainToRender.chain.slice(1) : [];
+          const chainStepIds = (_d = (_c = chainToRender == null ? void 0 : chainToRender.chainVariableIds) == null ? void 0 : _c.slice(1)) != null ? _d : [];
+          const rowId = `${layer.layerId}:${c3.variableId}`;
+          const mainRowActions = [
+            {
+              id: `${rowId}:copy`,
+              label: "Copy name",
+              kind: "iconButton",
+              icon: /* @__PURE__ */ _(IconCopySmall24, null),
+              onClick: async () => {
+                const result = await copyTextToClipboard(c3.variableName);
+                if (result === "copied") notify("Name copied");
+                else if (result === "manual") notify("Copy manually from prompt");
+                else notify("Could not copy name");
+              }
+            }
+          ];
+          rows.push(
+            /* @__PURE__ */ _(
+              ColorRow,
+              {
+                key: rowId,
                 title: c3.variableName,
                 icon: /* @__PURE__ */ _(ColorSwatch, { hex: swatchHex, opacityPercent: swatchOpacityPercent }),
                 titleStrong: true,
-                actions: [
-                  {
-                    id: `${rowId}:copy`,
-                    label: "Copy name",
-                    kind: "iconButton",
-                    icon: /* @__PURE__ */ _(IconCopySmall24, null),
-                    onClick: async () => {
-                      const result = await copyTextToClipboard(c3.variableName);
-                      if (result === "copied") notify("Name copied");
-                      else if (result === "manual") notify("Copy manually from prompt");
-                      else notify("Could not copy name");
-                    }
-                  }
-                ]
-              });
-              for (let idx = 0; idx < chainSteps.length; idx++) {
-                const step = chainSteps[idx];
-                const stepVariableId = (_e = chainStepIds[idx]) != null ? _e : null;
-                const stepRowId = `${layer.layerId}:${c3.variableId}:step:${idx}`;
-                nodes.push({
-                  id: stepRowId,
-                  title: step,
-                  actions: [
+                actions: mainRowActions
+              }
+            )
+          );
+          for (let idx = 0; idx < chainSteps.length; idx++) {
+            const step = chainSteps[idx];
+            const stepVariableId = (_e = chainStepIds[idx]) != null ? _e : null;
+            const stepRowId = `${layer.layerId}:${c3.variableId}:step:${idx}`;
+            const stepActions = [
+              {
+                id: `${stepRowId}:replace`,
+                label: "Swap",
+                kind: "button",
+                disabled: replaceBusyRowId != null || stepVariableId == null || stepVariableId === c3.variableId,
+                onClick: () => {
+                  if (stepVariableId == null || stepVariableId === c3.variableId) return;
+                  setReplaceBusyRowId(stepRowId);
+                  parent.postMessage(
                     {
-                      id: `${stepRowId}:copy`,
-                      label: "Copy name",
-                      kind: "iconButton",
-                      icon: /* @__PURE__ */ _(IconCopySmall24, null),
-                      onClick: async () => {
-                        const result = await copyTextToClipboard(step);
-                        if (result === "copied") notify("Name copied");
-                        else if (result === "manual") notify("Copy manually from prompt");
-                        else notify("Could not copy name");
+                      pluginMessage: {
+                        type: UI_TO_MAIN.COLOR_CHAIN_REPLACE_MAIN_COLOR,
+                        request: {
+                          sourceVariableId: c3.variableId,
+                          targetVariableId: stepVariableId
+                        }
                       }
                     },
-                    {
-                      id: `${stepRowId}:replace`,
-                      label: "Swap",
-                      kind: "button",
-                      disabled: replaceBusyRowId != null || stepVariableId == null || stepVariableId === c3.variableId,
-                      onClick: () => {
-                        if (stepVariableId == null || stepVariableId === c3.variableId) return;
-                        setReplaceBusyRowId(stepRowId);
-                        parent.postMessage(
-                          {
-                            pluginMessage: {
-                              type: UI_TO_MAIN.COLOR_CHAIN_REPLACE_MAIN_COLOR,
-                              request: {
-                                sourceVariableId: c3.variableId,
-                                targetVariableId: stepVariableId
-                              }
-                            }
-                          },
-                          "*"
-                        );
-                      }
-                    }
-                  ]
-                });
+                    "*"
+                  );
+                }
+              },
+              {
+                id: `${stepRowId}:copy`,
+                label: "Copy name",
+                kind: "iconButton",
+                icon: /* @__PURE__ */ _(IconCopySmall24, null),
+                onClick: async () => {
+                  const result = await copyTextToClipboard(step);
+                  if (result === "copied") notify("Name copied");
+                  else if (result === "manual") notify("Copy manually from prompt");
+                  else notify("Could not copy name");
+                }
               }
-              nodes.push({
-                id: `${layer.layerId}:${c3.variableId}:hex`,
-                actions: [
-                  {
-                    id: `${layer.layerId}:${c3.variableId}:hex:copy`,
-                    label: "Copy HEX",
-                    kind: "iconButton",
-                    icon: /* @__PURE__ */ _(IconCopySmall24, null),
-                    disabled: !(chainToRender == null ? void 0 : chainToRender.finalHex),
-                    onClick: async () => {
-                      if (!(chainToRender == null ? void 0 : chainToRender.finalHex)) return;
-                      const result = await copyTextToClipboard(chainToRender.finalHex);
-                      if (result === "copied") notify("HEX copied");
-                      else if (result === "manual") notify("Copy HEX manually from prompt");
-                      else notify("Could not copy HEX");
-                    }
-                  }
-                ],
-                title: (chainToRender == null ? void 0 : chainToRender.finalHex) && typeof chainToRender.finalOpacityPercent === "number" ? formatHexWithOpacity2(chainToRender.finalHex, chainToRender.finalOpacityPercent) : (_f = chainToRender == null ? void 0 : chainToRender.finalHex) != null ? _f : "N/A"
-              });
-              nodes.push({
-                kind: "spacer",
-                id: `${layer.layerId}:${c3.variableId}:spacer`,
-                height: groupSpacing
-              });
+            ];
+            rows.push(/* @__PURE__ */ _(ColorRow, { key: stepRowId, title: step, actions: stepActions }));
+          }
+          const hexRowId = `${layer.layerId}:${c3.variableId}:hex`;
+          const hexActions = [
+            {
+              id: `${hexRowId}:copy`,
+              label: "Copy HEX",
+              kind: "iconButton",
+              icon: /* @__PURE__ */ _(IconCopySmall24, null),
+              disabled: !(chainToRender == null ? void 0 : chainToRender.finalHex),
+              onClick: async () => {
+                if (!(chainToRender == null ? void 0 : chainToRender.finalHex)) return;
+                const result = await copyTextToClipboard(chainToRender.finalHex);
+                if (result === "copied") notify("HEX copied");
+                else if (result === "manual") notify("Copy HEX manually from prompt");
+                else notify("Could not copy HEX");
+              }
             }
-          }
-          if (nodes.length > 0 && nodes[nodes.length - 1].kind === "spacer") {
-            nodes.pop();
-          }
-          return nodes;
-        })(),
-        openById,
-        onToggle: (id) => setOpenById((prev) => {
-          const current = prev[id];
-          const isOpen = typeof current === "boolean" ? current : true;
-          return __spreadProps(__spreadValues({}, prev), { [id]: !isOpen });
-        })
+          ];
+          rows.push(
+            /* @__PURE__ */ _(
+              ColorRow,
+              {
+                key: hexRowId,
+                title: (chainToRender == null ? void 0 : chainToRender.finalHex) && typeof chainToRender.finalOpacityPercent === "number" ? formatHexWithOpacity2(chainToRender.finalHex, chainToRender.finalOpacityPercent) : (_f = chainToRender == null ? void 0 : chainToRender.finalHex) != null ? _f : "N/A",
+                actions: hexActions
+              }
+            )
+          );
+          rows.push(/* @__PURE__ */ _("div", { key: `${rowId}:spacer`, style: { height: groupSpacing } }));
+        }
       }
-    )) : null));
+      if (rows.length > 0) {
+        rows.pop();
+      }
+      return rows;
+    })()) : null));
   }
   var init_ColorChainToolView = __esm({
     "src/app/views/color-chain-tool/ColorChainToolView.tsx"() {
@@ -3994,11 +4058,32 @@ svg {
       init_hooks_module();
       init_messages();
       init_ColorSwatch();
-      init_Tree();
+      init_ColorRow();
       init_State();
       init_ToolHeader();
       init_Page();
       init_ToolBody();
+    }
+  });
+
+  // src/app/components/custom-icons/generated.tsx
+  function IconChevronRight16(props) {
+    var _a, _b;
+    const color = (_a = props.color) != null ? _a : "currentColor";
+    return /* @__PURE__ */ _("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none", "aria-label": props.title }, /* @__PURE__ */ _("path", { d: "M6.76776 6.23269C6.5725 6.03743 6.5725 5.71994 6.76776 5.52468C6.96296 5.32976 7.2796 5.32976 7.47479 5.52468L9.9494 8.00027L7.47479 10.4749C7.27953 10.6701 6.96302 10.6701 6.76776 10.4749C6.5725 10.2796 6.5725 9.96311 6.76776 9.76785L8.53534 8.00027L6.76776 6.23269Z", fill: color, fillOpacity: (_b = props.opacity) != null ? _b : 0.9 }));
+  }
+  var init_generated = __esm({
+    "src/app/components/custom-icons/generated.tsx"() {
+      "use strict";
+      init_preact_module();
+    }
+  });
+
+  // src/app/components/AppIcons.tsx
+  var init_AppIcons = __esm({
+    "src/app/components/AppIcons.tsx"() {
+      "use strict";
+      init_generated();
     }
   });
 
@@ -4396,12 +4481,125 @@ svg {
     }
   });
 
+  // src/app/components/InlineTextDiff.tsx
+  function splitDiff(before, after) {
+    const a3 = String(before != null ? before : "");
+    const b2 = String(after != null ? after : "");
+    const min = Math.min(a3.length, b2.length);
+    let start = 0;
+    while (start < min && a3[start] === b2[start]) start += 1;
+    let endA = a3.length - 1;
+    let endB = b2.length - 1;
+    while (endA >= start && endB >= start && a3[endA] === b2[endB]) {
+      endA -= 1;
+      endB -= 1;
+    }
+    return {
+      prefix: a3.slice(0, start),
+      beforeMid: a3.slice(start, endA + 1),
+      afterMid: b2.slice(start, endB + 1),
+      suffix: a3.slice(endA + 1)
+    };
+  }
+  function renderInlineDiff(before, after) {
+    const { prefix, beforeMid, afterMid, suffix } = splitDiff(before, after);
+    return {
+      beforeNode: /* @__PURE__ */ _("span", null, prefix ? /* @__PURE__ */ _("span", null, prefix) : null, beforeMid ? /* @__PURE__ */ _("span", { style: removedStyle }, beforeMid) : null, suffix ? /* @__PURE__ */ _("span", null, suffix) : null),
+      afterNode: /* @__PURE__ */ _("span", null, prefix ? /* @__PURE__ */ _("span", null, prefix) : null, afterMid ? /* @__PURE__ */ _("span", { style: addedStyle }, afterMid) : null, suffix ? /* @__PURE__ */ _("span", null, suffix) : null)
+    };
+  }
+  var removedStyle, addedStyle;
+  var init_InlineTextDiff = __esm({
+    "src/app/components/InlineTextDiff.tsx"() {
+      "use strict";
+      init_preact_module();
+      removedStyle = {
+        background: "#fff1f2",
+        border: "1px solid #fecdd3",
+        color: "#9f1239",
+        borderRadius: 4,
+        padding: "0 2px",
+        fontWeight: 700
+      };
+      addedStyle = {
+        background: "#ecfdf3",
+        border: "1px solid #b7f0c9",
+        color: "#067647",
+        borderRadius: 4,
+        padding: "0 2px",
+        fontWeight: 700
+      };
+    }
+  });
+
+  // src/app/components/ScopeControl.tsx
+  function ScopeControl({
+    value,
+    hasSelection,
+    onValueChange,
+    disabled = false
+  }) {
+    return /* @__PURE__ */ _("div", { class: "scope-control-stretch" }, /* @__PURE__ */ _("style", null, `.scope-control-stretch > div { width: 100%; } .scope-control-stretch > div > label { flex: 1; text-align: center; }`), /* @__PURE__ */ _(
+      SegmentedControl,
+      {
+        value,
+        disabled,
+        onValueChange: (next) => {
+          if (!onValueChange) return;
+          const nextScope = next;
+          if (nextScope === "selection" && !hasSelection) return;
+          onValueChange(nextScope);
+        },
+        options: [
+          {
+            value: "selection",
+            disabled: disabled || !hasSelection,
+            children: "Selection"
+          },
+          {
+            value: "page",
+            disabled,
+            children: "Current page"
+          },
+          {
+            value: "all_pages",
+            disabled,
+            children: "All pages"
+          }
+        ]
+      }
+    ));
+  }
+  var init_ScopeControl = __esm({
+    "src/app/components/ScopeControl.tsx"() {
+      "use strict";
+      init_lib2();
+      init_preact_module();
+    }
+  });
+
+  // src/app/components/ToolTabs.tsx
+  function ToolTabs({ value, onValueChange, options }) {
+    return /* @__PURE__ */ _("div", { style: { paddingLeft: 4 } }, /* @__PURE__ */ _(Tabs, { value, onValueChange, options }));
+  }
+  var init_ToolTabs = __esm({
+    "src/app/components/ToolTabs.tsx"() {
+      "use strict";
+      init_lib2();
+      init_preact_module();
+    }
+  });
+
   // src/app/views/print-color-usages-tool/PrintColorUsagesToolView.tsx
   function PrintColorUsagesToolView(props) {
     const [settings, setSettings] = d2(DEFAULT_SETTINGS);
+    const [activeTab, setActiveTab] = d2("Print");
     const [loaded, setLoaded] = d2(false);
     const [status, setStatus] = d2({ status: "idle" });
     const [selectionSize, setSelectionSize] = d2(0);
+    const [scope, setScope] = d2("page");
+    const [preview, setPreview] = d2(null);
+    const [selectedPreviewNodeIds, setSelectedPreviewNodeIds] = d2([]);
     y2(() => {
       const handleMessage = (event) => {
         var _a;
@@ -4424,6 +4622,11 @@ svg {
           setStatus(msg.status);
           return;
         }
+        if (msg.type === MAIN_TO_UI.PRINT_COLOR_USAGES_UPDATE_PREVIEW) {
+          setPreview(msg.payload);
+          setSelectedPreviewNodeIds(msg.payload.entries.map((entry) => entry.nodeId));
+          return;
+        }
       };
       window.addEventListener("message", handleMessage);
       parent.postMessage({ pluginMessage: { type: UI_TO_MAIN.PRINT_COLOR_USAGES_LOAD_SETTINGS } }, "*");
@@ -4431,20 +4634,49 @@ svg {
     }, []);
     y2(() => {
       if (!loaded) return;
+      setPreview(null);
+      setSelectedPreviewNodeIds([]);
       parent.postMessage(
         { pluginMessage: { type: UI_TO_MAIN.PRINT_COLOR_USAGES_SAVE_SETTINGS, settings } },
         "*"
       );
     }, [loaded, settings]);
     const isWorking = status.status === "working";
-    const updateLabel = selectionSize > 0 ? "Update Prints in Selection" : "Update Prints on Page";
+    const selectedPreviewNodeIdSet = T2(() => new Set(selectedPreviewNodeIds), [selectedPreviewNodeIds]);
+    const selectedPreviewCount = selectedPreviewNodeIds.length;
+    const hasPreviewChanges = selectedPreviewCount > 0;
+    const hasSelection = selectionSize > 0;
+    y2(() => {
+      if (hasSelection) {
+        setScope("selection");
+      } else if (scope === "selection") {
+        setScope("page");
+      }
+    }, [hasSelection]);
+    const applyLabel = T2(() => {
+      var _a;
+      const s3 = (_a = preview == null ? void 0 : preview.scope) != null ? _a : scope;
+      if (s3 === "selection") return "Apply in Selection";
+      if (s3 === "all_pages") return "Apply on All Pages";
+      return "Apply on Page";
+    }, [scope, preview]);
     return /* @__PURE__ */ _(Page, null, /* @__PURE__ */ _(
       ToolHeader,
       {
         title: "Print Color Usages",
         left: /* @__PURE__ */ _(IconButton, { onClick: props.onBack, title: "Home" }, /* @__PURE__ */ _(IconHome16, null))
       }
-    ), /* @__PURE__ */ _("div", { style: { flex: 1, minHeight: 0, display: "flex", flexDirection: "column" } }, /* @__PURE__ */ _(ToolBody, { mode: "content" }, /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(Text, null, "Position"), /* @__PURE__ */ _(VerticalSpace, { space: "extraSmall" }), /* @__PURE__ */ _(
+    ), /* @__PURE__ */ _("div", { style: { flex: 1, minHeight: 0, display: "flex", flexDirection: "column" } }, /* @__PURE__ */ _(
+      ToolTabs,
+      {
+        value: activeTab,
+        onValueChange: (value) => setActiveTab(value === "Update" ? "Update" : "Print"),
+        options: [
+          { value: "Print", children: null },
+          { value: "Update", children: null }
+        ]
+      }
+    ), /* @__PURE__ */ _(ToolBody, { mode: "content" }, /* @__PURE__ */ _(Stack, { space: "medium" }, activeTab === "Print" ? /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(Text, null, "Position"), /* @__PURE__ */ _(
       RadioButtons,
       {
         direction: "horizontal",
@@ -4457,21 +4689,240 @@ svg {
           { value: "right", children: /* @__PURE__ */ _(Text, null, "Right") }
         ]
       }
-    ), /* @__PURE__ */ _(VerticalSpace, { space: "large" }), /* @__PURE__ */ _(
+    )) : null, activeTab === "Print" ? /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(
       Checkbox,
       {
         value: settings.showLinkedColors,
         onValueChange: (value) => setSettings((s3) => __spreadProps(__spreadValues({}, s3), { showLinkedColors: value }))
       },
       /* @__PURE__ */ _(Text, null, "Show linked colors")
-    ), /* @__PURE__ */ _(VerticalSpace, { space: "extraSmall" }), /* @__PURE__ */ _(
+    ), /* @__PURE__ */ _(
       Checkbox,
       {
         value: settings.hideFolderNames,
         onValueChange: (value) => setSettings((s3) => __spreadProps(__spreadValues({}, s3), { hideFolderNames: value }))
       },
       /* @__PURE__ */ _(Text, null, "Hide folder prefixes (after \u201C/\u201D)")
-    ), /* @__PURE__ */ _(VerticalSpace, { space: "large" }), /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "Text color is from Mockup markup"), /* @__PURE__ */ _(VerticalSpace, { space: "large" })), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(Container, { space: "small" }, /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(Columns, { space: "small" }, /* @__PURE__ */ _(
+    )) : null, activeTab === "Print" ? /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "Text color is from Mockup markup") : null, activeTab === "Print" ? null : /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(
+      ScopeControl,
+      {
+        value: scope,
+        hasSelection,
+        onValueChange: setScope
+      }
+    ), /* @__PURE__ */ _(
+      Button,
+      {
+        secondary: true,
+        loading: isWorking,
+        onClick: () => parent.postMessage(
+          {
+            pluginMessage: {
+              type: UI_TO_MAIN.PRINT_COLOR_USAGES_PREVIEW_UPDATE,
+              settings,
+              scope
+            }
+          },
+          "*"
+        )
+      },
+      "Check changes"
+    ), preview && /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "Candidates: ", preview.totals.candidates, " | Changes: ", preview.totals.changed, " | Unchanged: ", preview.totals.unchanged, " | Skipped: ", preview.totals.skipped), preview.entries.length === 0 ? /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "No text changes found.") : /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "Selected for apply: ", selectedPreviewCount, " / ", preview.entries.length), /* @__PURE__ */ _("div", { style: { display: "flex", gap: 8 } }, /* @__PURE__ */ _(
+      Button,
+      {
+        secondary: true,
+        onClick: () => setSelectedPreviewNodeIds(preview.entries.map((entry) => entry.nodeId))
+      },
+      "Select all"
+    ), /* @__PURE__ */ _(Button, { secondary: true, onClick: () => setSelectedPreviewNodeIds([]) }, "Clear")), /* @__PURE__ */ _(
+      "div",
+      {
+        style: {
+          border: "1px solid var(--figma-color-border)",
+          borderRadius: 6,
+          overflow: "hidden"
+        }
+      },
+      preview.entries.map((entry, index) => {
+        var _a, _b;
+        const isChecked = selectedPreviewNodeIdSet.has(entry.nodeId);
+        const textDiff = renderInlineDiff((_a = entry.oldText) != null ? _a : "", (_b = entry.newText) != null ? _b : "");
+        return /* @__PURE__ */ _(
+          "div",
+          {
+            key: entry.nodeId,
+            style: {
+              borderTop: index === 0 ? "none" : "1px solid var(--figma-color-border-secondary)",
+              padding: 10,
+              background: isChecked ? "var(--figma-color-bg-secondary)" : "var(--figma-color-bg)"
+            }
+          },
+          /* @__PURE__ */ _(
+            Checkbox,
+            {
+              value: isChecked,
+              onValueChange: (value) => setSelectedPreviewNodeIds(
+                (prev) => value ? prev.includes(entry.nodeId) ? prev : [...prev, entry.nodeId] : prev.filter((id) => id !== entry.nodeId)
+              )
+            },
+            /* @__PURE__ */ _(Text, null, entry.nodeName)
+          ),
+          /* @__PURE__ */ _("div", { style: { display: "flex", gap: 8, marginTop: 6 } }, /* @__PURE__ */ _(
+            Button,
+            {
+              secondary: true,
+              disabled: !isChecked,
+              onClick: () => parent.postMessage(
+                {
+                  pluginMessage: {
+                    type: UI_TO_MAIN.PRINT_COLOR_USAGES_RESET_LAYER_NAME,
+                    nodeId: entry.nodeId
+                  }
+                },
+                "*"
+              )
+            },
+            "Reset layer name"
+          )),
+          /* @__PURE__ */ _(
+            "button",
+            {
+              type: "button",
+              onClick: () => parent.postMessage(
+                {
+                  pluginMessage: {
+                    type: UI_TO_MAIN.PRINT_COLOR_USAGES_FOCUS_NODE,
+                    nodeId: entry.nodeId
+                  }
+                },
+                "*"
+              ),
+              style: {
+                marginTop: 6,
+                width: "100%",
+                display: "block",
+                border: "none",
+                background: "transparent",
+                textAlign: "left",
+                padding: 0,
+                cursor: "pointer"
+              }
+            },
+            /* @__PURE__ */ _(
+              "div",
+              {
+                style: {
+                  display: "flex",
+                  gap: 6,
+                  marginBottom: 4
+                }
+              },
+              entry.textChanged ? /* @__PURE__ */ _(
+                "span",
+                {
+                  style: {
+                    fontSize: 10,
+                    lineHeight: "14px",
+                    padding: "1px 6px",
+                    borderRadius: 999,
+                    border: "1px solid var(--figma-color-border-brand-strong)",
+                    color: "var(--figma-color-text-brand)"
+                  }
+                },
+                "Text"
+              ) : null,
+              entry.layerNameChanged ? /* @__PURE__ */ _(
+                "span",
+                {
+                  style: {
+                    fontSize: 10,
+                    lineHeight: "14px",
+                    padding: "1px 6px",
+                    borderRadius: 999,
+                    border: "1px solid var(--figma-color-border-warning)",
+                    color: "var(--figma-color-text-warning)"
+                  }
+                },
+                "Layer name"
+              ) : null,
+              entry.linkedColorChanged ? /* @__PURE__ */ _(
+                "span",
+                {
+                  style: {
+                    fontSize: 10,
+                    lineHeight: "14px",
+                    padding: "1px 6px",
+                    borderRadius: 999,
+                    border: "1px solid #b7f0c9",
+                    color: "#067647",
+                    background: "#ecfdf3"
+                  }
+                },
+                "Linked color changed"
+              ) : null
+            ),
+            /* @__PURE__ */ _(
+              Text,
+              {
+                style: {
+                  marginTop: 2,
+                  color: "var(--figma-color-text-secondary)",
+                  whiteSpace: "pre-wrap",
+                  wordBreak: "break-word",
+                  lineHeight: "20px"
+                }
+              },
+              "Old: ",
+              textDiff.beforeNode
+            ),
+            /* @__PURE__ */ _(
+              Text,
+              {
+                style: {
+                  color: "var(--figma-color-text)",
+                  whiteSpace: "pre-wrap",
+                  wordBreak: "break-word",
+                  lineHeight: "20px"
+                }
+              },
+              "New: ",
+              textDiff.afterNode
+            ),
+            entry.layerNameChanged ? /* @__PURE__ */ _(
+              Text,
+              {
+                style: {
+                  color: "var(--figma-color-text-secondary)",
+                  whiteSpace: "pre-wrap",
+                  wordBreak: "break-word",
+                  lineHeight: "18px"
+                }
+              },
+              "Layer: ",
+              entry.oldLayerName || "(empty)",
+              " ",
+              "->",
+              " ",
+              entry.newLayerName || "(empty)"
+            ) : null,
+            /* @__PURE__ */ _(
+              Text,
+              {
+                style: {
+                  color: "var(--figma-color-text-tertiary)",
+                  whiteSpace: "pre-wrap",
+                  wordBreak: "break-word",
+                  lineHeight: "16px"
+                }
+              },
+              "Resolved by:",
+              " ",
+              entry.resolvedBy === "plugin_data" ? "plugin data" : entry.resolvedBy === "layer_variable_id" ? "layer VariableID" : entry.resolvedBy === "layer_name" ? "layer name" : "text content fallback"
+            )
+          )
+        );
+      })
+    )))), /* @__PURE__ */ _(VerticalSpace, { space: "small" }))), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(Container, { space: "small" }, /* @__PURE__ */ _(VerticalSpace, { space: "small" }), activeTab === "Print" ? /* @__PURE__ */ _(
       Button,
       {
         fullWidth: true,
@@ -4479,16 +4930,25 @@ svg {
         onClick: () => parent.postMessage({ pluginMessage: { type: UI_TO_MAIN.PRINT_COLOR_USAGES_PRINT, settings } }, "*")
       },
       "Print"
-    ), /* @__PURE__ */ _(
+    ) : /* @__PURE__ */ _(
       Button,
       {
         fullWidth: true,
-        secondary: true,
         loading: isWorking,
-        onClick: () => parent.postMessage({ pluginMessage: { type: UI_TO_MAIN.PRINT_COLOR_USAGES_UPDATE, settings } }, "*")
+        disabled: !hasPreviewChanges,
+        onClick: () => parent.postMessage(
+          {
+            pluginMessage: {
+              type: UI_TO_MAIN.PRINT_COLOR_USAGES_UPDATE,
+              settings,
+              targetNodeIds: selectedPreviewNodeIds
+            }
+          },
+          "*"
+        )
       },
-      updateLabel
-    )), /* @__PURE__ */ _(VerticalSpace, { space: "small" }))));
+      applyLabel
+    ), /* @__PURE__ */ _(VerticalSpace, { space: "small" }))));
   }
   var DEFAULT_SETTINGS;
   var init_PrintColorUsagesToolView = __esm({
@@ -4498,9 +4958,12 @@ svg {
       init_preact_module();
       init_hooks_module();
       init_messages();
+      init_InlineTextDiff();
       init_Page();
+      init_ScopeControl();
       init_ToolBody();
       init_ToolHeader();
+      init_ToolTabs();
       DEFAULT_SETTINGS = {
         textPosition: "right",
         showLinkedColors: true,
@@ -4550,44 +5013,6 @@ svg {
       return { background: "#ecfdf3", borderColor: "#b7f0c9", color: "#067647" };
     }
     return { background: "#fff7ed", borderColor: "#fed7aa", color: "#9a3412" };
-  }
-  function renderNameDiff(before, after) {
-    const a3 = String(before != null ? before : "");
-    const b2 = String(after != null ? after : "");
-    const aLen = a3.length;
-    const bLen = b2.length;
-    const min = Math.min(aLen, bLen);
-    let start = 0;
-    while (start < min && a3[start] === b2[start]) start += 1;
-    let endA = aLen - 1;
-    let endB = bLen - 1;
-    while (endA >= start && endB >= start && a3[endA] === b2[endB]) {
-      endA -= 1;
-      endB -= 1;
-    }
-    const prefix = a3.slice(0, start);
-    const aMid = a3.slice(start, endA + 1);
-    const suffix = a3.slice(endA + 1);
-    const bMid = b2.slice(start, endB + 1);
-    const removedStyle = {
-      background: "#fff1f2",
-      border: "1px solid #fecdd3",
-      color: "#9f1239",
-      borderRadius: 4,
-      padding: "0 2px",
-      fontWeight: 700
-    };
-    const addedStyle = {
-      background: "#ecfdf3",
-      border: "1px solid #b7f0c9",
-      color: "#067647",
-      borderRadius: 4,
-      padding: "0 2px",
-      fontWeight: 700
-    };
-    const beforeNode = /* @__PURE__ */ _("span", null, prefix ? /* @__PURE__ */ _("span", null, prefix) : null, aMid ? /* @__PURE__ */ _("span", { style: removedStyle }, aMid) : null, suffix ? /* @__PURE__ */ _("span", null, suffix) : null);
-    const afterNode = /* @__PURE__ */ _("span", null, prefix ? /* @__PURE__ */ _("span", null, prefix) : null, bMid ? /* @__PURE__ */ _("span", { style: addedStyle }, bMid) : null, suffix ? /* @__PURE__ */ _("span", null, suffix) : null);
-    return { beforeNode, afterNode };
   }
   function VariablesBatchRenameToolView({ onBack }) {
     const [collections, setCollections] = d2([]);
@@ -4956,7 +5381,7 @@ svg {
         /* @__PURE__ */ _("tbody", null, importRows.map((entry) => {
           var _a, _b, _c, _d;
           const pillStyle = getStatusPillStyle(entry.status);
-          const { beforeNode, afterNode } = renderNameDiff(
+          const { beforeNode, afterNode } = renderInlineDiff(
             (_a = entry.currentName) != null ? _a : "",
             (_b = entry.newName) != null ? _b : ""
           );
@@ -4999,6 +5424,7 @@ svg {
       init_preact_module();
       init_hooks_module();
       init_messages();
+      init_InlineTextDiff();
       init_Page();
       init_ToolBody();
       init_ToolHeader();
@@ -5866,10 +6292,6 @@ svg {
       );
     };
     const hasSelection = selectionSize > 0;
-    const selectScope = (nextScope) => {
-      if (nextScope === "selection" && !hasSelection) return;
-      setScope(nextScope);
-    };
     return /* @__PURE__ */ _(Page, null, /* @__PURE__ */ _(
       ToolHeader,
       {
@@ -5877,81 +6299,12 @@ svg {
         left: /* @__PURE__ */ _(IconButton, { onClick: onBack, title: "Home" }, /* @__PURE__ */ _(IconHome16, null))
       }
     ), /* @__PURE__ */ _(ToolBody, { mode: "content" }, /* @__PURE__ */ _(Stack, { space: "medium" }, errorMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#fff1f2", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "#9f1239" } }, errorMessage))), successMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#ecfdf3", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, successMessage))), /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, 'Load a JSON mapping file to replace variable bindings in layers. The mapping file should specify "from \u2192 to" variable names within a collection.')), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Scope"), /* @__PURE__ */ _(
-      "div",
+      ScopeControl,
       {
-        style: {
-          display: "flex",
-          gap: 2,
-          padding: 2,
-          borderRadius: 8,
-          background: "var(--figma-color-bg-secondary)"
-        }
-      },
-      /* @__PURE__ */ _(
-        "button",
-        {
-          type: "button",
-          disabled: !hasSelection,
-          onClick: () => selectScope("selection"),
-          style: {
-            flex: 1,
-            height: 24,
-            borderRadius: 6,
-            border: scope === "selection" ? "1px solid var(--figma-color-border)" : "1px solid transparent",
-            background: scope === "selection" ? "var(--figma-color-bg)" : "transparent",
-            color: scope === "selection" ? "var(--figma-color-text)" : "var(--figma-color-text-secondary)",
-            cursor: hasSelection ? "pointer" : "not-allowed",
-            opacity: hasSelection ? 1 : 0.5,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "0 8px"
-          }
-        },
-        /* @__PURE__ */ _(Text, null, "Selection only")
-      ),
-      /* @__PURE__ */ _(
-        "button",
-        {
-          type: "button",
-          onClick: () => selectScope("page"),
-          style: {
-            flex: 1,
-            height: 24,
-            borderRadius: 6,
-            border: scope === "page" ? "1px solid var(--figma-color-border)" : "1px solid transparent",
-            background: scope === "page" ? "var(--figma-color-bg)" : "transparent",
-            color: scope === "page" ? "var(--figma-color-text)" : "var(--figma-color-text-secondary)",
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "0 8px"
-          }
-        },
-        /* @__PURE__ */ _(Text, null, "Current page")
-      ),
-      /* @__PURE__ */ _(
-        "button",
-        {
-          type: "button",
-          onClick: () => selectScope("all_pages"),
-          style: {
-            flex: 1,
-            height: 24,
-            borderRadius: 6,
-            border: scope === "all_pages" ? "1px solid var(--figma-color-border)" : "1px solid transparent",
-            background: scope === "all_pages" ? "var(--figma-color-bg)" : "transparent",
-            color: scope === "all_pages" ? "var(--figma-color-text)" : "var(--figma-color-text-secondary)",
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "0 8px"
-          }
-        },
-        /* @__PURE__ */ _(Text, null, "All pages")
-      )
+        value: scope,
+        hasSelection,
+        onValueChange: setScope
+      }
     )), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Options"), /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(Checkbox, { value: renamePrints, onValueChange: setRenamePrints }, /* @__PURE__ */ _(Text, null, 'Rename "Prints" layers (layers prefixed with VariableID:...)')), /* @__PURE__ */ _(Checkbox, { value: includeHidden, onValueChange: setIncludeHidden }, /* @__PURE__ */ _(Text, null, "Include hidden layers")))), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Mapping File"), /* @__PURE__ */ _(Text, { style: { fontSize: 11, color: "var(--figma-color-text-secondary)" } }, "JSON format: ", "{", ' version: 1, collectionName: "...", replacements: [', "{", ' from: "OldName", to: "NewName" ', "}", "] ", "}"), /* @__PURE__ */ _(
       FileUploadButton,
       {
@@ -6188,6 +6541,7 @@ svg {
       init_hooks_module();
       init_messages();
       init_Page();
+      init_ScopeControl();
       init_ToolBody();
       init_ToolHeader();
     }
@@ -6210,11 +6564,11 @@ svg {
         if (msg.type === MAIN_TO_UI.BOOTSTRAPPED) {
           setSelectionSize(msg.selectionSize);
           const validRoutes = [
+            "mockup-markup-tool",
             "color-chain-tool",
             "print-color-usages-tool",
-            "mockup-markup-tool",
-            "variables-batch-rename-tool",
             "variables-export-import-tool",
+            "variables-batch-rename-tool",
             "variables-create-linked-colors-tool",
             "variables-replace-usages-tool"
           ];
@@ -6241,20 +6595,20 @@ svg {
     if (route === "home") {
       return /* @__PURE__ */ _(HomeView, { goTo: setRoute });
     }
+    if (route === "mockup-markup-tool") {
+      return /* @__PURE__ */ _(MockupMarkupToolView, { onBack: () => setRoute("home") });
+    }
     if (route === "color-chain-tool") {
       return /* @__PURE__ */ _(ColorChainToolView, { onBack: () => setRoute("home"), initialSelectionEmpty: selectionSize === 0 });
     }
     if (route === "print-color-usages-tool") {
       return /* @__PURE__ */ _(PrintColorUsagesToolView, { onBack: () => setRoute("home") });
     }
-    if (route === "mockup-markup-tool") {
-      return /* @__PURE__ */ _(MockupMarkupToolView, { onBack: () => setRoute("home") });
+    if (route === "variables-export-import-tool") {
+      return /* @__PURE__ */ _(VariablesExportImportToolView, { onBack: () => setRoute("home") });
     }
     if (route === "variables-batch-rename-tool") {
       return /* @__PURE__ */ _(VariablesBatchRenameToolView, { onBack: () => setRoute("home") });
-    }
-    if (route === "variables-export-import-tool") {
-      return /* @__PURE__ */ _(VariablesExportImportToolView, { onBack: () => setRoute("home") });
     }
     if (route === "variables-create-linked-colors-tool") {
       return /* @__PURE__ */ _(VariablesCreateLinkedColorsToolView, { onBack: () => setRoute("home") });
@@ -6292,7 +6646,7 @@ svg {
 
   // <stdin>
   var rootNode = document.getElementById("create-figma-plugin");
-  var modules = { "src/home/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/color-chain-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/print-color-usages-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/mockup-markup-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/variables-batch-rename-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/variables-export-import-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/variables-create-linked-colors-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/variables-replace-usages-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"] };
+  var modules = { "src/home/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/mockup-markup-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/color-chain-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/print-color-usages-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/variables-export-import-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/variables-batch-rename-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/variables-create-linked-colors-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/variables-replace-usages-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"] };
   var commandId = __FIGMA_COMMAND__ === "" ? "src/home/main.ts--default" : __FIGMA_COMMAND__;
   if (typeof modules[commandId] === "undefined") {
     throw new Error(

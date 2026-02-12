@@ -41,9 +41,9 @@ export function ToolBody(props: {
           flexDirection: "column",
         }}
       >
-        <VerticalSpace space="small" />
+        <VerticalSpace space="medium" />
         {props.children}
-        <VerticalSpace space="small" />
+        <VerticalSpace space="medium" />
       </Container>
     </div>
   )

@@ -14,11 +14,11 @@ import { VariablesReplaceUsagesToolView } from "./views/variables-replace-usages
 
 type Route =
   | "home"
+  | "mockup-markup-tool"
   | "color-chain-tool"
   | "print-color-usages-tool"
-  | "mockup-markup-tool"
-  | "variables-batch-rename-tool"
   | "variables-export-import-tool"
+  | "variables-batch-rename-tool"
   | "variables-create-linked-colors-tool"
   | "variables-replace-usages-tool"
 
@@ -33,11 +33,11 @@ export function App() {
       if (msg.type === MAIN_TO_UI.BOOTSTRAPPED) {
         setSelectionSize(msg.selectionSize)
         const validRoutes: Route[] = [
+          "mockup-markup-tool",
           "color-chain-tool",
           "print-color-usages-tool",
-          "mockup-markup-tool",
-          "variables-batch-rename-tool",
           "variables-export-import-tool",
+          "variables-batch-rename-tool",
           "variables-create-linked-colors-tool",
           "variables-replace-usages-tool",
         ]
@@ -68,6 +68,10 @@ export function App() {
     return <HomeView goTo={setRoute} />
   }
 
+  if (route === "mockup-markup-tool") {
+    return <MockupMarkupToolView onBack={() => setRoute("home")} />
+  }
+
   if (route === "color-chain-tool") {
     return <ColorChainToolView onBack={() => setRoute("home")} initialSelectionEmpty={selectionSize === 0} />
   }
@@ -76,16 +80,12 @@ export function App() {
     return <PrintColorUsagesToolView onBack={() => setRoute("home")} />
   }
 
-  if (route === "mockup-markup-tool") {
-    return <MockupMarkupToolView onBack={() => setRoute("home")} />
+  if (route === "variables-export-import-tool") {
+    return <VariablesExportImportToolView onBack={() => setRoute("home")} />
   }
 
   if (route === "variables-batch-rename-tool") {
     return <VariablesBatchRenameToolView onBack={() => setRoute("home")} />
-  }
-
-  if (route === "variables-export-import-tool") {
-    return <VariablesExportImportToolView onBack={() => setRoute("home")} />
   }
 
   if (route === "variables-create-linked-colors-tool") {

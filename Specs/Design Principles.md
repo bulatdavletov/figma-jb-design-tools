@@ -10,6 +10,7 @@
 - Prefer a single page/body scroll when needed
 - Avoid horizontal scrolling in tables and lists; wrap text instead
 - Use consistent spacing blocks between sections (`small`, `medium`, `large`)
+- For `ToolBody` content with data, keep consistent vertical rhythm (same top/bottom spacing and explicit spacing between logical groups).
 
 ## Selection UX (Checkboxes)
 - Always wrap checkbox labels in `<Text>` for alignment

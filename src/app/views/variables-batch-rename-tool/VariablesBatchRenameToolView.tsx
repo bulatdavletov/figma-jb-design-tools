@@ -27,6 +27,7 @@ import {
   type BatchRenameApplyResultPayload,
   type BatchRenameProgress,
 } from "../../messages"
+import { renderInlineDiff } from "../../components/InlineTextDiff"
 import { Page } from "../../components/Page"
 import { ToolBody } from "../../components/ToolBody"
 import { ToolHeader } from "../../components/ToolHeader"
@@ -83,65 +84,6 @@ function getStatusPillStyle(status: BatchRenamePreviewEntryStatus): {
 
   // warning-ish statuses
   return { background: "#fff7ed", borderColor: "#fed7aa", color: "#9a3412" }
-}
-
-function renderNameDiff(before: string, after: string): { beforeNode: h.JSX.Element; afterNode: h.JSX.Element } {
-  const a = String(before ?? "")
-  const b = String(after ?? "")
-  const aLen = a.length
-  const bLen = b.length
-  const min = Math.min(aLen, bLen)
-
-  let start = 0
-  while (start < min && a[start] === b[start]) start += 1
-
-  let endA = aLen - 1
-  let endB = bLen - 1
-  while (endA >= start && endB >= start && a[endA] === b[endB]) {
-    endA -= 1
-    endB -= 1
-  }
-
-  const prefix = a.slice(0, start)
-  const aMid = a.slice(start, endA + 1)
-  const suffix = a.slice(endA + 1)
-  const bMid = b.slice(start, endB + 1)
-
-  const removedStyle = {
-    background: "#fff1f2",
-    border: "1px solid #fecdd3",
-    color: "#9f1239",
-    borderRadius: 4,
-    padding: "0 2px",
-    fontWeight: 700,
-  } as const
-
-  const addedStyle = {
-    background: "#ecfdf3",
-    border: "1px solid #b7f0c9",
-    color: "#067647",
-    borderRadius: 4,
-    padding: "0 2px",
-    fontWeight: 700,
-  } as const
-
-  const beforeNode = (
-    <span>
-      {prefix ? <span>{prefix}</span> : null}
-      {aMid ? <span style={removedStyle}>{aMid}</span> : null}
-      {suffix ? <span>{suffix}</span> : null}
-    </span>
-  )
-
-  const afterNode = (
-    <span>
-      {prefix ? <span>{prefix}</span> : null}
-      {bMid ? <span style={addedStyle}>{bMid}</span> : null}
-      {suffix ? <span>{suffix}</span> : null}
-    </span>
-  )
-
-  return { beforeNode, afterNode }
 }
 
 export function VariablesBatchRenameToolView({ onBack }: Props) {
@@ -657,7 +599,7 @@ export function VariablesBatchRenameToolView({ onBack }: Props) {
                   <tbody>
                     {importRows.map((entry: BatchRenamePreviewEntry) => {
                       const pillStyle = getStatusPillStyle(entry.status)
-                      const { beforeNode, afterNode } = renderNameDiff(
+                      const { beforeNode, afterNode } = renderInlineDiff(
                         entry.currentName ?? "",
                         entry.newName ?? ""
                       )

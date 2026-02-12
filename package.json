@@ -47,6 +47,11 @@
         "ui": "src/app/ui.tsx"
       },
       {
+        "name": "Mockup Markup Quick Apply",
+        "main": "src/mockup-markup-tool/main.ts",
+        "ui": "src/app/ui.tsx"
+      },
+      {
         "name": "View Colors Chain",
         "main": "src/color-chain-tool/main.ts",
         "ui": "src/app/ui.tsx"
@@ -57,18 +62,13 @@
         "ui": "src/app/ui.tsx"
       },
       {
-        "name": "Mockup Markup Quick Apply",
-        "main": "src/mockup-markup-tool/main.ts",
+        "name": "Variables Export Import",
+        "main": "src/variables-export-import-tool/main.ts",
         "ui": "src/app/ui.tsx"
       },
       {
         "name": "Variables Batch Rename",
         "main": "src/variables-batch-rename-tool/main.ts",
-        "ui": "src/app/ui.tsx"
-      },
-      {
-        "name": "Variables Export Import",
-        "main": "src/variables-export-import-tool/main.ts",
         "ui": "src/app/ui.tsx"
       },
       {

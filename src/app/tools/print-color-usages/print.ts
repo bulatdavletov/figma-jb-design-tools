@@ -82,6 +82,7 @@ export async function printColorUsagesFromSelection(settings: PrintColorUsagesUi
   const secondaryFills = labelFills.secondary
 
   const textNodes: TextNode[] = []
+  let groupsWithNoColors = 0
 
   // Group selection by containing instance (outermost).
   type PrintGroup = { anchor: SceneNode; selectedNodes: SceneNode[] }
@@ -117,22 +118,13 @@ export async function printColorUsagesFromSelection(settings: PrintColorUsagesUi
       return a.label.localeCompare(b.label)
     })
 
-    const parentContainer = findContainingFrame(anchor) ?? figma.currentPage
-    const nodeRect = getNodeRectInContainer(anchor, parentContainer)
-
     if (colorInfo.length === 0) {
-      const text = figma.createText()
-      text.characters = `No colors found in ${anchor.name}`
-      await applyTypographyToLabel(text, markupDescriptionStyle)
-      const position = calculateTextPositionFromRect(nodeRect, textPosition, 0)
-      text.x = position.x
-      text.y = position.y
-      text.fills = primaryFills
-      if (textPosition === "left") text.x = nodeRect.x - text.width - 16
-      parentContainer.appendChild(text)
-      textNodes.push(text)
+      groupsWithNoColors++
       continue
     }
+
+    const parentContainer = findContainingFrame(anchor) ?? figma.currentPage
+    const nodeRect = getNodeRectInContainer(anchor, parentContainer)
 
     for (let i = 0; i < colorInfo.length; i++) {
       const info = colorInfo[i]
@@ -190,7 +182,10 @@ export async function printColorUsagesFromSelection(settings: PrintColorUsagesUi
     } catch {
       // ignore
     }
-    figma.notify(`Created ${textNodes.length} color usage text node(s)`)
+    const suffix = groupsWithNoColors > 0 ? `; no colors found in ${groupsWithNoColors} selection group(s)` : ""
+    figma.notify(`Created ${textNodes.length} color usage text node(s)${suffix}`)
+  } else {
+    figma.notify("No visible solid colors found in selection")
   }
 
   return textNodes.length

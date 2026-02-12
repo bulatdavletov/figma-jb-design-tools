@@ -13,6 +13,10 @@
       "command": "src/home/main.ts--default"
     },
     {
+      "name": "Mockup Markup Quick Apply",
+      "command": "src/mockup-markup-tool/main.ts--default"
+    },
+    {
       "name": "View Colors Chain",
       "command": "src/color-chain-tool/main.ts--default"
     },
@@ -21,16 +25,12 @@
       "command": "src/print-color-usages-tool/main.ts--default"
     },
     {
-      "name": "Mockup Markup Quick Apply",
-      "command": "src/mockup-markup-tool/main.ts--default"
+      "name": "Variables Export Import",
+      "command": "src/variables-export-import-tool/main.ts--default"
     },
     {
       "name": "Variables Batch Rename",
       "command": "src/variables-batch-rename-tool/main.ts--default"
-    },
-    {
-      "name": "Variables Export Import",
-      "command": "src/variables-export-import-tool/main.ts--default"
     },
     {
       "name": "Variables Create Linked Colors",

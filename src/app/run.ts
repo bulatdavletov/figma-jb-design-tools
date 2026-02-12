@@ -12,16 +12,16 @@ import { registerVariablesReplaceUsagesTool } from "./tools/variables-replace-us
 
 function getToolTitle(command: string): string {
   switch (command) {
+    case "mockup-markup-tool":
+      return "Mockup Markup Quick Apply"
     case "color-chain-tool":
       return "View Colors Chain"
     case "print-color-usages-tool":
       return "Print Color Usages"
-    case "mockup-markup-tool":
-      return "Mockup Markup Quick Apply"
-    case "variables-batch-rename-tool":
-      return "Variables Batch Rename"
     case "variables-export-import-tool":
       return "Variables Export Import"
+    case "variables-batch-rename-tool":
+      return "Variables Batch Rename"
     case "variables-create-linked-colors-tool":
       return "Variables Create Linked Colors"
     case "variables-replace-usages-tool":
@@ -42,11 +42,11 @@ export function run(command: string) {
   )
 
   const toolCommands: ActiveTool[] = [
+    "mockup-markup-tool",
     "color-chain-tool",
     "print-color-usages-tool",
-    "mockup-markup-tool",
-    "variables-batch-rename-tool",
     "variables-export-import-tool",
+    "variables-batch-rename-tool",
     "variables-create-linked-colors-tool",
     "variables-replace-usages-tool",
   ]
@@ -67,6 +67,10 @@ export function run(command: string) {
 
   const activate = async (tool: ActiveTool) => {
     activeTool = tool
+    if (tool === "mockup-markup-tool") {
+      await mockupMarkup.onActivate()
+      return
+    }
     if (tool === "color-chain-tool") {
       await colorChain.onActivate()
       return
@@ -75,16 +79,12 @@ export function run(command: string) {
       await printColorUsages.onActivate()
       return
     }
-    if (tool === "mockup-markup-tool") {
-      await mockupMarkup.onActivate()
+    if (tool === "variables-export-import-tool") {
+      await variablesExportImport.onActivate()
       return
     }
     if (tool === "variables-batch-rename-tool") {
       await variablesBatchRename.onActivate()
-      return
-    }
-    if (tool === "variables-export-import-tool") {
-      await variablesExportImport.onActivate()
       return
     }
     if (tool === "variables-create-linked-colors-tool") {

@@ -56,6 +56,7 @@ export function ColorSwatch(props: {
         overflow: "hidden",
         display: "flex",
         backgroundImage: CHECKERBOARD_BG_IMAGE,
+        boxShadow: "inset 0 0 0 0.5px rgba(0, 0, 0, 0.2), inset 0 0 0 0.5px rgba(255, 255, 255, 0.1)",
       }}
     >
       {hex ? (

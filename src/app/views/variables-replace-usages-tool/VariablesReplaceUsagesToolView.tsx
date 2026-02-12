@@ -26,6 +26,7 @@ import {
   type ReplaceUsagesProgress,
 } from "../../messages"
 import { Page } from "../../components/Page"
+import { ScopeControl } from "../../components/ScopeControl"
 import { ToolBody } from "../../components/ToolBody"
 import { ToolHeader } from "../../components/ToolHeader"
 
@@ -208,10 +209,6 @@ export function VariablesReplaceUsagesToolView({ onBack, initialSelectionEmpty }
   }
 
   const hasSelection = selectionSize > 0
-  const selectScope = (nextScope: ReplaceUsagesScope) => {
-    if (nextScope === "selection" && !hasSelection) return
-    setScope(nextScope)
-  }
 
   return (
     <Page>
@@ -250,102 +247,11 @@ export function VariablesReplaceUsagesToolView({ onBack, initialSelectionEmpty }
 
           <Stack space="small">
             <Text style={{ fontWeight: 600 }}>Scope</Text>
-            <div
-              style={{
-                display: "flex",
-                gap: 2,
-                padding: 2,
-                borderRadius: 8,
-                background: "var(--figma-color-bg-secondary)",
-              }}
-            >
-              <button
-                type="button"
-                disabled={!hasSelection}
-                onClick={() => selectScope("selection")}
-                style={{
-                  flex: 1,
-                  height: 24,
-                  borderRadius: 6,
-                  border:
-                    scope === "selection"
-                      ? "1px solid var(--figma-color-border)"
-                      : "1px solid transparent",
-                  background:
-                    scope === "selection"
-                      ? "var(--figma-color-bg)"
-                      : "transparent",
-                  color:
-                    scope === "selection"
-                      ? "var(--figma-color-text)"
-                      : "var(--figma-color-text-secondary)",
-                  cursor: hasSelection ? "pointer" : "not-allowed",
-                  opacity: hasSelection ? 1 : 0.5,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  padding: "0 8px",
-                }}
-              >
-                <Text>Selection only</Text>
-              </button>
-              <button
-                type="button"
-                onClick={() => selectScope("page")}
-                style={{
-                  flex: 1,
-                  height: 24,
-                  borderRadius: 6,
-                  border:
-                    scope === "page"
-                      ? "1px solid var(--figma-color-border)"
-                      : "1px solid transparent",
-                  background:
-                    scope === "page"
-                      ? "var(--figma-color-bg)"
-                      : "transparent",
-                  color:
-                    scope === "page"
-                      ? "var(--figma-color-text)"
-                      : "var(--figma-color-text-secondary)",
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  padding: "0 8px",
-                }}
-              >
-                <Text>Current page</Text>
-              </button>
-              <button
-                type="button"
-                onClick={() => selectScope("all_pages")}
-                style={{
-                  flex: 1,
-                  height: 24,
-                  borderRadius: 6,
-                  border:
-                    scope === "all_pages"
-                      ? "1px solid var(--figma-color-border)"
-                      : "1px solid transparent",
-                  background:
-                    scope === "all_pages"
-                      ? "var(--figma-color-bg)"
-                      : "transparent",
-                  color:
-                    scope === "all_pages"
-                      ? "var(--figma-color-text)"
-                      : "var(--figma-color-text-secondary)",
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  padding: "0 8px",
-                }}
-              >
-                <Text>All pages</Text>
-              </button>
-            </div>
+            <ScopeControl
+              value={scope}
+              hasSelection={hasSelection}
+              onValueChange={setScope}
+            />
           </Stack>
 
           <Stack space="small">

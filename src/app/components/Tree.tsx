@@ -40,6 +40,18 @@ type TreeProps = {
   onToggle: (id: string) => void
 }
 
+function getActionWidth(action: TreeNodeAction): number {
+  // Keep row width stable by reserving action slot width up-front.
+  return action.kind === "button" ? 52 : 24
+}
+
+function getActionSlotWidth(actions: Array<TreeNodeAction>): number {
+  if (actions.length === 0) return 0
+  const itemWidths = actions.reduce((sum, action) => sum + getActionWidth(action), 0)
+  const gapWidth = (actions.length - 1) * 6
+  return itemWidths + gapWidth
+}
+
 function Caret(props: { open: boolean; showCaret: boolean }) {
   if (!props.showCaret) {
     return null
@@ -77,6 +89,9 @@ function TreeRow(props: {
   const paddingLeft = props.level * 16
   const DEBUG_ROW_BOUNDS = false
   const BASE_SIDE_PADDING = 4
+  const actions = Array.isArray(node.actions) ? node.actions : []
+  const hasActions = actions.length > 0
+  const actionsSlotWidth = getActionSlotWidth(actions)
 
   const handleToggle = () => {
     if (!isCollapsible) return
@@ -149,9 +164,19 @@ function TreeRow(props: {
         </div>
       ) : null}
 
-      {hovered && Array.isArray(node.actions) && node.actions.length > 0 ? (
+      {hasActions ? (
         <div
-          style={{ display: "flex", alignItems: "center", gap: 6 }}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-end",
+            gap: 6,
+            width: actionsSlotWidth,
+            minWidth: actionsSlotWidth,
+            opacity: hovered ? 1 : 0,
+            pointerEvents: hovered ? "auto" : "none",
+            transition: "opacity 120ms ease",
+          }}
           onClick={(e) => {
             e.preventDefault()
             e.stopPropagation()
@@ -161,7 +186,7 @@ function TreeRow(props: {
             e.stopPropagation()
           }}
         >
-          {node.actions.map((action) => (
+          {actions.map((action) => (
             action.kind === "button" ? (
               <button
                 key={action.id}
