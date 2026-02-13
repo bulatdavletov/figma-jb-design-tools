@@ -4,6 +4,8 @@ import { Text } from "@create-figma-plugin/ui"
 export type DataTableColumn = {
   label: string
   width?: string | number
+  /** Header + cell alignment. Defaults to "left". */
+  align?: "left" | "right" | "center"
 }
 
 export type DataTableProps = {
@@ -82,7 +84,7 @@ export function DataTable(props: DataTableProps) {
                   key={i}
                   style={{
                     borderBottom: "1px solid var(--figma-color-border)",
-                    textAlign: "left",
+                    textAlign: col.align ?? "left",
                     padding: "6px 8px",
                     position: "sticky",
                     top: 0,

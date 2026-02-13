@@ -691,10 +691,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/862817bb-8a8c-4e4b-a06a-6e40742d268d/loading-indicator.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e2360b98-55c7-4c71-a7be-f0ea44d4433e/loading-indicator.module.js
   var loading_indicator_module_default;
   var init_loading_indicator_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/862817bb-8a8c-4e4b-a06a-6e40742d268d/loading-indicator.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e2360b98-55c7-4c71-a7be-f0ea44d4433e/loading-indicator.module.js"() {
       if (document.getElementById("3fe0db8eb7") === null) {
         const element = document.createElement("style");
         element.id = "3fe0db8eb7";
@@ -755,10 +755,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/11767965-3be8-4130-9600-2a8ca108beeb/button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5d7d561c-9af9-4e38-b4ce-bdae19d9ae3d/button.module.js
   var button_module_default;
   var init_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/11767965-3be8-4130-9600-2a8ca108beeb/button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5d7d561c-9af9-4e38-b4ce-bdae19d9ae3d/button.module.js"() {
       if (document.getElementById("1dddd0e4df") === null) {
         const element = document.createElement("style");
         element.id = "1dddd0e4df";
@@ -1080,10 +1080,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4aa5ea40-b1db-4450-9796-7eb4aa0afbce/checkbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b5c48891-6a68-49fb-a42a-8676d0129dd9/checkbox.module.js
   var checkbox_module_default;
   var init_checkbox_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4aa5ea40-b1db-4450-9796-7eb4aa0afbce/checkbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b5c48891-6a68-49fb-a42a-8676d0129dd9/checkbox.module.js"() {
       if (document.getElementById("f38d076240") === null) {
         const element = document.createElement("style");
         element.id = "f38d076240";
@@ -1246,10 +1246,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/616bcf43-1f0b-47bf-815e-8136071ee960/disclosure.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/3555f313-c66a-4bdf-9596-0868e8a78898/disclosure.module.js
   var disclosure_module_default;
   var init_disclosure_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/616bcf43-1f0b-47bf-815e-8136071ee960/disclosure.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/3555f313-c66a-4bdf-9596-0868e8a78898/disclosure.module.js"() {
       if (document.getElementById("4712e1cb0c") === null) {
         const element = document.createElement("style");
         element.id = "4712e1cb0c";
@@ -1350,10 +1350,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8f39a847-b156-45ab-98dd-850dc8b130e7/divider.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f4d0f8c6-55a3-4cf4-a783-fa853243ae3c/divider.module.js
   var divider_module_default;
   var init_divider_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8f39a847-b156-45ab-98dd-850dc8b130e7/divider.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f4d0f8c6-55a3-4cf4-a783-fa853243ae3c/divider.module.js"() {
       if (document.getElementById("4bf06403b9") === null) {
         const element = document.createElement("style");
         element.id = "4bf06403b9";
@@ -1383,10 +1383,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c009aa41-3d42-4783-9f0d-a9d1bfff40ee/menu.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/70bb114c-d64e-4e52-a19e-1f32c54ebce8/menu.module.js
   var menu_module_default;
   var init_menu_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c009aa41-3d42-4783-9f0d-a9d1bfff40ee/menu.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/70bb114c-d64e-4e52-a19e-1f32c54ebce8/menu.module.js"() {
       if (document.getElementById("29044db304") === null) {
         const element = document.createElement("style");
         element.id = "29044db304";
@@ -1609,10 +1609,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8523a9fe-319e-4c4c-acdf-f26f70c0a2b7/dropdown.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e367238b-1a73-46db-a53b-fd68a72b7b41/dropdown.module.js
   var dropdown_module_default;
   var init_dropdown_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8523a9fe-319e-4c4c-acdf-f26f70c0a2b7/dropdown.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e367238b-1a73-46db-a53b-fd68a72b7b41/dropdown.module.js"() {
       if (document.getElementById("5a226eb00e") === null) {
         const element = document.createElement("style");
         element.id = "5a226eb00e";
@@ -2053,10 +2053,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4736e997-26ed-4838-99c7-065768bd20ac/button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/150c47a9-0830-4ee9-ae5f-eecdc6399e99/button.module.js
   var button_module_default2;
   var init_button_module2 = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4736e997-26ed-4838-99c7-065768bd20ac/button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/150c47a9-0830-4ee9-ae5f-eecdc6399e99/button.module.js"() {
       if (document.getElementById("1dddd0e4df") === null) {
         const element = document.createElement("style");
         element.id = "1dddd0e4df";
@@ -2220,10 +2220,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/fe889122-cb5f-42a4-9e50-99296a1089e4/file-upload-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2d64dc34-83cd-491f-9204-37f4ac0a7d60/file-upload-button.module.js
   var file_upload_button_module_default;
   var init_file_upload_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/fe889122-cb5f-42a4-9e50-99296a1089e4/file-upload-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2d64dc34-83cd-491f-9204-37f4ac0a7d60/file-upload-button.module.js"() {
       if (document.getElementById("f115bb30c8") === null) {
         const element = document.createElement("style");
         element.id = "f115bb30c8";
@@ -2338,10 +2338,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0a4bbf52-7082-46bc-81fd-7c40e43d079d/icon-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0e0734e8-94d7-404f-b9d5-1e0a423bdd08/icon-button.module.js
   var icon_button_module_default;
   var init_icon_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0a4bbf52-7082-46bc-81fd-7c40e43d079d/icon-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0e0734e8-94d7-404f-b9d5-1e0a423bdd08/icon-button.module.js"() {
       if (document.getElementById("c8b08e6568") === null) {
         const element = document.createElement("style");
         element.id = "c8b08e6568";
@@ -2419,10 +2419,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/634f1c45-e5f7-471c-8442-62f653e835f3/text.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/00fca688-cc77-4d2b-a095-443b4e85ba94/text.module.js
   var text_module_default;
   var init_text_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/634f1c45-e5f7-471c-8442-62f653e835f3/text.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/00fca688-cc77-4d2b-a095-443b4e85ba94/text.module.js"() {
       if (document.getElementById("1278016d5c") === null) {
         const element = document.createElement("style");
         element.id = "1278016d5c";
@@ -2480,10 +2480,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/680e303c-4e35-44e1-92e9-0835d1448b7b/inline.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6e1c9b99-0599-4f0c-882d-fcad0c113bed/inline.module.js
   var inline_module_default;
   var init_inline_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/680e303c-4e35-44e1-92e9-0835d1448b7b/inline.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6e1c9b99-0599-4f0c-882d-fcad0c113bed/inline.module.js"() {
       if (document.getElementById("3e1b2856fc") === null) {
         const element = document.createElement("style");
         element.id = "3e1b2856fc";
@@ -2545,10 +2545,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f6596e61-86ba-4871-a960-a687e08b6527/stack.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e1e850f1-b8f9-429a-90c6-1ca809f722a3/stack.module.js
   var stack_module_default;
   var init_stack_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f6596e61-86ba-4871-a960-a687e08b6527/stack.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e1e850f1-b8f9-429a-90c6-1ca809f722a3/stack.module.js"() {
       if (document.getElementById("317515cc3f") === null) {
         const element = document.createElement("style");
         element.id = "317515cc3f";
@@ -2591,10 +2591,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/02e5a6de-fbc7-45a7-a978-d04e85074f20/radio-buttons.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/aa46b86f-2c94-45d8-b659-d8cda4414a6c/radio-buttons.module.js
   var radio_buttons_module_default;
   var init_radio_buttons_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/02e5a6de-fbc7-45a7-a978-d04e85074f20/radio-buttons.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/aa46b86f-2c94-45d8-b659-d8cda4414a6c/radio-buttons.module.js"() {
       if (document.getElementById("a066c67891") === null) {
         const element = document.createElement("style");
         element.id = "a066c67891";
@@ -2713,10 +2713,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4001f6d0-188c-472e-bdde-6bcc5ec436d3/segmented-control.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9b8edae3-6d76-403b-b8ca-6666fa08c688/segmented-control.module.js
   var segmented_control_module_default;
   var init_segmented_control_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4001f6d0-188c-472e-bdde-6bcc5ec436d3/segmented-control.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9b8edae3-6d76-403b-b8ca-6666fa08c688/segmented-control.module.js"() {
       if (document.getElementById("bc6858a1b5") === null) {
         const element = document.createElement("style");
         element.id = "bc6858a1b5";
@@ -2817,10 +2817,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6889e0c5-4d61-43d8-8c15-235af845eb9f/tabs.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/53c9dfc1-983f-4ffa-848e-c3823efb6d17/tabs.module.js
   var tabs_module_default;
   var init_tabs_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6889e0c5-4d61-43d8-8c15-235af845eb9f/tabs.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/53c9dfc1-983f-4ffa-848e-c3823efb6d17/tabs.module.js"() {
       if (document.getElementById("b2487bb7e6") === null) {
         const element = document.createElement("style");
         element.id = "b2487bb7e6";
@@ -3037,10 +3037,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5a6c6675-2e7d-48c6-99fe-70ee040bb256/textbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2c494a4c-cf17-4751-ae6e-bc48133fbfab/textbox.module.js
   var textbox_module_default;
   var init_textbox_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5a6c6675-2e7d-48c6-99fe-70ee040bb256/textbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2c494a4c-cf17-4751-ae6e-bc48133fbfab/textbox.module.js"() {
       if (document.getElementById("5c1c5c2d3d") === null) {
         const element = document.createElement("style");
         element.id = "5c1c5c2d3d";
@@ -3439,10 +3439,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c067a190-c26c-4f4f-a004-ed6a4a3fab62/textbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0c7008f7-4ed2-473d-9196-3df2cfff2d8a/textbox.module.js
   var textbox_module_default2;
   var init_textbox_module2 = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c067a190-c26c-4f4f-a004-ed6a4a3fab62/textbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0c7008f7-4ed2-473d-9196-3df2cfff2d8a/textbox.module.js"() {
       if (document.getElementById("5c1c5c2d3d") === null) {
         const element = document.createElement("style");
         element.id = "5c1c5c2d3d";
@@ -3513,10 +3513,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0d78fdee-ff69-49f8-a0c8-755a2d1d8e30/textbox-numeric.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5f954c3f-963c-4e20-a75b-1c697c459290/textbox-numeric.module.js
   var textbox_numeric_module_default;
   var init_textbox_numeric_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0d78fdee-ff69-49f8-a0c8-755a2d1d8e30/textbox-numeric.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5f954c3f-963c-4e20-a75b-1c697c459290/textbox-numeric.module.js"() {
       if (document.getElementById("b6dab244a8") === null) {
         const element = document.createElement("style");
         element.id = "b6dab244a8";
@@ -3718,10 +3718,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/df7fef4a-654d-462c-ad1b-ff7ad03c8aa1/container.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f8df139d-1094-4fc9-a7bc-084d7b7938d0/container.module.js
   var container_module_default;
   var init_container_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/df7fef4a-654d-462c-ad1b-ff7ad03c8aa1/container.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f8df139d-1094-4fc9-a7bc-084d7b7938d0/container.module.js"() {
       if (document.getElementById("b49e1406f9") === null) {
         const element = document.createElement("style");
         element.id = "b49e1406f9";
@@ -3762,10 +3762,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e8c8dab2-02e0-47b4-816b-29455287b0d4/vertical-space.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e5af6e7a-a6ff-4ddd-951a-7bb986ad2a3f/vertical-space.module.js
   var vertical_space_module_default;
   var init_vertical_space_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e8c8dab2-02e0-47b4-816b-29455287b0d4/vertical-space.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e5af6e7a-a6ff-4ddd-951a-7bb986ad2a3f/vertical-space.module.js"() {
       if (document.getElementById("ba0eea5114") === null) {
         const element = document.createElement("style");
         element.id = "ba0eea5114";
@@ -3806,9 +3806,9 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/445a039f-b4b4-4540-a110-ef5233baf1df/base.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/91de39f4-6a49-4115-b61b-b2f8831894f0/base.js
   var init_base = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/445a039f-b4b4-4540-a110-ef5233baf1df/base.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/91de39f4-6a49-4115-b61b-b2f8831894f0/base.js"() {
       if (document.getElementById("0597dd81e7") === null) {
         const element = document.createElement("style");
         element.id = "0597dd81e7";
@@ -6947,6 +6947,81 @@ svg {
     }
   });
 
+  // src/app/components/DataTable.tsx
+  function DataTable(props) {
+    return /* @__PURE__ */ _("div", null, props.header ? /* @__PURE__ */ _(
+      Text,
+      {
+        style: {
+          color: "var(--figma-color-text-secondary)",
+          fontSize: 11,
+          lineHeight: "16px",
+          marginBottom: 6
+        }
+      },
+      props.header
+    ) : null, props.summary ? /* @__PURE__ */ _("div", { style: { marginBottom: 6 } }, typeof props.summary === "string" ? /* @__PURE__ */ _(
+      Text,
+      {
+        style: {
+          color: "var(--figma-color-text-tertiary)",
+          fontSize: 11,
+          lineHeight: "16px"
+        }
+      },
+      props.summary
+    ) : props.summary) : null, /* @__PURE__ */ _(
+      "div",
+      {
+        style: {
+          border: "1px solid var(--figma-color-border)",
+          borderRadius: 6,
+          overflow: "hidden"
+        }
+      },
+      /* @__PURE__ */ _(
+        "table",
+        {
+          style: {
+            width: "100%",
+            borderCollapse: "collapse",
+            fontSize: 12,
+            tableLayout: "fixed"
+          }
+        },
+        /* @__PURE__ */ _("thead", null, /* @__PURE__ */ _("tr", null, props.columns.map((col, i3) => {
+          var _a;
+          return /* @__PURE__ */ _(
+            "th",
+            {
+              key: i3,
+              style: __spreadValues({
+                borderBottom: "1px solid var(--figma-color-border)",
+                textAlign: (_a = col.align) != null ? _a : "left",
+                padding: "6px 8px",
+                position: "sticky",
+                top: 0,
+                background: "var(--figma-color-bg-secondary)",
+                fontWeight: 500,
+                fontSize: 11,
+                color: "var(--figma-color-text-secondary)"
+              }, col.width != null ? { width: col.width } : {})
+            },
+            col.label
+          );
+        }))),
+        /* @__PURE__ */ _("tbody", null, props.children)
+      )
+    ));
+  }
+  var init_DataTable = __esm({
+    "src/app/components/DataTable.tsx"() {
+      "use strict";
+      init_preact_module();
+      init_lib2();
+    }
+  });
+
   // src/app/views/variables-replace-usages-tool/VariablesReplaceUsagesToolView.tsx
   function downloadTextFile3(filename, text) {
     const blob = new Blob([text], { type: "application/json;charset=utf-8" });
@@ -7167,194 +7242,50 @@ svg {
       },
       /* @__PURE__ */ _(Text, { style: { fontSize: 11, fontWeight: 600, marginBottom: 4 } }, "Bindings by Phase"),
       /* @__PURE__ */ _(Text, { style: { fontSize: 10 } }, "Component: ", preview.totals.bindingsWithChangesByPhase.component, " bindings (", preview.totals.nodesWithChangesByPhase.component, " nodes)", /* @__PURE__ */ _("br", null), "Instance in Component:", " ", preview.totals.bindingsWithChangesByPhase.instance_in_component, " bindings (", preview.totals.nodesWithChangesByPhase.instance_in_component, " nodes)", /* @__PURE__ */ _("br", null), "Other: ", preview.totals.bindingsWithChangesByPhase.other, " bindings (", preview.totals.nodesWithChangesByPhase.other, " nodes)")
-    ), sortedMappings.length > 0 && /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Mappings with Changes"), /* @__PURE__ */ _(
-      "div",
+    ), sortedMappings.length > 0 && /* @__PURE__ */ _(
+      DataTable,
       {
-        style: {
-          border: "1px solid #e3e3e3",
-          borderRadius: 6
-        }
+        header: "Mappings with Changes",
+        columns: mappingsColumns
       },
-      /* @__PURE__ */ _(
-        "table",
-        {
-          style: {
-            width: "100%",
-            borderCollapse: "collapse",
-            fontSize: 11,
-            tableLayout: "fixed"
-          }
-        },
-        /* @__PURE__ */ _("thead", null, /* @__PURE__ */ _("tr", null, /* @__PURE__ */ _(
-          "th",
+      sortedMappings.map((row) => /* @__PURE__ */ _("tr", { key: row.sourceId }, /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" } }, row.sourceName), /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" } }, row.targetName), /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top", textAlign: "right" } }, row.bindingsTotal), /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top", textAlign: "right" } }, row.nodesTotal)))
+    ), sortedInvalidRows.length > 0 && /* @__PURE__ */ _(
+      DataTable,
+      {
+        header: `Invalid Mapping Rows (${sortedInvalidRows.length})`,
+        columns: invalidColumns
+      },
+      sortedInvalidRows.map((row, i3) => {
+        const pillStyle = getStatusPillStyle3(row.status);
+        return /* @__PURE__ */ _("tr", { key: i3 }, /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top" } }, /* @__PURE__ */ _(
+          "span",
           {
             style: {
-              borderBottom: "1px solid #e3e3e3",
-              textAlign: "left",
-              padding: "6px 8px",
-              position: "sticky",
-              top: 0,
-              background: "#fafafa"
+              display: "inline-block",
+              padding: "2px 6px",
+              borderRadius: 4,
+              fontSize: 9,
+              fontWeight: 600,
+              background: pillStyle.background,
+              border: `1px solid ${pillStyle.borderColor}`,
+              color: pillStyle.color
             }
           },
-          "From"
-        ), /* @__PURE__ */ _(
-          "th",
-          {
-            style: {
-              borderBottom: "1px solid #e3e3e3",
-              textAlign: "left",
-              padding: "6px 8px",
-              position: "sticky",
-              top: 0,
-              background: "#fafafa"
-            }
-          },
-          "To"
-        ), /* @__PURE__ */ _(
-          "th",
-          {
-            style: {
-              borderBottom: "1px solid #e3e3e3",
-              textAlign: "right",
-              padding: "6px 8px",
-              position: "sticky",
-              top: 0,
-              background: "#fafafa"
-            }
-          },
-          "Bindings"
-        ), /* @__PURE__ */ _(
-          "th",
-          {
-            style: {
-              borderBottom: "1px solid #e3e3e3",
-              textAlign: "right",
-              padding: "6px 8px",
-              position: "sticky",
-              top: 0,
-              background: "#fafafa"
-            }
-          },
-          "Nodes"
-        ))),
-        /* @__PURE__ */ _("tbody", null, sortedMappings.map((row) => /* @__PURE__ */ _("tr", { key: row.sourceId }, /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" } }, row.sourceName), /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" } }, row.targetName), /* @__PURE__ */ _(
+          row.status
+        )), /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" } }, row.from || "\u2014"), /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" } }, row.to || "\u2014"), /* @__PURE__ */ _(
           "td",
           {
-            style: { padding: "4px 8px", verticalAlign: "top", textAlign: "right" }
-          },
-          row.bindingsTotal
-        ), /* @__PURE__ */ _(
-          "td",
-          {
-            style: { padding: "4px 8px", verticalAlign: "top", textAlign: "right" }
-          },
-          row.nodesTotal
-        ))))
-      )
-    )), sortedInvalidRows.length > 0 && /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600, color: "#9f1239" } }, "Invalid Mapping Rows (", sortedInvalidRows.length, ")"), /* @__PURE__ */ _(
-      "div",
-      {
-        style: {
-          border: "1px solid #e3e3e3",
-          borderRadius: 6
-        }
-      },
-      /* @__PURE__ */ _(
-        "table",
-        {
-          style: {
-            width: "100%",
-            borderCollapse: "collapse",
-            fontSize: 11,
-            tableLayout: "fixed"
-          }
-        },
-        /* @__PURE__ */ _("thead", null, /* @__PURE__ */ _("tr", null, /* @__PURE__ */ _(
-          "th",
-          {
             style: {
-              borderBottom: "1px solid #e3e3e3",
-              textAlign: "left",
-              padding: "6px 8px",
-              position: "sticky",
-              top: 0,
-              background: "#fafafa"
+              padding: "4px 8px",
+              verticalAlign: "top",
+              color: "var(--figma-color-text-tertiary)",
+              wordBreak: "break-word"
             }
           },
-          "Status"
-        ), /* @__PURE__ */ _(
-          "th",
-          {
-            style: {
-              borderBottom: "1px solid #e3e3e3",
-              textAlign: "left",
-              padding: "6px 8px",
-              position: "sticky",
-              top: 0,
-              background: "#fafafa"
-            }
-          },
-          "From"
-        ), /* @__PURE__ */ _(
-          "th",
-          {
-            style: {
-              borderBottom: "1px solid #e3e3e3",
-              textAlign: "left",
-              padding: "6px 8px",
-              position: "sticky",
-              top: 0,
-              background: "#fafafa"
-            }
-          },
-          "To"
-        ), /* @__PURE__ */ _(
-          "th",
-          {
-            style: {
-              borderBottom: "1px solid #e3e3e3",
-              textAlign: "left",
-              padding: "6px 8px",
-              position: "sticky",
-              top: 0,
-              background: "#fafafa"
-            }
-          },
-          "Reason"
-        ))),
-        /* @__PURE__ */ _("tbody", null, sortedInvalidRows.map((row, i3) => {
-          const pillStyle = getStatusPillStyle3(row.status);
-          return /* @__PURE__ */ _("tr", { key: i3 }, /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top" } }, /* @__PURE__ */ _(
-            "span",
-            {
-              style: {
-                display: "inline-block",
-                padding: "2px 6px",
-                borderRadius: 4,
-                fontSize: 9,
-                fontWeight: 600,
-                background: pillStyle.background,
-                border: `1px solid ${pillStyle.borderColor}`,
-                color: pillStyle.color
-              }
-            },
-            row.status
-          )), /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" } }, row.from || "\u2014"), /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" } }, row.to || "\u2014"), /* @__PURE__ */ _(
-            "td",
-            {
-              style: {
-                padding: "4px 8px",
-                verticalAlign: "top",
-                color: "#666",
-                wordBreak: "break-word"
-              }
-            },
-            row.reason || ""
-          ));
-        }))
-      )
-    )), applyResult && /* @__PURE__ */ _(
+          row.reason || ""
+        ));
+      })
+    ), applyResult && /* @__PURE__ */ _(
       "div",
       {
         style: {
@@ -7367,6 +7298,7 @@ svg {
       /* @__PURE__ */ _(Text, { style: { fontSize: 11, marginTop: 4 } }, "Nodes visited: ", applyResult.totals.nodesVisited, /* @__PURE__ */ _("br", null), "Nodes changed: ", applyResult.totals.nodesChanged, /* @__PURE__ */ _("br", null), "Bindings changed: ", applyResult.totals.bindingsChanged, /* @__PURE__ */ _("br", null), "Nodes skipped (locked): ", applyResult.totals.nodesSkippedLocked, /* @__PURE__ */ _("br", null), "Bindings skipped (unsupported): ", applyResult.totals.bindingsSkippedUnsupported, /* @__PURE__ */ _("br", null), "Bindings failed: ", applyResult.totals.bindingsFailed, /* @__PURE__ */ _("br", null), "Prints renamed: ", applyResult.totals.printsRenamed)
     ))));
   }
+  var mappingsColumns, invalidColumns;
   var init_VariablesReplaceUsagesToolView = __esm({
     "src/app/views/variables-replace-usages-tool/VariablesReplaceUsagesToolView.tsx"() {
       "use strict";
@@ -7374,10 +7306,23 @@ svg {
       init_preact_module();
       init_hooks_module();
       init_messages();
+      init_DataTable();
       init_Page();
       init_ScopeControl();
       init_ToolBody();
       init_ToolHeader();
+      mappingsColumns = [
+        { label: "From" },
+        { label: "To" },
+        { label: "Bindings", align: "right" },
+        { label: "Nodes", align: "right" }
+      ];
+      invalidColumns = [
+        { label: "Status" },
+        { label: "From" },
+        { label: "To" },
+        { label: "Reason" }
+      ];
     }
   });
 

@@ -25,6 +25,7 @@ import {
   type ReplaceUsagesScope,
   type ReplaceUsagesProgress,
 } from "../../messages"
+import { DataTable, type DataTableColumn } from "../../components/DataTable"
 import { Page } from "../../components/Page"
 import { ScopeControl } from "../../components/ScopeControl"
 import { ToolBody } from "../../components/ToolBody"
@@ -78,6 +79,20 @@ function getStatusPillStyle(status: string): {
   // Error statuses
   return { background: "#fff1f2", borderColor: "#fecdd3", color: "#9f1239" }
 }
+
+const mappingsColumns: DataTableColumn[] = [
+  { label: "From" },
+  { label: "To" },
+  { label: "Bindings", align: "right" },
+  { label: "Nodes", align: "right" },
+]
+
+const invalidColumns: DataTableColumn[] = [
+  { label: "Status" },
+  { label: "From" },
+  { label: "To" },
+  { label: "Reason" },
+]
 
 export function VariablesReplaceUsagesToolView({ onBack, initialSelectionEmpty }: Props) {
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
@@ -411,217 +426,75 @@ export function VariablesReplaceUsagesToolView({ onBack, initialSelectionEmpty }
 
             {/* Valid Mappings Table */}
             {sortedMappings.length > 0 && (
-              <Stack space="small">
-                <Text style={{ fontWeight: 600 }}>Mappings with Changes</Text>
-                <div
-                  style={{
-                    border: "1px solid #e3e3e3",
-                    borderRadius: 6,
-                  }}
-                >
-                  <table
-                    style={{
-                      width: "100%",
-                      borderCollapse: "collapse",
-                      fontSize: 11,
-                      tableLayout: "fixed",
-                    }}
-                  >
-                    <thead>
-                      <tr>
-                        <th
-                          style={{
-                            borderBottom: "1px solid #e3e3e3",
-                            textAlign: "left",
-                            padding: "6px 8px",
-                            position: "sticky",
-                            top: 0,
-                            background: "#fafafa",
-                          }}
-                        >
-                          From
-                        </th>
-                        <th
-                          style={{
-                            borderBottom: "1px solid #e3e3e3",
-                            textAlign: "left",
-                            padding: "6px 8px",
-                            position: "sticky",
-                            top: 0,
-                            background: "#fafafa",
-                          }}
-                        >
-                          To
-                        </th>
-                        <th
-                          style={{
-                            borderBottom: "1px solid #e3e3e3",
-                            textAlign: "right",
-                            padding: "6px 8px",
-                            position: "sticky",
-                            top: 0,
-                            background: "#fafafa",
-                          }}
-                        >
-                          Bindings
-                        </th>
-                        <th
-                          style={{
-                            borderBottom: "1px solid #e3e3e3",
-                            textAlign: "right",
-                            padding: "6px 8px",
-                            position: "sticky",
-                            top: 0,
-                            background: "#fafafa",
-                          }}
-                        >
-                          Nodes
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {sortedMappings.map((row: ReplaceUsagesMappingRow) => (
-                        <tr key={row.sourceId}>
-                          <td style={{ padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" }}>
-                            {row.sourceName}
-                          </td>
-                          <td style={{ padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" }}>
-                            {row.targetName}
-                          </td>
-                          <td
-                            style={{ padding: "4px 8px", verticalAlign: "top", textAlign: "right" }}
-                          >
-                            {row.bindingsTotal}
-                          </td>
-                          <td
-                            style={{ padding: "4px 8px", verticalAlign: "top", textAlign: "right" }}
-                          >
-                            {row.nodesTotal}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </Stack>
+              <DataTable
+                header="Mappings with Changes"
+                columns={mappingsColumns}
+              >
+                {sortedMappings.map((row: ReplaceUsagesMappingRow) => (
+                  <tr key={row.sourceId}>
+                    <td style={{ padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" }}>
+                      {row.sourceName}
+                    </td>
+                    <td style={{ padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" }}>
+                      {row.targetName}
+                    </td>
+                    <td style={{ padding: "4px 8px", verticalAlign: "top", textAlign: "right" }}>
+                      {row.bindingsTotal}
+                    </td>
+                    <td style={{ padding: "4px 8px", verticalAlign: "top", textAlign: "right" }}>
+                      {row.nodesTotal}
+                    </td>
+                  </tr>
+                ))}
+              </DataTable>
             )}
 
             {/* Invalid Mapping Rows */}
             {sortedInvalidRows.length > 0 && (
-              <Stack space="small">
-                <Text style={{ fontWeight: 600, color: "#9f1239" }}>
-                  Invalid Mapping Rows ({sortedInvalidRows.length})
-                </Text>
-                <div
-                  style={{
-                    border: "1px solid #e3e3e3",
-                    borderRadius: 6,
-                  }}
-                >
-                  <table
-                    style={{
-                      width: "100%",
-                      borderCollapse: "collapse",
-                      fontSize: 11,
-                      tableLayout: "fixed",
-                    }}
-                  >
-                    <thead>
-                      <tr>
-                        <th
+              <DataTable
+                header={`Invalid Mapping Rows (${sortedInvalidRows.length})`}
+                columns={invalidColumns}
+              >
+                {sortedInvalidRows.map((row: ReplaceUsagesInvalidMappingRow, i) => {
+                  const pillStyle = getStatusPillStyle(row.status)
+                  return (
+                    <tr key={i}>
+                      <td style={{ padding: "4px 8px", verticalAlign: "top" }}>
+                        <span
                           style={{
-                            borderBottom: "1px solid #e3e3e3",
-                            textAlign: "left",
-                            padding: "6px 8px",
-                            position: "sticky",
-                            top: 0,
-                            background: "#fafafa",
+                            display: "inline-block",
+                            padding: "2px 6px",
+                            borderRadius: 4,
+                            fontSize: 9,
+                            fontWeight: 600,
+                            background: pillStyle.background,
+                            border: `1px solid ${pillStyle.borderColor}`,
+                            color: pillStyle.color,
                           }}
                         >
-                          Status
-                        </th>
-                        <th
-                          style={{
-                            borderBottom: "1px solid #e3e3e3",
-                            textAlign: "left",
-                            padding: "6px 8px",
-                            position: "sticky",
-                            top: 0,
-                            background: "#fafafa",
-                          }}
-                        >
-                          From
-                        </th>
-                        <th
-                          style={{
-                            borderBottom: "1px solid #e3e3e3",
-                            textAlign: "left",
-                            padding: "6px 8px",
-                            position: "sticky",
-                            top: 0,
-                            background: "#fafafa",
-                          }}
-                        >
-                          To
-                        </th>
-                        <th
-                          style={{
-                            borderBottom: "1px solid #e3e3e3",
-                            textAlign: "left",
-                            padding: "6px 8px",
-                            position: "sticky",
-                            top: 0,
-                            background: "#fafafa",
-                          }}
-                        >
-                          Reason
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {sortedInvalidRows.map((row: ReplaceUsagesInvalidMappingRow, i) => {
-                        const pillStyle = getStatusPillStyle(row.status)
-                        return (
-                          <tr key={i}>
-                            <td style={{ padding: "4px 8px", verticalAlign: "top" }}>
-                              <span
-                                style={{
-                                  display: "inline-block",
-                                  padding: "2px 6px",
-                                  borderRadius: 4,
-                                  fontSize: 9,
-                                  fontWeight: 600,
-                                  background: pillStyle.background,
-                                  border: `1px solid ${pillStyle.borderColor}`,
-                                  color: pillStyle.color,
-                                }}
-                              >
-                                {row.status}
-                              </span>
-                            </td>
-                            <td style={{ padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" }}>
-                              {row.from || "—"}
-                            </td>
-                            <td style={{ padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" }}>
-                              {row.to || "—"}
-                            </td>
-                            <td
-                              style={{
-                                padding: "4px 8px",
-                                verticalAlign: "top",
-                                color: "#666",
-                                wordBreak: "break-word",
-                              }}
-                            >
-                              {row.reason || ""}
-                            </td>
-                          </tr>
-                        )
-                      })}
-                    </tbody>
-                  </table>
-                </div>
-              </Stack>
+                          {row.status}
+                        </span>
+                      </td>
+                      <td style={{ padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" }}>
+                        {row.from || "—"}
+                      </td>
+                      <td style={{ padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" }}>
+                        {row.to || "—"}
+                      </td>
+                      <td
+                        style={{
+                          padding: "4px 8px",
+                          verticalAlign: "top",
+                          color: "var(--figma-color-text-tertiary)",
+                          wordBreak: "break-word",
+                        }}
+                      >
+                        {row.reason || ""}
+                      </td>
+                    </tr>
+                  )
+                })}
+              </DataTable>
             )}
 
             {/* Apply Result */}

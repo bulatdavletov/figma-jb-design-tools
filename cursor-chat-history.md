@@ -38,6 +38,15 @@
 
 ### 2026-02-13
 
+#### Replace Variable Usages — adopt shared DataTable component
+- Request: replace inline hand-rolled `<table>` blocks in `VariablesReplaceUsagesToolView` with the shared `DataTable` component.
+- Done: added optional `align` property to `DataTableColumn` (supports `left`/`right`/`center`, defaults to `left`).
+- Done: replaced "Mappings with Changes" inline table (~90 lines) with `DataTable` + column definitions.
+- Done: replaced "Invalid Mapping Rows" inline table (~80 lines) with `DataTable` + column definitions.
+- Done: replaced hardcoded `#666` Reason column color with `var(--figma-color-text-tertiary)` for proper theme support.
+- Impact: visual refactor only; no logic/data changes. Tables now use Figma CSS variables for borders/backgrounds (better theme support) and share consistent styling with other tools via `DataTable`.
+- Verification: `npm run build` passed; no linter errors.
+
 #### Print Color Usages — "Check changes" button no feedback (debug + fix)
 - Bug: "Check changes" button showed no spinner or progress when clicked.
 - Root cause: The optimistic `setStatus` call in the onClick handler had an incorrect shape — it included an extra `type: MAIN_TO_UI.PRINT_COLOR_USAGES_STATUS` property not part of `PrintColorUsagesStatus`. Additionally, previous debug instrumentation used `fetch()` calls which were all blocked by Figma's Content Security Policy (CSP), providing no runtime data.
