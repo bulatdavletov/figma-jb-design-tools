@@ -1,5 +1,5 @@
 import type { PrintColorUsagesUiSettings } from "../../messages"
-import { applyTypographyToLabel, getThemeColors, loadFontsForLabelTextStyle, resolveMarkupDescriptionTextStyle, resolveMarkupTextFills } from "./markup-kit"
+import { applyTypographyToLabel, getThemeColors, loadFontsForLabelTextStyle, resolveMarkupDescriptionTextStyle, resolveMarkupTextFills, verifyFillBinding } from "./markup-kit"
 import { analyzeNodeColors, calculateTextPositionFromRect } from "./analyze"
 import type { ColorUsage } from "./shared"
 import { savePrintColorUsagesSettings } from "./settings"
@@ -66,6 +66,8 @@ export async function printColorUsagesFromSelection(settings: PrintColorUsagesUi
   const textPosition = settings.textPosition
   const showLinkedColors = settings.showLinkedColors
   const hideFolderNames = settings.hideFolderNames
+  const checkNested = settings.checkNested !== false
+  const printDistance = typeof settings.printDistance === "number" ? settings.printDistance : 16
 
   // Typography: prefer "Markup Description text" style.
   let markupDescriptionStyle: TextStyle | null = null
@@ -101,7 +103,7 @@ export async function printColorUsagesFromSelection(settings: PrintColorUsagesUi
 
     const merged: Array<ColorUsage> = []
     for (const n of nodesToAnalyze) {
-      const colors = await analyzeNodeColors(n, showLinkedColors, hideFolderNames)
+      const colors = await analyzeNodeColors(n, showLinkedColors, hideFolderNames, checkNested)
       merged.push(...colors)
     }
 
@@ -132,30 +134,22 @@ export async function printColorUsagesFromSelection(settings: PrintColorUsagesUi
       text.characters = info.label
       await applyTypographyToLabel(text, markupDescriptionStyle)
 
-      // Store variable+mode context on the created layer so future "Update" stays mode-aware.
+      // Set layer name from variable context (layer name is the single source of truth).
       const ctx = info.variableContext
       if (ctx) {
         text.name =
           ctx.isNonDefaultMode && ctx.variableModeName ? `${ctx.variableId} (${ctx.variableModeName})` : ctx.variableId
-        text.setPluginData("pcu_variableId", ctx.variableId)
-        if (ctx.isNonDefaultMode && ctx.variableCollectionId && ctx.variableModeId) {
-          text.setPluginData("pcu_variableCollectionId", ctx.variableCollectionId)
-          text.setPluginData("pcu_variableModeId", ctx.variableModeId)
-        } else {
-          text.setPluginData("pcu_variableCollectionId", "")
-          text.setPluginData("pcu_variableModeId", "")
-        }
       } else {
         text.name = info.layerName
-        text.setPluginData("pcu_variableId", "")
-        text.setPluginData("pcu_variableCollectionId", "")
-        text.setPluginData("pcu_variableModeId", "")
       }
 
-      const position = calculateTextPositionFromRect(nodeRect, textPosition, i)
+      const position = calculateTextPositionFromRect(nodeRect, textPosition, i, printDistance)
       text.x = position.x
       text.y = position.y
       text.fills = primaryFills
+      if (labelFills.primaryVariableId && !verifyFillBinding(text, labelFills.primaryVariableId)) {
+        console.warn("[Print Color Usages] Fill binding mismatch on primary fill for", text.name)
+      }
 
       const parts = info.styledVariableParts
       if (parts) {

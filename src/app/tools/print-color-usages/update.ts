@@ -1,13 +1,10 @@
 import type { PrintColorUsagesUiSettings } from "../../messages"
-import { applyTypographyToLabel, getThemeColors, loadFontsForLabelTextStyle, resolveMarkupDescriptionTextStyle, resolveMarkupTextFills } from "./markup-kit"
+import { applyTypographyToLabel, getThemeColors, loadFontsForLabelTextStyle, resolveMarkupDescriptionTextStyle, resolveMarkupTextFills, verifyFillBinding } from "./markup-kit"
 import {
   extractModeNameFromLayerName,
   extractVariableIdFromLayerName,
   findLocalVariableIdByName,
   isTextNode,
-  PLUGIN_DATA_VARIABLE_COLLECTION_ID,
-  PLUGIN_DATA_VARIABLE_ID,
-  PLUGIN_DATA_VARIABLE_MODE_ID,
   resolveModeIdByName,
   resolveVariableModeContext,
   stripTrailingModeSuffix,
@@ -96,7 +93,13 @@ type ResolvedUpdateTarget = {
   needsCharactersUpdate: boolean
   needsNameUpdate: boolean
   linkedColorChanged: boolean
-  resolvedBy: "plugin_data" | "layer_variable_id" | "layer_name" | "text_content"
+  resolvedBy: "layer_variable_id" | "layer_name" | "text_content"
+  contentMismatch?: {
+    contentVariableId: string
+    contentVariableName: string
+    layerVariableId: string
+    layerVariableName: string
+  }
 }
 
 async function resolveUpdateTargetForText(
@@ -108,37 +111,29 @@ async function resolveUpdateTargetForText(
 
   let variableIdToUse: string | null = null
   let variableCollectionId: string | null = null
-  let resolvedBy: "plugin_data" | "layer_variable_id" | "layer_name" | "text_content" = "layer_name"
-
-  const variableIdFromPluginData = (() => {
-    try {
-      const v = text.getPluginData(PLUGIN_DATA_VARIABLE_ID)
-      return v ? v.trim() : ""
-    } catch {
-      return ""
-    }
-  })()
+  let resolvedBy: "layer_variable_id" | "layer_name" | "text_content" = "layer_name"
 
   const variableIdFromLayerName = extractVariableIdFromLayerName(currentLayerName)
-  const idCandidate = variableIdFromPluginData || variableIdFromLayerName || ""
   const currentTextValue = (text.characters ?? "").trim()
   const currentTextPrimary = currentTextValue
     ? (currentTextValue.split(/\s{3,}/)[0] ?? "").trim()
     : ""
 
-  // 1) If layer name is a variable id, use it.
-  try {
-    const v = await figma.variables.getVariableByIdAsync(idCandidate || currentLayerName)
-    if (v?.id) {
-      variableIdToUse = v.id
-      variableCollectionId = (v as any)?.variableCollectionId ?? null
-      resolvedBy = variableIdFromPluginData ? "plugin_data" : "layer_variable_id"
+  // 1) If layer name contains a VariableID, resolve by it.
+  if (variableIdFromLayerName) {
+    try {
+      const v = await figma.variables.getVariableByIdAsync(variableIdFromLayerName)
+      if (v?.id) {
+        variableIdToUse = v.id
+        variableCollectionId = (v as any)?.variableCollectionId ?? null
+        resolvedBy = "layer_variable_id"
+      }
+    } catch {
+      // ignore
     }
-  } catch {
-    // ignore
   }
 
-  // 2) Otherwise, try to match by variable name.
+  // 2) Otherwise, try to match by variable name from layer name.
   if (!variableIdToUse) {
     variableIdToUse = await findLocalVariableIdByName(stripTrailingModeSuffix(currentLayerName))
     if (variableIdToUse) {
@@ -152,8 +147,8 @@ async function resolveUpdateTargetForText(
     }
   }
 
-  // 3) If still unresolved, try selected print content (primary part before linked separator).
-  if (!variableIdToUse) {
+  // 3) If checkByContent is ON and still unresolved, try text content fallback.
+  if (!variableIdToUse && settings.checkByContent) {
     const contentCandidates = [currentTextPrimary, currentTextValue]
       .map((s) => s.trim())
       .filter((s, i, arr) => s.length > 0 && arr.indexOf(s) === i)
@@ -175,16 +170,34 @@ async function resolveUpdateTargetForText(
 
   if (!variableIdToUse) return null
 
-  let explicitModeId: string | null = (() => {
-    try {
-      const fromData = text.getPluginData(PLUGIN_DATA_VARIABLE_MODE_ID)
-      return fromData ? fromData : null
-    } catch {
-      return null
+  // Mismatch detection: when resolved by layer name, also check content.
+  let contentMismatch: ResolvedUpdateTarget["contentMismatch"] = undefined
+  if (settings.checkByContent && resolvedBy !== "text_content") {
+    const contentCandidates = [currentTextPrimary, currentTextValue]
+      .map((s) => s.trim())
+      .filter((s, i, arr) => s.length > 0 && arr.indexOf(s) === i)
+    for (const candidate of contentCandidates) {
+      const contentVarId = await findLocalVariableIdByName(candidate)
+      if (contentVarId && contentVarId !== variableIdToUse) {
+        try {
+          const contentVar = await figma.variables.getVariableByIdAsync(contentVarId)
+          const layerVar = await figma.variables.getVariableByIdAsync(variableIdToUse)
+          contentMismatch = {
+            contentVariableId: contentVarId,
+            contentVariableName: contentVar?.name ?? contentVarId,
+            layerVariableId: variableIdToUse,
+            layerVariableName: layerVar?.name ?? variableIdToUse,
+          }
+        } catch {
+          // ignore
+        }
+        break
+      }
     }
-  })()
+  }
 
-  if (!explicitModeId && variableCollectionId) {
+  let explicitModeId: string | null = null
+  if (variableCollectionId) {
     const modeName = extractModeNameFromLayerName(currentLayerName)
     if (modeName) explicitModeId = await resolveModeIdByName(variableCollectionId, modeName)
   }
@@ -231,6 +244,7 @@ async function resolveUpdateTargetForText(
     needsNameUpdate,
     linkedColorChanged,
     resolvedBy,
+    contentMismatch,
   }
 }
 
@@ -244,12 +258,19 @@ export type PrintColorUsagesUpdatePreviewEntry = {
   textChanged: boolean
   layerNameChanged: boolean
   linkedColorChanged: boolean
-  resolvedBy: "plugin_data" | "layer_variable_id" | "layer_name" | "text_content"
+  resolvedBy: "layer_variable_id" | "layer_name" | "text_content"
+  contentMismatch?: {
+    contentVariableId: string
+    contentVariableName: string
+    layerVariableId: string
+    layerVariableName: string
+  }
 }
 
 export async function previewUpdateSelectedTextNodesByVariableId(
   settings: PrintColorUsagesUiSettings,
   scope: "selection" | "page" | "all_pages" = "page",
+  onProgress?: (current: number, total: number) => Promise<void>,
 ): Promise<{
   scope: "selection" | "page" | "all_pages"
   candidates: number
@@ -283,8 +304,13 @@ export async function previewUpdateSelectedTextNodesByVariableId(
   let changed = 0
   let unchanged = 0
   let skipped = 0
+  const total = textNodes.length
 
-  for (const text of textNodes) {
+  for (let i = 0; i < total; i++) {
+    const text = textNodes[i]
+    if (onProgress && i > 0 && i % 10 === 0) {
+      await onProgress(i, total)
+    }
     const target = await resolveUpdateTargetForText(text, settings)
     if (!target) {
       skipped++
@@ -308,6 +334,7 @@ export async function previewUpdateSelectedTextNodesByVariableId(
       layerNameChanged: target.needsNameUpdate,
       linkedColorChanged: target.linkedColorChanged,
       resolvedBy: target.resolvedBy,
+      contentMismatch: target.contentMismatch,
     })
   }
 
@@ -323,7 +350,8 @@ export async function previewUpdateSelectedTextNodesByVariableId(
 
 export async function updateSelectedTextNodesByVariableId(
   settings: PrintColorUsagesUiSettings,
-  options?: { targetNodeIds?: string[] }
+  options?: { targetNodeIds?: string[] },
+  onProgress?: (current: number, total: number) => Promise<void>,
 ): Promise<{
   updated: number
   unchanged: number
@@ -395,8 +423,13 @@ export async function updateSelectedTextNodesByVariableId(
   let skipped = 0
   let unchanged = 0
   const changedNodes: TextNode[] = []
+  const total = textNodes.length
 
-  for (const text of textNodes) {
+  for (let i = 0; i < total; i++) {
+    const text = textNodes[i]
+    if (onProgress && i > 0 && i % 10 === 0) {
+      await onProgress(i, total)
+    }
     const target = await resolveUpdateTargetForText(text, settings)
     if (!target) {
       skipped++
@@ -424,6 +457,9 @@ export async function updateSelectedTextNodesByVariableId(
     }
 
     text.fills = primaryFills
+    if (labelFills.primaryVariableId && !verifyFillBinding(text, labelFills.primaryVariableId)) {
+      console.warn("[Print Color Usages] Fill binding mismatch on primary fill for", text.name)
+    }
 
     if (target.hasSecondary) {
       const secondaryStart = target.parts.primaryText.length + 3
@@ -433,24 +469,6 @@ export async function updateSelectedTextNodesByVariableId(
       } catch {
         // ignore
       }
-    }
-
-    // Persist mode context on the layer, but only when it's not the default mode.
-    try {
-      text.setPluginData(PLUGIN_DATA_VARIABLE_ID, target.variableIdToUse)
-      if (
-        target.parts.modeContext.isNonDefaultMode &&
-        target.parts.modeContext.variableCollectionId &&
-        target.parts.modeContext.modeId
-      ) {
-        text.setPluginData(PLUGIN_DATA_VARIABLE_COLLECTION_ID, target.parts.modeContext.variableCollectionId)
-        text.setPluginData(PLUGIN_DATA_VARIABLE_MODE_ID, target.parts.modeContext.modeId)
-      } else {
-        text.setPluginData(PLUGIN_DATA_VARIABLE_COLLECTION_ID, "")
-        text.setPluginData(PLUGIN_DATA_VARIABLE_MODE_ID, "")
-      }
-    } catch {
-      // ignore
     }
 
     updated++

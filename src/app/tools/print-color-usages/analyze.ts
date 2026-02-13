@@ -177,7 +177,8 @@ async function getColorUsage(
 export async function analyzeNodeColors(
   node: SceneNode,
   showLinkedColors: boolean = true,
-  hideFolderNames: boolean = false
+  hideFolderNames: boolean = false,
+  checkNested: boolean = true
 ): Promise<Array<ColorUsage>> {
   const colorInfo: Array<ColorUsage> = []
 
@@ -216,12 +217,12 @@ export async function analyzeNodeColors(
   }
 
   // Recursively check children, but skip children of Union layers
-  if ("children" in node) {
+  if (checkNested && "children" in node) {
     const isUnion = node.type === "BOOLEAN_OPERATION" && (node as BooleanOperationNode).booleanOperation === "UNION"
     if (!isUnion) {
       const children = node as unknown as ChildrenMixin
       for (const child of children.children) {
-        const childColors = await analyzeNodeColors(child, showLinkedColors, hideFolderNames)
+        const childColors = await analyzeNodeColors(child, showLinkedColors, hideFolderNames, checkNested)
         colorInfo.push(...childColors)
       }
     }
@@ -245,9 +246,9 @@ export async function analyzeNodeColors(
 export function calculateTextPositionFromRect(
   rect: { x: number; y: number; width: number; height: number },
   position: "left" | "right",
-  index: number
+  index: number,
+  spacing: number = 16
 ): { x: number; y: number } {
-  const spacing = 16
   const lineHeight = 24
   const centerY = rect.y + rect.height / 2
   const startY = centerY - 10

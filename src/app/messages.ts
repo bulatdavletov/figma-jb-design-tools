@@ -41,6 +41,7 @@ export const MAIN_TO_UI = {
   PRINT_COLOR_USAGES_SELECTION: "PRINT_COLOR_USAGES_SELECTION",
   PRINT_COLOR_USAGES_STATUS: "PRINT_COLOR_USAGES_STATUS",
   PRINT_COLOR_USAGES_UPDATE_PREVIEW: "PRINT_COLOR_USAGES_UPDATE_PREVIEW",
+  PRINT_COLOR_USAGES_PRINT_PREVIEW: "PRINT_COLOR_USAGES_PRINT_PREVIEW",
   MOCKUP_MARKUP_STATE: "MOCKUP_MARKUP_STATE",
   MOCKUP_MARKUP_STATUS: "MOCKUP_MARKUP_STATUS",
   MOCKUP_MARKUP_COLOR_PREVIEWS: "MOCKUP_MARKUP_COLOR_PREVIEWS",
@@ -117,6 +118,9 @@ export type PrintColorUsagesUiSettings = {
   showLinkedColors: boolean
   hideFolderNames: boolean
   textTheme: "dark" | "light"
+  checkByContent: boolean
+  checkNested: boolean
+  printDistance: number
 }
 
 export type PrintColorUsagesStatus =
@@ -135,7 +139,13 @@ export type PrintColorUsagesUpdatePreviewEntry = {
   textChanged: boolean
   layerNameChanged: boolean
   linkedColorChanged: boolean
-  resolvedBy: "plugin_data" | "layer_variable_id" | "layer_name" | "text_content"
+  resolvedBy: "layer_variable_id" | "layer_name" | "text_content"
+  contentMismatch?: {
+    contentVariableId: string
+    contentVariableName: string
+    layerVariableId: string
+    layerVariableName: string
+  }
 }
 
 export type PrintColorUsagesUpdatePreviewPayload = {
@@ -147,6 +157,17 @@ export type PrintColorUsagesUpdatePreviewPayload = {
     skipped: number
   }
   entries: PrintColorUsagesUpdatePreviewEntry[]
+}
+
+export type PrintColorUsagesPrintPreviewEntry = {
+  label: string
+  layerName: string
+  variableId?: string
+  linkedColorName?: string
+}
+
+export type PrintColorUsagesPrintPreviewPayload = {
+  entries: PrintColorUsagesPrintPreviewEntry[]
 }
 
 export type MockupMarkupApplyRequest = {
@@ -255,6 +276,7 @@ export type MainToUiMessage =
   | { type: typeof MAIN_TO_UI.PRINT_COLOR_USAGES_SELECTION; selectionSize: number }
   | { type: typeof MAIN_TO_UI.PRINT_COLOR_USAGES_STATUS; status: PrintColorUsagesStatus }
   | { type: typeof MAIN_TO_UI.PRINT_COLOR_USAGES_UPDATE_PREVIEW; payload: PrintColorUsagesUpdatePreviewPayload }
+  | { type: typeof MAIN_TO_UI.PRINT_COLOR_USAGES_PRINT_PREVIEW; payload: PrintColorUsagesPrintPreviewPayload }
   | { type: typeof MAIN_TO_UI.MOCKUP_MARKUP_STATE; state: MockupMarkupState }
   | { type: typeof MAIN_TO_UI.MOCKUP_MARKUP_STATUS; status: MockupMarkupStatus }
   | { type: typeof MAIN_TO_UI.MOCKUP_MARKUP_COLOR_PREVIEWS; previews: MockupMarkupColorPreviews }

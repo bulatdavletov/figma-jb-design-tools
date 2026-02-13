@@ -144,21 +144,74 @@ export function getThemeColors(theme: string): { primary: RGB; secondary: RGB } 
   return { primary: primaryColor, secondary: secondaryColor }
 }
 
+/**
+ * Re-assert the page's current variable mode for the given variable's collection.
+ * This triggers Figma to properly resolve newly-applied variable-bound fills.
+ * Reads the current explicit mode from the page and sets it again (no change for the user).
+ * If no explicit mode is set, falls back to the collection's default mode.
+ */
+async function reassertPageModeForVariable(variableId: string): Promise<void> {
+  try {
+    const variable = await figma.variables.getVariableByIdAsync(variableId)
+    if (!variable) return
+    const collectionId = (variable as any).variableCollectionId as string | undefined
+    if (!collectionId) return
+    const collection = await figma.variables.getVariableCollectionByIdAsync(collectionId)
+    if (!collection) return
+
+    const explicitModes = (figma.currentPage as any).explicitVariableModes as Record<string, string> | undefined
+    const currentModeId = explicitModes?.[collectionId]
+    const defaultModeId = (collection as any).defaultModeId as string | undefined
+    const modeId = currentModeId || defaultModeId || (Array.isArray(collection.modes) && collection.modes[0]?.modeId) || null
+
+    if (modeId) {
+      figma.currentPage.setExplicitVariableModeForCollection(collection, modeId)
+      debugLog("Reasserted page mode for variable collection", { collectionId, modeId, wasExplicit: !!currentModeId })
+    }
+  } catch (e) {
+    debugLog("reassertPageModeForVariable failed (non-fatal)", { variableId, error: String(e) })
+  }
+}
+
+/**
+ * Verify that a variable-bound fill was applied correctly to a text node.
+ * Returns true if the primary fill's boundVariables.color.id matches the expected variable ID.
+ */
+export function verifyFillBinding(node: TextNode, expectedVariableId: string): boolean {
+  try {
+    const fills = node.fills as readonly Paint[]
+    if (fills.length === 0) return false
+    const first = fills[0]
+    if (first.type !== "SOLID") return false
+    const boundId = (first as any).boundVariables?.color?.id
+    return boundId === expectedVariableId
+  } catch {
+    return false
+  }
+}
+
 export async function resolveMarkupTextFills(themeColors: {
   primary: RGB
   secondary: RGB
-}): Promise<{ primary: Paint[]; secondary: Paint[] }> {
+}): Promise<{ primary: Paint[]; secondary: Paint[]; primaryVariableId: string | null; secondaryVariableId: string | null }> {
   const fallbackPrimary: Paint[] = [makeSolidPaint(themeColors.primary, 1)]
   const fallbackSecondary: Paint[] = [makeSolidPaint(themeColors.secondary, 0.5)]
 
   let primary: Paint[] = fallbackPrimary
   let secondary: Paint[] = fallbackSecondary
+  let primaryVariableId: string | null = null
+  let secondaryVariableId: string | null = null
 
   const resolvedPrimary = await resolveColorVariableId(MARKUP_TEXT_COLOR_VARIABLE_ID_RAW, MARKUP_TEXT_VARIABLE_NAME)
   if (resolvedPrimary?.id) {
+    primaryVariableId = resolvedPrimary.id
     const paint: SolidPaint = { type: "SOLID", color: { r: 0, g: 0, b: 0 }, opacity: 1 } as SolidPaint
     ;(paint as any).boundVariables = { color: { type: "VARIABLE_ALIAS", id: resolvedPrimary.id } }
     primary = [paint]
+
+    // Re-assert page mode so Figma properly resolves the variable-bound fill.
+    await reassertPageModeForVariable(resolvedPrimary.id)
+
     debugLog("Markup Text variable resolved", {
       raw: MARKUP_TEXT_COLOR_VARIABLE_ID_RAW,
       normalized: normalizeVariableId(MARKUP_TEXT_COLOR_VARIABLE_ID_RAW),
@@ -179,6 +232,7 @@ export async function resolveMarkupTextFills(themeColors: {
     MARKUP_TEXT_SECONDARY_VARIABLE_NAME
   )
   if (resolvedSecondary?.id) {
+    secondaryVariableId = resolvedSecondary.id
     const paint: SolidPaint = { type: "SOLID", color: { r: 0, g: 0, b: 0 }, opacity: 1 } as SolidPaint
     ;(paint as any).boundVariables = { color: { type: "VARIABLE_ALIAS", id: resolvedSecondary.id } }
     secondary = [paint]
@@ -205,7 +259,7 @@ export async function resolveMarkupTextFills(themeColors: {
     primarySource: primary === fallbackPrimary ? "theme" : "variable",
     secondarySource: secondary === fallbackSecondary ? "theme" : "variable_or_derived",
   })
-  return { primary, secondary }
+  return { primary, secondary, primaryVariableId, secondaryVariableId }
 }
 
 export async function resolveMarkupDescriptionTextStyle(): Promise<TextStyle | null> {

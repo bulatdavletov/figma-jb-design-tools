@@ -50,10 +50,6 @@ export function getBoundColorVariableIdFromPaint(paint: Paint): string | null {
   return null
 }
 
-export const PLUGIN_DATA_VARIABLE_ID = "pcu_variableId"
-export const PLUGIN_DATA_VARIABLE_COLLECTION_ID = "pcu_variableCollectionId"
-export const PLUGIN_DATA_VARIABLE_MODE_ID = "pcu_variableModeId"
-
 const variableCollectionCache = new Map<string, VariableCollection>()
 
 export function stripTrailingModeSuffix(layerName: string): string {
