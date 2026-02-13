@@ -3,26 +3,26 @@ import { h } from "preact"
 import { useEffect, useState } from "preact/hooks"
 
 import { MAIN_TO_UI, type MainToUiMessage, UI_TO_MAIN } from "./messages"
-import { ColorChainToolView } from "./views/color-chain-tool/ColorChainToolView"
 import { HomeView } from "./views/home/HomeView"
 import { MockupMarkupToolView } from "./views/mockup-markup-tool/MockupMarkupToolView"
+import { ColorChainToolView } from "./views/color-chain-tool/ColorChainToolView"
+import { LibrarySwapToolView } from "./views/library-swap-tool/LibrarySwapToolView"
 import { PrintColorUsagesToolView } from "./views/print-color-usages-tool/PrintColorUsagesToolView"
-import { VariablesBatchRenameToolView } from "./views/variables-batch-rename-tool/VariablesBatchRenameToolView"
 import { VariablesExportImportToolView } from "./views/variables-export-import-tool/VariablesExportImportToolView"
+import { VariablesBatchRenameToolView } from "./views/variables-batch-rename-tool/VariablesBatchRenameToolView"
 import { VariablesCreateLinkedColorsToolView } from "./views/variables-create-linked-colors-tool/VariablesCreateLinkedColorsToolView"
 import { VariablesReplaceUsagesToolView } from "./views/variables-replace-usages-tool/VariablesReplaceUsagesToolView"
-import { LibrarySwapToolView } from "./views/library-swap-tool/LibrarySwapToolView"
 
 type Route =
   | "home"
   | "mockup-markup-tool"
   | "color-chain-tool"
+  | "library-swap-tool"
   | "print-color-usages-tool"
   | "variables-export-import-tool"
   | "variables-batch-rename-tool"
   | "variables-create-linked-colors-tool"
   | "variables-replace-usages-tool"
-  | "library-swap-tool"
 
 export function App() {
   const [route, setRoute] = useState<Route>("home")
@@ -37,12 +37,12 @@ export function App() {
         const validRoutes: Route[] = [
           "mockup-markup-tool",
           "color-chain-tool",
+          "library-swap-tool",
           "print-color-usages-tool",
           "variables-export-import-tool",
           "variables-batch-rename-tool",
           "variables-create-linked-colors-tool",
           "variables-replace-usages-tool",
-          "library-swap-tool",
         ]
         setRoute(
           validRoutes.includes(msg.command as Route) ? (msg.command as Route) : "home"
@@ -79,6 +79,15 @@ export function App() {
     return <ColorChainToolView onBack={() => setRoute("home")} initialSelectionEmpty={selectionSize === 0} />
   }
 
+  if (route === "library-swap-tool") {
+    return (
+      <LibrarySwapToolView
+        onBack={() => setRoute("home")}
+        initialSelectionEmpty={selectionSize === 0}
+      />
+    )
+  }
+
   if (route === "print-color-usages-tool") {
     return <PrintColorUsagesToolView onBack={() => setRoute("home")} />
   }
@@ -98,15 +107,6 @@ export function App() {
   if (route === "variables-replace-usages-tool") {
     return (
       <VariablesReplaceUsagesToolView
-        onBack={() => setRoute("home")}
-        initialSelectionEmpty={selectionSize === 0}
-      />
-    )
-  }
-
-  if (route === "library-swap-tool") {
-    return (
-      <LibrarySwapToolView
         onBack={() => setRoute("home")}
         initialSelectionEmpty={selectionSize === 0}
       />

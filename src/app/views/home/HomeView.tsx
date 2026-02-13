@@ -36,7 +36,7 @@ export function HomeView(props: { goTo: (route: Route) => void }) {
       <Container space="small">
 
         <VerticalSpace space="large" />
-            <Text style={sectionTitleStyle}>Colors</Text>
+            <Text style={sectionTitleStyle}>General</Text>
             <VerticalSpace space="small" />
 
           <Stack space="extraSmall">
@@ -53,18 +53,24 @@ export function HomeView(props: { goTo: (route: Route) => void }) {
               onClick={() => props.goTo("color-chain-tool")}
             />
             <ToolCard
-              title="Print Color Usages"
-              description="Print unique colors as text labels near selection"
-              icon={<IconText16 />}
-              onClick={() => props.goTo("print-color-usages-tool")}
+              title="Library Swap"
+              description="Swap component instances from old libraries to new ones"
+              icon={<IconLibrary16 />}
+              onClick={() => props.goTo("library-swap-tool")}
             />
           </Stack>
-
+          
           <VerticalSpace space="large" />
             <Text style={sectionTitleStyle}>Variables Management</Text>
             <VerticalSpace space="small" />
           
           <Stack space="extraSmall">
+            <ToolCard
+              title="Print Color Usages"
+              description="Print unique colors as text labels near selection"
+              icon={<IconText16 />}
+              onClick={() => props.goTo("print-color-usages-tool")}
+            />
             <ToolCard
               title="Export / Import"
               description="Export variable collections to JSON, import from backup"
@@ -88,19 +94,6 @@ export function HomeView(props: { goTo: (route: Route) => void }) {
               description="Replace variable bindings in selection with different variables"
               icon={<IconAdjust16 />}
               onClick={() => props.goTo("variables-replace-usages-tool")}
-            />
-          </Stack>
-
-          <VerticalSpace space="large" />
-            <Text style={sectionTitleStyle}>Migration</Text>
-            <VerticalSpace space="small" />
-
-          <Stack space="extraSmall">
-            <ToolCard
-              title="Library Swap"
-              description="Swap component instances from old libraries to new ones"
-              icon={<IconLibrary16 />}
-              onClick={() => props.goTo("library-swap-tool")}
             />
           </Stack>
         <VerticalSpace space="small" />

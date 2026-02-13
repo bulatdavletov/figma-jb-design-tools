@@ -310,8 +310,10 @@ export async function previewSwap(
   // Gather mappable instances, deduped by old component key.
   // Stop scanning once we have enough unique keys (cap total scanned to avoid timeout).
   const instances = await getInstancesForScope(scope)
-  const byOldKey = new Map<string, { inst: InstanceNode; oldKey: string; oldName: string }>()
-  const MAX_SCAN = 2000 // don't scan more than this many instances
+  // Deduplicate by newKey so Light/Dark variants mapping to the same new component show as one row
+  const seenNewKeys = new Set<string>()
+  const mappable: Array<{ inst: InstanceNode; oldKey: string; oldName: string }> = []
+  const MAX_SCAN = 2000
 
   for (let i = 0; i < instances.length && i < MAX_SCAN; i++) {
     const inst = instances[i]
@@ -323,22 +325,19 @@ export async function previewSwap(
     }
     const oldKey = main?.key ?? null
     if (!oldKey) continue
-    if (!mergedMatches[oldKey]) continue
-    // Keep only the first instance per unique old component key
-    if (!byOldKey.has(oldKey)) {
-      byOldKey.set(oldKey, { inst, oldKey, oldName: main ? getComponentDisplayName(main) : inst.name })
-    }
-    // Stop once we have enough unique components
-    if (byOldKey.size >= sampleSize) break
+    const newKey = mergedMatches[oldKey]
+    if (!newKey) continue
+    // Skip if we already have a row mapping to this new component
+    if (seenNewKeys.has(newKey)) continue
+    seenNewKeys.add(newKey)
+    mappable.push({ inst, oldKey, oldName: main ? getComponentDisplayName(main) : inst.name })
+    if (mappable.length >= sampleSize) break
 
     // Yield periodically
     if (i % 200 === 0) {
       await new Promise((r) => setTimeout(r, 0))
     }
   }
-
-  // Sample up to sampleSize unique components
-  const mappable = Array.from(byOldKey.values()).slice(0, sampleSize)
 
   if (!mappable.length) return { previewed: 0 }
 

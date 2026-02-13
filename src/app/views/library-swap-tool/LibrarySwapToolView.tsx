@@ -179,7 +179,7 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
     setErrorMessage(null)
     setSuccessMessage(null)
     parent.postMessage(
-      { pluginMessage: { type: UI_TO_MAIN.LIBRARY_SWAP_PREVIEW, request: { ...buildRequest(), sampleSize: 12 } } },
+      { pluginMessage: { type: UI_TO_MAIN.LIBRARY_SWAP_PREVIEW, request: { ...buildRequest(), sampleSize: 60 } } },
       "*"
     )
   }

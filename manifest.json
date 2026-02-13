@@ -21,6 +21,10 @@
       "command": "src/color-chain-tool/main.ts--default"
     },
     {
+      "name": "Library Swap",
+      "command": "src/library-swap-tool/main.ts--default"
+    },
+    {
       "name": "Print Color Usages",
       "command": "src/print-color-usages-tool/main.ts--default"
     },
@@ -39,10 +43,6 @@
     {
       "name": "Variables Replace Usages",
       "command": "src/variables-replace-usages-tool/main.ts--default"
-    },
-    {
-      "name": "Library Swap",
-      "command": "src/library-swap-tool/main.ts--default"
     }
   ],
   "networkAccess": {
