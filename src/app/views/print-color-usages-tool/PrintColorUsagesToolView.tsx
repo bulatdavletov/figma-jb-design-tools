@@ -1,4 +1,4 @@
-import { Button, Checkbox, Columns, Container, Divider, IconHome16, IconButton, RadioButtons, Stack, Text, VerticalSpace } from "@create-figma-plugin/ui"
+import { Button, Checkbox, Columns, Container, Disclosure, Divider, IconHome16, IconButton, RadioButtons, Stack, Text, TextboxNumeric, VerticalSpace } from "@create-figma-plugin/ui"
 import { h } from "preact"
 import { useEffect, useMemo, useState } from "preact/hooks"
 
@@ -7,9 +7,12 @@ import {
   type MainToUiMessage,
   type PrintColorUsagesStatus,
   type PrintColorUsagesUpdatePreviewPayload,
+  type PrintColorUsagesPrintPreviewPayload,
   type PrintColorUsagesUiSettings,
   UI_TO_MAIN,
 } from "../../messages"
+import { CopyIconButton } from "../../components/CopyIconButton"
+import { DataList } from "../../components/DataList"
 import { renderInlineDiff } from "../../components/InlineTextDiff"
 import { Page } from "../../components/Page"
 import { ScopeControl, type ScopeValue } from "../../components/ScopeControl"
@@ -22,6 +25,9 @@ const DEFAULT_SETTINGS: PrintColorUsagesUiSettings = {
   showLinkedColors: true,
   hideFolderNames: true,
   textTheme: "dark",
+  checkByContent: false,
+  checkNested: true,
+  printDistance: 16,
 }
 
 export function PrintColorUsagesToolView(props: { onBack: () => void }) {
@@ -33,6 +39,8 @@ export function PrintColorUsagesToolView(props: { onBack: () => void }) {
   const [scope, setScope] = useState<ScopeValue>("page")
   const [preview, setPreview] = useState<PrintColorUsagesUpdatePreviewPayload | null>(null)
   const [selectedPreviewNodeIds, setSelectedPreviewNodeIds] = useState<string[]>([])
+  const [printPreview, setPrintPreview] = useState<PrintColorUsagesPrintPreviewPayload | null>(null)
+  const [settingsOpen, setSettingsOpen] = useState(false)
 
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
@@ -66,6 +74,11 @@ export function PrintColorUsagesToolView(props: { onBack: () => void }) {
         setSelectedPreviewNodeIds(msg.payload.entries.map((entry) => entry.nodeId))
         return
       }
+
+      if (msg.type === MAIN_TO_UI.PRINT_COLOR_USAGES_PRINT_PREVIEW) {
+        setPrintPreview(msg.payload)
+        return
+      }
     }
 
     window.addEventListener("message", handleMessage)
@@ -78,6 +91,7 @@ export function PrintColorUsagesToolView(props: { onBack: () => void }) {
     if (!loaded) return
     setPreview(null)
     setSelectedPreviewNodeIds([])
+    setPrintPreview(null)
     parent.postMessage(
       { pluginMessage: { type: UI_TO_MAIN.PRINT_COLOR_USAGES_SAVE_SETTINGS, settings } },
       "*"
@@ -130,52 +144,145 @@ export function PrintColorUsagesToolView(props: { onBack: () => void }) {
         />
 
         <ToolBody mode="content">
-          <Stack space="medium">
+          <Stack space="small">
+            {/* ============================================================ */}
+            {/* Print tab                                                     */}
+            {/* ============================================================ */}
             {activeTab === "Print" ? (
-              <Stack space="extraSmall">
-                <Text>Position</Text>
-                <RadioButtons
-                  direction="horizontal"
-                  value={settings.textPosition}
-                  onValueChange={(value) =>
-                    setSettings((s) => ({
-                      ...s,
-                      textPosition: value === "left" || value === "right" ? value : "right",
-                    }))
-                  }
-                  options={[
-                    { value: "left", children: <Text>Left</Text> },
-                    { value: "right", children: <Text>Right</Text> },
-                  ]}
-                />
-              </Stack>
-            ) : null}
-
-            {activeTab === "Print" ? (
-              <Stack space="extraSmall">
-                <Checkbox
-                  value={settings.showLinkedColors}
-                  onValueChange={(value) => setSettings((s) => ({ ...s, showLinkedColors: value }))}
-                >
-                  <Text>Show linked colors</Text>
-                </Checkbox>
-                <Checkbox
-                  value={settings.hideFolderNames}
-                  onValueChange={(value) => setSettings((s) => ({ ...s, hideFolderNames: value }))}
-                >
-                  <Text>Hide folder prefixes (after “/”)</Text>
-                </Checkbox>
-              </Stack>
-            ) : null}
-
-            {activeTab === "Print" ? (
-              <Text style={{ color: "var(--figma-color-text-secondary)" }}>
-                Text color is from Mockup markup
-              </Text>
-            ) : null}
-
-            {activeTab === "Print" ? null : (
               <Stack space="small">
+                {/* Settings under Disclosure -- collapsed by default */}
+                <Disclosure
+                  open={settingsOpen}
+                  onClick={() => setSettingsOpen(!settingsOpen)}
+                  title="Settings"
+                >
+                  <div>
+                    <Stack space="small">
+                      <Stack space="extraSmall">
+                        <Text>Printed text position</Text>
+                        <RadioButtons
+                          direction="horizontal"
+                          value={settings.textPosition}
+                          onValueChange={(value) =>
+                            setSettings((s) => ({
+                              ...s,
+                              textPosition: value === "left" || value === "right" ? value : "right",
+                            }))
+                          }
+                          options={[
+                            { value: "left", children: <Text>Left</Text> },
+                            { value: "right", children: <Text>Right</Text> },
+                          ]}
+                        />
+                      </Stack>
+                      <Stack space="extraSmall">
+                        <Text>Distance</Text>
+                        <TextboxNumeric
+                          value={String(settings.printDistance)}
+                          onNumericValueInput={(value) =>
+                            setSettings((s) => ({ ...s, printDistance: value ?? 16 }))
+                          }
+                          minimum={0}
+                          integer
+                          suffix=" px"
+                        />
+                      </Stack>
+                      <Stack space="extraSmall">
+                        <Checkbox
+                          value={settings.showLinkedColors}
+                          onValueChange={(value) => setSettings((s) => ({ ...s, showLinkedColors: value }))}
+                        >
+                          <Text>Show linked colors</Text>
+                        </Checkbox>
+                        <Checkbox
+                          value={settings.hideFolderNames}
+                          onValueChange={(value) => setSettings((s) => ({ ...s, hideFolderNames: value }))}
+                        >
+                          <Text>Hide folder prefixes (after {"\u201C"}/{"\u201D"})</Text>
+                        </Checkbox>
+                        <Checkbox
+                          value={settings.checkNested}
+                          onValueChange={(value) => setSettings((s) => ({ ...s, checkNested: value }))}
+                        >
+                          <Text>Check colors of nested items</Text>
+                        </Checkbox>
+                      </Stack>
+                      <Text style={{ color: "var(--figma-color-text-secondary)" }}>
+                        Text color is from Mockup markup
+                      </Text>
+                    </Stack>
+                  </div>
+                </Disclosure>
+
+                {/* Live preview */}
+                {printPreview && printPreview.entries.length > 0 ? (
+                  <DataList header="Will be printed">
+                    {printPreview.entries.map((entry, index) => (
+                      <div
+                        key={`${entry.layerName}-${index}`}
+                        style={{
+                          padding: 10,
+                          display: "flex",
+                          alignItems: "flex-start",
+                          justifyContent: "space-between",
+                          gap: 8,
+                        }}
+                      >
+                        <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", gap: 2 }}>
+                          <div
+                            style={{
+                              color: "var(--figma-color-text)",
+                              lineHeight: "20px",
+                              wordBreak: "break-word",
+                              whiteSpace: "pre-wrap",
+                            }}
+                          >
+                            {entry.label}
+                          </div>
+                          <div
+                            style={{
+                              color: "var(--figma-color-text-tertiary)",
+                              fontSize: 11,
+                              lineHeight: "16px",
+                              wordBreak: "break-all",
+                            }}
+                          >
+                            {entry.layerName}
+                          </div>
+                        </div>
+                        <div style={{ flexShrink: 0, paddingTop: 2 }}>
+                          <CopyIconButton text={entry.layerName} title="Copy layer name" />
+                        </div>
+                      </div>
+                    ))}
+                  </DataList>
+                ) : null}
+
+                {!printPreview && selectionSize > 0 ? (
+                  <Text style={{ color: "var(--figma-color-text-tertiary)" }}>
+                    Loading{"\u2026"}
+                  </Text>
+                ) : null}
+
+                {printPreview && printPreview.entries.length === 0 && selectionSize > 0 ? (
+                  <Text style={{ color: "var(--figma-color-text-tertiary)" }}>
+                    No colors found in selection.
+                  </Text>
+                ) : null}
+              </Stack>
+            ) : null}
+
+            {/* ============================================================ */}
+            {/* Update tab                                                    */}
+            {/* ============================================================ */}
+            {activeTab === "Update" ? (
+              <Stack space="small">
+                <Checkbox
+                  value={settings.checkByContent}
+                  onValueChange={(value) => setSettings((s) => ({ ...s, checkByContent: value }))}
+                >
+                  <Text>Check by content</Text>
+                </Checkbox>
                 <ScopeControl
                   value={scope}
                   hasSelection={hasSelection}
@@ -184,7 +291,8 @@ export function PrintColorUsagesToolView(props: { onBack: () => void }) {
                 <Button
                   secondary
                   loading={isWorking}
-                  onClick={() =>
+                  onClick={() => {
+                    setStatus({ status: "working", message: "Checking changes\u2026" })
                     parent.postMessage(
                       {
                         pluginMessage: {
@@ -195,59 +303,63 @@ export function PrintColorUsagesToolView(props: { onBack: () => void }) {
                       },
                       "*"
                     )
-                  }
+                  }}
                 >
                   Check changes
                 </Button>
 
-                {preview && (
-                  <Stack space="extraSmall">
-                    <Text style={{ color: "var(--figma-color-text-secondary)" }}>
-                      Candidates: {preview.totals.candidates} | Changes: {preview.totals.changed} | Unchanged: {preview.totals.unchanged} | Skipped: {preview.totals.skipped}
-                    </Text>
+                {isWorking && status.status === "working" && (status as any).message ? (
+                  <Text style={{ color: "var(--figma-color-text-secondary)" }}>
+                    {(status as any).message}
+                  </Text>
+                ) : null}
 
-                  {preview.entries.length === 0 ? (
-                    <Text style={{ color: "var(--figma-color-text-secondary)" }}>
-                      No text changes found.
-                    </Text>
+                {preview ? (
+                  preview.entries.length === 0 ? (
+                    <DataList
+                      header="Changes found"
+                      summary={`Candidates: ${preview.totals.candidates} | Changes: ${preview.totals.changed} | Unchanged: ${preview.totals.unchanged} | Skipped: ${preview.totals.skipped}`}
+                      emptyText="No text changes found."
+                    >
+                      {null}
+                    </DataList>
                   ) : (
                     <Stack space="extraSmall">
-                      <Text style={{ color: "var(--figma-color-text-secondary)" }}>
-                        Selected for apply: {selectedPreviewCount} / {preview.entries.length}
-                      </Text>
-                      <div style={{ display: "flex", gap: 8 }}>
-                        <Button
-                          secondary
-                          onClick={() => setSelectedPreviewNodeIds(preview.entries.map((entry) => entry.nodeId))}
-                        >
-                          Select all
-                        </Button>
-                        <Button secondary onClick={() => setSelectedPreviewNodeIds([])}>
-                          Clear
-                        </Button>
+                      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                        <Text style={{ color: "var(--figma-color-text-secondary)" }}>
+                          Selected: {selectedPreviewCount} / {preview.entries.length}
+                        </Text>
+                        <div style={{ display: "flex", gap: 6 }}>
+                          <Button
+                            secondary
+                            onClick={() => setSelectedPreviewNodeIds(preview.entries.map((entry) => entry.nodeId))}
+                          >
+                            Select all
+                          </Button>
+                          <Button secondary onClick={() => setSelectedPreviewNodeIds([])}>
+                            Clear
+                          </Button>
+                        </div>
                       </div>
-                      <div
-                        style={{
-                          border: "1px solid var(--figma-color-border)",
-                          borderRadius: 6,
-                          overflow: "hidden",
-                        }}
+
+                      <DataList
+                        header="Changes found"
+                        summary={`Candidates: ${preview.totals.candidates} | Changes: ${preview.totals.changed} | Unchanged: ${preview.totals.unchanged} | Skipped: ${preview.totals.skipped}`}
                       >
-                        {preview.entries.map((entry, index) => {
+                        {preview.entries.map((entry) => {
                           const isChecked = selectedPreviewNodeIdSet.has(entry.nodeId)
                           const textDiff = renderInlineDiff(entry.oldText ?? "", entry.newText ?? "")
                           return (
                             <div
                               key={entry.nodeId}
                               style={{
-                                borderTop:
-                                  index === 0 ? "none" : "1px solid var(--figma-color-border-secondary)",
                                 padding: 10,
                                 background: isChecked
                                   ? "var(--figma-color-bg-secondary)"
                                   : "var(--figma-color-bg)",
                               }}
                             >
+                              {/* Checkbox + node name */}
                               <Checkbox
                                 value={isChecked}
                                 onValueChange={(value) =>
@@ -262,25 +374,8 @@ export function PrintColorUsagesToolView(props: { onBack: () => void }) {
                               >
                                 <Text>{entry.nodeName}</Text>
                               </Checkbox>
-                              <div style={{ display: "flex", gap: 8, marginTop: 6 }}>
-                                <Button
-                                  secondary
-                                  disabled={!isChecked}
-                                  onClick={() =>
-                                    parent.postMessage(
-                                      {
-                                        pluginMessage: {
-                                          type: UI_TO_MAIN.PRINT_COLOR_USAGES_RESET_LAYER_NAME,
-                                          nodeId: entry.nodeId,
-                                        },
-                                      },
-                                      "*"
-                                    )
-                                  }
-                                >
-                                  Reset layer name
-                                </Button>
-                              </div>
+
+                              {/* Diff content -- clickable to focus node */}
                               <button
                                 type="button"
                                 onClick={() =>
@@ -295,70 +390,18 @@ export function PrintColorUsagesToolView(props: { onBack: () => void }) {
                                   )
                                 }
                                 style={{
-                                  marginTop: 6,
+                                  marginTop: 4,
                                   width: "100%",
                                   display: "block",
                                   border: "none",
                                   background: "transparent",
                                   textAlign: "left",
-                                  padding: 0,
+                                  padding: "0 0 0 24px",
                                   cursor: "pointer",
                                 }}
                               >
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    gap: 6,
-                                    marginBottom: 4,
-                                  }}
-                                >
-                                  {entry.textChanged ? (
-                                    <span
-                                      style={{
-                                        fontSize: 10,
-                                        lineHeight: "14px",
-                                        padding: "1px 6px",
-                                        borderRadius: 999,
-                                        border: "1px solid var(--figma-color-border-brand-strong)",
-                                        color: "var(--figma-color-text-brand)",
-                                      }}
-                                    >
-                                      Text
-                                    </span>
-                                  ) : null}
-                                  {entry.layerNameChanged ? (
-                                    <span
-                                      style={{
-                                        fontSize: 10,
-                                        lineHeight: "14px",
-                                        padding: "1px 6px",
-                                        borderRadius: 999,
-                                        border: "1px solid var(--figma-color-border-warning)",
-                                        color: "var(--figma-color-text-warning)",
-                                      }}
-                                    >
-                                      Layer name
-                                    </span>
-                                  ) : null}
-                                  {entry.linkedColorChanged ? (
-                                    <span
-                                      style={{
-                                        fontSize: 10,
-                                        lineHeight: "14px",
-                                        padding: "1px 6px",
-                                        borderRadius: 999,
-                                        border: "1px solid #b7f0c9",
-                                        color: "#067647",
-                                        background: "#ecfdf3",
-                                      }}
-                                    >
-                                      Linked color changed
-                                    </span>
-                                  ) : null}
-                                </div>
                                 <Text
                                   style={{
-                                    marginTop: 2,
                                     color: "var(--figma-color-text-secondary)",
                                     whiteSpace: "pre-wrap",
                                     wordBreak: "break-word",
@@ -386,40 +429,92 @@ export function PrintColorUsagesToolView(props: { onBack: () => void }) {
                                       lineHeight: "18px",
                                     }}
                                   >
-                                    Layer: {entry.oldLayerName || "(empty)"} {"->"} {entry.newLayerName || "(empty)"}
+                                    Layer: {entry.oldLayerName || "(empty)"} {"->"}  {entry.newLayerName || "(empty)"}
                                   </Text>
                                 ) : null}
+                              </button>
+
+                              {/* Content mismatch alert with action buttons */}
+                              {entry.contentMismatch ? (
+                                <div
+                                  style={{
+                                    marginTop: 4,
+                                    marginLeft: 24,
+                                    padding: "6px 8px",
+                                    borderRadius: 4,
+                                    background: "var(--figma-color-bg-warning-tertiary, #fff8e1)",
+                                    border: "1px solid var(--figma-color-border-warning, #ffd54f)",
+                                  }}
+                                >
+                                  <Text
+                                    style={{
+                                      color: "var(--figma-color-text-warning)",
+                                      fontSize: 11,
+                                      lineHeight: "16px",
+                                      wordBreak: "break-word",
+                                    }}
+                                  >
+                                    Layer name points to "{entry.contentMismatch.layerVariableName}" but text content matches "{entry.contentMismatch.contentVariableName}"
+                                  </Text>
+                                  <div style={{ display: "flex", gap: 6, marginTop: 6 }}>
+                                    <Button
+                                      secondary
+                                      onClick={() => {
+                                        // Keep current resolution (by layer name) -- just deselect the alert visually
+                                        // No action needed; the default apply already uses layer name resolution
+                                      }}
+                                    >
+                                      Update by layer name
+                                    </Button>
+                                    <Button
+                                      secondary
+                                      onClick={() =>
+                                        parent.postMessage(
+                                          {
+                                            pluginMessage: {
+                                              type: UI_TO_MAIN.PRINT_COLOR_USAGES_RESET_LAYER_NAME,
+                                              nodeId: entry.nodeId,
+                                            },
+                                          },
+                                          "*"
+                                        )
+                                      }
+                                    >
+                                      Update by content
+                                    </Button>
+                                  </div>
+                                </div>
+                              ) : null}
+
+                              {/* Resolved by */}
+                              <div style={{ paddingLeft: 24, marginTop: 2 }}>
                                 <Text
                                   style={{
                                     color: "var(--figma-color-text-tertiary)",
                                     whiteSpace: "pre-wrap",
                                     wordBreak: "break-word",
                                     lineHeight: "16px",
+                                    fontSize: 11,
                                   }}
                                 >
                                   Resolved by:{" "}
-                                  {entry.resolvedBy === "plugin_data"
-                                    ? "plugin data"
-                                    : entry.resolvedBy === "layer_variable_id"
-                                      ? "layer VariableID"
-                                      : entry.resolvedBy === "layer_name"
-                                        ? "layer name"
-                                        : "text content fallback"}
+                                  {entry.resolvedBy === "layer_variable_id"
+                                    ? "layer VariableID"
+                                    : entry.resolvedBy === "layer_name"
+                                      ? "layer name"
+                                      : "text content fallback"}
                                 </Text>
-                              </button>
+                              </div>
                             </div>
                           )
                         })}
-                      </div>
+                      </DataList>
                     </Stack>
-                  )}
-
-                  </Stack>
-                )}
+                  )
+                ) : null}
               </Stack>
-            )}
+            ) : null}
 
-            <VerticalSpace space="small" />
           </Stack>
         </ToolBody>
 
@@ -464,4 +559,3 @@ export function PrintColorUsagesToolView(props: { onBack: () => void }) {
     </Page>
   )
 }
-
