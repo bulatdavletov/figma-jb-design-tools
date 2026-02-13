@@ -75,7 +75,7 @@ var init_messages = __esm({
       PRINT_COLOR_USAGES_PREVIEW_UPDATE: "PRINT_COLOR_USAGES_PREVIEW_UPDATE",
       PRINT_COLOR_USAGES_UPDATE: "PRINT_COLOR_USAGES_UPDATE",
       PRINT_COLOR_USAGES_FOCUS_NODE: "PRINT_COLOR_USAGES_FOCUS_NODE",
-      PRINT_COLOR_USAGES_RESET_LAYER_NAME: "PRINT_COLOR_USAGES_RESET_LAYER_NAME",
+      PRINT_COLOR_USAGES_RESET_LAYER_NAMES: "PRINT_COLOR_USAGES_RESET_LAYER_NAMES",
       MOCKUP_MARKUP_LOAD_STATE: "MOCKUP_MARKUP_LOAD_STATE",
       MOCKUP_MARKUP_APPLY: "MOCKUP_MARKUP_APPLY",
       MOCKUP_MARKUP_CREATE_TEXT: "MOCKUP_MARKUP_CREATE_TEXT",
@@ -1805,6 +1805,64 @@ async function resolveModeIdByName(variableCollectionId, modeName) {
 function isTextNode(node) {
   return node.type === "TEXT";
 }
+function rgbToHex2(rgb) {
+  const red = Math.round(rgb.r * 255);
+  const green = Math.round(rgb.g * 255);
+  const blue = Math.round(rgb.b * 255);
+  const toHex = (value) => {
+    const hex = value.toString(16);
+    return hex.length === 1 ? "0" + hex : hex;
+  };
+  return `#${toHex(red)}${toHex(green)}${toHex(blue)}`.toUpperCase();
+}
+async function resolveVariableLabelPartsFromVariable(variableId, showLinkedColors, node, hideFolderNames, explicitModeId) {
+  var _a, _b, _c;
+  const variable = await figma.variables.getVariableByIdAsync(variableId);
+  const primaryText = maybeStripFolderPrefix((_b = (_a = variable == null ? void 0 : variable.name) != null ? _a : variable == null ? void 0 : variable.key) != null ? _b : "Unknown Variable", hideFolderNames);
+  const modeContext = await resolveVariableModeContext(
+    variable == null ? void 0 : variable.variableCollectionId,
+    node,
+    variable == null ? void 0 : variable.valuesByMode,
+    explicitModeId
+  );
+  if (!showLinkedColors) return { primaryText, secondaryText: "", alpha: void 0, modeContext };
+  let secondaryText = "";
+  let alpha = void 0;
+  const currentModeId = modeContext.modeId;
+  const value = currentModeId && (variable == null ? void 0 : variable.valuesByMode) ? variable.valuesByMode[currentModeId] : void 0;
+  if (value && typeof value === "object" && "type" in value && value.type === "VARIABLE_ALIAS") {
+    const aliasValue = value;
+    if (aliasValue.id) {
+      try {
+        const linkedVariable = await figma.variables.getVariableByIdAsync(aliasValue.id);
+        if (linkedVariable == null ? void 0 : linkedVariable.name) secondaryText = maybeStripFolderPrefix(linkedVariable.name, hideFolderNames);
+      } catch (e) {
+      }
+    }
+  } else if (value && typeof value === "object" && "r" in value && "g" in value && "b" in value) {
+    const rgb = { r: value.r, g: value.g, b: value.b };
+    const rawAlpha = typeof value.a === "number" ? value.a : void 0;
+    const valueOpacity = rawAlpha === void 0 ? 1 : rawAlpha;
+    alpha = rawAlpha;
+    try {
+      const styles = await figma.getLocalPaintStylesAsync();
+      for (const style of styles) {
+        if (!((_c = style.paints) == null ? void 0 : _c.length)) continue;
+        const stylePaint = style.paints[0];
+        if (stylePaint.type !== "SOLID") continue;
+        const styleOpacity = stylePaint.opacity === void 0 ? 1 : stylePaint.opacity;
+        const colorMatch = Math.abs(stylePaint.color.r - rgb.r) < 1e-3 && Math.abs(stylePaint.color.g - rgb.g) < 1e-3 && Math.abs(stylePaint.color.b - rgb.b) < 1e-3 && Math.abs(styleOpacity - valueOpacity) < 1e-3;
+        if (colorMatch) {
+          secondaryText = maybeStripFolderPrefix(style.name, hideFolderNames);
+          break;
+        }
+      }
+    } catch (e) {
+    }
+    if (!secondaryText) secondaryText = rgbToHex2(rgb);
+  }
+  return { primaryText, secondaryText, alpha, modeContext };
+}
 async function findLocalVariableIdByName(name) {
   var _a, _b, _c;
   const wanted = name.trim().toLowerCase();
@@ -1842,16 +1900,6 @@ var init_shared = __esm({
 });
 
 // src/app/tools/print-color-usages/analyze.ts
-function rgbToHex2(rgb) {
-  const red = Math.round(rgb.r * 255);
-  const green = Math.round(rgb.g * 255);
-  const blue = Math.round(rgb.b * 255);
-  const toHex = (value) => {
-    const hex = value.toString(16);
-    return hex.length === 1 ? "0" + hex : hex;
-  };
-  return `#${toHex(red)}${toHex(green)}${toHex(blue)}`.toUpperCase();
-}
 async function getStyleName(node, property) {
   if (property === "fills" && "fillStyleId" in node && node.fillStyleId && typeof node.fillStyleId === "string") {
     try {
@@ -1869,55 +1917,6 @@ async function getStyleName(node, property) {
   }
   return null;
 }
-async function resolveVariableLabelPartsFromVariable(variableId, showLinkedColors, node, hideFolderNames, explicitModeId) {
-  var _a, _b, _c;
-  const variable = await figma.variables.getVariableByIdAsync(variableId);
-  const primaryText = maybeStripFolderPrefix((_b = (_a = variable == null ? void 0 : variable.name) != null ? _a : variable == null ? void 0 : variable.key) != null ? _b : "Unknown Variable", hideFolderNames);
-  const modeContext = await resolveVariableModeContext(
-    variable == null ? void 0 : variable.variableCollectionId,
-    node,
-    variable == null ? void 0 : variable.valuesByMode,
-    explicitModeId
-  );
-  if (!showLinkedColors) return { primaryText, secondaryText: "", modeContext };
-  let secondaryText = "";
-  const currentModeId = modeContext.modeId;
-  const value = currentModeId && (variable == null ? void 0 : variable.valuesByMode) ? variable.valuesByMode[currentModeId] : void 0;
-  if (value && typeof value === "object" && "type" in value && value.type === "VARIABLE_ALIAS") {
-    const aliasValue = value;
-    if (aliasValue.id) {
-      try {
-        const linkedVariable = await figma.variables.getVariableByIdAsync(aliasValue.id);
-        if (linkedVariable == null ? void 0 : linkedVariable.name) secondaryText = maybeStripFolderPrefix(linkedVariable.name, hideFolderNames);
-      } catch (e) {
-      }
-    }
-  } else if (value && typeof value === "object" && "r" in value && "g" in value && "b" in value) {
-    const rgb = { r: value.r, g: value.g, b: value.b };
-    const alpha = typeof value.a === "number" ? value.a : void 0;
-    const valueOpacity = alpha === void 0 ? 1 : alpha;
-    try {
-      const styles = await figma.getLocalPaintStylesAsync();
-      for (const style of styles) {
-        if (!((_c = style.paints) == null ? void 0 : _c.length)) continue;
-        const stylePaint = style.paints[0];
-        if (stylePaint.type !== "SOLID") continue;
-        const styleOpacity = stylePaint.opacity === void 0 ? 1 : stylePaint.opacity;
-        const colorMatch = Math.abs(stylePaint.color.r - rgb.r) < 1e-3 && Math.abs(stylePaint.color.g - rgb.g) < 1e-3 && Math.abs(stylePaint.color.b - rgb.b) < 1e-3 && Math.abs(styleOpacity - valueOpacity) < 1e-3;
-        if (colorMatch) {
-          secondaryText = maybeStripFolderPrefix(style.name, hideFolderNames);
-          break;
-        }
-      }
-    } catch (e) {
-    }
-    if (!secondaryText) secondaryText = rgbToHex2(rgb);
-    if (alpha !== void 0 && alpha !== 1) {
-      secondaryText += ` ${Math.round(alpha * 100)}%`;
-    }
-  }
-  return { primaryText, secondaryText, modeContext };
-}
 async function getColorUsage(paint, showLinkedColors = true, node, hideFolderNames = false) {
   const boundVariableId = getBoundColorVariableIdFromPaint(paint);
   if (boundVariableId) {
@@ -1926,9 +1925,12 @@ async function getColorUsage(paint, showLinkedColors = true, node, hideFolderNam
     const secondaryText = parts.secondaryText;
     if (showLinkedColors && secondaryText && paint.type === "SOLID") {
       const separator = "   ";
+      const varAlpha = parts.alpha !== void 0 ? parts.alpha : 1;
+      const paintOpacity = paint.opacity !== void 0 ? paint.opacity : 1;
+      const effectiveOpacity = varAlpha * paintOpacity;
       let opacitySuffix = "";
-      if (paint.opacity !== void 0 && paint.opacity !== 1) {
-        opacitySuffix = ` ${Math.round(paint.opacity * 100)}%`;
+      if (Math.abs(effectiveOpacity - 1) > 1e-3) {
+        opacitySuffix = ` ${Math.round(effectiveOpacity * 100)}%`;
       }
       const secondaryWithOpacity = `${secondaryText}${opacitySuffix}`;
       return {
@@ -2188,39 +2190,6 @@ var init_print = __esm({
 });
 
 // src/app/tools/print-color-usages/update.ts
-async function resolveVariableLabelPartsFromVariable2(variableId, showLinkedColors, node, hideFolderNames, explicitModeId) {
-  var _a, _b;
-  const variable = await figma.variables.getVariableByIdAsync(variableId);
-  const maybeStripFolderPrefix2 = (name) => {
-    if (!hideFolderNames) return name;
-    const idx = name.lastIndexOf("/");
-    if (idx === -1) return name;
-    const leaf = name.slice(idx + 1);
-    return leaf || name;
-  };
-  const primaryText = maybeStripFolderPrefix2((_b = (_a = variable == null ? void 0 : variable.name) != null ? _a : variable == null ? void 0 : variable.key) != null ? _b : "Unknown Variable");
-  const modeContext = await resolveVariableModeContext(
-    variable == null ? void 0 : variable.variableCollectionId,
-    node,
-    variable == null ? void 0 : variable.valuesByMode,
-    explicitModeId
-  );
-  if (!showLinkedColors) return { primaryText, secondaryText: "", modeContext };
-  let secondaryText = "";
-  const currentModeId = modeContext.modeId;
-  const value = currentModeId && (variable == null ? void 0 : variable.valuesByMode) ? variable.valuesByMode[currentModeId] : void 0;
-  if (value && typeof value === "object" && "type" in value && value.type === "VARIABLE_ALIAS") {
-    const aliasValue = value;
-    if (aliasValue.id) {
-      try {
-        const linkedVariable = await figma.variables.getVariableByIdAsync(aliasValue.id);
-        if (linkedVariable == null ? void 0 : linkedVariable.name) secondaryText = maybeStripFolderPrefix2(linkedVariable.name);
-      } catch (e) {
-      }
-    }
-  }
-  return { primaryText, secondaryText, modeContext };
-}
 function collectTextNodesRecursivelyFromSelection(selection) {
   const result = [];
   const seen = /* @__PURE__ */ new Set();
@@ -2320,7 +2289,7 @@ async function resolveUpdateTargetForText(text, settings) {
   }
   let parts;
   try {
-    parts = await resolveVariableLabelPartsFromVariable2(
+    parts = await resolveVariableLabelPartsFromVariable(
       variableIdToUse,
       settings.showLinkedColors,
       text,
@@ -2331,23 +2300,28 @@ async function resolveUpdateTargetForText(text, settings) {
     return null;
   }
   const separator = "   ";
-  const hasSecondary = settings.showLinkedColors && !!parts.secondaryText;
-  const label = hasSecondary ? `${parts.primaryText}${separator}${parts.secondaryText}` : parts.primaryText;
+  let secondaryWithAlpha = parts.secondaryText;
+  if (secondaryWithAlpha && parts.alpha !== void 0 && Math.abs(parts.alpha - 1) > 1e-3) {
+    secondaryWithAlpha += ` ${Math.round(parts.alpha * 100)}%`;
+  }
+  const hasSecondary = settings.showLinkedColors && !!secondaryWithAlpha;
+  const label = hasSecondary ? `${parts.primaryText}${separator}${secondaryWithAlpha}` : parts.primaryText;
   const desiredLayerName = parts.modeContext.isNonDefaultMode && parts.modeContext.modeName ? `${variableIdToUse} (${parts.modeContext.modeName})` : variableIdToUse;
   const needsCharactersUpdate = ((_i = text.characters) != null ? _i : "") !== label;
   const needsNameUpdate = ((_j = text.name) != null ? _j : "") !== desiredLayerName;
   const oldSecondaryText = (() => {
     var _a2;
     const raw = (_a2 = text.characters) != null ? _a2 : "";
-    const parts2 = raw.split(/\s{3,}/);
-    return parts2.length > 1 ? parts2.slice(1).join("   ").trim() : "";
+    const rawParts = raw.split(/\s{3,}/);
+    return rawParts.length > 1 ? rawParts.slice(1).join("   ").trim() : "";
   })();
-  const linkedColorChanged = settings.showLinkedColors && (oldSecondaryText || "") !== (parts.secondaryText || "");
+  const linkedColorChanged = settings.showLinkedColors && (oldSecondaryText || "") !== (secondaryWithAlpha || "");
+  const adjustedParts = __spreadProps(__spreadValues({}, parts), { secondaryText: secondaryWithAlpha });
   return {
     label,
     desiredLayerName,
     hasSecondary,
-    parts,
+    parts: adjustedParts,
     variableIdToUse,
     needsCharactersUpdate,
     needsNameUpdate,
@@ -2594,6 +2568,7 @@ function registerPrintColorUsagesTool(getActiveTool) {
     debouncedPrintPreview();
   };
   const onMessage = async (msg) => {
+    var _a;
     try {
       if (msg.type === UI_TO_MAIN.PRINT_COLOR_USAGES_LOAD_SETTINGS) {
         await onActivate();
@@ -2689,18 +2664,24 @@ function registerPrintColorUsagesTool(getActiveTool) {
         }
         return true;
       }
-      if (msg.type === UI_TO_MAIN.PRINT_COLOR_USAGES_RESET_LAYER_NAME) {
-        const node = await figma.getNodeByIdAsync(msg.nodeId);
-        if (!node || node.type !== "TEXT") {
-          figma.notify("Layer not found");
+      if (msg.type === UI_TO_MAIN.PRINT_COLOR_USAGES_RESET_LAYER_NAMES) {
+        const nodeIds = (_a = msg.nodeIds) != null ? _a : [];
+        if (nodeIds.length === 0) {
+          figma.notify("No layers selected for reset");
           return true;
         }
-        try {
-          node.name = "";
-          figma.notify("Layer name reset");
-        } catch (error) {
-          figma.notify(error instanceof Error ? error.message : "Failed to reset layer name");
+        let resetCount = 0;
+        for (const nodeId of nodeIds) {
+          try {
+            const node = await figma.getNodeByIdAsync(nodeId);
+            if (node && node.type === "TEXT") {
+              node.name = "";
+              resetCount++;
+            }
+          } catch (e) {
+          }
         }
+        figma.notify(resetCount > 0 ? `Reset ${resetCount} layer name(s)` : "No layers were reset");
         return true;
       }
     } catch (e) {

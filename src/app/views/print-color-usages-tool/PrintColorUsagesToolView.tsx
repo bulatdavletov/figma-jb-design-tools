@@ -339,6 +339,37 @@ export function PrintColorUsagesToolView(props: { onBack: () => void }) {
                           <Button secondary onClick={() => setSelectedPreviewNodeIds([])}>
                             Clear
                           </Button>
+                          <Button
+                            secondary
+                            disabled={selectedPreviewCount === 0}
+                            onClick={() => {
+                              const idsToReset = [...selectedPreviewNodeIds]
+                              parent.postMessage(
+                                {
+                                  pluginMessage: {
+                                    type: UI_TO_MAIN.PRINT_COLOR_USAGES_RESET_LAYER_NAMES,
+                                    nodeIds: idsToReset,
+                                  },
+                                },
+                                "*"
+                              )
+                              // Remove reset entries from preview and selection.
+                              const resetSet = new Set(idsToReset)
+                              setPreview((prev) =>
+                                prev
+                                  ? {
+                                      ...prev,
+                                      entries: prev.entries.filter((e) => !resetSet.has(e.nodeId)),
+                                    }
+                                  : prev
+                              )
+                              setSelectedPreviewNodeIds((prev) =>
+                                prev.filter((id) => !resetSet.has(id))
+                              )
+                            }}
+                          >
+                            Reset names
+                          </Button>
                         </div>
                       </div>
 
@@ -434,7 +465,7 @@ export function PrintColorUsagesToolView(props: { onBack: () => void }) {
                                 ) : null}
                               </button>
 
-                              {/* Content mismatch alert with action buttons */}
+                              {/* Content mismatch alert (informational) */}
                               {entry.contentMismatch ? (
                                 <div
                                   style={{
@@ -456,33 +487,6 @@ export function PrintColorUsagesToolView(props: { onBack: () => void }) {
                                   >
                                     Layer name points to "{entry.contentMismatch.layerVariableName}" but text content matches "{entry.contentMismatch.contentVariableName}"
                                   </Text>
-                                  <div style={{ display: "flex", gap: 6, marginTop: 6 }}>
-                                    <Button
-                                      secondary
-                                      onClick={() => {
-                                        // Keep current resolution (by layer name) -- just deselect the alert visually
-                                        // No action needed; the default apply already uses layer name resolution
-                                      }}
-                                    >
-                                      Update by layer name
-                                    </Button>
-                                    <Button
-                                      secondary
-                                      onClick={() =>
-                                        parent.postMessage(
-                                          {
-                                            pluginMessage: {
-                                              type: UI_TO_MAIN.PRINT_COLOR_USAGES_RESET_LAYER_NAME,
-                                              nodeId: entry.nodeId,
-                                            },
-                                          },
-                                          "*"
-                                        )
-                                      }
-                                    >
-                                      Update by content
-                                    </Button>
-                                  </div>
                                 </div>
                               ) : null}
 

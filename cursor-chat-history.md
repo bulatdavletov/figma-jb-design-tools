@@ -88,6 +88,15 @@
 - Updated `Specs/Design Principles.md`: added "Copy Action Feedback" and "Data Lists and Tables" principles.
 - Build passes with no errors.
 
+#### Print Color Usages — fix opacity bugs + reset layer names button
+- **Bug fix: double opacity %** in Print tab. `resolveVariableLabelPartsFromVariable` in `analyze.ts` appended variable alpha to secondaryText, then `getColorUsage` appended paint.opacity on top. Fix: consolidated function to `shared.ts`; alpha returned as separate field. `getColorUsage` now computes `effectiveOpacity = alpha * paintOpacity` and appends one `%` value.
+- **Bug fix: missing linked color** in Update tab. `update.ts` had its own copy of `resolveVariableLabelPartsFromVariable` that only handled VARIABLE_ALIAS, skipping direct color values. Fix: removed duplicate, both files now import the shared function (which handles aliases AND direct colors).
+- **DRY consolidation**: Moved `resolveVariableLabelPartsFromVariable` and `rgbToHex` to `shared.ts`. Both `analyze.ts` and `update.ts` import from there. Prevents future divergence.
+- **Feature: Reset names button**: Added "Reset names" button in Update tab preview toolbar (next to Select all / Clear). Works on all checked rows. Sends batch `PRINT_COLOR_USAGES_RESET_LAYER_NAMES` message (array of nodeIds). Main thread resets each node's `.name` to `""`. After reset, entries are removed from the preview list. Replaced old singular `PRINT_COLOR_USAGES_RESET_LAYER_NAME`.
+- **Simplified mismatch warning**: Removed "Update by layer name" and "Update by content" action buttons from mismatch warning; warning is now informational only. Layer name reset is handled by the new "Reset names" button.
+- Files changed: `shared.ts` (added shared function + type), `analyze.ts` (removed duplicate, fixed opacity), `update.ts` (removed duplicate, imports shared, alpha handling), `messages.ts` (renamed message), `main-thread.ts` (batch reset handler), `PrintColorUsagesToolView.tsx` (Reset names button, simplified mismatch).
+- Verification: `npm run build` passed; no linter errors.
+
 #### Print Color Usages — major update batch (plan implementation)
 - Implemented all changes from `print_update_improvements` plan.
 - **Unify color application with Mockup Markup**: Added `reassertPageModeForVariable()` helper in `markup-kit.ts` that reads `figma.currentPage.explicitVariableModes` and re-asserts the current mode (or default) via `setExplicitVariableModeForCollection`. Called after resolving primary variable in `resolveMarkupTextFills()`. Added `verifyFillBinding()` export for post-apply verification. Applied in `print.ts` and `update.ts`.
