@@ -192,18 +192,25 @@ export function registerPrintColorUsagesTool(getActiveTool: () => ActiveTool) {
         return true
       }
 
-      if (msg.type === UI_TO_MAIN.PRINT_COLOR_USAGES_RESET_LAYER_NAME) {
-        const node = await figma.getNodeByIdAsync(msg.nodeId)
-        if (!node || node.type !== "TEXT") {
-          figma.notify("Layer not found")
+      if (msg.type === UI_TO_MAIN.PRINT_COLOR_USAGES_RESET_LAYER_NAMES) {
+        const nodeIds = msg.nodeIds ?? []
+        if (nodeIds.length === 0) {
+          figma.notify("No layers selected for reset")
           return true
         }
-        try {
-          node.name = ""
-          figma.notify("Layer name reset")
-        } catch (error) {
-          figma.notify(error instanceof Error ? error.message : "Failed to reset layer name")
+        let resetCount = 0
+        for (const nodeId of nodeIds) {
+          try {
+            const node = await figma.getNodeByIdAsync(nodeId)
+            if (node && node.type === "TEXT") {
+              node.name = ""
+              resetCount++
+            }
+          } catch {
+            // ignore individual failures
+          }
         }
+        figma.notify(resetCount > 0 ? `Reset ${resetCount} layer name(s)` : "No layers were reset")
         return true
       }
     } catch (e) {
