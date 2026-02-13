@@ -1,15 +1,4 @@
-import { ColorUsage, getBoundColorVariableIdFromPaint, maybeStripFolderPrefix, resolveVariableModeContext, type VariableModeContext } from "./shared"
-
-export function rgbToHex(rgb: RGB): string {
-  const red = Math.round(rgb.r * 255)
-  const green = Math.round(rgb.g * 255)
-  const blue = Math.round(rgb.b * 255)
-  const toHex = (value: number) => {
-    const hex = value.toString(16)
-    return hex.length === 1 ? "0" + hex : hex
-  }
-  return `#${toHex(red)}${toHex(green)}${toHex(blue)}`.toUpperCase()
-}
+import { ColorUsage, getBoundColorVariableIdFromPaint, maybeStripFolderPrefix, resolveVariableLabelPartsFromVariable, rgbToHex } from "./shared"
 
 async function getStyleName(node: SceneNode, property: "fills" | "strokes"): Promise<string | null> {
   if (property === "fills" && "fillStyleId" in node && node.fillStyleId && typeof node.fillStyleId === "string") {
@@ -38,79 +27,6 @@ async function getStyleName(node: SceneNode, property: "fills" | "strokes"): Pro
   return null
 }
 
-async function resolveVariableLabelPartsFromVariable(
-  variableId: string,
-  showLinkedColors: boolean,
-  node: SceneNode | undefined,
-  hideFolderNames: boolean,
-  explicitModeId?: string | null
-): Promise<{ primaryText: string; secondaryText: string; modeContext: VariableModeContext }> {
-  const variable = await figma.variables.getVariableByIdAsync(variableId)
-  const primaryText = maybeStripFolderPrefix(variable?.name ?? variable?.key ?? "Unknown Variable", hideFolderNames)
-
-  const modeContext = await resolveVariableModeContext(
-    variable?.variableCollectionId,
-    node,
-    (variable as any)?.valuesByMode,
-    explicitModeId
-  )
-
-  if (!showLinkedColors) return { primaryText, secondaryText: "", modeContext }
-
-  let secondaryText = ""
-
-  const currentModeId = modeContext.modeId
-  const value = currentModeId && variable?.valuesByMode ? (variable.valuesByMode as any)[currentModeId] : undefined
-
-  // Alias => show linked variable name.
-  if (value && typeof value === "object" && "type" in value && (value as any).type === "VARIABLE_ALIAS") {
-    const aliasValue = value as any
-    if (aliasValue.id) {
-      try {
-        const linkedVariable = await figma.variables.getVariableByIdAsync(aliasValue.id)
-        if (linkedVariable?.name) secondaryText = maybeStripFolderPrefix(linkedVariable.name, hideFolderNames)
-      } catch {
-        // ignore
-      }
-    }
-  } else if (value && typeof value === "object" && "r" in value && "g" in value && "b" in value) {
-    // Direct color value => try match a local paint style, else hex.
-    const rgb: RGB = { r: (value as any).r, g: (value as any).g, b: (value as any).b }
-    const alpha: number | undefined = typeof (value as any).a === "number" ? (value as any).a : undefined
-    const valueOpacity = alpha === undefined ? 1 : alpha
-
-    // Try style match.
-    try {
-      const styles = await figma.getLocalPaintStylesAsync()
-      for (const style of styles) {
-        if (!style.paints?.length) continue
-        const stylePaint = style.paints[0]
-        if (stylePaint.type !== "SOLID") continue
-        const styleOpacity = stylePaint.opacity === undefined ? 1 : stylePaint.opacity
-        const colorMatch =
-          Math.abs(stylePaint.color.r - rgb.r) < 0.001 &&
-          Math.abs(stylePaint.color.g - rgb.g) < 0.001 &&
-          Math.abs(stylePaint.color.b - rgb.b) < 0.001 &&
-          Math.abs(styleOpacity - valueOpacity) < 0.001
-        if (colorMatch) {
-          secondaryText = maybeStripFolderPrefix(style.name, hideFolderNames)
-          break
-        }
-      }
-    } catch {
-      // ignore
-    }
-
-    if (!secondaryText) secondaryText = rgbToHex(rgb)
-
-    if (alpha !== undefined && alpha !== 1) {
-      secondaryText += ` ${Math.round(alpha * 100)}%`
-    }
-  }
-
-  return { primaryText, secondaryText, modeContext }
-}
-
 async function getColorUsage(
   paint: Paint,
   showLinkedColors: boolean = true,
@@ -127,9 +43,13 @@ async function getColorUsage(
 
     if (showLinkedColors && secondaryText && paint.type === "SOLID") {
       const separator = "   "
+      // Combine variable alpha and paint opacity into one effective opacity value.
+      const varAlpha = parts.alpha !== undefined ? parts.alpha : 1
+      const paintOpacity = paint.opacity !== undefined ? paint.opacity : 1
+      const effectiveOpacity = varAlpha * paintOpacity
       let opacitySuffix = ""
-      if (paint.opacity !== undefined && paint.opacity !== 1) {
-        opacitySuffix = ` ${Math.round(paint.opacity * 100)}%`
+      if (Math.abs(effectiveOpacity - 1) > 0.001) {
+        opacitySuffix = ` ${Math.round(effectiveOpacity * 100)}%`
       }
       const secondaryWithOpacity = `${secondaryText}${opacitySuffix}`
       return {

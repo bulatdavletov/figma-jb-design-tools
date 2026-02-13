@@ -6,55 +6,10 @@ import {
   findLocalVariableIdByName,
   isTextNode,
   resolveModeIdByName,
-  resolveVariableModeContext,
+  resolveVariableLabelPartsFromVariable,
   stripTrailingModeSuffix,
 } from "./shared"
 import { savePrintColorUsagesSettings } from "./settings"
-
-async function resolveVariableLabelPartsFromVariable(
-  variableId: string,
-  showLinkedColors: boolean,
-  node: SceneNode | undefined,
-  hideFolderNames: boolean,
-  explicitModeId?: string | null
-): Promise<{ primaryText: string; secondaryText: string; modeContext: Awaited<ReturnType<typeof resolveVariableModeContext>> }> {
-  const variable = await figma.variables.getVariableByIdAsync(variableId)
-  const maybeStripFolderPrefix = (name: string) => {
-    if (!hideFolderNames) return name
-    const idx = name.lastIndexOf("/")
-    if (idx === -1) return name
-    const leaf = name.slice(idx + 1)
-    return leaf || name
-  }
-
-  const primaryText = maybeStripFolderPrefix(variable?.name ?? variable?.key ?? "Unknown Variable")
-  const modeContext = await resolveVariableModeContext(
-    variable?.variableCollectionId,
-    node,
-    (variable as any)?.valuesByMode,
-    explicitModeId
-  )
-
-  if (!showLinkedColors) return { primaryText, secondaryText: "", modeContext }
-
-  let secondaryText = ""
-  const currentModeId = modeContext.modeId
-  const value = currentModeId && variable?.valuesByMode ? (variable.valuesByMode as any)[currentModeId] : undefined
-
-  if (value && typeof value === "object" && "type" in value && (value as any).type === "VARIABLE_ALIAS") {
-    const aliasValue = value as any
-    if (aliasValue.id) {
-      try {
-        const linkedVariable = await figma.variables.getVariableByIdAsync(aliasValue.id)
-        if (linkedVariable?.name) secondaryText = maybeStripFolderPrefix(linkedVariable.name)
-      } catch {
-        // ignore
-      }
-    }
-  }
-
-  return { primaryText, secondaryText, modeContext }
-}
 
 function collectTextNodesRecursivelyFromSelection(selection: readonly SceneNode[]): TextNode[] {
   const result: TextNode[] = []
@@ -216,8 +171,14 @@ async function resolveUpdateTargetForText(
   }
 
   const separator = "   "
-  const hasSecondary = settings.showLinkedColors && !!parts.secondaryText
-  const label = hasSecondary ? `${parts.primaryText}${separator}${parts.secondaryText}` : parts.primaryText
+  // In the Update flow we don't have access to paint.opacity, so we use
+  // only the variable's alpha channel for the opacity suffix.
+  let secondaryWithAlpha = parts.secondaryText
+  if (secondaryWithAlpha && parts.alpha !== undefined && Math.abs(parts.alpha - 1) > 0.001) {
+    secondaryWithAlpha += ` ${Math.round(parts.alpha * 100)}%`
+  }
+  const hasSecondary = settings.showLinkedColors && !!secondaryWithAlpha
+  const label = hasSecondary ? `${parts.primaryText}${separator}${secondaryWithAlpha}` : parts.primaryText
 
   const desiredLayerName =
     parts.modeContext.isNonDefaultMode && parts.modeContext.modeName
@@ -228,17 +189,20 @@ async function resolveUpdateTargetForText(
   const needsNameUpdate = (text.name ?? "") !== desiredLayerName
   const oldSecondaryText = (() => {
     const raw = text.characters ?? ""
-    const parts = raw.split(/\s{3,}/)
-    return parts.length > 1 ? parts.slice(1).join("   ").trim() : ""
+    const rawParts = raw.split(/\s{3,}/)
+    return rawParts.length > 1 ? rawParts.slice(1).join("   ").trim() : ""
   })()
   const linkedColorChanged =
-    settings.showLinkedColors && ((oldSecondaryText || "") !== (parts.secondaryText || ""))
+    settings.showLinkedColors && ((oldSecondaryText || "") !== (secondaryWithAlpha || ""))
+
+  // Override secondaryText in parts so the apply logic uses the correct length (with alpha suffix).
+  const adjustedParts = { ...parts, secondaryText: secondaryWithAlpha }
 
   return {
     label,
     desiredLayerName,
     hasSecondary,
-    parts,
+    parts: adjustedParts,
     variableIdToUse,
     needsCharactersUpdate,
     needsNameUpdate,
