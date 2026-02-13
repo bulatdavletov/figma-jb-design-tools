@@ -31,25 +31,42 @@ Label text priority:
 Update:
 - Works from **Update** tab with a **preview-before-apply** flow.
 - Resolves target variable in this order:
-  1) plugin data saved on printed layer (internal metadata key `pcu_variableId` written by this tool)
-  2) VariableID in layer name
-  3) variable name from layer name
-  4) fallback: variable name from text content
-- Can update **selection scope** or **current page scope** (when selection is empty).
+  1) VariableID in layer name (the layer name is the single source of truth)
+  2) Variable name from layer name
+  3) (Only when "Check by content" is ON) Text content fallback: match primary text to variable name
+- **No plugin data** -- the tool no longer reads or writes `pcu_variableId` / `pcu_variableCollectionId` / `pcu_variableModeId`. Layer name is the single source of truth.
+- Can update **selection scope**, **current page scope**, or **all pages scope**.
 - Apply can target **all preview rows** or only **selected preview rows**.
+
+### Color Application
+- Color application uses the same **page-mode-setting mechanism** as Mockup Markup tool.
+- Before applying variable-bound fills, the tool re-asserts the current page's explicit variable mode for the variable's collection. This triggers Figma to properly resolve the variable fill, preventing stale/dark text.
+- After applying fills, the tool verifies that the fill binding is correct.
+
+### Terminology
+- **Main color**: The first (primary) color in the label -- the variable's own name.
+- **Linked color**: The second (secondary) color after the separator -- the alias-target variable name.
+
+### Check by Content
+- Checkbox in the Update tab, **off by default**.
+- When ON, enables an additional fallback: if the layer name doesn't resolve to a variable, the tool tries to match the text content to a variable name.
+- **Mismatch detection**: When content resolves to a different variable than the layer name, the preview shows a warning: "Layer name points to X but text content matches Y".
 
 ### Workflows
 **Print**:
 I need to create text labels for the colors used in the selection.
 I open the Print Color Usages tool.
-And just press the Print button.
-Tool creates text labels for the unique colors used in the selection.
+The Print tab shows a **live preview** of what would be printed (auto-updates on selection change).
+Each row shows: variable name (label text), future layer name (VariableID), and a Copy button.
+I press the Print button to actually create the text layers.
 
 **Update**:
 I need to update previously printed text labels.
 I open the Print Color Usages tool, Update tab.
 I press the Check changes button.
+Tool shows **progress text** ("Checking… 15/200 layers") during the operation.
 Tool gives me a preview of text/layer-name changes with per-row details.
+Badges: "Main color" for text changes, "Linked color" for linked color changes.
 I can review rows, keep all, or unselect some rows.
 I press Apply in Selection (if selection exists) or Apply on Page (if selection is empty).
 Tool updates only selected preview rows in the active scope.

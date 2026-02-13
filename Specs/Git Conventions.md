@@ -4,6 +4,8 @@
 
 Always start with the **tool or component name**, followed by a colon and a short description:
 
+Describe new functionality first, then changes, then fixes.
+
 ```
 ComponentOrTool: Short description
 ```
@@ -13,17 +15,17 @@ ComponentOrTool: Short description
 Single-scope changes:
 
 ```
-ColorSwatch: Fixed border
-ColorRow: Auto-size button width based on label
-ToolTabs: Remove bottom border from library Tabs
+ColorSwatch: Add swatch border for light themes
+ColorRow: Change button to auto-size width based on label
+ToolTabs: Fix bottom border missing from library Tabs
 ```
 
-Multi-scope changes — list each component on its own line:
+Multi-scope changes — list each component on its own line (group by type: new functionality, changes, then fixes):
 
 ```
-ColorRow: Auto-size button width
-ToolTabs: Remove bottom border
 VariablesReplaceUsagesToolView: Add example JSON download
+ColorRow: Change button width auto-sizing
+ToolTabs: Fix bottom border rendering
 ```
 
 ### Rules

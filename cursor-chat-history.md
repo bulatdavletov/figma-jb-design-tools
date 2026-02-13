@@ -36,6 +36,61 @@
 
 ## Figma utilities “one plugin”
 
+### 2026-02-13
+
+#### Print Color Usages — "Check changes" button no feedback (debug + fix)
+- Bug: "Check changes" button showed no spinner or progress when clicked.
+- Root cause: The optimistic `setStatus` call in the onClick handler had an incorrect shape — it included an extra `type: MAIN_TO_UI.PRINT_COLOR_USAGES_STATUS` property not part of `PrintColorUsagesStatus`. Additionally, previous debug instrumentation used `fetch()` calls which were all blocked by Figma's Content Security Policy (CSP), providing no runtime data.
+- Fix: Corrected `setStatus` shape to `{ status: "working", message: "Checking changes…" }` (removed extra `type`). Confirmed via `console.log` instrumentation that Preact correctly renders `isWorking=true` immediately after click.
+- Performance follow-up: Progress callbacks (every 10 layers) caused ~15 UI re-renders in 425ms. Throttled progress messages to max 1 every 200ms (~5 FPS) while keeping `yieldToUI()` on every callback for Figma responsiveness.
+- Files changed: `PrintColorUsagesToolView.tsx` (setStatus fix, removed all debug logs), `main-thread.ts` (throttled progress messages, removed debug logs), `run.ts` (removed debug log).
+
+#### DataRow/DataList — no visible gap between primary and secondary text (fix)
+- Bug: Primary and secondary text in Print tab DataList preview appear with no vertical spacing.
+- Root cause: `@create-figma-plugin/ui` `Text` component uses `::before { margin-top: -9px }` + `transform: translateY(4px)` for font-metric alignment. This compressed layout heights (20px→12px, 16px→8px) and made text fill each wrapper edge-to-edge, rendering the 4px flex gap invisible. `overflow: hidden` wrappers didn't help.
+- Debug evidence: DOM measurements confirmed 4px layout gap existed but was imperceptible. Text elements extended 4px beyond their wrappers due to `translateY(4px)`. Note: `fetch()` logging blocked by Figma CSP — used `console.log` instead.
+- Fix: Replaced `Text` component with plain `<div>` elements in `DataRow.tsx` and Print tab preview in `PrintColorUsagesToolView.tsx`. Removed `overflow: hidden` wrappers (no longer needed). Reduced explicit gap from 4px to 2px (natural line-height now provides sufficient breathing room).
+- Post-fix measurements: primary height 20px (was 12px), secondary height 16px (was 8px), column height 38px (was 24px). Visible spacing confirmed.
+
+#### Print Color Usages — reduce spacing around Settings disclosure
+- Issue: Too much vertical space before and after the Settings section in Print tab.
+- Root cause: `ToolBody`'s `<VerticalSpace space="medium" />` creates ~16px top/bottom padding; combined with Disclosure header padding this was excessive.
+- Fix: Added `marginTop: -8, marginBottom: -8` on the outer Stack inside `PrintColorUsagesToolView` only — compensates for ToolBody padding locally without touching the shared `ToolBody` component.
+- Impact: Visual only; no logic changes. Other tools unaffected.
+
+#### Print Color Usages — UI redesign (shared components + cleanup)
+- Created shared UI components in `src/app/components/`:
+  - `CopyIconButton.tsx`: IconButton with copy icon; on click copies text to clipboard, icon changes to checkmark for 1.5s. Uses new shared `src/app/utils/clipboard.ts` utility.
+  - `DataList.tsx`: Card-style container with border, radius, row separators, optional header/summary/emptyText.
+  - `DataRow.tsx`: Row component with primary/secondary/tertiary text, hover actions, optional checkbox, alert block.
+  - `DataTable.tsx`: Table container for columnar data (sticky header, shared styling with DataList). For future adoption by Variables tools.
+- Print tab redesign:
+  - Settings (Position, Show linked colors, Hide folder prefixes, info text) moved under `Disclosure` component, collapsed by default.
+  - Live preview now uses `DataList` with "Will be printed" header. Each row shows label text + layer name, with `CopyIconButton` replacing the old text "Copy" button.
+  - Removed separate "Linked:" line from preview rows (linked color is already in the label text).
+  - Loading state changed from "Analyzing selection..." to "Loading..." for brevity.
+- Update tab redesign:
+  - Removed all three colored badge/tag spans (Main color, Layer name, Linked color).
+  - Removed "Reset layer name" button.
+  - Content mismatch alert now includes action buttons: "Update by layer name" and "Update by content".
+  - Wrapped entries in `DataList` with "Changes found" header and summary stats.
+  - Select all/Clear buttons moved to same row as selection count.
+  - Diff content indented 24px left to align under checkbox label.
+- Updated `Specs/Design Principles.md`: added "Copy Action Feedback" and "Data Lists and Tables" principles.
+- Build passes with no errors.
+
+#### Print Color Usages — major update batch (plan implementation)
+- Implemented all changes from `print_update_improvements` plan.
+- **Unify color application with Mockup Markup**: Added `reassertPageModeForVariable()` helper in `markup-kit.ts` that reads `figma.currentPage.explicitVariableModes` and re-asserts the current mode (or default) via `setExplicitVariableModeForCollection`. Called after resolving primary variable in `resolveMarkupTextFills()`. Added `verifyFillBinding()` export for post-apply verification. Applied in `print.ts` and `update.ts`.
+- **Remove plugin data**: Removed `PLUGIN_DATA_VARIABLE_ID`, `PLUGIN_DATA_VARIABLE_COLLECTION_ID`, `PLUGIN_DATA_VARIABLE_MODE_ID` constants from `shared.ts`. Removed all `setPluginData` / `getPluginData` calls from `print.ts` and `update.ts`. Layer name is now the single source of truth.
+- **Simplified resolution order** (no plugin data step): 1) VariableID from layer name, 2) Variable name from layer name, 3) (if checkByContent ON) Text content fallback.
+- **Check by content**: Added `checkByContent: boolean` to `PrintColorUsagesUiSettings` (default false). Gated text-content fallback behind this setting. Added checkbox in Update tab UI.
+- **Mismatch detection**: When checkByContent is ON and content resolves to a different variable than layer name, populates `contentMismatch` field on preview entry. UI shows warning with variable names.
+- **Progress indicator / yield fix**: Added `yieldToUI()` calls after posting "working" status in `main-thread.ts` (fixes missing spinner). Added `onProgress` callbacks to `previewUpdateSelectedTextNodesByVariableId` and `updateSelectedTextNodesByVariableId` that post incremental progress text and yield. UI displays progress text when working.
+- **Print tab live preview**: On selection change, main thread runs `analyzeNodeColors` and sends `PRINT_COLOR_USAGES_PRINT_PREVIEW` to UI (debounced 300ms). Print tab shows live list with variable name, future layer name (VariableID), linked color name, and Copy button per row.
+- **Badge terminology**: "Text" -> "Main color", "Linked color changed" -> "Linked color" in Update tab preview badges. Removed "plugin data" from "Resolved by" display.
+- **Specs updated**: `Print Color Usages Tool.md` (resolution order, color application, terminology, check by content, workflows). `Design Principles.md` (progress & yielding principle). `ToDo.md` (marked preview print as done).
+
 ### 2026-02-12
 
 #### Replace Variable Usages — add "Get example JSON file" button

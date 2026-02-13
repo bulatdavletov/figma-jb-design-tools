@@ -7,7 +7,7 @@
   var __getOwnPropSymbols = Object.getOwnPropertySymbols;
   var __hasOwnProp = Object.prototype.hasOwnProperty;
   var __propIsEnum = Object.prototype.propertyIsEnumerable;
-  var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+  var __defNormalProp = (obj, key, value2) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value: value2 }) : obj[key] = value2;
   var __spreadValues = (a3, b2) => {
     for (var prop in b2 || (b2 = {}))
       if (__hasOwnProp.call(b2, prop))
@@ -691,10 +691,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/50d4cdaa-1b31-4537-89e9-ee30020a4488/loading-indicator.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/862817bb-8a8c-4e4b-a06a-6e40742d268d/loading-indicator.module.js
   var loading_indicator_module_default;
   var init_loading_indicator_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/50d4cdaa-1b31-4537-89e9-ee30020a4488/loading-indicator.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/862817bb-8a8c-4e4b-a06a-6e40742d268d/loading-indicator.module.js"() {
       if (document.getElementById("3fe0db8eb7") === null) {
         const element = document.createElement("style");
         element.id = "3fe0db8eb7";
@@ -755,10 +755,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9aefa46f-3535-4154-8c4d-d5d90c78dd69/button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/11767965-3be8-4130-9600-2a8ca108beeb/button.module.js
   var button_module_default;
   var init_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9aefa46f-3535-4154-8c4d-d5d90c78dd69/button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/11767965-3be8-4130-9600-2a8ca108beeb/button.module.js"() {
       if (document.getElementById("1dddd0e4df") === null) {
         const element = document.createElement("style");
         element.id = "1dddd0e4df";
@@ -956,11 +956,62 @@
   });
 
   // node_modules/@create-figma-plugin/utilities/lib/mixed-values.js
-  var MIXED_BOOLEAN, MIXED_STRING;
+  var MIXED_BOOLEAN, MIXED_NUMBER, MIXED_STRING;
   var init_mixed_values = __esm({
     "node_modules/@create-figma-plugin/utilities/lib/mixed-values.js"() {
       MIXED_BOOLEAN = null;
+      MIXED_NUMBER = 999999999999999;
       MIXED_STRING = "999999999999999";
+    }
+  });
+
+  // node_modules/@create-figma-plugin/utilities/lib/number/private/regex.js
+  var floatOperandRegex, integerOperandRegex, operatorRegex, operatorSuffixRegex, numbersRegex, invalidCharactersRegex;
+  var init_regex = __esm({
+    "node_modules/@create-figma-plugin/utilities/lib/number/private/regex.js"() {
+      floatOperandRegex = /^-?\d*(?:\.\d*)?$/;
+      integerOperandRegex = /^-?\d*$/;
+      operatorRegex = /[+\-*/]/;
+      operatorSuffixRegex = /[+\-*/]$/;
+      numbersRegex = /\d/;
+      invalidCharactersRegex = /[^\d.+\-*/]/;
+    }
+  });
+
+  // node_modules/@create-figma-plugin/utilities/lib/number/evaluate-numeric-expression.js
+  function evaluateNumericExpression(value) {
+    if (value === "" || numbersRegex.test(value) === false || invalidCharactersRegex.test(value) === true) {
+      return null;
+    }
+    if (operatorRegex.test(value) === true) {
+      if (operatorSuffixRegex.test(value) === true) {
+        return eval(value.substring(0, value.length - 1));
+      }
+      return eval(value);
+    }
+    return parseFloat(value);
+  }
+  var init_evaluate_numeric_expression = __esm({
+    "node_modules/@create-figma-plugin/utilities/lib/number/evaluate-numeric-expression.js"() {
+      init_regex();
+    }
+  });
+
+  // node_modules/@create-figma-plugin/utilities/lib/number/is-valid-numeric-input.js
+  function isValidNumericInput(value2, options = { integersOnly: false }) {
+    const split = (value2[0] === "-" ? value2.substring(1) : value2).split(operatorRegex);
+    let i3 = -1;
+    while (++i3 < split.length) {
+      const operand = split[i3];
+      if (operand === "" && i3 !== split.length - 1 || (options.integersOnly === true ? integerOperandRegex : floatOperandRegex).test(operand) === false) {
+        return false;
+      }
+    }
+    return true;
+  }
+  var init_is_valid_numeric_input = __esm({
+    "node_modules/@create-figma-plugin/utilities/lib/number/is-valid-numeric-input.js"() {
+      init_regex();
     }
   });
 
@@ -968,6 +1019,8 @@
   var init_lib = __esm({
     "node_modules/@create-figma-plugin/utilities/lib/index.js"() {
       init_mixed_values();
+      init_evaluate_numeric_expression();
+      init_is_valid_numeric_input();
     }
   });
 
@@ -1027,10 +1080,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/95d8e537-f3aa-4bbc-a4f1-2103f4323ef7/checkbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4aa5ea40-b1db-4450-9796-7eb4aa0afbce/checkbox.module.js
   var checkbox_module_default;
   var init_checkbox_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/95d8e537-f3aa-4bbc-a4f1-2103f4323ef7/checkbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4aa5ea40-b1db-4450-9796-7eb4aa0afbce/checkbox.module.js"() {
       if (document.getElementById("f38d076240") === null) {
         const element = document.createElement("style");
         element.id = "f38d076240";
@@ -1125,7 +1178,7 @@
       init_no_op();
       init_checkbox_module();
       Checkbox = createComponent(function(_a, ref) {
-        var _b = _a, { children, disabled = false, onChange = noop, onKeyDown = noop, onValueChange = noop, propagateEscapeKeyDown = true, value } = _b, rest = __objRest(_b, ["children", "disabled", "onChange", "onKeyDown", "onValueChange", "propagateEscapeKeyDown", "value"]);
+        var _b = _a, { children, disabled = false, onChange = noop, onKeyDown = noop, onValueChange = noop, propagateEscapeKeyDown = true, value: value2 } = _b, rest = __objRest(_b, ["children", "disabled", "onChange", "onKeyDown", "onValueChange", "propagateEscapeKeyDown", "value"]);
         const inputElementRef = A2(null);
         const handleChange = q2(function(event) {
           onChange(event);
@@ -1143,8 +1196,8 @@
         }, [onKeyDown, propagateEscapeKeyDown]);
         y2(function() {
           const inputElement = getCurrentFromRef(inputElementRef);
-          inputElement.indeterminate = value === MIXED_BOOLEAN ? true : false;
-        }, [value]);
+          inputElement.indeterminate = value2 === MIXED_BOOLEAN ? true : false;
+        }, [value2]);
         const refCallback = q2(function(inputElement) {
           inputElementRef.current = inputElement;
           if (ref === null) {
@@ -1161,14 +1214,14 @@
           { class: createClassName([
             checkbox_module_default.checkbox,
             disabled === true ? checkbox_module_default.disabled : null,
-            value === MIXED_BOOLEAN ? checkbox_module_default.mixed : null
+            value2 === MIXED_BOOLEAN ? checkbox_module_default.mixed : null
           ]) },
-          _("input", __spreadProps(__spreadValues({}, rest), { ref: refCallback, checked: value === true, class: checkbox_module_default.input, disabled: disabled === true, onChange: handleChange, onKeyDown: handleKeyDown, tabIndex: 0, type: "checkbox" })),
-          _("div", { class: checkbox_module_default.box }, value === MIXED_BOOLEAN ? _(
+          _("input", __spreadProps(__spreadValues({}, rest), { ref: refCallback, checked: value2 === true, class: checkbox_module_default.input, disabled: disabled === true, onChange: handleChange, onKeyDown: handleKeyDown, tabIndex: 0, type: "checkbox" })),
+          _("div", { class: checkbox_module_default.box }, value2 === MIXED_BOOLEAN ? _(
             "div",
             { class: checkbox_module_default.icon },
             _(IconMixed16, null)
-          ) : value === true ? _(
+          ) : value2 === true ? _(
             "div",
             { class: checkbox_module_default.icon },
             _(IconCheck16, null)
@@ -1179,10 +1232,128 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/fe3cf8df-60d6-4773-ae24-29d96fecee95/divider.module.js
+  // node_modules/@create-figma-plugin/ui/lib/icons/icon-16/icon-chevron-right-16.js
+  var IconChevronRight16;
+  var init_icon_chevron_right_16 = __esm({
+    "node_modules/@create-figma-plugin/ui/lib/icons/icon-16/icon-chevron-right-16.js"() {
+      init_preact_module();
+      init_create_icon();
+      IconChevronRight16 = createIcon(_(
+        "svg",
+        { fill: "none", height: "16", viewBox: "0 0 16 16", width: "16", xmlns: "http://www.w3.org/2000/svg" },
+        _("path", { "clip-rule": "evenodd", d: "M6.76754 5.52511c.19526-.19526.51184-.19526.70711 0l2.12131 2.12132.35356.35356-.35356.35355-2.12131 2.12136c-.19527.1952-.51185.1952-.70711 0-.19526-.1953-.19526-.51188 0-.70715l1.76777-1.76776-1.76777-1.76777c-.19526-.19527-.19526-.51185 0-.70711", fill: "currentColor", "fill-rule": "evenodd" })
+      ));
+    }
+  });
+
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/616bcf43-1f0b-47bf-815e-8136071ee960/disclosure.module.js
+  var disclosure_module_default;
+  var init_disclosure_module = __esm({
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/616bcf43-1f0b-47bf-815e-8136071ee960/disclosure.module.js"() {
+      if (document.getElementById("4712e1cb0c") === null) {
+        const element = document.createElement("style");
+        element.id = "4712e1cb0c";
+        element.textContent = `._label_1x6ey_1 {
+  position: relative;
+  z-index: var(--z-index-1);
+}
+
+._input_1x6ey_6 {
+  position: absolute;
+  z-index: var(
+    --z-index-1
+  ); /* stack \`.input\` over all other elements within \`.label\` */
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+._title_1x6ey_17,
+._children_1x6ey_18 {
+  padding: var(--space-8) var(--space-12) var(--space-8) var(--space-16);
+}
+
+._title_1x6ey_17 {
+  position: relative;
+  border-radius: var(--border-radius-4);
+  color: var(--figma-color-text);
+  font-weight: var(--font-weight-bold);
+}
+._input_1x6ey_6:focus-visible ~ ._title_1x6ey_17 {
+  box-shadow: 0 0 0 var(--border-width-1) var(--figma-color-border-selected)
+    inset;
+}
+
+._title_1x6ey_17 ._icon_1x6ey_33 {
+  position: absolute;
+  left: var(--space-0);
+  color: var(--figma-color-icon);
+}
+._input_1x6ey_6:checked ~ ._title_1x6ey_17 ._icon_1x6ey_33 {
+  transform: rotate(90deg);
+}
+
+._children_1x6ey_18 {
+  color: var(--figma-color-text);
+}
+
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm5vZGVfbW9kdWxlcy9AY3JlYXRlLWZpZ21hLXBsdWdpbi91aS9saWIvY29tcG9uZW50cy9kaXNjbG9zdXJlL2Rpc2Nsb3N1cmUubW9kdWxlLmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFLGtCQUFrQjtFQUNsQix5QkFBeUI7QUFDM0I7O0FBRUE7RUFDRSxrQkFBa0I7RUFDbEI7O0dBRUMsRUFBRSwyREFBMkQ7RUFDOUQsTUFBTTtFQUNOLFFBQVE7RUFDUixTQUFTO0VBQ1QsT0FBTztBQUNUOztBQUVBOztFQUVFLHNFQUFzRTtBQUN4RTs7QUFFQTtFQUNFLGtCQUFrQjtFQUNsQixxQ0FBcUM7RUFDckMsOEJBQThCO0VBQzlCLG9DQUFvQztBQUN0QztBQUNBO0VBQ0U7U0FDTztBQUNUOztBQUVBO0VBQ0Usa0JBQWtCO0VBQ2xCLG9CQUFvQjtFQUNwQiw4QkFBOEI7QUFDaEM7QUFDQTtFQUNFLHdCQUF3QjtBQUMxQjs7QUFFQTtFQUNFLDhCQUE4QjtBQUNoQyIsImZpbGUiOiJub2RlX21vZHVsZXMvQGNyZWF0ZS1maWdtYS1wbHVnaW4vdWkvbGliL2NvbXBvbmVudHMvZGlzY2xvc3VyZS9kaXNjbG9zdXJlLm1vZHVsZS5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIubGFiZWwge1xuICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gIHotaW5kZXg6IHZhcigtLXotaW5kZXgtMSk7XG59XG5cbi5pbnB1dCB7XG4gIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgei1pbmRleDogdmFyKFxuICAgIC0tei1pbmRleC0xXG4gICk7IC8qIHN0YWNrIGAuaW5wdXRgIG92ZXIgYWxsIG90aGVyIGVsZW1lbnRzIHdpdGhpbiBgLmxhYmVsYCAqL1xuICB0b3A6IDA7XG4gIHJpZ2h0OiAwO1xuICBib3R0b206IDA7XG4gIGxlZnQ6IDA7XG59XG5cbi50aXRsZSxcbi5jaGlsZHJlbiB7XG4gIHBhZGRpbmc6IHZhcigtLXNwYWNlLTgpIHZhcigtLXNwYWNlLTEyKSB2YXIoLS1zcGFjZS04KSB2YXIoLS1zcGFjZS0xNik7XG59XG5cbi50aXRsZSB7XG4gIHBvc2l0aW9uOiByZWxhdGl2ZTtcbiAgYm9yZGVyLXJhZGl1czogdmFyKC0tYm9yZGVyLXJhZGl1cy00KTtcbiAgY29sb3I6IHZhcigtLWZpZ21hLWNvbG9yLXRleHQpO1xuICBmb250LXdlaWdodDogdmFyKC0tZm9udC13ZWlnaHQtYm9sZCk7XG59XG4uaW5wdXQ6Zm9jdXMtdmlzaWJsZSB+IC50aXRsZSB7XG4gIGJveC1zaGFkb3c6IDAgMCAwIHZhcigtLWJvcmRlci13aWR0aC0xKSB2YXIoLS1maWdtYS1jb2xvci1ib3JkZXItc2VsZWN0ZWQpXG4gICAgaW5zZXQ7XG59XG5cbi50aXRsZSAuaWNvbiB7XG4gIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgbGVmdDogdmFyKC0tc3BhY2UtMCk7XG4gIGNvbG9yOiB2YXIoLS1maWdtYS1jb2xvci1pY29uKTtcbn1cbi5pbnB1dDpjaGVja2VkIH4gLnRpdGxlIC5pY29uIHtcbiAgdHJhbnNmb3JtOiByb3RhdGUoOTBkZWcpO1xufVxuXG4uY2hpbGRyZW4ge1xuICBjb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItdGV4dCk7XG59XG4iXX0= */`;
+        document.head.append(element);
+      }
+      disclosure_module_default = { "label": "_label_1x6ey_1", "input": "_input_1x6ey_6", "title": "_title_1x6ey_17", "children": "_children_1x6ey_18", "icon": "_icon_1x6ey_33" };
+    }
+  });
+
+  // node_modules/@create-figma-plugin/ui/lib/components/disclosure/disclosure.js
+  var Disclosure;
+  var init_disclosure = __esm({
+    "node_modules/@create-figma-plugin/ui/lib/components/disclosure/disclosure.js"() {
+      init_preact_module();
+      init_hooks_module();
+      init_icon_chevron_right_16();
+      init_create_component();
+      init_no_op();
+      init_disclosure_module();
+      Disclosure = createComponent(function(_a, ref) {
+        var _b = _a, { children, onClick = noop, onKeyDown = noop, open, propagateEscapeKeyDown = true, title } = _b, rest = __objRest(_b, ["children", "onClick", "onKeyDown", "open", "propagateEscapeKeyDown", "title"]);
+        const handleKeyDown = q2(function(event) {
+          onKeyDown(event);
+          if (event.key === "Escape") {
+            if (propagateEscapeKeyDown === false) {
+              event.stopPropagation();
+            }
+            event.currentTarget.blur();
+          }
+        }, [onKeyDown, propagateEscapeKeyDown]);
+        return _(
+          k,
+          null,
+          _(
+            "label",
+            { class: disclosure_module_default.label },
+            _("input", __spreadProps(__spreadValues({}, rest), { ref, checked: open === true, class: disclosure_module_default.input, onClick, onKeyDown: handleKeyDown, tabIndex: 0, type: "checkbox" })),
+            _(
+              "div",
+              { class: disclosure_module_default.title },
+              _(
+                "div",
+                { class: disclosure_module_default.icon },
+                _(IconChevronRight16, null)
+              ),
+              title
+            )
+          ),
+          open === true ? _("div", { class: disclosure_module_default.children }, children) : null
+        );
+      });
+    }
+  });
+
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8f39a847-b156-45ab-98dd-850dc8b130e7/divider.module.js
   var divider_module_default;
   var init_divider_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/fe3cf8df-60d6-4773-ae24-29d96fecee95/divider.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8f39a847-b156-45ab-98dd-850dc8b130e7/divider.module.js"() {
       if (document.getElementById("4bf06403b9") === null) {
         const element = document.createElement("style");
         element.id = "4bf06403b9";
@@ -1212,10 +1383,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9c0b14c0-9fe0-4f5d-803b-497412819414/menu.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c009aa41-3d42-4783-9f0d-a9d1bfff40ee/menu.module.js
   var menu_module_default;
   var init_menu_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9c0b14c0-9fe0-4f5d-803b-497412819414/menu.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c009aa41-3d42-4783-9f0d-a9d1bfff40ee/menu.module.js"() {
       if (document.getElementById("29044db304") === null) {
         const element = document.createElement("style");
         element.id = "29044db304";
@@ -1438,10 +1609,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/76fd9c99-5d27-40c7-b6df-73e02604d895/dropdown.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8523a9fe-319e-4c4c-acdf-f26f70c0a2b7/dropdown.module.js
   var dropdown_module_default;
   var init_dropdown_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/76fd9c99-5d27-40c7-b6df-73e02604d895/dropdown.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8523a9fe-319e-4c4c-acdf-f26f70c0a2b7/dropdown.module.js"() {
       if (document.getElementById("5a226eb00e") === null) {
         const element = document.createElement("style");
         element.id = "5a226eb00e";
@@ -1631,13 +1802,13 @@
     }
     throw new Error("Invariant violation");
   }
-  function findOptionIndexByValue(options, value) {
-    if (value === null) {
+  function findOptionIndexByValue(options, value2) {
+    if (value2 === null) {
       return -1;
     }
     let index = 0;
     for (const option of options) {
-      if (typeof option !== "string" && "value" in option && option.value === value) {
+      if (typeof option !== "string" && "value" in option && option.value === value2) {
         return index;
       }
       index += 1;
@@ -1663,16 +1834,16 @@
       init_dropdown_module();
       init_update_menu_element_layout();
       Dropdown = createComponent(function(_a, ref) {
-        var _b = _a, { disabled = false, icon, onChange = noop, onKeyDown = noop, onMouseDown = noop, onValueChange = noop, options, placeholder, propagateEscapeKeyDown = true, value } = _b, rest = __objRest(_b, ["disabled", "icon", "onChange", "onKeyDown", "onMouseDown", "onValueChange", "options", "placeholder", "propagateEscapeKeyDown", "value"]);
+        var _b = _a, { disabled = false, icon, onChange = noop, onKeyDown = noop, onMouseDown = noop, onValueChange = noop, options, placeholder, propagateEscapeKeyDown = true, value: value2 } = _b, rest = __objRest(_b, ["disabled", "icon", "onChange", "onKeyDown", "onMouseDown", "onValueChange", "options", "placeholder", "propagateEscapeKeyDown", "value"]);
         if (typeof icon === "string" && icon.length !== 1) {
           throw new Error(`String \`icon\` must be a single character: "${icon}"`);
         }
         const rootElementRef = A2(null);
         const menuElementRef = A2(null);
         const [isMenuVisible, setIsMenuVisible] = d2(false);
-        const index = findOptionIndexByValue(options, value);
-        if (value !== null && index === -1) {
-          throw new Error(`Invalid \`value\`: ${value}`);
+        const index = findOptionIndexByValue(options, value2);
+        if (value2 !== null && index === -1) {
+          throw new Error(`Invalid \`value\`: ${value2}`);
         }
         const [selectedId, setSelectedId] = d2(index === -1 ? INVALID_ID : `${index}`);
         const children = typeof options[index] === "undefined" ? "" : getDropdownOptionValue(options[index]);
@@ -1702,18 +1873,18 @@
             return;
           }
           setIsMenuVisible(true);
-          if (value === null) {
+          if (value2 === null) {
             triggerMenuUpdateLayout(selectedId);
             return;
           }
-          const index2 = findOptionIndexByValue(options, value);
+          const index2 = findOptionIndexByValue(options, value2);
           if (index2 === -1) {
-            throw new Error(`Invalid \`value\`: ${value}`);
+            throw new Error(`Invalid \`value\`: ${value2}`);
           }
           const newSelectedId = `${index2}`;
           setSelectedId(newSelectedId);
           triggerMenuUpdateLayout(newSelectedId);
-        }, [isMenuVisible, options, selectedId, triggerMenuUpdateLayout, value]);
+        }, [isMenuVisible, options, selectedId, triggerMenuUpdateLayout, value2]);
         const handleRootKeyDown = q2(function(event) {
           onKeyDown(event);
           const key = event.key;
@@ -1841,7 +2012,7 @@
             disabled === true ? dropdown_module_default.disabled : null
           ]), onKeyDown: disabled === true ? void 0 : handleRootKeyDown, onMouseDown: handleRootMouseDown, tabIndex: 0 }),
           typeof icon === "undefined" ? null : _("div", { class: dropdown_module_default.icon }, icon),
-          value === null ? _("div", { class: createClassName([
+          value2 === null ? _("div", { class: createClassName([
             dropdown_module_default.value,
             dropdown_module_default.placeholder
           ]) }, placeholder) : _("div", { class: dropdown_module_default.value }, children),
@@ -1868,8 +2039,8 @@
                 option.disabled === true ? menu_module_default.optionValueDisabled : null,
                 option.disabled !== true && `${index2}` === selectedId ? menu_module_default.optionValueSelected : null
               ]) },
-              _("input", { checked: value === option.value, class: menu_module_default.input, disabled: option.disabled === true, onChange: value === option.value ? void 0 : handleOptionChange, onClick: value === option.value ? handleSelectedOptionClick : void 0, onMouseMove: handleScrollableMenuItemMouseMove, tabIndex: -1, type: "radio", value: `${option.value}`, [ITEM_ID_DATA_ATTRIBUTE_NAME]: `${index2}` }),
-              option.value === value ? _(
+              _("input", { checked: value2 === option.value, class: menu_module_default.input, disabled: option.disabled === true, onChange: value2 === option.value ? void 0 : handleOptionChange, onClick: value2 === option.value ? handleSelectedOptionClick : void 0, onMouseMove: handleScrollableMenuItemMouseMove, tabIndex: -1, type: "radio", value: `${option.value}`, [ITEM_ID_DATA_ATTRIBUTE_NAME]: `${index2}` }),
+              option.value === value2 ? _(
                 "div",
                 { class: menu_module_default.checkIcon },
                 _(IconCheck16, null)
@@ -1882,10 +2053,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/081a3fd3-d531-4531-a417-cb65b4ac49dc/button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4736e997-26ed-4838-99c7-065768bd20ac/button.module.js
   var button_module_default2;
   var init_button_module2 = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/081a3fd3-d531-4531-a417-cb65b4ac49dc/button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4736e997-26ed-4838-99c7-065768bd20ac/button.module.js"() {
       if (document.getElementById("1dddd0e4df") === null) {
         const element = document.createElement("style");
         element.id = "1dddd0e4df";
@@ -2049,10 +2220,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b1c9bec5-befd-494a-8496-fd2970d66bcb/file-upload-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/fe889122-cb5f-42a4-9e50-99296a1089e4/file-upload-button.module.js
   var file_upload_button_module_default;
   var init_file_upload_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b1c9bec5-befd-494a-8496-fd2970d66bcb/file-upload-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/fe889122-cb5f-42a4-9e50-99296a1089e4/file-upload-button.module.js"() {
       if (document.getElementById("f115bb30c8") === null) {
         const element = document.createElement("style");
         element.id = "f115bb30c8";
@@ -2167,10 +2338,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6441f73f-15f0-42f6-ad1e-0d3bc16912eb/icon-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0a4bbf52-7082-46bc-81fd-7c40e43d079d/icon-button.module.js
   var icon_button_module_default;
   var init_icon_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6441f73f-15f0-42f6-ad1e-0d3bc16912eb/icon-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0a4bbf52-7082-46bc-81fd-7c40e43d079d/icon-button.module.js"() {
       if (document.getElementById("c8b08e6568") === null) {
         const element = document.createElement("style");
         element.id = "c8b08e6568";
@@ -2248,10 +2419,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/85ea07ee-79ef-492e-a2f6-50e23a658c99/text.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/634f1c45-e5f7-471c-8442-62f653e835f3/text.module.js
   var text_module_default;
   var init_text_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/85ea07ee-79ef-492e-a2f6-50e23a658c99/text.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/634f1c45-e5f7-471c-8442-62f653e835f3/text.module.js"() {
       if (document.getElementById("1278016d5c") === null) {
         const element = document.createElement("style");
         element.id = "1278016d5c";
@@ -2309,10 +2480,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/33e0774b-1721-4ccd-95d6-cda82ea22988/inline.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/680e303c-4e35-44e1-92e9-0835d1448b7b/inline.module.js
   var inline_module_default;
   var init_inline_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/33e0774b-1721-4ccd-95d6-cda82ea22988/inline.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/680e303c-4e35-44e1-92e9-0835d1448b7b/inline.module.js"() {
       if (document.getElementById("3e1b2856fc") === null) {
         const element = document.createElement("style");
         element.id = "3e1b2856fc";
@@ -2374,10 +2545,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1e447cb3-7177-4222-ba20-678e83b486f1/stack.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f6596e61-86ba-4871-a960-a687e08b6527/stack.module.js
   var stack_module_default;
   var init_stack_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1e447cb3-7177-4222-ba20-678e83b486f1/stack.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f6596e61-86ba-4871-a960-a687e08b6527/stack.module.js"() {
       if (document.getElementById("317515cc3f") === null) {
         const element = document.createElement("style");
         element.id = "317515cc3f";
@@ -2420,10 +2591,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/31233ae1-9e38-4ca4-86b0-67b295678b87/radio-buttons.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/02e5a6de-fbc7-45a7-a978-d04e85074f20/radio-buttons.module.js
   var radio_buttons_module_default;
   var init_radio_buttons_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/31233ae1-9e38-4ca4-86b0-67b295678b87/radio-buttons.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/02e5a6de-fbc7-45a7-a978-d04e85074f20/radio-buttons.module.js"() {
       if (document.getElementById("a066c67891") === null) {
         const element = document.createElement("style");
         element.id = "a066c67891";
@@ -2503,7 +2674,7 @@
       init_constants();
       init_radio_buttons_module();
       RadioButtons = createComponent(function(_a, ref) {
-        var _b = _a, { disabled = false, direction = "vertical", onChange = noop, onCommand, onKeyDown = noop, onValueChange = noop, options, propagateEscapeKeyDown = true, space, value } = _b, rest = __objRest(_b, ["disabled", "direction", "onChange", "onCommand", "onKeyDown", "onValueChange", "options", "propagateEscapeKeyDown", "space", "value"]);
+        var _b = _a, { disabled = false, direction = "vertical", onChange = noop, onCommand, onKeyDown = noop, onValueChange = noop, options, propagateEscapeKeyDown = true, space, value: value2 } = _b, rest = __objRest(_b, ["disabled", "direction", "onChange", "onCommand", "onKeyDown", "onValueChange", "options", "propagateEscapeKeyDown", "space", "value"]);
         const handleChange = q2(function(event) {
           onChange(event);
           const id = event.currentTarget.getAttribute(ITEM_ID_DATA_ATTRIBUTE_NAME);
@@ -2525,7 +2696,7 @@
         const body = options.map(function(option, index) {
           const children = typeof option.children === "undefined" ? `${option.value}` : option.children;
           const isOptionDisabled = disabled === true || option.disabled === true;
-          const checked = value === option.value;
+          const checked = value2 === option.value;
           return _(
             "label",
             { key: index, class: createClassName([
@@ -2542,10 +2713,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f8cafff4-2981-400b-950d-01088c69f0f1/segmented-control.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4001f6d0-188c-472e-bdde-6bcc5ec436d3/segmented-control.module.js
   var segmented_control_module_default;
   var init_segmented_control_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f8cafff4-2981-400b-950d-01088c69f0f1/segmented-control.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4001f6d0-188c-472e-bdde-6bcc5ec436d3/segmented-control.module.js"() {
       if (document.getElementById("bc6858a1b5") === null) {
         const element = document.createElement("style");
         element.id = "bc6858a1b5";
@@ -2610,7 +2781,7 @@
       init_constants();
       init_segmented_control_module();
       SegmentedControl = createComponent(function(_a) {
-        var _b = _a, { disabled = false, onChange = noop, onKeyDown = noop, onValueChange = noop, options, propagateEscapeKeyDown = true, value } = _b, rest = __objRest(_b, ["disabled", "onChange", "onKeyDown", "onValueChange", "options", "propagateEscapeKeyDown", "value"]);
+        var _b = _a, { disabled = false, onChange = noop, onKeyDown = noop, onValueChange = noop, options, propagateEscapeKeyDown = true, value: value2 } = _b, rest = __objRest(_b, ["disabled", "onChange", "onKeyDown", "onValueChange", "options", "propagateEscapeKeyDown", "value"]);
         const handleChange = q2(function(event) {
           onChange(event);
           const id = event.currentTarget.getAttribute(ITEM_ID_DATA_ATTRIBUTE_NAME);
@@ -2638,7 +2809,7 @@
           return _(
             "label",
             { key: index },
-            _("input", __spreadProps(__spreadValues({}, rest), { checked: value === option.value, class: segmented_control_module_default.input, disabled: isOptionDisabled === true, onChange: handleChange, onKeyDown: handleKeyDown, tabIndex: 0, type: "radio", value: `${option.value}`, [ITEM_ID_DATA_ATTRIBUTE_NAME]: `${index}` })),
+            _("input", __spreadProps(__spreadValues({}, rest), { checked: value2 === option.value, class: segmented_control_module_default.input, disabled: isOptionDisabled === true, onChange: handleChange, onKeyDown: handleKeyDown, tabIndex: 0, type: "radio", value: `${option.value}`, [ITEM_ID_DATA_ATTRIBUTE_NAME]: `${index}` })),
             _("div", { class: segmented_control_module_default.box }, typeof children === "string" ? _("div", { class: segmented_control_module_default.text }, children) : children)
           );
         }));
@@ -2646,10 +2817,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7cadb1e5-78c2-4537-94ff-623348695ed2/tabs.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6889e0c5-4d61-43d8-8c15-235af845eb9f/tabs.module.js
   var tabs_module_default;
   var init_tabs_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7cadb1e5-78c2-4537-94ff-623348695ed2/tabs.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6889e0c5-4d61-43d8-8c15-235af845eb9f/tabs.module.js"() {
       if (document.getElementById("b2487bb7e6") === null) {
         const element = document.createElement("style");
         element.id = "b2487bb7e6";
@@ -2716,7 +2887,7 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
       init_constants();
       init_tabs_module();
       Tabs = createComponent(function(_a, ref) {
-        var _b = _a, { onChange = noop, onCommand, onKeyDown = noop, onValueChange = noop, options, propagateEscapeKeyDown = true, value } = _b, rest = __objRest(_b, ["onChange", "onCommand", "onKeyDown", "onValueChange", "options", "propagateEscapeKeyDown", "value"]);
+        var _b = _a, { onChange = noop, onCommand, onKeyDown = noop, onValueChange = noop, options, propagateEscapeKeyDown = true, value: value2 } = _b, rest = __objRest(_b, ["onChange", "onCommand", "onKeyDown", "onValueChange", "options", "propagateEscapeKeyDown", "value"]);
         const handleChange = q2(function(event) {
           onChange(event);
           const id = event.currentTarget.getAttribute(ITEM_ID_DATA_ATTRIBUTE_NAME);
@@ -2736,7 +2907,7 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
           }
         }, [onKeyDown, propagateEscapeKeyDown]);
         const activeOption = options.find(function(option) {
-          return option.value === value;
+          return option.value === value2;
         });
         return _(
           k,
@@ -2745,7 +2916,7 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
             return _(
               "label",
               { key: index, class: tabs_module_default.tab },
-              _("input", __spreadProps(__spreadValues({}, rest), { checked: value === option.value, class: tabs_module_default.input, onChange: handleChange, onKeyDown: handleKeyDown, tabIndex: 0, type: "radio", value: option.value, [ITEM_ID_DATA_ATTRIBUTE_NAME]: `${index}` })),
+              _("input", __spreadProps(__spreadValues({}, rest), { checked: value2 === option.value, class: tabs_module_default.input, onChange: handleChange, onKeyDown: handleKeyDown, tabIndex: 0, type: "radio", value: option.value, [ITEM_ID_DATA_ATTRIBUTE_NAME]: `${index}` })),
               _("div", { class: tabs_module_default.value }, option.value)
             );
           })),
@@ -2777,12 +2948,12 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
       init_is_keycode_character_generating();
       EMPTY_STRING = "";
       RawTextbox = createComponent(function(_a, ref) {
-        var _b = _a, { disabled = false, onBlur = noop, onFocus = noop, onInput = noop, onKeyDown = noop, onMouseDown = noop, onValueInput = noop, password = false, placeholder, propagateEscapeKeyDown = true, revertOnEscapeKeyDown = false, spellCheck = false, validateOnBlur, value } = _b, rest = __objRest(_b, ["disabled", "onBlur", "onFocus", "onInput", "onKeyDown", "onMouseDown", "onValueInput", "password", "placeholder", "propagateEscapeKeyDown", "revertOnEscapeKeyDown", "spellCheck", "validateOnBlur", "value"]);
+        var _b = _a, { disabled = false, onBlur = noop, onFocus = noop, onInput = noop, onKeyDown = noop, onMouseDown = noop, onValueInput = noop, password = false, placeholder, propagateEscapeKeyDown = true, revertOnEscapeKeyDown = false, spellCheck = false, validateOnBlur, value: value2 } = _b, rest = __objRest(_b, ["disabled", "onBlur", "onFocus", "onInput", "onKeyDown", "onMouseDown", "onValueInput", "password", "placeholder", "propagateEscapeKeyDown", "revertOnEscapeKeyDown", "spellCheck", "validateOnBlur", "value"]);
         const inputElementRef = A2(null);
         const [originalValue, setOriginalValue] = d2(EMPTY_STRING);
-        const setTextboxValue = q2(function(value2) {
+        const setTextboxValue = q2(function(value3) {
           const inputElement = getCurrentFromRef(inputElementRef);
-          inputElement.value = value2;
+          inputElement.value = value3;
           const inputEvent = new window.Event("input", {
             bubbles: true,
             cancelable: true
@@ -2792,14 +2963,14 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
         const handleBlur = q2(function(event) {
           onBlur(event);
           if (typeof validateOnBlur !== "undefined") {
-            const result = validateOnBlur(value);
+            const result = validateOnBlur(value2);
             if (typeof result === "string") {
               setTextboxValue(result);
               setOriginalValue(EMPTY_STRING);
               return;
             }
             if (result === false) {
-              if (value !== originalValue) {
+              if (value2 !== originalValue) {
                 setTextboxValue(originalValue);
               }
               setOriginalValue(EMPTY_STRING);
@@ -2807,12 +2978,12 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
             }
           }
           setOriginalValue(EMPTY_STRING);
-        }, [onBlur, originalValue, setTextboxValue, validateOnBlur, value]);
+        }, [onBlur, originalValue, setTextboxValue, validateOnBlur, value2]);
         const handleFocus = q2(function(event) {
           onFocus(event);
-          setOriginalValue(value);
+          setOriginalValue(value2);
           event.currentTarget.select();
-        }, [onFocus, value]);
+        }, [onFocus, value2]);
         const handleInput = q2(function(event) {
           onInput(event);
           const newValue = event.currentTarget.value;
@@ -2831,7 +3002,7 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
             event.currentTarget.blur();
             return;
           }
-          if (value === MIXED_STRING && isKeyCodeCharacterGenerating(event.keyCode) === false) {
+          if (value2 === MIXED_STRING && isKeyCodeCharacterGenerating(event.keyCode) === false) {
             event.preventDefault();
             event.currentTarget.select();
           }
@@ -2841,15 +3012,15 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
           propagateEscapeKeyDown,
           revertOnEscapeKeyDown,
           setTextboxValue,
-          value
+          value2
         ]);
         const handleMouseDown = q2(function(event) {
           onMouseDown(event);
-          if (value === MIXED_STRING) {
+          if (value2 === MIXED_STRING) {
             event.preventDefault();
             event.currentTarget.select();
           }
-        }, [onMouseDown, value]);
+        }, [onMouseDown, value2]);
         const refCallback = q2(function(inputElement) {
           inputElementRef.current = inputElement;
           if (ref === null) {
@@ -2861,15 +3032,15 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
           }
           ref.current = inputElement;
         }, [ref]);
-        return _("input", __spreadProps(__spreadValues({}, rest), { ref: refCallback, disabled: disabled === true, onBlur: handleBlur, onFocus: handleFocus, onInput: handleInput, onKeyDown: handleKeyDown, onMouseDown: handleMouseDown, placeholder, spellcheck: spellCheck, tabIndex: 0, type: password === true ? "password" : "text", value: value === MIXED_STRING ? "Mixed" : value }));
+        return _("input", __spreadProps(__spreadValues({}, rest), { ref: refCallback, disabled: disabled === true, onBlur: handleBlur, onFocus: handleFocus, onInput: handleInput, onKeyDown: handleKeyDown, onMouseDown: handleMouseDown, placeholder, spellcheck: spellCheck, tabIndex: 0, type: password === true ? "password" : "text", value: value2 === MIXED_STRING ? "Mixed" : value2 }));
       });
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/86c0fded-a00b-40d6-92ba-a8c93064e845/textbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5a6c6675-2e7d-48c6-99fe-70ee040bb256/textbox.module.js
   var textbox_module_default;
   var init_textbox_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/86c0fded-a00b-40d6-92ba-a8c93064e845/textbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5a6c6675-2e7d-48c6-99fe-70ee040bb256/textbox.module.js"() {
       if (document.getElementById("5c1c5c2d3d") === null) {
         const element = document.createElement("style");
         element.id = "5c1c5c2d3d";
@@ -2963,6 +3134,431 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
           ]) },
           _(RawTextbox, __spreadProps(__spreadValues({}, rest), { ref, class: textbox_module_default.input })),
           typeof icon === "undefined" ? null : _("div", { class: textbox_module_default.icon }, icon)
+        );
+      });
+    }
+  });
+
+  // node_modules/@create-figma-plugin/ui/lib/components/textbox/private/compute-next-value.js
+  function computeNextValue(inputElement, insertedString) {
+    const value2 = inputElement.value;
+    const selectionStart = inputElement.selectionStart;
+    const selectionEnd = inputElement.selectionEnd;
+    return `${value2.substring(0, selectionStart === null ? 0 : selectionStart)}${insertedString}${value2.substring(selectionEnd === null ? 0 : selectionEnd)}`;
+  }
+  var init_compute_next_value = __esm({
+    "node_modules/@create-figma-plugin/ui/lib/components/textbox/private/compute-next-value.js"() {
+    }
+  });
+
+  // node_modules/@create-figma-plugin/ui/lib/components/textbox/textbox-numeric/private/format-evaluated-value.js
+  function formatEvaluatedValue(evaluatedValue, value2, suffix) {
+    if (evaluatedValue === null) {
+      return EMPTY_STRING2;
+    }
+    const significantFiguresCount = countSignificantFigures(nonDigitRegex.test(value2) === true ? `${evaluatedValue}` : value2);
+    return appendSuffix(formatSignificantFigures(evaluatedValue, significantFiguresCount), suffix);
+  }
+  function countSignificantFigures(value2) {
+    const result = fractionalPartRegex.exec(value2);
+    if (result === null) {
+      return 0;
+    }
+    return result[1].length;
+  }
+  function formatSignificantFigures(value2, significantFiguresCount) {
+    if (significantFiguresCount === 0) {
+      return `${value2}`;
+    }
+    const result = fractionalPartRegex.exec(`${value2}`);
+    if (result === null) {
+      return `${value2}.${"0".repeat(significantFiguresCount)}`;
+    }
+    const fractionalPart = result[1];
+    const count = significantFiguresCount - fractionalPart.length;
+    return `${value2}${"0".repeat(count)}`;
+  }
+  function appendSuffix(string, suffix) {
+    if (typeof suffix === "undefined") {
+      return string;
+    }
+    if (string === EMPTY_STRING2) {
+      return EMPTY_STRING2;
+    }
+    return `${string}${suffix}`;
+  }
+  var EMPTY_STRING2, fractionalPartRegex, nonDigitRegex;
+  var init_format_evaluated_value = __esm({
+    "node_modules/@create-figma-plugin/ui/lib/components/textbox/textbox-numeric/private/format-evaluated-value.js"() {
+      EMPTY_STRING2 = "";
+      fractionalPartRegex = /\.([^.]+)/;
+      nonDigitRegex = /[^\d.]/;
+    }
+  });
+
+  // node_modules/@create-figma-plugin/ui/lib/components/textbox/textbox-numeric/private/raw-textbox-numeric.js
+  function restrictValue(value2, minimum, maximum) {
+    if (typeof minimum !== "undefined") {
+      if (typeof maximum !== "undefined") {
+        return Math.min(Math.max(value2, minimum), maximum);
+      }
+      return Math.max(value2, minimum);
+    }
+    if (typeof maximum !== "undefined") {
+      return Math.min(value2, maximum);
+    }
+    return value2;
+  }
+  function evaluateValue(value2, suffix) {
+    if (value2 === MIXED_STRING) {
+      return MIXED_NUMBER;
+    }
+    if (value2 === EMPTY_STRING3) {
+      return null;
+    }
+    return evaluateNumericExpression(trimSuffix(value2, suffix));
+  }
+  function evaluateValueWithDelta(value2, delta) {
+    return parseFloat((value2 + delta).toFixed(FRACTION_DIGITS));
+  }
+  function trimSuffix(string, suffix) {
+    if (typeof suffix === "undefined") {
+      return string;
+    }
+    return string.replace(new RegExp(`${suffix}$`), EMPTY_STRING3);
+  }
+  var FRACTION_DIGITS, EMPTY_STRING3, RawTextboxNumeric;
+  var init_raw_textbox_numeric = __esm({
+    "node_modules/@create-figma-plugin/ui/lib/components/textbox/textbox-numeric/private/raw-textbox-numeric.js"() {
+      init_lib();
+      init_preact_module();
+      init_hooks_module();
+      init_create_component();
+      init_get_current_from_ref();
+      init_no_op();
+      init_compute_next_value();
+      init_is_keycode_character_generating();
+      init_format_evaluated_value();
+      FRACTION_DIGITS = 3;
+      EMPTY_STRING3 = "";
+      RawTextboxNumeric = createComponent(function(_a, ref) {
+        var _b = _a, { disabled = false, incrementBig = 10, incrementSmall = 1, integer = false, maximum, minimum, onBlur = noop, onFocus = noop, onInput = noop, onMouseDown = noop, onKeyDown = noop, onNumericValueInput = noop, onValueInput = noop, placeholder, propagateEscapeKeyDown = true, revertOnEscapeKeyDown = false, suffix, validateOnBlur, value: value2 } = _b, rest = __objRest(_b, ["disabled", "incrementBig", "incrementSmall", "integer", "maximum", "minimum", "onBlur", "onFocus", "onInput", "onMouseDown", "onKeyDown", "onNumericValueInput", "onValueInput", "placeholder", "propagateEscapeKeyDown", "revertOnEscapeKeyDown", "suffix", "validateOnBlur", "value"]);
+        if (typeof minimum !== "undefined" && typeof maximum !== "undefined" && minimum >= maximum) {
+          throw new Error("`minimum` must be less than `maximum`");
+        }
+        const inputElementRef = A2(null);
+        const revertOnEscapeKeyDownRef = A2(false);
+        const [originalValue, setOriginalValue] = d2(EMPTY_STRING3);
+        const setInputElementValue = q2(function(value3) {
+          const inputElement = getCurrentFromRef(inputElementRef);
+          inputElement.value = value3;
+          const inputEvent = new window.Event("input", {
+            bubbles: true,
+            cancelable: true
+          });
+          inputElement.dispatchEvent(inputEvent);
+        }, []);
+        const handleBlur = q2(function(event) {
+          onBlur(event);
+          if (revertOnEscapeKeyDownRef.current === true) {
+            revertOnEscapeKeyDownRef.current = false;
+            return;
+          }
+          if (typeof validateOnBlur !== "undefined") {
+            const evaluatedValue = evaluateValue(value2, suffix);
+            const result = validateOnBlur(evaluatedValue);
+            if (typeof result === "number") {
+              setInputElementValue(formatEvaluatedValue(result, value2, suffix));
+              setOriginalValue(EMPTY_STRING3);
+              return;
+            }
+            if (result === null) {
+              setInputElementValue(EMPTY_STRING3);
+              setOriginalValue(EMPTY_STRING3);
+              return;
+            }
+            if (result === false) {
+              if (value2 !== originalValue) {
+                setInputElementValue(originalValue);
+              }
+              setOriginalValue(EMPTY_STRING3);
+              return;
+            }
+          }
+          if (typeof suffix !== "undefined" && value2 === suffix) {
+            setInputElementValue(EMPTY_STRING3);
+            setOriginalValue(EMPTY_STRING3);
+            return;
+          }
+          if (value2 !== EMPTY_STRING3 && value2 !== MIXED_STRING) {
+            const evaluatedValue = evaluateValue(value2, suffix);
+            const formattedValue = formatEvaluatedValue(evaluatedValue, value2, suffix);
+            if (value2 !== formattedValue) {
+              setInputElementValue(formattedValue);
+            }
+          }
+          setOriginalValue(EMPTY_STRING3);
+        }, [onBlur, originalValue, setInputElementValue, suffix, validateOnBlur, value2]);
+        const handleFocus = q2(function(event) {
+          onFocus(event);
+          setOriginalValue(value2);
+          event.currentTarget.select();
+        }, [onFocus, value2]);
+        const handleInput = q2(function(event) {
+          onInput(event);
+          const newValue = event.currentTarget.value;
+          onValueInput(newValue);
+          const evaluatedValue = evaluateValue(newValue, suffix);
+          onNumericValueInput(evaluatedValue);
+        }, [onInput, onNumericValueInput, onValueInput, suffix]);
+        const handleKeyDown = q2(function(event) {
+          onKeyDown(event);
+          const key = event.key;
+          if (key === "Escape") {
+            if (revertOnEscapeKeyDown === true) {
+              revertOnEscapeKeyDownRef.current = true;
+              setInputElementValue(originalValue);
+              setOriginalValue(EMPTY_STRING3);
+            }
+            if (propagateEscapeKeyDown === false) {
+              event.stopPropagation();
+            }
+            event.currentTarget.blur();
+            return;
+          }
+          const inputElement = event.currentTarget;
+          if (key === "ArrowDown" || key === "ArrowUp") {
+            const delta = event.shiftKey === true ? incrementBig : incrementSmall;
+            event.preventDefault();
+            if (value2 === EMPTY_STRING3 || value2 === MIXED_STRING) {
+              const startingValue = function() {
+                if (typeof minimum !== "undefined" && minimum > 0) {
+                  return minimum;
+                }
+                if (typeof maximum !== "undefined" && maximum < 0) {
+                  return maximum;
+                }
+                return 0;
+              }();
+              const evaluatedValue2 = evaluateValueWithDelta(startingValue, key === "ArrowDown" ? -1 * delta : delta);
+              const newValue2 = restrictValue(evaluatedValue2, minimum, maximum);
+              const formattedValue2 = formatEvaluatedValue(newValue2, value2, suffix);
+              inputElement.value = formattedValue2;
+              inputElement.select();
+              const inputEvent2 = new window.Event("input", {
+                bubbles: true,
+                cancelable: true
+              });
+              inputElement.dispatchEvent(inputEvent2);
+              return;
+            }
+            const number = evaluateValue(value2, suffix);
+            if (number === null) {
+              throw new Error("`number` is `null`");
+            }
+            const evaluatedValue = evaluateValueWithDelta(number, key === "ArrowDown" ? -1 * delta : delta);
+            const newValue = restrictValue(evaluatedValue, minimum, maximum);
+            const formattedValue = formatEvaluatedValue(newValue, value2, suffix);
+            if (formattedValue === value2) {
+              return;
+            }
+            inputElement.value = formattedValue;
+            inputElement.select();
+            const inputEvent = new window.Event("input", {
+              bubbles: true,
+              cancelable: true
+            });
+            inputElement.dispatchEvent(inputEvent);
+            return;
+          }
+          if (event.ctrlKey === true || event.metaKey === true) {
+            return;
+          }
+          if (isKeyCodeCharacterGenerating(event.keyCode) === true) {
+            const newValue = trimSuffix(value2 === MIXED_STRING ? event.key : computeNextValue(inputElement, event.key), suffix);
+            if (isValidNumericInput(newValue, { integersOnly: integer }) === false) {
+              event.preventDefault();
+              return;
+            }
+            if (typeof minimum === "undefined" && typeof maximum === "undefined") {
+              return;
+            }
+            const evaluatedValue = evaluateNumericExpression(newValue);
+            if (evaluatedValue === null) {
+              return;
+            }
+            if (typeof minimum !== "undefined" && evaluatedValue < minimum || typeof maximum !== "undefined" && evaluatedValue > maximum) {
+              event.preventDefault();
+            }
+          }
+        }, [
+          incrementBig,
+          incrementSmall,
+          integer,
+          maximum,
+          minimum,
+          onKeyDown,
+          originalValue,
+          propagateEscapeKeyDown,
+          revertOnEscapeKeyDown,
+          setInputElementValue,
+          suffix,
+          value2
+        ]);
+        const handleMouseDown = q2(function(event) {
+          onMouseDown(event);
+          if (value2 === MIXED_STRING) {
+            event.preventDefault();
+            event.currentTarget.select();
+          }
+        }, [onMouseDown, value2]);
+        const handlePaste = q2(function(event) {
+          if (event.clipboardData === null) {
+            throw new Error("`event.clipboardData` is `null`");
+          }
+          const nextValue = trimSuffix(computeNextValue(event.currentTarget, event.clipboardData.getData("Text")), suffix);
+          if (isValidNumericInput(nextValue, {
+            integersOnly: integer
+          }) === false) {
+            event.preventDefault();
+          }
+        }, [integer, suffix]);
+        const refCallback = q2(function(inputElement) {
+          inputElementRef.current = inputElement;
+          if (ref === null) {
+            return;
+          }
+          if (typeof ref === "function") {
+            ref(inputElement);
+            return;
+          }
+          ref.current = inputElement;
+        }, [ref]);
+        return _("input", __spreadProps(__spreadValues({}, rest), { ref: refCallback, disabled: disabled === true, onBlur: handleBlur, onFocus: handleFocus, onInput: handleInput, onKeyDown: handleKeyDown, onMouseDown: handleMouseDown, onPaste: handlePaste, placeholder, spellcheck: false, tabIndex: 0, type: "text", value: value2 === MIXED_STRING ? "Mixed" : value2 }));
+      });
+    }
+  });
+
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c067a190-c26c-4f4f-a004-ed6a4a3fab62/textbox.module.js
+  var textbox_module_default2;
+  var init_textbox_module2 = __esm({
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c067a190-c26c-4f4f-a004-ed6a4a3fab62/textbox.module.js"() {
+      if (document.getElementById("5c1c5c2d3d") === null) {
+        const element = document.createElement("style");
+        element.id = "5c1c5c2d3d";
+        element.textContent = `._textbox_1m1e8_1 {
+  position: relative;
+  z-index: var(--z-index-1);
+}
+
+._textbox_1m1e8_1:focus-within {
+  z-index: var(--z-index-2); /* Stack \`.textbox\` over its sibling elements */
+}
+
+._disabled_1m1e8_10,
+._disabled_1m1e8_10 * {
+  cursor: not-allowed;
+}
+
+._input_1m1e8_15 {
+  display: block;
+  width: 100%;
+  height: var(--space-24);
+  padding: var(--space-0) calc(var(--space-8) - var(--border-width-1));
+  border: var(--border-width-1) solid transparent;
+  border-radius: var(--border-radius-4);
+  background-color: var(--figma-color-bg-secondary);
+  color: var(--figma-color-text);
+}
+._input_1m1e8_15:hover {
+  border-color: var(--figma-color-border);
+}
+._input_1m1e8_15:focus {
+  border-color: var(--figma-color-border-selected);
+}
+._disabled_1m1e8_10 ._input_1m1e8_15 {
+  border-color: var(--figma-color-border-disabled);
+  background-color: transparent;
+  color: var(--figma-color-text-disabled);
+}
+._hasIcon_1m1e8_36 ._input_1m1e8_15 {
+  padding-left: calc(var(--space-24) - var(--border-width-1));
+}
+
+._input_1m1e8_15::placeholder {
+  color: var(--figma-color-text-tertiary);
+}
+
+._icon_1m1e8_44 {
+  position: absolute;
+  top: 50%;
+  left: var(--space-12);
+  color: var(--figma-color-icon-secondary);
+  pointer-events: none;
+  text-align: center;
+  transform: translate(-50%, -50%);
+}
+._disabled_1m1e8_10 ._icon_1m1e8_44 {
+  color: var(--figma-color-icon-disabled);
+}
+
+._icon_1m1e8_44 svg {
+  fill: currentColor;
+}
+
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm5vZGVfbW9kdWxlcy9AY3JlYXRlLWZpZ21hLXBsdWdpbi91aS9saWIvY29tcG9uZW50cy90ZXh0Ym94L3RleHRib3gvdGV4dGJveC5tb2R1bGUuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0Usa0JBQWtCO0VBQ2xCLHlCQUF5QjtBQUMzQjs7QUFFQTtFQUNFLHlCQUF5QixFQUFFLCtDQUErQztBQUM1RTs7QUFFQTs7RUFFRSxtQkFBbUI7QUFDckI7O0FBRUE7RUFDRSxjQUFjO0VBQ2QsV0FBVztFQUNYLHVCQUF1QjtFQUN2QixvRUFBb0U7RUFDcEUsK0NBQStDO0VBQy9DLHFDQUFxQztFQUNyQyxpREFBaUQ7RUFDakQsOEJBQThCO0FBQ2hDO0FBQ0E7RUFDRSx1Q0FBdUM7QUFDekM7QUFDQTtFQUNFLGdEQUFnRDtBQUNsRDtBQUNBO0VBQ0UsZ0RBQWdEO0VBQ2hELDZCQUE2QjtFQUM3Qix1Q0FBdUM7QUFDekM7QUFDQTtFQUNFLDJEQUEyRDtBQUM3RDs7QUFFQTtFQUNFLHVDQUF1QztBQUN6Qzs7QUFFQTtFQUNFLGtCQUFrQjtFQUNsQixRQUFRO0VBQ1IscUJBQXFCO0VBQ3JCLHdDQUF3QztFQUN4QyxvQkFBb0I7RUFDcEIsa0JBQWtCO0VBQ2xCLGdDQUFnQztBQUNsQztBQUNBO0VBQ0UsdUNBQXVDO0FBQ3pDOztBQUVBO0VBQ0Usa0JBQWtCO0FBQ3BCIiwiZmlsZSI6Im5vZGVfbW9kdWxlcy9AY3JlYXRlLWZpZ21hLXBsdWdpbi91aS9saWIvY29tcG9uZW50cy90ZXh0Ym94L3RleHRib3gvdGV4dGJveC5tb2R1bGUuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLnRleHRib3gge1xuICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gIHotaW5kZXg6IHZhcigtLXotaW5kZXgtMSk7XG59XG5cbi50ZXh0Ym94OmZvY3VzLXdpdGhpbiB7XG4gIHotaW5kZXg6IHZhcigtLXotaW5kZXgtMik7IC8qIFN0YWNrIGAudGV4dGJveGAgb3ZlciBpdHMgc2libGluZyBlbGVtZW50cyAqL1xufVxuXG4uZGlzYWJsZWQsXG4uZGlzYWJsZWQgKiB7XG4gIGN1cnNvcjogbm90LWFsbG93ZWQ7XG59XG5cbi5pbnB1dCB7XG4gIGRpc3BsYXk6IGJsb2NrO1xuICB3aWR0aDogMTAwJTtcbiAgaGVpZ2h0OiB2YXIoLS1zcGFjZS0yNCk7XG4gIHBhZGRpbmc6IHZhcigtLXNwYWNlLTApIGNhbGModmFyKC0tc3BhY2UtOCkgLSB2YXIoLS1ib3JkZXItd2lkdGgtMSkpO1xuICBib3JkZXI6IHZhcigtLWJvcmRlci13aWR0aC0xKSBzb2xpZCB0cmFuc3BhcmVudDtcbiAgYm9yZGVyLXJhZGl1czogdmFyKC0tYm9yZGVyLXJhZGl1cy00KTtcbiAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItYmctc2Vjb25kYXJ5KTtcbiAgY29sb3I6IHZhcigtLWZpZ21hLWNvbG9yLXRleHQpO1xufVxuLmlucHV0OmhvdmVyIHtcbiAgYm9yZGVyLWNvbG9yOiB2YXIoLS1maWdtYS1jb2xvci1ib3JkZXIpO1xufVxuLmlucHV0OmZvY3VzIHtcbiAgYm9yZGVyLWNvbG9yOiB2YXIoLS1maWdtYS1jb2xvci1ib3JkZXItc2VsZWN0ZWQpO1xufVxuLmRpc2FibGVkIC5pbnB1dCB7XG4gIGJvcmRlci1jb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItYm9yZGVyLWRpc2FibGVkKTtcbiAgYmFja2dyb3VuZC1jb2xvcjogdHJhbnNwYXJlbnQ7XG4gIGNvbG9yOiB2YXIoLS1maWdtYS1jb2xvci10ZXh0LWRpc2FibGVkKTtcbn1cbi5oYXNJY29uIC5pbnB1dCB7XG4gIHBhZGRpbmctbGVmdDogY2FsYyh2YXIoLS1zcGFjZS0yNCkgLSB2YXIoLS1ib3JkZXItd2lkdGgtMSkpO1xufVxuXG4uaW5wdXQ6OnBsYWNlaG9sZGVyIHtcbiAgY29sb3I6IHZhcigtLWZpZ21hLWNvbG9yLXRleHQtdGVydGlhcnkpO1xufVxuXG4uaWNvbiB7XG4gIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgdG9wOiA1MCU7XG4gIGxlZnQ6IHZhcigtLXNwYWNlLTEyKTtcbiAgY29sb3I6IHZhcigtLWZpZ21hLWNvbG9yLWljb24tc2Vjb25kYXJ5KTtcbiAgcG9pbnRlci1ldmVudHM6IG5vbmU7XG4gIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgdHJhbnNmb3JtOiB0cmFuc2xhdGUoLTUwJSwgLTUwJSk7XG59XG4uZGlzYWJsZWQgLmljb24ge1xuICBjb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItaWNvbi1kaXNhYmxlZCk7XG59XG5cbi5pY29uIHN2ZyB7XG4gIGZpbGw6IGN1cnJlbnRDb2xvcjtcbn1cbiJdfQ== */`;
+        document.head.append(element);
+      }
+      textbox_module_default2 = { "textbox": "_textbox_1m1e8_1", "disabled": "_disabled_1m1e8_10", "input": "_input_1m1e8_15", "hasIcon": "_hasIcon_1m1e8_36", "icon": "_icon_1m1e8_44" };
+    }
+  });
+
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0d78fdee-ff69-49f8-a0c8-755a2d1d8e30/textbox-numeric.module.js
+  var textbox_numeric_module_default;
+  var init_textbox_numeric_module = __esm({
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0d78fdee-ff69-49f8-a0c8-755a2d1d8e30/textbox-numeric.module.js"() {
+      if (document.getElementById("b6dab244a8") === null) {
+        const element = document.createElement("style");
+        element.id = "b6dab244a8";
+        element.textContent = `._input_1byj7_1::-webkit-inner-spin-button,
+._input_1byj7_1::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm5vZGVfbW9kdWxlcy9AY3JlYXRlLWZpZ21hLXBsdWdpbi91aS9saWIvY29tcG9uZW50cy90ZXh0Ym94L3RleHRib3gtbnVtZXJpYy90ZXh0Ym94LW51bWVyaWMubW9kdWxlLmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTs7RUFFRSx3QkFBd0I7QUFDMUIiLCJmaWxlIjoibm9kZV9tb2R1bGVzL0BjcmVhdGUtZmlnbWEtcGx1Z2luL3VpL2xpYi9jb21wb25lbnRzL3RleHRib3gvdGV4dGJveC1udW1lcmljL3RleHRib3gtbnVtZXJpYy5tb2R1bGUuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmlucHV0Ojotd2Via2l0LWlubmVyLXNwaW4tYnV0dG9uLFxuLmlucHV0Ojotd2Via2l0LW91dGVyLXNwaW4tYnV0dG9uIHtcbiAgLXdlYmtpdC1hcHBlYXJhbmNlOiBub25lO1xufVxuIl19 */`;
+        document.head.append(element);
+      }
+      textbox_numeric_module_default = { "input": "_input_1byj7_1" };
+    }
+  });
+
+  // node_modules/@create-figma-plugin/ui/lib/components/textbox/textbox-numeric/textbox-numeric.js
+  var TextboxNumeric;
+  var init_textbox_numeric = __esm({
+    "node_modules/@create-figma-plugin/ui/lib/components/textbox/textbox-numeric/textbox-numeric.js"() {
+      init_preact_module();
+      init_create_class_name();
+      init_create_component();
+      init_textbox_module2();
+      init_raw_textbox_numeric();
+      init_textbox_numeric_module();
+      TextboxNumeric = createComponent(function(_a, ref) {
+        var _b = _a, { icon } = _b, rest = __objRest(_b, ["icon"]);
+        if (typeof icon === "string" && icon.length !== 1) {
+          throw new Error(`String \`icon\` must be a single character: ${icon}`);
+        }
+        return _(
+          "div",
+          { class: createClassName([
+            textbox_module_default2.textbox,
+            typeof icon === "undefined" ? null : textbox_module_default2.hasIcon,
+            rest.disabled === true ? textbox_module_default2.disabled : null
+          ]) },
+          _(RawTextboxNumeric, __spreadProps(__spreadValues({}, rest), { ref, class: createClassName([
+            textbox_module_default2.input,
+            textbox_numeric_module_default.input
+          ]) })),
+          typeof icon === "undefined" ? null : _("div", { class: textbox_module_default2.icon }, icon)
         );
       });
     }
@@ -3122,10 +3718,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/04a02370-2faf-4311-89cc-13506ef6ccf9/container.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/df7fef4a-654d-462c-ad1b-ff7ad03c8aa1/container.module.js
   var container_module_default;
   var init_container_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/04a02370-2faf-4311-89cc-13506ef6ccf9/container.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/df7fef4a-654d-462c-ad1b-ff7ad03c8aa1/container.module.js"() {
       if (document.getElementById("b49e1406f9") === null) {
         const element = document.createElement("style");
         element.id = "b49e1406f9";
@@ -3166,10 +3762,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/089cc318-b4b1-49d0-8991-3023dd6a8575/vertical-space.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e8c8dab2-02e0-47b4-816b-29455287b0d4/vertical-space.module.js
   var vertical_space_module_default;
   var init_vertical_space_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/089cc318-b4b1-49d0-8991-3023dd6a8575/vertical-space.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e8c8dab2-02e0-47b4-816b-29455287b0d4/vertical-space.module.js"() {
       if (document.getElementById("ba0eea5114") === null) {
         const element = document.createElement("style");
         element.id = "ba0eea5114";
@@ -3210,9 +3806,9 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/213a050b-13eb-466d-9cf5-08543f6969c1/base.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/445a039f-b4b4-4540-a110-ef5233baf1df/base.js
   var init_base = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/213a050b-13eb-466d-9cf5-08543f6969c1/base.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/445a039f-b4b4-4540-a110-ef5233baf1df/base.js"() {
       if (document.getElementById("0597dd81e7") === null) {
         const element = document.createElement("style");
         element.id = "0597dd81e7";
@@ -3359,6 +3955,7 @@ svg {
     "node_modules/@create-figma-plugin/ui/lib/index.js"() {
       init_button();
       init_checkbox();
+      init_disclosure();
       init_divider();
       init_dropdown();
       init_file_upload_button();
@@ -3369,7 +3966,9 @@ svg {
       init_tabs();
       init_text();
       init_textbox();
+      init_textbox_numeric();
       init_icon_adjust_16();
+      init_icon_check_16();
       init_icon_folder_16();
       init_icon_home_16();
       init_icon_link_16();
@@ -3435,6 +4034,7 @@ svg {
         PRINT_COLOR_USAGES_SELECTION: "PRINT_COLOR_USAGES_SELECTION",
         PRINT_COLOR_USAGES_STATUS: "PRINT_COLOR_USAGES_STATUS",
         PRINT_COLOR_USAGES_UPDATE_PREVIEW: "PRINT_COLOR_USAGES_UPDATE_PREVIEW",
+        PRINT_COLOR_USAGES_PRINT_PREVIEW: "PRINT_COLOR_USAGES_PRINT_PREVIEW",
         MOCKUP_MARKUP_STATE: "MOCKUP_MARKUP_STATE",
         MOCKUP_MARKUP_STATUS: "MOCKUP_MARKUP_STATUS",
         MOCKUP_MARKUP_COLOR_PREVIEWS: "MOCKUP_MARKUP_COLOR_PREVIEWS",
@@ -4071,7 +4671,7 @@ svg {
   });
 
   // src/app/components/custom-icons/generated.tsx
-  function IconChevronRight16(props) {
+  function IconChevronRight162(props) {
     var _a, _b;
     const color = (_a = props.color) != null ? _a : "currentColor";
     return /* @__PURE__ */ _("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none", "aria-label": props.title }, /* @__PURE__ */ _("path", { d: "M6.76776 6.23269C6.5725 6.03743 6.5725 5.71994 6.76776 5.52468C6.96296 5.32976 7.2796 5.32976 7.47479 5.52468L9.9494 8.00027L7.47479 10.4749C7.27953 10.6701 6.96302 10.6701 6.76776 10.4749C6.5725 10.2796 6.5725 9.96311 6.76776 9.76785L8.53534 8.00027L6.76776 6.23269Z", fill: color, fillOpacity: (_b = props.opacity) != null ? _b : 0.9 }));
@@ -4175,7 +4775,7 @@ svg {
           },
           "aria-hidden": "true"
         },
-        /* @__PURE__ */ _(IconChevronRight16, null)
+        /* @__PURE__ */ _(IconChevronRight162, null)
       )
     );
   }
@@ -4423,26 +5023,26 @@ svg {
       {
         value: request.presetColor,
         previews: colorPreviews,
-        onChange: (value) => setRequest((r3) => __spreadProps(__spreadValues({}, r3), { presetColor: value }))
+        onChange: (value2) => setRequest((r3) => __spreadProps(__spreadValues({}, r3), { presetColor: value2 }))
       }
     ), /* @__PURE__ */ _(VerticalSpace, { space: "large" }), /* @__PURE__ */ _(Text, null, "Text style"), /* @__PURE__ */ _(VerticalSpace, { space: "extraSmall" }), /* @__PURE__ */ _(
       TextStylePresetGrid,
       {
         value: request.presetTypography,
-        onChange: (value) => setRequest((r3) => __spreadProps(__spreadValues({}, r3), { presetTypography: value }))
+        onChange: (value2) => setRequest((r3) => __spreadProps(__spreadValues({}, r3), { presetTypography: value2 }))
       }
     ), /* @__PURE__ */ _(VerticalSpace, { space: "large" }), /* @__PURE__ */ _(
       Checkbox,
       {
         value: request.width400,
-        onValueChange: (value) => setRequest((r3) => __spreadProps(__spreadValues({}, r3), { width400: value }))
+        onValueChange: (value2) => setRequest((r3) => __spreadProps(__spreadValues({}, r3), { width400: value2 }))
       },
       /* @__PURE__ */ _(Text, null, "Width 400px")
     ), /* @__PURE__ */ _("div", { style: { flex: 1 } }), /* @__PURE__ */ _(VerticalSpace, { space: "large" }), /* @__PURE__ */ _(
       ModeSegmented,
       {
         value: request.forceModeName,
-        onChange: (value) => setRequest((r3) => __spreadProps(__spreadValues({}, r3), { forceModeName: value }))
+        onChange: (value2) => setRequest((r3) => __spreadProps(__spreadValues({}, r3), { forceModeName: value2 }))
       }
     ), /* @__PURE__ */ _(VerticalSpace, { space: "medium" }))), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(Container, { space: "small" }, /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(
       Button,
@@ -4482,6 +5082,127 @@ svg {
         forceModeName: "dark",
         width400: false
       };
+    }
+  });
+
+  // src/app/utils/clipboard.ts
+  async function copyTextToClipboard2(text) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch (e3) {
+      try {
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.style.position = "fixed";
+        textarea.style.left = "-9999px";
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        textarea.remove();
+        return true;
+      } catch (e4) {
+        return false;
+      }
+    }
+  }
+  var init_clipboard = __esm({
+    "src/app/utils/clipboard.ts"() {
+      "use strict";
+    }
+  });
+
+  // src/app/components/CopyIconButton.tsx
+  function CopyIconButton(props) {
+    const [copied, setCopied] = d2(false);
+    const timerRef = A2(null);
+    const handleCopy = q2(
+      (e3) => {
+        e3.preventDefault();
+        e3.stopPropagation();
+        void copyTextToClipboard2(props.text).then((ok) => {
+          if (!ok) return;
+          setCopied(true);
+          if (timerRef.current) clearTimeout(timerRef.current);
+          timerRef.current = setTimeout(() => {
+            setCopied(false);
+            timerRef.current = null;
+          }, 1500);
+        });
+      },
+      [props.text]
+    );
+    return /* @__PURE__ */ _(IconButton, { title: copied ? "Copied!" : `${props.text}`, onClick: handleCopy }, copied ? /* @__PURE__ */ _(IconCheck16, null) : /* @__PURE__ */ _("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none" }, /* @__PURE__ */ _(
+      "path",
+      {
+        d: "M5.5 3.5H4.5C3.94772 3.5 3.5 3.94772 3.5 4.5V12.5C3.5 13.0523 3.94772 13.5 4.5 13.5H10.5C11.0523 13.5 11.5 13.0523 11.5 12.5V11.5",
+        stroke: "currentColor",
+        "stroke-linecap": "round"
+      }
+    ), /* @__PURE__ */ _("rect", { x: "5.5", y: "2.5", width: "7", height: "9", rx: "1", stroke: "currentColor" })));
+  }
+  var init_CopyIconButton = __esm({
+    "src/app/components/CopyIconButton.tsx"() {
+      "use strict";
+      init_preact_module();
+      init_hooks_module();
+      init_lib2();
+      init_clipboard();
+    }
+  });
+
+  // src/app/components/DataList.tsx
+  function DataList(props) {
+    var _a;
+    const children = H(props.children).filter(Boolean);
+    const isEmpty = children.length === 0;
+    return /* @__PURE__ */ _("div", null, props.header ? /* @__PURE__ */ _(
+      Text,
+      {
+        style: {
+          color: "var(--figma-color-text-secondary)",
+          fontSize: 11,
+          lineHeight: "16px",
+          marginBottom: 6
+        }
+      },
+      props.header
+    ) : null, props.summary ? /* @__PURE__ */ _("div", { style: { marginBottom: 6 } }, typeof props.summary === "string" ? /* @__PURE__ */ _(
+      Text,
+      {
+        style: {
+          color: "var(--figma-color-text-tertiary)",
+          fontSize: 11,
+          lineHeight: "16px"
+        }
+      },
+      props.summary
+    ) : props.summary) : null, /* @__PURE__ */ _(
+      "div",
+      {
+        style: {
+          border: "1px solid var(--figma-color-border)",
+          borderRadius: 6,
+          overflow: "hidden"
+        }
+      },
+      isEmpty ? /* @__PURE__ */ _("div", { style: { padding: 10 } }, /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-tertiary)" } }, (_a = props.emptyText) != null ? _a : "No items")) : children.map((child, index) => /* @__PURE__ */ _(
+        "div",
+        {
+          key: index,
+          style: {
+            borderTop: index === 0 ? "none" : "1px solid var(--figma-color-border-secondary)"
+          }
+        },
+        child
+      ))
+    ));
+  }
+  var init_DataList = __esm({
+    "src/app/components/DataList.tsx"() {
+      "use strict";
+      init_preact_module();
+      init_lib2();
     }
   });
 
@@ -4538,7 +5259,7 @@ svg {
 
   // src/app/components/ScopeControl.tsx
   function ScopeControl({
-    value,
+    value: value2,
     hasSelection,
     onValueChange,
     disabled = false
@@ -4546,7 +5267,7 @@ svg {
     return /* @__PURE__ */ _("div", { class: "scope-control-stretch" }, /* @__PURE__ */ _("style", null, `.scope-control-stretch > div { width: 100%; } .scope-control-stretch > div > label { flex: 1; text-align: center; }`), /* @__PURE__ */ _(
       SegmentedControl,
       {
-        value,
+        value: value2,
         disabled,
         onValueChange: (next) => {
           if (!onValueChange) return;
@@ -4583,8 +5304,8 @@ svg {
   });
 
   // src/app/components/ToolTabs.tsx
-  function ToolTabs({ value, onValueChange, options }) {
-    return /* @__PURE__ */ _("div", { style: { paddingLeft: 4 }, "data-tool-tabs": true }, /* @__PURE__ */ _(Tabs, { value, onValueChange, options }), /* @__PURE__ */ _("style", null, `[data-tool-tabs] > div:first-child { border-bottom: none; }`));
+  function ToolTabs({ value: value2, onValueChange, options }) {
+    return /* @__PURE__ */ _("div", { style: { paddingLeft: 4 }, "data-tool-tabs": true }, /* @__PURE__ */ _(Tabs, { value: value2, onValueChange, options }), /* @__PURE__ */ _("style", null, `[data-tool-tabs] > div:first-child { border-bottom: none; }`));
   }
   var init_ToolTabs = __esm({
     "src/app/components/ToolTabs.tsx"() {
@@ -4604,6 +5325,8 @@ svg {
     const [scope, setScope] = d2("page");
     const [preview, setPreview] = d2(null);
     const [selectedPreviewNodeIds, setSelectedPreviewNodeIds] = d2([]);
+    const [printPreview, setPrintPreview] = d2(null);
+    const [settingsOpen, setSettingsOpen] = d2(false);
     y2(() => {
       const handleMessage = (event) => {
         var _a;
@@ -4631,6 +5354,10 @@ svg {
           setSelectedPreviewNodeIds(msg.payload.entries.map((entry) => entry.nodeId));
           return;
         }
+        if (msg.type === MAIN_TO_UI.PRINT_COLOR_USAGES_PRINT_PREVIEW) {
+          setPrintPreview(msg.payload);
+          return;
+        }
       };
       window.addEventListener("message", handleMessage);
       parent.postMessage({ pluginMessage: { type: UI_TO_MAIN.PRINT_COLOR_USAGES_LOAD_SETTINGS } }, "*");
@@ -4640,6 +5367,7 @@ svg {
       if (!loaded) return;
       setPreview(null);
       setSelectedPreviewNodeIds([]);
+      setPrintPreview(null);
       parent.postMessage(
         { pluginMessage: { type: UI_TO_MAIN.PRINT_COLOR_USAGES_SAVE_SETTINGS, settings } },
         "*"
@@ -4674,40 +5402,107 @@ svg {
       ToolTabs,
       {
         value: activeTab,
-        onValueChange: (value) => setActiveTab(value === "Update" ? "Update" : "Print"),
+        onValueChange: (value2) => setActiveTab(value2 === "Update" ? "Update" : "Print"),
         options: [
           { value: "Print", children: null },
           { value: "Update", children: null }
         ]
       }
-    ), /* @__PURE__ */ _(ToolBody, { mode: "content" }, /* @__PURE__ */ _(Stack, { space: "medium" }, activeTab === "Print" ? /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(Text, null, "Position"), /* @__PURE__ */ _(
-      RadioButtons,
+    ), /* @__PURE__ */ _(ToolBody, { mode: "content" }, /* @__PURE__ */ _(Stack, { space: "small" }, activeTab === "Print" ? /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(
+      Disclosure,
       {
-        direction: "horizontal",
-        value: settings.textPosition,
-        onValueChange: (value) => setSettings((s3) => __spreadProps(__spreadValues({}, s3), {
-          textPosition: value === "left" || value === "right" ? value : "right"
-        })),
-        options: [
-          { value: "left", children: /* @__PURE__ */ _(Text, null, "Left") },
-          { value: "right", children: /* @__PURE__ */ _(Text, null, "Right") }
-        ]
-      }
-    )) : null, activeTab === "Print" ? /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(
+        open: settingsOpen,
+        onClick: () => setSettingsOpen(!settingsOpen),
+        title: "Settings"
+      },
+      /* @__PURE__ */ _("div", null, /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(Text, null, "Printed text position"), /* @__PURE__ */ _(
+        RadioButtons,
+        {
+          direction: "horizontal",
+          value: settings.textPosition,
+          onValueChange: (value2) => setSettings((s3) => __spreadProps(__spreadValues({}, s3), {
+            textPosition: value2 === "left" || value2 === "right" ? value2 : "right"
+          })),
+          options: [
+            { value: "left", children: /* @__PURE__ */ _(Text, null, "Left") },
+            { value: "right", children: /* @__PURE__ */ _(Text, null, "Right") }
+          ]
+        }
+      )), /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(Text, null, "Distance"), /* @__PURE__ */ _(
+        TextboxNumeric,
+        {
+          value: String(settings.printDistance),
+          onNumericValueInput: (value2) => setSettings((s3) => __spreadProps(__spreadValues({}, s3), { printDistance: value2 != null ? value2 : 16 })),
+          minimum: 0,
+          integer: true,
+          suffix: " px"
+        }
+      )), /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(
+        Checkbox,
+        {
+          value: settings.showLinkedColors,
+          onValueChange: (value2) => setSettings((s3) => __spreadProps(__spreadValues({}, s3), { showLinkedColors: value2 }))
+        },
+        /* @__PURE__ */ _(Text, null, "Show linked colors")
+      ), /* @__PURE__ */ _(
+        Checkbox,
+        {
+          value: settings.hideFolderNames,
+          onValueChange: (value2) => setSettings((s3) => __spreadProps(__spreadValues({}, s3), { hideFolderNames: value2 }))
+        },
+        /* @__PURE__ */ _(Text, null, "Hide folder prefixes (after ", "\u201C", "/", "\u201D", ")")
+      ), /* @__PURE__ */ _(
+        Checkbox,
+        {
+          value: settings.checkNested,
+          onValueChange: (value2) => setSettings((s3) => __spreadProps(__spreadValues({}, s3), { checkNested: value2 }))
+        },
+        /* @__PURE__ */ _(Text, null, "Check colors of nested items")
+      )), /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "Text color is from Mockup markup")))
+    ), printPreview && printPreview.entries.length > 0 ? /* @__PURE__ */ _(DataList, { header: "Will be printed" }, printPreview.entries.map((entry, index) => /* @__PURE__ */ _(
+      "div",
+      {
+        key: `${entry.layerName}-${index}`,
+        style: {
+          padding: 10,
+          display: "flex",
+          alignItems: "flex-start",
+          justifyContent: "space-between",
+          gap: 8
+        }
+      },
+      /* @__PURE__ */ _("div", { style: { flex: 1, minWidth: 0, display: "flex", flexDirection: "column", gap: 2 } }, /* @__PURE__ */ _(
+        "div",
+        {
+          style: {
+            color: "var(--figma-color-text)",
+            lineHeight: "20px",
+            wordBreak: "break-word",
+            whiteSpace: "pre-wrap"
+          }
+        },
+        entry.label
+      ), /* @__PURE__ */ _(
+        "div",
+        {
+          style: {
+            color: "var(--figma-color-text-tertiary)",
+            fontSize: 11,
+            lineHeight: "16px",
+            wordBreak: "break-all"
+          }
+        },
+        entry.layerName
+      )),
+      /* @__PURE__ */ _("div", { style: { flexShrink: 0, paddingTop: 2 } }, /* @__PURE__ */ _(CopyIconButton, { text: entry.layerName, title: "Copy layer name" }))
+    ))) : null, !printPreview && selectionSize > 0 ? /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-tertiary)" } }, "Loading", "\u2026") : null, printPreview && printPreview.entries.length === 0 && selectionSize > 0 ? /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-tertiary)" } }, "No colors found in selection.") : null) : null, activeTab === "Update" ? /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(
       Checkbox,
       {
-        value: settings.showLinkedColors,
-        onValueChange: (value) => setSettings((s3) => __spreadProps(__spreadValues({}, s3), { showLinkedColors: value }))
+        value: settings.checkByContent,
+        onValueChange: (value2) => setSettings((s3) => __spreadProps(__spreadValues({}, s3), { checkByContent: value2 }))
       },
-      /* @__PURE__ */ _(Text, null, "Show linked colors")
+      /* @__PURE__ */ _(Text, null, "Check by content")
     ), /* @__PURE__ */ _(
-      Checkbox,
-      {
-        value: settings.hideFolderNames,
-        onValueChange: (value) => setSettings((s3) => __spreadProps(__spreadValues({}, s3), { hideFolderNames: value }))
-      },
-      /* @__PURE__ */ _(Text, null, "Hide folder prefixes (after \u201C/\u201D)")
-    )) : null, activeTab === "Print" ? /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "Text color is from Mockup markup") : null, activeTab === "Print" ? null : /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(
       ScopeControl,
       {
         value: scope,
@@ -4719,35 +5514,43 @@ svg {
       {
         secondary: true,
         loading: isWorking,
-        onClick: () => parent.postMessage(
-          {
-            pluginMessage: {
-              type: UI_TO_MAIN.PRINT_COLOR_USAGES_PREVIEW_UPDATE,
-              settings,
-              scope
-            }
-          },
-          "*"
-        )
+        onClick: () => {
+          setStatus({ status: "working", message: "Checking changes\u2026" });
+          parent.postMessage(
+            {
+              pluginMessage: {
+                type: UI_TO_MAIN.PRINT_COLOR_USAGES_PREVIEW_UPDATE,
+                settings,
+                scope
+              }
+            },
+            "*"
+          );
+        }
       },
       "Check changes"
-    ), preview && /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "Candidates: ", preview.totals.candidates, " | Changes: ", preview.totals.changed, " | Unchanged: ", preview.totals.unchanged, " | Skipped: ", preview.totals.skipped), preview.entries.length === 0 ? /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "No text changes found.") : /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "Selected for apply: ", selectedPreviewCount, " / ", preview.entries.length), /* @__PURE__ */ _("div", { style: { display: "flex", gap: 8 } }, /* @__PURE__ */ _(
+    ), isWorking && status.status === "working" && status.message ? /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, status.message) : null, preview ? preview.entries.length === 0 ? /* @__PURE__ */ _(
+      DataList,
+      {
+        header: "Changes found",
+        summary: `Candidates: ${preview.totals.candidates} | Changes: ${preview.totals.changed} | Unchanged: ${preview.totals.unchanged} | Skipped: ${preview.totals.skipped}`,
+        emptyText: "No text changes found."
+      },
+      null
+    ) : /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between" } }, /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "Selected: ", selectedPreviewCount, " / ", preview.entries.length), /* @__PURE__ */ _("div", { style: { display: "flex", gap: 6 } }, /* @__PURE__ */ _(
       Button,
       {
         secondary: true,
         onClick: () => setSelectedPreviewNodeIds(preview.entries.map((entry) => entry.nodeId))
       },
       "Select all"
-    ), /* @__PURE__ */ _(Button, { secondary: true, onClick: () => setSelectedPreviewNodeIds([]) }, "Clear")), /* @__PURE__ */ _(
-      "div",
+    ), /* @__PURE__ */ _(Button, { secondary: true, onClick: () => setSelectedPreviewNodeIds([]) }, "Clear"))), /* @__PURE__ */ _(
+      DataList,
       {
-        style: {
-          border: "1px solid var(--figma-color-border)",
-          borderRadius: 6,
-          overflow: "hidden"
-        }
+        header: "Changes found",
+        summary: `Candidates: ${preview.totals.candidates} | Changes: ${preview.totals.changed} | Unchanged: ${preview.totals.unchanged} | Skipped: ${preview.totals.skipped}`
       },
-      preview.entries.map((entry, index) => {
+      preview.entries.map((entry) => {
         var _a, _b;
         const isChecked = selectedPreviewNodeIdSet.has(entry.nodeId);
         const textDiff = renderInlineDiff((_a = entry.oldText) != null ? _a : "", (_b = entry.newText) != null ? _b : "");
@@ -4756,7 +5559,6 @@ svg {
           {
             key: entry.nodeId,
             style: {
-              borderTop: index === 0 ? "none" : "1px solid var(--figma-color-border-secondary)",
               padding: 10,
               background: isChecked ? "var(--figma-color-bg-secondary)" : "var(--figma-color-bg)"
             }
@@ -4765,29 +5567,12 @@ svg {
             Checkbox,
             {
               value: isChecked,
-              onValueChange: (value) => setSelectedPreviewNodeIds(
-                (prev) => value ? prev.includes(entry.nodeId) ? prev : [...prev, entry.nodeId] : prev.filter((id) => id !== entry.nodeId)
+              onValueChange: (value2) => setSelectedPreviewNodeIds(
+                (prev) => value2 ? prev.includes(entry.nodeId) ? prev : [...prev, entry.nodeId] : prev.filter((id) => id !== entry.nodeId)
               )
             },
             /* @__PURE__ */ _(Text, null, entry.nodeName)
           ),
-          /* @__PURE__ */ _("div", { style: { display: "flex", gap: 8, marginTop: 6 } }, /* @__PURE__ */ _(
-            Button,
-            {
-              secondary: true,
-              disabled: !isChecked,
-              onClick: () => parent.postMessage(
-                {
-                  pluginMessage: {
-                    type: UI_TO_MAIN.PRINT_COLOR_USAGES_RESET_LAYER_NAME,
-                    nodeId: entry.nodeId
-                  }
-                },
-                "*"
-              )
-            },
-            "Reset layer name"
-          )),
           /* @__PURE__ */ _(
             "button",
             {
@@ -4802,74 +5587,20 @@ svg {
                 "*"
               ),
               style: {
-                marginTop: 6,
+                marginTop: 4,
                 width: "100%",
                 display: "block",
                 border: "none",
                 background: "transparent",
                 textAlign: "left",
-                padding: 0,
+                padding: "0 0 0 24px",
                 cursor: "pointer"
               }
             },
             /* @__PURE__ */ _(
-              "div",
-              {
-                style: {
-                  display: "flex",
-                  gap: 6,
-                  marginBottom: 4
-                }
-              },
-              entry.textChanged ? /* @__PURE__ */ _(
-                "span",
-                {
-                  style: {
-                    fontSize: 10,
-                    lineHeight: "14px",
-                    padding: "1px 6px",
-                    borderRadius: 999,
-                    border: "1px solid var(--figma-color-border-brand-strong)",
-                    color: "var(--figma-color-text-brand)"
-                  }
-                },
-                "Text"
-              ) : null,
-              entry.layerNameChanged ? /* @__PURE__ */ _(
-                "span",
-                {
-                  style: {
-                    fontSize: 10,
-                    lineHeight: "14px",
-                    padding: "1px 6px",
-                    borderRadius: 999,
-                    border: "1px solid var(--figma-color-border-warning)",
-                    color: "var(--figma-color-text-warning)"
-                  }
-                },
-                "Layer name"
-              ) : null,
-              entry.linkedColorChanged ? /* @__PURE__ */ _(
-                "span",
-                {
-                  style: {
-                    fontSize: 10,
-                    lineHeight: "14px",
-                    padding: "1px 6px",
-                    borderRadius: 999,
-                    border: "1px solid #b7f0c9",
-                    color: "#067647",
-                    background: "#ecfdf3"
-                  }
-                },
-                "Linked color changed"
-              ) : null
-            ),
-            /* @__PURE__ */ _(
               Text,
               {
                 style: {
-                  marginTop: 2,
                   color: "var(--figma-color-text-secondary)",
                   whiteSpace: "pre-wrap",
                   wordBreak: "break-word",
@@ -4906,27 +5637,81 @@ svg {
               entry.oldLayerName || "(empty)",
               " ",
               "->",
-              " ",
+              "  ",
               entry.newLayerName || "(empty)"
-            ) : null,
+            ) : null
+          ),
+          entry.contentMismatch ? /* @__PURE__ */ _(
+            "div",
+            {
+              style: {
+                marginTop: 4,
+                marginLeft: 24,
+                padding: "6px 8px",
+                borderRadius: 4,
+                background: "var(--figma-color-bg-warning-tertiary, #fff8e1)",
+                border: "1px solid var(--figma-color-border-warning, #ffd54f)"
+              }
+            },
             /* @__PURE__ */ _(
               Text,
               {
                 style: {
-                  color: "var(--figma-color-text-tertiary)",
-                  whiteSpace: "pre-wrap",
-                  wordBreak: "break-word",
-                  lineHeight: "16px"
+                  color: "var(--figma-color-text-warning)",
+                  fontSize: 11,
+                  lineHeight: "16px",
+                  wordBreak: "break-word"
                 }
               },
-              "Resolved by:",
-              " ",
-              entry.resolvedBy === "plugin_data" ? "plugin data" : entry.resolvedBy === "layer_variable_id" ? "layer VariableID" : entry.resolvedBy === "layer_name" ? "layer name" : "text content fallback"
-            )
-          )
+              'Layer name points to "',
+              entry.contentMismatch.layerVariableName,
+              '" but text content matches "',
+              entry.contentMismatch.contentVariableName,
+              '"'
+            ),
+            /* @__PURE__ */ _("div", { style: { display: "flex", gap: 6, marginTop: 6 } }, /* @__PURE__ */ _(
+              Button,
+              {
+                secondary: true,
+                onClick: () => {
+                }
+              },
+              "Update by layer name"
+            ), /* @__PURE__ */ _(
+              Button,
+              {
+                secondary: true,
+                onClick: () => parent.postMessage(
+                  {
+                    pluginMessage: {
+                      type: UI_TO_MAIN.PRINT_COLOR_USAGES_RESET_LAYER_NAME,
+                      nodeId: entry.nodeId
+                    }
+                  },
+                  "*"
+                )
+              },
+              "Update by content"
+            ))
+          ) : null,
+          /* @__PURE__ */ _("div", { style: { paddingLeft: 24, marginTop: 2 } }, /* @__PURE__ */ _(
+            Text,
+            {
+              style: {
+                color: "var(--figma-color-text-tertiary)",
+                whiteSpace: "pre-wrap",
+                wordBreak: "break-word",
+                lineHeight: "16px",
+                fontSize: 11
+              }
+            },
+            "Resolved by:",
+            " ",
+            entry.resolvedBy === "layer_variable_id" ? "layer VariableID" : entry.resolvedBy === "layer_name" ? "layer name" : "text content fallback"
+          ))
         );
       })
-    )))), /* @__PURE__ */ _(VerticalSpace, { space: "small" }))), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(Container, { space: "small" }, /* @__PURE__ */ _(VerticalSpace, { space: "small" }), activeTab === "Print" ? /* @__PURE__ */ _(
+    )) : null) : null)), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(Container, { space: "small" }, /* @__PURE__ */ _(VerticalSpace, { space: "small" }), activeTab === "Print" ? /* @__PURE__ */ _(
       Button,
       {
         fullWidth: true,
@@ -4962,6 +5747,8 @@ svg {
       init_preact_module();
       init_hooks_module();
       init_messages();
+      init_CopyIconButton();
+      init_DataList();
       init_InlineTextDiff();
       init_Page();
       init_ScopeControl();
@@ -4972,7 +5759,10 @@ svg {
         textPosition: "right",
         showLinkedColors: true,
         hideFolderNames: true,
-        textTheme: "dark"
+        textTheme: "dark",
+        checkByContent: false,
+        checkNested: true,
+        printDistance: 16
       };
     }
   });
@@ -4989,7 +5779,7 @@ svg {
     a3.remove();
     URL.revokeObjectURL(url);
   }
-  async function copyTextToClipboard2(text) {
+  async function copyTextToClipboard3(text) {
     try {
       await navigator.clipboard.writeText(text);
       return true;
@@ -5242,7 +6032,7 @@ svg {
       {
         value: exportSetName,
         placeholder: "Set name",
-        onValueInput: (value) => setExportSetName(value)
+        onValueInput: (value2) => setExportSetName(value2)
       }
     ), /* @__PURE__ */ _(
       Checkbox,
@@ -5283,7 +6073,7 @@ svg {
         disabled: !lastExport,
         onClick: async () => {
           if (!lastExport) return;
-          const ok = await copyTextToClipboard2(lastExport.jsonText);
+          const ok = await copyTextToClipboard3(lastExport.jsonText);
           setSuccessMessage(ok ? `Copied "${lastExport.filename}" JSON` : "Copy failed");
         }
       },
