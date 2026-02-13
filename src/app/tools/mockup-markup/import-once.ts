@@ -9,7 +9,7 @@ import type { MockupMarkupColorPreset } from "../../messages"
 import { resolveColorVariableForPreset } from "./resolve"
 import { logDebug, logWarn } from "./utils"
 
-const STORAGE_KEY = "mockup-markup.import-status-v2"
+const STORAGE_KEY = "mockup-markup.import-status-v3"
 
 type ImportStatus = {
   text: boolean

@@ -152,6 +152,36 @@ function normalizeVariableId(rawId: string): string {
 }
 
 /**
+ * Extracts the variable key (hash) from a raw variable ID.
+ * Raw IDs look like: "VariableID:<hash>/<nodeId>"
+ * The hash part IS the variable key used by importVariableByKeyAsync.
+ */
+function extractVariableKey(rawId: string): string | null {
+  const match = /^VariableID:([a-f0-9]+)/i.exec((rawId ?? "").trim())
+  return match?.[1] ?? null
+}
+
+/**
+ * Imports a variable from an enabled library by its key.
+ * This is the most reliable way if the library is enabled (keys survive renames).
+ */
+async function importVariableByKey(key: string): Promise<Variable | null> {
+  if (!key) return null
+  try {
+    const variable = await figma.variables.importVariableByKeyAsync(key)
+    if (variable && (variable as any).resolvedType === "COLOR") {
+      return variable
+    }
+  } catch (e) {
+    logDebug("importVariableByKey", `Could not import variable`, {
+      key,
+      error: e instanceof Error ? e.message : String(e),
+    })
+  }
+  return null
+}
+
+/**
  * Checks if two names match (case-insensitive, handles "Group/Name" format).
  */
 function namesMatch(candidate: string, wanted: string): boolean {
@@ -205,6 +235,14 @@ async function importVariableFromLibrary(nameCandidates: string[]): Promise<Vari
   try {
     const collections = await figma.teamLibrary.getAvailableLibraryVariableCollectionsAsync()
 
+    logDebug("importVariableFromLibrary", `Found ${collections.length} library collections`, {
+      collections: collections.map((c) => ({
+        name: c.name,
+        libraryName: c.libraryName,
+        key: c.key,
+      })),
+    })
+
     // Prefer Mockup markup library
     const libraryName = MOCKUP_MARKUP_LIBRARY_NAME.toLowerCase()
     const preferred = collections.filter(
@@ -218,10 +256,18 @@ async function importVariableFromLibrary(nameCandidates: string[]): Promise<Vari
     for (const collection of ordered) {
       try {
         const vars = await figma.teamLibrary.getVariablesInLibraryCollectionAsync(collection.key)
+        const colorVars = vars.filter((v) => (v.resolvedType as any) === "COLOR")
+
+        // Log all COLOR variables in preferred library for debugging
+        if ((collection.libraryName ?? "").trim().toLowerCase() === libraryName) {
+          logDebug("importVariableFromLibrary", `COLOR variables in "${collection.libraryName}" / "${collection.name}"`, {
+            count: colorVars.length,
+            variables: colorVars.map((v) => ({ name: v.name, key: v.key })),
+          })
+        }
+
         for (const wanted of nameCandidates) {
-          const match = vars.find(
-            (v) => (v.resolvedType as any) === "COLOR" && namesMatch(v.name ?? "", wanted)
-          )
+          const match = colorVars.find((v) => namesMatch(v.name ?? "", wanted))
           if (match?.key) {
             const imported = await figma.variables.importVariableByKeyAsync(match.key)
             if (imported) {
@@ -260,7 +306,7 @@ export async function resolveColorVariableForPreset(
   const normalizedId = normalizeVariableId(rawId)
   const nameCandidates = getColorVariableNameCandidates(preset)
 
-  // Strategy 1: Direct lookup by ID
+  // Strategy 1: Direct lookup by ID (works if already imported)
   if (normalizedId) {
     const byId = await getVariableById(normalizedId)
     if (byId?.id) {
@@ -269,14 +315,24 @@ export async function resolveColorVariableForPreset(
     }
   }
 
-  // Strategy 2: Find in local variables
+  // Strategy 2: Import by key (most reliable — keys survive renames)
+  const variableKey = extractVariableKey(rawId)
+  if (variableKey) {
+    const byKey = await importVariableByKey(variableKey)
+    if (byKey?.id) {
+      logDebug("resolveColorVariable", `Imported variable by key for ${preset}`, { id: byKey.id, key: variableKey })
+      return byKey.id
+    }
+  }
+
+  // Strategy 3: Find in local variables by name
   const local = await findLocalVariableByName(nameCandidates)
   if (local?.id) {
     logDebug("resolveColorVariable", `Found local variable for ${preset}`, { id: local.id })
     return local.id
   }
 
-  // Strategy 3: Import from library
+  // Strategy 4: Import from library by name search
   const imported = await importVariableFromLibrary(nameCandidates)
   if (imported?.id) {
     logDebug("resolveColorVariable", `Imported variable for ${preset}`, { id: imported.id })

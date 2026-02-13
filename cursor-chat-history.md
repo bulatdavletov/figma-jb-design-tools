@@ -848,6 +848,21 @@
 
 ---
 
+## Mockup Markup Tool
+
+### 2026-02-13 — Color variables broken (all 3 fail to resolve)
+- Bug: All 3 color presets (text, text-secondary, purple) fail to resolve. Color swatches show empty, Apply only applies typography.
+- Root cause: Variables were **renamed** in the "Mockup markup" library from title-case to kebab-case (`Markup Text` → `markup-text`, etc.). The **variable keys stayed the same** but the old name candidates didn't match.
+- Additional issue: `import-once.ts` had a stale cache (`v2`) that stored "imported = true" for old IDs.
+- Fix step 1: Added debug logging to `resolve.ts` → `importVariableFromLibrary()`. User extracted actual variable names/keys from console.
+- Fix step 2: Bumped import cache version to `v3`.
+- **Fix step 3 (final)**: Added `importVariableByKeyAsync(key)` as Strategy 2 in `resolveColorVariableForPreset()` — this uses the hash from the raw VariableID (which IS the variable key) to import directly, bypassing name matching entirely. This is now the primary resolution path after direct ID lookup fails.
+- Also updated name candidates in `presets.ts` to include new kebab-case names (`markup-text`, `markup-text-secondary`, `markup-text-purple`) as fallback.
+- Key insight: The hash in `VariableID:<hash>/<nodeId>` is the variable's stable key across renames. Using `importVariableByKeyAsync(key)` is the most robust approach (same pattern already used for text styles).
+- Verification: `npm run build` passed.
+
+---
+
 ## General workflow / safety Q&A
 
 ### 2026-02-11

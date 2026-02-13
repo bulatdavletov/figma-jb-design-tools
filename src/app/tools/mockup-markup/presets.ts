@@ -46,11 +46,11 @@ export function getColorPresetLabel(preset: MockupMarkupColorPreset): string {
 export function getColorVariableNameCandidates(preset: MockupMarkupColorPreset): string[] {
   switch (preset) {
     case "text":
-      return ["Markup Text", "Text"]
+      return ["markup-text", "Markup Text", "Text"]
     case "text-secondary":
-      return ["Markup Text Secondary", "Text Secondary", "Markup Text secondary", "Text secondary"]
+      return ["markup-text-secondary", "Markup Text Secondary", "Text Secondary", "Markup Text secondary", "Text secondary"]
     case "purple":
-      return ["Markup Purple", "Purple"]
+      return ["markup-text-purple", "Markup Purple", "Purple"]
   }
 }
 
