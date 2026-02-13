@@ -1,6 +1,5 @@
-build/
-build/main.js
-build/ui.js
-
 # OpenMemory - IDE/Assistant specific rules
 .cursor/rules/openmemory.mdc
+
+/build/
+/.idea/
