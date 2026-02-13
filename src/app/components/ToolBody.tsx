@@ -33,7 +33,7 @@ export function ToolBody(props: {
       }}
     >
       <Container
-        space="small"
+        space="medium"
         style={
           resolvedScroll
             ? undefined /* content mode: normal block flow so heights aren't flex-shrunk */

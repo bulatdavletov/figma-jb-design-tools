@@ -11,17 +11,6 @@ export type ColorRowAction = {
   disabled?: boolean
 }
 
-function getActionWidth(action: ColorRowAction): number {
-  return action.kind === "button" ? 52 : 24
-}
-
-function getActionSlotWidth(actions: Array<ColorRowAction>): number {
-  if (actions.length === 0) return 0
-  const itemWidths = actions.reduce((sum, action) => sum + getActionWidth(action), 0)
-  const gapWidth = (actions.length - 1) * 6
-  return itemWidths + gapWidth
-}
-
 export function ColorRow(props: {
   title: string
   icon?: preact.ComponentChildren
@@ -32,7 +21,6 @@ export function ColorRow(props: {
   const [hovered, setHovered] = useState(false)
   const actions = Array.isArray(props.actions) ? props.actions : []
   const hasActions = actions.length > 0
-  const actionsSlotWidth = getActionSlotWidth(actions)
 
   return (
     <div
@@ -92,8 +80,7 @@ export function ColorRow(props: {
             alignItems: "center",
             justifyContent: "flex-end",
             gap: 6,
-            width: actionsSlotWidth,
-            minWidth: actionsSlotWidth,
+            flexShrink: 0,
             opacity: hovered ? 1 : 0,
             pointerEvents: hovered ? "auto" : "none",
             transition: "opacity 120ms ease",
@@ -126,8 +113,8 @@ export function ColorRow(props: {
                 title={action.label}
                 style={{
                   height: 20,
-                  minWidth: 52,
                   padding: "0 6px",
+                  whiteSpace: "nowrap",
                   border: "1px solid var(--figma-color-border)",
                   background: "var(--figma-color-bg)",
                   color: "var(--figma-color-text)",

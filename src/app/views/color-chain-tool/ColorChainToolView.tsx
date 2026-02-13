@@ -251,7 +251,7 @@ export function ColorChainToolView(props: { onBack: () => void; initialSelection
                       const stepActions: Array<ColorRowAction> = [
                         {
                           id: `${stepRowId}:replace`,
-                          label: "Swap",
+                          label: "Apply Color",
                           kind: "button",
                           disabled:
                             replaceBusyRowId != null ||

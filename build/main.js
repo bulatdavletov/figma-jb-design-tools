@@ -538,12 +538,12 @@ function registerColorChainTool(getActiveTool) {
         return true;
       }
       if (msg.type === UI_TO_MAIN.COLOR_CHAIN_REPLACE_MAIN_COLOR) {
-        const { sourceName, targetName, nodesChanged, bindingsChanged } = await replaceVariableUsagesInSelection(
+        const { targetName } = await replaceVariableUsagesInSelection(
           msg.request.sourceVariableId,
           msg.request.targetVariableId
         );
         figma.notify(
-          `Replaced usages: "${sourceName}" -> "${targetName}" (${bindingsChanged} bindings in ${nodesChanged} layers)`
+          `Applied ${targetName}`
         );
         await sendUpdate();
         return true;

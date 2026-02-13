@@ -35,6 +35,38 @@ type Props = {
   initialSelectionEmpty: boolean
 }
 
+function downloadTextFile(filename: string, text: string) {
+  const blob = new Blob([text], { type: "application/json;charset=utf-8" })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement("a")
+  a.href = url
+  a.download = filename
+  document.body.appendChild(a)
+  a.click()
+  a.remove()
+  URL.revokeObjectURL(url)
+}
+
+function getExampleMappingJsonText(): string {
+  const example = {
+    version: 1,
+    collectionName: "Semantic colors",
+    replacements: [
+      { from: "control/control-text", to: "text/text-default" },
+      { from: "control/control-text-secondary", to: "text/text-secondary" },
+      { from: "control/control-text-disabled", to: "text/text-disabled" },
+      { from: "control/control-text-muted", to: "text/text-muted" },
+      { from: "control/control-text-over-accent", to: "text/text-over-accent" },
+      { from: "toolbar/toolbar-text", to: "text/text-default" },
+      { from: "toolbar/toolbar-text-secondary", to: "text/text-secondary" },
+      { from: "toolbar/toolbar-text-disabled", to: "text/text-disabled" },
+      { from: "feedback/feedback-text", to: "text/text-default" },
+      { from: "feedback/feedback-text-bright", to: "text/text-bright" },
+    ],
+  }
+  return JSON.stringify(example, null, 2)
+}
+
 function getStatusPillStyle(status: string): {
   background: string
   borderColor: string
@@ -281,6 +313,15 @@ export function VariablesReplaceUsagesToolView({ onBack, initialSelectionEmpty }
             >
               {mappingFilename ? `Loaded: ${mappingFilename}` : "Choose mapping JSON file…"}
             </FileUploadButton>
+            <Button
+              secondary
+              onClick={() => {
+                downloadTextFile("usages-mapping-example.json", getExampleMappingJsonText())
+                setSuccessMessage("Downloaded example mapping JSON.")
+              }}
+            >
+              Get example JSON file
+            </Button>
           </Stack>
 
           <Inline space="extraSmall">

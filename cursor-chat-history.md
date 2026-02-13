@@ -38,6 +38,12 @@
 
 ### 2026-02-12
 
+#### Replace Variable Usages — add "Get example JSON file" button
+- Request: original `variables-rename-helper` plugin had a "Get example JSON file" button in the Usages tab; the new `VariablesReplaceUsagesToolView` was missing it.
+- Done: added `downloadTextFile` helper + `getExampleMappingJsonText()` (same example data as original plugin) + "Get example JSON file" secondary button next to the file upload area.
+- Safety: purely additive; no change to existing flow.
+- Verification: `npm run build` passed; no linter errors.
+
 #### Print Color Usages — no-color fallback behavior adjustment
 - Request: do not create a text layer when no colors are found; use notification only. Also clarify meaning of “plugin data saved on printed layer” in spec.
 - Safety expectation: better UX (less canvas noise); should not affect normal successful print flow.

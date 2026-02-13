@@ -691,10 +691,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c456cbc3-6e7e-4775-8fa5-03242406a5d5/loading-indicator.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/50d4cdaa-1b31-4537-89e9-ee30020a4488/loading-indicator.module.js
   var loading_indicator_module_default;
   var init_loading_indicator_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c456cbc3-6e7e-4775-8fa5-03242406a5d5/loading-indicator.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/50d4cdaa-1b31-4537-89e9-ee30020a4488/loading-indicator.module.js"() {
       if (document.getElementById("3fe0db8eb7") === null) {
         const element = document.createElement("style");
         element.id = "3fe0db8eb7";
@@ -755,10 +755,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ae158265-d7a3-4e59-b6d9-b2fac280a0f6/button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9aefa46f-3535-4154-8c4d-d5d90c78dd69/button.module.js
   var button_module_default;
   var init_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ae158265-d7a3-4e59-b6d9-b2fac280a0f6/button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9aefa46f-3535-4154-8c4d-d5d90c78dd69/button.module.js"() {
       if (document.getElementById("1dddd0e4df") === null) {
         const element = document.createElement("style");
         element.id = "1dddd0e4df";
@@ -1027,10 +1027,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/33e74246-f6d3-433f-8ce3-5127045e1258/checkbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/95d8e537-f3aa-4bbc-a4f1-2103f4323ef7/checkbox.module.js
   var checkbox_module_default;
   var init_checkbox_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/33e74246-f6d3-433f-8ce3-5127045e1258/checkbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/95d8e537-f3aa-4bbc-a4f1-2103f4323ef7/checkbox.module.js"() {
       if (document.getElementById("f38d076240") === null) {
         const element = document.createElement("style");
         element.id = "f38d076240";
@@ -1179,10 +1179,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b2010164-5a85-449b-8733-a0efaff4dd01/divider.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/fe3cf8df-60d6-4773-ae24-29d96fecee95/divider.module.js
   var divider_module_default;
   var init_divider_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b2010164-5a85-449b-8733-a0efaff4dd01/divider.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/fe3cf8df-60d6-4773-ae24-29d96fecee95/divider.module.js"() {
       if (document.getElementById("4bf06403b9") === null) {
         const element = document.createElement("style");
         element.id = "4bf06403b9";
@@ -1212,10 +1212,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/cad077a6-078e-42b6-adfd-c3fcd29c04c6/menu.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9c0b14c0-9fe0-4f5d-803b-497412819414/menu.module.js
   var menu_module_default;
   var init_menu_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/cad077a6-078e-42b6-adfd-c3fcd29c04c6/menu.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9c0b14c0-9fe0-4f5d-803b-497412819414/menu.module.js"() {
       if (document.getElementById("29044db304") === null) {
         const element = document.createElement("style");
         element.id = "29044db304";
@@ -1438,10 +1438,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1f58f63e-017f-4a18-b1f4-a9e69f93548f/dropdown.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/76fd9c99-5d27-40c7-b6df-73e02604d895/dropdown.module.js
   var dropdown_module_default;
   var init_dropdown_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1f58f63e-017f-4a18-b1f4-a9e69f93548f/dropdown.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/76fd9c99-5d27-40c7-b6df-73e02604d895/dropdown.module.js"() {
       if (document.getElementById("5a226eb00e") === null) {
         const element = document.createElement("style");
         element.id = "5a226eb00e";
@@ -1882,10 +1882,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2fd39b5b-98fb-41c3-a7b4-e85724180c06/button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/081a3fd3-d531-4531-a417-cb65b4ac49dc/button.module.js
   var button_module_default2;
   var init_button_module2 = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2fd39b5b-98fb-41c3-a7b4-e85724180c06/button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/081a3fd3-d531-4531-a417-cb65b4ac49dc/button.module.js"() {
       if (document.getElementById("1dddd0e4df") === null) {
         const element = document.createElement("style");
         element.id = "1dddd0e4df";
@@ -2049,10 +2049,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/05811615-4bd5-4e51-b621-2ab8ea1ecaef/file-upload-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b1c9bec5-befd-494a-8496-fd2970d66bcb/file-upload-button.module.js
   var file_upload_button_module_default;
   var init_file_upload_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/05811615-4bd5-4e51-b621-2ab8ea1ecaef/file-upload-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b1c9bec5-befd-494a-8496-fd2970d66bcb/file-upload-button.module.js"() {
       if (document.getElementById("f115bb30c8") === null) {
         const element = document.createElement("style");
         element.id = "f115bb30c8";
@@ -2167,10 +2167,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8eb36c36-fc88-4fa7-b524-fbad943ce17b/icon-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6441f73f-15f0-42f6-ad1e-0d3bc16912eb/icon-button.module.js
   var icon_button_module_default;
   var init_icon_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8eb36c36-fc88-4fa7-b524-fbad943ce17b/icon-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6441f73f-15f0-42f6-ad1e-0d3bc16912eb/icon-button.module.js"() {
       if (document.getElementById("c8b08e6568") === null) {
         const element = document.createElement("style");
         element.id = "c8b08e6568";
@@ -2248,10 +2248,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/22f50801-1dcf-4879-b31b-8590edd784f7/text.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/85ea07ee-79ef-492e-a2f6-50e23a658c99/text.module.js
   var text_module_default;
   var init_text_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/22f50801-1dcf-4879-b31b-8590edd784f7/text.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/85ea07ee-79ef-492e-a2f6-50e23a658c99/text.module.js"() {
       if (document.getElementById("1278016d5c") === null) {
         const element = document.createElement("style");
         element.id = "1278016d5c";
@@ -2309,10 +2309,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b7f464a6-0d20-457e-a11f-3b81aaa3575d/inline.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/33e0774b-1721-4ccd-95d6-cda82ea22988/inline.module.js
   var inline_module_default;
   var init_inline_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b7f464a6-0d20-457e-a11f-3b81aaa3575d/inline.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/33e0774b-1721-4ccd-95d6-cda82ea22988/inline.module.js"() {
       if (document.getElementById("3e1b2856fc") === null) {
         const element = document.createElement("style");
         element.id = "3e1b2856fc";
@@ -2374,10 +2374,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/bd7e81d4-7194-48bf-8208-c52f23b7310a/stack.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1e447cb3-7177-4222-ba20-678e83b486f1/stack.module.js
   var stack_module_default;
   var init_stack_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/bd7e81d4-7194-48bf-8208-c52f23b7310a/stack.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1e447cb3-7177-4222-ba20-678e83b486f1/stack.module.js"() {
       if (document.getElementById("317515cc3f") === null) {
         const element = document.createElement("style");
         element.id = "317515cc3f";
@@ -2420,10 +2420,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/251ceccc-a445-4244-bda9-62d2e462e26a/radio-buttons.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/31233ae1-9e38-4ca4-86b0-67b295678b87/radio-buttons.module.js
   var radio_buttons_module_default;
   var init_radio_buttons_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/251ceccc-a445-4244-bda9-62d2e462e26a/radio-buttons.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/31233ae1-9e38-4ca4-86b0-67b295678b87/radio-buttons.module.js"() {
       if (document.getElementById("a066c67891") === null) {
         const element = document.createElement("style");
         element.id = "a066c67891";
@@ -2542,10 +2542,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/832efe52-65a6-4867-b673-8ccd1cabb930/segmented-control.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f8cafff4-2981-400b-950d-01088c69f0f1/segmented-control.module.js
   var segmented_control_module_default;
   var init_segmented_control_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/832efe52-65a6-4867-b673-8ccd1cabb930/segmented-control.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f8cafff4-2981-400b-950d-01088c69f0f1/segmented-control.module.js"() {
       if (document.getElementById("bc6858a1b5") === null) {
         const element = document.createElement("style");
         element.id = "bc6858a1b5";
@@ -2646,10 +2646,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8872287f-edab-454a-8416-e832af640cd2/tabs.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7cadb1e5-78c2-4537-94ff-623348695ed2/tabs.module.js
   var tabs_module_default;
   var init_tabs_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8872287f-edab-454a-8416-e832af640cd2/tabs.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7cadb1e5-78c2-4537-94ff-623348695ed2/tabs.module.js"() {
       if (document.getElementById("b2487bb7e6") === null) {
         const element = document.createElement("style");
         element.id = "b2487bb7e6";
@@ -2866,10 +2866,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2e3869d9-47d6-4855-a226-2d6172c5fd56/textbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/86c0fded-a00b-40d6-92ba-a8c93064e845/textbox.module.js
   var textbox_module_default;
   var init_textbox_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2e3869d9-47d6-4855-a226-2d6172c5fd56/textbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/86c0fded-a00b-40d6-92ba-a8c93064e845/textbox.module.js"() {
       if (document.getElementById("5c1c5c2d3d") === null) {
         const element = document.createElement("style");
         element.id = "5c1c5c2d3d";
@@ -3122,10 +3122,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/252987d1-535f-42f5-9f2b-a354326661b6/container.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/04a02370-2faf-4311-89cc-13506ef6ccf9/container.module.js
   var container_module_default;
   var init_container_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/252987d1-535f-42f5-9f2b-a354326661b6/container.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/04a02370-2faf-4311-89cc-13506ef6ccf9/container.module.js"() {
       if (document.getElementById("b49e1406f9") === null) {
         const element = document.createElement("style");
         element.id = "b49e1406f9";
@@ -3166,10 +3166,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b9f02770-9a40-4ca5-a0f4-6e30150bc220/vertical-space.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/089cc318-b4b1-49d0-8991-3023dd6a8575/vertical-space.module.js
   var vertical_space_module_default;
   var init_vertical_space_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b9f02770-9a40-4ca5-a0f4-6e30150bc220/vertical-space.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/089cc318-b4b1-49d0-8991-3023dd6a8575/vertical-space.module.js"() {
       if (document.getElementById("ba0eea5114") === null) {
         const element = document.createElement("style");
         element.id = "ba0eea5114";
@@ -3210,9 +3210,9 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/790722bb-3fdf-4807-a128-37e7484d11ca/base.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/213a050b-13eb-466d-9cf5-08543f6969c1/base.js
   var init_base = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/790722bb-3fdf-4807-a128-37e7484d11ca/base.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/213a050b-13eb-466d-9cf5-08543f6969c1/base.js"() {
       if (document.getElementById("0597dd81e7") === null) {
         const element = document.createElement("style");
         element.id = "0597dd81e7";
@@ -3527,21 +3527,11 @@ svg {
   });
 
   // src/app/components/ColorRow.tsx
-  function getActionWidth(action) {
-    return action.kind === "button" ? 52 : 24;
-  }
-  function getActionSlotWidth(actions) {
-    if (actions.length === 0) return 0;
-    const itemWidths = actions.reduce((sum, action) => sum + getActionWidth(action), 0);
-    const gapWidth = (actions.length - 1) * 6;
-    return itemWidths + gapWidth;
-  }
   function ColorRow(props) {
     var _a;
     const [hovered, setHovered] = d2(false);
     const actions = Array.isArray(props.actions) ? props.actions : [];
     const hasActions = actions.length > 0;
-    const actionsSlotWidth = getActionSlotWidth(actions);
     return /* @__PURE__ */ _(
       "div",
       {
@@ -3597,8 +3587,7 @@ svg {
             alignItems: "center",
             justifyContent: "flex-end",
             gap: 6,
-            width: actionsSlotWidth,
-            minWidth: actionsSlotWidth,
+            flexShrink: 0,
             opacity: hovered ? 1 : 0,
             pointerEvents: hovered ? "auto" : "none",
             transition: "opacity 120ms ease"
@@ -3634,8 +3623,8 @@ svg {
                 title: action.label,
                 style: {
                   height: 20,
-                  minWidth: 52,
                   padding: "0 6px",
+                  whiteSpace: "nowrap",
                   border: "1px solid var(--figma-color-border)",
                   background: "var(--figma-color-bg)",
                   color: "var(--figma-color-text)",
@@ -3781,7 +3770,7 @@ svg {
       /* @__PURE__ */ _(
         Container,
         {
-          space: "small",
+          space: "medium",
           style: resolvedScroll ? void 0 : {
             flex: 1,
             minHeight: 0,
@@ -3994,7 +3983,7 @@ svg {
             const stepActions = [
               {
                 id: `${stepRowId}:replace`,
-                label: "Swap",
+                label: "Apply Color",
                 kind: "button",
                 disabled: replaceBusyRowId != null || stepVariableId == null || stepVariableId === c3.variableId,
                 onClick: () => {
@@ -4595,7 +4584,7 @@ svg {
 
   // src/app/components/ToolTabs.tsx
   function ToolTabs({ value, onValueChange, options }) {
-    return /* @__PURE__ */ _("div", { style: { paddingLeft: 4 } }, /* @__PURE__ */ _(Tabs, { value, onValueChange, options }));
+    return /* @__PURE__ */ _("div", { style: { paddingLeft: 4 }, "data-tool-tabs": true }, /* @__PURE__ */ _(Tabs, { value, onValueChange, options }), /* @__PURE__ */ _("style", null, `[data-tool-tabs] > div:first-child { border-bottom: none; }`));
   }
   var init_ToolTabs = __esm({
     "src/app/components/ToolTabs.tsx"() {
@@ -6169,6 +6158,36 @@ svg {
   });
 
   // src/app/views/variables-replace-usages-tool/VariablesReplaceUsagesToolView.tsx
+  function downloadTextFile3(filename, text) {
+    const blob = new Blob([text], { type: "application/json;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a3 = document.createElement("a");
+    a3.href = url;
+    a3.download = filename;
+    document.body.appendChild(a3);
+    a3.click();
+    a3.remove();
+    URL.revokeObjectURL(url);
+  }
+  function getExampleMappingJsonText() {
+    const example = {
+      version: 1,
+      collectionName: "Semantic colors",
+      replacements: [
+        { from: "control/control-text", to: "text/text-default" },
+        { from: "control/control-text-secondary", to: "text/text-secondary" },
+        { from: "control/control-text-disabled", to: "text/text-disabled" },
+        { from: "control/control-text-muted", to: "text/text-muted" },
+        { from: "control/control-text-over-accent", to: "text/text-over-accent" },
+        { from: "toolbar/toolbar-text", to: "text/text-default" },
+        { from: "toolbar/toolbar-text-secondary", to: "text/text-secondary" },
+        { from: "toolbar/toolbar-text-disabled", to: "text/text-disabled" },
+        { from: "feedback/feedback-text", to: "text/text-default" },
+        { from: "feedback/feedback-text-bright", to: "text/text-bright" }
+      ]
+    };
+    return JSON.stringify(example, null, 2);
+  }
   function getStatusPillStyle3(status) {
     if (status === "ok") {
       return { background: "#ecfdf3", borderColor: "#b7f0c9", color: "#067647" };
@@ -6327,6 +6346,16 @@ svg {
         onSelectedFiles: handleLoadMappingFile
       },
       mappingFilename ? `Loaded: ${mappingFilename}` : "Choose mapping JSON file\u2026"
+    ), /* @__PURE__ */ _(
+      Button,
+      {
+        secondary: true,
+        onClick: () => {
+          downloadTextFile3("usages-mapping-example.json", getExampleMappingJsonText());
+          setSuccessMessage("Downloaded example mapping JSON.");
+        }
+      },
+      "Get example JSON file"
     )), /* @__PURE__ */ _(Inline, { space: "extraSmall" }, /* @__PURE__ */ _(Button, { onClick: handlePreview, disabled: !mappingJsonText.trim() || isBusy }, isBusy && stage === "preview" ? "Previewing..." : "Preview"), /* @__PURE__ */ _(Button, { onClick: handleApply, disabled: !canApply || isBusy }, isBusy && stage === "apply" ? "Applying..." : "Apply Replacements")), isBusy && /* @__PURE__ */ _(Inline, { space: "extraSmall" }, /* @__PURE__ */ _(LoadingIndicator, null), /* @__PURE__ */ _(Text, null, stage === "apply" ? `Applying... ${applyProgress ? `${applyProgress.current} / ${applyProgress.total}` : ""}` : "Building preview..."))), /* @__PURE__ */ _(VerticalSpace, { space: "large" }), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(VerticalSpace, { space: "medium" }), preview && /* @__PURE__ */ _(Stack, { space: "medium" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Preview Results"), /* @__PURE__ */ _(
       "div",
       {
