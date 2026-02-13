@@ -802,6 +802,52 @@
 
 ---
 
+## Library Swap Tool
+
+### 2026-02-13
+- Goal: Add a new "Library Swap" tool to migrate component instances from old libraries to new ones using component key mappings.
+- Merged from separate `figma-icon-libraries-swap` plugin (Swap tab only).
+- Built-in JetBrains Icons mapping (~15K pairs from `Exports/mapping.json`) embedded as `default-icon-mapping.json`.
+- Also supports importing custom mapping JSON files via `FileUploadButton`.
+- Files created:
+  - Entry: `src/library-swap-tool/main.ts`
+  - Main thread: `src/app/tools/library-swap/main-thread.ts` (registerLibrarySwapTool)
+  - Swap logic: `src/app/tools/library-swap/swap-logic.ts` (analyze, swap, preview, clear)
+  - Types: `src/app/tools/library-swap/mapping-types.ts` (MappingV1/V2/V3, validators, merge)
+  - Default mapping: `src/app/tools/library-swap/default-icon-mapping.json`
+  - UI: `src/app/views/library-swap-tool/LibrarySwapToolView.tsx`
+- Modified: `messages.ts`, `run.ts`, `ui.tsx`, `HomeView.tsx` (new "Migration" section), `package.json`
+- Added `resolveJsonModule: true` to `tsconfig.json` for JSON imports.
+- Build passes cleanly.
+- Plan to also generate UI Kit component mapping (Int UI Kit → Islands) with ~625 pairs using name matching with Theme property stripping.
+
+### 2026-02-13 (continued)
+- Analyze now shows a DataTable with per-instance preview (Instance, Page, Old Component, New Component columns).
+- Added `mergeMappingMeta()` to extract display names from v2/v3 mapping schemas.
+- `analyzeSwap()` now returns `items[]` (capped at 200) with nodeId, instanceName, pageName, oldComponentName, newComponentName.
+- `LibrarySwapAnalyzeResultPayload` in messages.ts updated with `LibrarySwapAnalyzeItem[]`.
+- DataTable rows are clickable to focus on the instance in the canvas.
+- Summary line shows counts + "showing first N" when capped.
+
+### 2026-02-13 (Manual Pairs + Preview Fix)
+- **Manual pair capture**: Added "Capture Old" / "Capture New" workflow for manually creating mapping pairs from canvas selection.
+  - Two buttons in UI; user selects an instance, clicks Capture Old or Capture New (any order).
+  - Once both slots are filled, auto-creates a pair. Same-component rejected with error.
+  - Pairs shown in a DataTable with remove buttons. "Export mapping" button downloads as v2 JSON.
+  - Manual pairs integrated into `collectSources` as highest-priority synthetic MappingV2.
+- **New messages**: `LIBRARY_SWAP_CAPTURE_OLD`, `LIBRARY_SWAP_CAPTURE_NEW`, `LIBRARY_SWAP_REMOVE_PAIR` (UI→Main); `LIBRARY_SWAP_CAPTURE_RESULT`, `LIBRARY_SWAP_PAIRS_UPDATED` (Main→UI).
+- **New type**: `ManualPair { oldKey, newKey, oldName, newName }`.
+- **Preview frame fix**: Changed from unreadable white-on-white to structured layout with:
+  - Light gray (#F5F5F5) background instead of white 50% opacity.
+  - Header row: "Component", "Before", "After" labels.
+  - Each row: component name label, old clone, arrow "→", new clone.
+  - Row separators between entries.
+  - Named rows in layers panel: "OldName → NewName".
+- **Merge script**: `scripts/merge-mapping.cjs` -- merges exported JSON into built-in default files (`icons` or `uikit`).
+- Build passes cleanly.
+
+---
+
 ## General workflow / safety Q&A
 
 ### 2026-02-11

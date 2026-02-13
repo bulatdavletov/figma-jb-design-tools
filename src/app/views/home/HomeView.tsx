@@ -1,5 +1,6 @@
 import {
   Container,
+  IconLibrary16,
   IconLink16,
   IconShapeText16,
   IconText16,
@@ -25,6 +26,7 @@ type Route =
   | "variables-export-import-tool"
   | "variables-create-linked-colors-tool"
   | "variables-replace-usages-tool"
+  | "library-swap-tool"
 
 const sectionTitleStyle = { fontWeight: 600 } as const
 
@@ -86,6 +88,19 @@ export function HomeView(props: { goTo: (route: Route) => void }) {
               description="Replace variable bindings in selection with different variables"
               icon={<IconAdjust16 />}
               onClick={() => props.goTo("variables-replace-usages-tool")}
+            />
+          </Stack>
+
+          <VerticalSpace space="large" />
+            <Text style={sectionTitleStyle}>Migration</Text>
+            <VerticalSpace space="small" />
+
+          <Stack space="extraSmall">
+            <ToolCard
+              title="Library Swap"
+              description="Swap component instances from old libraries to new ones"
+              icon={<IconLibrary16 />}
+              onClick={() => props.goTo("library-swap-tool")}
             />
           </Stack>
         <VerticalSpace space="small" />

@@ -30,6 +30,16 @@ export const UI_TO_MAIN = {
   // Variables Replace Usages
   REPLACE_USAGES_PREVIEW: "REPLACE_USAGES_PREVIEW",
   REPLACE_USAGES_APPLY: "REPLACE_USAGES_APPLY",
+  // Library Swap
+  LIBRARY_SWAP_ANALYZE: "LIBRARY_SWAP_ANALYZE",
+  LIBRARY_SWAP_PREVIEW: "LIBRARY_SWAP_PREVIEW",
+  LIBRARY_SWAP_APPLY: "LIBRARY_SWAP_APPLY",
+  LIBRARY_SWAP_CLEAR_PREVIEWS: "LIBRARY_SWAP_CLEAR_PREVIEWS",
+  LIBRARY_SWAP_SET_CUSTOM_MAPPING: "LIBRARY_SWAP_SET_CUSTOM_MAPPING",
+  LIBRARY_SWAP_FOCUS_NODE: "LIBRARY_SWAP_FOCUS_NODE",
+  LIBRARY_SWAP_CAPTURE_OLD: "LIBRARY_SWAP_CAPTURE_OLD",
+  LIBRARY_SWAP_CAPTURE_NEW: "LIBRARY_SWAP_CAPTURE_NEW",
+  LIBRARY_SWAP_REMOVE_PAIR: "LIBRARY_SWAP_REMOVE_PAIR",
 } as const
 
 export const MAIN_TO_UI = {
@@ -68,6 +78,14 @@ export const MAIN_TO_UI = {
   REPLACE_USAGES_PREVIEW: "REPLACE_USAGES_PREVIEW",
   REPLACE_USAGES_APPLY_PROGRESS: "REPLACE_USAGES_APPLY_PROGRESS",
   REPLACE_USAGES_APPLY_RESULT: "REPLACE_USAGES_APPLY_RESULT",
+  // Library Swap
+  LIBRARY_SWAP_SELECTION: "LIBRARY_SWAP_SELECTION",
+  LIBRARY_SWAP_ANALYZE_RESULT: "LIBRARY_SWAP_ANALYZE_RESULT",
+  LIBRARY_SWAP_PROGRESS: "LIBRARY_SWAP_PROGRESS",
+  LIBRARY_SWAP_APPLY_RESULT: "LIBRARY_SWAP_APPLY_RESULT",
+  LIBRARY_SWAP_PREVIEW_RESULT: "LIBRARY_SWAP_PREVIEW_RESULT",
+  LIBRARY_SWAP_CAPTURE_RESULT: "LIBRARY_SWAP_CAPTURE_RESULT",
+  LIBRARY_SWAP_PAIRS_UPDATED: "LIBRARY_SWAP_PAIRS_UPDATED",
 } as const
 
 export type UiToMainMessage =
@@ -102,6 +120,16 @@ export type UiToMainMessage =
   // Variables Replace Usages
   | { type: typeof UI_TO_MAIN.REPLACE_USAGES_PREVIEW; request: ReplaceUsagesPreviewRequest }
   | { type: typeof UI_TO_MAIN.REPLACE_USAGES_APPLY; request: ReplaceUsagesApplyRequest }
+  // Library Swap
+  | { type: typeof UI_TO_MAIN.LIBRARY_SWAP_ANALYZE; request: LibrarySwapAnalyzeRequest }
+  | { type: typeof UI_TO_MAIN.LIBRARY_SWAP_PREVIEW; request: LibrarySwapPreviewRequest }
+  | { type: typeof UI_TO_MAIN.LIBRARY_SWAP_APPLY; request: LibrarySwapApplyRequest }
+  | { type: typeof UI_TO_MAIN.LIBRARY_SWAP_CLEAR_PREVIEWS }
+  | { type: typeof UI_TO_MAIN.LIBRARY_SWAP_SET_CUSTOM_MAPPING; jsonText: string }
+  | { type: typeof UI_TO_MAIN.LIBRARY_SWAP_FOCUS_NODE; nodeId: string }
+  | { type: typeof UI_TO_MAIN.LIBRARY_SWAP_CAPTURE_OLD }
+  | { type: typeof UI_TO_MAIN.LIBRARY_SWAP_CAPTURE_NEW }
+  | { type: typeof UI_TO_MAIN.LIBRARY_SWAP_REMOVE_PAIR; oldKey: string }
 
 export type ActiveTool =
   | "home"
@@ -112,6 +140,7 @@ export type ActiveTool =
   | "variables-batch-rename-tool"
   | "variables-create-linked-colors-tool"
   | "variables-replace-usages-tool"
+  | "library-swap-tool"
 
 export type PrintColorUsagesUiSettings = {
   textPosition: "left" | "right"
@@ -303,6 +332,14 @@ export type MainToUiMessage =
   | { type: typeof MAIN_TO_UI.REPLACE_USAGES_PREVIEW; payload: ReplaceUsagesPreviewPayload }
   | { type: typeof MAIN_TO_UI.REPLACE_USAGES_APPLY_PROGRESS; progress: ReplaceUsagesProgress }
   | { type: typeof MAIN_TO_UI.REPLACE_USAGES_APPLY_RESULT; payload: ReplaceUsagesApplyResultPayload }
+  // Library Swap
+  | { type: typeof MAIN_TO_UI.LIBRARY_SWAP_SELECTION; selectionSize: number }
+  | { type: typeof MAIN_TO_UI.LIBRARY_SWAP_ANALYZE_RESULT; payload: LibrarySwapAnalyzeResultPayload }
+  | { type: typeof MAIN_TO_UI.LIBRARY_SWAP_PROGRESS; progress: LibrarySwapProgress }
+  | { type: typeof MAIN_TO_UI.LIBRARY_SWAP_APPLY_RESULT; payload: LibrarySwapApplyResultPayload }
+  | { type: typeof MAIN_TO_UI.LIBRARY_SWAP_PREVIEW_RESULT; previewed: number }
+  | { type: typeof MAIN_TO_UI.LIBRARY_SWAP_CAPTURE_RESULT; side: "old" | "new"; name: string | null }
+  | { type: typeof MAIN_TO_UI.LIBRARY_SWAP_PAIRS_UPDATED; pairs: ManualPair[] }
 
 // ============================================================================
 // Variables Batch Rename Types
@@ -761,4 +798,72 @@ export type ReplaceUsagesApplyResult = {
   success: boolean
   replaced: number
   errors: string[]
+}
+
+// ============================================================================
+// Library Swap Types
+// ============================================================================
+
+export type LibrarySwapScope = "selection" | "page" | "all_pages"
+
+export type LibrarySwapAnalyzeRequest = {
+  scope: LibrarySwapScope
+  useBuiltInIcons: boolean
+  useBuiltInUikit: boolean
+  customMappingJsonText?: string
+}
+
+export type LibrarySwapPreviewRequest = {
+  scope: LibrarySwapScope
+  useBuiltInIcons: boolean
+  useBuiltInUikit: boolean
+  customMappingJsonText?: string
+  sampleSize?: number
+}
+
+export type LibrarySwapApplyRequest = {
+  scope: LibrarySwapScope
+  useBuiltInIcons: boolean
+  useBuiltInUikit: boolean
+  customMappingJsonText?: string
+}
+
+export type LibrarySwapAnalyzeItem = {
+  nodeId: string
+  instanceName: string
+  pageName: string
+  oldComponentName: string
+  newComponentName: string
+}
+
+export type LibrarySwapAnalyzeResultPayload = {
+  totalInstances: number
+  mappableInstances: number
+  uniqueOldKeys: number
+  items: LibrarySwapAnalyzeItem[]
+}
+
+export type LibrarySwapProgress = {
+  current: number
+  total: number
+  message: string
+}
+
+export type LibrarySwapSwappedItem = {
+  nodeId: string
+  name: string
+  pageName: string
+}
+
+export type LibrarySwapApplyResultPayload = {
+  swapped: number
+  skipped: number
+  swappedItems: LibrarySwapSwappedItem[]
+}
+
+export type ManualPair = {
+  oldKey: string
+  newKey: string
+  oldName: string
+  newName: string
 }

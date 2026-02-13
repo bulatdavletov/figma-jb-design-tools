@@ -9,6 +9,7 @@ import { registerVariablesBatchRenameTool } from "./tools/variables-batch-rename
 import { registerVariablesExportImportTool } from "./tools/variables-export-import/main-thread"
 import { registerVariablesCreateLinkedColorsTool } from "./tools/variables-create-linked-colors/main-thread"
 import { registerVariablesReplaceUsagesTool } from "./tools/variables-replace-usages/main-thread"
+import { registerLibrarySwapTool } from "./tools/library-swap/main-thread"
 
 function getToolTitle(command: string): string {
   switch (command) {
@@ -26,6 +27,8 @@ function getToolTitle(command: string): string {
       return "Variables Create Linked Colors"
     case "variables-replace-usages-tool":
       return "Variables Replace Usages"
+    case "library-swap-tool":
+      return "Library Swap"
     default:
       return "JetBrains Design Tools"
   }
@@ -49,6 +52,7 @@ export function run(command: string) {
     "variables-batch-rename-tool",
     "variables-create-linked-colors-tool",
     "variables-replace-usages-tool",
+    "library-swap-tool",
   ]
 
   let activeTool: ActiveTool = toolCommands.includes(command as ActiveTool)
@@ -64,6 +68,7 @@ export function run(command: string) {
   const variablesExportImport = registerVariablesExportImportTool(getActiveTool)
   const variablesCreateLinkedColors = registerVariablesCreateLinkedColorsTool(getActiveTool)
   const variablesReplaceUsages = registerVariablesReplaceUsagesTool(getActiveTool)
+  const librarySwap = registerLibrarySwapTool(getActiveTool)
 
   const activate = async (tool: ActiveTool) => {
     activeTool = tool
@@ -95,6 +100,10 @@ export function run(command: string) {
       await variablesReplaceUsages.onActivate()
       return
     }
+    if (tool === "library-swap-tool") {
+      await librarySwap.onActivate()
+      return
+    }
   }
 
   figma.ui.onmessage = async (msg: UiToMainMessage) => {
@@ -122,6 +131,7 @@ export function run(command: string) {
       if (await variablesExportImport.onMessage(msg)) return
       if (await variablesCreateLinkedColors.onMessage(msg)) return
       if (await variablesReplaceUsages.onMessage(msg)) return
+      if (await librarySwap.onMessage(msg)) return
     } catch (e) {
       // eslint-disable-next-line no-console
       console.log("[run] Unhandled error in onmessage", e)

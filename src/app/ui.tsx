@@ -11,6 +11,7 @@ import { VariablesBatchRenameToolView } from "./views/variables-batch-rename-too
 import { VariablesExportImportToolView } from "./views/variables-export-import-tool/VariablesExportImportToolView"
 import { VariablesCreateLinkedColorsToolView } from "./views/variables-create-linked-colors-tool/VariablesCreateLinkedColorsToolView"
 import { VariablesReplaceUsagesToolView } from "./views/variables-replace-usages-tool/VariablesReplaceUsagesToolView"
+import { LibrarySwapToolView } from "./views/library-swap-tool/LibrarySwapToolView"
 
 type Route =
   | "home"
@@ -21,6 +22,7 @@ type Route =
   | "variables-batch-rename-tool"
   | "variables-create-linked-colors-tool"
   | "variables-replace-usages-tool"
+  | "library-swap-tool"
 
 export function App() {
   const [route, setRoute] = useState<Route>("home")
@@ -40,6 +42,7 @@ export function App() {
           "variables-batch-rename-tool",
           "variables-create-linked-colors-tool",
           "variables-replace-usages-tool",
+          "library-swap-tool",
         ]
         setRoute(
           validRoutes.includes(msg.command as Route) ? (msg.command as Route) : "home"
@@ -95,6 +98,15 @@ export function App() {
   if (route === "variables-replace-usages-tool") {
     return (
       <VariablesReplaceUsagesToolView
+        onBack={() => setRoute("home")}
+        initialSelectionEmpty={selectionSize === 0}
+      />
+    )
+  }
+
+  if (route === "library-swap-tool") {
+    return (
+      <LibrarySwapToolView
         onBack={() => setRoute("home")}
         initialSelectionEmpty={selectionSize === 0}
       />

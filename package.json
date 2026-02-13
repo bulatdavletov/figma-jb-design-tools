@@ -80,6 +80,11 @@
         "name": "Variables Replace Usages",
         "main": "src/variables-replace-usages-tool/main.ts",
         "ui": "src/app/ui.tsx"
+      },
+      {
+        "name": "Library Swap",
+        "main": "src/library-swap-tool/main.ts",
+        "ui": "src/app/ui.tsx"
       }
     ]
   }

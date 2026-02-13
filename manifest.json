@@ -39,6 +39,10 @@
     {
       "name": "Variables Replace Usages",
       "command": "src/variables-replace-usages-tool/main.ts--default"
+    },
+    {
+      "name": "Library Swap",
+      "command": "src/library-swap-tool/main.ts--default"
     }
   ],
   "networkAccess": {
