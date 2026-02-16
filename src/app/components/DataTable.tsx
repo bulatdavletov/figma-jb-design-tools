@@ -25,8 +25,8 @@ export type DataTableProps = {
  * Shares the same outer styling as DataList (border, radius) but renders
  * a `<table>` with a sticky header row.
  *
- * Intended to be adopted by Replace Usages, Batch Rename, Export/Import
- * in follow-up work.
+ * Adopted by Replace Usages and Rename via JSON.
+ * Intended to be adopted by Export/Import in follow-up work.
  */
 export function DataTable(props: DataTableProps) {
   return (

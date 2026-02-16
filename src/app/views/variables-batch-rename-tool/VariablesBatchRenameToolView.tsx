@@ -9,7 +9,6 @@ import {
   LoadingIndicator,
   Stack,
   Text,
-  Textbox,
   VerticalSpace,
 } from "@create-figma-plugin/ui"
 import { MIXED_BOOLEAN } from "@create-figma-plugin/utilities"
@@ -27,6 +26,7 @@ import {
   type BatchRenameApplyResultPayload,
   type BatchRenameProgress,
 } from "../../messages"
+import { DataTable, type DataTableColumn } from "../../components/DataTable"
 import { renderInlineDiff } from "../../components/InlineTextDiff"
 import { Page } from "../../components/Page"
 import { ToolBody } from "../../components/ToolBody"
@@ -86,13 +86,19 @@ function getStatusPillStyle(status: BatchRenamePreviewEntryStatus): {
   return { background: "#fff7ed", borderColor: "#fed7aa", color: "#9a3412" }
 }
 
+const previewColumns: DataTableColumn[] = [
+  { label: "Status", width: 72 },
+  { label: "Current" },
+  { label: "New" },
+  { label: "Note" },
+]
+
 export function VariablesBatchRenameToolView({ onBack }: Props) {
   const [collections, setCollections] = useState<VariableCollectionInfo[]>([])
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [successMessage, setSuccessMessage] = useState<string | null>(null)
 
   // Export state
-  const [exportSetName, setExportSetName] = useState("current")
   const [exportIncludeCurrentName, setExportIncludeCurrentName] = useState(true)
   const [exportSelectedCollectionIds, setExportSelectedCollectionIds] = useState<string[]>([])
   const [didInitExportSelection, setDidInitExportSelection] = useState(false)
@@ -239,7 +245,7 @@ export function VariablesBatchRenameToolView({ onBack }: Props) {
         pluginMessage: {
           type: UI_TO_MAIN.BATCH_RENAME_EXPORT_NAME_SET,
           request: {
-            setName: exportSetName.trim(),
+            setName: "",
             description: "",
             collectionIds: selectedCollectionIdsInOptions,
             types: [],
@@ -334,7 +340,7 @@ export function VariablesBatchRenameToolView({ onBack }: Props) {
   return (
     <Page>
       <ToolHeader
-        title="Variables Batch Rename"
+        title="Rename Variables via JSON"
         left={
           <IconButton onClick={onBack} title="Home">
             <IconHome16 />
@@ -359,17 +365,51 @@ export function VariablesBatchRenameToolView({ onBack }: Props) {
             </Fragment>
           )}
 
-          <Stack space="extraSmall">
-            <Text style={{ color: "var(--figma-color-text-secondary)" }}>
-              Export and import rename sets by variable ID.
-            </Text>
-          </Stack>
+          <Text style={{ color: "var(--figma-color-text-secondary)", whiteSpace: "pre-line" }}>
+            {"1. Export variables\n2. Edit names in Code Editor\n3. Import JSON with new names"}
+          </Text>
 
-          <Textbox
-            value={exportSetName}
-            placeholder="Set name"
-            onValueInput={(value: string) => setExportSetName(value)}
-          />
+          <div>
+            {exportCollectionsOptions.length === 0 ? (
+              <Text style={{ color: "var(--figma-color-text-secondary)" }}>
+                No collections loaded yet.
+              </Text>
+            ) : null}
+            {exportCollectionsOptions.length > 0 ? (
+              <Checkbox
+                value={hasSomeCollectionsSelected ? MIXED_BOOLEAN : areAllCollectionsSelected}
+                onValueChange={(next) =>
+                  setExportSelectedCollectionIds(next ? allCollectionIds : [])
+                }
+              >
+                <Text>Collections</Text>
+              </Checkbox>
+            ) : null}
+            <VerticalSpace space="extraSmall" />
+            <Stack space="extraSmall" style={{ marginLeft: 20 }}>
+              {exportCollectionsOptions.map((c) => {
+                const checked = exportSelectedCollectionIds.includes(c.id)
+                return (
+                  <Checkbox
+                    key={c.id}
+                    value={checked}
+                    onValueChange={(next) => {
+                      setExportSelectedCollectionIds((prev) => {
+                        if (next) {
+                          return prev.includes(c.id) ? prev : [...prev, c.id]
+                        }
+                        return prev.filter((id) => id !== c.id)
+                      })
+                    }}
+                  >
+                    <Text>{c.name}</Text>
+                  </Checkbox>
+                )
+              })}
+            </Stack>
+          </div>
+
+          <Divider />
 
           <Checkbox
             value={exportIncludeCurrentName}
@@ -378,53 +418,8 @@ export function VariablesBatchRenameToolView({ onBack }: Props) {
             <Text>Include currentName (for review/editing)</Text>
           </Checkbox>
 
-          <Divider />
-
-          <Stack space="small">
-            <Text>Collections</Text>
-            <div>
-              {exportCollectionsOptions.length === 0 ? (
-                <Text style={{ color: "var(--figma-color-text-secondary)" }}>
-                  No collections loaded yet.
-                </Text>
-              ) : null}
-              {exportCollectionsOptions.length > 0 ? (
-                <Checkbox
-                  value={hasSomeCollectionsSelected ? MIXED_BOOLEAN : areAllCollectionsSelected}
-                  onValueChange={(next) =>
-                    setExportSelectedCollectionIds(next ? allCollectionIds : [])
-                  }
-                >
-                  <Text>Collections</Text>
-                </Checkbox>
-              ) : null}
-              <VerticalSpace space="extraSmall" />
-              <Stack space="extraSmall" style={{ marginLeft: 20 }}>
-                {exportCollectionsOptions.map((c) => {
-                  const checked = exportSelectedCollectionIds.includes(c.id)
-                  return (
-                    <Checkbox
-                      key={c.id}
-                      value={checked}
-                      onValueChange={(next) => {
-                        setExportSelectedCollectionIds((prev) => {
-                          if (next) {
-                            return prev.includes(c.id) ? prev : [...prev, c.id]
-                          }
-                          return prev.filter((id) => id !== c.id)
-                        })
-                      }}
-                    >
-                      <Text>{c.name}</Text>
-                    </Checkbox>
-                  )
-                })}
-              </Stack>
-            </div>
-          </Stack>
-
           <Inline space="extraSmall">
-            <Button disabled={!exportSetName.trim() || selectedCollectionIdsInOptions.length === 0} onClick={handleExport}>
+            <Button disabled={selectedCollectionIdsInOptions.length === 0} onClick={handleExport}>
               Export name set
             </Button>
             <Button
@@ -530,120 +525,52 @@ export function VariablesBatchRenameToolView({ onBack }: Props) {
               <Divider />
 
               {/* Preview Table */}
-              <div
-                style={{
-                  border: "1px solid #e3e3e3",
-                  borderRadius: 6,
-                }}
-              >
-                <table
-                  style={{
-                    width: "100%",
-                    borderCollapse: "collapse",
-                    fontSize: 12,
-                    tableLayout: "fixed",
-                  }}
-                >
-                  <thead>
-                    <tr>
-                      <th
-                        style={{
-                          borderBottom: "1px solid #e3e3e3",
-                          textAlign: "left",
-                          padding: "6px 8px",
-                          position: "sticky",
-                          top: 0,
-                          background: "#fafafa",
-                        }}
-                      >
-                        Status
-                      </th>
-                      <th
-                        style={{
-                          borderBottom: "1px solid #e3e3e3",
-                          textAlign: "left",
-                          padding: "6px 8px",
-                          position: "sticky",
-                          top: 0,
-                          background: "#fafafa",
-                        }}
-                      >
-                        Current
-                      </th>
-                      <th
-                        style={{
-                          borderBottom: "1px solid #e3e3e3",
-                          textAlign: "left",
-                          padding: "6px 8px",
-                          position: "sticky",
-                          top: 0,
-                          background: "#fafafa",
-                        }}
-                      >
-                        New
-                      </th>
-                      <th
-                        style={{
-                          borderBottom: "1px solid #e3e3e3",
-                          textAlign: "left",
-                          padding: "6px 8px",
-                          position: "sticky",
-                          top: 0,
-                          background: "#fafafa",
-                        }}
-                      >
-                        Note
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {importRows.map((entry: BatchRenamePreviewEntry) => {
-                      const pillStyle = getStatusPillStyle(entry.status)
-                      const { beforeNode, afterNode } = renderInlineDiff(
-                        entry.currentName ?? "",
-                        entry.newName ?? ""
-                      )
+              <DataTable columns={previewColumns}>
+                {importRows.map((entry: BatchRenamePreviewEntry) => {
+                  const pillStyle = getStatusPillStyle(entry.status)
+                  const { beforeNode, afterNode } = renderInlineDiff(
+                    entry.currentName ?? "",
+                    entry.newName ?? ""
+                  )
 
-                      return (
-                        <tr key={entry.variableId}>
-                          <td style={{ padding: "4px 8px", verticalAlign: "top" }}>
-                            <span
-                              style={{
-                                display: "inline-block",
-                                padding: "2px 6px",
-                                borderRadius: 4,
-                                fontSize: 10,
-                                fontWeight: 600,
-                                background: pillStyle.background,
-                                border: `1px solid ${pillStyle.borderColor}`,
-                                color: pillStyle.color,
-                              }}
-                            >
-                              {entry.status}
-                            </span>
-                          </td>
-                          <td style={{ padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" }}>
-                            {entry.status === "rename" ? beforeNode : entry.currentName ?? "—"}
-                          </td>
-                          <td style={{ padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" }}>
-                            {entry.status === "rename" ? afterNode : entry.newName ?? "—"}
-                          </td>
-                          <td
-                            style={{
-                              padding: "4px 8px",
-                              verticalAlign: "top",
-                              color: "#666",
-                              wordBreak: "break-word",
-                            }}
-                          >
-                            {entry.reason || entry.warning || ""}
-                          </td>
-                        </tr>
-                      )
-                    })}
-                  </tbody>
-                </table>
-              </div>
+                  return (
+                    <tr key={entry.variableId}>
+                      <td style={{ padding: "4px 8px", verticalAlign: "top" }}>
+                        <span
+                          style={{
+                            display: "inline-block",
+                            padding: "2px 6px",
+                            borderRadius: 4,
+                            fontSize: 10,
+                            fontWeight: 600,
+                            background: pillStyle.background,
+                            border: `1px solid ${pillStyle.borderColor}`,
+                            color: pillStyle.color,
+                          }}
+                        >
+                          {entry.status}
+                        </span>
+                      </td>
+                      <td style={{ padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" }}>
+                        {entry.status === "rename" ? beforeNode : entry.currentName ?? "—"}
+                      </td>
+                      <td style={{ padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" }}>
+                        {entry.status === "rename" ? afterNode : entry.newName ?? "—"}
+                      </td>
+                      <td
+                        style={{
+                          padding: "4px 8px",
+                          verticalAlign: "top",
+                          color: "var(--figma-color-text-tertiary)",
+                          wordBreak: "break-word",
+                        }}
+                      >
+                        {entry.reason || entry.warning || ""}
+                      </td>
+                    </tr>
+                  )
+                })}
+              </DataTable>
             </Stack>
           )}
         </Stack>

@@ -252,6 +252,22 @@
 - Request: check vertical spacing and align with other tools.
 - Done: aligned top section rhythm with other Variables tools by removing extra in-body section heading and keeping concise intro text under header.
 
+#### Rename Variables via JSON — renamed tool + adopted DataTable (2026-02-16)
+- Renamed tool from "Variables Batch Rename" / "Batch Rename" to "Rename Variables via JSON" / "Rename via JSON".
+- Updated: `HomeView.tsx` (card title + description), `VariablesBatchRenameToolView.tsx` (header title), `run.ts` (display name).
+- Replaced inline `<table>` in import preview with shared `DataTable` component. Also replaced hardcoded `#666` with `var(--figma-color-text-tertiary)`.
+- Internal tool ID (`variables-batch-rename-tool`) unchanged.
+
+#### Rename Variables via JSON — swap/reverse numbering support (2026-02-16)
+- Problem: Reversing palette numbering (gray-10↔gray-160) was treated as conflicts because each target name was held by another variable.
+- Root cause: conflict detection didn't account for the fact that the holder of the target name is ALSO being renamed away in the same plan.
+- Fix (preview): Added `idsBeingRenamedAway` set. If all conflicting holders are in this set, the conflict is "resolvable" and the entry is shown as "rename" instead of "conflict".
+- Fix (apply): Restructured into 3 phases: (1) validate entries, (2) iteratively rename safe entries (target free) and propagate freed names, (3) break swap cycles using temporary names (`__swap_N__` → final name).
+- Handles: simple swaps (A↔B), chains (A→B→C), and mixed scenarios (some real conflicts + some resolvable).
+- Real conflicts (target held by a variable NOT in the plan) are still correctly blocked.
+- File: `src/app/tools/variables-batch-rename/main-thread.ts`.
+- Build: passes cleanly.
+
 #### Create Linked Colors — sync empty state pattern
 - Request: sync no-selection state with Color Chain tool empty state pattern and add principle to reuse empty-state patterns.
 - Done: `VariablesCreateLinkedColorsToolView` now uses centered shared `State` component with click icon for no-selection state (same pattern family as Color Chain).

@@ -38571,9 +38571,6 @@ function registerVariablesBatchRenameTool(getActiveTool) {
   const exportNameSet = async (setName, description, collectionId, collectionIds, types, includeCurrentName) => {
     var _a, _b, _c;
     const trimmedName = setName.trim();
-    if (!trimmedName) {
-      throw new Error("Set name is required.");
-    }
     const resolvedTypes = types.length > 0 ? types : ["COLOR", "FLOAT", "STRING", "BOOLEAN"];
     const resolvedCollectionIds = Array.isArray(collectionIds) ? collectionIds.filter(isString).map((id) => id.trim()).filter(Boolean) : [];
     const allVariables = await getAllLocalVariables(resolvedTypes);
@@ -38598,11 +38595,14 @@ function registerVariablesBatchRenameTool(getActiveTool) {
         ...variablesInCollection.filter((variable) => !orderedIdSet.has(variable.id))
       );
     }
+    const includedCollectionNames = localCollections.filter((c) => scopedByCollectionId.has(c.id)).map((c) => c.name);
+    const autoName = trimmedName || `${figma.root.name}. ${includedCollectionNames.join(", ")}`;
+    const createdAt = (/* @__PURE__ */ new Date()).toISOString().slice(0, 10);
     const setObject = {
       version: 1,
-      name: trimmedName,
+      name: autoName,
       description: (description == null ? void 0 : description.trim()) || void 0,
-      createdAt: (/* @__PURE__ */ new Date()).toISOString().slice(0, 10),
+      createdAt,
       scope: {
         collectionId: resolvedCollectionIds.length ? null : collectionId,
         collectionIds: resolvedCollectionIds.length ? resolvedCollectionIds : void 0
@@ -38611,9 +38611,11 @@ function registerVariablesBatchRenameTool(getActiveTool) {
         (v) => includeCurrentName ? { currentName: v.name, newName: v.name, id: v.id } : { newName: v.name, id: v.id }
       )
     };
-    const safeName = trimmedName.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 60);
+    const safeProjectName = figma.root.name.replace(/[/\\:*?"<>|]+/g, " ").trim();
+    const safeCollectionNames = includedCollectionNames.map((n) => n.replace(/[/\\:*?"<>|]+/g, " ").trim()).join(", ");
+    const autoFilename = trimmedName ? `${trimmedName.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 60)}-${createdAt}.json` : `${safeProjectName}. ${safeCollectionNames}.json`;
     return {
-      filename: `${safeName || "name-set"}-${setObject.createdAt}.json`,
+      filename: autoFilename,
       jsonText: JSON.stringify(setObject, null, 2)
     };
   };
@@ -38641,6 +38643,14 @@ function registerVariablesBatchRenameTool(getActiveTool) {
       const bucket = (_a2 = byName.get(entry.newName)) != null ? _a2 : [];
       bucket.push(variable.id);
       byName.set(entry.newName, bucket);
+    });
+    const idsBeingRenamedAway = /* @__PURE__ */ new Set();
+    plan.entries.forEach((entry, index) => {
+      const variable = variables[index];
+      if (!variable || !entry.id || !entry.newName) return;
+      if (variable.name !== entry.newName) {
+        idsBeingRenamedAway.add(variable.id);
+      }
     });
     let renames = 0;
     let unchanged = 0;
@@ -38742,12 +38752,15 @@ function registerVariablesBatchRenameTool(getActiveTool) {
       const existingIds = (_j = byExisting.get(entry.newName)) != null ? _j : [];
       const byPlanned = (_k = plannedByCollection.get(variable.variableCollectionId)) != null ? _k : /* @__PURE__ */ new Map();
       const plannedIds = (_l = byPlanned.get(entry.newName)) != null ? _l : [];
-      const existingConflict = existingIds.some((id) => id !== variable.id);
+      const conflictingExistingIds = existingIds.filter((id) => id !== variable.id);
+      const existingConflict = conflictingExistingIds.length > 0;
       const plannedConflict = plannedIds.length > 1;
-      if (existingConflict || plannedConflict) {
+      const isExistingConflictResolvable = existingConflict && conflictingExistingIds.every((id) => idsBeingRenamedAway.has(id));
+      const hasRealConflict = existingConflict && !isExistingConflictResolvable || plannedConflict;
+      if (hasRealConflict) {
         conflicts += 1;
         const conflicting = [
-          ...existingIds.filter((id) => id !== variable.id),
+          ...conflictingExistingIds,
           ...plannedIds.filter((id) => id !== variable.id)
         ].map((id) => ({ variableId: id, name: entry.newName }));
         previewEntries.push({
@@ -38794,7 +38807,7 @@ function registerVariablesBatchRenameTool(getActiveTool) {
     };
   };
   const applyImportedRenamePlan = async (entries, onProgress) => {
-    var _a, _b, _c, _d;
+    var _a, _b;
     const results = [];
     let renamed = 0;
     let unchanged = 0;
@@ -38807,89 +38820,161 @@ function registerVariablesBatchRenameTool(getActiveTool) {
     if (onProgress) {
       onProgress(0, total);
     }
+    const reportProgress = () => {
+      if (onProgress && (done % 20 === 0 || done === total)) {
+        onProgress(done, total);
+      }
+    };
+    const updateNameMap = (collectionId, oldName, newName, varId) => {
+      var _a2, _b2, _c;
+      const byName = (_a2 = existingNamesByCollection.get(collectionId)) != null ? _a2 : /* @__PURE__ */ new Map();
+      const oldBucket = (_b2 = byName.get(oldName)) != null ? _b2 : [];
+      byName.set(oldName, oldBucket.filter((id) => id !== varId));
+      const newBucket = (_c = byName.get(newName)) != null ? _c : [];
+      newBucket.push(varId);
+      byName.set(newName, newBucket);
+      existingNamesByCollection.set(collectionId, byName);
+    };
+    const doRename = (variable, newName) => {
+      const oldName = variable.name;
+      updateNameMap(variable.variableCollectionId, oldName, newName, variable.id);
+      variable.name = newName;
+      updateVariableInCache(variable);
+      clearLocalVariablesCache(variable.resolvedType);
+    };
+    const pending = [];
     for (const entry of entries) {
       const variable = await getVariable(entry.variableId);
       if (!variable) {
         skipped += 1;
         results.push({ variableId: entry.variableId, status: "skipped", reason: "Variable not found." });
         done += 1;
-        if (onProgress && (done % 20 === 0 || done === total)) {
-          onProgress(done, total);
-        }
+        reportProgress();
         continue;
       }
       const beforeName = variable.name;
       const newName = entry.newName.trim();
       if (!newName) {
         failed += 1;
-        results.push({
-          variableId: variable.id,
-          beforeName,
-          status: "failed",
-          reason: "New name is empty."
-        });
+        results.push({ variableId: variable.id, beforeName, status: "failed", reason: "New name is empty." });
         done += 1;
-        if (onProgress && (done % 20 === 0 || done === total)) {
-          onProgress(done, total);
-        }
+        reportProgress();
         continue;
       }
       if (beforeName === newName) {
         unchanged += 1;
         results.push({ variableId: variable.id, beforeName, afterName: newName, status: "unchanged" });
         done += 1;
-        if (onProgress && (done % 20 === 0 || done === total)) {
-          onProgress(done, total);
-        }
+        reportProgress();
         continue;
       }
-      const byName = (_a = existingNamesByCollection.get(variable.variableCollectionId)) != null ? _a : /* @__PURE__ */ new Map();
-      const existingIds = (_b = byName.get(newName)) != null ? _b : [];
-      const hasConflict = existingIds.some((id) => id !== variable.id);
-      if (hasConflict) {
-        skipped += 1;
-        results.push({
-          variableId: variable.id,
-          beforeName,
-          afterName: newName,
-          status: "skipped",
-          reason: "Target name already exists in this collection."
-        });
+      pending.push({ variable, beforeName, newName });
+    }
+    const pendingIds = new Set(pending.map((p) => p.variable.id));
+    let remaining = [...pending];
+    let maxPasses = remaining.length + 1;
+    while (remaining.length > 0 && maxPasses > 0) {
+      const safe = [];
+      const blocked = [];
+      for (const r of remaining) {
+        const byName = (_a = existingNamesByCollection.get(r.variable.variableCollectionId)) != null ? _a : /* @__PURE__ */ new Map();
+        const existingIds = (_b = byName.get(r.newName)) != null ? _b : [];
+        const conflictingIds = existingIds.filter((id) => id !== r.variable.id);
+        if (conflictingIds.length === 0) {
+          safe.push(r);
+        } else if (conflictingIds.every((id) => pendingIds.has(id))) {
+          blocked.push(r);
+        } else {
+          skipped += 1;
+          results.push({
+            variableId: r.variable.id,
+            beforeName: r.beforeName,
+            afterName: r.newName,
+            status: "skipped",
+            reason: "Target name already exists in this collection."
+          });
+          pendingIds.delete(r.variable.id);
+          done += 1;
+          reportProgress();
+        }
+      }
+      const madeProgress = safe.length > 0 || remaining.length !== blocked.length;
+      for (const r of safe) {
+        try {
+          doRename(r.variable, r.newName);
+          renamed += 1;
+          results.push({
+            variableId: r.variable.id,
+            beforeName: r.beforeName,
+            afterName: r.newName,
+            status: "renamed"
+          });
+        } catch (error) {
+          failed += 1;
+          const message = error instanceof Error ? error.message : "Rename failed.";
+          results.push({
+            variableId: r.variable.id,
+            beforeName: r.beforeName,
+            afterName: r.newName,
+            status: "failed",
+            reason: message
+          });
+        }
+        pendingIds.delete(r.variable.id);
         done += 1;
-        if (onProgress && (done % 20 === 0 || done === total)) {
-          onProgress(done, total);
+        reportProgress();
+      }
+      remaining = blocked;
+      if (!madeProgress) {
+        break;
+      }
+      maxPasses -= 1;
+    }
+    if (remaining.length > 0) {
+      const cycleEntries = [];
+      for (let i = 0; i < remaining.length; i += 1) {
+        const r = remaining[i];
+        const tempName = `__swap_${i}__`;
+        try {
+          doRename(r.variable, tempName);
+          cycleEntries.push(__spreadProps(__spreadValues({}, r), { tempName }));
+        } catch (error) {
+          failed += 1;
+          const message = error instanceof Error ? error.message : "Rename failed (swap step 1).";
+          results.push({
+            variableId: r.variable.id,
+            beforeName: r.beforeName,
+            afterName: r.newName,
+            status: "failed",
+            reason: message
+          });
+          done += 1;
+          reportProgress();
         }
-        continue;
       }
-      try {
-        const oldBucket = (_c = byName.get(beforeName)) != null ? _c : [];
-        byName.set(
-          beforeName,
-          oldBucket.filter((id) => id !== variable.id)
-        );
-        const newBucket = (_d = byName.get(newName)) != null ? _d : [];
-        newBucket.push(variable.id);
-        byName.set(newName, newBucket);
-        existingNamesByCollection.set(variable.variableCollectionId, byName);
-        variable.name = newName;
-        updateVariableInCache(variable);
-        clearLocalVariablesCache(variable.resolvedType);
-        renamed += 1;
-        results.push({ variableId: variable.id, beforeName, afterName: newName, status: "renamed" });
-      } catch (error) {
-        failed += 1;
-        const message = error instanceof Error ? error.message : "Rename failed.";
-        results.push({
-          variableId: variable.id,
-          beforeName,
-          afterName: newName,
-          status: "failed",
-          reason: message
-        });
-      }
-      done += 1;
-      if (onProgress && (done % 20 === 0 || done === total)) {
-        onProgress(done, total);
+      for (const c of cycleEntries) {
+        try {
+          doRename(c.variable, c.newName);
+          renamed += 1;
+          results.push({
+            variableId: c.variable.id,
+            beforeName: c.beforeName,
+            afterName: c.newName,
+            status: "renamed"
+          });
+        } catch (error) {
+          failed += 1;
+          const message = error instanceof Error ? error.message : "Rename failed (swap step 2).";
+          results.push({
+            variableId: c.variable.id,
+            beforeName: c.beforeName,
+            afterName: c.newName,
+            status: "failed",
+            reason: message
+          });
+        }
+        done += 1;
+        reportProgress();
       }
     }
     return { totals: { renamed, unchanged, skipped, failed }, results };
@@ -40139,7 +40224,7 @@ function getToolTitle(command) {
     case "variables-export-import-tool":
       return "Variables Export Import";
     case "variables-batch-rename-tool":
-      return "Variables Batch Rename";
+      return "Rename Variables via JSON";
     case "variables-create-linked-colors-tool":
       return "Variables Create Linked Colors";
     case "variables-replace-usages-tool":

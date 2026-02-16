@@ -691,10 +691,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/403582d1-4df4-4405-a99b-6da9667e210c/loading-indicator.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f8b882fb-0bf7-4649-9adf-eeb34eda7940/loading-indicator.module.js
   var loading_indicator_module_default;
   var init_loading_indicator_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/403582d1-4df4-4405-a99b-6da9667e210c/loading-indicator.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f8b882fb-0bf7-4649-9adf-eeb34eda7940/loading-indicator.module.js"() {
       if (document.getElementById("3fe0db8eb7") === null) {
         const element = document.createElement("style");
         element.id = "3fe0db8eb7";
@@ -755,10 +755,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/80295268-0a17-41dc-9827-de4a05da2130/button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/95d892bc-0f67-4a99-abda-82ce28faba2b/button.module.js
   var button_module_default;
   var init_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/80295268-0a17-41dc-9827-de4a05da2130/button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/95d892bc-0f67-4a99-abda-82ce28faba2b/button.module.js"() {
       if (document.getElementById("1dddd0e4df") === null) {
         const element = document.createElement("style");
         element.id = "1dddd0e4df";
@@ -1080,10 +1080,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e826b16a-dd04-4f69-9a27-f923d6c010c0/checkbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9add954d-af1b-49c6-92ff-e7bb21fe1793/checkbox.module.js
   var checkbox_module_default;
   var init_checkbox_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e826b16a-dd04-4f69-9a27-f923d6c010c0/checkbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9add954d-af1b-49c6-92ff-e7bb21fe1793/checkbox.module.js"() {
       if (document.getElementById("f38d076240") === null) {
         const element = document.createElement("style");
         element.id = "f38d076240";
@@ -1246,10 +1246,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0cdd4902-268d-4134-a6ee-412ec3304549/disclosure.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8a4366f7-9fde-474a-ac2e-08c9ee66f227/disclosure.module.js
   var disclosure_module_default;
   var init_disclosure_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0cdd4902-268d-4134-a6ee-412ec3304549/disclosure.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8a4366f7-9fde-474a-ac2e-08c9ee66f227/disclosure.module.js"() {
       if (document.getElementById("4712e1cb0c") === null) {
         const element = document.createElement("style");
         element.id = "4712e1cb0c";
@@ -1350,10 +1350,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6f2a23e2-c9dc-491e-b2c2-ad4f41425bed/divider.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e0b996cd-30fa-4d04-bd27-6f3c3f1ac2d3/divider.module.js
   var divider_module_default;
   var init_divider_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6f2a23e2-c9dc-491e-b2c2-ad4f41425bed/divider.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e0b996cd-30fa-4d04-bd27-6f3c3f1ac2d3/divider.module.js"() {
       if (document.getElementById("4bf06403b9") === null) {
         const element = document.createElement("style");
         element.id = "4bf06403b9";
@@ -1383,10 +1383,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1269dedb-ead4-4342-914e-0df47cbd3baa/menu.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1b4ac32d-c65a-46de-b588-36248b505f72/menu.module.js
   var menu_module_default;
   var init_menu_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1269dedb-ead4-4342-914e-0df47cbd3baa/menu.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1b4ac32d-c65a-46de-b588-36248b505f72/menu.module.js"() {
       if (document.getElementById("29044db304") === null) {
         const element = document.createElement("style");
         element.id = "29044db304";
@@ -1609,10 +1609,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e3db4af0-4ae6-44c9-b605-1ba4fa54ee58/dropdown.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1ff57476-88c5-4d9c-863b-6d83a15ac058/dropdown.module.js
   var dropdown_module_default;
   var init_dropdown_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e3db4af0-4ae6-44c9-b605-1ba4fa54ee58/dropdown.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1ff57476-88c5-4d9c-863b-6d83a15ac058/dropdown.module.js"() {
       if (document.getElementById("5a226eb00e") === null) {
         const element = document.createElement("style");
         element.id = "5a226eb00e";
@@ -2053,10 +2053,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1539eabf-9082-44d6-8833-8f519b91b6d0/button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/66fd1dce-fef5-4275-a85a-a07151632997/button.module.js
   var button_module_default2;
   var init_button_module2 = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1539eabf-9082-44d6-8833-8f519b91b6d0/button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/66fd1dce-fef5-4275-a85a-a07151632997/button.module.js"() {
       if (document.getElementById("1dddd0e4df") === null) {
         const element = document.createElement("style");
         element.id = "1dddd0e4df";
@@ -2220,10 +2220,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/becc2a33-7290-401c-b030-a13db4471f06/file-upload-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5efe8484-4e03-4bcb-a787-08b6fbd2c37b/file-upload-button.module.js
   var file_upload_button_module_default;
   var init_file_upload_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/becc2a33-7290-401c-b030-a13db4471f06/file-upload-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5efe8484-4e03-4bcb-a787-08b6fbd2c37b/file-upload-button.module.js"() {
       if (document.getElementById("f115bb30c8") === null) {
         const element = document.createElement("style");
         element.id = "f115bb30c8";
@@ -2338,10 +2338,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/bbdb6380-fb41-4586-97c5-d47c33b9ee1b/icon-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e7950b7a-a88d-4858-8ba7-683d076419c2/icon-button.module.js
   var icon_button_module_default;
   var init_icon_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/bbdb6380-fb41-4586-97c5-d47c33b9ee1b/icon-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e7950b7a-a88d-4858-8ba7-683d076419c2/icon-button.module.js"() {
       if (document.getElementById("c8b08e6568") === null) {
         const element = document.createElement("style");
         element.id = "c8b08e6568";
@@ -2419,10 +2419,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/fcec13dd-f0aa-480d-af61-0b4bd5b5b542/text.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9505bdb8-dc7d-42e5-bb17-14621fb15a5c/text.module.js
   var text_module_default;
   var init_text_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/fcec13dd-f0aa-480d-af61-0b4bd5b5b542/text.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9505bdb8-dc7d-42e5-bb17-14621fb15a5c/text.module.js"() {
       if (document.getElementById("1278016d5c") === null) {
         const element = document.createElement("style");
         element.id = "1278016d5c";
@@ -2480,10 +2480,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f6d33a61-5bdf-48eb-8477-5c47405cdd26/inline.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/80ddef8f-ab39-42c6-bf56-f324d41277b6/inline.module.js
   var inline_module_default;
   var init_inline_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f6d33a61-5bdf-48eb-8477-5c47405cdd26/inline.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/80ddef8f-ab39-42c6-bf56-f324d41277b6/inline.module.js"() {
       if (document.getElementById("3e1b2856fc") === null) {
         const element = document.createElement("style");
         element.id = "3e1b2856fc";
@@ -2545,10 +2545,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/df80e27d-e6a3-418b-8e09-c11f5419686f/stack.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9e944f29-e9bb-4c60-a153-bbc1c0e2d67a/stack.module.js
   var stack_module_default;
   var init_stack_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/df80e27d-e6a3-418b-8e09-c11f5419686f/stack.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9e944f29-e9bb-4c60-a153-bbc1c0e2d67a/stack.module.js"() {
       if (document.getElementById("317515cc3f") === null) {
         const element = document.createElement("style");
         element.id = "317515cc3f";
@@ -2591,10 +2591,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/99d6c101-3603-4362-b53d-de61bc1ad7cb/radio-buttons.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a2fb7418-d9ad-404f-83e3-8dc6441d0d54/radio-buttons.module.js
   var radio_buttons_module_default;
   var init_radio_buttons_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/99d6c101-3603-4362-b53d-de61bc1ad7cb/radio-buttons.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a2fb7418-d9ad-404f-83e3-8dc6441d0d54/radio-buttons.module.js"() {
       if (document.getElementById("a066c67891") === null) {
         const element = document.createElement("style");
         element.id = "a066c67891";
@@ -2713,10 +2713,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e5e160e9-57e4-453a-8da4-92ff1d5be5e2/segmented-control.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/10fe6126-8fe3-4e8c-a700-4133dd018edb/segmented-control.module.js
   var segmented_control_module_default;
   var init_segmented_control_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e5e160e9-57e4-453a-8da4-92ff1d5be5e2/segmented-control.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/10fe6126-8fe3-4e8c-a700-4133dd018edb/segmented-control.module.js"() {
       if (document.getElementById("bc6858a1b5") === null) {
         const element = document.createElement("style");
         element.id = "bc6858a1b5";
@@ -2817,10 +2817,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/564ea078-da74-43c6-af36-d90e3c7e00b8/tabs.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9cedff4c-3d13-421a-bf7e-4a6776bf6a44/tabs.module.js
   var tabs_module_default;
   var init_tabs_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/564ea078-da74-43c6-af36-d90e3c7e00b8/tabs.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9cedff4c-3d13-421a-bf7e-4a6776bf6a44/tabs.module.js"() {
       if (document.getElementById("b2487bb7e6") === null) {
         const element = document.createElement("style");
         element.id = "b2487bb7e6";
@@ -3037,10 +3037,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/41487550-df4a-432c-86d9-4cb39339466e/textbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e65694ff-9b5e-4cb1-8ee9-4f0078c06f01/textbox.module.js
   var textbox_module_default;
   var init_textbox_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/41487550-df4a-432c-86d9-4cb39339466e/textbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e65694ff-9b5e-4cb1-8ee9-4f0078c06f01/textbox.module.js"() {
       if (document.getElementById("5c1c5c2d3d") === null) {
         const element = document.createElement("style");
         element.id = "5c1c5c2d3d";
@@ -3439,10 +3439,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/dbf5cb46-844d-444a-9507-d66c3ccb6110/textbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/3c7e6775-fc61-4c8e-bca3-a2e684c680e7/textbox.module.js
   var textbox_module_default2;
   var init_textbox_module2 = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/dbf5cb46-844d-444a-9507-d66c3ccb6110/textbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/3c7e6775-fc61-4c8e-bca3-a2e684c680e7/textbox.module.js"() {
       if (document.getElementById("5c1c5c2d3d") === null) {
         const element = document.createElement("style");
         element.id = "5c1c5c2d3d";
@@ -3513,10 +3513,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/56df14cf-0f8a-40dc-93b6-3f9b69ee47ab/textbox-numeric.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/33e826bd-f378-4de1-87e8-b267c24a2fe9/textbox-numeric.module.js
   var textbox_numeric_module_default;
   var init_textbox_numeric_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/56df14cf-0f8a-40dc-93b6-3f9b69ee47ab/textbox-numeric.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/33e826bd-f378-4de1-87e8-b267c24a2fe9/textbox-numeric.module.js"() {
       if (document.getElementById("b6dab244a8") === null) {
         const element = document.createElement("style");
         element.id = "b6dab244a8";
@@ -3746,10 +3746,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4edc97b8-eb24-4fc5-915f-e0599dd35c5e/container.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b3374621-8770-4229-a267-025c058d93f0/container.module.js
   var container_module_default;
   var init_container_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4edc97b8-eb24-4fc5-915f-e0599dd35c5e/container.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b3374621-8770-4229-a267-025c058d93f0/container.module.js"() {
       if (document.getElementById("b49e1406f9") === null) {
         const element = document.createElement("style");
         element.id = "b49e1406f9";
@@ -3790,10 +3790,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/03106201-3932-44d1-824c-bd6708b43cd8/vertical-space.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/00a4d33a-c783-4c73-8bed-a2e114a819b1/vertical-space.module.js
   var vertical_space_module_default;
   var init_vertical_space_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/03106201-3932-44d1-824c-bd6708b43cd8/vertical-space.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/00a4d33a-c783-4c73-8bed-a2e114a819b1/vertical-space.module.js"() {
       if (document.getElementById("ba0eea5114") === null) {
         const element = document.createElement("style");
         element.id = "ba0eea5114";
@@ -3834,9 +3834,9 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d70a3941-72b7-4213-a6d4-a2ce167a66f4/base.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/75d4562f-5391-4aea-9b7d-4ea4414b39f9/base.js
   var init_base = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d70a3941-72b7-4213-a6d4-a2ce167a66f4/base.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/75d4562f-5391-4aea-9b7d-4ea4414b39f9/base.js"() {
       if (document.getElementById("0597dd81e7") === null) {
         const element = document.createElement("style");
         element.id = "0597dd81e7";
@@ -4301,8 +4301,8 @@ svg {
     ), /* @__PURE__ */ _(
       ToolCard,
       {
-        title: "Batch Rename",
-        description: "Rename multiple variables at once via CSV or inline editing",
+        title: "Rename via JSON",
+        description: "Rename multiple variables using a JSON file",
         icon: /* @__PURE__ */ _(IconVariable16, null),
         onClick: () => props.goTo("variables-batch-rename-tool")
       }
@@ -6734,7 +6734,6 @@ svg {
     const [collections, setCollections] = d2([]);
     const [errorMessage, setErrorMessage] = d2(null);
     const [successMessage, setSuccessMessage] = d2(null);
-    const [exportSetName, setExportSetName] = d2("current");
     const [exportIncludeCurrentName, setExportIncludeCurrentName] = d2(true);
     const [exportSelectedCollectionIds, setExportSelectedCollectionIds] = d2([]);
     const [didInitExportSelection, setDidInitExportSelection] = d2(false);
@@ -6859,7 +6858,7 @@ svg {
           pluginMessage: {
             type: UI_TO_MAIN.BATCH_RENAME_EXPORT_NAME_SET,
             request: {
-              setName: exportSetName.trim(),
+              setName: "",
               description: "",
               collectionIds: selectedCollectionIdsInOptions,
               types: [],
@@ -6946,24 +6945,10 @@ svg {
     return /* @__PURE__ */ _(Page, null, /* @__PURE__ */ _(
       ToolHeader,
       {
-        title: "Variables Batch Rename",
+        title: "Rename Variables via JSON",
         left: /* @__PURE__ */ _(IconButton, { onClick: onBack, title: "Home" }, /* @__PURE__ */ _(IconHome16, null))
       }
-    ), /* @__PURE__ */ _(ToolBody, { mode: "content" }, /* @__PURE__ */ _(Stack, { space: "medium" }, errorMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#fff1f2", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "#9f1239" } }, errorMessage))), successMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#ecfdf3", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, successMessage))), /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "Export and import rename sets by variable ID.")), /* @__PURE__ */ _(
-      Textbox,
-      {
-        value: exportSetName,
-        placeholder: "Set name",
-        onValueInput: (value2) => setExportSetName(value2)
-      }
-    ), /* @__PURE__ */ _(
-      Checkbox,
-      {
-        value: exportIncludeCurrentName,
-        onValueChange: setExportIncludeCurrentName
-      },
-      /* @__PURE__ */ _(Text, null, "Include currentName (for review/editing)")
-    ), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, null, "Collections"), /* @__PURE__ */ _("div", null, exportCollectionsOptions.length === 0 ? /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "No collections loaded yet.") : null, exportCollectionsOptions.length > 0 ? /* @__PURE__ */ _(
+    ), /* @__PURE__ */ _(ToolBody, { mode: "content" }, /* @__PURE__ */ _(Stack, { space: "medium" }, errorMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#fff1f2", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "#9f1239" } }, errorMessage))), successMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#ecfdf3", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, successMessage))), /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)", whiteSpace: "pre-line" } }, "1. Export variables\n2. Edit names in Code Editor\n3. Import JSON with new names"), /* @__PURE__ */ _("div", null, exportCollectionsOptions.length === 0 ? /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "No collections loaded yet.") : null, exportCollectionsOptions.length > 0 ? /* @__PURE__ */ _(
       Checkbox,
       {
         value: hasSomeCollectionsSelected ? MIXED_BOOLEAN : areAllCollectionsSelected,
@@ -6988,7 +6973,14 @@ svg {
         },
         /* @__PURE__ */ _(Text, null, c3.name)
       );
-    })))), /* @__PURE__ */ _(Inline, { space: "extraSmall" }, /* @__PURE__ */ _(Button, { disabled: !exportSetName.trim() || selectedCollectionIdsInOptions.length === 0, onClick: handleExport }, "Export name set"), /* @__PURE__ */ _(
+    }))), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(
+      Checkbox,
+      {
+        value: exportIncludeCurrentName,
+        onValueChange: setExportIncludeCurrentName
+      },
+      /* @__PURE__ */ _(Text, null, "Include currentName (for review/editing)")
+    ), /* @__PURE__ */ _(Inline, { space: "extraSmall" }, /* @__PURE__ */ _(Button, { disabled: selectedCollectionIdsInOptions.length === 0, onClick: handleExport }, "Export name set"), /* @__PURE__ */ _(
       Button,
       {
         secondary: true,
@@ -7023,115 +7015,43 @@ svg {
         onClick: handleApplyRenames
       },
       "Apply renames"
-    ), !canApplyImportedRenames && importPreview.totals.conflicts > 0 && /* @__PURE__ */ _(Text, { style: { color: "#9f1239" } }, "Resolve conflicts in the JSON (duplicate newName) before applying."), importResult && /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, "Renamed: ", importResult.totals.renamed, ", Unchanged: ", importResult.totals.unchanged, ", Skipped: ", importResult.totals.skipped, ", Failed: ", importResult.totals.failed), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(
-      "div",
-      {
-        style: {
-          border: "1px solid #e3e3e3",
-          borderRadius: 6
-        }
-      },
-      /* @__PURE__ */ _(
-        "table",
+    ), !canApplyImportedRenames && importPreview.totals.conflicts > 0 && /* @__PURE__ */ _(Text, { style: { color: "#9f1239" } }, "Resolve conflicts in the JSON (duplicate newName) before applying."), importResult && /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, "Renamed: ", importResult.totals.renamed, ", Unchanged: ", importResult.totals.unchanged, ", Skipped: ", importResult.totals.skipped, ", Failed: ", importResult.totals.failed), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(DataTable, { columns: previewColumns }, importRows.map((entry) => {
+      var _a, _b, _c, _d;
+      const pillStyle = getStatusPillStyle2(entry.status);
+      const { beforeNode, afterNode } = renderInlineDiff(
+        (_a = entry.currentName) != null ? _a : "",
+        (_b = entry.newName) != null ? _b : ""
+      );
+      return /* @__PURE__ */ _("tr", { key: entry.variableId }, /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top" } }, /* @__PURE__ */ _(
+        "span",
         {
           style: {
-            width: "100%",
-            borderCollapse: "collapse",
-            fontSize: 12,
-            tableLayout: "fixed"
+            display: "inline-block",
+            padding: "2px 6px",
+            borderRadius: 4,
+            fontSize: 10,
+            fontWeight: 600,
+            background: pillStyle.background,
+            border: `1px solid ${pillStyle.borderColor}`,
+            color: pillStyle.color
           }
         },
-        /* @__PURE__ */ _("thead", null, /* @__PURE__ */ _("tr", null, /* @__PURE__ */ _(
-          "th",
-          {
-            style: {
-              borderBottom: "1px solid #e3e3e3",
-              textAlign: "left",
-              padding: "6px 8px",
-              position: "sticky",
-              top: 0,
-              background: "#fafafa"
-            }
-          },
-          "Status"
-        ), /* @__PURE__ */ _(
-          "th",
-          {
-            style: {
-              borderBottom: "1px solid #e3e3e3",
-              textAlign: "left",
-              padding: "6px 8px",
-              position: "sticky",
-              top: 0,
-              background: "#fafafa"
-            }
-          },
-          "Current"
-        ), /* @__PURE__ */ _(
-          "th",
-          {
-            style: {
-              borderBottom: "1px solid #e3e3e3",
-              textAlign: "left",
-              padding: "6px 8px",
-              position: "sticky",
-              top: 0,
-              background: "#fafafa"
-            }
-          },
-          "New"
-        ), /* @__PURE__ */ _(
-          "th",
-          {
-            style: {
-              borderBottom: "1px solid #e3e3e3",
-              textAlign: "left",
-              padding: "6px 8px",
-              position: "sticky",
-              top: 0,
-              background: "#fafafa"
-            }
-          },
-          "Note"
-        ))),
-        /* @__PURE__ */ _("tbody", null, importRows.map((entry) => {
-          var _a, _b, _c, _d;
-          const pillStyle = getStatusPillStyle2(entry.status);
-          const { beforeNode, afterNode } = renderInlineDiff(
-            (_a = entry.currentName) != null ? _a : "",
-            (_b = entry.newName) != null ? _b : ""
-          );
-          return /* @__PURE__ */ _("tr", { key: entry.variableId }, /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top" } }, /* @__PURE__ */ _(
-            "span",
-            {
-              style: {
-                display: "inline-block",
-                padding: "2px 6px",
-                borderRadius: 4,
-                fontSize: 10,
-                fontWeight: 600,
-                background: pillStyle.background,
-                border: `1px solid ${pillStyle.borderColor}`,
-                color: pillStyle.color
-              }
-            },
-            entry.status
-          )), /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" } }, entry.status === "rename" ? beforeNode : (_c = entry.currentName) != null ? _c : "\u2014"), /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" } }, entry.status === "rename" ? afterNode : (_d = entry.newName) != null ? _d : "\u2014"), /* @__PURE__ */ _(
-            "td",
-            {
-              style: {
-                padding: "4px 8px",
-                verticalAlign: "top",
-                color: "#666",
-                wordBreak: "break-word"
-              }
-            },
-            entry.reason || entry.warning || ""
-          ));
-        }))
-      )
-    )))));
+        entry.status
+      )), /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" } }, entry.status === "rename" ? beforeNode : (_c = entry.currentName) != null ? _c : "\u2014"), /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" } }, entry.status === "rename" ? afterNode : (_d = entry.newName) != null ? _d : "\u2014"), /* @__PURE__ */ _(
+        "td",
+        {
+          style: {
+            padding: "4px 8px",
+            verticalAlign: "top",
+            color: "var(--figma-color-text-tertiary)",
+            wordBreak: "break-word"
+          }
+        },
+        entry.reason || entry.warning || ""
+      ));
+    }))))));
   }
+  var previewColumns;
   var init_VariablesBatchRenameToolView = __esm({
     "src/app/views/variables-batch-rename-tool/VariablesBatchRenameToolView.tsx"() {
       "use strict";
@@ -7140,10 +7060,17 @@ svg {
       init_preact_module();
       init_hooks_module();
       init_messages();
+      init_DataTable();
       init_InlineTextDiff();
       init_Page();
       init_ToolBody();
       init_ToolHeader();
+      previewColumns = [
+        { label: "Status", width: 72 },
+        { label: "Current" },
+        { label: "New" },
+        { label: "Note" }
+      ];
     }
   });
 

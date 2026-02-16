@@ -16,7 +16,7 @@ Mockup Markup Quick Apply
 View Colors Chain
 Print Color Usages
 Variables Export Import
-Variables Batch Rename
+Rename Variables via JSON
 Variables Create Linked Colors
 Variables Replace Usages
 
@@ -33,7 +33,7 @@ Print unique colors as text labels near selection.
 #### Variables Export Import
 Export and import variables to a JSON file.
 
-#### Variables Batch Rename
+#### Rename Variables via JSON
 Rename multiple variables at once via JSON file.
 
 #### Variables Create Linked Colors

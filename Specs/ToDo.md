@@ -1,5 +1,5 @@
 ## Batch Rename Tool:
-New name: Rename via JSON file.
+- [x] New name: Rename via JSON file.
 Shoul I combine it somehow with Export Import tool?
 Import as separate Tab.
 

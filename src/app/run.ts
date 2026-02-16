@@ -24,7 +24,7 @@ function getToolTitle(command: string): string {
     case "variables-export-import-tool":
       return "Variables Export Import"
     case "variables-batch-rename-tool":
-      return "Variables Batch Rename"
+      return "Rename Variables via JSON"
     case "variables-create-linked-colors-tool":
       return "Variables Create Linked Colors"
     case "variables-replace-usages-tool":

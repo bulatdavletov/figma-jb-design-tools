@@ -72,7 +72,7 @@
         "ui": "src/app/ui.tsx"
       },
       {
-        "name": "Variables Batch Rename",
+        "name": "Rename Variables via JSON",
         "main": "src/variables-batch-rename-tool/main.ts",
         "ui": "src/app/ui.tsx"
       },

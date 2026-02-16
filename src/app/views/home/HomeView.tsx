@@ -78,8 +78,8 @@ export function HomeView(props: { goTo: (route: Route) => void }) {
               onClick={() => props.goTo("variables-export-import-tool")}
             />
             <ToolCard
-              title="Batch Rename"
-              description="Rename multiple variables at once via CSV or inline editing"
+              title="Rename via JSON"
+              description="Rename multiple variables using a JSON file"
               icon={<IconVariable16 />}
               onClick={() => props.goTo("variables-batch-rename-tool")}
             />

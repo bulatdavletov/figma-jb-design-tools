@@ -33,7 +33,7 @@
       "command": "src/variables-export-import-tool/main.ts--default"
     },
     {
-      "name": "Variables Batch Rename",
+      "name": "Rename Variables via JSON",
       "command": "src/variables-batch-rename-tool/main.ts--default"
     },
     {
