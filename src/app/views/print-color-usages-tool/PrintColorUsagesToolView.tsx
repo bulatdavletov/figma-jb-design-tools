@@ -13,6 +13,7 @@ import {
 } from "../../messages"
 import { CopyIconButton } from "../../components/CopyIconButton"
 import { DataList } from "../../components/DataList"
+import { DataRow } from "../../components/DataRow"
 import { renderInlineDiff } from "../../components/InlineTextDiff"
 import { Page } from "../../components/Page"
 import { ScopeControl, type ScopeValue } from "../../components/ScopeControl"
@@ -218,42 +219,12 @@ export function PrintColorUsagesToolView(props: { onBack: () => void }) {
                 {printPreview && printPreview.entries.length > 0 ? (
                   <DataList header="Will be printed">
                     {printPreview.entries.map((entry, index) => (
-                      <div
+                      <DataRow
                         key={`${entry.layerName}-${index}`}
-                        style={{
-                          padding: 10,
-                          display: "flex",
-                          alignItems: "flex-start",
-                          justifyContent: "space-between",
-                          gap: 8,
-                        }}
-                      >
-                        <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", gap: 2 }}>
-                          <div
-                            style={{
-                              color: "var(--figma-color-text)",
-                              lineHeight: "20px",
-                              wordBreak: "break-word",
-                              whiteSpace: "pre-wrap",
-                            }}
-                          >
-                            {entry.label}
-                          </div>
-                          <div
-                            style={{
-                              color: "var(--figma-color-text-tertiary)",
-                              fontSize: 11,
-                              lineHeight: "16px",
-                              wordBreak: "break-all",
-                            }}
-                          >
-                            {entry.layerName}
-                          </div>
-                        </div>
-                        <div style={{ flexShrink: 0, paddingTop: 2 }}>
-                          <CopyIconButton text={entry.layerName} title="Copy layer name" />
-                        </div>
-                      </div>
+                        primary={entry.label}
+                        secondary={entry.layerName}
+                        trailing={<CopyIconButton text={entry.layerName} title="Copy layer name" />}
+                      />
                     ))}
                   </DataList>
                 ) : null}

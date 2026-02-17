@@ -4,6 +4,7 @@
 
 import type { LibrarySwapScope } from "../../messages"
 import type { MergedMeta } from "./mapping-types"
+import { getComponentDisplayName, stripVariantInfo } from "../../utils/component-name"
 
 // ---------------------------------------------------------------------------
 // Scope helpers
@@ -56,21 +57,7 @@ export async function getInstancesForScope(
 // Helpers
 // ---------------------------------------------------------------------------
 
-/**
- * Get a human-readable display name for a component.
- * If the component belongs to a Component Set, returns the set's name
- * (e.g. "Button") instead of the variant string (e.g. "Theme=Light, Type=Default").
- */
-export function getComponentDisplayName(comp: ComponentNode): string {
-  try {
-    if (comp.parent && comp.parent.type === "COMPONENT_SET") {
-      return comp.parent.name
-    }
-  } catch {
-    // parent may not be accessible for remote library components
-  }
-  return comp.name
-}
+// getComponentDisplayName and stripVariantInfo are in ../../utils/component-name.ts
 
 function getPageName(node: SceneNode): string {
   let current: BaseNode | null = node
@@ -133,8 +120,8 @@ export async function analyzeSwap(
           nodeId: inst.id,
           instanceName: inst.name,
           pageName: getPageName(inst),
-          oldComponentName: m?.oldFullName ?? (main ? getComponentDisplayName(main) : oldKey),
-          newComponentName: m?.newFullName ?? mergedMatches[oldKey],
+          oldComponentName: main ? getComponentDisplayName(main) : (m?.oldFullName ? stripVariantInfo(m.oldFullName) : oldKey),
+          newComponentName: m?.newFullName ? stripVariantInfo(m.newFullName) : mergedMatches[oldKey],
         })
       }
     }
@@ -160,7 +147,8 @@ export async function analyzeSwap(
 export type SwappedItem = {
   nodeId: string
   name: string
-  pageName: string
+  oldComponentName: string
+  newComponentName: string
 }
 
 export type SwapResult = {
@@ -216,6 +204,7 @@ export async function swapInstances(
           newComp = await figma.importComponentByKeyAsync(newKey)
           cache.set(newKey, newComp)
         }
+        const oldDisplayName = main ? getComponentDisplayName(main) : inst.name
         inst.swapComponent(newComp)
         alreadySwapped.add(inst.id)
         swapped++
@@ -224,7 +213,8 @@ export async function swapInstances(
           swappedItems.push({
             nodeId: inst.id,
             name: inst.name,
-            pageName: getPageName(inst),
+            oldComponentName: oldDisplayName,
+            newComponentName: getComponentDisplayName(newComp),
           })
         }
       } catch {

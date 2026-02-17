@@ -852,7 +852,8 @@ export type LibrarySwapProgress = {
 export type LibrarySwapSwappedItem = {
   nodeId: string
   name: string
-  pageName: string
+  oldComponentName: string
+  newComponentName: string
 }
 
 export type LibrarySwapApplyResultPayload = {

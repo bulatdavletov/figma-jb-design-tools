@@ -12,8 +12,8 @@ import {
   previewSwap,
   clearSwapPreviews,
   focusNode,
-  getComponentDisplayName,
 } from "./swap-logic"
+import { getComponentDisplayName } from "../../utils/component-name"
 import defaultIconMapping from "./default-icon-mapping.json"
 import defaultUikitMapping from "./default-uikit-mapping.json"
 

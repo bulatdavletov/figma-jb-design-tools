@@ -20,7 +20,7 @@
 
 ## Progress Feedback
 - Always show progress feedback during operations that take more than a brief moment. Good progress UX reassures users that the tool is working, prevents doubt about failure/freeze, and helps set expectations about waiting.
-- Whenever possible, prefer **numeric progress indicators** (such as "3 / 5 updated", or a percent/step bar) over spinners or indeterminate loaders. Numeric progress gives users concrete information on what’s left and enables better decisions if they want to cancel or wait. Spinners are less reassuring and do not communicate how long the process will take.
+- Whenever possible, prefer numeric progress indicators (such as "3 / 5 updated", or a percent/step bar) over spinners or indeterminate loaders. Numeric progress gives users concrete information on what’s left and enables better decisions if they want to cancel or wait. Spinners are less reassuring and do not communicate how long the process will take.
 - Make progress visible and non-blocking where appropriate so users can retain context or cancel actions if supported.
 
 ## Selection UX (Checkboxes)
@@ -49,18 +49,19 @@
 - Scope defaults should follow user intent:
   - if there is a selection, default scope to selection
   - if there is no selection, default scope to whole page
-- **Scope auto-sync is enforced via the `useScope` hook** (`src/app/components/ScopeControl.tsx`). Any tool that uses `ScopeControl` must use `useScope(initialSelectionEmpty)` for its scope state and call `updateSelectionSize(n)` from its selection-change message handler. Do not manually manage scope + selectionSize state — the hook guarantees consistent auto-switching.
+- Scope auto-sync is enforced via the `useScope` hook (`src/app/components/ScopeControl.tsx`). Any tool that uses `ScopeControl` must use `useScope(initialSelectionEmpty)` for its scope state and call `updateSelectionSize(n)` from its selection-change message handler. Do not manually manage scope + selectionSize state — the hook guarantees consistent auto-switching.
 
 ## Ordering and Data Consistency
 - Preserve Figma order for collections and variables by default.
 - Avoid extra alphabetical sorting unless explicitly requested by the user.
 - Exported JSON should keep stable, predictable ordering that matches Figma as closely as possible.
+- When displaying a Component that is part of a Component Set, do _not_ use the component name itself (which is typically a concatenation of property values, e.g. "Theme:Light, Property:Value, ..."). Instead, always use the name of the Component Set for display. This ensures meaningful labeling and avoids confusion from auto-generated component names.
 
 ## Cross-Tool Consistency
 - Reuse shared layout and header patterns across tools.
 - Use the same selection and empty-state patterns in all tools.
 - Reuse the shared `State` empty-state component for no-selection/nothing-found states.
-- For **No selection** state specifically, reuse the same centered `State` pattern (same icon family, tone, and concise guidance text) across tools.
+- For No selection state specifically, reuse the same centered `State` pattern (same icon family, tone, and concise guidance text) across tools.
 - Keep wording and interaction patterns consistent (same terms for same actions).
 
 ## Progress & Yielding in Figma Plugins

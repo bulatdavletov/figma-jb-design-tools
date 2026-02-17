@@ -17,6 +17,8 @@ export type DataRowProps = {
   tertiary?: string | ComponentChildren
   /** Right-side icon buttons, visible on hover. */
   actions?: DataRowAction[]
+  /** Always-visible content on the right side (e.g. CopyIconButton). */
+  trailing?: ComponentChildren
   /** Optional left checkbox. */
   checkbox?: { checked: boolean; onChange: (v: boolean) => void }
   /** Clickable row body (cursor: pointer). */
@@ -127,12 +129,13 @@ export function DataRow(props: DataRowProps) {
   )
 
   return (
+    /* Wrapper div for the entire row*/
     <div
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       onClick={props.onClick}
       style={{
-        padding: 10,
+        padding: "4px 8px",
         display: "flex",
         alignItems: "flex-start",
         gap: 8,
@@ -182,6 +185,10 @@ export function DataRow(props: DataRowProps) {
             </IconButton>
           ))}
         </div>
+      ) : null}
+
+      {props.trailing != null ? (
+        <div style={{ flexShrink: 0, paddingTop: 2 }}>{props.trailing}</div>
       ) : null}
     </div>
   )

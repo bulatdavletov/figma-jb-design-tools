@@ -1528,6 +1528,26 @@ var init_mapping_types = __esm({
   }
 });
 
+// src/app/utils/component-name.ts
+function getComponentDisplayName(comp) {
+  try {
+    if (comp.parent && comp.parent.type === "COMPONENT_SET") {
+      return comp.parent.name;
+    }
+  } catch (e) {
+  }
+  return comp.name;
+}
+function stripVariantInfo(fullName) {
+  const idx = fullName.indexOf(" :: ");
+  return idx >= 0 ? fullName.substring(0, idx) : fullName;
+}
+var init_component_name = __esm({
+  "src/app/utils/component-name.ts"() {
+    "use strict";
+  }
+});
+
 // src/app/tools/library-swap/swap-logic.ts
 async function ensureAllPagesLoaded() {
   if (typeof figma.loadAllPagesAsync === "function") {
@@ -1563,15 +1583,6 @@ async function getInstancesForScope(scope) {
   }
   return figma.currentPage.findAllWithCriteria({ types: ["INSTANCE"] });
 }
-function getComponentDisplayName(comp) {
-  try {
-    if (comp.parent && comp.parent.type === "COMPONENT_SET") {
-      return comp.parent.name;
-    }
-  } catch (e) {
-  }
-  return comp.name;
-}
 function getPageName(node) {
   let current = node;
   while (current) {
@@ -1581,7 +1592,7 @@ function getPageName(node) {
   return "";
 }
 async function analyzeSwap(mergedMatches, scope, meta, onProgress) {
-  var _a, _b, _c;
+  var _a;
   const instances = await getInstancesForScope(scope);
   const total = instances.length;
   let mappable = 0;
@@ -1605,8 +1616,8 @@ async function analyzeSwap(mergedMatches, scope, meta, onProgress) {
           nodeId: inst.id,
           instanceName: inst.name,
           pageName: getPageName(inst),
-          oldComponentName: (_b = m == null ? void 0 : m.oldFullName) != null ? _b : main ? getComponentDisplayName(main) : oldKey,
-          newComponentName: (_c = m == null ? void 0 : m.newFullName) != null ? _c : mergedMatches[oldKey]
+          oldComponentName: main ? getComponentDisplayName(main) : (m == null ? void 0 : m.oldFullName) ? stripVariantInfo(m.oldFullName) : oldKey,
+          newComponentName: (m == null ? void 0 : m.newFullName) ? stripVariantInfo(m.newFullName) : mergedMatches[oldKey]
         });
       }
     }
@@ -1660,6 +1671,7 @@ async function swapInstances(mergedMatches, scope, onProgress) {
           newComp = await figma.importComponentByKeyAsync(newKey);
           cache.set(newKey, newComp);
         }
+        const oldDisplayName = main ? getComponentDisplayName(main) : inst.name;
         inst.swapComponent(newComp);
         alreadySwapped.add(inst.id);
         swapped++;
@@ -1668,7 +1680,8 @@ async function swapInstances(mergedMatches, scope, onProgress) {
           swappedItems.push({
             nodeId: inst.id,
             name: inst.name,
-            pageName: getPageName(inst)
+            oldComponentName: oldDisplayName,
+            newComponentName: getComponentDisplayName(newComp)
           });
         }
       } catch (e) {
@@ -1893,6 +1906,7 @@ var ANALYZE_ITEMS_CAP, PREVIEW_FRAME_NAME, PREVIEW_BG, SEPARATOR_COLOR, HEADER_F
 var init_swap_logic = __esm({
   "src/app/tools/library-swap/swap-logic.ts"() {
     "use strict";
+    init_component_name();
     ANALYZE_ITEMS_CAP = 200;
     PREVIEW_FRAME_NAME = "Library Swap Preview";
     PREVIEW_BG = { type: "SOLID", color: { r: 0.96, g: 0.96, b: 0.96 } };
@@ -36467,6 +36481,7 @@ var init_main_thread3 = __esm({
     init_messages();
     init_mapping_types();
     init_swap_logic();
+    init_component_name();
     init_default_icon_mapping();
     init_default_uikit_mapping();
   }

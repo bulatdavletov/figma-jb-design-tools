@@ -27,6 +27,7 @@ import {
   type ExportImportPreviewEntryStatus,
   type ExportImportApplyResultPayload,
 } from "../../messages"
+import { DataTable, type DataTableColumn } from "../../components/DataTable"
 import { Page } from "../../components/Page"
 import { ToolBody } from "../../components/ToolBody"
 import { ToolHeader } from "../../components/ToolHeader"
@@ -62,6 +63,13 @@ function getStatusPillStyle(status: ExportImportPreviewEntryStatus): {
 
   return { background: "#fff7ed", borderColor: "#fed7aa", color: "#9a3412" }
 }
+
+const importPreviewColumns: DataTableColumn[] = [
+  { label: "Status" },
+  { label: "Collection" },
+  { label: "Variable" },
+  { label: "Note" },
+]
 
 export function VariablesExportImportToolView({ onBack }: Props) {
   const [collections, setCollections] = useState<VariableCollectionInfo[]>([])
@@ -496,115 +504,47 @@ export function VariablesExportImportToolView({ onBack }: Props) {
               <Divider />
 
               {/* Preview Table */}
-              <div
-                style={{
-                  border: "1px solid #e3e3e3",
-                  borderRadius: 6,
-                }}
-              >
-                <table
-                  style={{
-                    width: "100%",
-                    borderCollapse: "collapse",
-                    fontSize: 12,
-                    tableLayout: "fixed",
-                  }}
-                >
-                  <thead>
-                    <tr>
-                      <th
+              <DataTable columns={importPreviewColumns}>
+                {importRows.map((entry: ExportImportPreviewEntry, i) => {
+                  const pillStyle = getStatusPillStyle(entry.status)
+                  return (
+                    <tr key={i}>
+                      <td style={{ padding: "4px 8px", verticalAlign: "top" }}>
+                        <span
+                          style={{
+                            display: "inline-block",
+                            padding: "2px 6px",
+                            borderRadius: 4,
+                            fontSize: 10,
+                            fontWeight: 600,
+                            background: pillStyle.background,
+                            border: `1px solid ${pillStyle.borderColor}`,
+                            color: pillStyle.color,
+                          }}
+                        >
+                          {entry.status}
+                        </span>
+                      </td>
+                      <td style={{ padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" }}>
+                        {entry.collectionName}
+                      </td>
+                      <td style={{ padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" }}>
+                        {entry.variableName}
+                      </td>
+                      <td
                         style={{
-                          borderBottom: "1px solid #e3e3e3",
-                          textAlign: "left",
-                          padding: "6px 8px",
-                          position: "sticky",
-                          top: 0,
-                          background: "#fafafa",
+                          padding: "4px 8px",
+                          verticalAlign: "top",
+                          color: "var(--figma-color-text-tertiary)",
+                          wordBreak: "break-word",
                         }}
                       >
-                        Status
-                      </th>
-                      <th
-                        style={{
-                          borderBottom: "1px solid #e3e3e3",
-                          textAlign: "left",
-                          padding: "6px 8px",
-                          position: "sticky",
-                          top: 0,
-                          background: "#fafafa",
-                        }}
-                      >
-                        Collection
-                      </th>
-                      <th
-                        style={{
-                          borderBottom: "1px solid #e3e3e3",
-                          textAlign: "left",
-                          padding: "6px 8px",
-                          position: "sticky",
-                          top: 0,
-                          background: "#fafafa",
-                        }}
-                      >
-                        Variable
-                      </th>
-                      <th
-                        style={{
-                          borderBottom: "1px solid #e3e3e3",
-                          textAlign: "left",
-                          padding: "6px 8px",
-                          position: "sticky",
-                          top: 0,
-                          background: "#fafafa",
-                        }}
-                      >
-                        Note
-                      </th>
+                        {entry.reason || ""}
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody>
-                    {importRows.map((entry: ExportImportPreviewEntry, i) => {
-                      const pillStyle = getStatusPillStyle(entry.status)
-                      return (
-                        <tr key={i}>
-                          <td style={{ padding: "4px 8px", verticalAlign: "top" }}>
-                            <span
-                              style={{
-                                display: "inline-block",
-                                padding: "2px 6px",
-                                borderRadius: 4,
-                                fontSize: 10,
-                                fontWeight: 600,
-                                background: pillStyle.background,
-                                border: `1px solid ${pillStyle.borderColor}`,
-                                color: pillStyle.color,
-                              }}
-                            >
-                              {entry.status}
-                            </span>
-                          </td>
-                          <td style={{ padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" }}>
-                            {entry.collectionName}
-                          </td>
-                          <td style={{ padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" }}>
-                            {entry.variableName}
-                          </td>
-                          <td
-                            style={{
-                              padding: "4px 8px",
-                              verticalAlign: "top",
-                              color: "#666",
-                              wordBreak: "break-word",
-                            }}
-                          >
-                            {entry.reason || ""}
-                          </td>
-                        </tr>
-                      )
-                    })}
-                  </tbody>
-                </table>
-              </div>
+                  )
+                })}
+              </DataTable>
             </Stack>
           )}
         </Stack>

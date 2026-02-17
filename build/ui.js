@@ -691,10 +691,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6a6b29d0-6839-4ce2-8044-3ba9613a7f5f/loading-indicator.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e98c2014-4d2b-423f-936d-bcd9e212d8ed/loading-indicator.module.js
   var loading_indicator_module_default;
   var init_loading_indicator_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6a6b29d0-6839-4ce2-8044-3ba9613a7f5f/loading-indicator.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e98c2014-4d2b-423f-936d-bcd9e212d8ed/loading-indicator.module.js"() {
       if (document.getElementById("3fe0db8eb7") === null) {
         const element = document.createElement("style");
         element.id = "3fe0db8eb7";
@@ -755,10 +755,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1c0986e4-79af-4bdf-9744-064e58bcb1f7/button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/3c2b2634-5e84-4349-843d-a76d7bef51fe/button.module.js
   var button_module_default;
   var init_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1c0986e4-79af-4bdf-9744-064e58bcb1f7/button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/3c2b2634-5e84-4349-843d-a76d7bef51fe/button.module.js"() {
       if (document.getElementById("1dddd0e4df") === null) {
         const element = document.createElement("style");
         element.id = "1dddd0e4df";
@@ -1080,10 +1080,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d304c51c-0e2e-44af-9d1a-b16274a2750a/checkbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ebf0eecb-fa79-4997-b9ea-b434396b72d5/checkbox.module.js
   var checkbox_module_default;
   var init_checkbox_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d304c51c-0e2e-44af-9d1a-b16274a2750a/checkbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ebf0eecb-fa79-4997-b9ea-b434396b72d5/checkbox.module.js"() {
       if (document.getElementById("f38d076240") === null) {
         const element = document.createElement("style");
         element.id = "f38d076240";
@@ -1246,10 +1246,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e7ccdad3-4855-45e7-b5eb-b81ff1ecb8b2/disclosure.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a074b32c-94ee-456d-bb99-3a3bc669192c/disclosure.module.js
   var disclosure_module_default;
   var init_disclosure_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e7ccdad3-4855-45e7-b5eb-b81ff1ecb8b2/disclosure.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a074b32c-94ee-456d-bb99-3a3bc669192c/disclosure.module.js"() {
       if (document.getElementById("4712e1cb0c") === null) {
         const element = document.createElement("style");
         element.id = "4712e1cb0c";
@@ -1350,10 +1350,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9bcfe92f-926f-40ea-a29d-5d1dea5bfa46/divider.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c7263377-5a55-44bf-b232-14b2e3ee2d04/divider.module.js
   var divider_module_default;
   var init_divider_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9bcfe92f-926f-40ea-a29d-5d1dea5bfa46/divider.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c7263377-5a55-44bf-b232-14b2e3ee2d04/divider.module.js"() {
       if (document.getElementById("4bf06403b9") === null) {
         const element = document.createElement("style");
         element.id = "4bf06403b9";
@@ -1383,10 +1383,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/42234dc8-61d1-4f6c-9e3d-8d5fab52ceb4/menu.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a5d340d9-eb13-4421-9bcf-1cd842397d63/menu.module.js
   var menu_module_default;
   var init_menu_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/42234dc8-61d1-4f6c-9e3d-8d5fab52ceb4/menu.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a5d340d9-eb13-4421-9bcf-1cd842397d63/menu.module.js"() {
       if (document.getElementById("29044db304") === null) {
         const element = document.createElement("style");
         element.id = "29044db304";
@@ -1609,10 +1609,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7a34ead5-c578-432c-8db8-2cfa7fb1b1c7/dropdown.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b64b3286-0c01-4dbd-a145-8bd2300d8579/dropdown.module.js
   var dropdown_module_default;
   var init_dropdown_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7a34ead5-c578-432c-8db8-2cfa7fb1b1c7/dropdown.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b64b3286-0c01-4dbd-a145-8bd2300d8579/dropdown.module.js"() {
       if (document.getElementById("5a226eb00e") === null) {
         const element = document.createElement("style");
         element.id = "5a226eb00e";
@@ -2053,10 +2053,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/fbab8dbc-2328-4153-9300-983e294260d5/button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e7cf6ad1-0831-4046-9387-545dd6526ae4/button.module.js
   var button_module_default2;
   var init_button_module2 = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/fbab8dbc-2328-4153-9300-983e294260d5/button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e7cf6ad1-0831-4046-9387-545dd6526ae4/button.module.js"() {
       if (document.getElementById("1dddd0e4df") === null) {
         const element = document.createElement("style");
         element.id = "1dddd0e4df";
@@ -2220,10 +2220,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d03ebd3a-8138-4064-8ddb-f9f823a0e9a8/file-upload-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1217cf58-b77b-4147-a261-04a9cf1b8be1/file-upload-button.module.js
   var file_upload_button_module_default;
   var init_file_upload_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d03ebd3a-8138-4064-8ddb-f9f823a0e9a8/file-upload-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1217cf58-b77b-4147-a261-04a9cf1b8be1/file-upload-button.module.js"() {
       if (document.getElementById("f115bb30c8") === null) {
         const element = document.createElement("style");
         element.id = "f115bb30c8";
@@ -2338,10 +2338,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d02dc754-c175-4a88-8bfc-2165b209f29c/icon-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/37e9a224-000e-457b-88f0-774daa4c906a/icon-button.module.js
   var icon_button_module_default;
   var init_icon_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d02dc754-c175-4a88-8bfc-2165b209f29c/icon-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/37e9a224-000e-457b-88f0-774daa4c906a/icon-button.module.js"() {
       if (document.getElementById("c8b08e6568") === null) {
         const element = document.createElement("style");
         element.id = "c8b08e6568";
@@ -2419,10 +2419,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5bbb42c8-f180-4e12-aea9-d73f92a97c57/text.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c3d538d2-18eb-488c-bbf5-38a7d3f809b7/text.module.js
   var text_module_default;
   var init_text_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5bbb42c8-f180-4e12-aea9-d73f92a97c57/text.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c3d538d2-18eb-488c-bbf5-38a7d3f809b7/text.module.js"() {
       if (document.getElementById("1278016d5c") === null) {
         const element = document.createElement("style");
         element.id = "1278016d5c";
@@ -2480,10 +2480,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/81928687-a421-4e2f-87c5-237deab21164/inline.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/3f6e0b3d-1885-4683-9314-ed038a4017c7/inline.module.js
   var inline_module_default;
   var init_inline_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/81928687-a421-4e2f-87c5-237deab21164/inline.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/3f6e0b3d-1885-4683-9314-ed038a4017c7/inline.module.js"() {
       if (document.getElementById("3e1b2856fc") === null) {
         const element = document.createElement("style");
         element.id = "3e1b2856fc";
@@ -2545,10 +2545,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/59912626-b74a-4184-b462-4fc019568bc2/stack.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/191f9eca-af45-4454-9aea-1015e3fb1119/stack.module.js
   var stack_module_default;
   var init_stack_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/59912626-b74a-4184-b462-4fc019568bc2/stack.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/191f9eca-af45-4454-9aea-1015e3fb1119/stack.module.js"() {
       if (document.getElementById("317515cc3f") === null) {
         const element = document.createElement("style");
         element.id = "317515cc3f";
@@ -2591,10 +2591,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a8c05598-8f71-4c20-b9f6-f20fc300ed3e/radio-buttons.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/480f823e-725f-448a-9707-64f1f2d39e8d/radio-buttons.module.js
   var radio_buttons_module_default;
   var init_radio_buttons_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a8c05598-8f71-4c20-b9f6-f20fc300ed3e/radio-buttons.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/480f823e-725f-448a-9707-64f1f2d39e8d/radio-buttons.module.js"() {
       if (document.getElementById("a066c67891") === null) {
         const element = document.createElement("style");
         element.id = "a066c67891";
@@ -2713,10 +2713,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e1711bf3-5a0b-4d7b-b219-6da100d7436a/segmented-control.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/df54c379-9b0b-4dc4-8558-3d922aee517c/segmented-control.module.js
   var segmented_control_module_default;
   var init_segmented_control_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e1711bf3-5a0b-4d7b-b219-6da100d7436a/segmented-control.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/df54c379-9b0b-4dc4-8558-3d922aee517c/segmented-control.module.js"() {
       if (document.getElementById("bc6858a1b5") === null) {
         const element = document.createElement("style");
         element.id = "bc6858a1b5";
@@ -2817,10 +2817,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/debbd7b6-32dc-4b0d-b45e-bcc13c716440/tabs.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/eb0a9ccd-f591-410e-98a7-ffafdd7e73b9/tabs.module.js
   var tabs_module_default;
   var init_tabs_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/debbd7b6-32dc-4b0d-b45e-bcc13c716440/tabs.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/eb0a9ccd-f591-410e-98a7-ffafdd7e73b9/tabs.module.js"() {
       if (document.getElementById("b2487bb7e6") === null) {
         const element = document.createElement("style");
         element.id = "b2487bb7e6";
@@ -3037,10 +3037,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d4500305-4cae-48b6-a165-a8e712842299/textbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c142c698-be93-400b-b465-5e721f3fe313/textbox.module.js
   var textbox_module_default;
   var init_textbox_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d4500305-4cae-48b6-a165-a8e712842299/textbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c142c698-be93-400b-b465-5e721f3fe313/textbox.module.js"() {
       if (document.getElementById("5c1c5c2d3d") === null) {
         const element = document.createElement("style");
         element.id = "5c1c5c2d3d";
@@ -3439,10 +3439,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f9bf7405-35fe-40ad-a1d3-ce2ec27d5a0b/textbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/123e7b0c-2d80-4964-8635-201806e2cf0a/textbox.module.js
   var textbox_module_default2;
   var init_textbox_module2 = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f9bf7405-35fe-40ad-a1d3-ce2ec27d5a0b/textbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/123e7b0c-2d80-4964-8635-201806e2cf0a/textbox.module.js"() {
       if (document.getElementById("5c1c5c2d3d") === null) {
         const element = document.createElement("style");
         element.id = "5c1c5c2d3d";
@@ -3513,10 +3513,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/eabdc304-cc3f-4a0a-9d4d-6c1f35180259/textbox-numeric.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9c33c9fc-20fe-4aa5-8c50-400994841f56/textbox-numeric.module.js
   var textbox_numeric_module_default;
   var init_textbox_numeric_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/eabdc304-cc3f-4a0a-9d4d-6c1f35180259/textbox-numeric.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9c33c9fc-20fe-4aa5-8c50-400994841f56/textbox-numeric.module.js"() {
       if (document.getElementById("b6dab244a8") === null) {
         const element = document.createElement("style");
         element.id = "b6dab244a8";
@@ -3732,10 +3732,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2aa22c78-aa09-496e-ba60-7570534f1181/container.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/58df3489-c0c9-4d4c-93bc-9784886e21fd/container.module.js
   var container_module_default;
   var init_container_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2aa22c78-aa09-496e-ba60-7570534f1181/container.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/58df3489-c0c9-4d4c-93bc-9784886e21fd/container.module.js"() {
       if (document.getElementById("b49e1406f9") === null) {
         const element = document.createElement("style");
         element.id = "b49e1406f9";
@@ -3776,10 +3776,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/90c1e62b-a748-41c9-8806-35d59f2a98dc/vertical-space.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/fa74131a-882c-47c6-b529-c1bc386ad31d/vertical-space.module.js
   var vertical_space_module_default;
   var init_vertical_space_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/90c1e62b-a748-41c9-8806-35d59f2a98dc/vertical-space.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/fa74131a-882c-47c6-b529-c1bc386ad31d/vertical-space.module.js"() {
       if (document.getElementById("ba0eea5114") === null) {
         const element = document.createElement("style");
         element.id = "ba0eea5114";
@@ -3820,9 +3820,9 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e78a69da-8349-42b8-94c0-92a16899ad2b/base.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/67fca47e-e360-4925-b0e8-f41f77e71de5/base.js
   var init_base = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e78a69da-8349-42b8-94c0-92a16899ad2b/base.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/67fca47e-e360-4925-b0e8-f41f77e71de5/base.js"() {
       if (document.getElementById("0597dd81e7") === null) {
         const element = document.createElement("style");
         element.id = "0597dd81e7";
@@ -5170,61 +5170,6 @@ svg {
     }
   });
 
-  // src/app/components/DataList.tsx
-  function DataList(props) {
-    var _a;
-    const children = H(props.children).filter(Boolean);
-    const isEmpty = children.length === 0;
-    return /* @__PURE__ */ _("div", null, props.header ? /* @__PURE__ */ _(
-      Text,
-      {
-        style: {
-          color: "var(--figma-color-text-secondary)",
-          fontSize: 11,
-          lineHeight: "16px",
-          marginBottom: 6
-        }
-      },
-      props.header
-    ) : null, props.summary ? /* @__PURE__ */ _("div", { style: { marginBottom: 6 } }, typeof props.summary === "string" ? /* @__PURE__ */ _(
-      Text,
-      {
-        style: {
-          color: "var(--figma-color-text-tertiary)",
-          fontSize: 11,
-          lineHeight: "16px"
-        }
-      },
-      props.summary
-    ) : props.summary) : null, /* @__PURE__ */ _(
-      "div",
-      {
-        style: {
-          border: "1px solid var(--figma-color-border)",
-          borderRadius: 6,
-          overflow: "hidden"
-        }
-      },
-      isEmpty ? /* @__PURE__ */ _("div", { style: { padding: 10 } }, /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-tertiary)" } }, (_a = props.emptyText) != null ? _a : "No items")) : children.map((child, index) => /* @__PURE__ */ _(
-        "div",
-        {
-          key: index,
-          style: {
-            borderTop: index === 0 ? "none" : "1px solid var(--figma-color-border-secondary)"
-          }
-        },
-        child
-      ))
-    ));
-  }
-  var init_DataList = __esm({
-    "src/app/components/DataList.tsx"() {
-      "use strict";
-      init_preact_module();
-      init_lib2();
-    }
-  });
-
   // src/app/components/DataTable.tsx
   function DataTable(props) {
     return /* @__PURE__ */ _("div", null, props.header ? /* @__PURE__ */ _(
@@ -5545,8 +5490,8 @@ svg {
         "*"
       );
     }
-    const analyzeColumns = [
-      { label: "Instance", width: "30%" },
+    const swapColumns = [
+      { label: "Layer name", width: "30%" },
       { label: "Old component", width: "35%" },
       { label: "New component", width: "35%" }
     ];
@@ -5624,7 +5569,7 @@ svg {
       {
         header: "Instances to swap",
         summary: `${analyzeResult.mappableInstances} mappable of ${analyzeResult.totalInstances} total (${analyzeResult.uniqueOldKeys} unique components)${analyzeResult.items.length < analyzeResult.mappableInstances ? ` \u2014 showing first ${analyzeResult.items.length}` : ""}`,
-        columns: analyzeColumns
+        columns: swapColumns
       },
       analyzeResult.items.map((item) => /* @__PURE__ */ _(
         "tr",
@@ -5638,37 +5583,26 @@ svg {
         /* @__PURE__ */ _("td", { style: cellStyle }, item.oldComponentName),
         /* @__PURE__ */ _("td", { style: cellStyle }, item.newComponentName)
       ))
-    ), applyResult && !isBusy && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(
-      DataList,
+    ), applyResult && !isBusy && /* @__PURE__ */ _(
+      DataTable,
       {
         header: "Swapped instances",
         summary: `${applyResult.swapped} swapped, ${applyResult.skipped} skipped`,
-        emptyText: "No instances were swapped"
+        columns: swapColumns
       },
       applyResult.swappedItems.map((item) => /* @__PURE__ */ _(
-        "div",
+        "tr",
         {
           key: item.nodeId,
-          style: {
-            padding: "6px 8px",
-            cursor: "pointer"
-          },
+          style: { cursor: "pointer" },
           onClick: () => handleFocusNode(item.nodeId),
           title: "Click to focus on canvas"
         },
-        /* @__PURE__ */ _(Text, { style: { fontSize: 11 } }, item.name),
-        item.pageName && /* @__PURE__ */ _(
-          Text,
-          {
-            style: {
-              fontSize: 11,
-              color: "var(--figma-color-text-secondary)"
-            }
-          },
-          item.pageName
-        )
+        /* @__PURE__ */ _("td", { style: cellStyle }, item.name),
+        /* @__PURE__ */ _("td", { style: cellStyle }, item.oldComponentName),
+        /* @__PURE__ */ _("td", { style: cellStyle }, item.newComponentName)
       ))
-    )), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Mappings"), /* @__PURE__ */ _(
+    ), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Mappings"), /* @__PURE__ */ _(
       Checkbox,
       {
         value: useBuiltInIcons,
@@ -5730,13 +5664,196 @@ svg {
       init_preact_module();
       init_hooks_module();
       init_messages();
-      init_DataList();
       init_DataTable();
       init_Page();
       init_ScopeControl();
       init_State();
       init_ToolBody();
       init_ToolHeader();
+    }
+  });
+
+  // src/app/components/DataList.tsx
+  function DataList(props) {
+    var _a;
+    const children = H(props.children).filter(Boolean);
+    const isEmpty = children.length === 0;
+    return /* @__PURE__ */ _("div", null, props.header ? /* @__PURE__ */ _(
+      Text,
+      {
+        style: {
+          color: "var(--figma-color-text-secondary)",
+          fontSize: 11,
+          lineHeight: "16px",
+          marginBottom: 6
+        }
+      },
+      props.header
+    ) : null, props.summary ? /* @__PURE__ */ _("div", { style: { marginBottom: 6 } }, typeof props.summary === "string" ? /* @__PURE__ */ _(
+      Text,
+      {
+        style: {
+          color: "var(--figma-color-text-tertiary)",
+          fontSize: 11,
+          lineHeight: "16px"
+        }
+      },
+      props.summary
+    ) : props.summary) : null, /* @__PURE__ */ _(
+      "div",
+      {
+        style: {
+          border: "1px solid var(--figma-color-border)",
+          borderRadius: 6,
+          overflow: "hidden"
+        }
+      },
+      isEmpty ? /* @__PURE__ */ _("div", { style: { padding: 10 } }, /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-tertiary)" } }, (_a = props.emptyText) != null ? _a : "No items")) : children.map((child, index) => /* @__PURE__ */ _(
+        "div",
+        {
+          key: index,
+          style: {
+            borderTop: index === 0 ? "none" : "1px solid var(--figma-color-border-secondary)"
+          }
+        },
+        child
+      ))
+    ));
+  }
+  var init_DataList = __esm({
+    "src/app/components/DataList.tsx"() {
+      "use strict";
+      init_preact_module();
+      init_lib2();
+    }
+  });
+
+  // src/app/components/DataRow.tsx
+  function DataRow(props) {
+    const [hovered, setHovered] = d2(false);
+    const hasActions = props.actions && props.actions.length > 0;
+    const hasSecondary = props.secondary != null;
+    const hasTertiary = props.tertiary != null;
+    const content = /* @__PURE__ */ _("div", { style: { flex: 1, minWidth: 0, display: "flex", flexDirection: "column", gap: 2 } }, typeof props.primary === "string" ? /* @__PURE__ */ _(
+      "div",
+      {
+        style: {
+          color: "var(--figma-color-text)",
+          wordBreak: "break-word",
+          whiteSpace: "pre-wrap",
+          lineHeight: "20px"
+        }
+      },
+      props.primary
+    ) : props.primary, hasSecondary ? typeof props.secondary === "string" ? /* @__PURE__ */ _(
+      "div",
+      {
+        style: {
+          color: "var(--figma-color-text-secondary)",
+          fontSize: 11,
+          lineHeight: "16px",
+          wordBreak: "break-all"
+        }
+      },
+      props.secondary
+    ) : props.secondary : null, hasTertiary ? typeof props.tertiary === "string" ? /* @__PURE__ */ _(
+      "div",
+      {
+        style: {
+          color: "var(--figma-color-text-tertiary)",
+          fontSize: 11,
+          lineHeight: "16px",
+          wordBreak: "break-word"
+        }
+      },
+      props.tertiary
+    ) : props.tertiary : null, props.alert != null ? /* @__PURE__ */ _(
+      "div",
+      {
+        style: {
+          padding: "6px 8px",
+          borderRadius: 4,
+          background: "var(--figma-color-bg-warning-tertiary, #fff8e1)",
+          border: "1px solid var(--figma-color-border-warning, #ffd54f)"
+        }
+      },
+      typeof props.alert === "string" ? /* @__PURE__ */ _(
+        "div",
+        {
+          style: {
+            color: "var(--figma-color-text-warning)",
+            fontSize: 11,
+            lineHeight: "16px",
+            wordBreak: "break-word"
+          }
+        },
+        props.alert
+      ) : props.alert
+    ) : null);
+    return (
+      /* Wrapper div for the entire row*/
+      /* @__PURE__ */ _(
+        "div",
+        {
+          onMouseEnter: () => setHovered(true),
+          onMouseLeave: () => setHovered(false),
+          onClick: props.onClick,
+          style: {
+            padding: "4px 8px",
+            display: "flex",
+            alignItems: "flex-start",
+            gap: 8,
+            cursor: props.onClick ? "pointer" : "default",
+            background: hovered ? "color-mix(in srgb, var(--figma-color-bg-hover) 50%, transparent)" : "transparent",
+            transition: "background-color 120ms ease"
+          }
+        },
+        props.checkbox ? /* @__PURE__ */ _("div", { style: { flexShrink: 0, paddingTop: 2 } }, /* @__PURE__ */ _(
+          Checkbox,
+          {
+            value: props.checkbox.checked,
+            onValueChange: props.checkbox.onChange
+          },
+          /* @__PURE__ */ _("span", null)
+        )) : null,
+        content,
+        hasActions ? /* @__PURE__ */ _(
+          "div",
+          {
+            style: {
+              flexShrink: 0,
+              display: "flex",
+              alignItems: "center",
+              gap: 4,
+              opacity: hovered ? 1 : 0,
+              pointerEvents: hovered ? "auto" : "none",
+              transition: "opacity 120ms ease"
+            }
+          },
+          props.actions.map((action, i3) => /* @__PURE__ */ _(
+            IconButton,
+            {
+              key: i3,
+              title: action.title,
+              onClick: (e3) => {
+                e3.preventDefault();
+                e3.stopPropagation();
+                action.onClick();
+              }
+            },
+            action.icon
+          ))
+        ) : null,
+        props.trailing != null ? /* @__PURE__ */ _("div", { style: { flexShrink: 0, paddingTop: 2 } }, props.trailing) : null
+      )
+    );
+  }
+  var init_DataRow = __esm({
+    "src/app/components/DataRow.tsx"() {
+      "use strict";
+      init_preact_module();
+      init_hooks_module();
+      init_lib2();
     }
   });
 
@@ -5948,41 +6065,13 @@ svg {
         /* @__PURE__ */ _(Text, null, "Check colors of nested items")
       )), /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "Text color is from Mockup markup")))
     ), printPreview && printPreview.entries.length > 0 ? /* @__PURE__ */ _(DataList, { header: "Will be printed" }, printPreview.entries.map((entry, index) => /* @__PURE__ */ _(
-      "div",
+      DataRow,
       {
         key: `${entry.layerName}-${index}`,
-        style: {
-          padding: 10,
-          display: "flex",
-          alignItems: "flex-start",
-          justifyContent: "space-between",
-          gap: 8
-        }
-      },
-      /* @__PURE__ */ _("div", { style: { flex: 1, minWidth: 0, display: "flex", flexDirection: "column", gap: 2 } }, /* @__PURE__ */ _(
-        "div",
-        {
-          style: {
-            color: "var(--figma-color-text)",
-            lineHeight: "20px",
-            wordBreak: "break-word",
-            whiteSpace: "pre-wrap"
-          }
-        },
-        entry.label
-      ), /* @__PURE__ */ _(
-        "div",
-        {
-          style: {
-            color: "var(--figma-color-text-tertiary)",
-            fontSize: 11,
-            lineHeight: "16px",
-            wordBreak: "break-all"
-          }
-        },
-        entry.layerName
-      )),
-      /* @__PURE__ */ _("div", { style: { flexShrink: 0, paddingTop: 2 } }, /* @__PURE__ */ _(CopyIconButton, { text: entry.layerName, title: "Copy layer name" }))
+        primary: entry.label,
+        secondary: entry.layerName,
+        trailing: /* @__PURE__ */ _(CopyIconButton, { text: entry.layerName, title: "Copy layer name" })
+      }
     ))) : null, !printPreview && selectionSize > 0 ? /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-tertiary)" } }, "Loading", "\u2026") : null, printPreview && printPreview.entries.length === 0 && selectionSize > 0 ? /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-tertiary)" } }, "No colors found in selection.") : null) : null, activeTab === "Update" ? /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(
       Checkbox,
       {
@@ -6241,6 +6330,7 @@ svg {
       init_messages();
       init_CopyIconButton();
       init_DataList();
+      init_DataRow();
       init_InlineTextDiff();
       init_Page();
       init_ScopeControl();
@@ -6545,110 +6635,38 @@ svg {
         onClick: handleApplyImport
       },
       "Apply Import"
-    ), !canApplyImport && importPreview.totals.conflicts > 0 && /* @__PURE__ */ _(Text, { style: { color: "#9f1239" } }, "Resolve conflicts before applying."), importResult && /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, "Created: ", importResult.totals.created, ", Updated: ", importResult.totals.updated, ", Renamed: ", importResult.totals.renamed, ", Skipped: ", importResult.totals.skipped, ", Failed: ", importResult.totals.failed), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(
-      "div",
-      {
-        style: {
-          border: "1px solid #e3e3e3",
-          borderRadius: 6
-        }
-      },
-      /* @__PURE__ */ _(
-        "table",
+    ), !canApplyImport && importPreview.totals.conflicts > 0 && /* @__PURE__ */ _(Text, { style: { color: "#9f1239" } }, "Resolve conflicts before applying."), importResult && /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, "Created: ", importResult.totals.created, ", Updated: ", importResult.totals.updated, ", Renamed: ", importResult.totals.renamed, ", Skipped: ", importResult.totals.skipped, ", Failed: ", importResult.totals.failed), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(DataTable, { columns: importPreviewColumns }, importRows.map((entry, i3) => {
+      const pillStyle = getStatusPillStyle(entry.status);
+      return /* @__PURE__ */ _("tr", { key: i3 }, /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top" } }, /* @__PURE__ */ _(
+        "span",
         {
           style: {
-            width: "100%",
-            borderCollapse: "collapse",
-            fontSize: 12,
-            tableLayout: "fixed"
+            display: "inline-block",
+            padding: "2px 6px",
+            borderRadius: 4,
+            fontSize: 10,
+            fontWeight: 600,
+            background: pillStyle.background,
+            border: `1px solid ${pillStyle.borderColor}`,
+            color: pillStyle.color
           }
         },
-        /* @__PURE__ */ _("thead", null, /* @__PURE__ */ _("tr", null, /* @__PURE__ */ _(
-          "th",
-          {
-            style: {
-              borderBottom: "1px solid #e3e3e3",
-              textAlign: "left",
-              padding: "6px 8px",
-              position: "sticky",
-              top: 0,
-              background: "#fafafa"
-            }
-          },
-          "Status"
-        ), /* @__PURE__ */ _(
-          "th",
-          {
-            style: {
-              borderBottom: "1px solid #e3e3e3",
-              textAlign: "left",
-              padding: "6px 8px",
-              position: "sticky",
-              top: 0,
-              background: "#fafafa"
-            }
-          },
-          "Collection"
-        ), /* @__PURE__ */ _(
-          "th",
-          {
-            style: {
-              borderBottom: "1px solid #e3e3e3",
-              textAlign: "left",
-              padding: "6px 8px",
-              position: "sticky",
-              top: 0,
-              background: "#fafafa"
-            }
-          },
-          "Variable"
-        ), /* @__PURE__ */ _(
-          "th",
-          {
-            style: {
-              borderBottom: "1px solid #e3e3e3",
-              textAlign: "left",
-              padding: "6px 8px",
-              position: "sticky",
-              top: 0,
-              background: "#fafafa"
-            }
-          },
-          "Note"
-        ))),
-        /* @__PURE__ */ _("tbody", null, importRows.map((entry, i3) => {
-          const pillStyle = getStatusPillStyle(entry.status);
-          return /* @__PURE__ */ _("tr", { key: i3 }, /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top" } }, /* @__PURE__ */ _(
-            "span",
-            {
-              style: {
-                display: "inline-block",
-                padding: "2px 6px",
-                borderRadius: 4,
-                fontSize: 10,
-                fontWeight: 600,
-                background: pillStyle.background,
-                border: `1px solid ${pillStyle.borderColor}`,
-                color: pillStyle.color
-              }
-            },
-            entry.status
-          )), /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" } }, entry.collectionName), /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" } }, entry.variableName), /* @__PURE__ */ _(
-            "td",
-            {
-              style: {
-                padding: "4px 8px",
-                verticalAlign: "top",
-                color: "#666",
-                wordBreak: "break-word"
-              }
-            },
-            entry.reason || ""
-          ));
-        }))
-      )
-    )))));
+        entry.status
+      )), /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" } }, entry.collectionName), /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" } }, entry.variableName), /* @__PURE__ */ _(
+        "td",
+        {
+          style: {
+            padding: "4px 8px",
+            verticalAlign: "top",
+            color: "var(--figma-color-text-tertiary)",
+            wordBreak: "break-word"
+          }
+        },
+        entry.reason || ""
+      ));
+    }))))));
   }
+  var importPreviewColumns;
   var init_VariablesExportImportToolView = __esm({
     "src/app/views/variables-export-import-tool/VariablesExportImportToolView.tsx"() {
       "use strict";
@@ -6657,9 +6675,16 @@ svg {
       init_preact_module();
       init_hooks_module();
       init_messages();
+      init_DataTable();
       init_Page();
       init_ToolBody();
       init_ToolHeader();
+      importPreviewColumns = [
+        { label: "Status" },
+        { label: "Collection" },
+        { label: "Variable" },
+        { label: "Note" }
+      ];
     }
   });
 

@@ -24,7 +24,6 @@ import {
   type LibrarySwapProgress,
   type ManualPair,
 } from "../../messages"
-import { DataList } from "../../components/DataList"
 import { DataTable, type DataTableColumn } from "../../components/DataTable"
 import { Page } from "../../components/Page"
 import { ScopeControl, useScope } from "../../components/ScopeControl"
@@ -266,8 +265,8 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
   // -----------------------------------------------------------------------
   // Table constants
   // -----------------------------------------------------------------------
-  const analyzeColumns: DataTableColumn[] = [
-    { label: "Instance", width: "30%" },
+  const swapColumns: DataTableColumn[] = [
+    { label: "Layer name", width: "30%" },
     { label: "Old component", width: "35%" },
     { label: "New component", width: "35%" },
   ]
@@ -404,7 +403,7 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
             <DataTable
               header="Instances to swap"
               summary={`${analyzeResult.mappableInstances} mappable of ${analyzeResult.totalInstances} total (${analyzeResult.uniqueOldKeys} unique components)${analyzeResult.items.length < analyzeResult.mappableInstances ? ` — showing first ${analyzeResult.items.length}` : ""}`}
-              columns={analyzeColumns}
+              columns={swapColumns}
             >
               {analyzeResult.items.map((item) => (
                 <tr
@@ -423,39 +422,24 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
 
           {/* -- Apply result ---------------------------------------------- */}
           {applyResult && !isBusy && (
-            <Fragment>
-              <DataList
-                header="Swapped instances"
-                summary={`${applyResult.swapped} swapped, ${applyResult.skipped} skipped`}
-                emptyText="No instances were swapped"
-              >
-                {applyResult.swappedItems.map((item) => (
-                  <div
-                    key={item.nodeId}
-                    style={{
-                      padding: "6px 8px",
-                      cursor: "pointer",
-                    }}
-                    onClick={() => handleFocusNode(item.nodeId)}
-                    title="Click to focus on canvas"
-                  >
-                    <Text style={{ fontSize: 11 }}>
-                      {item.name}
-                    </Text>
-                    {item.pageName && (
-                      <Text
-                        style={{
-                          fontSize: 11,
-                          color: "var(--figma-color-text-secondary)",
-                        }}
-                      >
-                        {item.pageName}
-                      </Text>
-                    )}
-                  </div>
-                ))}
-              </DataList>
-            </Fragment>
+            <DataTable
+              header="Swapped instances"
+              summary={`${applyResult.swapped} swapped, ${applyResult.skipped} skipped`}
+              columns={swapColumns}
+            >
+              {applyResult.swappedItems.map((item) => (
+                <tr
+                  key={item.nodeId}
+                  style={{ cursor: "pointer" }}
+                  onClick={() => handleFocusNode(item.nodeId)}
+                  title="Click to focus on canvas"
+                >
+                  <td style={cellStyle}>{item.name}</td>
+                  <td style={cellStyle}>{item.oldComponentName}</td>
+                  <td style={cellStyle}>{item.newComponentName}</td>
+                </tr>
+              ))}
+            </DataTable>
           )}
           {/* -- Mappings -------------------------------------------------- */}
           <Divider />
