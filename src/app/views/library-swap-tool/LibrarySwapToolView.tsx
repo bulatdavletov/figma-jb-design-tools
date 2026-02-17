@@ -87,11 +87,7 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
 
       if (msg.type === MAIN_TO_UI.LIBRARY_SWAP_SELECTION) {
         setSelectionSize(msg.selectionSize)
-        if (msg.selectionSize > 0 && scope !== "selection") {
-          // Don't force scope change; just update count
-        } else if (msg.selectionSize === 0 && scope === "selection") {
-          setScope("page")
-        }
+        setScope(msg.selectionSize > 0 ? "selection" : "page")
       }
 
       if (msg.type === MAIN_TO_UI.LIBRARY_SWAP_ANALYZE_RESULT) {
@@ -147,7 +143,7 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
 
     window.addEventListener("message", handleMessage)
     return () => window.removeEventListener("message", handleMessage)
-  }, [scope])
+  }, [])
 
   // -----------------------------------------------------------------------
   // Actions
