@@ -1,4 +1,4 @@
-## JetBrains Design Tools Plugin — Product Spec (draft)
+## Int UI Design Tools Plugin — Product Spec (draft)
 
 ### Goal
 Make a single “Swiss‑army” Figma plugin that bundles several practical tools (mostly variables/tokens + colors + icon/component swapping) into one **cohesive, safe, and easy-to-discover** tool.

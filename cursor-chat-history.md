@@ -5,6 +5,9 @@
 
 ---
 
+### 2026-02-17
+Olya suggested to rename from JetBrains Design Tools to Int UI Design Tools
+
 ## Memory (Mem0 + OpenMemory)
 
 ### 2026-01-29
@@ -861,6 +864,13 @@
   - Named rows in layers panel: "OldName → NewName".
 - **Merge script**: `scripts/merge-mapping.cjs` -- merges exported JSON into built-in default files (`icons` or `uikit`).
 - Build passes cleanly.
+
+### 2026-02-17
+- **Bug fix: scope not switching to Selection on canvas select**. When user selected something on canvas, scope stayed on "Current Page" instead of auto-switching to "Selection".
+- Root cause: `LIBRARY_SWAP_SELECTION` handler had a comment "Don't force scope change; just update count" — it only fell back to "page" on empty selection but never switched TO "selection".
+- Fix: aligned behavior with Replace Usages tool — `setScope(selectionSize > 0 ? "selection" : "page")`.
+- Also removed stale `scope` from `useEffect` dependency array (no longer read inside handler).
+- Verification: `npm run build` passed; no linter errors.
 
 ---
 

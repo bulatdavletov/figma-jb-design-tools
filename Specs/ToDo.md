@@ -1,3 +1,7 @@
+## Markup Tool:
+Add Sticky Note
+Convert text to sticky note and vise versa.
+
 ## Batch Rename Tool:
 - [x] New name: Rename via JSON file.
 Shoul I combine it somehow with Export Import tool?
@@ -21,6 +25,8 @@ Manual match as separate Tab.
 print anything by Variable ID or component key, maybe?.
 
 ## General
+
+UI: Loader not aligned with text
 
 Need md file with available Figma colors,  Figma API actions.
 

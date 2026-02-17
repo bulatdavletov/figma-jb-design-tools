@@ -30,7 +30,7 @@ function getToolTitle(command: string): string {
     case "variables-replace-usages-tool":
       return "Variables Replace Usages"
     default:
-      return "JetBrains Design Tools"
+      return "Int UI Design Tools"
   }
 }
 

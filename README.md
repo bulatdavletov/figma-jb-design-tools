@@ -1,4 +1,4 @@
-## JetBrains Design Tools
+## Int UI Design Tools
 
 ### What this is
 - A Figma plugin that has:
