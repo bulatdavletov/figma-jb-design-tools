@@ -1624,60 +1624,62 @@ async function analyzeSwap(mergedMatches, scope, meta, onProgress) {
 }
 async function swapInstances(mergedMatches, scope, onProgress) {
   var _a;
-  const instances = await getInstancesForScope(scope);
   const cache = /* @__PURE__ */ new Map();
-  const total = instances.length;
+  const alreadySwapped = /* @__PURE__ */ new Set();
   let swapped = 0;
   let skipped = 0;
   const swappedItems = [];
-  for (let i = 0; i < instances.length; i++) {
-    const inst = instances[i];
-    let main = null;
-    try {
-      main = await inst.getMainComponentAsync();
-    } catch (e) {
-      main = null;
-    }
-    const oldKey = (_a = main == null ? void 0 : main.key) != null ? _a : null;
-    if (!oldKey) {
-      skipped++;
+  const MAX_PASSES = 5;
+  let pass = 0;
+  while (pass < MAX_PASSES) {
+    pass++;
+    const instances = await getInstancesForScope(scope);
+    let swappedThisPass = 0;
+    for (let i = 0; i < instances.length; i++) {
+      const inst = instances[i];
+      if (alreadySwapped.has(inst.id)) continue;
+      let main = null;
+      try {
+        main = await inst.getMainComponentAsync();
+      } catch (e) {
+        main = null;
+      }
+      const oldKey = (_a = main == null ? void 0 : main.key) != null ? _a : null;
+      if (!oldKey || !mergedMatches[oldKey]) {
+        if (pass === 1) skipped++;
+        if (onProgress && i % 50 === 0) {
+          onProgress(swapped, instances.length);
+          await new Promise((r) => setTimeout(r, 0));
+        }
+        continue;
+      }
+      const newKey = mergedMatches[oldKey];
+      try {
+        let newComp = cache.get(newKey);
+        if (!newComp) {
+          newComp = await figma.importComponentByKeyAsync(newKey);
+          cache.set(newKey, newComp);
+        }
+        inst.swapComponent(newComp);
+        alreadySwapped.add(inst.id);
+        swapped++;
+        swappedThisPass++;
+        if (swappedItems.length < 200) {
+          swappedItems.push({
+            nodeId: inst.id,
+            name: inst.name,
+            pageName: getPageName(inst)
+          });
+        }
+      } catch (e) {
+        skipped++;
+      }
       if (onProgress && i % 50 === 0) {
-        onProgress(i, total);
+        onProgress(swapped, instances.length);
         await new Promise((r) => setTimeout(r, 0));
       }
-      continue;
     }
-    const newKey = mergedMatches[oldKey];
-    if (!newKey) {
-      skipped++;
-      if (onProgress && i % 50 === 0) {
-        onProgress(i, total);
-        await new Promise((r) => setTimeout(r, 0));
-      }
-      continue;
-    }
-    try {
-      let newComp = cache.get(newKey);
-      if (!newComp) {
-        newComp = await figma.importComponentByKeyAsync(newKey);
-        cache.set(newKey, newComp);
-      }
-      inst.swapComponent(newComp);
-      swapped++;
-      if (swappedItems.length < 200) {
-        swappedItems.push({
-          nodeId: inst.id,
-          name: inst.name,
-          pageName: getPageName(inst)
-        });
-      }
-    } catch (e) {
-      skipped++;
-    }
-    if (onProgress && i % 50 === 0) {
-      onProgress(i, total);
-      await new Promise((r) => setTimeout(r, 0));
-    }
+    if (swappedThisPass === 0) break;
   }
   return { swapped, skipped, swappedItems };
 }

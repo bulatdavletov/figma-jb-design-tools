@@ -5,9 +5,10 @@ import { IconButton } from "@create-figma-plugin/ui"
 export type ColorRowAction = {
   id: string
   label: string
-  onClick: () => void | Promise<void>
+  onClick?: () => void | Promise<void>
   icon?: preact.ComponentChildren
-  kind?: "iconButton" | "button"
+  kind?: "iconButton" | "button" | "custom"
+  component?: preact.ComponentChildren
   disabled?: boolean
 }
 
@@ -95,7 +96,9 @@ export function ColorRow(props: {
           }}
         >
           {actions.map((action) =>
-            action.kind === "button" ? (
+            action.kind === "custom" ? (
+              <span key={action.id}>{action.component}</span>
+            ) : action.kind === "button" ? (
               <button
                 key={action.id}
                 type="button"
@@ -104,7 +107,7 @@ export function ColorRow(props: {
                   e.preventDefault()
                   e.stopPropagation()
                   if (action.disabled) return
-                  void action.onClick()
+                  void action.onClick?.()
                 }}
                 onMouseDown={(e) => {
                   e.preventDefault()
@@ -139,7 +142,7 @@ export function ColorRow(props: {
                   e.preventDefault()
                   e.stopPropagation()
                   if (action.disabled) return
-                  void action.onClick()
+                  void action.onClick?.()
                 }}
               >
                 {action.icon ?? action.label}

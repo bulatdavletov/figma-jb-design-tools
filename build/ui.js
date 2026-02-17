@@ -691,10 +691,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/68011338-2d37-411c-8a33-0650b0f01f88/loading-indicator.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6a6b29d0-6839-4ce2-8044-3ba9613a7f5f/loading-indicator.module.js
   var loading_indicator_module_default;
   var init_loading_indicator_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/68011338-2d37-411c-8a33-0650b0f01f88/loading-indicator.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6a6b29d0-6839-4ce2-8044-3ba9613a7f5f/loading-indicator.module.js"() {
       if (document.getElementById("3fe0db8eb7") === null) {
         const element = document.createElement("style");
         element.id = "3fe0db8eb7";
@@ -755,10 +755,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/eddd3ed5-0918-48be-8345-d2856f934c02/button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1c0986e4-79af-4bdf-9744-064e58bcb1f7/button.module.js
   var button_module_default;
   var init_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/eddd3ed5-0918-48be-8345-d2856f934c02/button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1c0986e4-79af-4bdf-9744-064e58bcb1f7/button.module.js"() {
       if (document.getElementById("1dddd0e4df") === null) {
         const element = document.createElement("style");
         element.id = "1dddd0e4df";
@@ -1080,10 +1080,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c6b953ba-cdc9-4bf1-8f6c-96adb6607ed0/checkbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d304c51c-0e2e-44af-9d1a-b16274a2750a/checkbox.module.js
   var checkbox_module_default;
   var init_checkbox_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c6b953ba-cdc9-4bf1-8f6c-96adb6607ed0/checkbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d304c51c-0e2e-44af-9d1a-b16274a2750a/checkbox.module.js"() {
       if (document.getElementById("f38d076240") === null) {
         const element = document.createElement("style");
         element.id = "f38d076240";
@@ -1246,10 +1246,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d393ff2b-d87f-4ac8-a065-221e688c52ab/disclosure.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e7ccdad3-4855-45e7-b5eb-b81ff1ecb8b2/disclosure.module.js
   var disclosure_module_default;
   var init_disclosure_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d393ff2b-d87f-4ac8-a065-221e688c52ab/disclosure.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e7ccdad3-4855-45e7-b5eb-b81ff1ecb8b2/disclosure.module.js"() {
       if (document.getElementById("4712e1cb0c") === null) {
         const element = document.createElement("style");
         element.id = "4712e1cb0c";
@@ -1350,10 +1350,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8fdf1c86-8537-4e1d-b476-32e20605996d/divider.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9bcfe92f-926f-40ea-a29d-5d1dea5bfa46/divider.module.js
   var divider_module_default;
   var init_divider_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8fdf1c86-8537-4e1d-b476-32e20605996d/divider.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9bcfe92f-926f-40ea-a29d-5d1dea5bfa46/divider.module.js"() {
       if (document.getElementById("4bf06403b9") === null) {
         const element = document.createElement("style");
         element.id = "4bf06403b9";
@@ -1383,10 +1383,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a823afa3-5974-42dd-92f6-b708277ca698/menu.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/42234dc8-61d1-4f6c-9e3d-8d5fab52ceb4/menu.module.js
   var menu_module_default;
   var init_menu_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a823afa3-5974-42dd-92f6-b708277ca698/menu.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/42234dc8-61d1-4f6c-9e3d-8d5fab52ceb4/menu.module.js"() {
       if (document.getElementById("29044db304") === null) {
         const element = document.createElement("style");
         element.id = "29044db304";
@@ -1609,10 +1609,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/df4bb14b-7c57-4623-bd5a-7b4c08783944/dropdown.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7a34ead5-c578-432c-8db8-2cfa7fb1b1c7/dropdown.module.js
   var dropdown_module_default;
   var init_dropdown_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/df4bb14b-7c57-4623-bd5a-7b4c08783944/dropdown.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7a34ead5-c578-432c-8db8-2cfa7fb1b1c7/dropdown.module.js"() {
       if (document.getElementById("5a226eb00e") === null) {
         const element = document.createElement("style");
         element.id = "5a226eb00e";
@@ -2053,10 +2053,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/49f1fe61-2491-43d4-a227-0328ce432e9c/button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/fbab8dbc-2328-4153-9300-983e294260d5/button.module.js
   var button_module_default2;
   var init_button_module2 = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/49f1fe61-2491-43d4-a227-0328ce432e9c/button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/fbab8dbc-2328-4153-9300-983e294260d5/button.module.js"() {
       if (document.getElementById("1dddd0e4df") === null) {
         const element = document.createElement("style");
         element.id = "1dddd0e4df";
@@ -2220,10 +2220,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/59165ef5-3723-4528-9f90-70ce45aebbde/file-upload-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d03ebd3a-8138-4064-8ddb-f9f823a0e9a8/file-upload-button.module.js
   var file_upload_button_module_default;
   var init_file_upload_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/59165ef5-3723-4528-9f90-70ce45aebbde/file-upload-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d03ebd3a-8138-4064-8ddb-f9f823a0e9a8/file-upload-button.module.js"() {
       if (document.getElementById("f115bb30c8") === null) {
         const element = document.createElement("style");
         element.id = "f115bb30c8";
@@ -2338,10 +2338,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f952b2d8-ad0a-467b-ab65-5e7a73680f52/icon-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d02dc754-c175-4a88-8bfc-2165b209f29c/icon-button.module.js
   var icon_button_module_default;
   var init_icon_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f952b2d8-ad0a-467b-ab65-5e7a73680f52/icon-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d02dc754-c175-4a88-8bfc-2165b209f29c/icon-button.module.js"() {
       if (document.getElementById("c8b08e6568") === null) {
         const element = document.createElement("style");
         element.id = "c8b08e6568";
@@ -2419,10 +2419,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/aab2b990-9ca8-47f2-9fe3-5e23aab9ec0a/text.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5bbb42c8-f180-4e12-aea9-d73f92a97c57/text.module.js
   var text_module_default;
   var init_text_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/aab2b990-9ca8-47f2-9fe3-5e23aab9ec0a/text.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5bbb42c8-f180-4e12-aea9-d73f92a97c57/text.module.js"() {
       if (document.getElementById("1278016d5c") === null) {
         const element = document.createElement("style");
         element.id = "1278016d5c";
@@ -2480,10 +2480,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0d6b98fe-c497-49fb-a39a-c22c72dbbcb1/inline.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/81928687-a421-4e2f-87c5-237deab21164/inline.module.js
   var inline_module_default;
   var init_inline_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0d6b98fe-c497-49fb-a39a-c22c72dbbcb1/inline.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/81928687-a421-4e2f-87c5-237deab21164/inline.module.js"() {
       if (document.getElementById("3e1b2856fc") === null) {
         const element = document.createElement("style");
         element.id = "3e1b2856fc";
@@ -2545,10 +2545,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e712e520-60f5-4118-9ac9-a3f8b359e657/stack.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/59912626-b74a-4184-b462-4fc019568bc2/stack.module.js
   var stack_module_default;
   var init_stack_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e712e520-60f5-4118-9ac9-a3f8b359e657/stack.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/59912626-b74a-4184-b462-4fc019568bc2/stack.module.js"() {
       if (document.getElementById("317515cc3f") === null) {
         const element = document.createElement("style");
         element.id = "317515cc3f";
@@ -2591,10 +2591,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6a6a7198-8d08-44eb-9285-483516c3394f/radio-buttons.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a8c05598-8f71-4c20-b9f6-f20fc300ed3e/radio-buttons.module.js
   var radio_buttons_module_default;
   var init_radio_buttons_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6a6a7198-8d08-44eb-9285-483516c3394f/radio-buttons.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a8c05598-8f71-4c20-b9f6-f20fc300ed3e/radio-buttons.module.js"() {
       if (document.getElementById("a066c67891") === null) {
         const element = document.createElement("style");
         element.id = "a066c67891";
@@ -2713,10 +2713,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/13c7af23-2ca6-4074-9349-5aff80af0edf/segmented-control.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e1711bf3-5a0b-4d7b-b219-6da100d7436a/segmented-control.module.js
   var segmented_control_module_default;
   var init_segmented_control_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/13c7af23-2ca6-4074-9349-5aff80af0edf/segmented-control.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e1711bf3-5a0b-4d7b-b219-6da100d7436a/segmented-control.module.js"() {
       if (document.getElementById("bc6858a1b5") === null) {
         const element = document.createElement("style");
         element.id = "bc6858a1b5";
@@ -2817,10 +2817,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/beec2e18-1338-4456-8f2a-1bef9cbf3bd5/tabs.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/debbd7b6-32dc-4b0d-b45e-bcc13c716440/tabs.module.js
   var tabs_module_default;
   var init_tabs_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/beec2e18-1338-4456-8f2a-1bef9cbf3bd5/tabs.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/debbd7b6-32dc-4b0d-b45e-bcc13c716440/tabs.module.js"() {
       if (document.getElementById("b2487bb7e6") === null) {
         const element = document.createElement("style");
         element.id = "b2487bb7e6";
@@ -3037,10 +3037,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7b5b3750-db8d-48f4-a989-613e6a999e33/textbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d4500305-4cae-48b6-a165-a8e712842299/textbox.module.js
   var textbox_module_default;
   var init_textbox_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7b5b3750-db8d-48f4-a989-613e6a999e33/textbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d4500305-4cae-48b6-a165-a8e712842299/textbox.module.js"() {
       if (document.getElementById("5c1c5c2d3d") === null) {
         const element = document.createElement("style");
         element.id = "5c1c5c2d3d";
@@ -3439,10 +3439,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9176c90f-8c3a-4bf7-9d2d-b7f472c2f103/textbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f9bf7405-35fe-40ad-a1d3-ce2ec27d5a0b/textbox.module.js
   var textbox_module_default2;
   var init_textbox_module2 = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9176c90f-8c3a-4bf7-9d2d-b7f472c2f103/textbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f9bf7405-35fe-40ad-a1d3-ce2ec27d5a0b/textbox.module.js"() {
       if (document.getElementById("5c1c5c2d3d") === null) {
         const element = document.createElement("style");
         element.id = "5c1c5c2d3d";
@@ -3513,10 +3513,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/018fd2fe-6661-4db1-9ea9-8958cb10b596/textbox-numeric.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/eabdc304-cc3f-4a0a-9d4d-6c1f35180259/textbox-numeric.module.js
   var textbox_numeric_module_default;
   var init_textbox_numeric_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/018fd2fe-6661-4db1-9ea9-8958cb10b596/textbox-numeric.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/eabdc304-cc3f-4a0a-9d4d-6c1f35180259/textbox-numeric.module.js"() {
       if (document.getElementById("b6dab244a8") === null) {
         const element = document.createElement("style");
         element.id = "b6dab244a8";
@@ -3704,20 +3704,6 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // node_modules/@create-figma-plugin/ui/lib/icons/icon-24/icon-copy-small-24.js
-  var IconCopySmall24;
-  var init_icon_copy_small_24 = __esm({
-    "node_modules/@create-figma-plugin/ui/lib/icons/icon-24/icon-copy-small-24.js"() {
-      init_preact_module();
-      init_create_icon();
-      IconCopySmall24 = createIcon(_(
-        "svg",
-        { fill: "none", height: "24", viewBox: "0 0 24 24", width: "24", xmlns: "http://www.w3.org/2000/svg" },
-        _("path", { "clip-rule": "evenodd", d: "M7.5 6C6.67157 6 6 6.67157 6 7.5v6c0 .8284.67157 1.5 1.5 1.5H9v1.5c0 .8284.67157 1.5 1.5 1.5h6c.8284 0 1.5-.6716 1.5-1.5v-6c0-.82843-.6716-1.5-1.5-1.5H15V7.5c0-.82843-.6716-1.5-1.5-1.5zm7.5 4v3.5c0 .8284-.6716 1.5-1.5 1.5H10v1.5c0 .2761.2239.5.5.5h6c.2761 0 .5-.2239.5-.5v-6c0-.2761-.2239-.5-.5-.5zM7 7.5c0-.27614.22386-.5.5-.5h6c.2761 0 .5.22386.5.5v6c0 .2761-.2239.5-.5.5h-6c-.27614 0-.5-.2239-.5-.5z", fill: "currentColor", "fill-rule": "evenodd" })
-      ));
-    }
-  });
-
   // node_modules/@create-figma-plugin/ui/lib/icons/icon-24/icon-interaction-click-small-24.js
   var IconInteractionClickSmall24;
   var init_icon_interaction_click_small_24 = __esm({
@@ -3746,10 +3732,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6d09b739-1bca-43a3-a18f-579313d19db8/container.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2aa22c78-aa09-496e-ba60-7570534f1181/container.module.js
   var container_module_default;
   var init_container_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6d09b739-1bca-43a3-a18f-579313d19db8/container.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2aa22c78-aa09-496e-ba60-7570534f1181/container.module.js"() {
       if (document.getElementById("b49e1406f9") === null) {
         const element = document.createElement("style");
         element.id = "b49e1406f9";
@@ -3790,10 +3776,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ef43ab91-3937-47c2-aada-e05262a1038f/vertical-space.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/90c1e62b-a748-41c9-8806-35d59f2a98dc/vertical-space.module.js
   var vertical_space_module_default;
   var init_vertical_space_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ef43ab91-3937-47c2-aada-e05262a1038f/vertical-space.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/90c1e62b-a748-41c9-8806-35d59f2a98dc/vertical-space.module.js"() {
       if (document.getElementById("ba0eea5114") === null) {
         const element = document.createElement("style");
         element.id = "ba0eea5114";
@@ -3834,9 +3820,9 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/fd4602e4-82b1-487b-a8f8-b504ec7989a0/base.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e78a69da-8349-42b8-94c0-92a16899ad2b/base.js
   var init_base = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/fd4602e4-82b1-487b-a8f8-b504ec7989a0/base.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e78a69da-8349-42b8-94c0-92a16899ad2b/base.js"() {
       if (document.getElementById("0597dd81e7") === null) {
         const element = document.createElement("style");
         element.id = "0597dd81e7";
@@ -4006,7 +3992,6 @@ svg {
       init_icon_text_16();
       init_icon_variable_16();
       init_icon_variable_color_16();
-      init_icon_copy_small_24();
       init_icon_interaction_click_small_24();
       init_icon_time_small_24();
       init_container();
@@ -4753,17 +4738,18 @@ svg {
         actions.map(
           (action) => {
             var _a2;
-            return action.kind === "button" ? /* @__PURE__ */ _(
+            return action.kind === "custom" ? /* @__PURE__ */ _("span", { key: action.id }, action.component) : action.kind === "button" ? /* @__PURE__ */ _(
               "button",
               {
                 key: action.id,
                 type: "button",
                 disabled: action.disabled === true,
                 onClick: (e3) => {
+                  var _a3;
                   e3.preventDefault();
                   e3.stopPropagation();
                   if (action.disabled) return;
-                  void action.onClick();
+                  void ((_a3 = action.onClick) == null ? void 0 : _a3.call(action));
                 },
                 onMouseDown: (e3) => {
                   e3.preventDefault();
@@ -4795,10 +4781,11 @@ svg {
                 disabled: action.disabled === true,
                 title: action.label,
                 onClick: (e3) => {
+                  var _a3;
                   e3.preventDefault();
                   e3.stopPropagation();
                   if (action.disabled) return;
-                  void action.onClick();
+                  void ((_a3 = action.onClick) == null ? void 0 : _a3.call(action));
                 }
               },
               (_a2 = action.icon) != null ? _a2 : action.label
@@ -4814,6 +4801,74 @@ svg {
       init_preact_module();
       init_hooks_module();
       init_lib2();
+    }
+  });
+
+  // src/app/utils/clipboard.ts
+  async function copyTextToClipboard(text) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch (e3) {
+      try {
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.style.position = "fixed";
+        textarea.style.left = "-9999px";
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        textarea.remove();
+        return true;
+      } catch (e4) {
+        return false;
+      }
+    }
+  }
+  var init_clipboard = __esm({
+    "src/app/utils/clipboard.ts"() {
+      "use strict";
+    }
+  });
+
+  // src/app/components/CopyIconButton.tsx
+  function CopyIconButton(props) {
+    const [copied, setCopied] = d2(false);
+    const timerRef = A2(null);
+    const handleCopy = q2(
+      (e3) => {
+        e3.preventDefault();
+        e3.stopPropagation();
+        void copyTextToClipboard(props.text).then((ok) => {
+          var _a;
+          if (!ok) return;
+          setCopied(true);
+          (_a = props.onCopied) == null ? void 0 : _a.call(props, props.text);
+          if (timerRef.current) clearTimeout(timerRef.current);
+          timerRef.current = setTimeout(() => {
+            setCopied(false);
+            timerRef.current = null;
+          }, 1500);
+        });
+      },
+      [props.text]
+    );
+    return /* @__PURE__ */ _(IconButton, { title: copied ? "Copied!" : `${props.text}`, onClick: handleCopy }, copied ? /* @__PURE__ */ _(IconCheck16, null) : /* @__PURE__ */ _("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none" }, /* @__PURE__ */ _(
+      "path",
+      {
+        d: "M5.5 3.5H4.5C3.94772 3.5 3.5 3.94772 3.5 4.5V12.5C3.5 13.0523 3.94772 13.5 4.5 13.5H10.5C11.0523 13.5 11.5 13.0523 11.5 12.5V11.5",
+        stroke: "currentColor",
+        "stroke-linecap": "round"
+      }
+    ), /* @__PURE__ */ _("rect", { x: "5.5", y: "2.5", width: "7", height: "9", rx: "1", stroke: "currentColor" })));
+  }
+  var init_CopyIconButton = __esm({
+    "src/app/components/CopyIconButton.tsx"() {
+      "use strict";
+      init_preact_module();
+      init_hooks_module();
+      init_lib2();
+      init_clipboard();
     }
   });
 
@@ -4868,31 +4923,6 @@ svg {
     if (opacityPercent == null) return hex;
     if (opacityPercent >= 100) return hex;
     return `${hex} ${opacityPercent}%`;
-  }
-  async function copyTextToClipboard(text) {
-    try {
-      await navigator.clipboard.writeText(text);
-      return "copied";
-    } catch (e3) {
-      try {
-        const textarea = document.createElement("textarea");
-        textarea.value = text;
-        textarea.style.position = "fixed";
-        textarea.style.left = "-9999px";
-        document.body.appendChild(textarea);
-        textarea.select();
-        document.execCommand("copy");
-        textarea.remove();
-        return "copied";
-      } catch (e4) {
-        try {
-          window.prompt("Copy:", text);
-          return "manual";
-        } catch (e5) {
-          return "failed";
-        }
-      }
-    }
   }
   function coerceResultsToV2(results) {
     return results.map((layer) => ({
@@ -5025,14 +5055,14 @@ svg {
             {
               id: `${rowId}:copy`,
               label: "Copy name",
-              kind: "iconButton",
-              icon: /* @__PURE__ */ _(IconCopySmall24, null),
-              onClick: async () => {
-                const result = await copyTextToClipboard(c3.variableName);
-                if (result === "copied") notify("Name copied");
-                else if (result === "manual") notify("Copy manually from prompt");
-                else notify("Could not copy name");
-              }
+              kind: "custom",
+              component: /* @__PURE__ */ _(
+                CopyIconButton,
+                {
+                  text: c3.variableName,
+                  onCopied: (text) => notify(`Copied ${text}`)
+                }
+              )
             }
           ];
           rows.push(
@@ -5077,35 +5107,33 @@ svg {
               {
                 id: `${stepRowId}:copy`,
                 label: "Copy name",
-                kind: "iconButton",
-                icon: /* @__PURE__ */ _(IconCopySmall24, null),
-                onClick: async () => {
-                  const result = await copyTextToClipboard(step);
-                  if (result === "copied") notify("Name copied");
-                  else if (result === "manual") notify("Copy manually from prompt");
-                  else notify("Could not copy name");
-                }
+                kind: "custom",
+                component: /* @__PURE__ */ _(
+                  CopyIconButton,
+                  {
+                    text: step,
+                    onCopied: (text) => notify(`Copied ${text}`)
+                  }
+                )
               }
             ];
             rows.push(/* @__PURE__ */ _(ColorRow, { key: stepRowId, title: step, actions: stepActions }));
           }
           const hexRowId = `${layer.layerId}:${c3.variableId}:hex`;
-          const hexActions = [
+          const hexActions = (chainToRender == null ? void 0 : chainToRender.finalHex) ? [
             {
               id: `${hexRowId}:copy`,
               label: "Copy HEX",
-              kind: "iconButton",
-              icon: /* @__PURE__ */ _(IconCopySmall24, null),
-              disabled: !(chainToRender == null ? void 0 : chainToRender.finalHex),
-              onClick: async () => {
-                if (!(chainToRender == null ? void 0 : chainToRender.finalHex)) return;
-                const result = await copyTextToClipboard(chainToRender.finalHex);
-                if (result === "copied") notify("HEX copied");
-                else if (result === "manual") notify("Copy HEX manually from prompt");
-                else notify("Could not copy HEX");
-              }
+              kind: "custom",
+              component: /* @__PURE__ */ _(
+                CopyIconButton,
+                {
+                  text: chainToRender.finalHex,
+                  onCopied: (text) => notify(`Copied ${text}`)
+                }
+              )
             }
-          ];
+          ] : [];
           rows.push(
             /* @__PURE__ */ _(
               ColorRow,
@@ -5134,6 +5162,7 @@ svg {
       init_messages();
       init_ColorSwatch();
       init_ColorRow();
+      init_CopyIconButton();
       init_State();
       init_ToolHeader();
       init_Page();
@@ -5272,6 +5301,23 @@ svg {
   });
 
   // src/app/components/ScopeControl.tsx
+  function useScope(initialSelectionEmpty) {
+    const [selectionSize, setSelectionSize] = d2(initialSelectionEmpty ? 0 : 1);
+    const [scope, setScope] = d2(
+      initialSelectionEmpty ? "page" : "selection"
+    );
+    const updateSelectionSize = q2((newSize) => {
+      setSelectionSize(newSize);
+      setScope(newSize > 0 ? "selection" : "page");
+    }, []);
+    return {
+      scope,
+      setScope,
+      selectionSize,
+      hasSelection: selectionSize > 0,
+      updateSelectionSize
+    };
+  }
   function ScopeControl({
     value: value2,
     hasSelection,
@@ -5314,15 +5360,13 @@ svg {
       "use strict";
       init_lib2();
       init_preact_module();
+      init_hooks_module();
     }
   });
 
   // src/app/views/library-swap-tool/LibrarySwapToolView.tsx
   function LibrarySwapToolView({ onBack, initialSelectionEmpty }) {
-    const [selectionSize, setSelectionSize] = d2(initialSelectionEmpty ? 0 : 1);
-    const [scope, setScope] = d2(
-      initialSelectionEmpty ? "page" : "selection"
-    );
+    const { scope, setScope, selectionSize, hasSelection, updateSelectionSize } = useScope(initialSelectionEmpty);
     const [useBuiltInIcons, setUseBuiltInIcons] = d2(true);
     const [useBuiltInUikit, setUseBuiltInUikit] = d2(true);
     const [customFilename, setCustomFilename] = d2(null);
@@ -5345,8 +5389,7 @@ svg {
         const msg = (_a = event.data) == null ? void 0 : _a.pluginMessage;
         if (!msg) return;
         if (msg.type === MAIN_TO_UI.LIBRARY_SWAP_SELECTION) {
-          setSelectionSize(msg.selectionSize);
-          setScope(msg.selectionSize > 0 ? "selection" : "page");
+          updateSelectionSize(msg.selectionSize);
         }
         if (msg.type === MAIN_TO_UI.LIBRARY_SWAP_ANALYZE_RESULT) {
           setIsBusy(false);
@@ -5545,32 +5588,11 @@ svg {
         title: "Library Swap",
         left: /* @__PURE__ */ _(IconButton, { onClick: onBack, title: "Home" }, /* @__PURE__ */ _(IconHome16, null))
       }
-    ), /* @__PURE__ */ _(ToolBody, { mode: "content" }, /* @__PURE__ */ _(Stack, { space: "medium" }, /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Mappings"), /* @__PURE__ */ _(
-      Checkbox,
-      {
-        value: useBuiltInIcons,
-        onValueChange: setUseBuiltInIcons
-      },
-      /* @__PURE__ */ _(Text, null, "Int UI Icons")
-    ), /* @__PURE__ */ _(
-      Checkbox,
-      {
-        value: useBuiltInUikit,
-        onValueChange: setUseBuiltInUikit
-      },
-      /* @__PURE__ */ _(Text, null, "Int UI Kit Islands")
-    ), /* @__PURE__ */ _(
-      FileUploadButton,
-      {
-        acceptedFileTypes: [".json", "application/json"],
-        onSelectedFiles: handleLoadFile
-      },
-      customFilename ? `Custom: ${customFilename}` : "Import mapping JSON..."
-    )), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Scope"), /* @__PURE__ */ _(
+    ), /* @__PURE__ */ _(ToolBody, { mode: "content" }, /* @__PURE__ */ _(Stack, { space: "medium" }, /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Scope"), /* @__PURE__ */ _(
       ScopeControl,
       {
         value: scope,
-        hasSelection: selectionSize > 0,
+        hasSelection,
         onValueChange: setScope,
         disabled: isBusy
       }
@@ -5646,6 +5668,27 @@ svg {
           item.pageName
         )
       ))
+    )), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Mappings"), /* @__PURE__ */ _(
+      Checkbox,
+      {
+        value: useBuiltInIcons,
+        onValueChange: setUseBuiltInIcons
+      },
+      /* @__PURE__ */ _(Text, null, "Int UI Icons")
+    ), /* @__PURE__ */ _(
+      Checkbox,
+      {
+        value: useBuiltInUikit,
+        onValueChange: setUseBuiltInUikit
+      },
+      /* @__PURE__ */ _(Text, null, "Int UI Kit Islands")
+    ), /* @__PURE__ */ _(
+      FileUploadButton,
+      {
+        acceptedFileTypes: [".json", "application/json"],
+        onSelectedFiles: handleLoadFile
+      },
+      customFilename ? `Custom: ${customFilename}` : "Import mapping JSON..."
     )), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Manual pairs"), /* @__PURE__ */ _("div", { style: { display: "flex", gap: 12, fontSize: 11 } }, /* @__PURE__ */ _(Text, { style: { fontSize: 11, color: capturedOldName ? "var(--figma-color-text)" : "var(--figma-color-text-tertiary)" } }, "Old: ", capturedOldName != null ? capturedOldName : "\u2014"), /* @__PURE__ */ _(Text, { style: { fontSize: 11, color: capturedNewName ? "var(--figma-color-text)" : "var(--figma-color-text-tertiary)" } }, "New: ", capturedNewName != null ? capturedNewName : "\u2014")), /* @__PURE__ */ _(Inline, { space: "extraSmall" }, /* @__PURE__ */ _(
       Button,
       {
@@ -5694,72 +5737,6 @@ svg {
       init_State();
       init_ToolBody();
       init_ToolHeader();
-    }
-  });
-
-  // src/app/utils/clipboard.ts
-  async function copyTextToClipboard2(text) {
-    try {
-      await navigator.clipboard.writeText(text);
-      return true;
-    } catch (e3) {
-      try {
-        const textarea = document.createElement("textarea");
-        textarea.value = text;
-        textarea.style.position = "fixed";
-        textarea.style.left = "-9999px";
-        document.body.appendChild(textarea);
-        textarea.select();
-        document.execCommand("copy");
-        textarea.remove();
-        return true;
-      } catch (e4) {
-        return false;
-      }
-    }
-  }
-  var init_clipboard = __esm({
-    "src/app/utils/clipboard.ts"() {
-      "use strict";
-    }
-  });
-
-  // src/app/components/CopyIconButton.tsx
-  function CopyIconButton(props) {
-    const [copied, setCopied] = d2(false);
-    const timerRef = A2(null);
-    const handleCopy = q2(
-      (e3) => {
-        e3.preventDefault();
-        e3.stopPropagation();
-        void copyTextToClipboard2(props.text).then((ok) => {
-          if (!ok) return;
-          setCopied(true);
-          if (timerRef.current) clearTimeout(timerRef.current);
-          timerRef.current = setTimeout(() => {
-            setCopied(false);
-            timerRef.current = null;
-          }, 1500);
-        });
-      },
-      [props.text]
-    );
-    return /* @__PURE__ */ _(IconButton, { title: copied ? "Copied!" : `${props.text}`, onClick: handleCopy }, copied ? /* @__PURE__ */ _(IconCheck16, null) : /* @__PURE__ */ _("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none" }, /* @__PURE__ */ _(
-      "path",
-      {
-        d: "M5.5 3.5H4.5C3.94772 3.5 3.5 3.94772 3.5 4.5V12.5C3.5 13.0523 3.94772 13.5 4.5 13.5H10.5C11.0523 13.5 11.5 13.0523 11.5 12.5V11.5",
-        stroke: "currentColor",
-        "stroke-linecap": "round"
-      }
-    ), /* @__PURE__ */ _("rect", { x: "5.5", y: "2.5", width: "7", height: "9", rx: "1", stroke: "currentColor" })));
-  }
-  var init_CopyIconButton = __esm({
-    "src/app/components/CopyIconButton.tsx"() {
-      "use strict";
-      init_preact_module();
-      init_hooks_module();
-      init_lib2();
-      init_clipboard();
     }
   });
 
@@ -6698,7 +6675,7 @@ svg {
     a3.remove();
     URL.revokeObjectURL(url);
   }
-  async function copyTextToClipboard3(text) {
+  async function copyTextToClipboard2(text) {
     try {
       await navigator.clipboard.writeText(text);
       return true;
@@ -6984,7 +6961,7 @@ svg {
         disabled: !lastExport,
         onClick: async () => {
           if (!lastExport) return;
-          const ok = await copyTextToClipboard3(lastExport.jsonText);
+          const ok = await copyTextToClipboard2(lastExport.jsonText);
           setSuccessMessage(ok ? `Copied "${lastExport.filename}" JSON` : "Copy failed");
         }
       },
@@ -7429,10 +7406,7 @@ svg {
   function VariablesReplaceUsagesToolView({ onBack, initialSelectionEmpty }) {
     const [errorMessage, setErrorMessage] = d2(null);
     const [successMessage, setSuccessMessage] = d2(null);
-    const [scope, setScope] = d2(
-      initialSelectionEmpty ? "page" : "selection"
-    );
-    const [selectionSize, setSelectionSize] = d2(initialSelectionEmpty ? 0 : 1);
+    const { scope, setScope, selectionSize, hasSelection, updateSelectionSize } = useScope(initialSelectionEmpty);
     const [renamePrints, setRenamePrints] = d2(false);
     const [includeHidden, setIncludeHidden] = d2(false);
     const [mappingFilename, setMappingFilename] = d2(null);
@@ -7463,8 +7437,7 @@ svg {
           setApplyProgress(msg.progress);
         }
         if (msg.type === MAIN_TO_UI.REPLACE_USAGES_SELECTION) {
-          setSelectionSize(msg.payload.selectionSize);
-          setScope(msg.payload.selectionSize > 0 ? "selection" : "page");
+          updateSelectionSize(msg.payload.selectionSize);
         }
         if (msg.type === MAIN_TO_UI.REPLACE_USAGES_APPLY_RESULT) {
           setIsBusy(false);
@@ -7557,7 +7530,6 @@ svg {
         "*"
       );
     };
-    const hasSelection = selectionSize > 0;
     return /* @__PURE__ */ _(Page, null, /* @__PURE__ */ _(
       ToolHeader,
       {

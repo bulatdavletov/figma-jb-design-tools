@@ -466,6 +466,19 @@ Olya suggested to rename from JetBrains Design Tools to Int UI Design Tools
 - Done: added `Copy HEX` action on final HEX row in Color Chain.
 - Done: added native notifications (via main thread `figma.notify`) after copy actions (name/HEX success + fallback/failure messages).
 
+#### Copy Action Feedback — audit + alignment with Design Principles (2026-02-17)
+- Request: audit codebase for copy action feedback compliance with `Specs/design principles.md` lines 74-75, apply fixes to Color Chain tool.
+- Audit findings:
+  - **Color Chain**: had local `copyTextToClipboard` duplicate, used raw `IconButton`+`IconCopySmall24` instead of shared `CopyIconButton`, notifications were generic ("Name copied", "HEX copied") instead of showing actual values.
+  - **Batch Rename**: has local `copyTextToClipboard` duplicate (copies full JSON — `CopyIconButton` not applicable here).
+  - **Print Color Usages**: already uses `CopyIconButton` — compliant.
+- Done: enhanced `CopyIconButton` with optional `onCopied(text)` callback for notification support.
+- Done: added `kind: "custom"` + `component` field to `ColorRowAction` for rendering self-contained components (like `CopyIconButton`) inside row action slots.
+- Done: replaced all 3 copy actions in `ColorChainToolView` (main row, chain step, HEX row) with `CopyIconButton` — gets checkmark animation + uses shared clipboard utility.
+- Done: notifications now include actual copied value (e.g., "Copied control-border-raised", "Copied #1A1A1A") instead of generic text.
+- Done: removed local `copyTextToClipboard` function and `IconCopySmall24` import from `ColorChainToolView`.
+- Verification: `npm run build` passed; no linter errors.
+
 ### 2026-01-29
 
 #### Vision / scope (product)
@@ -870,6 +883,11 @@ Olya suggested to rename from JetBrains Design Tools to Int UI Design Tools
 - Root cause: `LIBRARY_SWAP_SELECTION` handler had a comment "Don't force scope change; just update count" — it only fell back to "page" on empty selection but never switched TO "selection".
 - Fix: aligned behavior with Replace Usages tool — `setScope(selectionSize > 0 ? "selection" : "page")`.
 - Also removed stale `scope` from `useEffect` dependency array (no longer read inside handler).
+- **Extracted `useScope` hook** into `ScopeControl.tsx` to centralize scope auto-sync logic. Hook manages `scope`, `selectionSize`, and `hasSelection` state; tools call `updateSelectionSize(n)` from their message handlers. Adopted in both Library Swap and Replace Usages.
+- Added design principle requiring all tools with `ScopeControl` to use the `useScope` hook.
+- **Bug fix: Apply swap requires multiple runs to swap nested instances**. First run only swapped top-level components; second run caught icons inside them.
+- Root cause: instance list was collected once before swapping. When a parent was swapped, its old children were orphaned and new children (potentially referencing old library components) weren't in the list.
+- Fix: `swapInstances()` now uses a multi-pass loop (up to 5 passes). After each pass, re-scans for remaining old-library instances. Tracks already-swapped IDs to avoid re-processing. Stops when no more swaps occur in a pass.
 - Verification: `npm run build` passed; no linter errors.
 
 ---

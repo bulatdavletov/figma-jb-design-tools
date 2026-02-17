@@ -1,6 +1,5 @@
 import {
   IconButton,
-  IconCopySmall24,
   IconInteractionClickSmall24,
   IconHome16,
   IconTimeSmall24,
@@ -19,45 +18,18 @@ import {
 } from "../../messages"
 import { ColorSwatch } from "../../components/ColorSwatch"
 import { ColorRow, type ColorRowAction } from "../../components/ColorRow"
+import { CopyIconButton } from "../../components/CopyIconButton"
 import { State } from "../../components/State"
 import { ToolHeader } from "../../components/ToolHeader"
 import { Page } from "../../components/Page"
 import { ToolBody } from "../../components/ToolBody"
 
 type ViewState = "error" | "inspecting" | "selectionEmpty" | "nothingFound" | "content"
-type CopyResult = "copied" | "manual" | "failed"
 
 function formatHexWithOpacity(hex: string, opacityPercent: number | null): string {
   if (opacityPercent == null) return hex
   if (opacityPercent >= 100) return hex
   return `${hex} ${opacityPercent}%`
-}
-
-async function copyTextToClipboard(text: string): Promise<CopyResult> {
-  try {
-    await navigator.clipboard.writeText(text)
-    return "copied"
-  } catch {
-    try {
-      const textarea = document.createElement("textarea")
-      textarea.value = text
-      textarea.style.position = "fixed"
-      textarea.style.left = "-9999px"
-      document.body.appendChild(textarea)
-      textarea.select()
-      document.execCommand("copy")
-      textarea.remove()
-      return "copied"
-    } catch {
-      // Last-resort fallback for restricted clipboard environments.
-      try {
-        window.prompt("Copy:", text)
-        return "manual"
-      } catch {
-        return "failed"
-      }
-    }
-  }
 }
 
 function coerceResultsToV2(results: Array<LayerInspectionResult>): Array<LayerInspectionResultV2> {
@@ -223,14 +195,13 @@ export function ColorChainToolView(props: { onBack: () => void; initialSelection
                       {
                         id: `${rowId}:copy`,
                         label: "Copy name",
-                        kind: "iconButton",
-                        icon: <IconCopySmall24 />,
-                        onClick: async () => {
-                          const result = await copyTextToClipboard(c.variableName)
-                          if (result === "copied") notify("Name copied")
-                          else if (result === "manual") notify("Copy manually from prompt")
-                          else notify("Could not copy name")
-                        },
+                        kind: "custom",
+                        component: (
+                          <CopyIconButton
+                            text={c.variableName}
+                            onCopied={(text) => notify(`Copied ${text}`)}
+                          />
+                        ),
                       },
                     ]
 
@@ -277,14 +248,13 @@ export function ColorChainToolView(props: { onBack: () => void; initialSelection
                         {
                           id: `${stepRowId}:copy`,
                           label: "Copy name",
-                          kind: "iconButton",
-                          icon: <IconCopySmall24 />,
-                          onClick: async () => {
-                            const result = await copyTextToClipboard(step)
-                            if (result === "copied") notify("Name copied")
-                            else if (result === "manual") notify("Copy manually from prompt")
-                            else notify("Could not copy name")
-                          },
+                          kind: "custom",
+                          component: (
+                            <CopyIconButton
+                              text={step}
+                              onCopied={(text) => notify(`Copied ${text}`)}
+                            />
+                          ),
                         },
                       ]
 
@@ -292,22 +262,21 @@ export function ColorChainToolView(props: { onBack: () => void; initialSelection
                     }
 
                     const hexRowId = `${layer.layerId}:${c.variableId}:hex`
-                    const hexActions: Array<ColorRowAction> = [
-                      {
-                        id: `${hexRowId}:copy`,
-                        label: "Copy HEX",
-                        kind: "iconButton",
-                        icon: <IconCopySmall24 />,
-                        disabled: !chainToRender?.finalHex,
-                        onClick: async () => {
-                          if (!chainToRender?.finalHex) return
-                          const result = await copyTextToClipboard(chainToRender.finalHex)
-                          if (result === "copied") notify("HEX copied")
-                          else if (result === "manual") notify("Copy HEX manually from prompt")
-                          else notify("Could not copy HEX")
-                        },
-                      },
-                    ]
+                    const hexActions: Array<ColorRowAction> = chainToRender?.finalHex
+                      ? [
+                          {
+                            id: `${hexRowId}:copy`,
+                            label: "Copy HEX",
+                            kind: "custom",
+                            component: (
+                              <CopyIconButton
+                                text={chainToRender.finalHex}
+                                onCopied={(text) => notify(`Copied ${text}`)}
+                              />
+                            ),
+                          },
+                        ]
+                      : []
                     rows.push(
                       <ColorRow
                         key={hexRowId}

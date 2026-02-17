@@ -9,7 +9,11 @@ import { copyTextToClipboard } from "../utils/clipboard"
  * - Shows a small copy icon by default.
  * - On click: copies text, icon changes to a checkmark for 1.5 s, then reverts.
  */
-export function CopyIconButton(props: { text: string; title?: string }) {
+export function CopyIconButton(props: {
+  text: string
+  title?: string
+  onCopied?: (text: string) => void
+}) {
   const [copied, setCopied] = useState(false)
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -21,6 +25,7 @@ export function CopyIconButton(props: { text: string; title?: string }) {
       void copyTextToClipboard(props.text).then((ok) => {
         if (!ok) return
         setCopied(true)
+        props.onCopied?.(props.text)
         if (timerRef.current) clearTimeout(timerRef.current)
         timerRef.current = setTimeout(() => {
           setCopied(false)
