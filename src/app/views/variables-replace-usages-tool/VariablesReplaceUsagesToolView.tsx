@@ -22,12 +22,11 @@ import {
   type ReplaceUsagesMappingRow,
   type ReplaceUsagesInvalidMappingRow,
   type ReplaceUsagesApplyResultPayload,
-  type ReplaceUsagesScope,
   type ReplaceUsagesProgress,
 } from "../../messages"
 import { DataTable, type DataTableColumn } from "../../components/DataTable"
 import { Page } from "../../components/Page"
-import { ScopeControl } from "../../components/ScopeControl"
+import { ScopeControl, useScope } from "../../components/ScopeControl"
 import { ToolBody } from "../../components/ToolBody"
 import { ToolHeader } from "../../components/ToolHeader"
 
@@ -99,10 +98,8 @@ export function VariablesReplaceUsagesToolView({ onBack, initialSelectionEmpty }
   const [successMessage, setSuccessMessage] = useState<string | null>(null)
 
   // Scope/options
-  const [scope, setScope] = useState<ReplaceUsagesScope>(
-    initialSelectionEmpty ? "page" : "selection"
-  )
-  const [selectionSize, setSelectionSize] = useState<number>(initialSelectionEmpty ? 0 : 1)
+  const { scope, setScope, selectionSize, hasSelection, updateSelectionSize } =
+    useScope(initialSelectionEmpty)
   const [renamePrints, setRenamePrints] = useState(false)
   const [includeHidden, setIncludeHidden] = useState(false)
 
@@ -140,10 +137,7 @@ export function VariablesReplaceUsagesToolView({ onBack, initialSelectionEmpty }
       }
 
       if (msg.type === MAIN_TO_UI.REPLACE_USAGES_SELECTION) {
-        setSelectionSize(msg.payload.selectionSize)
-        // Always keep scope aligned with selection presence:
-        // selection exists -> Selection only, no selection -> Current page.
-        setScope(msg.payload.selectionSize > 0 ? "selection" : "page")
+        updateSelectionSize(msg.payload.selectionSize)
       }
 
       if (msg.type === MAIN_TO_UI.REPLACE_USAGES_APPLY_RESULT) {
@@ -254,8 +248,6 @@ export function VariablesReplaceUsagesToolView({ onBack, initialSelectionEmpty }
       "*"
     )
   }
-
-  const hasSelection = selectionSize > 0
 
   return (
     <Page>

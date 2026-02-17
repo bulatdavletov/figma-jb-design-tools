@@ -1,7 +1,39 @@
 import { SegmentedControl } from "@create-figma-plugin/ui"
 import { h } from "preact"
+import { useCallback, useState } from "preact/hooks"
 
 export type ScopeValue = "selection" | "page" | "all_pages"
+
+/**
+ * Hook that owns scope state + auto-sync rule.
+ *
+ * Call `updateSelectionSize(n)` whenever the main thread reports a new
+ * selection size. The hook automatically switches scope:
+ *   - selectionSize > 0  →  "selection"
+ *   - selectionSize === 0 →  "page"
+ *
+ * `setScope` is still exposed so the user can override manually,
+ * but the next `updateSelectionSize` call will re-sync.
+ */
+export function useScope(initialSelectionEmpty: boolean) {
+  const [selectionSize, setSelectionSize] = useState(initialSelectionEmpty ? 0 : 1)
+  const [scope, setScope] = useState<ScopeValue>(
+    initialSelectionEmpty ? "page" : "selection"
+  )
+
+  const updateSelectionSize = useCallback((newSize: number) => {
+    setSelectionSize(newSize)
+    setScope(newSize > 0 ? "selection" : "page")
+  }, [])
+
+  return {
+    scope,
+    setScope,
+    selectionSize,
+    hasSelection: selectionSize > 0,
+    updateSelectionSize,
+  }
+}
 
 type Props = {
   value: ScopeValue

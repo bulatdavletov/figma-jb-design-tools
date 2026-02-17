@@ -19,7 +19,6 @@ import {
   MAIN_TO_UI,
   UI_TO_MAIN,
   type MainToUiMessage,
-  type LibrarySwapScope,
   type LibrarySwapAnalyzeResultPayload,
   type LibrarySwapApplyResultPayload,
   type LibrarySwapProgress,
@@ -28,7 +27,7 @@ import {
 import { DataList } from "../../components/DataList"
 import { DataTable, type DataTableColumn } from "../../components/DataTable"
 import { Page } from "../../components/Page"
-import { ScopeControl } from "../../components/ScopeControl"
+import { ScopeControl, useScope } from "../../components/ScopeControl"
 import { State } from "../../components/State"
 import { ToolBody } from "../../components/ToolBody"
 import { ToolHeader } from "../../components/ToolHeader"
@@ -42,10 +41,8 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
   // -----------------------------------------------------------------------
   // State
   // -----------------------------------------------------------------------
-  const [selectionSize, setSelectionSize] = useState(initialSelectionEmpty ? 0 : 1)
-  const [scope, setScope] = useState<LibrarySwapScope>(
-    initialSelectionEmpty ? "page" : "selection"
-  )
+  const { scope, setScope, selectionSize, hasSelection, updateSelectionSize } =
+    useScope(initialSelectionEmpty)
 
   // Mappings
   const [useBuiltInIcons, setUseBuiltInIcons] = useState(true)
@@ -86,8 +83,7 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
       if (!msg) return
 
       if (msg.type === MAIN_TO_UI.LIBRARY_SWAP_SELECTION) {
-        setSelectionSize(msg.selectionSize)
-        setScope(msg.selectionSize > 0 ? "selection" : "page")
+        updateSelectionSize(msg.selectionSize)
       }
 
       if (msg.type === MAIN_TO_UI.LIBRARY_SWAP_ANALYZE_RESULT) {
@@ -339,35 +335,13 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
 
       <ToolBody mode="content">
         <Stack space="medium">
-          {/* -- Mappings -------------------------------------------------- */}
-          <Stack space="small">
-            <Text style={{ fontWeight: 600 }}>Mappings</Text>
-            <Checkbox
-              value={useBuiltInIcons}
-              onValueChange={setUseBuiltInIcons}
-            >
-              <Text>Int UI Icons</Text>
-            </Checkbox>
-            <Checkbox
-              value={useBuiltInUikit}
-              onValueChange={setUseBuiltInUikit}
-            >
-              <Text>Int UI Kit Islands</Text>
-            </Checkbox>
-            <FileUploadButton
-              acceptedFileTypes={[".json", "application/json"]}
-              onSelectedFiles={handleLoadFile}
-            >
-              {customFilename ? `Custom: ${customFilename}` : "Import mapping JSON..."}
-            </FileUploadButton>
-          </Stack>
 
           {/* -- Scope ----------------------------------------------------- */}
           <Stack space="small">
             <Text style={{ fontWeight: 600 }}>Scope</Text>
             <ScopeControl
               value={scope}
-              hasSelection={selectionSize > 0}
+              hasSelection={hasSelection}
               onValueChange={setScope}
               disabled={isBusy}
             />
@@ -483,7 +457,29 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
               </DataList>
             </Fragment>
           )}
-
+          {/* -- Mappings -------------------------------------------------- */}
+          <Divider />
+          <Stack space="small">
+            <Text style={{ fontWeight: 600 }}>Mappings</Text>
+            <Checkbox
+              value={useBuiltInIcons}
+              onValueChange={setUseBuiltInIcons}
+            >
+              <Text>Int UI Icons</Text>
+            </Checkbox>
+            <Checkbox
+              value={useBuiltInUikit}
+              onValueChange={setUseBuiltInUikit}
+            >
+              <Text>Int UI Kit Islands</Text>
+            </Checkbox>
+            <FileUploadButton
+              acceptedFileTypes={[".json", "application/json"]}
+              onSelectedFiles={handleLoadFile}
+            >
+              {customFilename ? `Custom: ${customFilename}` : "Import mapping JSON..."}
+            </FileUploadButton>
+          </Stack>
           {/* -- Manual pairs ---------------------------------------------- */}
           <Divider />
           <Stack space="small">

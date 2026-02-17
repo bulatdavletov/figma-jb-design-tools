@@ -49,6 +49,7 @@
 - Scope defaults should follow user intent:
   - if there is a selection, default scope to selection
   - if there is no selection, default scope to whole page
+- **Scope auto-sync is enforced via the `useScope` hook** (`src/app/components/ScopeControl.tsx`). Any tool that uses `ScopeControl` must use `useScope(initialSelectionEmpty)` for its scope state and call `updateSelectionSize(n)` from its selection-change message handler. Do not manually manage scope + selectionSize state — the hook guarantees consistent auto-switching.
 
 ## Ordering and Data Consistency
 - Preserve Figma order for collections and variables by default.
@@ -71,6 +72,7 @@
 - Copy actions must use `IconButton` with a copy icon (not text buttons).
 - On successful copy, temporarily replace the icon with a checkmark for 1.5 seconds.
 - Always provide visual feedback on click -- never leave a click without response.
+- When possible, copy or action notifications should include the actual value or data involved, not just generic text. For example, prefer "Copied #000000" over "HEX copied" to show exactly what was copied.
 - Use the shared `CopyIconButton` component (`src/app/components/CopyIconButton.tsx`) for consistency.
 
 ## Data Lists and Tables
