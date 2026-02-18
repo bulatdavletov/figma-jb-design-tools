@@ -19,8 +19,8 @@ const MARKUP_TEXT_SECONDARY_COLOR_VARIABLE_ID_RAW = "VariableID:84f084bc9e1c3ed3
  * fall back to scanning all enabled libraries if needed.
  */
 const MARKUP_LIBRARY_NAME = "Mockup markup"
-const MARKUP_TEXT_VARIABLE_NAME = "Markup Text"
-const MARKUP_TEXT_SECONDARY_VARIABLE_NAME = "Markup Text Secondary"
+const MARKUP_TEXT_VARIABLE_NAME_CANDIDATES = ["markup-text", "Markup Text", "Text"]
+const MARKUP_TEXT_SECONDARY_VARIABLE_NAME_CANDIDATES = ["markup-text-secondary", "Markup Text Secondary", "Text Secondary", "Markup Text secondary", "Text secondary"]
 /**
  * Preferred text style for printed labels (from Markup Kit).
  * If not accessible in the current file (e.g. library not enabled/imported),
@@ -79,10 +79,20 @@ function libraryNameMatches(candidate: string, wanted: string): boolean {
   return c === w
 }
 
+/**
+ * Extracts the variable key (hash) from a raw variable ID.
+ * Raw IDs look like: "VariableID:<hash>/<nodeId>"
+ * The hash IS the variable key used by importVariableByKeyAsync — survives renames.
+ */
+function extractVariableKey(rawId: string): string | null {
+  const match = /^VariableID:([a-f0-9]+)/i.exec((rawId ?? "").trim())
+  return match?.[1] ?? null
+}
+
 async function resolveColorVariableId(
   rawId: string,
-  fallbackName: string
-): Promise<{ id: string; source: "id" | "local-name" | "library-import" } | null> {
+  fallbackNames: string[]
+): Promise<{ id: string; source: "id" | "key-import" | "local-name" | "library-import" } | null> {
   const normalized = normalizeVariableId(rawId)
 
   // 1) Try by ID (works only if variable is local/imported).
@@ -95,16 +105,32 @@ async function resolveColorVariableId(
     }
   }
 
-  // 2) Try local variables by name.
+  // 2) Import by key — most reliable, survives renames.
+  const variableKey = extractVariableKey(rawId)
+  if (variableKey) {
+    try {
+      const imported = await figma.variables.importVariableByKeyAsync(variableKey)
+      if (imported?.id && (imported as any).resolvedType === "COLOR") {
+        debugLog("Resolved variable by key import", { key: variableKey, id: imported.id })
+        return { id: imported.id, source: "key-import" }
+      }
+    } catch {
+      // ignore
+    }
+  }
+
+  // 3) Try local variables by name.
   try {
     const locals = await figma.variables.getLocalVariablesAsync("COLOR" as any)
-    const match = locals.find((v) => namesMatch((v as any).name ?? "", fallbackName))
-    if (match?.id) return { id: match.id, source: "local-name" }
+    for (const wanted of fallbackNames) {
+      const match = locals.find((v) => namesMatch((v as any).name ?? "", wanted))
+      if (match?.id) return { id: match.id, source: "local-name" }
+    }
   } catch {
     // ignore
   }
 
-  // 3) Try enabled libraries: search by name and import by key.
+  // 4) Try enabled libraries: search by name and import by key.
   try {
     const collections = await figma.teamLibrary.getAvailableLibraryVariableCollectionsAsync()
     const preferred = collections.filter((c) => libraryNameMatches(c.libraryName, MARKUP_LIBRARY_NAME))
@@ -114,12 +140,14 @@ async function resolveColorVariableId(
     for (const c of ordered) {
       try {
         const vars = await figma.teamLibrary.getVariablesInLibraryCollectionAsync(c.key)
-        const libMatch = vars.find(
-          (v) => (v.resolvedType as any) === "COLOR" && namesMatch(v.name ?? "", fallbackName)
-        )
-        if (libMatch?.key) {
-          const imported = await figma.variables.importVariableByKeyAsync(libMatch.key)
-          if (imported?.id) return { id: imported.id, source: "library-import" }
+        for (const wanted of fallbackNames) {
+          const libMatch = vars.find(
+            (v) => (v.resolvedType as any) === "COLOR" && namesMatch(v.name ?? "", wanted)
+          )
+          if (libMatch?.key) {
+            const imported = await figma.variables.importVariableByKeyAsync(libMatch.key)
+            if (imported?.id) return { id: imported.id, source: "library-import" }
+          }
         }
       } catch {
         // ignore this collection
@@ -202,7 +230,7 @@ export async function resolveMarkupTextFills(themeColors: {
   let primaryVariableId: string | null = null
   let secondaryVariableId: string | null = null
 
-  const resolvedPrimary = await resolveColorVariableId(MARKUP_TEXT_COLOR_VARIABLE_ID_RAW, MARKUP_TEXT_VARIABLE_NAME)
+  const resolvedPrimary = await resolveColorVariableId(MARKUP_TEXT_COLOR_VARIABLE_ID_RAW, MARKUP_TEXT_VARIABLE_NAME_CANDIDATES)
   if (resolvedPrimary?.id) {
     primaryVariableId = resolvedPrimary.id
     const paint: SolidPaint = { type: "SOLID", color: { r: 0, g: 0, b: 0 }, opacity: 1 } as SolidPaint
@@ -217,19 +245,19 @@ export async function resolveMarkupTextFills(themeColors: {
       normalized: normalizeVariableId(MARKUP_TEXT_COLOR_VARIABLE_ID_RAW),
       resolvedId: resolvedPrimary.id,
       source: resolvedPrimary.source,
-      nameTried: MARKUP_TEXT_VARIABLE_NAME,
+      namesTried: MARKUP_TEXT_VARIABLE_NAME_CANDIDATES,
     })
   } else {
     debugLog("Markup Text variable NOT resolved (using theme)", {
       raw: MARKUP_TEXT_COLOR_VARIABLE_ID_RAW,
       normalized: normalizeVariableId(MARKUP_TEXT_COLOR_VARIABLE_ID_RAW),
-      nameTried: MARKUP_TEXT_VARIABLE_NAME,
+      namesTried: MARKUP_TEXT_VARIABLE_NAME_CANDIDATES,
     })
   }
 
   const resolvedSecondary = await resolveColorVariableId(
     MARKUP_TEXT_SECONDARY_COLOR_VARIABLE_ID_RAW,
-    MARKUP_TEXT_SECONDARY_VARIABLE_NAME
+    MARKUP_TEXT_SECONDARY_VARIABLE_NAME_CANDIDATES
   )
   if (resolvedSecondary?.id) {
     secondaryVariableId = resolvedSecondary.id
@@ -241,7 +269,7 @@ export async function resolveMarkupTextFills(themeColors: {
       normalized: normalizeVariableId(MARKUP_TEXT_SECONDARY_COLOR_VARIABLE_ID_RAW),
       resolvedId: resolvedSecondary.id,
       source: resolvedSecondary.source,
-      nameTried: MARKUP_TEXT_SECONDARY_VARIABLE_NAME,
+      namesTried: MARKUP_TEXT_SECONDARY_VARIABLE_NAME_CANDIDATES,
     })
   } else {
     // If secondary is missing but primary exists, keep old 50% behavior.
@@ -249,7 +277,7 @@ export async function resolveMarkupTextFills(themeColors: {
     debugLog("Markup Text Secondary variable NOT resolved", {
       raw: MARKUP_TEXT_SECONDARY_COLOR_VARIABLE_ID_RAW,
       normalized: normalizeVariableId(MARKUP_TEXT_SECONDARY_COLOR_VARIABLE_ID_RAW),
-      nameTried: MARKUP_TEXT_SECONDARY_VARIABLE_NAME,
+      namesTried: MARKUP_TEXT_SECONDARY_VARIABLE_NAME_CANDIDATES,
       usingFallback50pctOfPrimary: primary !== fallbackPrimary,
       secondarySource: primary !== fallbackPrimary ? "derived" : "theme",
     })

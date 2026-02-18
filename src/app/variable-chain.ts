@@ -17,22 +17,22 @@ type FoundVariable = {
     | { status: "unknown" }
 }
 
-type ColorValue = RGB | RGBA
+export type ColorValue = RGB | RGBA
 
-function toByteHex(n01: number): string {
+export function toByteHex(n01: number): string {
   const n255 = Math.max(0, Math.min(255, Math.round(n01 * 255)))
   return n255.toString(16).padStart(2, "0").toUpperCase()
 }
 
-function clamp01(n: number): number {
+export function clamp01(n: number): number {
   return Math.max(0, Math.min(1, n))
 }
 
-function colorToRgbHex(color: ColorValue): string {
+export function colorToRgbHex(color: ColorValue): string {
   return `#${toByteHex(color.r)}${toByteHex(color.g)}${toByteHex(color.b)}`
 }
 
-function colorToOpacityPercent(color: ColorValue): number {
+export function colorToOpacityPercent(color: ColorValue): number {
   const a = typeof (color as any).a === "number" ? (color as any).a : 1
   const alpha = clamp01(a)
   return Math.round(alpha * 100)
@@ -46,7 +46,7 @@ function getVariableAliasId(value: unknown): string | null {
   return anyValue.id
 }
 
-function isColorValue(value: unknown): value is ColorValue {
+export function isColorValue(value: unknown): value is ColorValue {
   if (typeof value !== "object" || value == null) return false
   const anyValue = value as any
   const isRgb = typeof anyValue.r === "number" && typeof anyValue.g === "number" && typeof anyValue.b === "number"
@@ -56,7 +56,7 @@ function isColorValue(value: unknown): value is ColorValue {
   return typeof anyValue.a === "number"
 }
 
-async function resolveChainForMode(
+export async function resolveChainForMode(
   startVariable: Variable,
   modeId: string
 ): Promise<{

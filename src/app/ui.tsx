@@ -12,6 +12,7 @@ import { VariablesExportImportToolView } from "./views/variables-export-import-t
 import { VariablesBatchRenameToolView } from "./views/variables-batch-rename-tool/VariablesBatchRenameToolView"
 import { VariablesCreateLinkedColorsToolView } from "./views/variables-create-linked-colors-tool/VariablesCreateLinkedColorsToolView"
 import { VariablesReplaceUsagesToolView } from "./views/variables-replace-usages-tool/VariablesReplaceUsagesToolView"
+import { FindColorMatchToolView } from "./views/find-color-match-tool/FindColorMatchToolView"
 
 type Route =
   | "home"
@@ -23,6 +24,7 @@ type Route =
   | "variables-batch-rename-tool"
   | "variables-create-linked-colors-tool"
   | "variables-replace-usages-tool"
+  | "find-color-match-tool"
 
 export function App() {
   const [route, setRoute] = useState<Route>("home")
@@ -43,6 +45,7 @@ export function App() {
           "variables-batch-rename-tool",
           "variables-create-linked-colors-tool",
           "variables-replace-usages-tool",
+          "find-color-match-tool",
         ]
         setRoute(
           validRoutes.includes(msg.command as Route) ? (msg.command as Route) : "home"
@@ -107,6 +110,15 @@ export function App() {
   if (route === "variables-replace-usages-tool") {
     return (
       <VariablesReplaceUsagesToolView
+        onBack={() => setRoute("home")}
+        initialSelectionEmpty={selectionSize === 0}
+      />
+    )
+  }
+
+  if (route === "find-color-match-tool") {
+    return (
+      <FindColorMatchToolView
         onBack={() => setRoute("home")}
         initialSelectionEmpty={selectionSize === 0}
       />
