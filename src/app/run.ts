@@ -2,7 +2,7 @@ import { showUI } from "@create-figma-plugin/utilities"
 
 import { MAIN_TO_UI, UI_TO_MAIN, type UiToMainMessage } from "./messages"
 import type { ActiveTool } from "./messages"
-import { registerMockupMarkupTool } from "./tools/mockup-markup/main-thread"
+import { registerMockupMarkupTool } from "./tools/mockup-markup-quick-apply-tool/main-thread"
 import { registerColorChainTool } from "./tools/color-chain-tool/main-thread"
 import { registerLibrarySwapTool } from "./tools/library-swap/main-thread"
 import { registerPrintColorUsagesTool } from "./tools/print-color-usages/main-thread"
