@@ -40,6 +40,12 @@ export const UI_TO_MAIN = {
   LIBRARY_SWAP_CAPTURE_OLD: "LIBRARY_SWAP_CAPTURE_OLD",
   LIBRARY_SWAP_CAPTURE_NEW: "LIBRARY_SWAP_CAPTURE_NEW",
   LIBRARY_SWAP_REMOVE_PAIR: "LIBRARY_SWAP_REMOVE_PAIR",
+  // Find Color Match
+  FIND_COLOR_MATCH_SCAN: "FIND_COLOR_MATCH_SCAN",
+  FIND_COLOR_MATCH_SET_COLLECTION: "FIND_COLOR_MATCH_SET_COLLECTION",
+  FIND_COLOR_MATCH_SET_MODE: "FIND_COLOR_MATCH_SET_MODE",
+  FIND_COLOR_MATCH_APPLY: "FIND_COLOR_MATCH_APPLY",
+  FIND_COLOR_MATCH_FOCUS_NODE: "FIND_COLOR_MATCH_FOCUS_NODE",
 } as const
 
 export const MAIN_TO_UI = {
@@ -86,6 +92,11 @@ export const MAIN_TO_UI = {
   LIBRARY_SWAP_PREVIEW_RESULT: "LIBRARY_SWAP_PREVIEW_RESULT",
   LIBRARY_SWAP_CAPTURE_RESULT: "LIBRARY_SWAP_CAPTURE_RESULT",
   LIBRARY_SWAP_PAIRS_UPDATED: "LIBRARY_SWAP_PAIRS_UPDATED",
+  // Find Color Match
+  FIND_COLOR_MATCH_COLLECTIONS: "FIND_COLOR_MATCH_COLLECTIONS",
+  FIND_COLOR_MATCH_RESULT: "FIND_COLOR_MATCH_RESULT",
+  FIND_COLOR_MATCH_PROGRESS: "FIND_COLOR_MATCH_PROGRESS",
+  FIND_COLOR_MATCH_APPLY_RESULT: "FIND_COLOR_MATCH_APPLY_RESULT",
 } as const
 
 export type UiToMainMessage =
@@ -130,6 +141,12 @@ export type UiToMainMessage =
   | { type: typeof UI_TO_MAIN.LIBRARY_SWAP_CAPTURE_OLD }
   | { type: typeof UI_TO_MAIN.LIBRARY_SWAP_CAPTURE_NEW }
   | { type: typeof UI_TO_MAIN.LIBRARY_SWAP_REMOVE_PAIR; oldKey: string }
+  // Find Color Match
+  | { type: typeof UI_TO_MAIN.FIND_COLOR_MATCH_SCAN }
+  | { type: typeof UI_TO_MAIN.FIND_COLOR_MATCH_SET_COLLECTION; collectionKey: string }
+  | { type: typeof UI_TO_MAIN.FIND_COLOR_MATCH_SET_MODE; modeId: string }
+  | { type: typeof UI_TO_MAIN.FIND_COLOR_MATCH_APPLY; request: FindColorMatchApplyRequest }
+  | { type: typeof UI_TO_MAIN.FIND_COLOR_MATCH_FOCUS_NODE; nodeId: string }
 
 export type ActiveTool =
   | "home"
@@ -141,6 +158,7 @@ export type ActiveTool =
   | "variables-create-linked-colors-tool"
   | "variables-replace-usages-tool"
   | "library-swap-tool"
+  | "find-color-match-tool"
 
 export type PrintColorUsagesUiSettings = {
   textPosition: "left" | "right"
@@ -340,6 +358,11 @@ export type MainToUiMessage =
   | { type: typeof MAIN_TO_UI.LIBRARY_SWAP_PREVIEW_RESULT; previewed: number }
   | { type: typeof MAIN_TO_UI.LIBRARY_SWAP_CAPTURE_RESULT; side: "old" | "new"; name: string | null }
   | { type: typeof MAIN_TO_UI.LIBRARY_SWAP_PAIRS_UPDATED; pairs: ManualPair[] }
+  // Find Color Match
+  | { type: typeof MAIN_TO_UI.FIND_COLOR_MATCH_COLLECTIONS; payload: FindColorMatchCollectionsPayload }
+  | { type: typeof MAIN_TO_UI.FIND_COLOR_MATCH_RESULT; payload: FindColorMatchResultPayload }
+  | { type: typeof MAIN_TO_UI.FIND_COLOR_MATCH_PROGRESS; progress: FindColorMatchProgressPayload }
+  | { type: typeof MAIN_TO_UI.FIND_COLOR_MATCH_APPLY_RESULT; result: FindColorMatchApplyResultPayload }
 
 // ============================================================================
 // Variables Batch Rename Types
@@ -867,4 +890,74 @@ export type ManualPair = {
   newKey: string
   oldName: string
   newName: string
+}
+
+// ============================================================================
+// Find Color Match Types
+// ============================================================================
+
+export type FindColorMatchCollectionInfo = {
+  key: string
+  name: string
+  libraryName: string | null
+  isLibrary: boolean
+  modes: Array<{ modeId: string; modeName: string }>
+}
+
+export type FindColorMatchCollectionsPayload = {
+  collections: FindColorMatchCollectionInfo[]
+  defaultCollectionKey: string | null
+}
+
+export type FindColorMatchFoundColorEntry = {
+  hex: string
+  r: number
+  g: number
+  b: number
+  opacity: number
+  nodeId: string
+  nodeName: string
+  colorType: "FILL" | "STROKE" | "TEXT"
+  paintIndex: number
+}
+
+export type FindColorMatchVariableEntry = {
+  variableId: string
+  variableKey: string
+  variableName: string
+  hex: string
+  opacityPercent: number
+  diffPercent: number
+}
+
+export type FindColorMatchResultEntry = {
+  found: FindColorMatchFoundColorEntry
+  bestMatch: FindColorMatchVariableEntry | null
+  allMatches: FindColorMatchVariableEntry[]
+}
+
+export type FindColorMatchResultPayload = {
+  entries: FindColorMatchResultEntry[]
+  collectionKey: string
+  modeId: string | null
+}
+
+export type FindColorMatchProgressPayload = {
+  current: number
+  total: number
+  message: string
+}
+
+export type FindColorMatchApplyRequest = {
+  nodeId: string
+  variableId: string
+  colorType: "FILL" | "STROKE" | "TEXT"
+  paintIndex: number
+}
+
+export type FindColorMatchApplyResultPayload = {
+  ok: boolean
+  reason?: string
+  nodeId: string
+  variableId: string
 }

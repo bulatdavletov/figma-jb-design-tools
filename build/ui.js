@@ -691,10 +691,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e98c2014-4d2b-423f-936d-bcd9e212d8ed/loading-indicator.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b3059469-53b7-4954-9be0-2cba688f60a0/loading-indicator.module.js
   var loading_indicator_module_default;
   var init_loading_indicator_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e98c2014-4d2b-423f-936d-bcd9e212d8ed/loading-indicator.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b3059469-53b7-4954-9be0-2cba688f60a0/loading-indicator.module.js"() {
       if (document.getElementById("3fe0db8eb7") === null) {
         const element = document.createElement("style");
         element.id = "3fe0db8eb7";
@@ -755,10 +755,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/3c2b2634-5e84-4349-843d-a76d7bef51fe/button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/126012c2-9117-4614-92f4-2a83cdabd2ff/button.module.js
   var button_module_default;
   var init_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/3c2b2634-5e84-4349-843d-a76d7bef51fe/button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/126012c2-9117-4614-92f4-2a83cdabd2ff/button.module.js"() {
       if (document.getElementById("1dddd0e4df") === null) {
         const element = document.createElement("style");
         element.id = "1dddd0e4df";
@@ -1080,10 +1080,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ebf0eecb-fa79-4997-b9ea-b434396b72d5/checkbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4c3a6e80-90b8-4df7-834f-3369b2c9f509/checkbox.module.js
   var checkbox_module_default;
   var init_checkbox_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ebf0eecb-fa79-4997-b9ea-b434396b72d5/checkbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4c3a6e80-90b8-4df7-834f-3369b2c9f509/checkbox.module.js"() {
       if (document.getElementById("f38d076240") === null) {
         const element = document.createElement("style");
         element.id = "f38d076240";
@@ -1246,10 +1246,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a074b32c-94ee-456d-bb99-3a3bc669192c/disclosure.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2f096614-69c6-4b2b-a8bc-ff285d3aab27/disclosure.module.js
   var disclosure_module_default;
   var init_disclosure_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a074b32c-94ee-456d-bb99-3a3bc669192c/disclosure.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2f096614-69c6-4b2b-a8bc-ff285d3aab27/disclosure.module.js"() {
       if (document.getElementById("4712e1cb0c") === null) {
         const element = document.createElement("style");
         element.id = "4712e1cb0c";
@@ -1350,10 +1350,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c7263377-5a55-44bf-b232-14b2e3ee2d04/divider.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/003242c3-8075-4d64-8984-0f63f09e6e84/divider.module.js
   var divider_module_default;
   var init_divider_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c7263377-5a55-44bf-b232-14b2e3ee2d04/divider.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/003242c3-8075-4d64-8984-0f63f09e6e84/divider.module.js"() {
       if (document.getElementById("4bf06403b9") === null) {
         const element = document.createElement("style");
         element.id = "4bf06403b9";
@@ -1383,10 +1383,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a5d340d9-eb13-4421-9bcf-1cd842397d63/menu.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/651a2e3d-83ad-4abc-8c3d-8f9a173a7920/menu.module.js
   var menu_module_default;
   var init_menu_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a5d340d9-eb13-4421-9bcf-1cd842397d63/menu.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/651a2e3d-83ad-4abc-8c3d-8f9a173a7920/menu.module.js"() {
       if (document.getElementById("29044db304") === null) {
         const element = document.createElement("style");
         element.id = "29044db304";
@@ -1609,10 +1609,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b64b3286-0c01-4dbd-a145-8bd2300d8579/dropdown.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1ee31968-2034-49fe-a63e-2676c1f9b6c2/dropdown.module.js
   var dropdown_module_default;
   var init_dropdown_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b64b3286-0c01-4dbd-a145-8bd2300d8579/dropdown.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1ee31968-2034-49fe-a63e-2676c1f9b6c2/dropdown.module.js"() {
       if (document.getElementById("5a226eb00e") === null) {
         const element = document.createElement("style");
         element.id = "5a226eb00e";
@@ -2053,10 +2053,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e7cf6ad1-0831-4046-9387-545dd6526ae4/button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/3cd45dfe-da6d-4415-ab95-bf42792c9a77/button.module.js
   var button_module_default2;
   var init_button_module2 = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e7cf6ad1-0831-4046-9387-545dd6526ae4/button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/3cd45dfe-da6d-4415-ab95-bf42792c9a77/button.module.js"() {
       if (document.getElementById("1dddd0e4df") === null) {
         const element = document.createElement("style");
         element.id = "1dddd0e4df";
@@ -2220,10 +2220,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1217cf58-b77b-4147-a261-04a9cf1b8be1/file-upload-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a295734a-ff92-4088-8e67-e080605cfcad/file-upload-button.module.js
   var file_upload_button_module_default;
   var init_file_upload_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1217cf58-b77b-4147-a261-04a9cf1b8be1/file-upload-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a295734a-ff92-4088-8e67-e080605cfcad/file-upload-button.module.js"() {
       if (document.getElementById("f115bb30c8") === null) {
         const element = document.createElement("style");
         element.id = "f115bb30c8";
@@ -2338,10 +2338,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/37e9a224-000e-457b-88f0-774daa4c906a/icon-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/20afa6b6-c7a5-49ca-a98d-9cd4e11ee52c/icon-button.module.js
   var icon_button_module_default;
   var init_icon_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/37e9a224-000e-457b-88f0-774daa4c906a/icon-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/20afa6b6-c7a5-49ca-a98d-9cd4e11ee52c/icon-button.module.js"() {
       if (document.getElementById("c8b08e6568") === null) {
         const element = document.createElement("style");
         element.id = "c8b08e6568";
@@ -2419,10 +2419,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c3d538d2-18eb-488c-bbf5-38a7d3f809b7/text.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/24e976dd-4d4a-498b-8254-9c4265ec5126/text.module.js
   var text_module_default;
   var init_text_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c3d538d2-18eb-488c-bbf5-38a7d3f809b7/text.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/24e976dd-4d4a-498b-8254-9c4265ec5126/text.module.js"() {
       if (document.getElementById("1278016d5c") === null) {
         const element = document.createElement("style");
         element.id = "1278016d5c";
@@ -2480,10 +2480,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/3f6e0b3d-1885-4683-9314-ed038a4017c7/inline.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c1e0d0d3-18bf-48bb-be83-69ed5a2ac2b5/inline.module.js
   var inline_module_default;
   var init_inline_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/3f6e0b3d-1885-4683-9314-ed038a4017c7/inline.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c1e0d0d3-18bf-48bb-be83-69ed5a2ac2b5/inline.module.js"() {
       if (document.getElementById("3e1b2856fc") === null) {
         const element = document.createElement("style");
         element.id = "3e1b2856fc";
@@ -2545,10 +2545,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/191f9eca-af45-4454-9aea-1015e3fb1119/stack.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/94fae441-1b20-406a-b642-e0861fae9fee/stack.module.js
   var stack_module_default;
   var init_stack_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/191f9eca-af45-4454-9aea-1015e3fb1119/stack.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/94fae441-1b20-406a-b642-e0861fae9fee/stack.module.js"() {
       if (document.getElementById("317515cc3f") === null) {
         const element = document.createElement("style");
         element.id = "317515cc3f";
@@ -2591,10 +2591,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/480f823e-725f-448a-9707-64f1f2d39e8d/radio-buttons.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1355dc2a-0401-4938-8dcc-1659661177c2/radio-buttons.module.js
   var radio_buttons_module_default;
   var init_radio_buttons_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/480f823e-725f-448a-9707-64f1f2d39e8d/radio-buttons.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1355dc2a-0401-4938-8dcc-1659661177c2/radio-buttons.module.js"() {
       if (document.getElementById("a066c67891") === null) {
         const element = document.createElement("style");
         element.id = "a066c67891";
@@ -2713,10 +2713,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/df54c379-9b0b-4dc4-8558-3d922aee517c/segmented-control.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2763c215-83da-4f91-94e7-6a2873766206/segmented-control.module.js
   var segmented_control_module_default;
   var init_segmented_control_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/df54c379-9b0b-4dc4-8558-3d922aee517c/segmented-control.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2763c215-83da-4f91-94e7-6a2873766206/segmented-control.module.js"() {
       if (document.getElementById("bc6858a1b5") === null) {
         const element = document.createElement("style");
         element.id = "bc6858a1b5";
@@ -2817,10 +2817,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/eb0a9ccd-f591-410e-98a7-ffafdd7e73b9/tabs.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c16fd5c9-033c-4528-860c-2c21bc323e76/tabs.module.js
   var tabs_module_default;
   var init_tabs_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/eb0a9ccd-f591-410e-98a7-ffafdd7e73b9/tabs.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c16fd5c9-033c-4528-860c-2c21bc323e76/tabs.module.js"() {
       if (document.getElementById("b2487bb7e6") === null) {
         const element = document.createElement("style");
         element.id = "b2487bb7e6";
@@ -3037,10 +3037,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c142c698-be93-400b-b465-5e721f3fe313/textbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d6018b7f-1ecd-4a89-b2da-11c95baefa4a/textbox.module.js
   var textbox_module_default;
   var init_textbox_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c142c698-be93-400b-b465-5e721f3fe313/textbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d6018b7f-1ecd-4a89-b2da-11c95baefa4a/textbox.module.js"() {
       if (document.getElementById("5c1c5c2d3d") === null) {
         const element = document.createElement("style");
         element.id = "5c1c5c2d3d";
@@ -3439,10 +3439,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/123e7b0c-2d80-4964-8635-201806e2cf0a/textbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ed293de2-d5f9-4f29-b025-37be8cb94ab6/textbox.module.js
   var textbox_module_default2;
   var init_textbox_module2 = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/123e7b0c-2d80-4964-8635-201806e2cf0a/textbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ed293de2-d5f9-4f29-b025-37be8cb94ab6/textbox.module.js"() {
       if (document.getElementById("5c1c5c2d3d") === null) {
         const element = document.createElement("style");
         element.id = "5c1c5c2d3d";
@@ -3513,10 +3513,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9c33c9fc-20fe-4aa5-8c50-400994841f56/textbox-numeric.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f8041149-9cd8-44b6-8813-05cd9a67b354/textbox-numeric.module.js
   var textbox_numeric_module_default;
   var init_textbox_numeric_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9c33c9fc-20fe-4aa5-8c50-400994841f56/textbox-numeric.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f8041149-9cd8-44b6-8813-05cd9a67b354/textbox-numeric.module.js"() {
       if (document.getElementById("b6dab244a8") === null) {
         const element = document.createElement("style");
         element.id = "b6dab244a8";
@@ -3732,10 +3732,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/58df3489-c0c9-4d4c-93bc-9784886e21fd/container.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/35297828-657a-4770-8d57-813fe6d6e8fc/container.module.js
   var container_module_default;
   var init_container_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/58df3489-c0c9-4d4c-93bc-9784886e21fd/container.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/35297828-657a-4770-8d57-813fe6d6e8fc/container.module.js"() {
       if (document.getElementById("b49e1406f9") === null) {
         const element = document.createElement("style");
         element.id = "b49e1406f9";
@@ -3776,10 +3776,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/fa74131a-882c-47c6-b529-c1bc386ad31d/vertical-space.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b7683f50-ec19-4b31-b4b3-4ba4c01bfb9d/vertical-space.module.js
   var vertical_space_module_default;
   var init_vertical_space_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/fa74131a-882c-47c6-b529-c1bc386ad31d/vertical-space.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b7683f50-ec19-4b31-b4b3-4ba4c01bfb9d/vertical-space.module.js"() {
       if (document.getElementById("ba0eea5114") === null) {
         const element = document.createElement("style");
         element.id = "ba0eea5114";
@@ -3820,9 +3820,9 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/67fca47e-e360-4925-b0e8-f41f77e71de5/base.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/34f02e5f-1c7b-407f-afe7-6bf4fa6c0262/base.js
   var init_base = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/67fca47e-e360-4925-b0e8-f41f77e71de5/base.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/34f02e5f-1c7b-407f-afe7-6bf4fa6c0262/base.js"() {
       if (document.getElementById("0597dd81e7") === null) {
         const element = document.createElement("style");
         element.id = "0597dd81e7";
@@ -4048,7 +4048,13 @@ svg {
         LIBRARY_SWAP_FOCUS_NODE: "LIBRARY_SWAP_FOCUS_NODE",
         LIBRARY_SWAP_CAPTURE_OLD: "LIBRARY_SWAP_CAPTURE_OLD",
         LIBRARY_SWAP_CAPTURE_NEW: "LIBRARY_SWAP_CAPTURE_NEW",
-        LIBRARY_SWAP_REMOVE_PAIR: "LIBRARY_SWAP_REMOVE_PAIR"
+        LIBRARY_SWAP_REMOVE_PAIR: "LIBRARY_SWAP_REMOVE_PAIR",
+        // Find Color Match
+        FIND_COLOR_MATCH_SCAN: "FIND_COLOR_MATCH_SCAN",
+        FIND_COLOR_MATCH_SET_COLLECTION: "FIND_COLOR_MATCH_SET_COLLECTION",
+        FIND_COLOR_MATCH_SET_MODE: "FIND_COLOR_MATCH_SET_MODE",
+        FIND_COLOR_MATCH_APPLY: "FIND_COLOR_MATCH_APPLY",
+        FIND_COLOR_MATCH_FOCUS_NODE: "FIND_COLOR_MATCH_FOCUS_NODE"
       };
       MAIN_TO_UI = {
         BOOTSTRAPPED: "BOOTSTRAPPED",
@@ -4093,7 +4099,12 @@ svg {
         LIBRARY_SWAP_APPLY_RESULT: "LIBRARY_SWAP_APPLY_RESULT",
         LIBRARY_SWAP_PREVIEW_RESULT: "LIBRARY_SWAP_PREVIEW_RESULT",
         LIBRARY_SWAP_CAPTURE_RESULT: "LIBRARY_SWAP_CAPTURE_RESULT",
-        LIBRARY_SWAP_PAIRS_UPDATED: "LIBRARY_SWAP_PAIRS_UPDATED"
+        LIBRARY_SWAP_PAIRS_UPDATED: "LIBRARY_SWAP_PAIRS_UPDATED",
+        // Find Color Match
+        FIND_COLOR_MATCH_COLLECTIONS: "FIND_COLOR_MATCH_COLLECTIONS",
+        FIND_COLOR_MATCH_RESULT: "FIND_COLOR_MATCH_RESULT",
+        FIND_COLOR_MATCH_PROGRESS: "FIND_COLOR_MATCH_PROGRESS",
+        FIND_COLOR_MATCH_APPLY_RESULT: "FIND_COLOR_MATCH_APPLY_RESULT"
       };
     }
   });
@@ -4128,6 +4139,11 @@ svg {
     var _a, _b;
     const color = (_a = props.color) != null ? _a : "currentColor";
     return /* @__PURE__ */ _("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none", "aria-label": props.title }, /* @__PURE__ */ _("path", { d: "M6.76776 6.23269C6.5725 6.03743 6.5725 5.71994 6.76776 5.52468C6.96296 5.32976 7.2796 5.32976 7.47479 5.52468L9.9494 8.00027L7.47479 10.4749C7.27953 10.6701 6.96302 10.6701 6.76776 10.4749C6.5725 10.2796 6.5725 9.96311 6.76776 9.76785L8.53534 8.00027L6.76776 6.23269Z", fill: color, fillOpacity: (_b = props.opacity) != null ? _b : 0.9 }));
+  }
+  function IconTarget16(props) {
+    var _a, _b;
+    const color = (_a = props.color) != null ? _a : "currentColor";
+    return /* @__PURE__ */ _("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none", "aria-label": props.title }, /* @__PURE__ */ _("path", { d: "M8 16C7.72386 16 7.5 15.7761 7.5 15.5V13.9775C4.58523 13.737 2.263 11.4148 2.02246 8.5H0.5C0.223858 8.5 9.42357e-08 8.27614 0 8C1.18377e-07 7.72386 0.223857 7.5 0.5 7.5H2.02246C2.263 4.58525 4.58527 2.26401 7.5 2.02344V0.5C7.5 0.223858 7.72386 0 8 0C8.27614 0 8.5 0.223858 8.5 0.5V2.02344C11.4147 2.26401 13.737 4.58525 13.9775 7.5H15.5C15.7761 7.5 16 7.72386 16 8C16 8.27614 15.7761 8.5 15.5 8.5H13.9775C13.737 11.4148 11.4148 13.737 8.5 13.9775V15.5C8.5 15.7761 8.27614 16 8 16ZM7.5 11.5C7.5 11.2239 7.72386 11 8 11C8.27614 11 8.5 11.2239 8.5 11.5V12.9756C10.8622 12.7411 12.7411 10.8622 12.9756 8.5H11.5C11.2239 8.5 11 8.27614 11 8C11 7.72386 11.2239 7.5 11.5 7.5H12.9756C12.7411 5.1378 10.8622 3.25996 8.5 3.02539V4.5C8.5 4.77614 8.27614 5 8 5C7.72386 5 7.5 4.77614 7.5 4.5V3.02539C5.13782 3.25996 3.25893 5.1378 3.02441 7.5H4.5C4.77614 7.5 5 7.72386 5 8C5 8.27614 4.77614 8.5 4.5 8.5H3.02441C3.25894 10.8622 5.13777 12.7411 7.5 12.9756V11.5Z", fill: color, fillOpacity: (_b = props.opacity) != null ? _b : 0.9 }));
   }
   var init_generated = __esm({
     "src/app/components/custom-icons/generated.tsx"() {
@@ -4262,6 +4278,14 @@ svg {
     ), /* @__PURE__ */ _(
       ToolCard,
       {
+        title: "Find Color Match",
+        description: "Find the closest variable for unbound colors",
+        icon: /* @__PURE__ */ _(IconTarget16, null),
+        onClick: () => props.goTo("find-color-match-tool")
+      }
+    ), /* @__PURE__ */ _(
+      ToolCard,
+      {
         title: "Library Swap",
         description: "Swap component instances from old libraries to new ones",
         icon: /* @__PURE__ */ _(IconLibrary16, null),
@@ -4317,6 +4341,7 @@ svg {
       init_preact_module();
       init_Page();
       init_ToolCard();
+      init_generated();
       sectionTitleStyle = { fontWeight: 600 };
     }
   });
@@ -4435,7 +4460,7 @@ svg {
     }
   });
 
-  // src/app/tools/mockup-markup/presets.ts
+  // src/app/tools/mockup-markup-quick-apply-tool/presets.ts
   function getColorPresetLabel(preset) {
     switch (preset) {
       case "text":
@@ -4447,7 +4472,7 @@ svg {
     }
   }
   var init_presets = __esm({
-    "src/app/tools/mockup-markup/presets.ts"() {
+    "src/app/tools/mockup-markup-quick-apply-tool/presets.ts"() {
       "use strict";
     }
   });
@@ -7690,6 +7715,270 @@ svg {
     }
   });
 
+  // src/app/views/find-color-match-tool/FindColorMatchToolView.tsx
+  function FindColorMatchToolView({ onBack, initialSelectionEmpty }) {
+    const [collections, setCollections] = d2([]);
+    const [selectedCollectionKey, setSelectedCollectionKey] = d2(null);
+    const [selectedModeId, setSelectedModeId] = d2(null);
+    const [entries, setEntries] = d2([]);
+    const [progress, setProgress] = d2(null);
+    const [isLoading, setIsLoading] = d2(true);
+    const [appliedKeys, setAppliedKeys] = d2(/* @__PURE__ */ new Set());
+    const [overrides, setOverrides] = d2({});
+    const [selectionEmpty, setSelectionEmpty] = d2(initialSelectionEmpty != null ? initialSelectionEmpty : true);
+    y2(() => {
+      const handler = (event) => {
+        var _a;
+        const msg = (_a = event.data) == null ? void 0 : _a.pluginMessage;
+        if (!msg) return;
+        if (msg.type === MAIN_TO_UI.FIND_COLOR_MATCH_COLLECTIONS) {
+          setCollections(msg.payload.collections);
+          if (msg.payload.defaultCollectionKey) {
+            setSelectedCollectionKey(msg.payload.defaultCollectionKey);
+            const col = msg.payload.collections.find((c3) => c3.key === msg.payload.defaultCollectionKey);
+            if (col && col.modes.length > 0) {
+              setSelectedModeId(col.modes[0].modeId);
+            }
+          }
+        }
+        if (msg.type === MAIN_TO_UI.FIND_COLOR_MATCH_RESULT) {
+          const hasEntries = msg.payload.entries.length > 0;
+          setEntries(msg.payload.entries);
+          setProgress(null);
+          setIsLoading(false);
+          setSelectionEmpty(!hasEntries);
+          setAppliedKeys(/* @__PURE__ */ new Set());
+          setOverrides({});
+        }
+        if (msg.type === MAIN_TO_UI.FIND_COLOR_MATCH_PROGRESS) {
+          setProgress(msg.progress);
+          setIsLoading(true);
+        }
+        if (msg.type === MAIN_TO_UI.FIND_COLOR_MATCH_APPLY_RESULT) {
+          if (msg.result.ok) {
+            setEntries((prev) => {
+              const matched = prev.find((e3) => e3.found.nodeId === msg.result.nodeId);
+              if (matched) {
+                const key = `${matched.found.nodeId}:${matched.found.colorType}:${matched.found.paintIndex}`;
+                setAppliedKeys((prevKeys) => {
+                  const next = new Set(Array.from(prevKeys));
+                  next.add(key);
+                  return next;
+                });
+              }
+              return prev;
+            });
+          }
+        }
+        if (msg.type === MAIN_TO_UI.SELECTION_EMPTY) {
+          setSelectionEmpty(true);
+          setEntries([]);
+          setIsLoading(false);
+          setProgress(null);
+        }
+      };
+      window.addEventListener("message", handler);
+      return () => window.removeEventListener("message", handler);
+    }, []);
+    const entryKey = q2(
+      (entry) => `${entry.found.nodeId}:${entry.found.colorType}:${entry.found.paintIndex}`,
+      []
+    );
+    const selectedCollection = T2(
+      () => {
+        var _a;
+        return (_a = collections.find((c3) => c3.key === selectedCollectionKey)) != null ? _a : null;
+      },
+      [collections, selectedCollectionKey]
+    );
+    const collectionOptions = T2(() => {
+      const libraryCollections = collections.filter((c3) => c3.isLibrary);
+      const localCollections = collections.filter((c3) => !c3.isLibrary);
+      const options = [];
+      if (libraryCollections.length > 0) {
+        options.push({ header: "Libraries" });
+        for (const c3 of libraryCollections) {
+          options.push({ value: c3.key, text: `${c3.name} [${c3.libraryName}]` });
+        }
+      }
+      if (localCollections.length > 0) {
+        if (options.length > 0) options.push("-");
+        options.push({ header: "Local" });
+        for (const c3 of localCollections) {
+          options.push({ value: c3.key, text: c3.name });
+        }
+      }
+      return options;
+    }, [collections]);
+    const modeOptions = T2(() => {
+      if (!selectedCollection || selectedCollection.modes.length === 0) return [];
+      return selectedCollection.modes.map((m3) => ({
+        value: m3.modeId,
+        text: m3.modeName
+      }));
+    }, [selectedCollection]);
+    const handleCollectionChange = (value2) => {
+      var _a, _b;
+      setSelectedCollectionKey(value2);
+      setEntries([]);
+      setAppliedKeys(/* @__PURE__ */ new Set());
+      setOverrides({});
+      setIsLoading(true);
+      const col = collections.find((c3) => c3.key === value2);
+      const firstModeId = (_b = (_a = col == null ? void 0 : col.modes[0]) == null ? void 0 : _a.modeId) != null ? _b : null;
+      setSelectedModeId(firstModeId);
+      parent.postMessage(
+        { pluginMessage: { type: UI_TO_MAIN.FIND_COLOR_MATCH_SET_COLLECTION, collectionKey: value2 } },
+        "*"
+      );
+    };
+    const handleModeChange = (value2) => {
+      setSelectedModeId(value2);
+      setEntries([]);
+      setAppliedKeys(/* @__PURE__ */ new Set());
+      setOverrides({});
+      setIsLoading(true);
+      parent.postMessage(
+        { pluginMessage: { type: UI_TO_MAIN.FIND_COLOR_MATCH_SET_MODE, modeId: value2 } },
+        "*"
+      );
+    };
+    const handleApply = (entry) => {
+      var _a;
+      const key = entryKey(entry);
+      const overrideVarId = overrides[key];
+      const variableId = overrideVarId != null ? overrideVarId : (_a = entry.bestMatch) == null ? void 0 : _a.variableId;
+      if (!variableId) return;
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: UI_TO_MAIN.FIND_COLOR_MATCH_APPLY,
+            request: {
+              nodeId: entry.found.nodeId,
+              variableId,
+              colorType: entry.found.colorType,
+              paintIndex: entry.found.paintIndex
+            }
+          }
+        },
+        "*"
+      );
+    };
+    const handleFocusNode = (nodeId) => {
+      parent.postMessage(
+        { pluginMessage: { type: UI_TO_MAIN.FIND_COLOR_MATCH_FOCUS_NODE, nodeId } },
+        "*"
+      );
+    };
+    const handleOverrideVariable = (entryKeyStr, variableId) => {
+      setOverrides((prev) => __spreadProps(__spreadValues({}, prev), { [entryKeyStr]: variableId }));
+    };
+    const visibleEntries = T2(
+      () => entries.filter((e3) => !appliedKeys.has(entryKey(e3))),
+      [entries, appliedKeys, entryKey]
+    );
+    const showEmptySelection = !isLoading && selectionEmpty && entries.length === 0;
+    const showNoUnbound = !isLoading && !selectionEmpty && entries.length === 0 && visibleEntries.length === 0;
+    const showLoading = isLoading && entries.length === 0;
+    return /* @__PURE__ */ _(Page, null, /* @__PURE__ */ _(
+      ToolHeader,
+      {
+        title: "Find Color Match",
+        left: /* @__PURE__ */ _(IconButton, { onClick: onBack }, /* @__PURE__ */ _(IconHome16, null))
+      }
+    ), collections.length > 0 && /* @__PURE__ */ _("div", null, /* @__PURE__ */ _(Container, { space: "small" }, /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(Stack, { space: "extraSmall" }, collectionOptions.length > 0 && /* @__PURE__ */ _(
+      Dropdown,
+      {
+        options: collectionOptions,
+        value: selectedCollectionKey != null ? selectedCollectionKey : "",
+        onChange: (e3) => handleCollectionChange(e3.currentTarget.value)
+      }
+    ), modeOptions.length > 0 && /* @__PURE__ */ _(
+      Dropdown,
+      {
+        options: modeOptions,
+        value: selectedModeId != null ? selectedModeId : "",
+        onChange: (e3) => handleModeChange(e3.currentTarget.value)
+      }
+    )), /* @__PURE__ */ _(VerticalSpace, { space: "small" })), /* @__PURE__ */ _(Divider, null)), showLoading && /* @__PURE__ */ _(ToolBody, { mode: "state" }, /* @__PURE__ */ _(State, { title: progress ? progress.message : "Loading\u2026" })), showEmptySelection && /* @__PURE__ */ _(ToolBody, { mode: "state" }, /* @__PURE__ */ _(
+      State,
+      {
+        icon: /* @__PURE__ */ _(IconInteractionClickSmall24, null),
+        title: "Select layers to find color matches"
+      }
+    )), showNoUnbound && /* @__PURE__ */ _(ToolBody, { mode: "state" }, /* @__PURE__ */ _(State, { title: "No unbound colors found in selection" })), visibleEntries.length > 0 && /* @__PURE__ */ _(ToolBody, { mode: "content" }, /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, visibleEntries.length, " unbound color", visibleEntries.length !== 1 ? "s" : "", " found"), /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(Stack, { space: "extraSmall" }, visibleEntries.map((entry) => {
+      var _a, _b, _c;
+      const key = entryKey(entry);
+      const overrideVarId = overrides[key];
+      const selectedMatch = overrideVarId ? (_a = entry.allMatches.find((m3) => m3.variableId === overrideVarId)) != null ? _a : entry.bestMatch : entry.bestMatch;
+      const matchOptions = entry.allMatches.map((m3) => ({
+        value: m3.variableId,
+        text: `${m3.variableName} (${m3.diffPercent}%)`
+      }));
+      return /* @__PURE__ */ _(
+        "div",
+        {
+          key,
+          style: {
+            border: "1px solid var(--figma-color-border)",
+            borderRadius: 6,
+            padding: "8px 10px"
+          }
+        },
+        /* @__PURE__ */ _("div", { style: { display: "flex", alignItems: "center", gap: 8 } }, /* @__PURE__ */ _(ColorSwatch, { hex: entry.found.hex, opacityPercent: entry.found.opacity }), /* @__PURE__ */ _("div", { style: { flex: 1, minWidth: 0 } }, /* @__PURE__ */ _(
+          "div",
+          {
+            style: {
+              fontSize: 11,
+              fontWeight: 600,
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              cursor: "pointer"
+            },
+            onClick: () => handleFocusNode(entry.found.nodeId),
+            title: `Click to focus: ${entry.found.nodeName}`
+          },
+          entry.found.nodeName
+        ), /* @__PURE__ */ _("div", { style: { fontSize: 10, color: "var(--figma-color-text-secondary)" } }, entry.found.hex, " \xB7 ", entry.found.colorType.toLowerCase(), entry.found.opacity < 100 ? ` \xB7 ${entry.found.opacity}%` : ""))),
+        selectedMatch && /* @__PURE__ */ _("div", { style: { marginTop: 6 } }, /* @__PURE__ */ _("div", { style: { display: "flex", alignItems: "center", gap: 6, marginBottom: 4 } }, /* @__PURE__ */ _("div", { style: { fontSize: 10, color: "var(--figma-color-text-tertiary)" } }, "\u2192"), /* @__PURE__ */ _(ColorSwatch, { hex: selectedMatch.hex, opacityPercent: selectedMatch.opacityPercent }), /* @__PURE__ */ _("div", { style: { fontSize: 10, color: "var(--figma-color-text-secondary)" } }, selectedMatch.diffPercent, "% diff")), matchOptions.length > 1 && /* @__PURE__ */ _(
+          Dropdown,
+          {
+            options: matchOptions,
+            value: (_c = overrideVarId != null ? overrideVarId : (_b = entry.bestMatch) == null ? void 0 : _b.variableId) != null ? _c : "",
+            onChange: (e3) => handleOverrideVariable(key, e3.currentTarget.value),
+            style: { marginBottom: 4 }
+          }
+        ), matchOptions.length <= 1 && selectedMatch && /* @__PURE__ */ _("div", { style: { fontSize: 11, marginBottom: 4 } }, selectedMatch.variableName), /* @__PURE__ */ _(Button, { onClick: () => handleApply(entry), secondary: true, style: { width: "100%" } }, "Apply")),
+        !selectedMatch && /* @__PURE__ */ _("div", { style: { marginTop: 6, fontSize: 11, color: "var(--figma-color-text-tertiary)" } }, "No matching variable found")
+      );
+    }))), isLoading && entries.length > 0 && progress && /* @__PURE__ */ _("div", { style: {
+      position: "fixed",
+      bottom: 0,
+      left: 0,
+      right: 0,
+      padding: "8px 12px",
+      background: "var(--figma-color-bg)",
+      borderTop: "1px solid var(--figma-color-border)",
+      fontSize: 11,
+      color: "var(--figma-color-text-secondary)"
+    } }, progress.message));
+  }
+  var init_FindColorMatchToolView = __esm({
+    "src/app/views/find-color-match-tool/FindColorMatchToolView.tsx"() {
+      "use strict";
+      init_lib2();
+      init_preact_module();
+      init_hooks_module();
+      init_messages();
+      init_Page();
+      init_ToolHeader();
+      init_ToolBody();
+      init_State();
+      init_ColorSwatch();
+    }
+  });
+
   // src/app/ui.tsx
   var ui_exports = {};
   __export(ui_exports, {
@@ -7714,7 +8003,8 @@ svg {
             "variables-export-import-tool",
             "variables-batch-rename-tool",
             "variables-create-linked-colors-tool",
-            "variables-replace-usages-tool"
+            "variables-replace-usages-tool",
+            "find-color-match-tool"
           ];
           setRoute(
             validRoutes.includes(msg.command) ? msg.command : "home"
@@ -7775,6 +8065,15 @@ svg {
         }
       );
     }
+    if (route === "find-color-match-tool") {
+      return /* @__PURE__ */ _(
+        FindColorMatchToolView,
+        {
+          onBack: () => setRoute("home"),
+          initialSelectionEmpty: selectionSize === 0
+        }
+      );
+    }
     return /* @__PURE__ */ _(HomeView, { goTo: setRoute });
   }
   var ui_default;
@@ -7794,13 +8093,14 @@ svg {
       init_VariablesBatchRenameToolView();
       init_VariablesCreateLinkedColorsToolView();
       init_VariablesReplaceUsagesToolView();
+      init_FindColorMatchToolView();
       ui_default = render(App);
     }
   });
 
   // <stdin>
   var rootNode = document.getElementById("create-figma-plugin");
-  var modules = { "src/home/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/mockup-markup-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/color-chain-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/library-swap-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/print-color-usages-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/variables-export-import-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/variables-batch-rename-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/variables-create-linked-colors-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/variables-replace-usages-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"] };
+  var modules = { "src/home/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/mockup-markup-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/color-chain-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/library-swap-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/print-color-usages-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/variables-export-import-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/variables-batch-rename-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/variables-create-linked-colors-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/variables-replace-usages-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/find-color-match-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"] };
   var commandId = __FIGMA_COMMAND__ === "" ? "src/home/main.ts--default" : __FIGMA_COMMAND__;
   if (typeof modules[commandId] === "undefined") {
     throw new Error(

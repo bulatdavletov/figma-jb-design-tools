@@ -43,6 +43,10 @@
     {
       "name": "Variables Replace Usages",
       "command": "src/variables-replace-usages-tool/main.ts--default"
+    },
+    {
+      "name": "Find Color Match",
+      "command": "src/find-color-match-tool/main.ts--default"
     }
   ],
   "networkAccess": {

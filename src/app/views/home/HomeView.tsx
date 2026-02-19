@@ -16,6 +16,7 @@ import { h } from "preact"
 
 import { Page } from "../../components/Page"
 import { ToolCard } from "../../components/ToolCard"
+import { IconTarget16 } from "../../../../custom-icons/generated"
 
 type Route =
   | "home"
@@ -27,6 +28,7 @@ type Route =
   | "variables-create-linked-colors-tool"
   | "variables-replace-usages-tool"
   | "library-swap-tool"
+  | "find-color-match-tool"
 
 const sectionTitleStyle = { fontWeight: 600 } as const
 
@@ -51,6 +53,12 @@ export function HomeView(props: { goTo: (route: Route) => void }) {
               description="Inspect selection to see full variable alias chains"
               icon={<IconVariableColor16 />}
               onClick={() => props.goTo("color-chain-tool")}
+            />
+            <ToolCard
+              title="Find Color Match"
+              description="Find the closest variable for unbound colors"
+              icon={<IconTarget16 />}
+              onClick={() => props.goTo("find-color-match-tool")}
             />
             <ToolCard
               title="Library Swap"

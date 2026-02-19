@@ -48,6 +48,10 @@ Cases, requirements.
 
 If I press update, show preview, what will be updated, before after, and only then apply.
 
+### Update tool:
+Sometimes I don't want to apply text style or color.
+Only update layer name and content.
+
 ## Color Chain tool:
 Issues with border of ColorSwatch in Color Chain tool.
 

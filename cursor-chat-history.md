@@ -5,6 +5,35 @@
 
 ---
 
+### 2026-02-18
+
+#### Find Color Match Tool — implementation
+- Implemented the full "Find Color Match" tool per the plan in `.cursor/plans/find_color_match_tool_f7b4efbe.plan.md`.
+- Purpose: Finds the closest color variable from "Int UI Kit: Islands" library for unbound solid colors in the current selection.
+- New files: `src/app/tools/find-color-match/` (types, scan, match, apply, variables, main-thread), `src/app/views/find-color-match-tool/FindColorMatchToolView.tsx`, `src/find-color-match-tool/main.ts`.
+- Modified files: `messages.ts` (new message types), `run.ts` (tool registration), `ui.tsx` (route), `HomeView.tsx` (tool card), `package.json` (menu entry), `variable-chain.ts` (exported color utils).
+- Builds cleanly (only pre-existing mockup-markup import errors remain).
+
+#### Shared Mockup Markup Library — extract and deduplicate
+- Request: Extract the mockup markup library (constants + resolution logic) as a shared module so all consumers route through a single source.
+- Problem: The same markup library data (variable IDs, name candidates, resolution logic, paint helpers) was duplicated in 4 places: `markup-shared/` (unused), `mockup-markup-library/` (unused), `mockup-markup-quick-apply-tool/resolve.ts` + `presets.ts`, and `print-color-usages/markup-kit.ts`. When variables were renamed in the library (2026-02-13), this caused bugs because not all copies were updated.
+- Solution:
+  - **`mockup-markup-library/`** is now the single source of truth for all Mockup Markup library constants (IDs, keys, name candidates) and core resolution logic (resolve by ID/key/name, paint helpers, mode helpers, font loading).
+  - **`mockup-markup-quick-apply-tool/`** (the tool) now imports from the library. `presets.ts` maps library constants to tool presets. `resolve.ts` provides preset-specific wrappers delegating to the library.
+  - **`print-color-usages/markup-kit.ts`** now imports constants and resolution from the library. Keeps Print-specific functions (theme colors, label fills, typography application).
+  - **`markup-shared/`** deleted (was an identical unused duplicate of `mockup-markup-library/`).
+- Also fixed pre-existing broken import paths in `run.ts` (`./tools/mockup-markup/main-thread` → `./tools/mockup-markup-quick-apply-tool/main-thread`) and `MockupMarkupToolView.tsx`.
+- Naming convention: `*-tool` suffix = tool, `*-library` suffix = shared data/logic.
+- Impact: Pure refactoring — no behavior change. Future library changes (variable renames, new tokens) require updating only `mockup-markup-library/`.
+- Verification: `npm run build` passes (pre-existing unrelated TS errors in FindColorMatch and LibrarySwap remain unchanged).
+
+#### Print Color Usages — markup colors not resolving (fix)
+- Bug: Print Color Usages "colors from markup" failed to resolve — printed labels got theme fallback colors instead of Markup Kit variable-bound colors.
+- Root cause: Same as the 2026-02-13 Mockup Markup bug. Variables were renamed in the library from title-case to kebab-case (`Markup Text` → `markup-text`). `markup-kit.ts` was never updated with the "import by key" strategy that fixed `resolve.ts` in the Mockup Markup tool.
+- Fix: Added `extractVariableKey()` to `markup-kit.ts` (extracts hash from raw VariableID — this hash IS the variable key that survives renames). Added `importVariableByKeyAsync(key)` as Strategy 2 in `resolveColorVariableId`. Updated name candidates to include kebab-case names (`markup-text`, `markup-text-secondary`). Now matches the same 4-strategy resolution order as Mockup Markup's `resolve.ts`.
+- File changed: `src/app/tools/print-color-usages/markup-kit.ts`.
+- Verification: `npm run build` passed; no linter errors.
+
 ### 2026-02-17
 Olya suggested to rename from JetBrains Design Tools to Int UI Design Tools
 
