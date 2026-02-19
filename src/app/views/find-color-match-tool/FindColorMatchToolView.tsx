@@ -20,13 +20,14 @@ import type {
   FindColorMatchCollectionInfo,
   FindColorMatchResultEntry,
   FindColorMatchVariableEntry,
-  FindColorMatchProgressPayload,
+  LibraryCacheStatusPayload,
 } from "../../messages"
 import { Page } from "../../components/Page"
 import { ToolHeader } from "../../components/ToolHeader"
 import { ToolBody } from "../../components/ToolBody"
 import { State } from "../../components/State"
 import { ColorSwatch } from "../../components/ColorSwatch"
+import { LibraryCacheStatusBar } from "../../components/LibraryCacheStatusBar"
 
 type Props = {
   onBack: () => void
@@ -38,11 +39,14 @@ export function FindColorMatchToolView({ onBack, initialSelectionEmpty }: Props)
   const [selectedCollectionKey, setSelectedCollectionKey] = useState<string | null>(null)
   const [selectedModeId, setSelectedModeId] = useState<string | null>(null)
   const [entries, setEntries] = useState<FindColorMatchResultEntry[]>([])
-  const [progress, setProgress] = useState<FindColorMatchProgressPayload | null>(null)
+  const [cacheStatus, setCacheStatus] = useState<LibraryCacheStatusPayload | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [appliedKeys, setAppliedKeys] = useState<Set<string>>(new Set())
   const [overrides, setOverrides] = useState<Record<string, string>>({})
   const [selectionEmpty, setSelectionEmpty] = useState(initialSelectionEmpty ?? true)
+
+  const [groupsByCollection, setGroupsByCollection] = useState<Record<string, string[]>>({})
+  const [selectedGroup, setSelectedGroup] = useState<string | null>(null)
 
   const [hexInput, setHexInput] = useState("")
   const [hexOpacity, setHexOpacity] = useState("100")
@@ -70,16 +74,14 @@ export function FindColorMatchToolView({ onBack, initialSelectionEmpty }: Props)
       if (msg.type === MAIN_TO_UI.FIND_COLOR_MATCH_RESULT) {
         const hasEntries = msg.payload.entries.length > 0
         setEntries(msg.payload.entries)
-        setProgress(null)
         setIsLoading(false)
         setSelectionEmpty(!hasEntries)
         setAppliedKeys(new Set())
         setOverrides({})
       }
 
-      if (msg.type === MAIN_TO_UI.FIND_COLOR_MATCH_PROGRESS) {
-        setProgress(msg.progress)
-        setIsLoading(true)
+      if (msg.type === MAIN_TO_UI.LIBRARY_CACHE_STATUS) {
+        setCacheStatus(msg.status)
       }
 
       if (msg.type === MAIN_TO_UI.FIND_COLOR_MATCH_APPLY_RESULT) {
@@ -105,11 +107,14 @@ export function FindColorMatchToolView({ onBack, initialSelectionEmpty }: Props)
         setHexSelectedIdx(0)
       }
 
+      if (msg.type === MAIN_TO_UI.FIND_COLOR_MATCH_GROUPS) {
+        setGroupsByCollection(msg.groupsByCollection)
+      }
+
       if (msg.type === MAIN_TO_UI.SELECTION_EMPTY) {
         setSelectionEmpty(true)
         setEntries([])
         setIsLoading(false)
-        setProgress(null)
       }
     }
 
@@ -128,10 +133,6 @@ export function FindColorMatchToolView({ onBack, initialSelectionEmpty }: Props)
     [collections, selectedCollectionKey]
   )
 
-  const collectionOptions: DropdownOption[] = useMemo(() => {
-    return collections.map((c) => ({ value: c.key, text: c.name }))
-  }, [collections])
-
   const modeOptions: DropdownOption[] = useMemo(() => {
     if (!selectedCollection || selectedCollection.modes.length === 0) return []
     return selectedCollection.modes.map((m) => ({
@@ -140,25 +141,73 @@ export function FindColorMatchToolView({ onBack, initialSelectionEmpty }: Props)
     }))
   }, [selectedCollection])
 
-  const handleCollectionChange = (value: string) => {
-    setSelectedCollectionKey(value)
-    setEntries([])
-    setAppliedKeys(new Set())
-    setOverrides({})
-    setIsLoading(true)
+  // Combined collection + group dropdown
+  const combinedCollectionValue = useMemo(() => {
+    const colKey = selectedCollectionKey ?? ""
+    return selectedGroup ? `${colKey}::${selectedGroup}` : `${colKey}::__all__`
+  }, [selectedCollectionKey, selectedGroup])
 
-    const col = collections.find((c) => c.key === value)
-    const firstModeId = col?.modes[0]?.modeId ?? null
-    setSelectedModeId(firstModeId)
+  const combinedCollectionOptions: DropdownOption[] = useMemo(() => {
+    const opts: DropdownOption[] = []
+    for (let ci = 0; ci < collections.length; ci++) {
+      const col = collections[ci]
+      if (ci > 0) opts.push("-" as DropdownOption)
+      const colGroups = groupsByCollection[col.key] ?? []
+      if (collections.length > 1 && colGroups.length > 0) {
+        opts.push({ header: col.name })
+      }
+      opts.push({ value: `${col.key}::__all__`, text: col.name })
+      for (const g of colGroups) {
+        opts.push({ value: `${col.key}::${g}`, text: g })
+      }
+    }
+    return opts
+  }, [collections, groupsByCollection])
 
-    parent.postMessage(
-      { pluginMessage: { type: UI_TO_MAIN.FIND_COLOR_MATCH_SET_COLLECTION, collectionKey: value } },
-      "*"
-    )
+  const handleCombinedCollectionChange = (value: string) => {
+    const sepIdx = value.indexOf("::")
+    if (sepIdx < 0) return
+    const colKey = value.substring(0, sepIdx)
+    const groupPart = value.substring(sepIdx + 2)
+    const newGroup = groupPart === "__all__" ? null : groupPart
+
+    const collectionChanged = colKey !== selectedCollectionKey
+    if (collectionChanged) {
+      setSelectedCollectionKey(colKey)
+      setSelectedGroup(null)
+      setEntries([])
+      setAppliedKeys(new Set())
+      setOverrides({})
+      setIsLoading(true)
+      setHexMatches([])
+      setHexResultFor(null)
+
+      const col = collections.find((c) => c.key === colKey)
+      const firstModeId = col?.modes[0]?.modeId ?? null
+      setSelectedModeId(firstModeId)
+
+      parent.postMessage(
+        { pluginMessage: { type: UI_TO_MAIN.FIND_COLOR_MATCH_SET_COLLECTION, collectionKey: colKey } },
+        "*"
+      )
+    } else if (newGroup !== selectedGroup) {
+      setSelectedGroup(newGroup)
+      setEntries([])
+      setAppliedKeys(new Set())
+      setOverrides({})
+      setIsLoading(true)
+      setHexMatches([])
+      setHexResultFor(null)
+      parent.postMessage(
+        { pluginMessage: { type: UI_TO_MAIN.FIND_COLOR_MATCH_SET_GROUP, group: newGroup } },
+        "*"
+      )
+    }
   }
 
   const handleModeChange = (value: string) => {
     setSelectedModeId(value)
+    setSelectedGroup(null)
     setEntries([])
     setAppliedKeys(new Set())
     setOverrides({})
@@ -234,7 +283,6 @@ export function FindColorMatchToolView({ onBack, initialSelectionEmpty }: Props)
 
   const showEmptySelection = !isLoading && selectionEmpty && entries.length === 0
   const showNoUnbound = !isLoading && !selectionEmpty && entries.length === 0 && visibleEntries.length === 0
-  const showLoading = isLoading && entries.length === 0
 
   const hexSelectedMatch = hexMatches.length > 0 ? hexMatches[hexSelectedIdx] ?? hexMatches[0] : null
   const hexTop2 = hexMatches.slice(0, 2)
@@ -255,12 +303,12 @@ export function FindColorMatchToolView({ onBack, initialSelectionEmpty }: Props)
         <Container space="small">
           <VerticalSpace space="small" />
           <div style={{ display: "flex", gap: 6, alignItems: "stretch" }}>
-            {collectionOptions.length > 1 && (
+            {combinedCollectionOptions.length > 0 && (
               <div style={{ flex: 1, minWidth: 0 }}>
                 <Dropdown
-                  options={collectionOptions}
-                  value={selectedCollectionKey ?? null}
-                  onChange={(e: any) => handleCollectionChange(e.currentTarget.value)}
+                  options={combinedCollectionOptions}
+                  value={combinedCollectionValue}
+                  onChange={(e: any) => handleCombinedCollectionChange(e.currentTarget.value)}
                 />
               </div>
             )}
@@ -362,13 +410,6 @@ export function FindColorMatchToolView({ onBack, initialSelectionEmpty }: Props)
           </Container>
           <Divider />
         </div>
-      )}
-
-      {/* Loading state */}
-      {showLoading && (
-        <ToolBody mode="state">
-          <State title={progress ? progress.message : "Loading…"} />
-        </ToolBody>
       )}
 
       {/* Empty: no selection */}
@@ -497,22 +538,7 @@ export function FindColorMatchToolView({ onBack, initialSelectionEmpty }: Props)
         </ToolBody>
       )}
 
-      {/* Progress overlay when loading with existing results */}
-      {isLoading && entries.length > 0 && progress && (
-        <div style={{
-          position: "fixed",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          padding: "8px 12px",
-          background: "var(--figma-color-bg)",
-          borderTop: "1px solid var(--figma-color-border)",
-          fontSize: 11,
-          color: "var(--figma-color-text-secondary)",
-        }}>
-          {progress.message}
-        </div>
-      )}
+      <LibraryCacheStatusBar status={cacheStatus} />
     </Page>
   )
 }

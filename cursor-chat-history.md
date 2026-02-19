@@ -7,6 +7,16 @@
 
 ### 2026-02-19
 
+#### Find Color Match Tool — unified library cache with smart invalidation
+- **Problem**: Cache was cleared on every collection/mode change and re-discovered on every tool activation. Loading 200+ variables took several seconds. Full-screen `State` component blocked the UI during loading.
+- **Solution**: Fingerprint-based shared cache + subtle bottom status bar.
+- **New file: `src/app/tools/int-ui-kit-library/cache.ts`** — Global in-memory cache for Int UI Kit library data. Uses fingerprint (sorted COLOR variable keys from `getVariablesInLibraryCollectionAsync`) to detect changes. API: `getCachedCollections()`, `getVariables(key, mode, onStatus)`, `getCachedVariablesSync(key, mode)`, `ensureCollectionModes()`, `invalidateAll()`.
+- **New file: `src/app/components/LibraryCacheStatusBar.tsx`** — Subtle fixed-bottom bar showing "Checking library for updates…" / "Loading variables… N/M". Uses `LoadingIndicator` from `@create-figma-plugin/ui`. Auto-hides when idle/ready.
+- **Modified `messages.ts`**: Added `LIBRARY_CACHE_STATUS` message type and `LibraryCacheStatusPayload` type.
+- **Modified `find-color-match/main-thread.ts`**: Removed local `candidateCache`/`candidateCacheKey`/`preloadPromise`. Now uses shared cache. On activation: serves from cache instantly via `runScanFromCacheSync()`, then runs `backgroundCacheCheck()` to validate fingerprint. On collection/mode change: uses `getVariables()` which checks fingerprint — no manual cache clearing.
+- **Modified `FindColorMatchToolView.tsx`**: Replaced full-screen loading `State` with `LibraryCacheStatusBar`. Removed `progress` state (no longer sent). Added `cacheStatus` state driven by `LIBRARY_CACHE_STATUS` messages.
+- Build passes cleanly.
+
 #### Find Color Match Tool — percentage inversion fix
 - Bug: 0% was shown for exact matches; user expected 100% = exact match.
 - Fix: Inverted `diffPercent` → `matchPercent` across 5 files (`match.ts`, `types.ts`, `messages.ts`, `main-thread.ts`, `FindColorMatchToolView.tsx`). Formula changed from `distance/max * 100` to `100 - distance/max * 100`. UI label changed from "diff" to "match".
@@ -24,6 +34,14 @@
 - **Removed arrows**: Removed `→` arrow indicators from match rows (both hex lookup and selection results).
 - **Show top 2 matches**: Both hex lookup and selection results now show the top 2 matches inline with swatches, names, and percentages. Clicking a row selects it (highlighted background). Dropdown shows remaining matches beyond top 2.
 - **Fixed hex dropdown**: The hex lookup dropdown's `onChange` was `() => {}` (no-op) and `value` was always pinned to best match. Added `hexSelectedIdx` state so dropdown/row clicks actually change the selected match and update the "Copy name" button.
+- Build passes.
+
+#### Find Color Match Tool — Group filter (2026-02-19)
+- **Combined collection+group dropdown**: Merged collection and group into a single dropdown. Collections appear as section headers (when >1), groups as items beneath the active collection. Value encoding: `collectionKey::groupName` (or `__all__`). Selecting a group from a different collection triggers both collection switch and group filter.
+- **Group names**: Shown without trailing slash (e.g., "text" not "text/").
+- **Flow**: Main thread extracts groups after loading candidates → sends `FIND_COLOR_MATCH_GROUPS` to UI → UI builds combined dropdown with headers + groups → selecting an item sends `SET_COLLECTION` and/or `SET_GROUP` → main thread filters candidates by prefix → re-scans.
+- **Resets**: Group resets to "All" when collection or mode changes.
+- **Files modified**: `messages.ts` (new `SET_GROUP` + `GROUPS` messages), `main-thread.ts` (group prefix filtering, group extraction), `FindColorMatchToolView.tsx` (combined dropdown replacing separate collection + group dropdowns).
 - Build passes.
 
 ### 2026-02-18
@@ -939,6 +957,20 @@ Olya suggested to rename from JetBrains Design Tools to Int UI Design Tools
 - Root cause: instance list was collected once before swapping. When a parent was swapped, its old children were orphaned and new children (potentially referencing old library components) weren't in the list.
 - Fix: `swapInstances()` now uses a multi-pass loop (up to 5 passes). After each pass, re-scans for remaining old-library instances. Tracks already-swapped IDs to avoid re-processing. Stops when no more swaps occur in a pass.
 - Verification: `npm run build` passed; no linter errors.
+
+### 2026-02-19 — Scan Legacy feature
+- **New feature**: "Scan Legacy" action within Library Swap tool.
+- Purpose: Scans the current scope for old library remnants — remote paint styles (fills/strokes) and components from old libraries.
+- **Paint styles**: Detects any remote paint style applied as fill or stroke. Shows style name, property type (fill/stroke), whether it's an override (inside an instance). Override items have a "Reset" button. Non-override items show info only (no action).
+- **Reset override fix (2026-02-19)**: Reset now properly restores the main component's default fill/stroke instead of clearing the style. Uses ID-based child matching (`instance child ID → extract relative ID after ";" → find child in main component`) to locate the corresponding node in the master component, then copies its fillStyleId or raw fills/strokes.
+- **Components**: Uses the existing mapping system (built-in + custom). Categorizes found instances as:
+  - `mapped` — has a replacement component (shows suggested new component name in green)
+  - `text_only` — has custom description text but no replacement (shows description in amber)
+  - `unmapped` — known old component with no replacement (shows "No replacement" in red). Detected by matching remote component display names against a hardcoded list of 39 unmatched old Int UI Kit component names (from `unmatched-components.md`).
+- **Text-only mappings**: Extended `MappingMatchV3` support so `match` can be `""` while `description` holds custom guidance text. Added `mergeMappingMatchesRich()` to `mapping-types.ts` that returns full `{ newKey, oldFullName, newFullName, description }` per old key.
+- **Files created**: `src/app/tools/library-swap/scan-legacy.ts` (scan logic + reset override)
+- **Files modified**: `mapping-types.ts` (added `MergedMatchEntry` type + `mergeMappingMatchesRich`), `messages.ts` (new message types + payload types), `main-thread.ts` (new handlers), `LibrarySwapToolView.tsx` (new button + results display)
+- Build passes cleanly.
 
 ---
 

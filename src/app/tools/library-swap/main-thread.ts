@@ -5,7 +5,7 @@ import type {
   ManualPair,
 } from "../../messages"
 import { MAIN_TO_UI, UI_TO_MAIN } from "../../messages"
-import { isMappingAny, mergeMappingMatches, mergeMappingMeta, type MappingAny } from "./mapping-types"
+import { isMappingAny, mergeMappingMatches, mergeMappingMeta, mergeMappingMatchesRich, type MappingAny } from "./mapping-types"
 import {
   analyzeSwap,
   swapInstances,
@@ -14,6 +14,7 @@ import {
   focusNode,
 } from "./swap-logic"
 import { getComponentDisplayName } from "../../utils/component-name"
+import { scanForLegacyItems, resetStyleOverride } from "./scan-legacy"
 import defaultIconMapping from "./default-icon-mapping.json"
 import defaultUikitMapping from "./default-uikit-mapping.json"
 
@@ -179,6 +180,7 @@ export function registerLibrarySwapTool(getActiveTool: () => ActiveTool) {
         type: MAIN_TO_UI.LIBRARY_SWAP_SELECTION,
         selectionSize: figma.currentPage.selection.length,
       })
+
     },
 
     async onMessage(msg: UiToMainMessage): Promise<boolean> {
@@ -399,6 +401,55 @@ export function registerLibrarySwapTool(getActiveTool: () => ActiveTool) {
           type: MAIN_TO_UI.LIBRARY_SWAP_PAIRS_UPDATED,
           pairs: [...manualPairs],
         })
+        return true
+      }
+
+      // -- Scan Legacy -------------------------------------------------------
+      if (msg.type === UI_TO_MAIN.LIBRARY_SWAP_SCAN_LEGACY) {
+        try {
+          const { scope, useBuiltInIcons, useBuiltInUikit, customMappingJsonText } = msg.request
+          const sources = collectSources(useBuiltInIcons, useBuiltInUikit, customMappingJsonText)
+          const richMatches = mergeMappingMatchesRich(sources)
+
+          figma.ui.postMessage({
+            type: MAIN_TO_UI.LIBRARY_SWAP_PROGRESS,
+            progress: { current: 0, total: 0, message: "Scanning legacy items..." },
+          })
+          await new Promise((r) => setTimeout(r, 0))
+
+          const result = await scanForLegacyItems(
+            scope as LibrarySwapScope,
+            richMatches,
+            (message, done, total) => {
+              figma.ui.postMessage({
+                type: MAIN_TO_UI.LIBRARY_SWAP_PROGRESS,
+                progress: { current: done, total, message },
+              })
+            }
+          )
+
+          figma.ui.postMessage({
+            type: MAIN_TO_UI.LIBRARY_SWAP_SCAN_LEGACY_RESULT,
+            payload: result,
+          })
+        } catch (e) {
+          figma.ui.postMessage({
+            type: MAIN_TO_UI.ERROR,
+            message: e instanceof Error ? e.message : "Scan Legacy failed",
+          })
+        }
+        return true
+      }
+
+      // -- Scan Legacy: reset style override ---------------------------------
+      if (msg.type === UI_TO_MAIN.LIBRARY_SWAP_SCAN_LEGACY_RESET) {
+        const ok = await resetStyleOverride(msg.nodeId, msg.property)
+        figma.ui.postMessage({
+          type: MAIN_TO_UI.LIBRARY_SWAP_SCAN_LEGACY_RESET_RESULT,
+          ok,
+          nodeId: msg.nodeId,
+        })
+        if (ok) figma.notify("Override reset")
         return true
       }
 

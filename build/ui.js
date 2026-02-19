@@ -691,10 +691,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/733cdb79-58f4-46bc-a289-a88d6516192b/loading-indicator.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/451bdf07-2a73-49d1-ae9b-bcc723335801/loading-indicator.module.js
   var loading_indicator_module_default;
   var init_loading_indicator_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/733cdb79-58f4-46bc-a289-a88d6516192b/loading-indicator.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/451bdf07-2a73-49d1-ae9b-bcc723335801/loading-indicator.module.js"() {
       if (document.getElementById("3fe0db8eb7") === null) {
         const element = document.createElement("style");
         element.id = "3fe0db8eb7";
@@ -755,10 +755,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b904363c-35d7-48a3-83c5-907c3a73a06b/button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d3943353-c7b9-4c45-8aff-787244f39208/button.module.js
   var button_module_default;
   var init_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b904363c-35d7-48a3-83c5-907c3a73a06b/button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d3943353-c7b9-4c45-8aff-787244f39208/button.module.js"() {
       if (document.getElementById("1dddd0e4df") === null) {
         const element = document.createElement("style");
         element.id = "1dddd0e4df";
@@ -1406,10 +1406,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/415c3c95-c296-4531-91d9-b14503bd02ae/checkbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c955854c-b470-4128-9190-3ff641d6fd00/checkbox.module.js
   var checkbox_module_default;
   var init_checkbox_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/415c3c95-c296-4531-91d9-b14503bd02ae/checkbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c955854c-b470-4128-9190-3ff641d6fd00/checkbox.module.js"() {
       if (document.getElementById("f38d076240") === null) {
         const element = document.createElement("style");
         element.id = "f38d076240";
@@ -1572,10 +1572,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a62eb7f1-4125-45d7-9d8d-8511f496baa7/disclosure.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5f62bc97-ac92-4b6b-8928-52ee226cbc82/disclosure.module.js
   var disclosure_module_default;
   var init_disclosure_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a62eb7f1-4125-45d7-9d8d-8511f496baa7/disclosure.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5f62bc97-ac92-4b6b-8928-52ee226cbc82/disclosure.module.js"() {
       if (document.getElementById("4712e1cb0c") === null) {
         const element = document.createElement("style");
         element.id = "4712e1cb0c";
@@ -1676,10 +1676,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c398ee39-c810-447d-9fbf-da46c4a20f18/divider.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2ff43b1e-eb44-4c26-8d8f-195d1a69c112/divider.module.js
   var divider_module_default;
   var init_divider_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c398ee39-c810-447d-9fbf-da46c4a20f18/divider.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2ff43b1e-eb44-4c26-8d8f-195d1a69c112/divider.module.js"() {
       if (document.getElementById("4bf06403b9") === null) {
         const element = document.createElement("style");
         element.id = "4bf06403b9";
@@ -1709,10 +1709,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1f43aa01-6e07-424e-ab7c-5b17bc94782d/menu.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ed719081-1e95-4bb6-8bdc-247ed8a875d7/menu.module.js
   var menu_module_default;
   var init_menu_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1f43aa01-6e07-424e-ab7c-5b17bc94782d/menu.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ed719081-1e95-4bb6-8bdc-247ed8a875d7/menu.module.js"() {
       if (document.getElementById("29044db304") === null) {
         const element = document.createElement("style");
         element.id = "29044db304";
@@ -1935,10 +1935,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8b0cdbb6-3240-4bd4-9da8-1b1fb63bc1a9/dropdown.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7970ffde-6616-4cc8-b18c-29ba8ef4c29d/dropdown.module.js
   var dropdown_module_default;
   var init_dropdown_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8b0cdbb6-3240-4bd4-9da8-1b1fb63bc1a9/dropdown.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7970ffde-6616-4cc8-b18c-29ba8ef4c29d/dropdown.module.js"() {
       if (document.getElementById("5a226eb00e") === null) {
         const element = document.createElement("style");
         element.id = "5a226eb00e";
@@ -2379,10 +2379,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d24c6506-decb-48b5-a628-97830fecd7b9/button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6d615cb2-9cf4-45aa-8a92-f19915063945/button.module.js
   var button_module_default2;
   var init_button_module2 = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d24c6506-decb-48b5-a628-97830fecd7b9/button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6d615cb2-9cf4-45aa-8a92-f19915063945/button.module.js"() {
       if (document.getElementById("1dddd0e4df") === null) {
         const element = document.createElement("style");
         element.id = "1dddd0e4df";
@@ -2546,10 +2546,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c85dcca9-5bf9-4c6c-880c-380b0b7fb6c9/file-upload-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4bc75dc8-f2af-489c-9f98-4304e3a53970/file-upload-button.module.js
   var file_upload_button_module_default;
   var init_file_upload_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c85dcca9-5bf9-4c6c-880c-380b0b7fb6c9/file-upload-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4bc75dc8-f2af-489c-9f98-4304e3a53970/file-upload-button.module.js"() {
       if (document.getElementById("f115bb30c8") === null) {
         const element = document.createElement("style");
         element.id = "f115bb30c8";
@@ -2664,10 +2664,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/adfddbd2-b219-4096-a63a-2e862bc64d82/icon-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1f3f1319-72c0-4506-8b25-0a0e5c8e3519/icon-button.module.js
   var icon_button_module_default;
   var init_icon_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/adfddbd2-b219-4096-a63a-2e862bc64d82/icon-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1f3f1319-72c0-4506-8b25-0a0e5c8e3519/icon-button.module.js"() {
       if (document.getElementById("c8b08e6568") === null) {
         const element = document.createElement("style");
         element.id = "c8b08e6568";
@@ -2745,10 +2745,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7f6b7ae1-465c-4bfb-ae75-f56adcb9c1cb/text.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e3292507-b9c4-4bbb-903b-fd5b6012aefd/text.module.js
   var text_module_default;
   var init_text_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7f6b7ae1-465c-4bfb-ae75-f56adcb9c1cb/text.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e3292507-b9c4-4bbb-903b-fd5b6012aefd/text.module.js"() {
       if (document.getElementById("1278016d5c") === null) {
         const element = document.createElement("style");
         element.id = "1278016d5c";
@@ -2806,10 +2806,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b7cb3dc8-f952-4d5b-8248-f35de9dcd25a/inline.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ff35f64a-b796-48a4-8e0a-162e1d0ee7f0/inline.module.js
   var inline_module_default;
   var init_inline_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b7cb3dc8-f952-4d5b-8248-f35de9dcd25a/inline.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ff35f64a-b796-48a4-8e0a-162e1d0ee7f0/inline.module.js"() {
       if (document.getElementById("3e1b2856fc") === null) {
         const element = document.createElement("style");
         element.id = "3e1b2856fc";
@@ -2871,10 +2871,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4adf91df-1531-4f81-b1fc-6d3b4bebc91f/stack.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e30b73d7-467a-42a2-88ff-8bc86f653393/stack.module.js
   var stack_module_default;
   var init_stack_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4adf91df-1531-4f81-b1fc-6d3b4bebc91f/stack.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e30b73d7-467a-42a2-88ff-8bc86f653393/stack.module.js"() {
       if (document.getElementById("317515cc3f") === null) {
         const element = document.createElement("style");
         element.id = "317515cc3f";
@@ -2917,10 +2917,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6af17202-6ffb-4440-91cf-0237a5419bda/radio-buttons.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/044513d7-8aea-4279-8beb-2b4633a74c51/radio-buttons.module.js
   var radio_buttons_module_default;
   var init_radio_buttons_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6af17202-6ffb-4440-91cf-0237a5419bda/radio-buttons.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/044513d7-8aea-4279-8beb-2b4633a74c51/radio-buttons.module.js"() {
       if (document.getElementById("a066c67891") === null) {
         const element = document.createElement("style");
         element.id = "a066c67891";
@@ -3039,10 +3039,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/04db5cdb-a6ab-4e2d-a6c3-06b13ff309dc/segmented-control.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9cca14ab-3487-4b1c-be1b-4bb43436044e/segmented-control.module.js
   var segmented_control_module_default;
   var init_segmented_control_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/04db5cdb-a6ab-4e2d-a6c3-06b13ff309dc/segmented-control.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9cca14ab-3487-4b1c-be1b-4bb43436044e/segmented-control.module.js"() {
       if (document.getElementById("bc6858a1b5") === null) {
         const element = document.createElement("style");
         element.id = "bc6858a1b5";
@@ -3143,10 +3143,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ea228244-6197-4159-a61d-02aadd86c9bb/tabs.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/addb992d-cc9b-4613-9377-0eae5d26276d/tabs.module.js
   var tabs_module_default;
   var init_tabs_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ea228244-6197-4159-a61d-02aadd86c9bb/tabs.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/addb992d-cc9b-4613-9377-0eae5d26276d/tabs.module.js"() {
       if (document.getElementById("b2487bb7e6") === null) {
         const element = document.createElement("style");
         element.id = "b2487bb7e6";
@@ -3363,10 +3363,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/40aeea44-f43a-47da-b6d6-ab6ca119a22d/textbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/05e070c3-5edb-4519-850a-c122936b587f/textbox.module.js
   var textbox_module_default;
   var init_textbox_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/40aeea44-f43a-47da-b6d6-ab6ca119a22d/textbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/05e070c3-5edb-4519-850a-c122936b587f/textbox.module.js"() {
       if (document.getElementById("5c1c5c2d3d") === null) {
         const element = document.createElement("style");
         element.id = "5c1c5c2d3d";
@@ -3853,10 +3853,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e7fd7480-0a1e-4880-a0a5-43fd206b17e1/textbox-color.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/bdf81c73-b433-4018-a817-42f2947647bc/textbox-color.module.js
   var textbox_color_module_default;
   var init_textbox_color_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e7fd7480-0a1e-4880-a0a5-43fd206b17e1/textbox-color.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/bdf81c73-b433-4018-a817-42f2947647bc/textbox-color.module.js"() {
       if (document.getElementById("77000fee0f") === null) {
         const element = document.createElement("style");
         element.id = "77000fee0f";
@@ -4174,10 +4174,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a8f249b9-823c-48e1-ab1d-b2f838a496e2/textbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/03f605f4-f266-4ff3-bd28-b70b1fffdc5f/textbox.module.js
   var textbox_module_default2;
   var init_textbox_module2 = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a8f249b9-823c-48e1-ab1d-b2f838a496e2/textbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/03f605f4-f266-4ff3-bd28-b70b1fffdc5f/textbox.module.js"() {
       if (document.getElementById("5c1c5c2d3d") === null) {
         const element = document.createElement("style");
         element.id = "5c1c5c2d3d";
@@ -4248,10 +4248,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/197f79a8-ca69-48a5-9bc2-0e869257de28/textbox-numeric.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/bda3ce5f-cebc-4b66-8b41-ba1ba864cc67/textbox-numeric.module.js
   var textbox_numeric_module_default;
   var init_textbox_numeric_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/197f79a8-ca69-48a5-9bc2-0e869257de28/textbox-numeric.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/bda3ce5f-cebc-4b66-8b41-ba1ba864cc67/textbox-numeric.module.js"() {
       if (document.getElementById("b6dab244a8") === null) {
         const element = document.createElement("style");
         element.id = "b6dab244a8";
@@ -4467,10 +4467,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c2b891c2-744b-4fc9-b8f6-cb702cfb8d0c/container.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/44532cd0-75be-4d7a-ae1b-e11ec54d4650/container.module.js
   var container_module_default;
   var init_container_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c2b891c2-744b-4fc9-b8f6-cb702cfb8d0c/container.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/44532cd0-75be-4d7a-ae1b-e11ec54d4650/container.module.js"() {
       if (document.getElementById("b49e1406f9") === null) {
         const element = document.createElement("style");
         element.id = "b49e1406f9";
@@ -4511,10 +4511,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/3e10e4a3-9bcc-4b80-8e70-f0cbf273a4c9/vertical-space.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0816ed92-294b-4ef2-a504-093a6c08e06e/vertical-space.module.js
   var vertical_space_module_default;
   var init_vertical_space_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/3e10e4a3-9bcc-4b80-8e70-f0cbf273a4c9/vertical-space.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0816ed92-294b-4ef2-a504-093a6c08e06e/vertical-space.module.js"() {
       if (document.getElementById("ba0eea5114") === null) {
         const element = document.createElement("style");
         element.id = "ba0eea5114";
@@ -4555,9 +4555,9 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ccc2a020-eeed-4dbf-bc33-db568a732491/base.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1ed20cc0-e8c1-4c1c-83af-ac62f9e1b60c/base.js
   var init_base = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ccc2a020-eeed-4dbf-bc33-db568a732491/base.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1ed20cc0-e8c1-4c1c-83af-ac62f9e1b60c/base.js"() {
       if (document.getElementById("0597dd81e7") === null) {
         const element = document.createElement("style");
         element.id = "0597dd81e7";
@@ -4785,13 +4785,16 @@ svg {
         LIBRARY_SWAP_CAPTURE_OLD: "LIBRARY_SWAP_CAPTURE_OLD",
         LIBRARY_SWAP_CAPTURE_NEW: "LIBRARY_SWAP_CAPTURE_NEW",
         LIBRARY_SWAP_REMOVE_PAIR: "LIBRARY_SWAP_REMOVE_PAIR",
+        LIBRARY_SWAP_SCAN_LEGACY: "LIBRARY_SWAP_SCAN_LEGACY",
+        LIBRARY_SWAP_SCAN_LEGACY_RESET: "LIBRARY_SWAP_SCAN_LEGACY_RESET",
         // Find Color Match
         FIND_COLOR_MATCH_SCAN: "FIND_COLOR_MATCH_SCAN",
         FIND_COLOR_MATCH_SET_COLLECTION: "FIND_COLOR_MATCH_SET_COLLECTION",
         FIND_COLOR_MATCH_SET_MODE: "FIND_COLOR_MATCH_SET_MODE",
         FIND_COLOR_MATCH_APPLY: "FIND_COLOR_MATCH_APPLY",
         FIND_COLOR_MATCH_FOCUS_NODE: "FIND_COLOR_MATCH_FOCUS_NODE",
-        FIND_COLOR_MATCH_HEX_LOOKUP: "FIND_COLOR_MATCH_HEX_LOOKUP"
+        FIND_COLOR_MATCH_HEX_LOOKUP: "FIND_COLOR_MATCH_HEX_LOOKUP",
+        FIND_COLOR_MATCH_SET_GROUP: "FIND_COLOR_MATCH_SET_GROUP"
       };
       MAIN_TO_UI = {
         BOOTSTRAPPED: "BOOTSTRAPPED",
@@ -4837,12 +4840,17 @@ svg {
         LIBRARY_SWAP_PREVIEW_RESULT: "LIBRARY_SWAP_PREVIEW_RESULT",
         LIBRARY_SWAP_CAPTURE_RESULT: "LIBRARY_SWAP_CAPTURE_RESULT",
         LIBRARY_SWAP_PAIRS_UPDATED: "LIBRARY_SWAP_PAIRS_UPDATED",
+        LIBRARY_SWAP_SCAN_LEGACY_RESULT: "LIBRARY_SWAP_SCAN_LEGACY_RESULT",
+        LIBRARY_SWAP_SCAN_LEGACY_RESET_RESULT: "LIBRARY_SWAP_SCAN_LEGACY_RESET_RESULT",
         // Find Color Match
         FIND_COLOR_MATCH_COLLECTIONS: "FIND_COLOR_MATCH_COLLECTIONS",
         FIND_COLOR_MATCH_RESULT: "FIND_COLOR_MATCH_RESULT",
         FIND_COLOR_MATCH_PROGRESS: "FIND_COLOR_MATCH_PROGRESS",
         FIND_COLOR_MATCH_APPLY_RESULT: "FIND_COLOR_MATCH_APPLY_RESULT",
-        FIND_COLOR_MATCH_HEX_RESULT: "FIND_COLOR_MATCH_HEX_RESULT"
+        FIND_COLOR_MATCH_HEX_RESULT: "FIND_COLOR_MATCH_HEX_RESULT",
+        FIND_COLOR_MATCH_GROUPS: "FIND_COLOR_MATCH_GROUPS",
+        // Library cache
+        LIBRARY_CACHE_STATUS: "LIBRARY_CACHE_STATUS"
       };
     }
   });
@@ -6120,6 +6128,7 @@ svg {
     const [successMessage, setSuccessMessage] = d2(null);
     const [analyzeResult, setAnalyzeResult] = d2(null);
     const [applyResult, setApplyResult] = d2(null);
+    const [scanLegacyResult, setScanLegacyResult] = d2(null);
     const [capturedOldName, setCapturedOldName] = d2(null);
     const [capturedNewName, setCapturedNewName] = d2(null);
     const [manualPairs, setManualPairs] = d2([]);
@@ -6176,6 +6185,24 @@ svg {
         if (msg.type === MAIN_TO_UI.LIBRARY_SWAP_PAIRS_UPDATED) {
           setManualPairs(msg.pairs);
         }
+        if (msg.type === MAIN_TO_UI.LIBRARY_SWAP_SCAN_LEGACY_RESULT) {
+          setIsBusy(false);
+          setStage("idle");
+          setProgress(null);
+          setErrorMessage(null);
+          setScanLegacyResult(msg.payload);
+          const { styles, components } = msg.payload;
+          setSuccessMessage(
+            `Found ${styles.length} legacy style${styles.length !== 1 ? "s" : ""}, ${components.length} legacy component${components.length !== 1 ? "s" : ""}`
+          );
+        }
+        if (msg.type === MAIN_TO_UI.LIBRARY_SWAP_SCAN_LEGACY_RESET_RESULT) {
+          if (msg.ok && scanLegacyResult) {
+            setScanLegacyResult(__spreadProps(__spreadValues({}, scanLegacyResult), {
+              styles: scanLegacyResult.styles.filter((s3) => s3.nodeId !== msg.nodeId)
+            }));
+          }
+        }
       };
       window.addEventListener("message", handleMessage);
       return () => window.removeEventListener("message", handleMessage);
@@ -6216,6 +6243,23 @@ svg {
       setSuccessMessage(null);
       parent.postMessage(
         { pluginMessage: { type: UI_TO_MAIN.LIBRARY_SWAP_APPLY, request: buildRequest() } },
+        "*"
+      );
+    }
+    function handleScanLegacy() {
+      setIsBusy(true);
+      setStage("scan_legacy");
+      setErrorMessage(null);
+      setSuccessMessage(null);
+      setScanLegacyResult(null);
+      parent.postMessage(
+        { pluginMessage: { type: UI_TO_MAIN.LIBRARY_SWAP_SCAN_LEGACY, request: buildRequest() } },
+        "*"
+      );
+    }
+    function handleResetOverride(nodeId, property) {
+      parent.postMessage(
+        { pluginMessage: { type: UI_TO_MAIN.LIBRARY_SWAP_SCAN_LEGACY_RESET, nodeId, property } },
         "*"
       );
     }
@@ -6361,7 +6405,15 @@ svg {
         disabled: !canAct
       },
       applyLabel
-    )), errorMessage && /* @__PURE__ */ _("div", { style: { padding: 8, background: "#fff1f2", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "#9f1239" } }, errorMessage)), successMessage && !errorMessage && /* @__PURE__ */ _("div", { style: { padding: 8, background: "#ecfdf3", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, successMessage)), isBusy && /* @__PURE__ */ _(Inline, { space: "extraSmall" }, /* @__PURE__ */ _(LoadingIndicator, null), /* @__PURE__ */ _(Text, null, progress ? progress.message : stage === "analyze" ? "Analyzing..." : stage === "preview" ? "Creating preview..." : "Swapping...")), analyzeResult && !isBusy && /* @__PURE__ */ _(
+    ), /* @__PURE__ */ _(
+      Button,
+      {
+        onClick: handleScanLegacy,
+        disabled: !canAct,
+        secondary: true
+      },
+      isBusy && stage === "scan_legacy" ? "Scanning..." : "Scan Legacy"
+    )), errorMessage && /* @__PURE__ */ _("div", { style: { padding: 8, background: "#fff1f2", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "#9f1239" } }, errorMessage)), successMessage && !errorMessage && /* @__PURE__ */ _("div", { style: { padding: 8, background: "#ecfdf3", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, successMessage)), isBusy && /* @__PURE__ */ _(Inline, { space: "extraSmall" }, /* @__PURE__ */ _(LoadingIndicator, null), /* @__PURE__ */ _(Text, null, progress ? progress.message : stage === "analyze" ? "Analyzing..." : stage === "preview" ? "Creating preview..." : stage === "scan_legacy" ? "Scanning legacy..." : "Swapping...")), analyzeResult && !isBusy && /* @__PURE__ */ _(
       DataTable,
       {
         header: "Instances to swap",
@@ -6399,7 +6451,68 @@ svg {
         /* @__PURE__ */ _("td", { style: cellStyle }, item.oldComponentName),
         /* @__PURE__ */ _("td", { style: cellStyle }, item.newComponentName)
       ))
-    ), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Mappings"), /* @__PURE__ */ _(
+    ), scanLegacyResult && !isBusy && /* @__PURE__ */ _(k, null, scanLegacyResult.components.length > 0 && /* @__PURE__ */ _(
+      DataTable,
+      {
+        header: "Legacy components",
+        summary: `${scanLegacyResult.components.length} component usage${scanLegacyResult.components.length !== 1 ? "s" : ""} found`,
+        columns: [
+          { label: "Layer", width: "25%" },
+          { label: "Old component", width: "25%" },
+          { label: "Status", width: "50%" }
+        ]
+      },
+      scanLegacyResult.components.map((item, idx) => /* @__PURE__ */ _(
+        "tr",
+        {
+          key: `${item.nodeId}-${idx}`,
+          style: { cursor: "pointer" },
+          onClick: () => handleFocusNode(item.nodeId),
+          title: `${item.pageName} \u2014 click to focus`
+        },
+        /* @__PURE__ */ _("td", { style: cellStyle }, item.nodeName),
+        /* @__PURE__ */ _("td", { style: cellStyle }, item.oldComponentName),
+        /* @__PURE__ */ _("td", { style: cellStyle }, item.category === "mapped" && /* @__PURE__ */ _(Text, { style: { fontSize: 11, color: "#067647" } }, "\u2192 ", item.newComponentName), item.category === "text_only" && /* @__PURE__ */ _(Text, { style: { fontSize: 11, color: "#b45309" } }, item.description), item.category === "unmapped" && /* @__PURE__ */ _(Text, { style: { fontSize: 11, color: "#9f1239" } }, "No replacement"))
+      ))
+    ), scanLegacyResult.styles.length > 0 && /* @__PURE__ */ _(
+      DataTable,
+      {
+        header: "Legacy color styles",
+        summary: `${scanLegacyResult.styles.length} style usage${scanLegacyResult.styles.length !== 1 ? "s" : ""} found`,
+        columns: [
+          { label: "Layer", width: "25%" },
+          { label: "Style", width: "25%" },
+          { label: "Type", width: "12%" },
+          { label: "Override", width: "14%" },
+          { label: "", width: "24%" }
+        ]
+      },
+      scanLegacyResult.styles.map((item, idx) => /* @__PURE__ */ _(
+        "tr",
+        {
+          key: `${item.nodeId}-${item.property}-${idx}`,
+          style: { cursor: "pointer" },
+          onClick: () => handleFocusNode(item.nodeId),
+          title: `${item.pageName} \u2014 click to focus`
+        },
+        /* @__PURE__ */ _("td", { style: cellStyle }, item.nodeName),
+        /* @__PURE__ */ _("td", { style: cellStyle }, item.styleName),
+        /* @__PURE__ */ _("td", { style: cellStyle }, item.property),
+        /* @__PURE__ */ _("td", { style: cellStyle }, item.isOverride ? "Yes" : "No"),
+        /* @__PURE__ */ _("td", { style: __spreadProps(__spreadValues({}, cellStyle), { textAlign: "center" }) }, item.isOverride && /* @__PURE__ */ _(
+          Button,
+          {
+            secondary: true,
+            onClick: (e3) => {
+              e3.stopPropagation();
+              handleResetOverride(item.nodeId, item.property);
+            },
+            style: { fontSize: 10, padding: "2px 6px" }
+          },
+          "Reset"
+        ))
+      ))
+    ), scanLegacyResult.styles.length === 0 && scanLegacyResult.components.length === 0 && /* @__PURE__ */ _("div", { style: { padding: 8, background: "#ecfdf3", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, "No legacy items found \u2014 clean!"))), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Mappings"), /* @__PURE__ */ _(
       Checkbox,
       {
         value: useBuiltInIcons,
@@ -8487,6 +8600,39 @@ svg {
     }
   });
 
+  // src/app/components/LibraryCacheStatusBar.tsx
+  function LibraryCacheStatusBar({ status }) {
+    if (!status || status.state === "idle" || status.state === "ready") return null;
+    const message = status.state === "checking" ? "Checking library for updates\u2026" : status.message || "Updating library\u2026";
+    return /* @__PURE__ */ _(
+      "div",
+      {
+        style: {
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          display: "flex",
+          alignItems: "center",
+          gap: 8,
+          padding: "6px 12px",
+          background: "var(--figma-color-bg)",
+          borderTop: "1px solid var(--figma-color-border)",
+          zIndex: 100
+        }
+      },
+      /* @__PURE__ */ _(LoadingIndicator, null),
+      /* @__PURE__ */ _(Text, { style: { fontSize: 11, color: "var(--figma-color-text-secondary)" } }, message)
+    );
+  }
+  var init_LibraryCacheStatusBar = __esm({
+    "src/app/components/LibraryCacheStatusBar.tsx"() {
+      "use strict";
+      init_lib2();
+      init_preact_module();
+    }
+  });
+
   // src/app/views/find-color-match-tool/FindColorMatchToolView.tsx
   function FindColorMatchToolView({ onBack, initialSelectionEmpty }) {
     var _a;
@@ -8494,11 +8640,13 @@ svg {
     const [selectedCollectionKey, setSelectedCollectionKey] = d2(null);
     const [selectedModeId, setSelectedModeId] = d2(null);
     const [entries, setEntries] = d2([]);
-    const [progress, setProgress] = d2(null);
+    const [cacheStatus, setCacheStatus] = d2(null);
     const [isLoading, setIsLoading] = d2(true);
     const [appliedKeys, setAppliedKeys] = d2(/* @__PURE__ */ new Set());
     const [overrides, setOverrides] = d2({});
     const [selectionEmpty, setSelectionEmpty] = d2(initialSelectionEmpty != null ? initialSelectionEmpty : true);
+    const [groupsByCollection, setGroupsByCollection] = d2({});
+    const [selectedGroup, setSelectedGroup] = d2(null);
     const [hexInput, setHexInput] = d2("");
     const [hexOpacity, setHexOpacity] = d2("100");
     const [hexMatches, setHexMatches] = d2([]);
@@ -8523,15 +8671,13 @@ svg {
         if (msg.type === MAIN_TO_UI.FIND_COLOR_MATCH_RESULT) {
           const hasEntries = msg.payload.entries.length > 0;
           setEntries(msg.payload.entries);
-          setProgress(null);
           setIsLoading(false);
           setSelectionEmpty(!hasEntries);
           setAppliedKeys(/* @__PURE__ */ new Set());
           setOverrides({});
         }
-        if (msg.type === MAIN_TO_UI.FIND_COLOR_MATCH_PROGRESS) {
-          setProgress(msg.progress);
-          setIsLoading(true);
+        if (msg.type === MAIN_TO_UI.LIBRARY_CACHE_STATUS) {
+          setCacheStatus(msg.status);
         }
         if (msg.type === MAIN_TO_UI.FIND_COLOR_MATCH_APPLY_RESULT) {
           if (msg.result.ok) {
@@ -8554,11 +8700,13 @@ svg {
           setHexResultFor(msg.payload.hex);
           setHexSelectedIdx(0);
         }
+        if (msg.type === MAIN_TO_UI.FIND_COLOR_MATCH_GROUPS) {
+          setGroupsByCollection(msg.groupsByCollection);
+        }
         if (msg.type === MAIN_TO_UI.SELECTION_EMPTY) {
           setSelectionEmpty(true);
           setEntries([]);
           setIsLoading(false);
-          setProgress(null);
         }
       };
       window.addEventListener("message", handler);
@@ -8575,9 +8723,6 @@ svg {
       },
       [collections, selectedCollectionKey]
     );
-    const collectionOptions = T2(() => {
-      return collections.map((c3) => ({ value: c3.key, text: c3.name }));
-    }, [collections]);
     const modeOptions = T2(() => {
       if (!selectedCollection || selectedCollection.modes.length === 0) return [];
       return selectedCollection.modes.map((m3) => ({
@@ -8585,23 +8730,68 @@ svg {
         text: m3.modeName
       }));
     }, [selectedCollection]);
-    const handleCollectionChange = (value2) => {
+    const combinedCollectionValue = T2(() => {
+      const colKey = selectedCollectionKey != null ? selectedCollectionKey : "";
+      return selectedGroup ? `${colKey}::${selectedGroup}` : `${colKey}::__all__`;
+    }, [selectedCollectionKey, selectedGroup]);
+    const combinedCollectionOptions = T2(() => {
+      var _a2;
+      const opts = [];
+      for (let ci = 0; ci < collections.length; ci++) {
+        const col = collections[ci];
+        if (ci > 0) opts.push("-");
+        const colGroups = (_a2 = groupsByCollection[col.key]) != null ? _a2 : [];
+        if (collections.length > 1 && colGroups.length > 0) {
+          opts.push({ header: col.name });
+        }
+        opts.push({ value: `${col.key}::__all__`, text: col.name });
+        for (const g4 of colGroups) {
+          opts.push({ value: `${col.key}::${g4}`, text: g4 });
+        }
+      }
+      return opts;
+    }, [collections, groupsByCollection]);
+    const handleCombinedCollectionChange = (value2) => {
       var _a2, _b;
-      setSelectedCollectionKey(value2);
-      setEntries([]);
-      setAppliedKeys(/* @__PURE__ */ new Set());
-      setOverrides({});
-      setIsLoading(true);
-      const col = collections.find((c3) => c3.key === value2);
-      const firstModeId = (_b = (_a2 = col == null ? void 0 : col.modes[0]) == null ? void 0 : _a2.modeId) != null ? _b : null;
-      setSelectedModeId(firstModeId);
-      parent.postMessage(
-        { pluginMessage: { type: UI_TO_MAIN.FIND_COLOR_MATCH_SET_COLLECTION, collectionKey: value2 } },
-        "*"
-      );
+      const sepIdx = value2.indexOf("::");
+      if (sepIdx < 0) return;
+      const colKey = value2.substring(0, sepIdx);
+      const groupPart = value2.substring(sepIdx + 2);
+      const newGroup = groupPart === "__all__" ? null : groupPart;
+      const collectionChanged = colKey !== selectedCollectionKey;
+      if (collectionChanged) {
+        setSelectedCollectionKey(colKey);
+        setSelectedGroup(null);
+        setEntries([]);
+        setAppliedKeys(/* @__PURE__ */ new Set());
+        setOverrides({});
+        setIsLoading(true);
+        setHexMatches([]);
+        setHexResultFor(null);
+        const col = collections.find((c3) => c3.key === colKey);
+        const firstModeId = (_b = (_a2 = col == null ? void 0 : col.modes[0]) == null ? void 0 : _a2.modeId) != null ? _b : null;
+        setSelectedModeId(firstModeId);
+        parent.postMessage(
+          { pluginMessage: { type: UI_TO_MAIN.FIND_COLOR_MATCH_SET_COLLECTION, collectionKey: colKey } },
+          "*"
+        );
+      } else if (newGroup !== selectedGroup) {
+        setSelectedGroup(newGroup);
+        setEntries([]);
+        setAppliedKeys(/* @__PURE__ */ new Set());
+        setOverrides({});
+        setIsLoading(true);
+        setHexMatches([]);
+        setHexResultFor(null);
+        parent.postMessage(
+          { pluginMessage: { type: UI_TO_MAIN.FIND_COLOR_MATCH_SET_GROUP, group: newGroup } },
+          "*"
+        );
+      }
     };
     const handleModeChange = (value2) => {
       setSelectedModeId(value2);
+      setSelectedGroup(null);
       setEntries([]);
       setAppliedKeys(/* @__PURE__ */ new Set());
       setOverrides({});
@@ -8669,7 +8859,6 @@ svg {
     );
     const showEmptySelection = !isLoading && selectionEmpty && entries.length === 0;
     const showNoUnbound = !isLoading && !selectionEmpty && entries.length === 0 && visibleEntries.length === 0;
-    const showLoading = isLoading && entries.length === 0;
     const hexSelectedMatch = hexMatches.length > 0 ? (_a = hexMatches[hexSelectedIdx]) != null ? _a : hexMatches[0] : null;
     const hexTop2 = hexMatches.slice(0, 2);
     return /* @__PURE__ */ _(Page, null, /* @__PURE__ */ _(
@@ -8678,12 +8867,12 @@ svg {
         title: "Find Color Match in Islands",
         left: /* @__PURE__ */ _(IconButton, { onClick: onBack }, /* @__PURE__ */ _(IconHome16, null))
       }
-    ), /* @__PURE__ */ _("div", null, /* @__PURE__ */ _(Container, { space: "small" }, /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _("div", { style: { display: "flex", gap: 6, alignItems: "stretch" } }, collectionOptions.length > 1 && /* @__PURE__ */ _("div", { style: { flex: 1, minWidth: 0 } }, /* @__PURE__ */ _(
+    ), /* @__PURE__ */ _("div", null, /* @__PURE__ */ _(Container, { space: "small" }, /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _("div", { style: { display: "flex", gap: 6, alignItems: "stretch" } }, combinedCollectionOptions.length > 0 && /* @__PURE__ */ _("div", { style: { flex: 1, minWidth: 0 } }, /* @__PURE__ */ _(
       Dropdown,
       {
-        options: collectionOptions,
-        value: selectedCollectionKey != null ? selectedCollectionKey : null,
-        onChange: (e3) => handleCollectionChange(e3.currentTarget.value)
+        options: combinedCollectionOptions,
+        value: combinedCollectionValue,
+        onChange: (e3) => handleCombinedCollectionChange(e3.currentTarget.value)
       }
     )), modeOptions.length > 0 && /* @__PURE__ */ _("div", { style: { flex: 1, minWidth: 0 } }, /* @__PURE__ */ _(
       Dropdown,
@@ -8751,7 +8940,7 @@ svg {
         },
         copiedName === hexSelectedMatch.variableName ? "Copied!" : "Copy name"
       ))
-    ), /* @__PURE__ */ _(VerticalSpace, { space: "small" })), /* @__PURE__ */ _(Divider, null)), showLoading && /* @__PURE__ */ _(ToolBody, { mode: "state" }, /* @__PURE__ */ _(State, { title: progress ? progress.message : "Loading\u2026" })), showEmptySelection && /* @__PURE__ */ _(ToolBody, { mode: "state" }, /* @__PURE__ */ _(
+    ), /* @__PURE__ */ _(VerticalSpace, { space: "small" })), /* @__PURE__ */ _(Divider, null)), showEmptySelection && /* @__PURE__ */ _(ToolBody, { mode: "state" }, /* @__PURE__ */ _(
       State,
       {
         icon: /* @__PURE__ */ _(IconInteractionClickSmall24, null),
@@ -8823,17 +9012,7 @@ svg {
         ), /* @__PURE__ */ _(Button, { onClick: () => handleApply(entry), secondary: true, style: { width: "100%" } }, "Apply")),
         top2.length === 0 && /* @__PURE__ */ _("div", { style: { marginTop: 6, fontSize: 11, color: "var(--figma-color-text-tertiary)" } }, "No matching variable found")
       );
-    }))), isLoading && entries.length > 0 && progress && /* @__PURE__ */ _("div", { style: {
-      position: "fixed",
-      bottom: 0,
-      left: 0,
-      right: 0,
-      padding: "8px 12px",
-      background: "var(--figma-color-bg)",
-      borderTop: "1px solid var(--figma-color-border)",
-      fontSize: 11,
-      color: "var(--figma-color-text-secondary)"
-    } }, progress.message));
+    }))), /* @__PURE__ */ _(LibraryCacheStatusBar, { status: cacheStatus }));
   }
   var init_FindColorMatchToolView = __esm({
     "src/app/views/find-color-match-tool/FindColorMatchToolView.tsx"() {
@@ -8847,6 +9026,7 @@ svg {
       init_ToolBody();
       init_State();
       init_ColorSwatch();
+      init_LibraryCacheStatusBar();
     }
   });
 

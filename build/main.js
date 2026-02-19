@@ -105,13 +105,16 @@ var init_messages = __esm({
       LIBRARY_SWAP_CAPTURE_OLD: "LIBRARY_SWAP_CAPTURE_OLD",
       LIBRARY_SWAP_CAPTURE_NEW: "LIBRARY_SWAP_CAPTURE_NEW",
       LIBRARY_SWAP_REMOVE_PAIR: "LIBRARY_SWAP_REMOVE_PAIR",
+      LIBRARY_SWAP_SCAN_LEGACY: "LIBRARY_SWAP_SCAN_LEGACY",
+      LIBRARY_SWAP_SCAN_LEGACY_RESET: "LIBRARY_SWAP_SCAN_LEGACY_RESET",
       // Find Color Match
       FIND_COLOR_MATCH_SCAN: "FIND_COLOR_MATCH_SCAN",
       FIND_COLOR_MATCH_SET_COLLECTION: "FIND_COLOR_MATCH_SET_COLLECTION",
       FIND_COLOR_MATCH_SET_MODE: "FIND_COLOR_MATCH_SET_MODE",
       FIND_COLOR_MATCH_APPLY: "FIND_COLOR_MATCH_APPLY",
       FIND_COLOR_MATCH_FOCUS_NODE: "FIND_COLOR_MATCH_FOCUS_NODE",
-      FIND_COLOR_MATCH_HEX_LOOKUP: "FIND_COLOR_MATCH_HEX_LOOKUP"
+      FIND_COLOR_MATCH_HEX_LOOKUP: "FIND_COLOR_MATCH_HEX_LOOKUP",
+      FIND_COLOR_MATCH_SET_GROUP: "FIND_COLOR_MATCH_SET_GROUP"
     };
     MAIN_TO_UI = {
       BOOTSTRAPPED: "BOOTSTRAPPED",
@@ -157,12 +160,17 @@ var init_messages = __esm({
       LIBRARY_SWAP_PREVIEW_RESULT: "LIBRARY_SWAP_PREVIEW_RESULT",
       LIBRARY_SWAP_CAPTURE_RESULT: "LIBRARY_SWAP_CAPTURE_RESULT",
       LIBRARY_SWAP_PAIRS_UPDATED: "LIBRARY_SWAP_PAIRS_UPDATED",
+      LIBRARY_SWAP_SCAN_LEGACY_RESULT: "LIBRARY_SWAP_SCAN_LEGACY_RESULT",
+      LIBRARY_SWAP_SCAN_LEGACY_RESET_RESULT: "LIBRARY_SWAP_SCAN_LEGACY_RESET_RESULT",
       // Find Color Match
       FIND_COLOR_MATCH_COLLECTIONS: "FIND_COLOR_MATCH_COLLECTIONS",
       FIND_COLOR_MATCH_RESULT: "FIND_COLOR_MATCH_RESULT",
       FIND_COLOR_MATCH_PROGRESS: "FIND_COLOR_MATCH_PROGRESS",
       FIND_COLOR_MATCH_APPLY_RESULT: "FIND_COLOR_MATCH_APPLY_RESULT",
-      FIND_COLOR_MATCH_HEX_RESULT: "FIND_COLOR_MATCH_HEX_RESULT"
+      FIND_COLOR_MATCH_HEX_RESULT: "FIND_COLOR_MATCH_HEX_RESULT",
+      FIND_COLOR_MATCH_GROUPS: "FIND_COLOR_MATCH_GROUPS",
+      // Library cache
+      LIBRARY_CACHE_STATUS: "LIBRARY_CACHE_STATUS"
     };
   }
 });
@@ -1162,14 +1170,14 @@ async function collectVariablesFromNodeTree(root, onVariable) {
   }
 }
 async function getFoundVariablesFromRoots(roots) {
-  const variableCache2 = /* @__PURE__ */ new Map();
+  const variableCache3 = /* @__PURE__ */ new Map();
   const collectionCache2 = /* @__PURE__ */ new Map();
   async function getVariable2(id) {
     var _a;
-    if (!variableCache2.has(id)) {
-      variableCache2.set(id, await figma.variables.getVariableByIdAsync(id));
+    if (!variableCache3.has(id)) {
+      variableCache3.set(id, await figma.variables.getVariableByIdAsync(id));
     }
-    return (_a = variableCache2.get(id)) != null ? _a : null;
+    return (_a = variableCache3.get(id)) != null ? _a : null;
   }
   async function getCollection2(id) {
     var _a;
@@ -1498,6 +1506,46 @@ function mergeMappingMatches(mappings) {
     } else {
       for (const [oldKey, newKey] of Object.entries(m.matches)) {
         if (typeof newKey === "string" && newKey) merged[oldKey] = newKey;
+      }
+    }
+  }
+  return merged;
+}
+function mergeMappingMatchesRich(mappings) {
+  var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m;
+  const merged = {};
+  for (const m of mappings) {
+    if (m.schemaVersion === 3) {
+      for (const [oldKey, entry] of Object.entries(m.matches)) {
+        const e = entry;
+        const newKey = (_a = e.match) != null ? _a : "";
+        if (newKey || e.description) {
+          merged[oldKey] = {
+            newKey,
+            oldFullName: (_c = e.oldFullName) != null ? _c : (_b = merged[oldKey]) == null ? void 0 : _b.oldFullName,
+            newFullName: (_e = e.newFullName) != null ? _e : (_d = merged[oldKey]) == null ? void 0 : _d.newFullName,
+            description: (_g = e.description) != null ? _g : (_f = merged[oldKey]) == null ? void 0 : _f.description
+          };
+        }
+      }
+    } else if (m.schemaVersion === 2) {
+      const meta = m.matchMeta;
+      for (const [oldKey, newKey] of Object.entries(m.matches)) {
+        if (typeof newKey === "string" && newKey) {
+          const metaEntry = meta == null ? void 0 : meta[oldKey];
+          merged[oldKey] = {
+            newKey,
+            oldFullName: (_i = metaEntry == null ? void 0 : metaEntry.oldFullName) != null ? _i : (_h = merged[oldKey]) == null ? void 0 : _h.oldFullName,
+            newFullName: (_k = metaEntry == null ? void 0 : metaEntry.newFullName) != null ? _k : (_j = merged[oldKey]) == null ? void 0 : _j.newFullName,
+            description: (_m = metaEntry == null ? void 0 : metaEntry.description) != null ? _m : (_l = merged[oldKey]) == null ? void 0 : _l.description
+          };
+        }
+      }
+    } else {
+      for (const [oldKey, newKey] of Object.entries(m.matches)) {
+        if (typeof newKey === "string" && newKey) {
+          merged[oldKey] = __spreadProps(__spreadValues({}, merged[oldKey]), { newKey });
+        }
       }
     }
   }
@@ -1921,6 +1969,276 @@ var init_swap_logic = __esm({
     HEADER_FONT = { family: "Inter", style: "Bold" };
     LABEL_FONT = { family: "Inter", style: "Regular" };
     ARROW_FONT = { family: "Inter", style: "Regular" };
+  }
+});
+
+// src/app/tools/library-swap/scan-legacy.ts
+function getPageName2(node) {
+  let current = node;
+  while (current) {
+    if (current.type === "PAGE") return current.name;
+    current = current.parent;
+  }
+  return "";
+}
+function isInsideInstance(node) {
+  let current = node.parent;
+  while (current) {
+    if (current.type === "INSTANCE") return true;
+    if (current.type === "PAGE" || current.type === "DOCUMENT") return false;
+    current = current.parent;
+  }
+  return false;
+}
+function getNearestInstanceAncestor(node) {
+  let current = node.parent;
+  while (current) {
+    if (current.type === "INSTANCE") return current;
+    if (current.type === "PAGE" || current.type === "DOCUMENT") return null;
+    current = current.parent;
+  }
+  return null;
+}
+function extractMainComponentChildId(instanceChildId) {
+  const idx = instanceChildId.lastIndexOf(";");
+  if (idx < 0) return null;
+  return instanceChildId.substring(idx + 1);
+}
+async function findMainComponentChild(instance, childId) {
+  let main = null;
+  try {
+    main = await instance.getMainComponentAsync();
+  } catch (e) {
+    return null;
+  }
+  if (!main || !("findOne" in main)) return null;
+  const relId = extractMainComponentChildId(childId);
+  if (!relId) return null;
+  try {
+    return main.findOne((n) => n.id === relId);
+  } catch (e) {
+    return null;
+  }
+}
+async function ensureAllPagesLoaded2() {
+  if (typeof figma.loadAllPagesAsync === "function") {
+    await figma.loadAllPagesAsync();
+  }
+}
+function collectNodesInSelection() {
+  const sel = figma.currentPage.selection;
+  const out = [];
+  for (const node of sel) {
+    if (!node) continue;
+    out.push(node);
+    if ("findAll" in node && typeof node.findAll === "function") {
+      const descendants = node.findAll();
+      for (const d of descendants) out.push(d);
+    }
+  }
+  return out;
+}
+async function getNodesForScope(scope) {
+  if (scope === "all_pages") {
+    await ensureAllPagesLoaded2();
+    return figma.root.findAll();
+  }
+  if (scope === "selection") {
+    return collectNodesInSelection();
+  }
+  return figma.currentPage.findAll();
+}
+async function scanStyles(scope, onProgress) {
+  var _a;
+  const allNodes = await getNodesForScope(scope);
+  const items = [];
+  const styleCache = /* @__PURE__ */ new Map();
+  for (let i = 0; i < allNodes.length; i++) {
+    const node = allNodes[i];
+    for (const prop of ["fillStyleId", "strokeStyleId"]) {
+      const styleId = node[prop];
+      if (typeof styleId !== "string" || !styleId) continue;
+      let style = styleCache.get(styleId);
+      if (style === void 0) {
+        try {
+          style = await figma.getStyleByIdAsync(styleId);
+        } catch (e) {
+          style = null;
+        }
+        styleCache.set(styleId, style != null ? style : null);
+      }
+      if (!style) continue;
+      if (!style.remote) continue;
+      if (items.length < SCAN_ITEMS_CAP) {
+        items.push({
+          nodeId: node.id,
+          nodeName: (_a = node.name) != null ? _a : "(unnamed)",
+          pageName: getPageName2(node),
+          styleName: style.name,
+          styleKey: style.key,
+          property: prop === "fillStyleId" ? "fill" : "stroke",
+          isOverride: isInsideInstance(node)
+        });
+      }
+    }
+    if (onProgress && i % 200 === 0) {
+      onProgress(i, allNodes.length);
+      await new Promise((r) => setTimeout(r, 0));
+    }
+  }
+  return { items, nodesScanned: allNodes.length };
+}
+async function scanComponents(scope, richMatches, onProgress) {
+  var _a, _b, _c;
+  const instances = await getInstancesForScope(scope);
+  const items = [];
+  const allMappedKeys = new Set(Object.keys(richMatches));
+  for (let i = 0; i < instances.length; i++) {
+    const inst = instances[i];
+    let main = null;
+    try {
+      main = await inst.getMainComponentAsync();
+    } catch (e) {
+      main = null;
+    }
+    const oldKey = (_a = main == null ? void 0 : main.key) != null ? _a : null;
+    if (!oldKey) continue;
+    if (allMappedKeys.has(oldKey)) {
+      const entry = richMatches[oldKey];
+      if (!entry) continue;
+      if (items.length >= SCAN_ITEMS_CAP) break;
+      const oldName = main ? getComponentDisplayName(main) : (_b = entry.oldFullName) != null ? _b : oldKey;
+      if (entry.newKey) {
+        items.push({
+          nodeId: inst.id,
+          nodeName: inst.name,
+          pageName: getPageName2(inst),
+          oldComponentKey: oldKey,
+          oldComponentName: oldName,
+          category: "mapped",
+          newComponentName: (_c = entry.newFullName) != null ? _c : entry.newKey
+        });
+      } else if (entry.description) {
+        items.push({
+          nodeId: inst.id,
+          nodeName: inst.name,
+          pageName: getPageName2(inst),
+          oldComponentKey: oldKey,
+          oldComponentName: oldName,
+          category: "text_only",
+          description: entry.description
+        });
+      }
+    } else if (main && main.remote) {
+      const displayName = getComponentDisplayName(main);
+      if (UNMATCHED_OLD_COMPONENT_NAMES.has(displayName)) {
+        if (items.length >= SCAN_ITEMS_CAP) break;
+        items.push({
+          nodeId: inst.id,
+          nodeName: inst.name,
+          pageName: getPageName2(inst),
+          oldComponentKey: oldKey,
+          oldComponentName: displayName,
+          category: "unmapped"
+        });
+      }
+    }
+    if (onProgress && i % 100 === 0) {
+      onProgress(i, instances.length);
+      await new Promise((r) => setTimeout(r, 0));
+    }
+  }
+  return items;
+}
+async function scanForLegacyItems(scope, richMatches, onProgress) {
+  onProgress == null ? void 0 : onProgress("Scanning styles...", 0, 0);
+  const { items: styles, nodesScanned } = await scanStyles(scope, (done, total) => {
+    onProgress == null ? void 0 : onProgress(`Scanning styles... ${done} / ${total}`, done, total);
+  });
+  onProgress == null ? void 0 : onProgress("Scanning components...", 0, 0);
+  const components = await scanComponents(scope, richMatches, (done, total) => {
+    onProgress == null ? void 0 : onProgress(`Scanning components... ${done} / ${total}`, done, total);
+  });
+  return { styles, components, totalNodesScanned: nodesScanned };
+}
+async function resetStyleOverride(nodeId, property) {
+  const node = await figma.getNodeByIdAsync(nodeId);
+  if (!node) return false;
+  const sceneNode = node;
+  const instance = getNearestInstanceAncestor(sceneNode);
+  if (!instance) return false;
+  const masterChild = await findMainComponentChild(instance, nodeId);
+  if (!masterChild) return false;
+  const src = masterChild;
+  const dst = sceneNode;
+  if (property === "fill") {
+    const masterFillStyleId = src.fillStyleId;
+    if (masterFillStyleId && typeof dst.setFillStyleIdAsync === "function") {
+      await dst.setFillStyleIdAsync(masterFillStyleId);
+    } else if ("fills" in src && "fills" in dst) {
+      dst.fills = src.fills;
+    }
+    return true;
+  }
+  if (property === "stroke") {
+    const masterStrokeStyleId = src.strokeStyleId;
+    if (masterStrokeStyleId && typeof dst.setStrokeStyleIdAsync === "function") {
+      await dst.setStrokeStyleIdAsync(masterStrokeStyleId);
+    } else if ("strokes" in src && "strokes" in dst) {
+      dst.strokes = src.strokes;
+    }
+    return true;
+  }
+  return false;
+}
+var UNMATCHED_OLD_COMPONENT_NAMES, SCAN_ITEMS_CAP;
+var init_scan_legacy = __esm({
+  "src/app/tools/library-swap/scan-legacy.ts"() {
+    "use strict";
+    init_swap_logic();
+    init_component_name();
+    UNMATCHED_OLD_COMPONENT_NAMES = /* @__PURE__ */ new Set([
+      "_Close",
+      "_Icon",
+      "_Icons",
+      "_Indeterminate",
+      "_Inline / State",
+      "_Inline action / button",
+      "_Inline action / right side",
+      "_Split Button Dropdown",
+      "_Tab / Background",
+      "_Table / Header",
+      "_Tree / Selection",
+      "Collapsible",
+      "Dialog / Group",
+      "Editor / Tab",
+      "Editor / Tab / Close",
+      "Editor / Tabs",
+      "Editor Code",
+      "Inline Search",
+      "Main Toolbar / MacOS Buttons",
+      "Main Toolbar / Project Dropdown",
+      "Main Toolbar / Split Button",
+      "Main Toolbar / Win Button",
+      "Main Toolbar / Windows Buttons",
+      "Popup / Cell / Selection",
+      "Popup / Context Menu",
+      "Project Icon",
+      "Run Widget",
+      "Run Widget / Configurations",
+      "Run Widget / Debug Button",
+      "Run Widget / Run Button",
+      "Run Widget / Simple Button",
+      "Run Widget / Stop Button",
+      "Shortcut",
+      "Status Bar / Breadcrumb",
+      "Stripes / Button",
+      "Stripes / Separator",
+      "Stripes / Stripe",
+      "Tabs",
+      "Toolbar / Icon"
+    ]);
+    SCAN_ITEMS_CAP = 300;
   }
 });
 
@@ -36478,6 +36796,48 @@ function registerLibrarySwapTool(getActiveTool) {
         });
         return true;
       }
+      if (msg.type === UI_TO_MAIN.LIBRARY_SWAP_SCAN_LEGACY) {
+        try {
+          const { scope, useBuiltInIcons, useBuiltInUikit, customMappingJsonText } = msg.request;
+          const sources = collectSources(useBuiltInIcons, useBuiltInUikit, customMappingJsonText);
+          const richMatches = mergeMappingMatchesRich(sources);
+          figma.ui.postMessage({
+            type: MAIN_TO_UI.LIBRARY_SWAP_PROGRESS,
+            progress: { current: 0, total: 0, message: "Scanning legacy items..." }
+          });
+          await new Promise((r) => setTimeout(r, 0));
+          const result = await scanForLegacyItems(
+            scope,
+            richMatches,
+            (message, done, total) => {
+              figma.ui.postMessage({
+                type: MAIN_TO_UI.LIBRARY_SWAP_PROGRESS,
+                progress: { current: done, total, message }
+              });
+            }
+          );
+          figma.ui.postMessage({
+            type: MAIN_TO_UI.LIBRARY_SWAP_SCAN_LEGACY_RESULT,
+            payload: result
+          });
+        } catch (e) {
+          figma.ui.postMessage({
+            type: MAIN_TO_UI.ERROR,
+            message: e instanceof Error ? e.message : "Scan Legacy failed"
+          });
+        }
+        return true;
+      }
+      if (msg.type === UI_TO_MAIN.LIBRARY_SWAP_SCAN_LEGACY_RESET) {
+        const ok = await resetStyleOverride(msg.nodeId, msg.property);
+        figma.ui.postMessage({
+          type: MAIN_TO_UI.LIBRARY_SWAP_SCAN_LEGACY_RESET_RESULT,
+          ok,
+          nodeId: msg.nodeId
+        });
+        if (ok) figma.notify("Override reset");
+        return true;
+      }
       return false;
     }
   };
@@ -36489,6 +36849,7 @@ var init_main_thread3 = __esm({
     init_mapping_types();
     init_swap_logic();
     init_component_name();
+    init_scan_legacy();
     init_default_icon_mapping();
     init_default_uikit_mapping();
   }
@@ -40455,25 +40816,8 @@ var init_resolve3 = __esm({
 });
 
 // src/app/tools/find-color-match/variables.ts
-async function discoverCollectionSources() {
-  const colorKeySet = new Set(INT_UI_KIT_COLOR_COLLECTION_KEYS);
-  const intUiKitCollections = await discoverIntUiKitCollections();
-  return intUiKitCollections.filter((lc) => colorKeySet.has(lc.key)).map((lc) => ({
-    key: lc.key,
-    name: lc.name,
-    libraryName: lc.libraryName,
-    isLibrary: true,
-    modes: lc.modes
-  }));
-}
 function findDefaultCollection(sources) {
   return sources.length > 0 ? sources[0] : null;
-}
-async function loadLibraryCollectionModes2(collectionKey) {
-  return loadLibraryCollectionModes(collectionKey);
-}
-async function loadVariablesFromLibrary(collectionKey, modeId, onProgress) {
-  return loadAndResolveLibraryColorVariables(collectionKey, modeId, onProgress);
 }
 var init_variables = __esm({
   "src/app/tools/find-color-match/variables.ts"() {
@@ -40483,25 +40827,109 @@ var init_variables = __esm({
   }
 });
 
+// src/app/tools/int-ui-kit-library/cache.ts
+function cacheKey(collectionKey, modeId) {
+  return `${collectionKey}:${modeId != null ? modeId : "default"}`;
+}
+async function computeFingerprint(collectionKey) {
+  const vars = await figma.teamLibrary.getVariablesInLibraryCollectionAsync(collectionKey);
+  const colorKeys = vars.filter((v) => v.resolvedType === "COLOR").map((v) => v.key).sort();
+  return `${colorKeys.length}:${colorKeys.join(",")}`;
+}
+async function getCachedCollections(forceRefresh = false) {
+  if (collectionsCache && !forceRefresh) return collectionsCache;
+  collectionsCache = await discoverIntUiKitCollections();
+  return collectionsCache;
+}
+async function ensureCollectionModes(collection) {
+  if (collection.modes.length > 0) return;
+  collection.modes = await loadLibraryCollectionModes(collection.key);
+}
+function getCachedVariablesSync(collectionKey, modeId) {
+  var _a, _b;
+  return (_b = (_a = variableCache2.get(cacheKey(collectionKey, modeId))) == null ? void 0 : _a.variables) != null ? _b : null;
+}
+async function getVariables(collectionKey, modeId, onStatus, onProgress) {
+  const key = cacheKey(collectionKey, modeId);
+  const existing = variableCache2.get(key);
+  if (existing) {
+    onStatus == null ? void 0 : onStatus({ state: "checking" });
+    try {
+      const fp = await computeFingerprint(collectionKey);
+      if (fp === existing.fingerprint) {
+        console.log(`[LibCache] Cache hit for ${key} (fingerprint match)`);
+        onStatus == null ? void 0 : onStatus({ state: "ready" });
+        return existing.variables;
+      }
+      console.log(`[LibCache] Fingerprint changed for ${key}, reloading\u2026`);
+    } catch (e) {
+      console.warn("[LibCache] Fingerprint check failed, returning cached data:", e);
+      onStatus == null ? void 0 : onStatus({ state: "ready" });
+      return existing.variables;
+    }
+  }
+  onStatus == null ? void 0 : onStatus({ state: "updating", current: 0, total: 0, message: "Loading library\u2026" });
+  const variables = await loadAndResolveLibraryColorVariables(
+    collectionKey,
+    modeId,
+    (p) => {
+      onStatus == null ? void 0 : onStatus({ state: "updating", current: p.current, total: p.total, message: p.message });
+      onProgress == null ? void 0 : onProgress(p);
+    }
+  );
+  let fingerprint = "";
+  try {
+    fingerprint = await computeFingerprint(collectionKey);
+  } catch (e) {
+  }
+  variableCache2.set(key, { variables, fingerprint, timestamp: Date.now() });
+  console.log(`[LibCache] Cached ${variables.length} variables for ${key}`);
+  onStatus == null ? void 0 : onStatus({ state: "ready" });
+  return variables;
+}
+var collectionsCache, variableCache2;
+var init_cache = __esm({
+  "src/app/tools/int-ui-kit-library/cache.ts"() {
+    "use strict";
+    init_resolve3();
+    collectionsCache = null;
+    variableCache2 = /* @__PURE__ */ new Map();
+  }
+});
+
 // src/app/tools/find-color-match/main-thread.ts
 function registerFindColorMatchTool(getActiveTool) {
   let pendingTimer = null;
   let collectionSources = [];
   let activeCollectionKey = null;
   let activeModeId = null;
-  let candidateCache = [];
-  let candidateCacheKey = "";
-  let preloadPromise = null;
+  let activeGroupPrefix = null;
+  let backgroundCheckPromise = null;
+  const groupsPerCollection = {};
   const sendError = (message) => {
     figma.ui.postMessage({ type: MAIN_TO_UI.ERROR, message });
   };
+  const sendCacheStatus = (status) => {
+    figma.ui.postMessage({ type: MAIN_TO_UI.LIBRARY_CACHE_STATUS, status });
+  };
   const sendCollections = async () => {
     var _a, _b, _c;
-    collectionSources = await discoverCollectionSources();
+    const colorKeySet = new Set(INT_UI_KIT_COLOR_COLLECTION_KEYS);
+    const allCollections = await getCachedCollections();
+    collectionSources = allCollections.filter((lc) => colorKeySet.has(lc.key)).map((lc) => ({
+      key: lc.key,
+      name: lc.name,
+      libraryName: lc.libraryName,
+      isLibrary: true,
+      modes: lc.modes
+    }));
     const defaultCollection = findDefaultCollection(collectionSources);
     if (defaultCollection && defaultCollection.modes.length === 0) {
-      const modes = await loadLibraryCollectionModes2(defaultCollection.key);
-      defaultCollection.modes = modes;
+      const col = allCollections.find((c) => c.key === defaultCollection.key);
+      if (col) {
+        await ensureCollectionModes(col);
+        defaultCollection.modes = col.modes;
+      }
     }
     activeCollectionKey = (_a = defaultCollection == null ? void 0 : defaultCollection.key) != null ? _a : null;
     activeModeId = (_c = (_b = defaultCollection == null ? void 0 : defaultCollection.modes[0]) == null ? void 0 : _b.modeId) != null ? _c : null;
@@ -40519,59 +40947,68 @@ function registerFindColorMatchTool(getActiveTool) {
       }
     });
   };
-  const loadCandidates = async () => {
-    if (!activeCollectionKey) return [];
-    const cacheKey = `${activeCollectionKey}:${activeModeId != null ? activeModeId : "default"}`;
-    if (cacheKey === candidateCacheKey && candidateCache.length > 0) {
-      return candidateCache;
-    }
-    const source = collectionSources.find((s) => s.key === activeCollectionKey);
-    if (!source) return [];
-    const candidates = await loadVariablesFromLibrary(
-      activeCollectionKey,
-      activeModeId,
-      (progress) => {
-        figma.ui.postMessage({
-          type: MAIN_TO_UI.FIND_COLOR_MATCH_PROGRESS,
-          progress
-        });
+  const extractGroups = (candidates) => {
+    const seen = /* @__PURE__ */ new Set();
+    const result = [];
+    for (const c of candidates) {
+      const slashIdx = c.variableName.indexOf("/");
+      if (slashIdx > 0) {
+        const group = c.variableName.substring(0, slashIdx);
+        if (!seen.has(group)) {
+          seen.add(group);
+          result.push(group);
+        }
       }
-    );
-    candidateCache = candidates;
-    candidateCacheKey = cacheKey;
-    return candidates;
+    }
+    return result;
   };
-  const preloadCandidatesInBackground = () => {
-    if (preloadPromise) return;
-    preloadPromise = loadCandidates().then(() => {
-      console.log(`[Find Color Match] Preloaded ${candidateCache.length} candidates`);
-    }).catch((e) => {
-      console.warn("[Find Color Match] Preload failed:", e);
-    }).finally(() => {
-      preloadPromise = null;
+  const sendAllGroups = () => {
+    figma.ui.postMessage({
+      type: MAIN_TO_UI.FIND_COLOR_MATCH_GROUPS,
+      groupsByCollection: __spreadValues({}, groupsPerCollection)
     });
   };
-  const runScan = async () => {
-    if (getActiveTool() !== "find-color-match-tool") return;
-    if (figma.currentPage.selection.length === 0) {
-      figma.ui.postMessage({
-        type: MAIN_TO_UI.FIND_COLOR_MATCH_RESULT,
-        payload: { entries: [], collectionKey: activeCollectionKey != null ? activeCollectionKey : "", modeId: activeModeId }
-      });
-      return;
+  const discoverAllGroups = async () => {
+    var _a, _b;
+    for (const source of collectionSources) {
+      if (groupsPerCollection[source.key]) continue;
+      const modeId = (_b = (_a = source.modes[0]) == null ? void 0 : _a.modeId) != null ? _b : null;
+      let candidates = getCachedVariablesSync(source.key, modeId);
+      if (!candidates || candidates.length === 0) {
+        try {
+          candidates = await getVariables(source.key, modeId, sendCacheStatus);
+        } catch (e) {
+          continue;
+        }
+      }
+      groupsPerCollection[source.key] = extractGroups(candidates);
     }
-    const foundColors = await scanSelectionForUnboundColors();
-    if (foundColors.length === 0) {
-      figma.ui.postMessage({
-        type: MAIN_TO_UI.FIND_COLOR_MATCH_RESULT,
-        payload: { entries: [], collectionKey: activeCollectionKey != null ? activeCollectionKey : "", modeId: activeModeId }
-      });
-      return;
+    sendAllGroups();
+  };
+  const getFilteredCandidates = (candidates) => {
+    if (!activeGroupPrefix) return candidates;
+    const prefix = activeGroupPrefix + "/";
+    return candidates.filter((c) => c.variableName.startsWith(prefix));
+  };
+  const loadCandidates = async () => {
+    if (!activeCollectionKey) return [];
+    const candidates = await getVariables(
+      activeCollectionKey,
+      activeModeId,
+      sendCacheStatus
+    );
+    const newGroups = extractGroups(candidates);
+    const prev = groupsPerCollection[activeCollectionKey];
+    if (!prev || prev.length !== newGroups.length || prev.some((g, i) => g !== newGroups[i])) {
+      groupsPerCollection[activeCollectionKey] = newGroups;
+      sendAllGroups();
     }
-    if (preloadPromise) await preloadPromise;
-    const candidates = await loadCandidates();
-    const matches = findBestMatches(foundColors, candidates);
-    const entries = matches.map((m) => ({
+    return candidates;
+  };
+  const buildEntries = (foundColors, candidates) => {
+    const filtered = getFilteredCandidates(candidates);
+    const matches = findBestMatches(foundColors, filtered);
+    return matches.map((m) => ({
       found: {
         hex: m.found.hex,
         r: m.found.r,
@@ -40600,14 +41037,78 @@ function registerFindColorMatchTool(getActiveTool) {
         matchPercent: am.matchPercent
       }))
     }));
+  };
+  const sendEmptyResult = () => {
+    figma.ui.postMessage({
+      type: MAIN_TO_UI.FIND_COLOR_MATCH_RESULT,
+      payload: { entries: [], collectionKey: activeCollectionKey != null ? activeCollectionKey : "", modeId: activeModeId }
+    });
+  };
+  const runScan = async () => {
+    if (getActiveTool() !== "find-color-match-tool") return;
+    if (figma.currentPage.selection.length === 0) {
+      sendEmptyResult();
+      return;
+    }
+    const foundColors = await scanSelectionForUnboundColors();
+    if (foundColors.length === 0) {
+      sendEmptyResult();
+      return;
+    }
+    const allCandidates = await loadCandidates();
+    const entries = buildEntries(foundColors, allCandidates);
     figma.ui.postMessage({
       type: MAIN_TO_UI.FIND_COLOR_MATCH_RESULT,
       payload: { entries, collectionKey: activeCollectionKey != null ? activeCollectionKey : "", modeId: activeModeId }
     });
   };
+  const runScanFromCacheSync = async () => {
+    if (!activeCollectionKey) return false;
+    const cached = getCachedVariablesSync(activeCollectionKey, activeModeId);
+    if (!cached || cached.length === 0) return false;
+    const newGroups = extractGroups(cached);
+    const prev = groupsPerCollection[activeCollectionKey];
+    if (!prev || prev.length !== newGroups.length || prev.some((g, i) => g !== newGroups[i])) {
+      groupsPerCollection[activeCollectionKey] = newGroups;
+      sendAllGroups();
+    }
+    if (figma.currentPage.selection.length === 0) {
+      sendEmptyResult();
+      return true;
+    }
+    const foundColors = await scanSelectionForUnboundColors();
+    if (foundColors.length === 0) {
+      sendEmptyResult();
+      return true;
+    }
+    const entries = buildEntries(foundColors, cached);
+    figma.ui.postMessage({
+      type: MAIN_TO_UI.FIND_COLOR_MATCH_RESULT,
+      payload: { entries, collectionKey: activeCollectionKey != null ? activeCollectionKey : "", modeId: activeModeId }
+    });
+    return true;
+  };
+  const backgroundCacheCheck = () => {
+    if (backgroundCheckPromise) return;
+    backgroundCheckPromise = (async () => {
+      try {
+        const previousCached = getCachedVariablesSync(activeCollectionKey, activeModeId);
+        const fresh = await loadCandidates();
+        if (previousCached && fresh !== previousCached && fresh.length > 0) {
+          console.log("[Find Color Match] Library data updated, re-scanning\u2026");
+          await runScan();
+        }
+      } catch (e) {
+        console.warn("[Find Color Match] Background cache check failed:", e);
+      } finally {
+        backgroundCheckPromise = null;
+        sendCacheStatus({ state: "idle" });
+      }
+    })();
+  };
   const runHexLookup = async (hex) => {
-    if (preloadPromise) await preloadPromise;
-    const candidates = await loadCandidates();
+    const allCandidates = await loadCandidates();
+    const candidates = getFilteredCandidates(allCandidates);
     if (candidates.length === 0) return;
     const r = parseInt(hex.slice(1, 3), 16) / 255;
     const g = parseInt(hex.slice(3, 5), 16) / 255;
@@ -40645,13 +41146,15 @@ function registerFindColorMatchTool(getActiveTool) {
       }
       if (msg.type === UI_TO_MAIN.FIND_COLOR_MATCH_SET_COLLECTION) {
         activeCollectionKey = msg.collectionKey;
-        candidateCache = [];
-        candidateCacheKey = "";
+        activeGroupPrefix = null;
         const source = collectionSources.find((s) => s.key === msg.collectionKey);
         if (source) {
           if (source.modes.length === 0) {
-            const modes = await loadLibraryCollectionModes2(msg.collectionKey);
-            source.modes = modes;
+            const col = (await getCachedCollections()).find((c) => c.key === msg.collectionKey);
+            if (col) {
+              await ensureCollectionModes(col);
+              source.modes = col.modes;
+            }
           }
           activeModeId = (_b = (_a = source.modes[0]) == null ? void 0 : _a.modeId) != null ? _b : null;
           figma.ui.postMessage({
@@ -40668,15 +41171,12 @@ function registerFindColorMatchTool(getActiveTool) {
             }
           });
         }
-        preloadCandidatesInBackground();
         await runScan();
         return true;
       }
       if (msg.type === UI_TO_MAIN.FIND_COLOR_MATCH_SET_MODE) {
         activeModeId = msg.modeId;
-        candidateCache = [];
-        candidateCacheKey = "";
-        preloadCandidatesInBackground();
+        activeGroupPrefix = null;
         await runScan();
         return true;
       }
@@ -40706,6 +41206,11 @@ function registerFindColorMatchTool(getActiveTool) {
         await runHexLookup(msg.hex);
         return true;
       }
+      if (msg.type === UI_TO_MAIN.FIND_COLOR_MATCH_SET_GROUP) {
+        activeGroupPrefix = msg.group;
+        await runScan();
+        return true;
+      }
     } catch (e) {
       sendError(e instanceof Error ? e.message : String(e));
     }
@@ -40714,8 +41219,13 @@ function registerFindColorMatchTool(getActiveTool) {
   return {
     onActivate: async () => {
       await sendCollections();
-      preloadCandidatesInBackground();
-      scheduleUpdate();
+      await discoverAllGroups();
+      const servedFromCache = await runScanFromCacheSync();
+      if (servedFromCache) {
+        backgroundCacheCheck();
+      } else {
+        await runScan();
+      }
     },
     onMessage
   };
@@ -40728,6 +41238,8 @@ var init_main_thread9 = __esm({
     init_match();
     init_apply2();
     init_variables();
+    init_cache();
+    init_constants2();
   }
 });
 

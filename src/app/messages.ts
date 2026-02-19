@@ -40,6 +40,8 @@ export const UI_TO_MAIN = {
   LIBRARY_SWAP_CAPTURE_OLD: "LIBRARY_SWAP_CAPTURE_OLD",
   LIBRARY_SWAP_CAPTURE_NEW: "LIBRARY_SWAP_CAPTURE_NEW",
   LIBRARY_SWAP_REMOVE_PAIR: "LIBRARY_SWAP_REMOVE_PAIR",
+  LIBRARY_SWAP_SCAN_LEGACY: "LIBRARY_SWAP_SCAN_LEGACY",
+  LIBRARY_SWAP_SCAN_LEGACY_RESET: "LIBRARY_SWAP_SCAN_LEGACY_RESET",
   // Find Color Match
   FIND_COLOR_MATCH_SCAN: "FIND_COLOR_MATCH_SCAN",
   FIND_COLOR_MATCH_SET_COLLECTION: "FIND_COLOR_MATCH_SET_COLLECTION",
@@ -47,6 +49,7 @@ export const UI_TO_MAIN = {
   FIND_COLOR_MATCH_APPLY: "FIND_COLOR_MATCH_APPLY",
   FIND_COLOR_MATCH_FOCUS_NODE: "FIND_COLOR_MATCH_FOCUS_NODE",
   FIND_COLOR_MATCH_HEX_LOOKUP: "FIND_COLOR_MATCH_HEX_LOOKUP",
+  FIND_COLOR_MATCH_SET_GROUP: "FIND_COLOR_MATCH_SET_GROUP",
 } as const
 
 export const MAIN_TO_UI = {
@@ -93,12 +96,17 @@ export const MAIN_TO_UI = {
   LIBRARY_SWAP_PREVIEW_RESULT: "LIBRARY_SWAP_PREVIEW_RESULT",
   LIBRARY_SWAP_CAPTURE_RESULT: "LIBRARY_SWAP_CAPTURE_RESULT",
   LIBRARY_SWAP_PAIRS_UPDATED: "LIBRARY_SWAP_PAIRS_UPDATED",
+  LIBRARY_SWAP_SCAN_LEGACY_RESULT: "LIBRARY_SWAP_SCAN_LEGACY_RESULT",
+  LIBRARY_SWAP_SCAN_LEGACY_RESET_RESULT: "LIBRARY_SWAP_SCAN_LEGACY_RESET_RESULT",
   // Find Color Match
   FIND_COLOR_MATCH_COLLECTIONS: "FIND_COLOR_MATCH_COLLECTIONS",
   FIND_COLOR_MATCH_RESULT: "FIND_COLOR_MATCH_RESULT",
   FIND_COLOR_MATCH_PROGRESS: "FIND_COLOR_MATCH_PROGRESS",
   FIND_COLOR_MATCH_APPLY_RESULT: "FIND_COLOR_MATCH_APPLY_RESULT",
   FIND_COLOR_MATCH_HEX_RESULT: "FIND_COLOR_MATCH_HEX_RESULT",
+  FIND_COLOR_MATCH_GROUPS: "FIND_COLOR_MATCH_GROUPS",
+  // Library cache
+  LIBRARY_CACHE_STATUS: "LIBRARY_CACHE_STATUS",
 } as const
 
 export type UiToMainMessage =
@@ -143,6 +151,8 @@ export type UiToMainMessage =
   | { type: typeof UI_TO_MAIN.LIBRARY_SWAP_CAPTURE_OLD }
   | { type: typeof UI_TO_MAIN.LIBRARY_SWAP_CAPTURE_NEW }
   | { type: typeof UI_TO_MAIN.LIBRARY_SWAP_REMOVE_PAIR; oldKey: string }
+  | { type: typeof UI_TO_MAIN.LIBRARY_SWAP_SCAN_LEGACY; request: LibrarySwapScanLegacyRequest }
+  | { type: typeof UI_TO_MAIN.LIBRARY_SWAP_SCAN_LEGACY_RESET; nodeId: string; property: "fill" | "stroke" }
   // Find Color Match
   | { type: typeof UI_TO_MAIN.FIND_COLOR_MATCH_SCAN }
   | { type: typeof UI_TO_MAIN.FIND_COLOR_MATCH_SET_COLLECTION; collectionKey: string }
@@ -150,6 +160,7 @@ export type UiToMainMessage =
   | { type: typeof UI_TO_MAIN.FIND_COLOR_MATCH_APPLY; request: FindColorMatchApplyRequest }
   | { type: typeof UI_TO_MAIN.FIND_COLOR_MATCH_FOCUS_NODE; nodeId: string }
   | { type: typeof UI_TO_MAIN.FIND_COLOR_MATCH_HEX_LOOKUP; hex: string }
+  | { type: typeof UI_TO_MAIN.FIND_COLOR_MATCH_SET_GROUP; group: string | null }
 
 export type ActiveTool =
   | "home"
@@ -361,12 +372,17 @@ export type MainToUiMessage =
   | { type: typeof MAIN_TO_UI.LIBRARY_SWAP_PREVIEW_RESULT; previewed: number }
   | { type: typeof MAIN_TO_UI.LIBRARY_SWAP_CAPTURE_RESULT; side: "old" | "new"; name: string | null }
   | { type: typeof MAIN_TO_UI.LIBRARY_SWAP_PAIRS_UPDATED; pairs: ManualPair[] }
+  | { type: typeof MAIN_TO_UI.LIBRARY_SWAP_SCAN_LEGACY_RESULT; payload: LibrarySwapScanLegacyResultPayload }
+  | { type: typeof MAIN_TO_UI.LIBRARY_SWAP_SCAN_LEGACY_RESET_RESULT; ok: boolean; nodeId: string }
   // Find Color Match
   | { type: typeof MAIN_TO_UI.FIND_COLOR_MATCH_COLLECTIONS; payload: FindColorMatchCollectionsPayload }
   | { type: typeof MAIN_TO_UI.FIND_COLOR_MATCH_RESULT; payload: FindColorMatchResultPayload }
   | { type: typeof MAIN_TO_UI.FIND_COLOR_MATCH_PROGRESS; progress: FindColorMatchProgressPayload }
   | { type: typeof MAIN_TO_UI.FIND_COLOR_MATCH_APPLY_RESULT; result: FindColorMatchApplyResultPayload }
   | { type: typeof MAIN_TO_UI.FIND_COLOR_MATCH_HEX_RESULT; payload: FindColorMatchHexResultPayload }
+  | { type: typeof MAIN_TO_UI.FIND_COLOR_MATCH_GROUPS; groupsByCollection: Record<string, string[]> }
+  // Library cache
+  | { type: typeof MAIN_TO_UI.LIBRARY_CACHE_STATUS; status: LibraryCacheStatusPayload }
 
 // ============================================================================
 // Variables Batch Rename Types
@@ -895,6 +911,50 @@ export type ManualPair = {
   oldName: string
   newName: string
 }
+
+export type LibrarySwapScanLegacyRequest = {
+  scope: LibrarySwapScope
+  useBuiltInIcons: boolean
+  useBuiltInUikit: boolean
+  customMappingJsonText?: string
+}
+
+export type LibrarySwapLegacyStyleItem = {
+  nodeId: string
+  nodeName: string
+  pageName: string
+  styleName: string
+  styleKey: string
+  property: "fill" | "stroke"
+  isOverride: boolean
+}
+
+export type LibrarySwapLegacyComponentItem = {
+  nodeId: string
+  nodeName: string
+  pageName: string
+  oldComponentKey: string
+  oldComponentName: string
+  category: "mapped" | "text_only" | "unmapped"
+  newComponentName?: string
+  description?: string
+}
+
+export type LibrarySwapScanLegacyResultPayload = {
+  styles: LibrarySwapLegacyStyleItem[]
+  components: LibrarySwapLegacyComponentItem[]
+  totalNodesScanned: number
+}
+
+// ============================================================================
+// Library Cache Types
+// ============================================================================
+
+export type LibraryCacheStatusPayload =
+  | { state: "idle" }
+  | { state: "checking" }
+  | { state: "updating"; current: number; total: number; message: string }
+  | { state: "ready" }
 
 // ============================================================================
 // Find Color Match Types

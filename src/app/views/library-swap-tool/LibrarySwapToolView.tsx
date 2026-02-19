@@ -22,6 +22,7 @@ import {
   type LibrarySwapAnalyzeResultPayload,
   type LibrarySwapApplyResultPayload,
   type LibrarySwapProgress,
+  type LibrarySwapScanLegacyResultPayload,
   type ManualPair,
 } from "../../messages"
 import { DataTable, type DataTableColumn } from "../../components/DataTable"
@@ -51,7 +52,7 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
 
   // Busy / progress
   const [isBusy, setIsBusy] = useState(false)
-  const [stage, setStage] = useState<"idle" | "analyze" | "preview" | "apply">("idle")
+  const [stage, setStage] = useState<"idle" | "analyze" | "preview" | "apply" | "scan_legacy">("idle")
   const [progress, setProgress] = useState<LibrarySwapProgress | null>(null)
 
   // Messages
@@ -61,6 +62,9 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
   // Results
   const [analyzeResult, setAnalyzeResult] = useState<LibrarySwapAnalyzeResultPayload | null>(null)
   const [applyResult, setApplyResult] = useState<LibrarySwapApplyResultPayload | null>(null)
+
+  // Scan Legacy
+  const [scanLegacyResult, setScanLegacyResult] = useState<LibrarySwapScanLegacyResultPayload | null>(null)
 
   // Manual pairs
   const [capturedOldName, setCapturedOldName] = useState<string | null>(null)
@@ -134,6 +138,27 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
       if (msg.type === MAIN_TO_UI.LIBRARY_SWAP_PAIRS_UPDATED) {
         setManualPairs(msg.pairs)
       }
+
+      if (msg.type === MAIN_TO_UI.LIBRARY_SWAP_SCAN_LEGACY_RESULT) {
+        setIsBusy(false)
+        setStage("idle")
+        setProgress(null)
+        setErrorMessage(null)
+        setScanLegacyResult(msg.payload)
+        const { styles, components } = msg.payload
+        setSuccessMessage(
+          `Found ${styles.length} legacy style${styles.length !== 1 ? "s" : ""}, ${components.length} legacy component${components.length !== 1 ? "s" : ""}`
+        )
+      }
+
+      if (msg.type === MAIN_TO_UI.LIBRARY_SWAP_SCAN_LEGACY_RESET_RESULT) {
+        if (msg.ok && scanLegacyResult) {
+          setScanLegacyResult({
+            ...scanLegacyResult,
+            styles: scanLegacyResult.styles.filter((s) => s.nodeId !== msg.nodeId),
+          })
+        }
+      }
     }
 
     window.addEventListener("message", handleMessage)
@@ -182,6 +207,25 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
     setSuccessMessage(null)
     parent.postMessage(
       { pluginMessage: { type: UI_TO_MAIN.LIBRARY_SWAP_APPLY, request: buildRequest() } },
+      "*"
+    )
+  }
+
+  function handleScanLegacy() {
+    setIsBusy(true)
+    setStage("scan_legacy")
+    setErrorMessage(null)
+    setSuccessMessage(null)
+    setScanLegacyResult(null)
+    parent.postMessage(
+      { pluginMessage: { type: UI_TO_MAIN.LIBRARY_SWAP_SCAN_LEGACY, request: buildRequest() } },
+      "*"
+    )
+  }
+
+  function handleResetOverride(nodeId: string, property: "fill" | "stroke") {
+    parent.postMessage(
+      { pluginMessage: { type: UI_TO_MAIN.LIBRARY_SWAP_SCAN_LEGACY_RESET, nodeId, property } },
       "*"
     )
   }
@@ -368,6 +412,13 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
             >
               {applyLabel}
             </Button>
+            <Button
+              onClick={handleScanLegacy}
+              disabled={!canAct}
+              secondary
+            >
+              {isBusy && stage === "scan_legacy" ? "Scanning..." : "Scan Legacy"}
+            </Button>
           </Inline>
 
           {/* -- Status ---------------------------------------------------- */}
@@ -393,7 +444,9 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
                     ? "Analyzing..."
                     : stage === "preview"
                       ? "Creating preview..."
-                      : "Swapping..."}
+                      : stage === "scan_legacy"
+                        ? "Scanning legacy..."
+                        : "Swapping..."}
               </Text>
             </Inline>
           )}
@@ -441,6 +494,100 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
               ))}
             </DataTable>
           )}
+          {/* -- Scan Legacy results --------------------------------------- */}
+          {scanLegacyResult && !isBusy && (
+            <Fragment>
+              {scanLegacyResult.components.length > 0 && (
+                <DataTable
+                  header="Legacy components"
+                  summary={`${scanLegacyResult.components.length} component usage${scanLegacyResult.components.length !== 1 ? "s" : ""} found`}
+                  columns={[
+                    { label: "Layer", width: "25%" },
+                    { label: "Old component", width: "25%" },
+                    { label: "Status", width: "50%" },
+                  ]}
+                >
+                  {scanLegacyResult.components.map((item, idx) => (
+                    <tr
+                      key={`${item.nodeId}-${idx}`}
+                      style={{ cursor: "pointer" }}
+                      onClick={() => handleFocusNode(item.nodeId)}
+                      title={`${item.pageName} — click to focus`}
+                    >
+                      <td style={cellStyle}>{item.nodeName}</td>
+                      <td style={cellStyle}>{item.oldComponentName}</td>
+                      <td style={cellStyle}>
+                        {item.category === "mapped" && (
+                          <Text style={{ fontSize: 11, color: "#067647" }}>
+                            → {item.newComponentName}
+                          </Text>
+                        )}
+                        {item.category === "text_only" && (
+                          <Text style={{ fontSize: 11, color: "#b45309" }}>
+                            {item.description}
+                          </Text>
+                        )}
+                        {item.category === "unmapped" && (
+                          <Text style={{ fontSize: 11, color: "#9f1239" }}>
+                            No replacement
+                          </Text>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </DataTable>
+              )}
+
+              {scanLegacyResult.styles.length > 0 && (
+                <DataTable
+                  header="Legacy color styles"
+                  summary={`${scanLegacyResult.styles.length} style usage${scanLegacyResult.styles.length !== 1 ? "s" : ""} found`}
+                  columns={[
+                    { label: "Layer", width: "25%" },
+                    { label: "Style", width: "25%" },
+                    { label: "Type", width: "12%" },
+                    { label: "Override", width: "14%" },
+                    { label: "", width: "24%" },
+                  ]}
+                >
+                  {scanLegacyResult.styles.map((item, idx) => (
+                    <tr
+                      key={`${item.nodeId}-${item.property}-${idx}`}
+                      style={{ cursor: "pointer" }}
+                      onClick={() => handleFocusNode(item.nodeId)}
+                      title={`${item.pageName} — click to focus`}
+                    >
+                      <td style={cellStyle}>{item.nodeName}</td>
+                      <td style={cellStyle}>{item.styleName}</td>
+                      <td style={cellStyle}>{item.property}</td>
+                      <td style={cellStyle}>{item.isOverride ? "Yes" : "No"}</td>
+                      <td style={{ ...cellStyle, textAlign: "center" }}>
+                        {item.isOverride && (
+                          <Button
+                            secondary
+                            onClick={(e: MouseEvent) => {
+                              e.stopPropagation()
+                              handleResetOverride(item.nodeId, item.property)
+                            }}
+                            style={{ fontSize: 10, padding: "2px 6px" }}
+                          >
+                            Reset
+                          </Button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </DataTable>
+              )}
+
+              {scanLegacyResult.styles.length === 0 && scanLegacyResult.components.length === 0 && (
+                <div style={{ padding: 8, background: "#ecfdf3", borderRadius: 4 }}>
+                  <Text style={{ color: "#067647" }}>No legacy items found — clean!</Text>
+                </div>
+              )}
+            </Fragment>
+          )}
+
           {/* -- Mappings -------------------------------------------------- */}
           <Divider />
           <Stack space="small">
