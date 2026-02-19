@@ -7,6 +7,12 @@
 
 ### 2026-02-19
 
+#### Figma API Reference spec
+- Created `Specs/Figma API Reference.md` — comprehensive reference covering all Figma object types and available Plugin API actions.
+- Covers: node type hierarchy, all node types with `.type` strings, non-node resources (styles, variables, team library), and 19 categories of API actions (document access, node lookup/search, selection/viewport, node creation, manipulation, paint/color, text, component/instance, styles, variables, team library, variable modes, auto layout, effects, export, UI communication, notifications, client storage, events/misc).
+- Supersedes the simpler `Object types in Figma.md` (which only had node types and basic style/variable info, no API actions).
+- Useful as reference for Automations Tool spec (which requires "List of actions from Figma API") and general plugin development.
+
 #### Find Color Match Tool — unified library cache with smart invalidation
 - **Problem**: Cache was cleared on every collection/mode change and re-discovered on every tool activation. Loading 200+ variables took several seconds. Full-screen `State` component blocked the UI during loading.
 - **Solution**: Fingerprint-based shared cache + subtle bottom status bar.
