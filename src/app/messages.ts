@@ -48,6 +48,7 @@ export const UI_TO_MAIN = {
   FIND_COLOR_MATCH_FOCUS_NODE: "FIND_COLOR_MATCH_FOCUS_NODE",
   // Automations
   AUTOMATIONS_LOAD: "AUTOMATIONS_LOAD",
+  AUTOMATIONS_GET: "AUTOMATIONS_GET",
   AUTOMATIONS_SAVE: "AUTOMATIONS_SAVE",
   AUTOMATIONS_DELETE: "AUTOMATIONS_DELETE",
   AUTOMATIONS_RUN: "AUTOMATIONS_RUN",
@@ -105,6 +106,7 @@ export const MAIN_TO_UI = {
   FIND_COLOR_MATCH_APPLY_RESULT: "FIND_COLOR_MATCH_APPLY_RESULT",
   // Automations
   AUTOMATIONS_LIST: "AUTOMATIONS_LIST",
+  AUTOMATIONS_FULL: "AUTOMATIONS_FULL",
   AUTOMATIONS_SAVED: "AUTOMATIONS_SAVED",
   AUTOMATIONS_RUN_PROGRESS: "AUTOMATIONS_RUN_PROGRESS",
   AUTOMATIONS_RUN_RESULT: "AUTOMATIONS_RUN_RESULT",
@@ -160,6 +162,7 @@ export type UiToMainMessage =
   | { type: typeof UI_TO_MAIN.FIND_COLOR_MATCH_FOCUS_NODE; nodeId: string }
   // Automations
   | { type: typeof UI_TO_MAIN.AUTOMATIONS_LOAD }
+  | { type: typeof UI_TO_MAIN.AUTOMATIONS_GET; automationId: string }
   | { type: typeof UI_TO_MAIN.AUTOMATIONS_SAVE; automation: AutomationPayload }
   | { type: typeof UI_TO_MAIN.AUTOMATIONS_DELETE; automationId: string }
   | { type: typeof UI_TO_MAIN.AUTOMATIONS_RUN; automationId: string }
@@ -383,6 +386,7 @@ export type MainToUiMessage =
   | { type: typeof MAIN_TO_UI.FIND_COLOR_MATCH_APPLY_RESULT; result: FindColorMatchApplyResultPayload }
   // Automations
   | { type: typeof MAIN_TO_UI.AUTOMATIONS_LIST; automations: AutomationListItem[] }
+  | { type: typeof MAIN_TO_UI.AUTOMATIONS_FULL; automation: AutomationPayload | null }
   | { type: typeof MAIN_TO_UI.AUTOMATIONS_SAVED; automation: AutomationPayload }
   | { type: typeof MAIN_TO_UI.AUTOMATIONS_RUN_PROGRESS; progress: AutomationsRunProgress }
   | { type: typeof MAIN_TO_UI.AUTOMATIONS_RUN_RESULT; result: AutomationsRunResult }

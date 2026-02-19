@@ -26,6 +26,15 @@ export function registerAutomationsTool(getActiveTool: () => ActiveTool) {
         return true
       }
 
+      if (msg.type === UI_TO_MAIN.AUTOMATIONS_GET) {
+        const automation = await getAutomation(msg.automationId)
+        figma.ui.postMessage({
+          type: MAIN_TO_UI.AUTOMATIONS_FULL,
+          automation: automation ? automationToPayload(automation) : null,
+        })
+        return true
+      }
+
       if (msg.type === UI_TO_MAIN.AUTOMATIONS_SAVE) {
         const automation = payloadToAutomation(msg.automation)
         automation.updatedAt = Date.now()

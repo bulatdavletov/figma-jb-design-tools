@@ -81,6 +81,12 @@ export function AutomationsToolView(props: { onBack: () => void }) {
       if (msg.type === MAIN_TO_UI.AUTOMATIONS_LIST) {
         setAutomations(msg.automations)
       }
+      if (msg.type === MAIN_TO_UI.AUTOMATIONS_FULL) {
+        if (msg.automation) {
+          setEditingAutomation(msg.automation)
+          setScreen("builder")
+        }
+      }
       if (msg.type === MAIN_TO_UI.AUTOMATIONS_SAVED) {
         setEditingAutomation(msg.automation)
         postMessage({ type: UI_TO_MAIN.AUTOMATIONS_LOAD })
@@ -112,19 +118,8 @@ export function AutomationsToolView(props: { onBack: () => void }) {
   }, [])
 
   const handleEdit = useCallback((id: string) => {
-    const item = automations.find((a) => a.id === id)
-    if (!item) return
-    postMessage({ type: UI_TO_MAIN.AUTOMATIONS_LOAD })
-    const payload: AutomationPayload = {
-      id: item.id,
-      name: item.name,
-      steps: [],
-      createdAt: item.createdAt,
-      updatedAt: item.updatedAt,
-    }
-    setEditingAutomation(payload)
-    setScreen("builder")
-  }, [automations])
+    postMessage({ type: UI_TO_MAIN.AUTOMATIONS_GET, automationId: id })
+  }, [])
 
   const handleRun = useCallback((id: string) => {
     setRunResult(null)
@@ -135,14 +130,6 @@ export function AutomationsToolView(props: { onBack: () => void }) {
   const handleDelete = useCallback((id: string) => {
     postMessage({ type: UI_TO_MAIN.AUTOMATIONS_DELETE, automationId: id })
   }, [])
-
-  const handleExport = useCallback((id: string) => {
-    const item = automations.find((a) => a.id === id)
-    if (!item) return
-    // We need full automation data for export -- we'll export from editingAutomation if available
-    // For list export, we need to save/load first
-    // For now, export a stub
-  }, [automations])
 
   const handleImport = useCallback((files: File[]) => {
     if (files.length === 0) return
