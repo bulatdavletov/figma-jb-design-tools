@@ -972,6 +972,17 @@ Olya suggested to rename from JetBrains Design Tools to Int UI Design Tools
 - **Files modified**: `mapping-types.ts` (added `MergedMatchEntry` type + `mergeMappingMatchesRich`), `messages.ts` (new message types + payload types), `main-thread.ts` (new handlers), `LibrarySwapToolView.tsx` (new button + results display)
 - Build passes cleanly.
 
+### 2026-02-19 — Library Swap Redesign
+- **Merged Scan Legacy into Analyze**: The "Scan Legacy" button is removed. Now when user clicks "Analyze", it runs both `analyzeSwap()` and `scanForLegacyItems()` sequentially. Results appear together.
+- **Sticky footer**: Moved Analyze + Apply buttons to a sticky footer below the scrollable body. Progress spinner also lives in the footer.
+- **Preview in body**: Preview button now appears inside the scrollable body, only after Analyze completes successfully. Positioned right after the Scope selector. Includes a "Clear previews" button next to it.
+- **Override detection fixed**: Replaced the `isInsideInstance()` heuristic with proper `InstanceNode.overrides` API usage. Now reads `instance.overrides` to check if the specific node has `fillStyleId`/`fills` or `strokeStyleId`/`strokes` in its `overriddenFields`. Uses a per-scan cache to avoid redundant reads.
+- **NodeTypeIcon component**: Created `src/app/components/NodeTypeIcon.tsx` — a shared SVG icon for indicating Figma object types. Currently supports `colorStyleFill` (solid circle) and `colorStyleStroke` (outlined circle). Extensible for variable, text, frame types.
+- **Legacy color styles table redesign**: Removed the "Type" text column. Added a narrow icon column at the start of each row with `NodeTypeIcon` — filled circle for fill styles, outlined circle for stroke styles. Visually communicates fill vs. stroke without wasting a column on text.
+- **Vertical spacing**: Added `VerticalSpace` between consecutive DataTable blocks.
+- **Message cleanup**: Removed `LIBRARY_SWAP_SCAN_LEGACY` from `UI_TO_MAIN` enum and union type (no longer a separate action). Removed unused `LibrarySwapScanLegacyRequest` type. Kept `SCAN_LEGACY_RESULT` and `SCAN_LEGACY_RESET` messages.
+- Build passes cleanly.
+
 ---
 
 ## Mockup Markup Tool

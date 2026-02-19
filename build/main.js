@@ -105,7 +105,6 @@ var init_messages = __esm({
       LIBRARY_SWAP_CAPTURE_OLD: "LIBRARY_SWAP_CAPTURE_OLD",
       LIBRARY_SWAP_CAPTURE_NEW: "LIBRARY_SWAP_CAPTURE_NEW",
       LIBRARY_SWAP_REMOVE_PAIR: "LIBRARY_SWAP_REMOVE_PAIR",
-      LIBRARY_SWAP_SCAN_LEGACY: "LIBRARY_SWAP_SCAN_LEGACY",
       LIBRARY_SWAP_SCAN_LEGACY_RESET: "LIBRARY_SWAP_SCAN_LEGACY_RESET",
       // Find Color Match
       FIND_COLOR_MATCH_SCAN: "FIND_COLOR_MATCH_SCAN",
@@ -1973,6 +1972,15 @@ var init_swap_logic = __esm({
 });
 
 // src/app/tools/library-swap/scan-legacy.ts
+function extractHexFromStyle(style) {
+  const paints = style.paints;
+  if (!paints || paints.length === 0) return null;
+  const paint = paints[0];
+  if (paint.type !== "SOLID") return null;
+  const { r, g, b } = paint.color;
+  const toHex = (v) => Math.round(v * 255).toString(16).padStart(2, "0");
+  return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+}
 function getPageName2(node) {
   let current = node;
   while (current) {
@@ -1981,14 +1989,26 @@ function getPageName2(node) {
   }
   return "";
 }
-function isInsideInstance(node) {
-  let current = node.parent;
-  while (current) {
-    if (current.type === "INSTANCE") return true;
-    if (current.type === "PAGE" || current.type === "DOCUMENT") return false;
-    current = current.parent;
+function isPropertyOverridden(node, property) {
+  const instance = getNearestInstanceAncestor(node);
+  if (!instance) return false;
+  let nodeOverrides = overridesCache.get(instance.id);
+  if (!nodeOverrides) {
+    nodeOverrides = /* @__PURE__ */ new Map();
+    try {
+      for (const entry of instance.overrides) {
+        nodeOverrides.set(entry.id, new Set(entry.overriddenFields));
+      }
+    } catch (e) {
+    }
+    overridesCache.set(instance.id, nodeOverrides);
   }
-  return false;
+  const fields = nodeOverrides.get(node.id);
+  if (!fields) return false;
+  if (property === "fill") {
+    return fields.has("fillStyleId") || fields.has("fills");
+  }
+  return fields.has("strokeStyleId") || fields.has("strokes");
 }
 function getNearestInstanceAncestor(node) {
   let current = node.parent;
@@ -1998,27 +2018,6 @@ function getNearestInstanceAncestor(node) {
     current = current.parent;
   }
   return null;
-}
-function extractMainComponentChildId(instanceChildId) {
-  const idx = instanceChildId.lastIndexOf(";");
-  if (idx < 0) return null;
-  return instanceChildId.substring(idx + 1);
-}
-async function findMainComponentChild(instance, childId) {
-  let main = null;
-  try {
-    main = await instance.getMainComponentAsync();
-  } catch (e) {
-    return null;
-  }
-  if (!main || !("findOne" in main)) return null;
-  const relId = extractMainComponentChildId(childId);
-  if (!relId) return null;
-  try {
-    return main.findOne((n) => n.id === relId);
-  } catch (e) {
-    return null;
-  }
 }
 async function ensureAllPagesLoaded2() {
   if (typeof figma.loadAllPagesAsync === "function") {
@@ -2050,6 +2049,7 @@ async function getNodesForScope(scope) {
 }
 async function scanStyles(scope, onProgress) {
   var _a;
+  overridesCache.clear();
   const allNodes = await getNodesForScope(scope);
   const items = [];
   const styleCache = /* @__PURE__ */ new Map();
@@ -2077,7 +2077,8 @@ async function scanStyles(scope, onProgress) {
           styleName: style.name,
           styleKey: style.key,
           property: prop === "fillStyleId" ? "fill" : "stroke",
-          isOverride: isInsideInstance(node)
+          isOverride: isPropertyOverridden(node, prop === "fillStyleId" ? "fill" : "stroke"),
+          colorHex: extractHexFromStyle(style)
         });
       }
     }
@@ -2161,37 +2162,15 @@ async function scanForLegacyItems(scope, richMatches, onProgress) {
   });
   return { styles, components, totalNodesScanned: nodesScanned };
 }
-async function resetStyleOverride(nodeId, property) {
+async function resetStyleOverride(nodeId, _property) {
   const node = await figma.getNodeByIdAsync(nodeId);
   if (!node) return false;
-  const sceneNode = node;
-  const instance = getNearestInstanceAncestor(sceneNode);
+  const instance = getNearestInstanceAncestor(node);
   if (!instance) return false;
-  const masterChild = await findMainComponentChild(instance, nodeId);
-  if (!masterChild) return false;
-  const src = masterChild;
-  const dst = sceneNode;
-  if (property === "fill") {
-    const masterFillStyleId = src.fillStyleId;
-    if (masterFillStyleId && typeof dst.setFillStyleIdAsync === "function") {
-      await dst.setFillStyleIdAsync(masterFillStyleId);
-    } else if ("fills" in src && "fills" in dst) {
-      dst.fills = src.fills;
-    }
-    return true;
-  }
-  if (property === "stroke") {
-    const masterStrokeStyleId = src.strokeStyleId;
-    if (masterStrokeStyleId && typeof dst.setStrokeStyleIdAsync === "function") {
-      await dst.setStrokeStyleIdAsync(masterStrokeStyleId);
-    } else if ("strokes" in src && "strokes" in dst) {
-      dst.strokes = src.strokes;
-    }
-    return true;
-  }
-  return false;
+  instance.removeOverrides();
+  return true;
 }
-var UNMATCHED_OLD_COMPONENT_NAMES, SCAN_ITEMS_CAP;
+var UNMATCHED_OLD_COMPONENT_NAMES, SCAN_ITEMS_CAP, overridesCache;
 var init_scan_legacy = __esm({
   "src/app/tools/library-swap/scan-legacy.ts"() {
     "use strict";
@@ -2239,6 +2218,7 @@ var init_scan_legacy = __esm({
       "Toolbar / Icon"
     ]);
     SCAN_ITEMS_CAP = 300;
+    overridesCache = /* @__PURE__ */ new Map();
   }
 });
 
@@ -36633,6 +36613,7 @@ function registerLibrarySwapTool(getActiveTool) {
           const sources = collectSources(useBuiltInIcons, useBuiltInUikit, customMappingJsonText);
           const merged = mergeMappingMatches(sources);
           const meta = mergeMappingMeta(sources);
+          const richMatches = mergeMappingMatchesRich(sources);
           if (Object.keys(merged).length === 0) {
             figma.ui.postMessage({
               type: MAIN_TO_UI.ERROR,
@@ -36654,6 +36635,25 @@ function registerLibrarySwapTool(getActiveTool) {
           figma.ui.postMessage({
             type: MAIN_TO_UI.LIBRARY_SWAP_ANALYZE_RESULT,
             payload: result
+          });
+          figma.ui.postMessage({
+            type: MAIN_TO_UI.LIBRARY_SWAP_PROGRESS,
+            progress: { current: 0, total: 0, message: "Scanning legacy items..." }
+          });
+          await new Promise((r) => setTimeout(r, 0));
+          const legacyResult = await scanForLegacyItems(
+            scope,
+            richMatches,
+            (message, done, total) => {
+              figma.ui.postMessage({
+                type: MAIN_TO_UI.LIBRARY_SWAP_PROGRESS,
+                progress: { current: done, total, message }
+              });
+            }
+          );
+          figma.ui.postMessage({
+            type: MAIN_TO_UI.LIBRARY_SWAP_SCAN_LEGACY_RESULT,
+            payload: legacyResult
           });
         } catch (e) {
           figma.notify(e instanceof Error ? e.message : "Analyze failed");
@@ -36794,38 +36794,6 @@ function registerLibrarySwapTool(getActiveTool) {
           type: MAIN_TO_UI.LIBRARY_SWAP_PAIRS_UPDATED,
           pairs: [...manualPairs]
         });
-        return true;
-      }
-      if (msg.type === UI_TO_MAIN.LIBRARY_SWAP_SCAN_LEGACY) {
-        try {
-          const { scope, useBuiltInIcons, useBuiltInUikit, customMappingJsonText } = msg.request;
-          const sources = collectSources(useBuiltInIcons, useBuiltInUikit, customMappingJsonText);
-          const richMatches = mergeMappingMatchesRich(sources);
-          figma.ui.postMessage({
-            type: MAIN_TO_UI.LIBRARY_SWAP_PROGRESS,
-            progress: { current: 0, total: 0, message: "Scanning legacy items..." }
-          });
-          await new Promise((r) => setTimeout(r, 0));
-          const result = await scanForLegacyItems(
-            scope,
-            richMatches,
-            (message, done, total) => {
-              figma.ui.postMessage({
-                type: MAIN_TO_UI.LIBRARY_SWAP_PROGRESS,
-                progress: { current: done, total, message }
-              });
-            }
-          );
-          figma.ui.postMessage({
-            type: MAIN_TO_UI.LIBRARY_SWAP_SCAN_LEGACY_RESULT,
-            payload: result
-          });
-        } catch (e) {
-          figma.ui.postMessage({
-            type: MAIN_TO_UI.ERROR,
-            message: e instanceof Error ? e.message : "Scan Legacy failed"
-          });
-        }
         return true;
       }
       if (msg.type === UI_TO_MAIN.LIBRARY_SWAP_SCAN_LEGACY_RESET) {

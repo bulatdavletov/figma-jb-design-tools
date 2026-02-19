@@ -152,11 +152,8 @@ export function FindColorMatchToolView({ onBack, initialSelectionEmpty }: Props)
     for (let ci = 0; ci < collections.length; ci++) {
       const col = collections[ci]
       if (ci > 0) opts.push("-" as DropdownOption)
-      const colGroups = groupsByCollection[col.key] ?? []
-      if (collections.length > 1 && colGroups.length > 0) {
-        opts.push({ header: col.name })
-      }
       opts.push({ value: `${col.key}::__all__`, text: col.name })
+      const colGroups = groupsByCollection[col.key] ?? []
       for (const g of colGroups) {
         opts.push({ value: `${col.key}::${g}`, text: g })
       }

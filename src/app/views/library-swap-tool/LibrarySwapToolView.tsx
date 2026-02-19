@@ -26,10 +26,12 @@ import {
   type ManualPair,
 } from "../../messages"
 import { DataTable, type DataTableColumn } from "../../components/DataTable"
+import { NodeTypeIcon } from "../../components/NodeTypeIcon"
 import { Page } from "../../components/Page"
 import { ScopeControl, useScope } from "../../components/ScopeControl"
 import { State } from "../../components/State"
 import { ToolBody } from "../../components/ToolBody"
+import { ToolFooter } from "../../components/ToolFooter"
 import { ToolHeader } from "../../components/ToolHeader"
 
 type Props = {
@@ -52,7 +54,7 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
 
   // Busy / progress
   const [isBusy, setIsBusy] = useState(false)
-  const [stage, setStage] = useState<"idle" | "analyze" | "preview" | "apply" | "scan_legacy">("idle")
+  const [stage, setStage] = useState<"idle" | "analyze" | "preview" | "apply">("idle")
   const [progress, setProgress] = useState<LibrarySwapProgress | null>(null)
 
   // Messages
@@ -90,15 +92,8 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
       }
 
       if (msg.type === MAIN_TO_UI.LIBRARY_SWAP_ANALYZE_RESULT) {
-        setIsBusy(false)
-        setStage("idle")
-        setProgress(null)
         setErrorMessage(null)
         setAnalyzeResult(msg.payload)
-        const p = msg.payload
-        setSuccessMessage(
-          `Found ${p.totalInstances} instances, ${p.mappableInstances} mappable (${p.uniqueOldKeys} unique components)`
-        )
       }
 
       if (msg.type === MAIN_TO_UI.LIBRARY_SWAP_PROGRESS) {
@@ -112,6 +107,7 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
         setErrorMessage(null)
         setApplyResult(msg.payload)
         setAnalyzeResult(null)
+        setScanLegacyResult(null)
         setSuccessMessage(`${msg.payload.swapped} swapped, ${msg.payload.skipped} skipped`)
       }
 
@@ -144,11 +140,8 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
         setStage("idle")
         setProgress(null)
         setErrorMessage(null)
+        setSuccessMessage(null)
         setScanLegacyResult(msg.payload)
-        const { styles, components } = msg.payload
-        setSuccessMessage(
-          `Found ${styles.length} legacy style${styles.length !== 1 ? "s" : ""}, ${components.length} legacy component${components.length !== 1 ? "s" : ""}`
-        )
       }
 
       if (msg.type === MAIN_TO_UI.LIBRARY_SWAP_SCAN_LEGACY_RESET_RESULT) {
@@ -183,6 +176,7 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
     setErrorMessage(null)
     setSuccessMessage(null)
     setApplyResult(null)
+    setScanLegacyResult(null)
     parent.postMessage(
       { pluginMessage: { type: UI_TO_MAIN.LIBRARY_SWAP_ANALYZE, request: buildRequest() } },
       "*"
@@ -207,18 +201,6 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
     setSuccessMessage(null)
     parent.postMessage(
       { pluginMessage: { type: UI_TO_MAIN.LIBRARY_SWAP_APPLY, request: buildRequest() } },
-      "*"
-    )
-  }
-
-  function handleScanLegacy() {
-    setIsBusy(true)
-    setStage("scan_legacy")
-    setErrorMessage(null)
-    setSuccessMessage(null)
-    setScanLegacyResult(null)
-    parent.postMessage(
-      { pluginMessage: { type: UI_TO_MAIN.LIBRARY_SWAP_SCAN_LEGACY, request: buildRequest() } },
       "*"
     )
   }
@@ -299,7 +281,6 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
     setApplyResult(null)
     setErrorMessage(null)
     setSuccessMessage(`Loaded: ${file.name}`)
-    // Also send to main thread so it can validate
     parent.postMessage(
       { pluginMessage: { type: UI_TO_MAIN.LIBRARY_SWAP_SET_CUSTOM_MAPPING, jsonText: text } },
       "*"
@@ -315,6 +296,13 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
     { label: "New component", width: "35%" },
   ]
 
+  const legacyStyleColumns: DataTableColumn[] = [
+    { label: "", width: 24 },
+    { label: "Layer", width: "25%" },
+    { label: "Style", width: "40%" },
+    { label: "", width: "35%" },
+  ]
+
   const pairsColumns: DataTableColumn[] = [
     { label: "Old component", width: "42%" },
     { label: "New component", width: "42%" },
@@ -327,6 +315,12 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
     overflow: "hidden",
     textOverflow: "ellipsis",
     whiteSpace: "nowrap",
+  }
+
+  const iconCellStyle: h.JSX.CSSProperties = {
+    padding: "6px 4px",
+    textAlign: "center",
+    verticalAlign: "middle",
   }
 
   // -----------------------------------------------------------------------
@@ -356,6 +350,7 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
   // -----------------------------------------------------------------------
   // Primary button label
   // -----------------------------------------------------------------------
+  const analyzeLabel = isBusy && stage === "analyze" ? "Analyzing..." : "Analyze"
   const applyLabel = (() => {
     if (isBusy && stage === "apply") return "Applying..."
     if (analyzeResult) return `Apply swap (${analyzeResult.mappableInstances})`
@@ -390,36 +385,25 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
             />
           </Stack>
 
-          {/* -- Actions --------------------------------------------------- */}
-          <Inline space="extraSmall">
-            <Button
-              onClick={handleAnalyze}
-              disabled={!canAct}
-              secondary
-            >
-              {isBusy && stage === "analyze" ? "Analyzing..." : "Analyze"}
-            </Button>
-            <Button
-              onClick={handlePreview}
-              disabled={!canAct}
-              secondary
-            >
-              {isBusy && stage === "preview" ? "Previewing..." : "Preview"}
-            </Button>
-            <Button
-              onClick={handleApply}
-              disabled={!canAct}
-            >
-              {applyLabel}
-            </Button>
-            <Button
-              onClick={handleScanLegacy}
-              disabled={!canAct}
-              secondary
-            >
-              {isBusy && stage === "scan_legacy" ? "Scanning..." : "Scan Legacy"}
-            </Button>
-          </Inline>
+          {/* -- Preview (only after analyze) ------------------------------ */}
+          {analyzeResult && !isBusy && (
+            <Inline space="extraSmall">
+              <Button
+                onClick={handlePreview}
+                disabled={!canAct}
+                secondary
+              >
+                {isBusy && stage === "preview" ? "Previewing..." : "Preview"}
+              </Button>
+              <Button
+                onClick={handleClearPreviews}
+                disabled={isBusy}
+                secondary
+              >
+                Clear previews
+              </Button>
+            </Inline>
+          )}
 
           {/* -- Status ---------------------------------------------------- */}
           {errorMessage && (
@@ -434,43 +418,34 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
             </div>
           )}
 
-          {isBusy && (
-            <Inline space="extraSmall">
-              <LoadingIndicator />
-              <Text>
-                {progress
-                  ? progress.message
-                  : stage === "analyze"
-                    ? "Analyzing..."
-                    : stage === "preview"
-                      ? "Creating preview..."
-                      : stage === "scan_legacy"
-                        ? "Scanning legacy..."
-                        : "Swapping..."}
-              </Text>
-            </Inline>
-          )}
-
           {/* -- Analyze result -------------------------------------------- */}
           {analyzeResult && !isBusy && (
-            <DataTable
-              header="Instances to swap"
-              summary={`${analyzeResult.mappableInstances} mappable of ${analyzeResult.totalInstances} total (${analyzeResult.uniqueOldKeys} unique components)${analyzeResult.items.length < analyzeResult.mappableInstances ? ` — showing first ${analyzeResult.items.length}` : ""}`}
-              columns={swapColumns}
-            >
-              {analyzeResult.items.map((item) => (
-                <tr
-                  key={item.nodeId}
-                  style={{ cursor: "pointer" }}
-                  onClick={() => handleFocusNode(item.nodeId)}
-                  title="Click to focus on canvas"
-                >
-                  <td style={cellStyle}>{item.instanceName}</td>
-                  <td style={cellStyle}>{item.oldComponentName}</td>
-                  <td style={cellStyle}>{item.newComponentName}</td>
-                </tr>
-              ))}
-            </DataTable>
+            analyzeResult.mappableInstances > 0 ? (
+              <DataTable
+                header="Instances to swap"
+                summary={`${analyzeResult.mappableInstances} mappable of ${analyzeResult.totalInstances} total (${analyzeResult.uniqueOldKeys} unique components)${analyzeResult.items.length < analyzeResult.mappableInstances ? ` — showing first ${analyzeResult.items.length}` : ""}`}
+                columns={swapColumns}
+              >
+                {analyzeResult.items.map((item) => (
+                  <tr
+                    key={item.nodeId}
+                    style={{ cursor: "pointer" }}
+                    onClick={() => handleFocusNode(item.nodeId)}
+                    title="Click to focus on canvas"
+                  >
+                    <td style={cellStyle}>{item.instanceName}</td>
+                    <td style={cellStyle}>{item.oldComponentName}</td>
+                    <td style={cellStyle}>{item.newComponentName}</td>
+                  </tr>
+                ))}
+              </DataTable>
+            ) : (
+              <div style={{ padding: 8, background: "var(--figma-color-bg-secondary)", borderRadius: 4 }}>
+                <Text style={{ color: "var(--figma-color-text-secondary)", fontSize: 11 }}>
+                  No mappable instances found ({analyzeResult.totalInstances} total scanned)
+                </Text>
+              </div>
+            )
           )}
 
           {/* -- Apply result ---------------------------------------------- */}
@@ -494,90 +469,95 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
               ))}
             </DataTable>
           )}
+
           {/* -- Scan Legacy results --------------------------------------- */}
           {scanLegacyResult && !isBusy && (
             <Fragment>
               {scanLegacyResult.components.length > 0 && (
-                <DataTable
-                  header="Legacy components"
-                  summary={`${scanLegacyResult.components.length} component usage${scanLegacyResult.components.length !== 1 ? "s" : ""} found`}
-                  columns={[
-                    { label: "Layer", width: "25%" },
-                    { label: "Old component", width: "25%" },
-                    { label: "Status", width: "50%" },
-                  ]}
-                >
-                  {scanLegacyResult.components.map((item, idx) => (
-                    <tr
-                      key={`${item.nodeId}-${idx}`}
-                      style={{ cursor: "pointer" }}
-                      onClick={() => handleFocusNode(item.nodeId)}
-                      title={`${item.pageName} — click to focus`}
-                    >
-                      <td style={cellStyle}>{item.nodeName}</td>
-                      <td style={cellStyle}>{item.oldComponentName}</td>
-                      <td style={cellStyle}>
-                        {item.category === "mapped" && (
-                          <Text style={{ fontSize: 11, color: "#067647" }}>
-                            → {item.newComponentName}
-                          </Text>
-                        )}
-                        {item.category === "text_only" && (
-                          <Text style={{ fontSize: 11, color: "#b45309" }}>
-                            {item.description}
-                          </Text>
-                        )}
-                        {item.category === "unmapped" && (
-                          <Text style={{ fontSize: 11, color: "#9f1239" }}>
-                            No replacement
-                          </Text>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </DataTable>
+                <Fragment>
+                  <VerticalSpace space="small" />
+                  <DataTable
+                    header="Legacy components"
+                    summary={`${scanLegacyResult.components.length} component usage${scanLegacyResult.components.length !== 1 ? "s" : ""} found`}
+                    columns={[
+                      { label: "Layer", width: "25%" },
+                      { label: "Old component", width: "25%" },
+                      { label: "Status", width: "50%" },
+                    ]}
+                  >
+                    {scanLegacyResult.components.map((item, idx) => (
+                      <tr
+                        key={`${item.nodeId}-${idx}`}
+                        style={{ cursor: "pointer" }}
+                        onClick={() => handleFocusNode(item.nodeId)}
+                        title={`${item.pageName} — click to focus`}
+                      >
+                        <td style={cellStyle}>{item.nodeName}</td>
+                        <td style={cellStyle}>{item.oldComponentName}</td>
+                        <td style={cellStyle}>
+                          {item.category === "mapped" && (
+                            <Text style={{ fontSize: 11, color: "#067647" }}>
+                              → {item.newComponentName}
+                            </Text>
+                          )}
+                          {item.category === "text_only" && (
+                            <Text style={{ fontSize: 11, color: "#b45309" }}>
+                              {item.description}
+                            </Text>
+                          )}
+                          {item.category === "unmapped" && (
+                            <Text style={{ fontSize: 11, color: "#9f1239" }}>
+                              No replacement
+                            </Text>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </DataTable>
+                </Fragment>
               )}
 
               {scanLegacyResult.styles.length > 0 && (
-                <DataTable
-                  header="Legacy color styles"
-                  summary={`${scanLegacyResult.styles.length} style usage${scanLegacyResult.styles.length !== 1 ? "s" : ""} found`}
-                  columns={[
-                    { label: "Layer", width: "25%" },
-                    { label: "Style", width: "25%" },
-                    { label: "Type", width: "12%" },
-                    { label: "Override", width: "14%" },
-                    { label: "", width: "24%" },
-                  ]}
-                >
-                  {scanLegacyResult.styles.map((item, idx) => (
-                    <tr
-                      key={`${item.nodeId}-${item.property}-${idx}`}
-                      style={{ cursor: "pointer" }}
-                      onClick={() => handleFocusNode(item.nodeId)}
-                      title={`${item.pageName} — click to focus`}
-                    >
-                      <td style={cellStyle}>{item.nodeName}</td>
-                      <td style={cellStyle}>{item.styleName}</td>
-                      <td style={cellStyle}>{item.property}</td>
-                      <td style={cellStyle}>{item.isOverride ? "Yes" : "No"}</td>
-                      <td style={{ ...cellStyle, textAlign: "center" }}>
-                        {item.isOverride && (
-                          <Button
-                            secondary
-                            onClick={(e: MouseEvent) => {
-                              e.stopPropagation()
-                              handleResetOverride(item.nodeId, item.property)
-                            }}
-                            style={{ fontSize: 10, padding: "2px 6px" }}
-                          >
-                            Reset
-                          </Button>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </DataTable>
+                <Fragment>
+                  <VerticalSpace space="small" />
+                  <DataTable
+                    header="Legacy color styles"
+                    summary={`${scanLegacyResult.styles.length} style usage${scanLegacyResult.styles.length !== 1 ? "s" : ""} found`}
+                    columns={legacyStyleColumns}
+                  >
+                    {scanLegacyResult.styles.map((item, idx) => (
+                      <tr
+                        key={`${item.nodeId}-${item.property}-${idx}`}
+                        style={{ cursor: "pointer" }}
+                        onClick={() => handleFocusNode(item.nodeId)}
+                        title={`${item.pageName} — click to focus`}
+                      >
+                        <td style={iconCellStyle}>
+                          <NodeTypeIcon
+                            type={item.property === "fill" ? "colorStyleFill" : "colorStyleStroke"}
+                            color={item.colorHex ?? undefined}
+                          />
+                        </td>
+                        <td style={cellStyle}>{item.nodeName}</td>
+                        <td style={cellStyle}>{item.styleName}</td>
+                        <td style={{ ...cellStyle, textAlign: "center" }}>
+                          {item.isOverride && (
+                            <Button
+                              secondary
+                              onClick={(e: MouseEvent) => {
+                                e.stopPropagation()
+                                handleResetOverride(item.nodeId, item.property)
+                              }}
+                              style={{ fontSize: 10, padding: "2px 6px" }}
+                            >
+                              Reset override
+                            </Button>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </DataTable>
+                </Fragment>
               )}
 
               {scanLegacyResult.styles.length === 0 && scanLegacyResult.components.length === 0 && (
@@ -604,12 +584,14 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
             >
               <Text>Int UI Kit Islands</Text>
             </Checkbox>
+            {/* TODO: re-enable when custom mappings are needed
             <FileUploadButton
               acceptedFileTypes={[".json", "application/json"]}
               onSelectedFiles={handleLoadFile}
             >
               {customFilename ? `Custom: ${customFilename}` : "Import mapping JSON..."}
             </FileUploadButton>
+            */}
           </Stack>
           {/* -- Manual pairs ---------------------------------------------- */}
           <Divider />
@@ -679,6 +661,45 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
           </Stack>
         </Stack>
       </ToolBody>
+
+      {/* -- Footer (sticky) ----------------------------------------------- */}
+      <ToolFooter>
+        {isBusy && (
+          <Inline space="extraSmall">
+            <LoadingIndicator />
+            <Text>
+              {progress
+                ? progress.message
+                : stage === "analyze"
+                  ? "Analyzing..."
+                  : stage === "preview"
+                    ? "Creating preview..."
+                    : "Swapping..."}
+            </Text>
+          </Inline>
+        )}
+        <div style={{ display: "flex", gap: 8 }}>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <Button
+              onClick={handleAnalyze}
+              disabled={!canAct}
+              fullWidth
+              secondary
+            >
+              {analyzeLabel}
+            </Button>
+          </div>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <Button
+              onClick={handleApply}
+              disabled={!canAct}
+              fullWidth
+            >
+              {applyLabel}
+            </Button>
+          </div>
+        </div>
+      </ToolFooter>
     </Page>
   )
 }

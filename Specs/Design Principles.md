@@ -82,6 +82,7 @@
 - Use `DataTable` for columnar data (Variables tools).
 - Always include a header label above data (e.g. "Will be printed", "Changes found") so the user knows what they're looking at.
 - Prefer concise row content over badges/tags -- let the data speak through diffs and structure, not decorative labels.
+- When there is no data to show in a table, do not render an empty table. Instead, display a clear message or empty state in place of the table content (for example: "No items found" or relevant guidance text), using the same patterns as for other empty or no-selection states.
 
 ## Quality Gate
 - After UI changes, always run `npm run build`.

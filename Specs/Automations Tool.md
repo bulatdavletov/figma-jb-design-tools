@@ -14,3 +14,12 @@ List of actions in Automations tool
 Automations should be exportable/importable as JSON files (for sharing between team members or across devices).
 
 [Plan](../.cursor/plans/automations_tool_409706d6.plan.md)
+
+UI:
+This tool requires lot's of space, but our plugin is quite narrow.
+We need to come up with the way to resize plugin window, to increase it.
+
+Several columns, Like apple shortcuts:
+Left side for steps. Right side is dynamic: if nothing selected - for available actions. If step selected - for parameters.
+
+When plugin finishes - there should be way to show output inside plugin window.

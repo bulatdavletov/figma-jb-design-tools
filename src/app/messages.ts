@@ -40,7 +40,6 @@ export const UI_TO_MAIN = {
   LIBRARY_SWAP_CAPTURE_OLD: "LIBRARY_SWAP_CAPTURE_OLD",
   LIBRARY_SWAP_CAPTURE_NEW: "LIBRARY_SWAP_CAPTURE_NEW",
   LIBRARY_SWAP_REMOVE_PAIR: "LIBRARY_SWAP_REMOVE_PAIR",
-  LIBRARY_SWAP_SCAN_LEGACY: "LIBRARY_SWAP_SCAN_LEGACY",
   LIBRARY_SWAP_SCAN_LEGACY_RESET: "LIBRARY_SWAP_SCAN_LEGACY_RESET",
   // Find Color Match
   FIND_COLOR_MATCH_SCAN: "FIND_COLOR_MATCH_SCAN",
@@ -151,7 +150,6 @@ export type UiToMainMessage =
   | { type: typeof UI_TO_MAIN.LIBRARY_SWAP_CAPTURE_OLD }
   | { type: typeof UI_TO_MAIN.LIBRARY_SWAP_CAPTURE_NEW }
   | { type: typeof UI_TO_MAIN.LIBRARY_SWAP_REMOVE_PAIR; oldKey: string }
-  | { type: typeof UI_TO_MAIN.LIBRARY_SWAP_SCAN_LEGACY; request: LibrarySwapScanLegacyRequest }
   | { type: typeof UI_TO_MAIN.LIBRARY_SWAP_SCAN_LEGACY_RESET; nodeId: string; property: "fill" | "stroke" }
   // Find Color Match
   | { type: typeof UI_TO_MAIN.FIND_COLOR_MATCH_SCAN }
@@ -912,13 +910,6 @@ export type ManualPair = {
   newName: string
 }
 
-export type LibrarySwapScanLegacyRequest = {
-  scope: LibrarySwapScope
-  useBuiltInIcons: boolean
-  useBuiltInUikit: boolean
-  customMappingJsonText?: string
-}
-
 export type LibrarySwapLegacyStyleItem = {
   nodeId: string
   nodeName: string
@@ -927,6 +918,7 @@ export type LibrarySwapLegacyStyleItem = {
   styleKey: string
   property: "fill" | "stroke"
   isOverride: boolean
+  colorHex: string | null
 }
 
 export type LibrarySwapLegacyComponentItem = {

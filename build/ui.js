@@ -691,10 +691,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/451bdf07-2a73-49d1-ae9b-bcc723335801/loading-indicator.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4a459313-e4ec-4d99-9b2a-191e27fa8b0d/loading-indicator.module.js
   var loading_indicator_module_default;
   var init_loading_indicator_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/451bdf07-2a73-49d1-ae9b-bcc723335801/loading-indicator.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4a459313-e4ec-4d99-9b2a-191e27fa8b0d/loading-indicator.module.js"() {
       if (document.getElementById("3fe0db8eb7") === null) {
         const element = document.createElement("style");
         element.id = "3fe0db8eb7";
@@ -755,10 +755,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d3943353-c7b9-4c45-8aff-787244f39208/button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b9bdf57c-3060-456a-bc60-0026cff9d08b/button.module.js
   var button_module_default;
   var init_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d3943353-c7b9-4c45-8aff-787244f39208/button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b9bdf57c-3060-456a-bc60-0026cff9d08b/button.module.js"() {
       if (document.getElementById("1dddd0e4df") === null) {
         const element = document.createElement("style");
         element.id = "1dddd0e4df";
@@ -1406,10 +1406,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c955854c-b470-4128-9190-3ff641d6fd00/checkbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8b9f7955-9729-43af-8ba8-e0648335de11/checkbox.module.js
   var checkbox_module_default;
   var init_checkbox_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c955854c-b470-4128-9190-3ff641d6fd00/checkbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8b9f7955-9729-43af-8ba8-e0648335de11/checkbox.module.js"() {
       if (document.getElementById("f38d076240") === null) {
         const element = document.createElement("style");
         element.id = "f38d076240";
@@ -1572,10 +1572,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5f62bc97-ac92-4b6b-8928-52ee226cbc82/disclosure.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2fd874b8-9216-43e5-bbc7-488b31383ba8/disclosure.module.js
   var disclosure_module_default;
   var init_disclosure_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5f62bc97-ac92-4b6b-8928-52ee226cbc82/disclosure.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2fd874b8-9216-43e5-bbc7-488b31383ba8/disclosure.module.js"() {
       if (document.getElementById("4712e1cb0c") === null) {
         const element = document.createElement("style");
         element.id = "4712e1cb0c";
@@ -1676,10 +1676,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2ff43b1e-eb44-4c26-8d8f-195d1a69c112/divider.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ef67d582-b980-4936-ba22-9798c93f61f3/divider.module.js
   var divider_module_default;
   var init_divider_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2ff43b1e-eb44-4c26-8d8f-195d1a69c112/divider.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ef67d582-b980-4936-ba22-9798c93f61f3/divider.module.js"() {
       if (document.getElementById("4bf06403b9") === null) {
         const element = document.createElement("style");
         element.id = "4bf06403b9";
@@ -1709,10 +1709,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ed719081-1e95-4bb6-8bdc-247ed8a875d7/menu.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f3b1d933-1674-4dcf-8c22-4158d2345de2/menu.module.js
   var menu_module_default;
   var init_menu_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ed719081-1e95-4bb6-8bdc-247ed8a875d7/menu.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f3b1d933-1674-4dcf-8c22-4158d2345de2/menu.module.js"() {
       if (document.getElementById("29044db304") === null) {
         const element = document.createElement("style");
         element.id = "29044db304";
@@ -1935,10 +1935,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7970ffde-6616-4cc8-b18c-29ba8ef4c29d/dropdown.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b86b872e-0d5e-4afc-9716-ec1f82562aed/dropdown.module.js
   var dropdown_module_default;
   var init_dropdown_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7970ffde-6616-4cc8-b18c-29ba8ef4c29d/dropdown.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b86b872e-0d5e-4afc-9716-ec1f82562aed/dropdown.module.js"() {
       if (document.getElementById("5a226eb00e") === null) {
         const element = document.createElement("style");
         element.id = "5a226eb00e";
@@ -2379,10 +2379,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6d615cb2-9cf4-45aa-8a92-f19915063945/button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/551aca31-fc29-498f-8bb3-62483c96afcc/button.module.js
   var button_module_default2;
   var init_button_module2 = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6d615cb2-9cf4-45aa-8a92-f19915063945/button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/551aca31-fc29-498f-8bb3-62483c96afcc/button.module.js"() {
       if (document.getElementById("1dddd0e4df") === null) {
         const element = document.createElement("style");
         element.id = "1dddd0e4df";
@@ -2546,10 +2546,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4bc75dc8-f2af-489c-9f98-4304e3a53970/file-upload-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1f6c1d97-7e74-4431-bafb-34fe0ad4e5ce/file-upload-button.module.js
   var file_upload_button_module_default;
   var init_file_upload_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4bc75dc8-f2af-489c-9f98-4304e3a53970/file-upload-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1f6c1d97-7e74-4431-bafb-34fe0ad4e5ce/file-upload-button.module.js"() {
       if (document.getElementById("f115bb30c8") === null) {
         const element = document.createElement("style");
         element.id = "f115bb30c8";
@@ -2664,10 +2664,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1f3f1319-72c0-4506-8b25-0a0e5c8e3519/icon-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/319d0e1a-17c3-4b56-bccb-3df6d1e9e3f3/icon-button.module.js
   var icon_button_module_default;
   var init_icon_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1f3f1319-72c0-4506-8b25-0a0e5c8e3519/icon-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/319d0e1a-17c3-4b56-bccb-3df6d1e9e3f3/icon-button.module.js"() {
       if (document.getElementById("c8b08e6568") === null) {
         const element = document.createElement("style");
         element.id = "c8b08e6568";
@@ -2745,10 +2745,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e3292507-b9c4-4bbb-903b-fd5b6012aefd/text.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0d9d2e9f-235a-451c-9325-fc42527ec54d/text.module.js
   var text_module_default;
   var init_text_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e3292507-b9c4-4bbb-903b-fd5b6012aefd/text.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0d9d2e9f-235a-451c-9325-fc42527ec54d/text.module.js"() {
       if (document.getElementById("1278016d5c") === null) {
         const element = document.createElement("style");
         element.id = "1278016d5c";
@@ -2806,10 +2806,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ff35f64a-b796-48a4-8e0a-162e1d0ee7f0/inline.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e19520ab-cd96-46d1-890e-b6cf1916d3de/inline.module.js
   var inline_module_default;
   var init_inline_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ff35f64a-b796-48a4-8e0a-162e1d0ee7f0/inline.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e19520ab-cd96-46d1-890e-b6cf1916d3de/inline.module.js"() {
       if (document.getElementById("3e1b2856fc") === null) {
         const element = document.createElement("style");
         element.id = "3e1b2856fc";
@@ -2871,10 +2871,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e30b73d7-467a-42a2-88ff-8bc86f653393/stack.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f5255f0f-05e3-478c-9d3a-2a41477e8984/stack.module.js
   var stack_module_default;
   var init_stack_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e30b73d7-467a-42a2-88ff-8bc86f653393/stack.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f5255f0f-05e3-478c-9d3a-2a41477e8984/stack.module.js"() {
       if (document.getElementById("317515cc3f") === null) {
         const element = document.createElement("style");
         element.id = "317515cc3f";
@@ -2917,10 +2917,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/044513d7-8aea-4279-8beb-2b4633a74c51/radio-buttons.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b53edcd1-b894-4d28-bf83-fd334a3701af/radio-buttons.module.js
   var radio_buttons_module_default;
   var init_radio_buttons_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/044513d7-8aea-4279-8beb-2b4633a74c51/radio-buttons.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b53edcd1-b894-4d28-bf83-fd334a3701af/radio-buttons.module.js"() {
       if (document.getElementById("a066c67891") === null) {
         const element = document.createElement("style");
         element.id = "a066c67891";
@@ -3039,10 +3039,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9cca14ab-3487-4b1c-be1b-4bb43436044e/segmented-control.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/52c54a71-06df-4db9-91f9-3c71f4671de0/segmented-control.module.js
   var segmented_control_module_default;
   var init_segmented_control_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9cca14ab-3487-4b1c-be1b-4bb43436044e/segmented-control.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/52c54a71-06df-4db9-91f9-3c71f4671de0/segmented-control.module.js"() {
       if (document.getElementById("bc6858a1b5") === null) {
         const element = document.createElement("style");
         element.id = "bc6858a1b5";
@@ -3143,10 +3143,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/addb992d-cc9b-4613-9377-0eae5d26276d/tabs.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/bf39175f-8a48-48a4-9a40-aeb53f2640ac/tabs.module.js
   var tabs_module_default;
   var init_tabs_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/addb992d-cc9b-4613-9377-0eae5d26276d/tabs.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/bf39175f-8a48-48a4-9a40-aeb53f2640ac/tabs.module.js"() {
       if (document.getElementById("b2487bb7e6") === null) {
         const element = document.createElement("style");
         element.id = "b2487bb7e6";
@@ -3363,10 +3363,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/05e070c3-5edb-4519-850a-c122936b587f/textbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/993e4aca-9da2-450b-aebb-774843efb97e/textbox.module.js
   var textbox_module_default;
   var init_textbox_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/05e070c3-5edb-4519-850a-c122936b587f/textbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/993e4aca-9da2-450b-aebb-774843efb97e/textbox.module.js"() {
       if (document.getElementById("5c1c5c2d3d") === null) {
         const element = document.createElement("style");
         element.id = "5c1c5c2d3d";
@@ -3853,10 +3853,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/bdf81c73-b433-4018-a817-42f2947647bc/textbox-color.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/065a3ea7-5d45-4f95-8d53-15ccda18f7de/textbox-color.module.js
   var textbox_color_module_default;
   var init_textbox_color_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/bdf81c73-b433-4018-a817-42f2947647bc/textbox-color.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/065a3ea7-5d45-4f95-8d53-15ccda18f7de/textbox-color.module.js"() {
       if (document.getElementById("77000fee0f") === null) {
         const element = document.createElement("style");
         element.id = "77000fee0f";
@@ -4174,10 +4174,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/03f605f4-f266-4ff3-bd28-b70b1fffdc5f/textbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ceee0f34-aec7-49e3-a5d5-823dc4a86458/textbox.module.js
   var textbox_module_default2;
   var init_textbox_module2 = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/03f605f4-f266-4ff3-bd28-b70b1fffdc5f/textbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ceee0f34-aec7-49e3-a5d5-823dc4a86458/textbox.module.js"() {
       if (document.getElementById("5c1c5c2d3d") === null) {
         const element = document.createElement("style");
         element.id = "5c1c5c2d3d";
@@ -4248,10 +4248,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/bda3ce5f-cebc-4b66-8b41-ba1ba864cc67/textbox-numeric.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a766600e-b926-4e27-aa25-02c25c2a27c5/textbox-numeric.module.js
   var textbox_numeric_module_default;
   var init_textbox_numeric_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/bda3ce5f-cebc-4b66-8b41-ba1ba864cc67/textbox-numeric.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a766600e-b926-4e27-aa25-02c25c2a27c5/textbox-numeric.module.js"() {
       if (document.getElementById("b6dab244a8") === null) {
         const element = document.createElement("style");
         element.id = "b6dab244a8";
@@ -4467,10 +4467,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/44532cd0-75be-4d7a-ae1b-e11ec54d4650/container.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/bd334f95-b76b-4eb0-a377-564e55f828a6/container.module.js
   var container_module_default;
   var init_container_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/44532cd0-75be-4d7a-ae1b-e11ec54d4650/container.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/bd334f95-b76b-4eb0-a377-564e55f828a6/container.module.js"() {
       if (document.getElementById("b49e1406f9") === null) {
         const element = document.createElement("style");
         element.id = "b49e1406f9";
@@ -4511,10 +4511,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0816ed92-294b-4ef2-a504-093a6c08e06e/vertical-space.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b27b5a93-b252-4f7b-921e-8318d803fb72/vertical-space.module.js
   var vertical_space_module_default;
   var init_vertical_space_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0816ed92-294b-4ef2-a504-093a6c08e06e/vertical-space.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b27b5a93-b252-4f7b-921e-8318d803fb72/vertical-space.module.js"() {
       if (document.getElementById("ba0eea5114") === null) {
         const element = document.createElement("style");
         element.id = "ba0eea5114";
@@ -4555,9 +4555,9 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1ed20cc0-e8c1-4c1c-83af-ac62f9e1b60c/base.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/94091f56-af15-4be5-9b15-c308ac6d4b10/base.js
   var init_base = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1ed20cc0-e8c1-4c1c-83af-ac62f9e1b60c/base.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/94091f56-af15-4be5-9b15-c308ac6d4b10/base.js"() {
       if (document.getElementById("0597dd81e7") === null) {
         const element = document.createElement("style");
         element.id = "0597dd81e7";
@@ -4785,7 +4785,6 @@ svg {
         LIBRARY_SWAP_CAPTURE_OLD: "LIBRARY_SWAP_CAPTURE_OLD",
         LIBRARY_SWAP_CAPTURE_NEW: "LIBRARY_SWAP_CAPTURE_NEW",
         LIBRARY_SWAP_REMOVE_PAIR: "LIBRARY_SWAP_REMOVE_PAIR",
-        LIBRARY_SWAP_SCAN_LEGACY: "LIBRARY_SWAP_SCAN_LEGACY",
         LIBRARY_SWAP_SCAN_LEGACY_RESET: "LIBRARY_SWAP_SCAN_LEGACY_RESET",
         // Find Color Match
         FIND_COLOR_MATCH_SCAN: "FIND_COLOR_MATCH_SCAN",
@@ -6050,6 +6049,46 @@ svg {
     }
   });
 
+  // src/app/components/NodeTypeIcon.tsx
+  function NodeTypeIcon(props) {
+    var _a, _b;
+    const size = (_a = props.size) != null ? _a : 12;
+    const color = (_b = props.color) != null ? _b : "var(--figma-color-text-secondary)";
+    if (props.type === "colorStyleFill") {
+      return /* @__PURE__ */ _(
+        "svg",
+        {
+          width: size,
+          height: size,
+          viewBox: "0 0 12 12",
+          fill: "none",
+          xmlns: "http://www.w3.org/2000/svg"
+        },
+        /* @__PURE__ */ _("circle", { cx: "6", cy: "6", r: "5", fill: color })
+      );
+    }
+    if (props.type === "colorStyleStroke") {
+      return /* @__PURE__ */ _(
+        "svg",
+        {
+          width: size,
+          height: size,
+          viewBox: "0 0 12 12",
+          fill: "none",
+          xmlns: "http://www.w3.org/2000/svg"
+        },
+        /* @__PURE__ */ _("circle", { cx: "6", cy: "6", r: "4.25", stroke: color, "stroke-width": "3" })
+      );
+    }
+    return null;
+  }
+  var init_NodeTypeIcon = __esm({
+    "src/app/components/NodeTypeIcon.tsx"() {
+      "use strict";
+      init_preact_module();
+    }
+  });
+
   // src/app/components/ScopeControl.tsx
   function useScope(initialSelectionEmpty) {
     const [selectionSize, setSelectionSize] = d2(initialSelectionEmpty ? 0 : 1);
@@ -6114,6 +6153,30 @@ svg {
     }
   });
 
+  // src/app/components/ToolFooter.tsx
+  function ToolFooter(props) {
+    return /* @__PURE__ */ _(
+      "div",
+      {
+        style: {
+          borderTop: "1px solid var(--figma-color-border)",
+          padding: "8px 12px",
+          display: "flex",
+          flexDirection: "column",
+          gap: 8,
+          flexShrink: 0
+        }
+      },
+      H(props.children).map((child, i3) => /* @__PURE__ */ _("div", { key: i3, style: { display: "flex", width: "100%" } }, /* @__PURE__ */ _("div", { style: { flex: 1, minWidth: 0 } }, child)))
+    );
+  }
+  var init_ToolFooter = __esm({
+    "src/app/components/ToolFooter.tsx"() {
+      "use strict";
+      init_preact_module();
+    }
+  });
+
   // src/app/views/library-swap-tool/LibrarySwapToolView.tsx
   function LibrarySwapToolView({ onBack, initialSelectionEmpty }) {
     const { scope, setScope, selectionSize, hasSelection, updateSelectionSize } = useScope(initialSelectionEmpty);
@@ -6143,15 +6206,8 @@ svg {
           updateSelectionSize(msg.selectionSize);
         }
         if (msg.type === MAIN_TO_UI.LIBRARY_SWAP_ANALYZE_RESULT) {
-          setIsBusy(false);
-          setStage("idle");
-          setProgress(null);
           setErrorMessage(null);
           setAnalyzeResult(msg.payload);
-          const p3 = msg.payload;
-          setSuccessMessage(
-            `Found ${p3.totalInstances} instances, ${p3.mappableInstances} mappable (${p3.uniqueOldKeys} unique components)`
-          );
         }
         if (msg.type === MAIN_TO_UI.LIBRARY_SWAP_PROGRESS) {
           setProgress(msg.progress);
@@ -6163,6 +6219,7 @@ svg {
           setErrorMessage(null);
           setApplyResult(msg.payload);
           setAnalyzeResult(null);
+          setScanLegacyResult(null);
           setSuccessMessage(`${msg.payload.swapped} swapped, ${msg.payload.skipped} skipped`);
         }
         if (msg.type === MAIN_TO_UI.LIBRARY_SWAP_PREVIEW_RESULT) {
@@ -6190,11 +6247,8 @@ svg {
           setStage("idle");
           setProgress(null);
           setErrorMessage(null);
+          setSuccessMessage(null);
           setScanLegacyResult(msg.payload);
-          const { styles, components } = msg.payload;
-          setSuccessMessage(
-            `Found ${styles.length} legacy style${styles.length !== 1 ? "s" : ""}, ${components.length} legacy component${components.length !== 1 ? "s" : ""}`
-          );
         }
         if (msg.type === MAIN_TO_UI.LIBRARY_SWAP_SCAN_LEGACY_RESET_RESULT) {
           if (msg.ok && scanLegacyResult) {
@@ -6221,6 +6275,7 @@ svg {
       setErrorMessage(null);
       setSuccessMessage(null);
       setApplyResult(null);
+      setScanLegacyResult(null);
       parent.postMessage(
         { pluginMessage: { type: UI_TO_MAIN.LIBRARY_SWAP_ANALYZE, request: buildRequest() } },
         "*"
@@ -6243,17 +6298,6 @@ svg {
       setSuccessMessage(null);
       parent.postMessage(
         { pluginMessage: { type: UI_TO_MAIN.LIBRARY_SWAP_APPLY, request: buildRequest() } },
-        "*"
-      );
-    }
-    function handleScanLegacy() {
-      setIsBusy(true);
-      setStage("scan_legacy");
-      setErrorMessage(null);
-      setSuccessMessage(null);
-      setScanLegacyResult(null);
-      parent.postMessage(
-        { pluginMessage: { type: UI_TO_MAIN.LIBRARY_SWAP_SCAN_LEGACY, request: buildRequest() } },
         "*"
       );
     }
@@ -6336,6 +6380,12 @@ svg {
       { label: "Old component", width: "35%" },
       { label: "New component", width: "35%" }
     ];
+    const legacyStyleColumns = [
+      { label: "", width: 24 },
+      { label: "Layer", width: "25%" },
+      { label: "Style", width: "40%" },
+      { label: "", width: "35%" }
+    ];
     const pairsColumns = [
       { label: "Old component", width: "42%" },
       { label: "New component", width: "42%" },
@@ -6347,6 +6397,11 @@ svg {
       overflow: "hidden",
       textOverflow: "ellipsis",
       whiteSpace: "nowrap"
+    };
+    const iconCellStyle = {
+      padding: "6px 4px",
+      textAlign: "center",
+      verticalAlign: "middle"
     };
     if (!hasMapping) {
       return /* @__PURE__ */ _(Page, null, /* @__PURE__ */ _(
@@ -6363,6 +6418,7 @@ svg {
         }
       )));
     }
+    const analyzeLabel = isBusy && stage === "analyze" ? "Analyzing..." : "Analyze";
     const applyLabel = (() => {
       if (isBusy && stage === "apply") return "Applying...";
       if (analyzeResult) return `Apply swap (${analyzeResult.mappableInstances})`;
@@ -6382,15 +6438,7 @@ svg {
         onValueChange: setScope,
         disabled: isBusy
       }
-    )), /* @__PURE__ */ _(Inline, { space: "extraSmall" }, /* @__PURE__ */ _(
-      Button,
-      {
-        onClick: handleAnalyze,
-        disabled: !canAct,
-        secondary: true
-      },
-      isBusy && stage === "analyze" ? "Analyzing..." : "Analyze"
-    ), /* @__PURE__ */ _(
+    )), analyzeResult && !isBusy && /* @__PURE__ */ _(Inline, { space: "extraSmall" }, /* @__PURE__ */ _(
       Button,
       {
         onClick: handlePreview,
@@ -6401,19 +6449,12 @@ svg {
     ), /* @__PURE__ */ _(
       Button,
       {
-        onClick: handleApply,
-        disabled: !canAct
-      },
-      applyLabel
-    ), /* @__PURE__ */ _(
-      Button,
-      {
-        onClick: handleScanLegacy,
-        disabled: !canAct,
+        onClick: handleClearPreviews,
+        disabled: isBusy,
         secondary: true
       },
-      isBusy && stage === "scan_legacy" ? "Scanning..." : "Scan Legacy"
-    )), errorMessage && /* @__PURE__ */ _("div", { style: { padding: 8, background: "#fff1f2", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "#9f1239" } }, errorMessage)), successMessage && !errorMessage && /* @__PURE__ */ _("div", { style: { padding: 8, background: "#ecfdf3", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, successMessage)), isBusy && /* @__PURE__ */ _(Inline, { space: "extraSmall" }, /* @__PURE__ */ _(LoadingIndicator, null), /* @__PURE__ */ _(Text, null, progress ? progress.message : stage === "analyze" ? "Analyzing..." : stage === "preview" ? "Creating preview..." : stage === "scan_legacy" ? "Scanning legacy..." : "Swapping...")), analyzeResult && !isBusy && /* @__PURE__ */ _(
+      "Clear previews"
+    )), errorMessage && /* @__PURE__ */ _("div", { style: { padding: 8, background: "#fff1f2", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "#9f1239" } }, errorMessage)), successMessage && !errorMessage && /* @__PURE__ */ _("div", { style: { padding: 8, background: "#ecfdf3", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, successMessage)), analyzeResult && !isBusy && (analyzeResult.mappableInstances > 0 ? /* @__PURE__ */ _(
       DataTable,
       {
         header: "Instances to swap",
@@ -6432,7 +6473,7 @@ svg {
         /* @__PURE__ */ _("td", { style: cellStyle }, item.oldComponentName),
         /* @__PURE__ */ _("td", { style: cellStyle }, item.newComponentName)
       ))
-    ), applyResult && !isBusy && /* @__PURE__ */ _(
+    ) : /* @__PURE__ */ _("div", { style: { padding: 8, background: "var(--figma-color-bg-secondary)", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)", fontSize: 11 } }, "No mappable instances found (", analyzeResult.totalInstances, " total scanned)"))), applyResult && !isBusy && /* @__PURE__ */ _(
       DataTable,
       {
         header: "Swapped instances",
@@ -6451,7 +6492,7 @@ svg {
         /* @__PURE__ */ _("td", { style: cellStyle }, item.oldComponentName),
         /* @__PURE__ */ _("td", { style: cellStyle }, item.newComponentName)
       ))
-    ), scanLegacyResult && !isBusy && /* @__PURE__ */ _(k, null, scanLegacyResult.components.length > 0 && /* @__PURE__ */ _(
+    ), scanLegacyResult && !isBusy && /* @__PURE__ */ _(k, null, scanLegacyResult.components.length > 0 && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(
       DataTable,
       {
         header: "Legacy components",
@@ -6474,45 +6515,47 @@ svg {
         /* @__PURE__ */ _("td", { style: cellStyle }, item.oldComponentName),
         /* @__PURE__ */ _("td", { style: cellStyle }, item.category === "mapped" && /* @__PURE__ */ _(Text, { style: { fontSize: 11, color: "#067647" } }, "\u2192 ", item.newComponentName), item.category === "text_only" && /* @__PURE__ */ _(Text, { style: { fontSize: 11, color: "#b45309" } }, item.description), item.category === "unmapped" && /* @__PURE__ */ _(Text, { style: { fontSize: 11, color: "#9f1239" } }, "No replacement"))
       ))
-    ), scanLegacyResult.styles.length > 0 && /* @__PURE__ */ _(
+    )), scanLegacyResult.styles.length > 0 && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(
       DataTable,
       {
         header: "Legacy color styles",
         summary: `${scanLegacyResult.styles.length} style usage${scanLegacyResult.styles.length !== 1 ? "s" : ""} found`,
-        columns: [
-          { label: "Layer", width: "25%" },
-          { label: "Style", width: "25%" },
-          { label: "Type", width: "12%" },
-          { label: "Override", width: "14%" },
-          { label: "", width: "24%" }
-        ]
+        columns: legacyStyleColumns
       },
-      scanLegacyResult.styles.map((item, idx) => /* @__PURE__ */ _(
-        "tr",
-        {
-          key: `${item.nodeId}-${item.property}-${idx}`,
-          style: { cursor: "pointer" },
-          onClick: () => handleFocusNode(item.nodeId),
-          title: `${item.pageName} \u2014 click to focus`
-        },
-        /* @__PURE__ */ _("td", { style: cellStyle }, item.nodeName),
-        /* @__PURE__ */ _("td", { style: cellStyle }, item.styleName),
-        /* @__PURE__ */ _("td", { style: cellStyle }, item.property),
-        /* @__PURE__ */ _("td", { style: cellStyle }, item.isOverride ? "Yes" : "No"),
-        /* @__PURE__ */ _("td", { style: __spreadProps(__spreadValues({}, cellStyle), { textAlign: "center" }) }, item.isOverride && /* @__PURE__ */ _(
-          Button,
+      scanLegacyResult.styles.map((item, idx) => {
+        var _a;
+        return /* @__PURE__ */ _(
+          "tr",
           {
-            secondary: true,
-            onClick: (e3) => {
-              e3.stopPropagation();
-              handleResetOverride(item.nodeId, item.property);
-            },
-            style: { fontSize: 10, padding: "2px 6px" }
+            key: `${item.nodeId}-${item.property}-${idx}`,
+            style: { cursor: "pointer" },
+            onClick: () => handleFocusNode(item.nodeId),
+            title: `${item.pageName} \u2014 click to focus`
           },
-          "Reset"
-        ))
-      ))
-    ), scanLegacyResult.styles.length === 0 && scanLegacyResult.components.length === 0 && /* @__PURE__ */ _("div", { style: { padding: 8, background: "#ecfdf3", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, "No legacy items found \u2014 clean!"))), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Mappings"), /* @__PURE__ */ _(
+          /* @__PURE__ */ _("td", { style: iconCellStyle }, /* @__PURE__ */ _(
+            NodeTypeIcon,
+            {
+              type: item.property === "fill" ? "colorStyleFill" : "colorStyleStroke",
+              color: (_a = item.colorHex) != null ? _a : void 0
+            }
+          )),
+          /* @__PURE__ */ _("td", { style: cellStyle }, item.nodeName),
+          /* @__PURE__ */ _("td", { style: cellStyle }, item.styleName),
+          /* @__PURE__ */ _("td", { style: __spreadProps(__spreadValues({}, cellStyle), { textAlign: "center" }) }, item.isOverride && /* @__PURE__ */ _(
+            Button,
+            {
+              secondary: true,
+              onClick: (e3) => {
+                e3.stopPropagation();
+                handleResetOverride(item.nodeId, item.property);
+              },
+              style: { fontSize: 10, padding: "2px 6px" }
+            },
+            "Reset override"
+          ))
+        );
+      })
+    )), scanLegacyResult.styles.length === 0 && scanLegacyResult.components.length === 0 && /* @__PURE__ */ _("div", { style: { padding: 8, background: "#ecfdf3", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, "No legacy items found \u2014 clean!"))), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Mappings"), /* @__PURE__ */ _(
       Checkbox,
       {
         value: useBuiltInIcons,
@@ -6526,13 +6569,6 @@ svg {
         onValueChange: setUseBuiltInUikit
       },
       /* @__PURE__ */ _(Text, null, "Int UI Kit Islands")
-    ), /* @__PURE__ */ _(
-      FileUploadButton,
-      {
-        acceptedFileTypes: [".json", "application/json"],
-        onSelectedFiles: handleLoadFile
-      },
-      customFilename ? `Custom: ${customFilename}` : "Import mapping JSON..."
     )), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Manual pairs"), /* @__PURE__ */ _("div", { style: { display: "flex", gap: 12, fontSize: 11 } }, /* @__PURE__ */ _(Text, { style: { fontSize: 11, color: capturedOldName ? "var(--figma-color-text)" : "var(--figma-color-text-tertiary)" } }, "Old: ", capturedOldName != null ? capturedOldName : "\u2014"), /* @__PURE__ */ _(Text, { style: { fontSize: 11, color: capturedNewName ? "var(--figma-color-text)" : "var(--figma-color-text-tertiary)" } }, "New: ", capturedNewName != null ? capturedNewName : "\u2014")), /* @__PURE__ */ _(Inline, { space: "extraSmall" }, /* @__PURE__ */ _(
       Button,
       {
@@ -6565,6 +6601,23 @@ svg {
         disabled: manualPairs.length === 0
       },
       "Export mapping"
+    )))), /* @__PURE__ */ _(ToolFooter, null, isBusy && /* @__PURE__ */ _(Inline, { space: "extraSmall" }, /* @__PURE__ */ _(LoadingIndicator, null), /* @__PURE__ */ _(Text, null, progress ? progress.message : stage === "analyze" ? "Analyzing..." : stage === "preview" ? "Creating preview..." : "Swapping...")), /* @__PURE__ */ _("div", { style: { display: "flex", gap: 8 } }, /* @__PURE__ */ _("div", { style: { flex: 1, minWidth: 0 } }, /* @__PURE__ */ _(
+      Button,
+      {
+        onClick: handleAnalyze,
+        disabled: !canAct,
+        fullWidth: true,
+        secondary: true
+      },
+      analyzeLabel
+    )), /* @__PURE__ */ _("div", { style: { flex: 1, minWidth: 0 } }, /* @__PURE__ */ _(
+      Button,
+      {
+        onClick: handleApply,
+        disabled: !canAct,
+        fullWidth: true
+      },
+      applyLabel
     )))));
   }
   var init_LibrarySwapToolView = __esm({
@@ -6575,10 +6628,12 @@ svg {
       init_hooks_module();
       init_messages();
       init_DataTable();
+      init_NodeTypeIcon();
       init_Page();
       init_ScopeControl();
       init_State();
       init_ToolBody();
+      init_ToolFooter();
       init_ToolHeader();
     }
   });
@@ -8740,11 +8795,8 @@ svg {
       for (let ci = 0; ci < collections.length; ci++) {
         const col = collections[ci];
         if (ci > 0) opts.push("-");
-        const colGroups = (_a2 = groupsByCollection[col.key]) != null ? _a2 : [];
-        if (collections.length > 1 && colGroups.length > 0) {
-          opts.push({ header: col.name });
-        }
         opts.push({ value: `${col.key}::__all__`, text: col.name });
+        const colGroups = (_a2 = groupsByCollection[col.key]) != null ? _a2 : [];
         for (const g4 of colGroups) {
           opts.push({ value: `${col.key}::${g4}`, text: g4 });
         }

@@ -209,13 +209,14 @@ export function registerLibrarySwapTool(getActiveTool: () => ActiveTool) {
         return true
       }
 
-      // -- Analyze -----------------------------------------------------------
+      // -- Analyze (includes Scan Legacy) ------------------------------------
       if (msg.type === UI_TO_MAIN.LIBRARY_SWAP_ANALYZE) {
         try {
           const { scope, useBuiltInIcons, useBuiltInUikit, customMappingJsonText } = msg.request
           const sources = collectSources(useBuiltInIcons, useBuiltInUikit, customMappingJsonText)
           const merged = mergeMappingMatches(sources)
           const meta = mergeMappingMeta(sources)
+          const richMatches = mergeMappingMatchesRich(sources)
 
           if (Object.keys(merged).length === 0) {
             figma.ui.postMessage({
@@ -241,6 +242,29 @@ export function registerLibrarySwapTool(getActiveTool: () => ActiveTool) {
           figma.ui.postMessage({
             type: MAIN_TO_UI.LIBRARY_SWAP_ANALYZE_RESULT,
             payload: result,
+          })
+
+          // Run Scan Legacy as part of analyze
+          figma.ui.postMessage({
+            type: MAIN_TO_UI.LIBRARY_SWAP_PROGRESS,
+            progress: { current: 0, total: 0, message: "Scanning legacy items..." },
+          })
+          await new Promise((r) => setTimeout(r, 0))
+
+          const legacyResult = await scanForLegacyItems(
+            scope as LibrarySwapScope,
+            richMatches,
+            (message, done, total) => {
+              figma.ui.postMessage({
+                type: MAIN_TO_UI.LIBRARY_SWAP_PROGRESS,
+                progress: { current: done, total, message },
+              })
+            }
+          )
+
+          figma.ui.postMessage({
+            type: MAIN_TO_UI.LIBRARY_SWAP_SCAN_LEGACY_RESULT,
+            payload: legacyResult,
           })
         } catch (e) {
           figma.notify(e instanceof Error ? e.message : "Analyze failed")
@@ -401,43 +425,6 @@ export function registerLibrarySwapTool(getActiveTool: () => ActiveTool) {
           type: MAIN_TO_UI.LIBRARY_SWAP_PAIRS_UPDATED,
           pairs: [...manualPairs],
         })
-        return true
-      }
-
-      // -- Scan Legacy -------------------------------------------------------
-      if (msg.type === UI_TO_MAIN.LIBRARY_SWAP_SCAN_LEGACY) {
-        try {
-          const { scope, useBuiltInIcons, useBuiltInUikit, customMappingJsonText } = msg.request
-          const sources = collectSources(useBuiltInIcons, useBuiltInUikit, customMappingJsonText)
-          const richMatches = mergeMappingMatchesRich(sources)
-
-          figma.ui.postMessage({
-            type: MAIN_TO_UI.LIBRARY_SWAP_PROGRESS,
-            progress: { current: 0, total: 0, message: "Scanning legacy items..." },
-          })
-          await new Promise((r) => setTimeout(r, 0))
-
-          const result = await scanForLegacyItems(
-            scope as LibrarySwapScope,
-            richMatches,
-            (message, done, total) => {
-              figma.ui.postMessage({
-                type: MAIN_TO_UI.LIBRARY_SWAP_PROGRESS,
-                progress: { current: done, total, message },
-              })
-            }
-          )
-
-          figma.ui.postMessage({
-            type: MAIN_TO_UI.LIBRARY_SWAP_SCAN_LEGACY_RESULT,
-            payload: result,
-          })
-        } catch (e) {
-          figma.ui.postMessage({
-            type: MAIN_TO_UI.ERROR,
-            message: e instanceof Error ? e.message : "Scan Legacy failed",
-          })
-        }
         return true
       }
 

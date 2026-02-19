@@ -19,6 +19,7 @@ export type LegacyStyleItem = {
   styleKey: string
   property: "fill" | "stroke"
   isOverride: boolean
+  colorHex: string | null
 }
 
 export type LegacyComponentCategory = "mapped" | "text_only" | "unmapped"
@@ -93,6 +94,16 @@ const UNMATCHED_OLD_COMPONENT_NAMES = new Set([
 
 const SCAN_ITEMS_CAP = 300
 
+function extractHexFromStyle(style: PaintStyle): string | null {
+  const paints = style.paints
+  if (!paints || paints.length === 0) return null
+  const paint = paints[0]
+  if (paint.type !== "SOLID") return null
+  const { r, g, b } = paint.color
+  const toHex = (v: number) => Math.round(v * 255).toString(16).padStart(2, "0")
+  return `#${toHex(r)}${toHex(g)}${toHex(b)}`
+}
+
 function getPageName(node: BaseNode): string {
   let current: BaseNode | null = node
   while (current) {
@@ -102,14 +113,40 @@ function getPageName(node: BaseNode): string {
   return ""
 }
 
-function isInsideInstance(node: SceneNode): boolean {
-  let current: BaseNode | null = node.parent
-  while (current) {
-    if (current.type === "INSTANCE") return true
-    if (current.type === "PAGE" || current.type === "DOCUMENT") return false
-    current = current.parent
+// Cache of overrides per InstanceNode to avoid re-reading for every child
+const overridesCache = new Map<string, Map<string, Set<string>>>()
+
+/**
+ * Check whether a specific property on a node is actually overridden
+ * by reading `InstanceNode.overrides` from the nearest instance ancestor.
+ */
+function isPropertyOverridden(
+  node: SceneNode,
+  property: "fill" | "stroke"
+): boolean {
+  const instance = getNearestInstanceAncestor(node)
+  if (!instance) return false
+
+  let nodeOverrides = overridesCache.get(instance.id)
+  if (!nodeOverrides) {
+    nodeOverrides = new Map()
+    try {
+      for (const entry of instance.overrides) {
+        nodeOverrides.set(entry.id, new Set(entry.overriddenFields as string[]))
+      }
+    } catch {
+      // overrides may not be available in all contexts
+    }
+    overridesCache.set(instance.id, nodeOverrides)
   }
-  return false
+
+  const fields = nodeOverrides.get(node.id)
+  if (!fields) return false
+
+  if (property === "fill") {
+    return fields.has("fillStyleId") || fields.has("fills")
+  }
+  return fields.has("strokeStyleId") || fields.has("strokes")
 }
 
 function getNearestInstanceAncestor(node: SceneNode): InstanceNode | null {
@@ -199,6 +236,7 @@ async function scanStyles(
   scope: LibrarySwapScope,
   onProgress?: (done: number, total: number) => void
 ): Promise<{ items: LegacyStyleItem[]; nodesScanned: number }> {
+  overridesCache.clear()
   const allNodes = await getNodesForScope(scope)
   const items: LegacyStyleItem[] = []
   const styleCache = new Map<string, PaintStyle | null>()
@@ -230,7 +268,8 @@ async function scanStyles(
           styleName: style.name,
           styleKey: style.key,
           property: prop === "fillStyleId" ? "fill" : "stroke",
-          isOverride: isInsideInstance(node as SceneNode),
+          isOverride: isPropertyOverridden(node as SceneNode, prop === "fillStyleId" ? "fill" : "stroke"),
+          colorHex: extractHexFromStyle(style),
         })
       }
     }
@@ -352,42 +391,14 @@ export async function scanForLegacyItems(
 
 export async function resetStyleOverride(
   nodeId: string,
-  property: "fill" | "stroke"
+  _property: "fill" | "stroke"
 ): Promise<boolean> {
   const node = await figma.getNodeByIdAsync(nodeId)
   if (!node) return false
-  const sceneNode = node as SceneNode
 
-  const instance = getNearestInstanceAncestor(sceneNode)
+  const instance = getNearestInstanceAncestor(node as SceneNode)
   if (!instance) return false
 
-  const masterChild = await findMainComponentChild(instance, nodeId)
-  if (!masterChild) return false
-
-  const src = masterChild as any
-  const dst = sceneNode as any
-
-  if (property === "fill") {
-    // Copy fill style from master; if master has a fill style, apply it
-    const masterFillStyleId: string | undefined = src.fillStyleId
-    if (masterFillStyleId && typeof dst.setFillStyleIdAsync === "function") {
-      await dst.setFillStyleIdAsync(masterFillStyleId)
-    } else if ("fills" in src && "fills" in dst) {
-      // Master has raw fills (no style) — copy the paint array
-      dst.fills = src.fills
-    }
-    return true
-  }
-
-  if (property === "stroke") {
-    const masterStrokeStyleId: string | undefined = src.strokeStyleId
-    if (masterStrokeStyleId && typeof dst.setStrokeStyleIdAsync === "function") {
-      await dst.setStrokeStyleIdAsync(masterStrokeStyleId)
-    } else if ("strokes" in src && "strokes" in dst) {
-      dst.strokes = src.strokes
-    }
-    return true
-  }
-
-  return false
+  instance.removeOverrides()
+  return true
 }
