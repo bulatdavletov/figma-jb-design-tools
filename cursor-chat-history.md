@@ -5,6 +5,31 @@
 
 ---
 
+### 2026-02-18
+
+#### Shared Mockup Markup Library — extract and deduplicate
+- Request: Extract the mockup markup library (constants + resolution logic) as a shared module so all consumers route through a single source.
+- Problem: The same markup library data (variable IDs, name candidates, resolution logic, paint helpers) was duplicated in 4 places: `markup-shared/` (unused), `mockup-markup-library/` (unused), `mockup-markup-quick-apply-tool/resolve.ts` + `presets.ts`, and `print-color-usages/markup-kit.ts`. When variables were renamed in the library (2026-02-13), this caused bugs because not all copies were updated.
+- Solution:
+  - **`mockup-markup-library/`** is now the single source of truth for all Mockup Markup library constants (IDs, keys, name candidates) and core resolution logic (resolve by ID/key/name, paint helpers, mode helpers, font loading).
+  - **`mockup-markup-quick-apply-tool/`** (the tool) now imports from the library. `presets.ts` maps library constants to tool presets. `resolve.ts` provides preset-specific wrappers delegating to the library.
+  - **`print-color-usages/markup-kit.ts`** now imports constants and resolution from the library. Keeps Print-specific functions (theme colors, label fills, typography application).
+  - **`markup-shared/`** deleted (was an identical unused duplicate of `mockup-markup-library/`).
+- Also fixed pre-existing broken import paths in `run.ts` (`./tools/mockup-markup/main-thread` → `./tools/mockup-markup-quick-apply-tool/main-thread`) and `MockupMarkupToolView.tsx`.
+- Naming convention: `*-tool` suffix = tool, `*-library` suffix = shared data/logic.
+- Impact: Pure refactoring — no behavior change. Future library changes (variable renames, new tokens) require updating only `mockup-markup-library/`.
+- Verification: `npm run build` passes (pre-existing unrelated TS errors in FindColorMatch and LibrarySwap remain unchanged).
+
+#### Print Color Usages — markup colors not resolving (fix)
+- Bug: Print Color Usages "colors from markup" failed to resolve — printed labels got theme fallback colors instead of Markup Kit variable-bound colors.
+- Root cause: Same as the 2026-02-13 Mockup Markup bug. Variables were renamed in the library from title-case to kebab-case (`Markup Text` → `markup-text`). `markup-kit.ts` was never updated with the "import by key" strategy that fixed `resolve.ts` in the Mockup Markup tool.
+- Fix: Added `extractVariableKey()` to `markup-kit.ts` (extracts hash from raw VariableID — this hash IS the variable key that survives renames). Added `importVariableByKeyAsync(key)` as Strategy 2 in `resolveColorVariableId`. Updated name candidates to include kebab-case names (`markup-text`, `markup-text-secondary`). Now matches the same 4-strategy resolution order as Mockup Markup's `resolve.ts`.
+- File changed: `src/app/tools/print-color-usages/markup-kit.ts`.
+- Verification: `npm run build` passed; no linter errors.
+
+### 2026-02-17
+Olya suggested to rename from JetBrains Design Tools to Int UI Design Tools
+
 ## Memory (Mem0 + OpenMemory)
 
 ### 2026-01-29
@@ -252,6 +277,22 @@
 - Request: check vertical spacing and align with other tools.
 - Done: aligned top section rhythm with other Variables tools by removing extra in-body section heading and keeping concise intro text under header.
 
+#### Rename Variables via JSON — renamed tool + adopted DataTable (2026-02-16)
+- Renamed tool from "Variables Batch Rename" / "Batch Rename" to "Rename Variables via JSON" / "Rename via JSON".
+- Updated: `HomeView.tsx` (card title + description), `VariablesBatchRenameToolView.tsx` (header title), `run.ts` (display name).
+- Replaced inline `<table>` in import preview with shared `DataTable` component. Also replaced hardcoded `#666` with `var(--figma-color-text-tertiary)`.
+- Internal tool ID (`variables-batch-rename-tool`) unchanged.
+
+#### Rename Variables via JSON — swap/reverse numbering support (2026-02-16)
+- Problem: Reversing palette numbering (gray-10↔gray-160) was treated as conflicts because each target name was held by another variable.
+- Root cause: conflict detection didn't account for the fact that the holder of the target name is ALSO being renamed away in the same plan.
+- Fix (preview): Added `idsBeingRenamedAway` set. If all conflicting holders are in this set, the conflict is "resolvable" and the entry is shown as "rename" instead of "conflict".
+- Fix (apply): Restructured into 3 phases: (1) validate entries, (2) iteratively rename safe entries (target free) and propagate freed names, (3) break swap cycles using temporary names (`__swap_N__` → final name).
+- Handles: simple swaps (A↔B), chains (A→B→C), and mixed scenarios (some real conflicts + some resolvable).
+- Real conflicts (target held by a variable NOT in the plan) are still correctly blocked.
+- File: `src/app/tools/variables-batch-rename/main-thread.ts`.
+- Build: passes cleanly.
+
 #### Create Linked Colors — sync empty state pattern
 - Request: sync no-selection state with Color Chain tool empty state pattern and add principle to reuse empty-state patterns.
 - Done: `VariablesCreateLinkedColorsToolView` now uses centered shared `State` component with click icon for no-selection state (same pattern family as Color Chain).
@@ -446,6 +487,19 @@
 - New request: add copy action for final HEX row and show notification after copy action.
 - Done: added `Copy HEX` action on final HEX row in Color Chain.
 - Done: added native notifications (via main thread `figma.notify`) after copy actions (name/HEX success + fallback/failure messages).
+
+#### Copy Action Feedback — audit + alignment with Design Principles (2026-02-17)
+- Request: audit codebase for copy action feedback compliance with `Specs/design principles.md` lines 74-75, apply fixes to Color Chain tool.
+- Audit findings:
+  - **Color Chain**: had local `copyTextToClipboard` duplicate, used raw `IconButton`+`IconCopySmall24` instead of shared `CopyIconButton`, notifications were generic ("Name copied", "HEX copied") instead of showing actual values.
+  - **Batch Rename**: has local `copyTextToClipboard` duplicate (copies full JSON — `CopyIconButton` not applicable here).
+  - **Print Color Usages**: already uses `CopyIconButton` — compliant.
+- Done: enhanced `CopyIconButton` with optional `onCopied(text)` callback for notification support.
+- Done: added `kind: "custom"` + `component` field to `ColorRowAction` for rendering self-contained components (like `CopyIconButton`) inside row action slots.
+- Done: replaced all 3 copy actions in `ColorChainToolView` (main row, chain step, HEX row) with `CopyIconButton` — gets checkmark animation + uses shared clipboard utility.
+- Done: notifications now include actual copied value (e.g., "Copied control-border-raised", "Copied #1A1A1A") instead of generic text.
+- Done: removed local `copyTextToClipboard` function and `IconCopySmall24` import from `ColorChainToolView`.
+- Verification: `npm run build` passed; no linter errors.
 
 ### 2026-01-29
 
@@ -845,6 +899,18 @@
   - Named rows in layers panel: "OldName → NewName".
 - **Merge script**: `scripts/merge-mapping.cjs` -- merges exported JSON into built-in default files (`icons` or `uikit`).
 - Build passes cleanly.
+
+### 2026-02-17
+- **Bug fix: scope not switching to Selection on canvas select**. When user selected something on canvas, scope stayed on "Current Page" instead of auto-switching to "Selection".
+- Root cause: `LIBRARY_SWAP_SELECTION` handler had a comment "Don't force scope change; just update count" — it only fell back to "page" on empty selection but never switched TO "selection".
+- Fix: aligned behavior with Replace Usages tool — `setScope(selectionSize > 0 ? "selection" : "page")`.
+- Also removed stale `scope` from `useEffect` dependency array (no longer read inside handler).
+- **Extracted `useScope` hook** into `ScopeControl.tsx` to centralize scope auto-sync logic. Hook manages `scope`, `selectionSize`, and `hasSelection` state; tools call `updateSelectionSize(n)` from their message handlers. Adopted in both Library Swap and Replace Usages.
+- Added design principle requiring all tools with `ScopeControl` to use the `useScope` hook.
+- **Bug fix: Apply swap requires multiple runs to swap nested instances**. First run only swapped top-level components; second run caught icons inside them.
+- Root cause: instance list was collected once before swapping. When a parent was swapped, its old children were orphaned and new children (potentially referencing old library components) weren't in the list.
+- Fix: `swapInstances()` now uses a multi-pass loop (up to 5 passes). After each pass, re-scans for remaining old-library instances. Tracks already-swapped IDs to avoid re-processing. Stops when no more swaps occur in a pass.
+- Verification: `npm run build` passed; no linter errors.
 
 ---
 

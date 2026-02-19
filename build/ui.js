@@ -691,10 +691,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/403582d1-4df4-4405-a99b-6da9667e210c/loading-indicator.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e59260ce-b84c-4149-8833-c55f498f2233/loading-indicator.module.js
   var loading_indicator_module_default;
   var init_loading_indicator_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/403582d1-4df4-4405-a99b-6da9667e210c/loading-indicator.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e59260ce-b84c-4149-8833-c55f498f2233/loading-indicator.module.js"() {
       if (document.getElementById("3fe0db8eb7") === null) {
         const element = document.createElement("style");
         element.id = "3fe0db8eb7";
@@ -755,10 +755,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/80295268-0a17-41dc-9827-de4a05da2130/button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/cff6daea-a409-4132-8320-d2cc47a2d107/button.module.js
   var button_module_default;
   var init_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/80295268-0a17-41dc-9827-de4a05da2130/button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/cff6daea-a409-4132-8320-d2cc47a2d107/button.module.js"() {
       if (document.getElementById("1dddd0e4df") === null) {
         const element = document.createElement("style");
         element.id = "1dddd0e4df";
@@ -1080,10 +1080,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e826b16a-dd04-4f69-9a27-f923d6c010c0/checkbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8c191ada-3a1e-4286-9f3f-d8a46a867d40/checkbox.module.js
   var checkbox_module_default;
   var init_checkbox_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e826b16a-dd04-4f69-9a27-f923d6c010c0/checkbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8c191ada-3a1e-4286-9f3f-d8a46a867d40/checkbox.module.js"() {
       if (document.getElementById("f38d076240") === null) {
         const element = document.createElement("style");
         element.id = "f38d076240";
@@ -1246,10 +1246,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0cdd4902-268d-4134-a6ee-412ec3304549/disclosure.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f7dca647-916f-4b6b-978a-0b3746805971/disclosure.module.js
   var disclosure_module_default;
   var init_disclosure_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0cdd4902-268d-4134-a6ee-412ec3304549/disclosure.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f7dca647-916f-4b6b-978a-0b3746805971/disclosure.module.js"() {
       if (document.getElementById("4712e1cb0c") === null) {
         const element = document.createElement("style");
         element.id = "4712e1cb0c";
@@ -1350,10 +1350,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6f2a23e2-c9dc-491e-b2c2-ad4f41425bed/divider.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6bfb4f54-9973-47f5-ad03-de8603bbf469/divider.module.js
   var divider_module_default;
   var init_divider_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6f2a23e2-c9dc-491e-b2c2-ad4f41425bed/divider.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6bfb4f54-9973-47f5-ad03-de8603bbf469/divider.module.js"() {
       if (document.getElementById("4bf06403b9") === null) {
         const element = document.createElement("style");
         element.id = "4bf06403b9";
@@ -1383,10 +1383,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1269dedb-ead4-4342-914e-0df47cbd3baa/menu.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0427620a-7604-4d83-8a9f-2c86c15c8190/menu.module.js
   var menu_module_default;
   var init_menu_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1269dedb-ead4-4342-914e-0df47cbd3baa/menu.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0427620a-7604-4d83-8a9f-2c86c15c8190/menu.module.js"() {
       if (document.getElementById("29044db304") === null) {
         const element = document.createElement("style");
         element.id = "29044db304";
@@ -1609,10 +1609,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e3db4af0-4ae6-44c9-b605-1ba4fa54ee58/dropdown.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/408d7080-dda4-4ce7-99d7-726aefca1b04/dropdown.module.js
   var dropdown_module_default;
   var init_dropdown_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e3db4af0-4ae6-44c9-b605-1ba4fa54ee58/dropdown.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/408d7080-dda4-4ce7-99d7-726aefca1b04/dropdown.module.js"() {
       if (document.getElementById("5a226eb00e") === null) {
         const element = document.createElement("style");
         element.id = "5a226eb00e";
@@ -2053,10 +2053,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1539eabf-9082-44d6-8833-8f519b91b6d0/button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/66b4a654-fad5-4118-8af3-2b1b8d176fee/button.module.js
   var button_module_default2;
   var init_button_module2 = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1539eabf-9082-44d6-8833-8f519b91b6d0/button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/66b4a654-fad5-4118-8af3-2b1b8d176fee/button.module.js"() {
       if (document.getElementById("1dddd0e4df") === null) {
         const element = document.createElement("style");
         element.id = "1dddd0e4df";
@@ -2220,10 +2220,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/becc2a33-7290-401c-b030-a13db4471f06/file-upload-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8f2576e6-7eb4-4e89-8c4b-24b1088be525/file-upload-button.module.js
   var file_upload_button_module_default;
   var init_file_upload_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/becc2a33-7290-401c-b030-a13db4471f06/file-upload-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8f2576e6-7eb4-4e89-8c4b-24b1088be525/file-upload-button.module.js"() {
       if (document.getElementById("f115bb30c8") === null) {
         const element = document.createElement("style");
         element.id = "f115bb30c8";
@@ -2338,10 +2338,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/bbdb6380-fb41-4586-97c5-d47c33b9ee1b/icon-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2a717071-5fe8-40df-86fb-3d5a09cddc18/icon-button.module.js
   var icon_button_module_default;
   var init_icon_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/bbdb6380-fb41-4586-97c5-d47c33b9ee1b/icon-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2a717071-5fe8-40df-86fb-3d5a09cddc18/icon-button.module.js"() {
       if (document.getElementById("c8b08e6568") === null) {
         const element = document.createElement("style");
         element.id = "c8b08e6568";
@@ -2419,10 +2419,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/fcec13dd-f0aa-480d-af61-0b4bd5b5b542/text.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8664cb61-913e-4a86-a4ad-f7ca42728229/text.module.js
   var text_module_default;
   var init_text_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/fcec13dd-f0aa-480d-af61-0b4bd5b5b542/text.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8664cb61-913e-4a86-a4ad-f7ca42728229/text.module.js"() {
       if (document.getElementById("1278016d5c") === null) {
         const element = document.createElement("style");
         element.id = "1278016d5c";
@@ -2480,10 +2480,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f6d33a61-5bdf-48eb-8477-5c47405cdd26/inline.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b746bb98-b7e1-4af2-8fdd-1b073156e3f9/inline.module.js
   var inline_module_default;
   var init_inline_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f6d33a61-5bdf-48eb-8477-5c47405cdd26/inline.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b746bb98-b7e1-4af2-8fdd-1b073156e3f9/inline.module.js"() {
       if (document.getElementById("3e1b2856fc") === null) {
         const element = document.createElement("style");
         element.id = "3e1b2856fc";
@@ -2545,10 +2545,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/df80e27d-e6a3-418b-8e09-c11f5419686f/stack.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c7c89419-b137-4246-8a64-fcc1a8cd4c6b/stack.module.js
   var stack_module_default;
   var init_stack_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/df80e27d-e6a3-418b-8e09-c11f5419686f/stack.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c7c89419-b137-4246-8a64-fcc1a8cd4c6b/stack.module.js"() {
       if (document.getElementById("317515cc3f") === null) {
         const element = document.createElement("style");
         element.id = "317515cc3f";
@@ -2591,10 +2591,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/99d6c101-3603-4362-b53d-de61bc1ad7cb/radio-buttons.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6436a2b1-6133-4471-9025-caf8eacbdcb1/radio-buttons.module.js
   var radio_buttons_module_default;
   var init_radio_buttons_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/99d6c101-3603-4362-b53d-de61bc1ad7cb/radio-buttons.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6436a2b1-6133-4471-9025-caf8eacbdcb1/radio-buttons.module.js"() {
       if (document.getElementById("a066c67891") === null) {
         const element = document.createElement("style");
         element.id = "a066c67891";
@@ -2713,10 +2713,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e5e160e9-57e4-453a-8da4-92ff1d5be5e2/segmented-control.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/956e1beb-1bdb-4ca4-869d-1611c1ce932b/segmented-control.module.js
   var segmented_control_module_default;
   var init_segmented_control_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e5e160e9-57e4-453a-8da4-92ff1d5be5e2/segmented-control.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/956e1beb-1bdb-4ca4-869d-1611c1ce932b/segmented-control.module.js"() {
       if (document.getElementById("bc6858a1b5") === null) {
         const element = document.createElement("style");
         element.id = "bc6858a1b5";
@@ -2817,10 +2817,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/564ea078-da74-43c6-af36-d90e3c7e00b8/tabs.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8ef688cb-2128-4356-b321-a27142d6aed4/tabs.module.js
   var tabs_module_default;
   var init_tabs_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/564ea078-da74-43c6-af36-d90e3c7e00b8/tabs.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8ef688cb-2128-4356-b321-a27142d6aed4/tabs.module.js"() {
       if (document.getElementById("b2487bb7e6") === null) {
         const element = document.createElement("style");
         element.id = "b2487bb7e6";
@@ -3037,10 +3037,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/41487550-df4a-432c-86d9-4cb39339466e/textbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/436ad0fd-714e-4ab2-a59b-9b45c5926b62/textbox.module.js
   var textbox_module_default;
   var init_textbox_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/41487550-df4a-432c-86d9-4cb39339466e/textbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/436ad0fd-714e-4ab2-a59b-9b45c5926b62/textbox.module.js"() {
       if (document.getElementById("5c1c5c2d3d") === null) {
         const element = document.createElement("style");
         element.id = "5c1c5c2d3d";
@@ -3439,10 +3439,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/dbf5cb46-844d-444a-9507-d66c3ccb6110/textbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ef3df400-9ebd-4188-b5cc-db17ba7cd620/textbox.module.js
   var textbox_module_default2;
   var init_textbox_module2 = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/dbf5cb46-844d-444a-9507-d66c3ccb6110/textbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ef3df400-9ebd-4188-b5cc-db17ba7cd620/textbox.module.js"() {
       if (document.getElementById("5c1c5c2d3d") === null) {
         const element = document.createElement("style");
         element.id = "5c1c5c2d3d";
@@ -3513,10 +3513,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/56df14cf-0f8a-40dc-93b6-3f9b69ee47ab/textbox-numeric.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5030c76d-1023-4428-a778-b8c2a5911b48/textbox-numeric.module.js
   var textbox_numeric_module_default;
   var init_textbox_numeric_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/56df14cf-0f8a-40dc-93b6-3f9b69ee47ab/textbox-numeric.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5030c76d-1023-4428-a778-b8c2a5911b48/textbox-numeric.module.js"() {
       if (document.getElementById("b6dab244a8") === null) {
         const element = document.createElement("style");
         element.id = "b6dab244a8";
@@ -3704,20 +3704,6 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // node_modules/@create-figma-plugin/ui/lib/icons/icon-24/icon-copy-small-24.js
-  var IconCopySmall24;
-  var init_icon_copy_small_24 = __esm({
-    "node_modules/@create-figma-plugin/ui/lib/icons/icon-24/icon-copy-small-24.js"() {
-      init_preact_module();
-      init_create_icon();
-      IconCopySmall24 = createIcon(_(
-        "svg",
-        { fill: "none", height: "24", viewBox: "0 0 24 24", width: "24", xmlns: "http://www.w3.org/2000/svg" },
-        _("path", { "clip-rule": "evenodd", d: "M7.5 6C6.67157 6 6 6.67157 6 7.5v6c0 .8284.67157 1.5 1.5 1.5H9v1.5c0 .8284.67157 1.5 1.5 1.5h6c.8284 0 1.5-.6716 1.5-1.5v-6c0-.82843-.6716-1.5-1.5-1.5H15V7.5c0-.82843-.6716-1.5-1.5-1.5zm7.5 4v3.5c0 .8284-.6716 1.5-1.5 1.5H10v1.5c0 .2761.2239.5.5.5h6c.2761 0 .5-.2239.5-.5v-6c0-.2761-.2239-.5-.5-.5zM7 7.5c0-.27614.22386-.5.5-.5h6c.2761 0 .5.22386.5.5v6c0 .2761-.2239.5-.5.5h-6c-.27614 0-.5-.2239-.5-.5z", fill: "currentColor", "fill-rule": "evenodd" })
-      ));
-    }
-  });
-
   // node_modules/@create-figma-plugin/ui/lib/icons/icon-24/icon-interaction-click-small-24.js
   var IconInteractionClickSmall24;
   var init_icon_interaction_click_small_24 = __esm({
@@ -3746,10 +3732,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4edc97b8-eb24-4fc5-915f-e0599dd35c5e/container.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9dfbcb44-b21a-4f63-a5eb-77450c937d56/container.module.js
   var container_module_default;
   var init_container_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4edc97b8-eb24-4fc5-915f-e0599dd35c5e/container.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9dfbcb44-b21a-4f63-a5eb-77450c937d56/container.module.js"() {
       if (document.getElementById("b49e1406f9") === null) {
         const element = document.createElement("style");
         element.id = "b49e1406f9";
@@ -3790,10 +3776,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/03106201-3932-44d1-824c-bd6708b43cd8/vertical-space.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4422955e-6f40-41d8-945a-6a7bb88482f5/vertical-space.module.js
   var vertical_space_module_default;
   var init_vertical_space_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/03106201-3932-44d1-824c-bd6708b43cd8/vertical-space.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4422955e-6f40-41d8-945a-6a7bb88482f5/vertical-space.module.js"() {
       if (document.getElementById("ba0eea5114") === null) {
         const element = document.createElement("style");
         element.id = "ba0eea5114";
@@ -3834,9 +3820,9 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d70a3941-72b7-4213-a6d4-a2ce167a66f4/base.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/3b052468-38e0-4908-8dd7-c6209e747a4e/base.js
   var init_base = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d70a3941-72b7-4213-a6d4-a2ce167a66f4/base.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/3b052468-38e0-4908-8dd7-c6209e747a4e/base.js"() {
       if (document.getElementById("0597dd81e7") === null) {
         const element = document.createElement("style");
         element.id = "0597dd81e7";
@@ -4006,7 +3992,6 @@ svg {
       init_icon_text_16();
       init_icon_variable_16();
       init_icon_variable_color_16();
-      init_icon_copy_small_24();
       init_icon_interaction_click_small_24();
       init_icon_time_small_24();
       init_container();
@@ -4301,8 +4286,8 @@ svg {
     ), /* @__PURE__ */ _(
       ToolCard,
       {
-        title: "Batch Rename",
-        description: "Rename multiple variables at once via CSV or inline editing",
+        title: "Rename via JSON",
+        description: "Rename multiple variables using a JSON file",
         icon: /* @__PURE__ */ _(IconVariable16, null),
         onClick: () => props.goTo("variables-batch-rename-tool")
       }
@@ -4753,17 +4738,18 @@ svg {
         actions.map(
           (action) => {
             var _a2;
-            return action.kind === "button" ? /* @__PURE__ */ _(
+            return action.kind === "custom" ? /* @__PURE__ */ _("span", { key: action.id }, action.component) : action.kind === "button" ? /* @__PURE__ */ _(
               "button",
               {
                 key: action.id,
                 type: "button",
                 disabled: action.disabled === true,
                 onClick: (e3) => {
+                  var _a3;
                   e3.preventDefault();
                   e3.stopPropagation();
                   if (action.disabled) return;
-                  void action.onClick();
+                  void ((_a3 = action.onClick) == null ? void 0 : _a3.call(action));
                 },
                 onMouseDown: (e3) => {
                   e3.preventDefault();
@@ -4795,10 +4781,11 @@ svg {
                 disabled: action.disabled === true,
                 title: action.label,
                 onClick: (e3) => {
+                  var _a3;
                   e3.preventDefault();
                   e3.stopPropagation();
                   if (action.disabled) return;
-                  void action.onClick();
+                  void ((_a3 = action.onClick) == null ? void 0 : _a3.call(action));
                 }
               },
               (_a2 = action.icon) != null ? _a2 : action.label
@@ -4814,6 +4801,74 @@ svg {
       init_preact_module();
       init_hooks_module();
       init_lib2();
+    }
+  });
+
+  // src/app/utils/clipboard.ts
+  async function copyTextToClipboard(text) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch (e3) {
+      try {
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.style.position = "fixed";
+        textarea.style.left = "-9999px";
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        textarea.remove();
+        return true;
+      } catch (e4) {
+        return false;
+      }
+    }
+  }
+  var init_clipboard = __esm({
+    "src/app/utils/clipboard.ts"() {
+      "use strict";
+    }
+  });
+
+  // src/app/components/CopyIconButton.tsx
+  function CopyIconButton(props) {
+    const [copied, setCopied] = d2(false);
+    const timerRef = A2(null);
+    const handleCopy = q2(
+      (e3) => {
+        e3.preventDefault();
+        e3.stopPropagation();
+        void copyTextToClipboard(props.text).then((ok) => {
+          var _a;
+          if (!ok) return;
+          setCopied(true);
+          (_a = props.onCopied) == null ? void 0 : _a.call(props, props.text);
+          if (timerRef.current) clearTimeout(timerRef.current);
+          timerRef.current = setTimeout(() => {
+            setCopied(false);
+            timerRef.current = null;
+          }, 1500);
+        });
+      },
+      [props.text]
+    );
+    return /* @__PURE__ */ _(IconButton, { title: copied ? "Copied!" : `${props.text}`, onClick: handleCopy }, copied ? /* @__PURE__ */ _(IconCheck16, null) : /* @__PURE__ */ _("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none" }, /* @__PURE__ */ _(
+      "path",
+      {
+        d: "M5.5 3.5H4.5C3.94772 3.5 3.5 3.94772 3.5 4.5V12.5C3.5 13.0523 3.94772 13.5 4.5 13.5H10.5C11.0523 13.5 11.5 13.0523 11.5 12.5V11.5",
+        stroke: "currentColor",
+        "stroke-linecap": "round"
+      }
+    ), /* @__PURE__ */ _("rect", { x: "5.5", y: "2.5", width: "7", height: "9", rx: "1", stroke: "currentColor" })));
+  }
+  var init_CopyIconButton = __esm({
+    "src/app/components/CopyIconButton.tsx"() {
+      "use strict";
+      init_preact_module();
+      init_hooks_module();
+      init_lib2();
+      init_clipboard();
     }
   });
 
@@ -4868,31 +4923,6 @@ svg {
     if (opacityPercent == null) return hex;
     if (opacityPercent >= 100) return hex;
     return `${hex} ${opacityPercent}%`;
-  }
-  async function copyTextToClipboard(text) {
-    try {
-      await navigator.clipboard.writeText(text);
-      return "copied";
-    } catch (e3) {
-      try {
-        const textarea = document.createElement("textarea");
-        textarea.value = text;
-        textarea.style.position = "fixed";
-        textarea.style.left = "-9999px";
-        document.body.appendChild(textarea);
-        textarea.select();
-        document.execCommand("copy");
-        textarea.remove();
-        return "copied";
-      } catch (e4) {
-        try {
-          window.prompt("Copy:", text);
-          return "manual";
-        } catch (e5) {
-          return "failed";
-        }
-      }
-    }
   }
   function coerceResultsToV2(results) {
     return results.map((layer) => ({
@@ -5025,14 +5055,14 @@ svg {
             {
               id: `${rowId}:copy`,
               label: "Copy name",
-              kind: "iconButton",
-              icon: /* @__PURE__ */ _(IconCopySmall24, null),
-              onClick: async () => {
-                const result = await copyTextToClipboard(c3.variableName);
-                if (result === "copied") notify("Name copied");
-                else if (result === "manual") notify("Copy manually from prompt");
-                else notify("Could not copy name");
-              }
+              kind: "custom",
+              component: /* @__PURE__ */ _(
+                CopyIconButton,
+                {
+                  text: c3.variableName,
+                  onCopied: (text) => notify(`Copied ${text}`)
+                }
+              )
             }
           ];
           rows.push(
@@ -5077,35 +5107,33 @@ svg {
               {
                 id: `${stepRowId}:copy`,
                 label: "Copy name",
-                kind: "iconButton",
-                icon: /* @__PURE__ */ _(IconCopySmall24, null),
-                onClick: async () => {
-                  const result = await copyTextToClipboard(step);
-                  if (result === "copied") notify("Name copied");
-                  else if (result === "manual") notify("Copy manually from prompt");
-                  else notify("Could not copy name");
-                }
+                kind: "custom",
+                component: /* @__PURE__ */ _(
+                  CopyIconButton,
+                  {
+                    text: step,
+                    onCopied: (text) => notify(`Copied ${text}`)
+                  }
+                )
               }
             ];
             rows.push(/* @__PURE__ */ _(ColorRow, { key: stepRowId, title: step, actions: stepActions }));
           }
           const hexRowId = `${layer.layerId}:${c3.variableId}:hex`;
-          const hexActions = [
+          const hexActions = (chainToRender == null ? void 0 : chainToRender.finalHex) ? [
             {
               id: `${hexRowId}:copy`,
               label: "Copy HEX",
-              kind: "iconButton",
-              icon: /* @__PURE__ */ _(IconCopySmall24, null),
-              disabled: !(chainToRender == null ? void 0 : chainToRender.finalHex),
-              onClick: async () => {
-                if (!(chainToRender == null ? void 0 : chainToRender.finalHex)) return;
-                const result = await copyTextToClipboard(chainToRender.finalHex);
-                if (result === "copied") notify("HEX copied");
-                else if (result === "manual") notify("Copy HEX manually from prompt");
-                else notify("Could not copy HEX");
-              }
+              kind: "custom",
+              component: /* @__PURE__ */ _(
+                CopyIconButton,
+                {
+                  text: chainToRender.finalHex,
+                  onCopied: (text) => notify(`Copied ${text}`)
+                }
+              )
             }
-          ];
+          ] : [];
           rows.push(
             /* @__PURE__ */ _(
               ColorRow,
@@ -5134,65 +5162,11 @@ svg {
       init_messages();
       init_ColorSwatch();
       init_ColorRow();
+      init_CopyIconButton();
       init_State();
       init_ToolHeader();
       init_Page();
       init_ToolBody();
-    }
-  });
-
-  // src/app/components/DataList.tsx
-  function DataList(props) {
-    var _a;
-    const children = H(props.children).filter(Boolean);
-    const isEmpty = children.length === 0;
-    return /* @__PURE__ */ _("div", null, props.header ? /* @__PURE__ */ _(
-      Text,
-      {
-        style: {
-          color: "var(--figma-color-text-secondary)",
-          fontSize: 11,
-          lineHeight: "16px",
-          marginBottom: 6
-        }
-      },
-      props.header
-    ) : null, props.summary ? /* @__PURE__ */ _("div", { style: { marginBottom: 6 } }, typeof props.summary === "string" ? /* @__PURE__ */ _(
-      Text,
-      {
-        style: {
-          color: "var(--figma-color-text-tertiary)",
-          fontSize: 11,
-          lineHeight: "16px"
-        }
-      },
-      props.summary
-    ) : props.summary) : null, /* @__PURE__ */ _(
-      "div",
-      {
-        style: {
-          border: "1px solid var(--figma-color-border)",
-          borderRadius: 6,
-          overflow: "hidden"
-        }
-      },
-      isEmpty ? /* @__PURE__ */ _("div", { style: { padding: 10 } }, /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-tertiary)" } }, (_a = props.emptyText) != null ? _a : "No items")) : children.map((child, index) => /* @__PURE__ */ _(
-        "div",
-        {
-          key: index,
-          style: {
-            borderTop: index === 0 ? "none" : "1px solid var(--figma-color-border-secondary)"
-          }
-        },
-        child
-      ))
-    ));
-  }
-  var init_DataList = __esm({
-    "src/app/components/DataList.tsx"() {
-      "use strict";
-      init_preact_module();
-      init_lib2();
     }
   });
 
@@ -5272,6 +5246,23 @@ svg {
   });
 
   // src/app/components/ScopeControl.tsx
+  function useScope(initialSelectionEmpty) {
+    const [selectionSize, setSelectionSize] = d2(initialSelectionEmpty ? 0 : 1);
+    const [scope, setScope] = d2(
+      initialSelectionEmpty ? "page" : "selection"
+    );
+    const updateSelectionSize = q2((newSize) => {
+      setSelectionSize(newSize);
+      setScope(newSize > 0 ? "selection" : "page");
+    }, []);
+    return {
+      scope,
+      setScope,
+      selectionSize,
+      hasSelection: selectionSize > 0,
+      updateSelectionSize
+    };
+  }
   function ScopeControl({
     value: value2,
     hasSelection,
@@ -5314,15 +5305,13 @@ svg {
       "use strict";
       init_lib2();
       init_preact_module();
+      init_hooks_module();
     }
   });
 
   // src/app/views/library-swap-tool/LibrarySwapToolView.tsx
   function LibrarySwapToolView({ onBack, initialSelectionEmpty }) {
-    const [selectionSize, setSelectionSize] = d2(initialSelectionEmpty ? 0 : 1);
-    const [scope, setScope] = d2(
-      initialSelectionEmpty ? "page" : "selection"
-    );
+    const { scope, setScope, selectionSize, hasSelection, updateSelectionSize } = useScope(initialSelectionEmpty);
     const [useBuiltInIcons, setUseBuiltInIcons] = d2(true);
     const [useBuiltInUikit, setUseBuiltInUikit] = d2(true);
     const [customFilename, setCustomFilename] = d2(null);
@@ -5345,11 +5334,7 @@ svg {
         const msg = (_a = event.data) == null ? void 0 : _a.pluginMessage;
         if (!msg) return;
         if (msg.type === MAIN_TO_UI.LIBRARY_SWAP_SELECTION) {
-          setSelectionSize(msg.selectionSize);
-          if (msg.selectionSize > 0 && scope !== "selection") {
-          } else if (msg.selectionSize === 0 && scope === "selection") {
-            setScope("page");
-          }
+          updateSelectionSize(msg.selectionSize);
         }
         if (msg.type === MAIN_TO_UI.LIBRARY_SWAP_ANALYZE_RESULT) {
           setIsBusy(false);
@@ -5397,7 +5382,7 @@ svg {
       };
       window.addEventListener("message", handleMessage);
       return () => window.removeEventListener("message", handleMessage);
-    }, [scope]);
+    }, []);
     function buildRequest() {
       return {
         scope,
@@ -5505,8 +5490,8 @@ svg {
         "*"
       );
     }
-    const analyzeColumns = [
-      { label: "Instance", width: "30%" },
+    const swapColumns = [
+      { label: "Layer name", width: "30%" },
       { label: "Old component", width: "35%" },
       { label: "New component", width: "35%" }
     ];
@@ -5548,32 +5533,11 @@ svg {
         title: "Library Swap",
         left: /* @__PURE__ */ _(IconButton, { onClick: onBack, title: "Home" }, /* @__PURE__ */ _(IconHome16, null))
       }
-    ), /* @__PURE__ */ _(ToolBody, { mode: "content" }, /* @__PURE__ */ _(Stack, { space: "medium" }, /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Mappings"), /* @__PURE__ */ _(
-      Checkbox,
-      {
-        value: useBuiltInIcons,
-        onValueChange: setUseBuiltInIcons
-      },
-      /* @__PURE__ */ _(Text, null, "Int UI Icons")
-    ), /* @__PURE__ */ _(
-      Checkbox,
-      {
-        value: useBuiltInUikit,
-        onValueChange: setUseBuiltInUikit
-      },
-      /* @__PURE__ */ _(Text, null, "Int UI Kit Islands")
-    ), /* @__PURE__ */ _(
-      FileUploadButton,
-      {
-        acceptedFileTypes: [".json", "application/json"],
-        onSelectedFiles: handleLoadFile
-      },
-      customFilename ? `Custom: ${customFilename}` : "Import mapping JSON..."
-    )), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Scope"), /* @__PURE__ */ _(
+    ), /* @__PURE__ */ _(ToolBody, { mode: "content" }, /* @__PURE__ */ _(Stack, { space: "medium" }, /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Scope"), /* @__PURE__ */ _(
       ScopeControl,
       {
         value: scope,
-        hasSelection: selectionSize > 0,
+        hasSelection,
         onValueChange: setScope,
         disabled: isBusy
       }
@@ -5605,7 +5569,7 @@ svg {
       {
         header: "Instances to swap",
         summary: `${analyzeResult.mappableInstances} mappable of ${analyzeResult.totalInstances} total (${analyzeResult.uniqueOldKeys} unique components)${analyzeResult.items.length < analyzeResult.mappableInstances ? ` \u2014 showing first ${analyzeResult.items.length}` : ""}`,
-        columns: analyzeColumns
+        columns: swapColumns
       },
       analyzeResult.items.map((item) => /* @__PURE__ */ _(
         "tr",
@@ -5619,36 +5583,46 @@ svg {
         /* @__PURE__ */ _("td", { style: cellStyle }, item.oldComponentName),
         /* @__PURE__ */ _("td", { style: cellStyle }, item.newComponentName)
       ))
-    ), applyResult && !isBusy && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(
-      DataList,
+    ), applyResult && !isBusy && /* @__PURE__ */ _(
+      DataTable,
       {
         header: "Swapped instances",
         summary: `${applyResult.swapped} swapped, ${applyResult.skipped} skipped`,
-        emptyText: "No instances were swapped"
+        columns: swapColumns
       },
       applyResult.swappedItems.map((item) => /* @__PURE__ */ _(
-        "div",
+        "tr",
         {
           key: item.nodeId,
-          style: {
-            padding: "6px 8px",
-            cursor: "pointer"
-          },
+          style: { cursor: "pointer" },
           onClick: () => handleFocusNode(item.nodeId),
           title: "Click to focus on canvas"
         },
-        /* @__PURE__ */ _(Text, { style: { fontSize: 11 } }, item.name),
-        item.pageName && /* @__PURE__ */ _(
-          Text,
-          {
-            style: {
-              fontSize: 11,
-              color: "var(--figma-color-text-secondary)"
-            }
-          },
-          item.pageName
-        )
+        /* @__PURE__ */ _("td", { style: cellStyle }, item.name),
+        /* @__PURE__ */ _("td", { style: cellStyle }, item.oldComponentName),
+        /* @__PURE__ */ _("td", { style: cellStyle }, item.newComponentName)
       ))
+    ), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Mappings"), /* @__PURE__ */ _(
+      Checkbox,
+      {
+        value: useBuiltInIcons,
+        onValueChange: setUseBuiltInIcons
+      },
+      /* @__PURE__ */ _(Text, null, "Int UI Icons")
+    ), /* @__PURE__ */ _(
+      Checkbox,
+      {
+        value: useBuiltInUikit,
+        onValueChange: setUseBuiltInUikit
+      },
+      /* @__PURE__ */ _(Text, null, "Int UI Kit Islands")
+    ), /* @__PURE__ */ _(
+      FileUploadButton,
+      {
+        acceptedFileTypes: [".json", "application/json"],
+        onSelectedFiles: handleLoadFile
+      },
+      customFilename ? `Custom: ${customFilename}` : "Import mapping JSON..."
     )), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Manual pairs"), /* @__PURE__ */ _("div", { style: { display: "flex", gap: 12, fontSize: 11 } }, /* @__PURE__ */ _(Text, { style: { fontSize: 11, color: capturedOldName ? "var(--figma-color-text)" : "var(--figma-color-text-tertiary)" } }, "Old: ", capturedOldName != null ? capturedOldName : "\u2014"), /* @__PURE__ */ _(Text, { style: { fontSize: 11, color: capturedNewName ? "var(--figma-color-text)" : "var(--figma-color-text-tertiary)" } }, "New: ", capturedNewName != null ? capturedNewName : "\u2014")), /* @__PURE__ */ _(Inline, { space: "extraSmall" }, /* @__PURE__ */ _(
       Button,
       {
@@ -5690,7 +5664,6 @@ svg {
       init_preact_module();
       init_hooks_module();
       init_messages();
-      init_DataList();
       init_DataTable();
       init_Page();
       init_ScopeControl();
@@ -5700,69 +5673,187 @@ svg {
     }
   });
 
-  // src/app/utils/clipboard.ts
-  async function copyTextToClipboard2(text) {
-    try {
-      await navigator.clipboard.writeText(text);
-      return true;
-    } catch (e3) {
-      try {
-        const textarea = document.createElement("textarea");
-        textarea.value = text;
-        textarea.style.position = "fixed";
-        textarea.style.left = "-9999px";
-        document.body.appendChild(textarea);
-        textarea.select();
-        document.execCommand("copy");
-        textarea.remove();
-        return true;
-      } catch (e4) {
-        return false;
-      }
-    }
+  // src/app/components/DataList.tsx
+  function DataList(props) {
+    var _a;
+    const children = H(props.children).filter(Boolean);
+    const isEmpty = children.length === 0;
+    return /* @__PURE__ */ _("div", null, props.header ? /* @__PURE__ */ _(
+      Text,
+      {
+        style: {
+          color: "var(--figma-color-text-secondary)",
+          fontSize: 11,
+          lineHeight: "16px",
+          marginBottom: 6
+        }
+      },
+      props.header
+    ) : null, props.summary ? /* @__PURE__ */ _("div", { style: { marginBottom: 6 } }, typeof props.summary === "string" ? /* @__PURE__ */ _(
+      Text,
+      {
+        style: {
+          color: "var(--figma-color-text-tertiary)",
+          fontSize: 11,
+          lineHeight: "16px"
+        }
+      },
+      props.summary
+    ) : props.summary) : null, /* @__PURE__ */ _(
+      "div",
+      {
+        style: {
+          border: "1px solid var(--figma-color-border)",
+          borderRadius: 6,
+          overflow: "hidden"
+        }
+      },
+      isEmpty ? /* @__PURE__ */ _("div", { style: { padding: 10 } }, /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-tertiary)" } }, (_a = props.emptyText) != null ? _a : "No items")) : children.map((child, index) => /* @__PURE__ */ _(
+        "div",
+        {
+          key: index,
+          style: {
+            borderTop: index === 0 ? "none" : "1px solid var(--figma-color-border-secondary)"
+          }
+        },
+        child
+      ))
+    ));
   }
-  var init_clipboard = __esm({
-    "src/app/utils/clipboard.ts"() {
+  var init_DataList = __esm({
+    "src/app/components/DataList.tsx"() {
       "use strict";
+      init_preact_module();
+      init_lib2();
     }
   });
 
-  // src/app/components/CopyIconButton.tsx
-  function CopyIconButton(props) {
-    const [copied, setCopied] = d2(false);
-    const timerRef = A2(null);
-    const handleCopy = q2(
-      (e3) => {
-        e3.preventDefault();
-        e3.stopPropagation();
-        void copyTextToClipboard2(props.text).then((ok) => {
-          if (!ok) return;
-          setCopied(true);
-          if (timerRef.current) clearTimeout(timerRef.current);
-          timerRef.current = setTimeout(() => {
-            setCopied(false);
-            timerRef.current = null;
-          }, 1500);
-        });
-      },
-      [props.text]
-    );
-    return /* @__PURE__ */ _(IconButton, { title: copied ? "Copied!" : `${props.text}`, onClick: handleCopy }, copied ? /* @__PURE__ */ _(IconCheck16, null) : /* @__PURE__ */ _("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none" }, /* @__PURE__ */ _(
-      "path",
+  // src/app/components/DataRow.tsx
+  function DataRow(props) {
+    const [hovered, setHovered] = d2(false);
+    const hasActions = props.actions && props.actions.length > 0;
+    const hasSecondary = props.secondary != null;
+    const hasTertiary = props.tertiary != null;
+    const content = /* @__PURE__ */ _("div", { style: { flex: 1, minWidth: 0, display: "flex", flexDirection: "column", gap: 2 } }, typeof props.primary === "string" ? /* @__PURE__ */ _(
+      "div",
       {
-        d: "M5.5 3.5H4.5C3.94772 3.5 3.5 3.94772 3.5 4.5V12.5C3.5 13.0523 3.94772 13.5 4.5 13.5H10.5C11.0523 13.5 11.5 13.0523 11.5 12.5V11.5",
-        stroke: "currentColor",
-        "stroke-linecap": "round"
-      }
-    ), /* @__PURE__ */ _("rect", { x: "5.5", y: "2.5", width: "7", height: "9", rx: "1", stroke: "currentColor" })));
+        style: {
+          color: "var(--figma-color-text)",
+          wordBreak: "break-word",
+          whiteSpace: "pre-wrap",
+          lineHeight: "20px"
+        }
+      },
+      props.primary
+    ) : props.primary, hasSecondary ? typeof props.secondary === "string" ? /* @__PURE__ */ _(
+      "div",
+      {
+        style: {
+          color: "var(--figma-color-text-secondary)",
+          fontSize: 11,
+          lineHeight: "16px",
+          wordBreak: "break-all"
+        }
+      },
+      props.secondary
+    ) : props.secondary : null, hasTertiary ? typeof props.tertiary === "string" ? /* @__PURE__ */ _(
+      "div",
+      {
+        style: {
+          color: "var(--figma-color-text-tertiary)",
+          fontSize: 11,
+          lineHeight: "16px",
+          wordBreak: "break-word"
+        }
+      },
+      props.tertiary
+    ) : props.tertiary : null, props.alert != null ? /* @__PURE__ */ _(
+      "div",
+      {
+        style: {
+          padding: "6px 8px",
+          borderRadius: 4,
+          background: "var(--figma-color-bg-warning-tertiary, #fff8e1)",
+          border: "1px solid var(--figma-color-border-warning, #ffd54f)"
+        }
+      },
+      typeof props.alert === "string" ? /* @__PURE__ */ _(
+        "div",
+        {
+          style: {
+            color: "var(--figma-color-text-warning)",
+            fontSize: 11,
+            lineHeight: "16px",
+            wordBreak: "break-word"
+          }
+        },
+        props.alert
+      ) : props.alert
+    ) : null);
+    return (
+      /* Wrapper div for the entire row*/
+      /* @__PURE__ */ _(
+        "div",
+        {
+          onMouseEnter: () => setHovered(true),
+          onMouseLeave: () => setHovered(false),
+          onClick: props.onClick,
+          style: {
+            padding: "4px 8px",
+            display: "flex",
+            alignItems: "flex-start",
+            gap: 8,
+            cursor: props.onClick ? "pointer" : "default",
+            background: hovered ? "color-mix(in srgb, var(--figma-color-bg-hover) 50%, transparent)" : "transparent",
+            transition: "background-color 120ms ease"
+          }
+        },
+        props.checkbox ? /* @__PURE__ */ _("div", { style: { flexShrink: 0, paddingTop: 2 } }, /* @__PURE__ */ _(
+          Checkbox,
+          {
+            value: props.checkbox.checked,
+            onValueChange: props.checkbox.onChange
+          },
+          /* @__PURE__ */ _("span", null)
+        )) : null,
+        content,
+        hasActions ? /* @__PURE__ */ _(
+          "div",
+          {
+            style: {
+              flexShrink: 0,
+              display: "flex",
+              alignItems: "center",
+              gap: 4,
+              opacity: hovered ? 1 : 0,
+              pointerEvents: hovered ? "auto" : "none",
+              transition: "opacity 120ms ease"
+            }
+          },
+          props.actions.map((action, i3) => /* @__PURE__ */ _(
+            IconButton,
+            {
+              key: i3,
+              title: action.title,
+              onClick: (e3) => {
+                e3.preventDefault();
+                e3.stopPropagation();
+                action.onClick();
+              }
+            },
+            action.icon
+          ))
+        ) : null,
+        props.trailing != null ? /* @__PURE__ */ _("div", { style: { flexShrink: 0, paddingTop: 2 } }, props.trailing) : null
+      )
+    );
   }
-  var init_CopyIconButton = __esm({
-    "src/app/components/CopyIconButton.tsx"() {
+  var init_DataRow = __esm({
+    "src/app/components/DataRow.tsx"() {
       "use strict";
       init_preact_module();
       init_hooks_module();
       init_lib2();
-      init_clipboard();
     }
   });
 
@@ -5974,41 +6065,13 @@ svg {
         /* @__PURE__ */ _(Text, null, "Check colors of nested items")
       )), /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "Text color is from Mockup markup")))
     ), printPreview && printPreview.entries.length > 0 ? /* @__PURE__ */ _(DataList, { header: "Will be printed" }, printPreview.entries.map((entry, index) => /* @__PURE__ */ _(
-      "div",
+      DataRow,
       {
         key: `${entry.layerName}-${index}`,
-        style: {
-          padding: 10,
-          display: "flex",
-          alignItems: "flex-start",
-          justifyContent: "space-between",
-          gap: 8
-        }
-      },
-      /* @__PURE__ */ _("div", { style: { flex: 1, minWidth: 0, display: "flex", flexDirection: "column", gap: 2 } }, /* @__PURE__ */ _(
-        "div",
-        {
-          style: {
-            color: "var(--figma-color-text)",
-            lineHeight: "20px",
-            wordBreak: "break-word",
-            whiteSpace: "pre-wrap"
-          }
-        },
-        entry.label
-      ), /* @__PURE__ */ _(
-        "div",
-        {
-          style: {
-            color: "var(--figma-color-text-tertiary)",
-            fontSize: 11,
-            lineHeight: "16px",
-            wordBreak: "break-all"
-          }
-        },
-        entry.layerName
-      )),
-      /* @__PURE__ */ _("div", { style: { flexShrink: 0, paddingTop: 2 } }, /* @__PURE__ */ _(CopyIconButton, { text: entry.layerName, title: "Copy layer name" }))
+        primary: entry.label,
+        secondary: entry.layerName,
+        trailing: /* @__PURE__ */ _(CopyIconButton, { text: entry.layerName, title: "Copy layer name" })
+      }
     ))) : null, !printPreview && selectionSize > 0 ? /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-tertiary)" } }, "Loading", "\u2026") : null, printPreview && printPreview.entries.length === 0 && selectionSize > 0 ? /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-tertiary)" } }, "No colors found in selection.") : null) : null, activeTab === "Update" ? /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(
       Checkbox,
       {
@@ -6267,6 +6330,7 @@ svg {
       init_messages();
       init_CopyIconButton();
       init_DataList();
+      init_DataRow();
       init_InlineTextDiff();
       init_Page();
       init_ScopeControl();
@@ -6571,110 +6635,38 @@ svg {
         onClick: handleApplyImport
       },
       "Apply Import"
-    ), !canApplyImport && importPreview.totals.conflicts > 0 && /* @__PURE__ */ _(Text, { style: { color: "#9f1239" } }, "Resolve conflicts before applying."), importResult && /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, "Created: ", importResult.totals.created, ", Updated: ", importResult.totals.updated, ", Renamed: ", importResult.totals.renamed, ", Skipped: ", importResult.totals.skipped, ", Failed: ", importResult.totals.failed), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(
-      "div",
-      {
-        style: {
-          border: "1px solid #e3e3e3",
-          borderRadius: 6
-        }
-      },
-      /* @__PURE__ */ _(
-        "table",
+    ), !canApplyImport && importPreview.totals.conflicts > 0 && /* @__PURE__ */ _(Text, { style: { color: "#9f1239" } }, "Resolve conflicts before applying."), importResult && /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, "Created: ", importResult.totals.created, ", Updated: ", importResult.totals.updated, ", Renamed: ", importResult.totals.renamed, ", Skipped: ", importResult.totals.skipped, ", Failed: ", importResult.totals.failed), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(DataTable, { columns: importPreviewColumns }, importRows.map((entry, i3) => {
+      const pillStyle = getStatusPillStyle(entry.status);
+      return /* @__PURE__ */ _("tr", { key: i3 }, /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top" } }, /* @__PURE__ */ _(
+        "span",
         {
           style: {
-            width: "100%",
-            borderCollapse: "collapse",
-            fontSize: 12,
-            tableLayout: "fixed"
+            display: "inline-block",
+            padding: "2px 6px",
+            borderRadius: 4,
+            fontSize: 10,
+            fontWeight: 600,
+            background: pillStyle.background,
+            border: `1px solid ${pillStyle.borderColor}`,
+            color: pillStyle.color
           }
         },
-        /* @__PURE__ */ _("thead", null, /* @__PURE__ */ _("tr", null, /* @__PURE__ */ _(
-          "th",
-          {
-            style: {
-              borderBottom: "1px solid #e3e3e3",
-              textAlign: "left",
-              padding: "6px 8px",
-              position: "sticky",
-              top: 0,
-              background: "#fafafa"
-            }
-          },
-          "Status"
-        ), /* @__PURE__ */ _(
-          "th",
-          {
-            style: {
-              borderBottom: "1px solid #e3e3e3",
-              textAlign: "left",
-              padding: "6px 8px",
-              position: "sticky",
-              top: 0,
-              background: "#fafafa"
-            }
-          },
-          "Collection"
-        ), /* @__PURE__ */ _(
-          "th",
-          {
-            style: {
-              borderBottom: "1px solid #e3e3e3",
-              textAlign: "left",
-              padding: "6px 8px",
-              position: "sticky",
-              top: 0,
-              background: "#fafafa"
-            }
-          },
-          "Variable"
-        ), /* @__PURE__ */ _(
-          "th",
-          {
-            style: {
-              borderBottom: "1px solid #e3e3e3",
-              textAlign: "left",
-              padding: "6px 8px",
-              position: "sticky",
-              top: 0,
-              background: "#fafafa"
-            }
-          },
-          "Note"
-        ))),
-        /* @__PURE__ */ _("tbody", null, importRows.map((entry, i3) => {
-          const pillStyle = getStatusPillStyle(entry.status);
-          return /* @__PURE__ */ _("tr", { key: i3 }, /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top" } }, /* @__PURE__ */ _(
-            "span",
-            {
-              style: {
-                display: "inline-block",
-                padding: "2px 6px",
-                borderRadius: 4,
-                fontSize: 10,
-                fontWeight: 600,
-                background: pillStyle.background,
-                border: `1px solid ${pillStyle.borderColor}`,
-                color: pillStyle.color
-              }
-            },
-            entry.status
-          )), /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" } }, entry.collectionName), /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" } }, entry.variableName), /* @__PURE__ */ _(
-            "td",
-            {
-              style: {
-                padding: "4px 8px",
-                verticalAlign: "top",
-                color: "#666",
-                wordBreak: "break-word"
-              }
-            },
-            entry.reason || ""
-          ));
-        }))
-      )
-    )))));
+        entry.status
+      )), /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" } }, entry.collectionName), /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" } }, entry.variableName), /* @__PURE__ */ _(
+        "td",
+        {
+          style: {
+            padding: "4px 8px",
+            verticalAlign: "top",
+            color: "var(--figma-color-text-tertiary)",
+            wordBreak: "break-word"
+          }
+        },
+        entry.reason || ""
+      ));
+    }))))));
   }
+  var importPreviewColumns;
   var init_VariablesExportImportToolView = __esm({
     "src/app/views/variables-export-import-tool/VariablesExportImportToolView.tsx"() {
       "use strict";
@@ -6683,9 +6675,16 @@ svg {
       init_preact_module();
       init_hooks_module();
       init_messages();
+      init_DataTable();
       init_Page();
       init_ToolBody();
       init_ToolHeader();
+      importPreviewColumns = [
+        { label: "Status" },
+        { label: "Collection" },
+        { label: "Variable" },
+        { label: "Note" }
+      ];
     }
   });
 
@@ -6701,7 +6700,7 @@ svg {
     a3.remove();
     URL.revokeObjectURL(url);
   }
-  async function copyTextToClipboard3(text) {
+  async function copyTextToClipboard2(text) {
     try {
       await navigator.clipboard.writeText(text);
       return true;
@@ -6734,7 +6733,6 @@ svg {
     const [collections, setCollections] = d2([]);
     const [errorMessage, setErrorMessage] = d2(null);
     const [successMessage, setSuccessMessage] = d2(null);
-    const [exportSetName, setExportSetName] = d2("current");
     const [exportIncludeCurrentName, setExportIncludeCurrentName] = d2(true);
     const [exportSelectedCollectionIds, setExportSelectedCollectionIds] = d2([]);
     const [didInitExportSelection, setDidInitExportSelection] = d2(false);
@@ -6859,7 +6857,7 @@ svg {
           pluginMessage: {
             type: UI_TO_MAIN.BATCH_RENAME_EXPORT_NAME_SET,
             request: {
-              setName: exportSetName.trim(),
+              setName: "",
               description: "",
               collectionIds: selectedCollectionIdsInOptions,
               types: [],
@@ -6946,24 +6944,10 @@ svg {
     return /* @__PURE__ */ _(Page, null, /* @__PURE__ */ _(
       ToolHeader,
       {
-        title: "Variables Batch Rename",
+        title: "Rename Variables via JSON",
         left: /* @__PURE__ */ _(IconButton, { onClick: onBack, title: "Home" }, /* @__PURE__ */ _(IconHome16, null))
       }
-    ), /* @__PURE__ */ _(ToolBody, { mode: "content" }, /* @__PURE__ */ _(Stack, { space: "medium" }, errorMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#fff1f2", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "#9f1239" } }, errorMessage))), successMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#ecfdf3", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, successMessage))), /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "Export and import rename sets by variable ID.")), /* @__PURE__ */ _(
-      Textbox,
-      {
-        value: exportSetName,
-        placeholder: "Set name",
-        onValueInput: (value2) => setExportSetName(value2)
-      }
-    ), /* @__PURE__ */ _(
-      Checkbox,
-      {
-        value: exportIncludeCurrentName,
-        onValueChange: setExportIncludeCurrentName
-      },
-      /* @__PURE__ */ _(Text, null, "Include currentName (for review/editing)")
-    ), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, null, "Collections"), /* @__PURE__ */ _("div", null, exportCollectionsOptions.length === 0 ? /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "No collections loaded yet.") : null, exportCollectionsOptions.length > 0 ? /* @__PURE__ */ _(
+    ), /* @__PURE__ */ _(ToolBody, { mode: "content" }, /* @__PURE__ */ _(Stack, { space: "medium" }, errorMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#fff1f2", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "#9f1239" } }, errorMessage))), successMessage && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _("div", { style: { padding: 8, background: "#ecfdf3", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, successMessage))), /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)", whiteSpace: "pre-line" } }, "1. Export variables\n2. Edit names in Code Editor\n3. Import JSON with new names"), /* @__PURE__ */ _("div", null, exportCollectionsOptions.length === 0 ? /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, "No collections loaded yet.") : null, exportCollectionsOptions.length > 0 ? /* @__PURE__ */ _(
       Checkbox,
       {
         value: hasSomeCollectionsSelected ? MIXED_BOOLEAN : areAllCollectionsSelected,
@@ -6988,14 +6972,21 @@ svg {
         },
         /* @__PURE__ */ _(Text, null, c3.name)
       );
-    })))), /* @__PURE__ */ _(Inline, { space: "extraSmall" }, /* @__PURE__ */ _(Button, { disabled: !exportSetName.trim() || selectedCollectionIdsInOptions.length === 0, onClick: handleExport }, "Export name set"), /* @__PURE__ */ _(
+    }))), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(
+      Checkbox,
+      {
+        value: exportIncludeCurrentName,
+        onValueChange: setExportIncludeCurrentName
+      },
+      /* @__PURE__ */ _(Text, null, "Include currentName (for review/editing)")
+    ), /* @__PURE__ */ _(Inline, { space: "extraSmall" }, /* @__PURE__ */ _(Button, { disabled: selectedCollectionIdsInOptions.length === 0, onClick: handleExport }, "Export name set"), /* @__PURE__ */ _(
       Button,
       {
         secondary: true,
         disabled: !lastExport,
         onClick: async () => {
           if (!lastExport) return;
-          const ok = await copyTextToClipboard3(lastExport.jsonText);
+          const ok = await copyTextToClipboard2(lastExport.jsonText);
           setSuccessMessage(ok ? `Copied "${lastExport.filename}" JSON` : "Copy failed");
         }
       },
@@ -7023,115 +7014,43 @@ svg {
         onClick: handleApplyRenames
       },
       "Apply renames"
-    ), !canApplyImportedRenames && importPreview.totals.conflicts > 0 && /* @__PURE__ */ _(Text, { style: { color: "#9f1239" } }, "Resolve conflicts in the JSON (duplicate newName) before applying."), importResult && /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, "Renamed: ", importResult.totals.renamed, ", Unchanged: ", importResult.totals.unchanged, ", Skipped: ", importResult.totals.skipped, ", Failed: ", importResult.totals.failed), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(
-      "div",
-      {
-        style: {
-          border: "1px solid #e3e3e3",
-          borderRadius: 6
-        }
-      },
-      /* @__PURE__ */ _(
-        "table",
+    ), !canApplyImportedRenames && importPreview.totals.conflicts > 0 && /* @__PURE__ */ _(Text, { style: { color: "#9f1239" } }, "Resolve conflicts in the JSON (duplicate newName) before applying."), importResult && /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, "Renamed: ", importResult.totals.renamed, ", Unchanged: ", importResult.totals.unchanged, ", Skipped: ", importResult.totals.skipped, ", Failed: ", importResult.totals.failed), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(DataTable, { columns: previewColumns }, importRows.map((entry) => {
+      var _a, _b, _c, _d;
+      const pillStyle = getStatusPillStyle2(entry.status);
+      const { beforeNode, afterNode } = renderInlineDiff(
+        (_a = entry.currentName) != null ? _a : "",
+        (_b = entry.newName) != null ? _b : ""
+      );
+      return /* @__PURE__ */ _("tr", { key: entry.variableId }, /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top" } }, /* @__PURE__ */ _(
+        "span",
         {
           style: {
-            width: "100%",
-            borderCollapse: "collapse",
-            fontSize: 12,
-            tableLayout: "fixed"
+            display: "inline-block",
+            padding: "2px 6px",
+            borderRadius: 4,
+            fontSize: 10,
+            fontWeight: 600,
+            background: pillStyle.background,
+            border: `1px solid ${pillStyle.borderColor}`,
+            color: pillStyle.color
           }
         },
-        /* @__PURE__ */ _("thead", null, /* @__PURE__ */ _("tr", null, /* @__PURE__ */ _(
-          "th",
-          {
-            style: {
-              borderBottom: "1px solid #e3e3e3",
-              textAlign: "left",
-              padding: "6px 8px",
-              position: "sticky",
-              top: 0,
-              background: "#fafafa"
-            }
-          },
-          "Status"
-        ), /* @__PURE__ */ _(
-          "th",
-          {
-            style: {
-              borderBottom: "1px solid #e3e3e3",
-              textAlign: "left",
-              padding: "6px 8px",
-              position: "sticky",
-              top: 0,
-              background: "#fafafa"
-            }
-          },
-          "Current"
-        ), /* @__PURE__ */ _(
-          "th",
-          {
-            style: {
-              borderBottom: "1px solid #e3e3e3",
-              textAlign: "left",
-              padding: "6px 8px",
-              position: "sticky",
-              top: 0,
-              background: "#fafafa"
-            }
-          },
-          "New"
-        ), /* @__PURE__ */ _(
-          "th",
-          {
-            style: {
-              borderBottom: "1px solid #e3e3e3",
-              textAlign: "left",
-              padding: "6px 8px",
-              position: "sticky",
-              top: 0,
-              background: "#fafafa"
-            }
-          },
-          "Note"
-        ))),
-        /* @__PURE__ */ _("tbody", null, importRows.map((entry) => {
-          var _a, _b, _c, _d;
-          const pillStyle = getStatusPillStyle2(entry.status);
-          const { beforeNode, afterNode } = renderInlineDiff(
-            (_a = entry.currentName) != null ? _a : "",
-            (_b = entry.newName) != null ? _b : ""
-          );
-          return /* @__PURE__ */ _("tr", { key: entry.variableId }, /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top" } }, /* @__PURE__ */ _(
-            "span",
-            {
-              style: {
-                display: "inline-block",
-                padding: "2px 6px",
-                borderRadius: 4,
-                fontSize: 10,
-                fontWeight: 600,
-                background: pillStyle.background,
-                border: `1px solid ${pillStyle.borderColor}`,
-                color: pillStyle.color
-              }
-            },
-            entry.status
-          )), /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" } }, entry.status === "rename" ? beforeNode : (_c = entry.currentName) != null ? _c : "\u2014"), /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" } }, entry.status === "rename" ? afterNode : (_d = entry.newName) != null ? _d : "\u2014"), /* @__PURE__ */ _(
-            "td",
-            {
-              style: {
-                padding: "4px 8px",
-                verticalAlign: "top",
-                color: "#666",
-                wordBreak: "break-word"
-              }
-            },
-            entry.reason || entry.warning || ""
-          ));
-        }))
-      )
-    )))));
+        entry.status
+      )), /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" } }, entry.status === "rename" ? beforeNode : (_c = entry.currentName) != null ? _c : "\u2014"), /* @__PURE__ */ _("td", { style: { padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" } }, entry.status === "rename" ? afterNode : (_d = entry.newName) != null ? _d : "\u2014"), /* @__PURE__ */ _(
+        "td",
+        {
+          style: {
+            padding: "4px 8px",
+            verticalAlign: "top",
+            color: "var(--figma-color-text-tertiary)",
+            wordBreak: "break-word"
+          }
+        },
+        entry.reason || entry.warning || ""
+      ));
+    }))))));
   }
+  var previewColumns;
   var init_VariablesBatchRenameToolView = __esm({
     "src/app/views/variables-batch-rename-tool/VariablesBatchRenameToolView.tsx"() {
       "use strict";
@@ -7140,10 +7059,17 @@ svg {
       init_preact_module();
       init_hooks_module();
       init_messages();
+      init_DataTable();
       init_InlineTextDiff();
       init_Page();
       init_ToolBody();
       init_ToolHeader();
+      previewColumns = [
+        { label: "Status", width: 72 },
+        { label: "Current" },
+        { label: "New" },
+        { label: "Note" }
+      ];
     }
   });
 
@@ -7505,10 +7431,7 @@ svg {
   function VariablesReplaceUsagesToolView({ onBack, initialSelectionEmpty }) {
     const [errorMessage, setErrorMessage] = d2(null);
     const [successMessage, setSuccessMessage] = d2(null);
-    const [scope, setScope] = d2(
-      initialSelectionEmpty ? "page" : "selection"
-    );
-    const [selectionSize, setSelectionSize] = d2(initialSelectionEmpty ? 0 : 1);
+    const { scope, setScope, selectionSize, hasSelection, updateSelectionSize } = useScope(initialSelectionEmpty);
     const [renamePrints, setRenamePrints] = d2(false);
     const [includeHidden, setIncludeHidden] = d2(false);
     const [mappingFilename, setMappingFilename] = d2(null);
@@ -7539,8 +7462,7 @@ svg {
           setApplyProgress(msg.progress);
         }
         if (msg.type === MAIN_TO_UI.REPLACE_USAGES_SELECTION) {
-          setSelectionSize(msg.payload.selectionSize);
-          setScope(msg.payload.selectionSize > 0 ? "selection" : "page");
+          updateSelectionSize(msg.payload.selectionSize);
         }
         if (msg.type === MAIN_TO_UI.REPLACE_USAGES_APPLY_RESULT) {
           setIsBusy(false);
@@ -7633,7 +7555,6 @@ svg {
         "*"
       );
     };
-    const hasSelection = selectionSize > 0;
     return /* @__PURE__ */ _(Page, null, /* @__PURE__ */ _(
       ToolHeader,
       {

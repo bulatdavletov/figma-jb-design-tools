@@ -2,7 +2,7 @@ import { showUI } from "@create-figma-plugin/utilities"
 
 import { MAIN_TO_UI, UI_TO_MAIN, type UiToMainMessage } from "./messages"
 import type { ActiveTool } from "./messages"
-import { registerMockupMarkupTool } from "./tools/mockup-markup/main-thread"
+import { registerMockupMarkupTool } from "./tools/mockup-markup-quick-apply-tool/main-thread"
 import { registerColorChainTool } from "./tools/color-chain-tool/main-thread"
 import { registerLibrarySwapTool } from "./tools/library-swap/main-thread"
 import { registerPrintColorUsagesTool } from "./tools/print-color-usages/main-thread"
@@ -10,6 +10,7 @@ import { registerVariablesExportImportTool } from "./tools/variables-export-impo
 import { registerVariablesBatchRenameTool } from "./tools/variables-batch-rename/main-thread"
 import { registerVariablesCreateLinkedColorsTool } from "./tools/variables-create-linked-colors/main-thread"
 import { registerVariablesReplaceUsagesTool } from "./tools/variables-replace-usages/main-thread"
+import { registerFindColorMatchTool } from "./tools/find-color-match/main-thread"
 
 function getToolTitle(command: string): string {
   switch (command) {
@@ -24,13 +25,15 @@ function getToolTitle(command: string): string {
     case "variables-export-import-tool":
       return "Variables Export Import"
     case "variables-batch-rename-tool":
-      return "Variables Batch Rename"
+      return "Rename Variables via JSON"
     case "variables-create-linked-colors-tool":
       return "Variables Create Linked Colors"
     case "variables-replace-usages-tool":
       return "Variables Replace Usages"
+    case "find-color-match-tool":
+      return "Find Color Match"
     default:
-      return "JetBrains Design Tools"
+      return "Int UI Design Tools"
   }
 }
 
@@ -53,6 +56,7 @@ export function run(command: string) {
     "variables-batch-rename-tool",
     "variables-create-linked-colors-tool",
     "variables-replace-usages-tool",
+    "find-color-match-tool",
   ]
 
   let activeTool: ActiveTool = toolCommands.includes(command as ActiveTool)
@@ -69,6 +73,7 @@ export function run(command: string) {
   const variablesBatchRename = registerVariablesBatchRenameTool(getActiveTool)
   const variablesCreateLinkedColors = registerVariablesCreateLinkedColorsTool(getActiveTool)
   const variablesReplaceUsages = registerVariablesReplaceUsagesTool(getActiveTool)
+  const findColorMatch = registerFindColorMatchTool(getActiveTool)
 
   const activate = async (tool: ActiveTool) => {
     activeTool = tool
@@ -104,6 +109,10 @@ export function run(command: string) {
       await variablesReplaceUsages.onActivate()
       return
     }
+    if (tool === "find-color-match-tool") {
+      await findColorMatch.onActivate()
+      return
+    }
   }
 
   figma.ui.onmessage = async (msg: UiToMainMessage) => {
@@ -132,6 +141,7 @@ export function run(command: string) {
       if (await variablesBatchRename.onMessage(msg)) return
       if (await variablesCreateLinkedColors.onMessage(msg)) return
       if (await variablesReplaceUsages.onMessage(msg)) return
+      if (await findColorMatch.onMessage(msg)) return
     } catch (e) {
       // eslint-disable-next-line no-console
       console.log("[run] Unhandled error in onmessage", e)

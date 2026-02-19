@@ -27,7 +27,7 @@
   },
   "figma-plugin": {
     "id": "1598773743246786962",
-    "name": "JetBrains Design Tools",
+    "name": "Int UI Design Tools",
     "editorType": [
       "figma"
     ],
@@ -72,7 +72,7 @@
         "ui": "src/app/ui.tsx"
       },
       {
-        "name": "Variables Batch Rename",
+        "name": "Rename Variables via JSON",
         "main": "src/variables-batch-rename-tool/main.ts",
         "ui": "src/app/ui.tsx"
       },
@@ -84,6 +84,11 @@
       {
         "name": "Variables Replace Usages",
         "main": "src/variables-replace-usages-tool/main.ts",
+        "ui": "src/app/ui.tsx"
+      },
+      {
+        "name": "Find Color Match",
+        "main": "src/find-color-match-tool/main.ts",
         "ui": "src/app/ui.tsx"
       }
     ]

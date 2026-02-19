@@ -26,7 +26,7 @@ import { Page } from "../../components/Page"
 import { ColorSwatch } from "../../components/ColorSwatch"
 import { ToolBody } from "../../components/ToolBody"
 import { ToolHeader } from "../../components/ToolHeader"
-import { getColorPresetLabel, getTypographyPresetLabel } from "../../tools/mockup-markup/presets"
+import { getColorPresetLabel, getTypographyPresetLabel } from "../../tools/mockup-markup-quick-apply-tool/presets"
 
 function TextStylePresetGrid(props: {
   value: MockupMarkupTypographyPreset

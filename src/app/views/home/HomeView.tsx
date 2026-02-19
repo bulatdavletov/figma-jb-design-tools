@@ -27,6 +27,7 @@ type Route =
   | "variables-create-linked-colors-tool"
   | "variables-replace-usages-tool"
   | "library-swap-tool"
+  | "find-color-match-tool"
 
 const sectionTitleStyle = { fontWeight: 600 } as const
 
@@ -51,6 +52,12 @@ export function HomeView(props: { goTo: (route: Route) => void }) {
               description="Inspect selection to see full variable alias chains"
               icon={<IconVariableColor16 />}
               onClick={() => props.goTo("color-chain-tool")}
+            />
+            <ToolCard
+              title="Find Color Match"
+              description="Find the closest variable for unbound colors"
+              icon={<IconVariableColor16 />}
+              onClick={() => props.goTo("find-color-match-tool")}
             />
             <ToolCard
               title="Library Swap"
@@ -78,8 +85,8 @@ export function HomeView(props: { goTo: (route: Route) => void }) {
               onClick={() => props.goTo("variables-export-import-tool")}
             />
             <ToolCard
-              title="Batch Rename"
-              description="Rename multiple variables at once via CSV or inline editing"
+              title="Rename via JSON"
+              description="Rename multiple variables using a JSON file"
               icon={<IconVariable16 />}
               onClick={() => props.goTo("variables-batch-rename-tool")}
             />
