@@ -295,7 +295,7 @@ export function FindColorMatchToolView({ onBack, initialSelectionEmpty }: Props)
 
               const matchOptions: DropdownOption[] = entry.allMatches.map((m) => ({
                 value: m.variableId,
-                text: `${m.variableName} (${m.diffPercent}%)`,
+                text: `${m.variableName} (${m.matchPercent}%)`,
               }))
 
               return (
@@ -339,7 +339,7 @@ export function FindColorMatchToolView({ onBack, initialSelectionEmpty }: Props)
                         <div style={{ fontSize: 10, color: "var(--figma-color-text-tertiary)" }}>→</div>
                         <ColorSwatch hex={selectedMatch.hex} opacityPercent={selectedMatch.opacityPercent} />
                         <div style={{ fontSize: 10, color: "var(--figma-color-text-secondary)" }}>
-                          {selectedMatch.diffPercent}% diff
+                          {selectedMatch.matchPercent}% match
                         </div>
                       </div>
 

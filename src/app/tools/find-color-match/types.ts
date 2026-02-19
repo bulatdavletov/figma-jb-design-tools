@@ -26,8 +26,8 @@ export type VariableCandidate = ResolvedColorVariable
 export type ColorMatchResult = {
   found: FoundColor
   bestMatch: VariableCandidate | null
-  diffPercent: number
-  allMatches: Array<{ candidate: VariableCandidate; diffPercent: number }>
+  matchPercent: number
+  allMatches: Array<{ candidate: VariableCandidate; matchPercent: number }>
 }
 
 export type CollectionSource = {

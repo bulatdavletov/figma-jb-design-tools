@@ -5,6 +5,13 @@
 
 ---
 
+### 2026-02-19
+
+#### Find Color Match Tool — percentage inversion fix
+- Bug: 0% was shown for exact matches; user expected 100% = exact match.
+- Fix: Inverted `diffPercent` → `matchPercent` across 5 files (`match.ts`, `types.ts`, `messages.ts`, `main-thread.ts`, `FindColorMatchToolView.tsx`). Formula changed from `distance/max * 100` to `100 - distance/max * 100`. UI label changed from "diff" to "match".
+- Build passes.
+
 ### 2026-02-18
 
 #### Find Color Match Tool — implementation

@@ -130,7 +130,7 @@ export function registerFindColorMatchTool(getActiveTool: () => ActiveTool) {
             variableName: m.bestMatch.variableName,
             hex: m.bestMatch.hex,
             opacityPercent: m.bestMatch.opacityPercent,
-            diffPercent: m.diffPercent,
+            matchPercent: m.matchPercent,
           }
         : null,
       allMatches: m.allMatches.map((am) => ({
@@ -139,7 +139,7 @@ export function registerFindColorMatchTool(getActiveTool: () => ActiveTool) {
         variableName: am.candidate.variableName,
         hex: am.candidate.hex,
         opacityPercent: am.candidate.opacityPercent,
-        diffPercent: am.diffPercent,
+        matchPercent: am.matchPercent,
       })),
     }))
 

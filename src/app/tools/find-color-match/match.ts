@@ -71,9 +71,9 @@ export function deltaE(
 // We use 100 as a practical reference for "100% different".
 const MAX_PRACTICAL_DELTA_E = 100
 
-export function diffPercent(distance: number): number {
-  const pct = (distance / MAX_PRACTICAL_DELTA_E) * 100
-  return Math.round(Math.min(pct, 100) * 10) / 10
+export function matchPercent(distance: number): number {
+  const pct = 100 - (distance / MAX_PRACTICAL_DELTA_E) * 100
+  return Math.round(Math.max(pct, 0) * 10) / 10
 }
 
 // ---------------------------------------------------------------------------
@@ -95,7 +95,7 @@ export function findBestMatches(
 
     const allMatches = scored.slice(0, maxSuggestions).map((s) => ({
       candidate: s.candidate,
-      diffPercent: diffPercent(s.distance),
+      matchPercent: matchPercent(s.distance),
     }))
 
     const best = scored[0]
@@ -103,7 +103,7 @@ export function findBestMatches(
     return {
       found,
       bestMatch: best?.candidate ?? null,
-      diffPercent: best ? diffPercent(best.distance) : 100,
+      matchPercent: best ? matchPercent(best.distance) : 0,
       allMatches,
     }
   })

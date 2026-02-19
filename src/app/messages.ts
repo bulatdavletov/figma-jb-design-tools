@@ -927,7 +927,7 @@ export type FindColorMatchVariableEntry = {
   variableName: string
   hex: string
   opacityPercent: number
-  diffPercent: number
+  matchPercent: number
 }
 
 export type FindColorMatchResultEntry = {

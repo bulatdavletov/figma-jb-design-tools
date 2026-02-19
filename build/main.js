@@ -40233,9 +40233,9 @@ function deltaE(c1, c2) {
   const db = b1 - b2;
   return Math.sqrt(dL * dL + da * da + db * db);
 }
-function diffPercent(distance) {
-  const pct = distance / MAX_PRACTICAL_DELTA_E * 100;
-  return Math.round(Math.min(pct, 100) * 10) / 10;
+function matchPercent(distance) {
+  const pct = 100 - distance / MAX_PRACTICAL_DELTA_E * 100;
+  return Math.round(Math.max(pct, 0) * 10) / 10;
 }
 function findBestMatches(foundColors, candidates, maxSuggestions = 10) {
   return foundColors.map((found) => {
@@ -40246,13 +40246,13 @@ function findBestMatches(foundColors, candidates, maxSuggestions = 10) {
     })).sort((a, b) => a.distance - b.distance);
     const allMatches = scored.slice(0, maxSuggestions).map((s) => ({
       candidate: s.candidate,
-      diffPercent: diffPercent(s.distance)
+      matchPercent: matchPercent(s.distance)
     }));
     const best = scored[0];
     return {
       found,
       bestMatch: (_a = best == null ? void 0 : best.candidate) != null ? _a : null,
-      diffPercent: best ? diffPercent(best.distance) : 100,
+      matchPercent: best ? matchPercent(best.distance) : 0,
       allMatches
     };
   });
@@ -40647,7 +40647,7 @@ function registerFindColorMatchTool(getActiveTool) {
         variableName: m.bestMatch.variableName,
         hex: m.bestMatch.hex,
         opacityPercent: m.bestMatch.opacityPercent,
-        diffPercent: m.diffPercent
+        matchPercent: m.matchPercent
       } : null,
       allMatches: m.allMatches.map((am) => ({
         variableId: am.candidate.variableId,
@@ -40655,7 +40655,7 @@ function registerFindColorMatchTool(getActiveTool) {
         variableName: am.candidate.variableName,
         hex: am.candidate.hex,
         opacityPercent: am.candidate.opacityPercent,
-        diffPercent: am.diffPercent
+        matchPercent: am.matchPercent
       }))
     }));
     figma.ui.postMessage({
