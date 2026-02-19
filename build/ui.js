@@ -691,10 +691,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f61f28ae-fe62-4db2-ae09-f06ea8397e8c/loading-indicator.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/733cdb79-58f4-46bc-a289-a88d6516192b/loading-indicator.module.js
   var loading_indicator_module_default;
   var init_loading_indicator_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f61f28ae-fe62-4db2-ae09-f06ea8397e8c/loading-indicator.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/733cdb79-58f4-46bc-a289-a88d6516192b/loading-indicator.module.js"() {
       if (document.getElementById("3fe0db8eb7") === null) {
         const element = document.createElement("style");
         element.id = "3fe0db8eb7";
@@ -755,10 +755,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f5589605-926b-4728-abef-320fdf7aaf73/button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b904363c-35d7-48a3-83c5-907c3a73a06b/button.module.js
   var button_module_default;
   var init_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f5589605-926b-4728-abef-320fdf7aaf73/button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b904363c-35d7-48a3-83c5-907c3a73a06b/button.module.js"() {
       if (document.getElementById("1dddd0e4df") === null) {
         const element = document.createElement("style");
         element.id = "1dddd0e4df";
@@ -955,6 +955,328 @@
     }
   });
 
+  // node_modules/hex-rgb/index.js
+  function hexRgb(hex, options = {}) {
+    if (typeof hex !== "string" || nonHexChars.test(hex) || !validHexSize.test(hex)) {
+      throw new TypeError("Expected a valid hex string");
+    }
+    hex = hex.replace(/^#/, "");
+    let alphaFromHex = 1;
+    if (hex.length === 8) {
+      alphaFromHex = Number.parseInt(hex.slice(6, 8), 16) / 255;
+      hex = hex.slice(0, 6);
+    }
+    if (hex.length === 4) {
+      alphaFromHex = Number.parseInt(hex.slice(3, 4).repeat(2), 16) / 255;
+      hex = hex.slice(0, 3);
+    }
+    if (hex.length === 3) {
+      hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+    }
+    const number = Number.parseInt(hex, 16);
+    const red = number >> 16;
+    const green = number >> 8 & 255;
+    const blue = number & 255;
+    const alpha = typeof options.alpha === "number" ? options.alpha : alphaFromHex;
+    if (options.format === "array") {
+      return [red, green, blue, alpha];
+    }
+    if (options.format === "css") {
+      const alphaString = alpha === 1 ? "" : ` / ${Number((alpha * 100).toFixed(2))}%`;
+      return `rgb(${red} ${green} ${blue}${alphaString})`;
+    }
+    return { red, green, blue, alpha };
+  }
+  var hexCharacters, match3or4Hex, match6or8Hex, nonHexChars, validHexSize;
+  var init_hex_rgb = __esm({
+    "node_modules/hex-rgb/index.js"() {
+      hexCharacters = "a-f\\d";
+      match3or4Hex = `#?[${hexCharacters}]{3}[${hexCharacters}]?`;
+      match6or8Hex = `#?[${hexCharacters}]{6}([${hexCharacters}]{2})?`;
+      nonHexChars = new RegExp(`[^#${hexCharacters}]`, "gi");
+      validHexSize = new RegExp(`^${match3or4Hex}$|^${match6or8Hex}$`, "i");
+    }
+  });
+
+  // node_modules/@create-figma-plugin/utilities/lib/color/convert-hex-color-to-rgb-color.js
+  function convertHexColorToRgbColor(hexColor) {
+    if (hexColor.length !== 3 && hexColor.length !== 6) {
+      return null;
+    }
+    try {
+      const { red, green, blue } = hexRgb(hexColor);
+      return {
+        b: blue / 255,
+        g: green / 255,
+        r: red / 255
+      };
+    } catch (e3) {
+      return null;
+    }
+  }
+  var init_convert_hex_color_to_rgb_color = __esm({
+    "node_modules/@create-figma-plugin/utilities/lib/color/convert-hex-color-to-rgb-color.js"() {
+      init_hex_rgb();
+    }
+  });
+
+  // node_modules/@create-figma-plugin/utilities/lib/color/private/named-colors.js
+  var NAMED_COLORS;
+  var init_named_colors = __esm({
+    "node_modules/@create-figma-plugin/utilities/lib/color/private/named-colors.js"() {
+      NAMED_COLORS = {
+        aliceblue: "F0F8FF",
+        antiquewhite: "FAEBD7",
+        aqua: "00FFFF",
+        aquamarine: "7FFFD4",
+        azure: "F0FFFF",
+        beige: "F5F5DC",
+        bisque: "FFE4C4",
+        black: "000000",
+        blanchedalmond: "FFEBCD",
+        blue: "0000FF",
+        blueviolet: "8A2BE2",
+        brown: "A52A2A",
+        burlywood: "DEB887",
+        cadetblue: "5F9EA0",
+        chartreuse: "7FFF00",
+        chocolate: "D2691E",
+        coral: "FF7F50",
+        cornflowerblue: "6495ED",
+        cornsilk: "FFF8DC",
+        crimson: "DC143C",
+        cyan: "00FFFF",
+        darkblue: "00008B",
+        darkcyan: "008B8B",
+        darkgoldenrod: "B8860B",
+        darkgray: "A9A9A9",
+        darkgreen: "006400",
+        darkgrey: "A9A9A9",
+        darkkhaki: "BDB76B",
+        darkmagenta: "8B008B",
+        darkolivegreen: "556B2F",
+        darkorange: "FF8C00",
+        darkorchid: "9932CC",
+        darkred: "8B0000",
+        darksalmon: "E9967A",
+        darkseagreen: "8FBC8F",
+        darkslateblue: "483D8B",
+        darkslategray: "2F4F4F",
+        darkslategrey: "2F4F4F",
+        darkturquoise: "00CED1",
+        darkviolet: "9400D3",
+        deeppink: "FF1493",
+        deepskyblue: "00BFFF",
+        dimgray: "696969",
+        dimgrey: "696969",
+        dodgerblue: "1E90FF",
+        firebrick: "B22222",
+        floralwhite: "FFFAF0",
+        forestgreen: "228B22",
+        fuchsia: "FF00FF",
+        gainsboro: "DCDCDC",
+        ghostwhite: "F8F8FF",
+        gold: "FFD700",
+        goldenrod: "DAA520",
+        gray: "808080",
+        green: "008000",
+        greenyellow: "ADFF2F",
+        grey: "808080",
+        honeydew: "F0FFF0",
+        hotpink: "FF69B4",
+        indianred: "CD5C5C",
+        indigo: "4B0082",
+        ivory: "FFFFF0",
+        khaki: "F0E68C",
+        lavender: "E6E6FA",
+        lavenderblush: "FFF0F5",
+        lawngreen: "7CFC00",
+        lemonchiffon: "FFFACD",
+        lightblue: "ADD8E6",
+        lightcoral: "F08080",
+        lightcyan: "E0FFFF",
+        lightgoldenrodyellow: "FAFAD2",
+        lightgray: "D3D3D3",
+        lightgreen: "90EE90",
+        lightgrey: "D3D3D3",
+        lightpink: "FFB6C1",
+        lightsalmon: "FFA07A",
+        lightseagreen: "20B2AA",
+        lightskyblue: "87CEFA",
+        lightslategray: "778899",
+        lightslategrey: "778899",
+        lightsteelblue: "B0C4DE",
+        lightyellow: "FFFFE0",
+        lime: "00FF00",
+        limegreen: "32CD32",
+        linen: "FAF0E6",
+        magenta: "FF00FF",
+        maroon: "800000",
+        mediumaquamarine: "66CDAA",
+        mediumblue: "0000CD",
+        mediumorchid: "BA55D3",
+        mediumpurple: "9370DB",
+        mediumseagreen: "3CB371",
+        mediumslateblue: "7B68EE",
+        mediumspringgreen: "00FA9A",
+        mediumturquoise: "48D1CC",
+        mediumvioletred: "C71585",
+        midnightblue: "191970",
+        mintcream: "F5FFFA",
+        mistyrose: "FFE4E1",
+        moccasin: "FFE4B5",
+        navajowhite: "FFDEAD",
+        navy: "000080",
+        oldlace: "FDF5E6",
+        olive: "808000",
+        olivedrab: "6B8E23",
+        orange: "FFA500",
+        orangered: "FF4500",
+        orchid: "DA70D6",
+        palegoldenrod: "EEE8AA",
+        palegreen: "98FB98",
+        paleturquoise: "AFEEEE",
+        palevioletred: "DB7093",
+        papayawhip: "FFEFD5",
+        peachpuff: "FFDAB9",
+        peru: "CD853F",
+        pink: "FFC0CB",
+        plum: "DDA0DD",
+        powderblue: "B0E0E6",
+        purple: "800080",
+        rebeccapurple: "663399",
+        red: "FF0000",
+        rosybrown: "BC8F8F",
+        royalblue: "4169E1",
+        saddlebrown: "8B4513",
+        salmon: "FA8072",
+        sandybrown: "F4A460",
+        seagreen: "2E8B57",
+        seashell: "FFF5EE",
+        sienna: "A0522D",
+        silver: "C0C0C0",
+        skyblue: "87CEEB",
+        slateblue: "6A5ACD",
+        slategray: "708090",
+        slategrey: "708090",
+        snow: "FFFAFA",
+        springgreen: "00FF7F",
+        steelblue: "4682B4",
+        tan: "D2B48C",
+        teal: "008080",
+        thistle: "D8BFD8",
+        tomato: "FF6347",
+        turquoise: "40E0D0",
+        violet: "EE82EE",
+        wheat: "F5DEB3",
+        white: "FFFFFF",
+        whitesmoke: "F5F5F5",
+        yellow: "FFFF00",
+        yellowgreen: "9ACD32"
+      };
+    }
+  });
+
+  // node_modules/@create-figma-plugin/utilities/lib/color/convert-named-color-to-hex-color.js
+  function convertNamedColorToHexColor(namedColor) {
+    const hexColor = NAMED_COLORS[namedColor.toLowerCase()];
+    if (typeof hexColor === "undefined") {
+      return null;
+    }
+    return hexColor;
+  }
+  var init_convert_named_color_to_hex_color = __esm({
+    "node_modules/@create-figma-plugin/utilities/lib/color/convert-named-color-to-hex-color.js"() {
+      init_named_colors();
+    }
+  });
+
+  // node_modules/rgb-hex/index.js
+  function rgbHex(red, green, blue, alpha) {
+    let isPercent = (red + (alpha || "")).toString().includes("%");
+    if (typeof red === "string" && !green) {
+      const parsed = parseCssRgbString(red);
+      if (!parsed) {
+        throw new TypeError("Invalid or unsupported color format.");
+      }
+      isPercent = false;
+      [red, green, blue, alpha] = parsed;
+    } else if (alpha !== void 0) {
+      alpha = Number.parseFloat(alpha);
+    }
+    if (typeof red !== "number" || typeof green !== "number" || typeof blue !== "number" || red > 255 || green > 255 || blue > 255) {
+      throw new TypeError("Expected three numbers below 256");
+    }
+    if (typeof alpha === "number") {
+      if (!isPercent && alpha >= 0 && alpha <= 1) {
+        alpha = Math.round(255 * alpha);
+      } else if (isPercent && alpha >= 0 && alpha <= 100) {
+        alpha = Math.round(255 * alpha / 100);
+      } else {
+        throw new TypeError(`Expected alpha value (${alpha}) as a fraction or percentage`);
+      }
+      alpha = (alpha | 1 << 8).toString(16).slice(1);
+    } else {
+      alpha = "";
+    }
+    return toHex(red, green, blue, alpha);
+  }
+  var toHex, parseCssRgbString;
+  var init_rgb_hex = __esm({
+    "node_modules/rgb-hex/index.js"() {
+      toHex = (red, green, blue, alpha) => (blue | green << 8 | red << 16 | 1 << 24).toString(16).slice(1) + alpha;
+      parseCssRgbString = (input) => {
+        const parts = input.replace(/rgba?\(([^)]+)\)/, "$1").split(/[,\s/]+/).filter(Boolean);
+        if (parts.length < 3) {
+          return;
+        }
+        const parseValue = (value2, max) => {
+          value2 = value2.trim();
+          if (value2.endsWith("%")) {
+            return Math.min(Number.parseFloat(value2) * max / 100, max);
+          }
+          return Math.min(Number.parseFloat(value2), max);
+        };
+        const red = parseValue(parts[0], 255);
+        const green = parseValue(parts[1], 255);
+        const blue = parseValue(parts[2], 255);
+        let alpha;
+        if (parts.length === 4) {
+          alpha = parseValue(parts[3], 1);
+        }
+        return [red, green, blue, alpha];
+      };
+    }
+  });
+
+  // node_modules/@create-figma-plugin/utilities/lib/color/convert-rgb-color-to-hex-color.js
+  function convertRgbColorToHexColor(rgbColor) {
+    const { r: r3, g: g4, b: b2 } = rgbColor;
+    if (r3 < 0 || r3 > 1 || g4 < 0 || g4 > 1 || b2 < 0 || b2 > 1) {
+      return null;
+    }
+    try {
+      return rgbHex(Math.round(r3 * 255), Math.round(g4 * 255), Math.round(b2 * 255)).toUpperCase();
+    } catch (e3) {
+      return null;
+    }
+  }
+  var init_convert_rgb_color_to_hex_color = __esm({
+    "node_modules/@create-figma-plugin/utilities/lib/color/convert-rgb-color-to-hex-color.js"() {
+      init_rgb_hex();
+    }
+  });
+
+  // node_modules/@create-figma-plugin/utilities/lib/color/is-valid-hex-color.js
+  function isValidHexColor(hexColor) {
+    return convertHexColorToRgbColor(hexColor) !== null;
+  }
+  var init_is_valid_hex_color = __esm({
+    "node_modules/@create-figma-plugin/utilities/lib/color/is-valid-hex-color.js"() {
+      init_convert_hex_color_to_rgb_color();
+    }
+  });
+
   // node_modules/@create-figma-plugin/utilities/lib/mixed-values.js
   var MIXED_BOOLEAN, MIXED_NUMBER, MIXED_STRING;
   var init_mixed_values = __esm({
@@ -1018,6 +1340,10 @@
   // node_modules/@create-figma-plugin/utilities/lib/index.js
   var init_lib = __esm({
     "node_modules/@create-figma-plugin/utilities/lib/index.js"() {
+      init_convert_hex_color_to_rgb_color();
+      init_convert_named_color_to_hex_color();
+      init_convert_rgb_color_to_hex_color();
+      init_is_valid_hex_color();
       init_mixed_values();
       init_evaluate_numeric_expression();
       init_is_valid_numeric_input();
@@ -1080,10 +1406,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/155df7a6-41e2-4919-b834-2f4ba2ff2094/checkbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/415c3c95-c296-4531-91d9-b14503bd02ae/checkbox.module.js
   var checkbox_module_default;
   var init_checkbox_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/155df7a6-41e2-4919-b834-2f4ba2ff2094/checkbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/415c3c95-c296-4531-91d9-b14503bd02ae/checkbox.module.js"() {
       if (document.getElementById("f38d076240") === null) {
         const element = document.createElement("style");
         element.id = "f38d076240";
@@ -1246,10 +1572,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5a73c9fc-6f16-4c22-be12-e929efffc9d6/disclosure.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a62eb7f1-4125-45d7-9d8d-8511f496baa7/disclosure.module.js
   var disclosure_module_default;
   var init_disclosure_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5a73c9fc-6f16-4c22-be12-e929efffc9d6/disclosure.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a62eb7f1-4125-45d7-9d8d-8511f496baa7/disclosure.module.js"() {
       if (document.getElementById("4712e1cb0c") === null) {
         const element = document.createElement("style");
         element.id = "4712e1cb0c";
@@ -1350,10 +1676,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7d9acb39-81cb-4e0a-97d5-4381c0e25708/divider.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c398ee39-c810-447d-9fbf-da46c4a20f18/divider.module.js
   var divider_module_default;
   var init_divider_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7d9acb39-81cb-4e0a-97d5-4381c0e25708/divider.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c398ee39-c810-447d-9fbf-da46c4a20f18/divider.module.js"() {
       if (document.getElementById("4bf06403b9") === null) {
         const element = document.createElement("style");
         element.id = "4bf06403b9";
@@ -1383,10 +1709,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/61a39f51-6ae0-4d01-af5c-a606e70bc70f/menu.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1f43aa01-6e07-424e-ab7c-5b17bc94782d/menu.module.js
   var menu_module_default;
   var init_menu_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/61a39f51-6ae0-4d01-af5c-a606e70bc70f/menu.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1f43aa01-6e07-424e-ab7c-5b17bc94782d/menu.module.js"() {
       if (document.getElementById("29044db304") === null) {
         const element = document.createElement("style");
         element.id = "29044db304";
@@ -1609,10 +1935,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1fc44e77-0651-416d-94c8-56d730cc0fca/dropdown.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8b0cdbb6-3240-4bd4-9da8-1b1fb63bc1a9/dropdown.module.js
   var dropdown_module_default;
   var init_dropdown_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1fc44e77-0651-416d-94c8-56d730cc0fca/dropdown.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8b0cdbb6-3240-4bd4-9da8-1b1fb63bc1a9/dropdown.module.js"() {
       if (document.getElementById("5a226eb00e") === null) {
         const element = document.createElement("style");
         element.id = "5a226eb00e";
@@ -2053,10 +2379,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/466185d7-9bd8-4d93-a3f2-2af39c2509e0/button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d24c6506-decb-48b5-a628-97830fecd7b9/button.module.js
   var button_module_default2;
   var init_button_module2 = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/466185d7-9bd8-4d93-a3f2-2af39c2509e0/button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d24c6506-decb-48b5-a628-97830fecd7b9/button.module.js"() {
       if (document.getElementById("1dddd0e4df") === null) {
         const element = document.createElement("style");
         element.id = "1dddd0e4df";
@@ -2220,10 +2546,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2e792a86-8148-4312-83f0-d5ed9c0f3fdc/file-upload-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c85dcca9-5bf9-4c6c-880c-380b0b7fb6c9/file-upload-button.module.js
   var file_upload_button_module_default;
   var init_file_upload_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2e792a86-8148-4312-83f0-d5ed9c0f3fdc/file-upload-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c85dcca9-5bf9-4c6c-880c-380b0b7fb6c9/file-upload-button.module.js"() {
       if (document.getElementById("f115bb30c8") === null) {
         const element = document.createElement("style");
         element.id = "f115bb30c8";
@@ -2338,10 +2664,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/776e6fdc-2ec6-405f-86e6-6a49ae305f0a/icon-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/adfddbd2-b219-4096-a63a-2e862bc64d82/icon-button.module.js
   var icon_button_module_default;
   var init_icon_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/776e6fdc-2ec6-405f-86e6-6a49ae305f0a/icon-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/adfddbd2-b219-4096-a63a-2e862bc64d82/icon-button.module.js"() {
       if (document.getElementById("c8b08e6568") === null) {
         const element = document.createElement("style");
         element.id = "c8b08e6568";
@@ -2419,10 +2745,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ca4ef86c-7968-4cd4-82bb-80c9aa610f13/text.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7f6b7ae1-465c-4bfb-ae75-f56adcb9c1cb/text.module.js
   var text_module_default;
   var init_text_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ca4ef86c-7968-4cd4-82bb-80c9aa610f13/text.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7f6b7ae1-465c-4bfb-ae75-f56adcb9c1cb/text.module.js"() {
       if (document.getElementById("1278016d5c") === null) {
         const element = document.createElement("style");
         element.id = "1278016d5c";
@@ -2480,10 +2806,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1c847149-8a81-4b74-841a-95fa4d6b8788/inline.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b7cb3dc8-f952-4d5b-8248-f35de9dcd25a/inline.module.js
   var inline_module_default;
   var init_inline_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1c847149-8a81-4b74-841a-95fa4d6b8788/inline.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b7cb3dc8-f952-4d5b-8248-f35de9dcd25a/inline.module.js"() {
       if (document.getElementById("3e1b2856fc") === null) {
         const element = document.createElement("style");
         element.id = "3e1b2856fc";
@@ -2545,10 +2871,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e5290156-fbdc-47ae-935e-8fe8a8915bf1/stack.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4adf91df-1531-4f81-b1fc-6d3b4bebc91f/stack.module.js
   var stack_module_default;
   var init_stack_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e5290156-fbdc-47ae-935e-8fe8a8915bf1/stack.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4adf91df-1531-4f81-b1fc-6d3b4bebc91f/stack.module.js"() {
       if (document.getElementById("317515cc3f") === null) {
         const element = document.createElement("style");
         element.id = "317515cc3f";
@@ -2591,10 +2917,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/87c2fcba-2fbb-44f5-884c-867dbde327a1/radio-buttons.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6af17202-6ffb-4440-91cf-0237a5419bda/radio-buttons.module.js
   var radio_buttons_module_default;
   var init_radio_buttons_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/87c2fcba-2fbb-44f5-884c-867dbde327a1/radio-buttons.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6af17202-6ffb-4440-91cf-0237a5419bda/radio-buttons.module.js"() {
       if (document.getElementById("a066c67891") === null) {
         const element = document.createElement("style");
         element.id = "a066c67891";
@@ -2713,10 +3039,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ae2689dc-eac7-41af-b132-36d48961bdb3/segmented-control.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/04db5cdb-a6ab-4e2d-a6c3-06b13ff309dc/segmented-control.module.js
   var segmented_control_module_default;
   var init_segmented_control_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ae2689dc-eac7-41af-b132-36d48961bdb3/segmented-control.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/04db5cdb-a6ab-4e2d-a6c3-06b13ff309dc/segmented-control.module.js"() {
       if (document.getElementById("bc6858a1b5") === null) {
         const element = document.createElement("style");
         element.id = "bc6858a1b5";
@@ -2817,10 +3143,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b6fcf652-05be-4cc1-970b-d0c152dd8c90/tabs.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ea228244-6197-4159-a61d-02aadd86c9bb/tabs.module.js
   var tabs_module_default;
   var init_tabs_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b6fcf652-05be-4cc1-970b-d0c152dd8c90/tabs.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ea228244-6197-4159-a61d-02aadd86c9bb/tabs.module.js"() {
       if (document.getElementById("b2487bb7e6") === null) {
         const element = document.createElement("style");
         element.id = "b2487bb7e6";
@@ -3037,10 +3363,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6d374f70-e9a1-4a4c-887f-51deec0e08e4/textbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/40aeea44-f43a-47da-b6d6-ab6ca119a22d/textbox.module.js
   var textbox_module_default;
   var init_textbox_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6d374f70-e9a1-4a4c-887f-51deec0e08e4/textbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/40aeea44-f43a-47da-b6d6-ab6ca119a22d/textbox.module.js"() {
       if (document.getElementById("5c1c5c2d3d") === null) {
         const element = document.createElement("style");
         element.id = "5c1c5c2d3d";
@@ -3439,10 +3765,419 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4f351434-ce23-4dae-a7bb-64f47338d30c/textbox.module.js
+  // node_modules/@create-figma-plugin/ui/lib/components/textbox/textbox-color/private/create-rgba-color.js
+  function createRgbaColor(hexColor, opacity) {
+    if (hexColor === "" || hexColor === MIXED_STRING || opacity === "" || opacity === MIXED_STRING) {
+      return null;
+    }
+    const rgb = convertHexColorToRgbColor(hexColor);
+    if (rgb === null) {
+      return null;
+    }
+    return __spreadProps(__spreadValues({}, rgb), {
+      a: parseInt(opacity, 10) / 100
+    });
+  }
+  var init_create_rgba_color = __esm({
+    "node_modules/@create-figma-plugin/ui/lib/components/textbox/textbox-color/private/create-rgba-color.js"() {
+      init_lib();
+    }
+  });
+
+  // node_modules/@create-figma-plugin/ui/lib/components/textbox/textbox-color/private/normalize-hex-color.js
+  function normalizeUserInputColor(string) {
+    const parsedNamedColor = convertNamedColorToHexColor(string);
+    if (parsedNamedColor !== null) {
+      return parsedNamedColor;
+    }
+    const hexColor = createHexColor(string).toUpperCase();
+    if (isValidHexColor(hexColor) === false) {
+      return null;
+    }
+    return hexColor;
+  }
+  function createHexColor(string) {
+    switch (string.length) {
+      case 0: {
+        return "";
+      }
+      case 1: {
+        return Array(6).fill(string).join("");
+      }
+      case 2: {
+        return Array(3).fill(string).join("");
+      }
+      case 3:
+      case 4:
+      case 5: {
+        return `${string[0]}${string[0]}${string[1]}${string[1]}${string[2]}${string[2]}`;
+      }
+      case 6: {
+        return string;
+      }
+      default: {
+        return string.slice(0, 6);
+      }
+    }
+  }
+  var init_normalize_hex_color = __esm({
+    "node_modules/@create-figma-plugin/ui/lib/components/textbox/textbox-color/private/normalize-hex-color.js"() {
+      init_lib();
+    }
+  });
+
+  // node_modules/@create-figma-plugin/ui/lib/components/textbox/textbox-color/private/update-hex-color.js
+  function updateHexColor(hexColor, delta) {
+    const rgbColor = convertHexColorToRgbColor(hexColor);
+    if (rgbColor === null) {
+      throw new Error("Invalid `hexColor`");
+    }
+    const { r: r3, g: g4, b: b2 } = rgbColor;
+    const result = convertRgbColorToHexColor({
+      b: updateValue(b2, delta),
+      g: updateValue(g4, delta),
+      r: updateValue(r3, delta)
+    });
+    if (result === null) {
+      throw new Error("Invalid `rgbColor`");
+    }
+    return result;
+  }
+  function updateValue(value2, delta) {
+    const newValue = value2 * 255 + delta;
+    return Math.min(Math.max(newValue, 0), 255) / 255;
+  }
+  var init_update_hex_color = __esm({
+    "node_modules/@create-figma-plugin/ui/lib/components/textbox/textbox-color/private/update-hex-color.js"() {
+      init_lib();
+    }
+  });
+
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e7fd7480-0a1e-4880-a0a5-43fd206b17e1/textbox-color.module.js
+  var textbox_color_module_default;
+  var init_textbox_color_module = __esm({
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e7fd7480-0a1e-4880-a0a5-43fd206b17e1/textbox-color.module.js"() {
+      if (document.getElementById("77000fee0f") === null) {
+        const element = document.createElement("style");
+        element.id = "77000fee0f";
+        element.textContent = `._textboxColor_1yyub_1 {
+  position: relative;
+  z-index: var(--z-index-1);
+  display: flex;
+  width: 156px;
+  align-items: center;
+  border-radius: var(--border-radius-4);
+  background-color: var(--figma-color-bg-secondary);
+}
+._textboxColor_1yyub_1:focus-within {
+  z-index: var(
+    --z-index-2
+  ); /* Stack \`.textboxColor\` over its sibling elements */
+}
+
+._disabled_1yyub_16,
+._disabled_1yyub_16 * {
+  cursor: not-allowed;
+}
+
+._fullWidth_1yyub_21 {
+  width: 100%;
+}
+
+._chit_1yyub_25 {
+  display: flex;
+  overflow: hidden;
+  height: 14px;
+  flex: 0 0 14px;
+  border-radius: var(--border-radius-2);
+  margin-left: calc(var(--space-6) - var(--border-width-1));
+  background-image: url('data:image/svg+xml;utf8,%3Csvg%20width%3D%226%22%20height%3D%226%22%20viewBox%3D%220%200%206%206%22%20fill%3D%22none%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M0%200H3V3H0V0Z%22%20fill%3D%22%23E1E1E1%22/%3E%3Cpath%20d%3D%22M3%200H6V3H3V0Z%22%20fill%3D%22white%22/%3E%3Cpath%20d%3D%22M3%203H6V6H3V3Z%22%20fill%3D%22%23E1E1E1%22/%3E%3Cpath%20d%3D%22M0%203H3V6H0V3Z%22%20fill%3D%22white%22/%3E%3C/svg%3E%0A');
+}
+._disabled_1yyub_16 ._chit_1yyub_25 {
+  opacity: var(--opacity-30);
+}
+
+._color_1yyub_38 {
+  flex: 1;
+  background: none;
+}
+
+._hexColorSelector_1yyub_43 {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: var(--space-24);
+  height: var(--space-32);
+  opacity: 0;
+  transform: translate(0, -50%);
+}
+
+._input_1yyub_53 {
+  display: block;
+  width: 100%;
+  height: var(--space-24);
+  background-color: transparent;
+  color: var(--figma-color-text);
+}
+
+._input_1yyub_53::placeholder {
+  color: var(--figma-color-text-tertiary);
+}
+
+._input_1yyub_53::-webkit-inner-spin-button,
+._input_1yyub_53::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+._hexColorInput_1yyub_70 {
+  flex: 1 67px;
+  padding-left: var(--space-6);
+  border-right: var(--border-width-1) solid var(--figma-color-bg);
+}
+
+._opacityInputWrapper_1yyub_76 {
+  position: relative;
+  flex: 0 0 54px;
+}
+._opacityInput_1yyub_76 {
+  padding-left: var(--space-8);
+}
+
+._percentage_1yyub_84 {
+  position: absolute;
+  top: 50%;
+  right: var(--space-6);
+  color: var(--figma-color-text-secondary);
+  pointer-events: none;
+  text-align: right;
+  transform: translate(0, -50%);
+}
+._disabled_1yyub_16 ._percentage_1yyub_84 {
+  color: var(--figma-color-text-disabled);
+}
+
+._border_1yyub_97 {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border: var(--border-width-1) solid transparent;
+  border-radius: var(--border-radius-4);
+  pointer-events: none;
+}
+._textboxColor_1yyub_1:not(._disabled_1yyub_16):hover ._border_1yyub_97 {
+  border-color: var(--figma-color-border);
+}
+._textboxColor_1yyub_1:not(._disabled_1yyub_16):focus-within ._border_1yyub_97 {
+  border-color: var(--figma-color-border-selected);
+}
+
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm5vZGVfbW9kdWxlcy9AY3JlYXRlLWZpZ21hLXBsdWdpbi91aS9saWIvY29tcG9uZW50cy90ZXh0Ym94L3RleHRib3gtY29sb3IvdGV4dGJveC1jb2xvci5tb2R1bGUuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0Usa0JBQWtCO0VBQ2xCLHlCQUF5QjtFQUN6QixhQUFhO0VBQ2IsWUFBWTtFQUNaLG1CQUFtQjtFQUNuQixxQ0FBcUM7RUFDckMsaURBQWlEO0FBQ25EO0FBQ0E7RUFDRTs7R0FFQyxFQUFFLG9EQUFvRDtBQUN6RDs7QUFFQTs7RUFFRSxtQkFBbUI7QUFDckI7O0FBRUE7RUFDRSxXQUFXO0FBQ2I7O0FBRUE7RUFDRSxhQUFhO0VBQ2IsZ0JBQWdCO0VBQ2hCLFlBQVk7RUFDWixjQUFjO0VBQ2QscUNBQXFDO0VBQ3JDLHlEQUF5RDtFQUN6RCxxY0FBcWM7QUFDdmM7QUFDQTtFQUNFLDBCQUEwQjtBQUM1Qjs7QUFFQTtFQUNFLE9BQU87RUFDUCxnQkFBZ0I7QUFDbEI7O0FBRUE7RUFDRSxrQkFBa0I7RUFDbEIsUUFBUTtFQUNSLE9BQU87RUFDUCxzQkFBc0I7RUFDdEIsdUJBQXVCO0VBQ3ZCLFVBQVU7RUFDViw2QkFBNkI7QUFDL0I7O0FBRUE7RUFDRSxjQUFjO0VBQ2QsV0FBVztFQUNYLHVCQUF1QjtFQUN2Qiw2QkFBNkI7RUFDN0IsOEJBQThCO0FBQ2hDOztBQUVBO0VBQ0UsdUNBQXVDO0FBQ3pDOztBQUVBOztFQUVFLHdCQUF3QjtBQUMxQjs7QUFFQTtFQUNFLFlBQVk7RUFDWiw0QkFBNEI7RUFDNUIsK0RBQStEO0FBQ2pFOztBQUVBO0VBQ0Usa0JBQWtCO0VBQ2xCLGNBQWM7QUFDaEI7QUFDQTtFQUNFLDRCQUE0QjtBQUM5Qjs7QUFFQTtFQUNFLGtCQUFrQjtFQUNsQixRQUFRO0VBQ1IscUJBQXFCO0VBQ3JCLHdDQUF3QztFQUN4QyxvQkFBb0I7RUFDcEIsaUJBQWlCO0VBQ2pCLDZCQUE2QjtBQUMvQjtBQUNBO0VBQ0UsdUNBQXVDO0FBQ3pDOztBQUVBO0VBQ0Usa0JBQWtCO0VBQ2xCLE1BQU07RUFDTixRQUFRO0VBQ1IsU0FBUztFQUNULE9BQU87RUFDUCwrQ0FBK0M7RUFDL0MscUNBQXFDO0VBQ3JDLG9CQUFvQjtBQUN0QjtBQUNBO0VBQ0UsdUNBQXVDO0FBQ3pDO0FBQ0E7RUFDRSxnREFBZ0Q7QUFDbEQiLCJmaWxlIjoibm9kZV9tb2R1bGVzL0BjcmVhdGUtZmlnbWEtcGx1Z2luL3VpL2xpYi9jb21wb25lbnRzL3RleHRib3gvdGV4dGJveC1jb2xvci90ZXh0Ym94LWNvbG9yLm1vZHVsZS5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIudGV4dGJveENvbG9yIHtcbiAgcG9zaXRpb246IHJlbGF0aXZlO1xuICB6LWluZGV4OiB2YXIoLS16LWluZGV4LTEpO1xuICBkaXNwbGF5OiBmbGV4O1xuICB3aWR0aDogMTU2cHg7XG4gIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gIGJvcmRlci1yYWRpdXM6IHZhcigtLWJvcmRlci1yYWRpdXMtNCk7XG4gIGJhY2tncm91bmQtY29sb3I6IHZhcigtLWZpZ21hLWNvbG9yLWJnLXNlY29uZGFyeSk7XG59XG4udGV4dGJveENvbG9yOmZvY3VzLXdpdGhpbiB7XG4gIHotaW5kZXg6IHZhcihcbiAgICAtLXotaW5kZXgtMlxuICApOyAvKiBTdGFjayBgLnRleHRib3hDb2xvcmAgb3ZlciBpdHMgc2libGluZyBlbGVtZW50cyAqL1xufVxuXG4uZGlzYWJsZWQsXG4uZGlzYWJsZWQgKiB7XG4gIGN1cnNvcjogbm90LWFsbG93ZWQ7XG59XG5cbi5mdWxsV2lkdGgge1xuICB3aWR0aDogMTAwJTtcbn1cblxuLmNoaXQge1xuICBkaXNwbGF5OiBmbGV4O1xuICBvdmVyZmxvdzogaGlkZGVuO1xuICBoZWlnaHQ6IDE0cHg7XG4gIGZsZXg6IDAgMCAxNHB4O1xuICBib3JkZXItcmFkaXVzOiB2YXIoLS1ib3JkZXItcmFkaXVzLTIpO1xuICBtYXJnaW4tbGVmdDogY2FsYyh2YXIoLS1zcGFjZS02KSAtIHZhcigtLWJvcmRlci13aWR0aC0xKSk7XG4gIGJhY2tncm91bmQtaW1hZ2U6IHVybCgnZGF0YTppbWFnZS9zdmcreG1sO3V0ZjgsJTNDc3ZnJTIwd2lkdGglM0QlMjI2JTIyJTIwaGVpZ2h0JTNEJTIyNiUyMiUyMHZpZXdCb3glM0QlMjIwJTIwMCUyMDYlMjA2JTIyJTIwZmlsbCUzRCUyMm5vbmUlMjIlMjB4bWxucyUzRCUyMmh0dHAlM0EvL3d3dy53My5vcmcvMjAwMC9zdmclMjIlM0UlM0NwYXRoJTIwZCUzRCUyMk0wJTIwMEgzVjNIMFYwWiUyMiUyMGZpbGwlM0QlMjIlMjNFMUUxRTElMjIvJTNFJTNDcGF0aCUyMGQlM0QlMjJNMyUyMDBINlYzSDNWMFolMjIlMjBmaWxsJTNEJTIyd2hpdGUlMjIvJTNFJTNDcGF0aCUyMGQlM0QlMjJNMyUyMDNINlY2SDNWM1olMjIlMjBmaWxsJTNEJTIyJTIzRTFFMUUxJTIyLyUzRSUzQ3BhdGglMjBkJTNEJTIyTTAlMjAzSDNWNkgwVjNaJTIyJTIwZmlsbCUzRCUyMndoaXRlJTIyLyUzRSUzQy9zdmclM0UlMEEnKTtcbn1cbi5kaXNhYmxlZCAuY2hpdCB7XG4gIG9wYWNpdHk6IHZhcigtLW9wYWNpdHktMzApO1xufVxuXG4uY29sb3Ige1xuICBmbGV4OiAxO1xuICBiYWNrZ3JvdW5kOiBub25lO1xufVxuXG4uaGV4Q29sb3JTZWxlY3RvciB7XG4gIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgdG9wOiA1MCU7XG4gIGxlZnQ6IDA7XG4gIHdpZHRoOiB2YXIoLS1zcGFjZS0yNCk7XG4gIGhlaWdodDogdmFyKC0tc3BhY2UtMzIpO1xuICBvcGFjaXR5OiAwO1xuICB0cmFuc2Zvcm06IHRyYW5zbGF0ZSgwLCAtNTAlKTtcbn1cblxuLmlucHV0IHtcbiAgZGlzcGxheTogYmxvY2s7XG4gIHdpZHRoOiAxMDAlO1xuICBoZWlnaHQ6IHZhcigtLXNwYWNlLTI0KTtcbiAgYmFja2dyb3VuZC1jb2xvcjogdHJhbnNwYXJlbnQ7XG4gIGNvbG9yOiB2YXIoLS1maWdtYS1jb2xvci10ZXh0KTtcbn1cblxuLmlucHV0OjpwbGFjZWhvbGRlciB7XG4gIGNvbG9yOiB2YXIoLS1maWdtYS1jb2xvci10ZXh0LXRlcnRpYXJ5KTtcbn1cblxuLmlucHV0Ojotd2Via2l0LWlubmVyLXNwaW4tYnV0dG9uLFxuLmlucHV0Ojotd2Via2l0LW91dGVyLXNwaW4tYnV0dG9uIHtcbiAgLXdlYmtpdC1hcHBlYXJhbmNlOiBub25lO1xufVxuXG4uaGV4Q29sb3JJbnB1dCB7XG4gIGZsZXg6IDEgNjdweDtcbiAgcGFkZGluZy1sZWZ0OiB2YXIoLS1zcGFjZS02KTtcbiAgYm9yZGVyLXJpZ2h0OiB2YXIoLS1ib3JkZXItd2lkdGgtMSkgc29saWQgdmFyKC0tZmlnbWEtY29sb3ItYmcpO1xufVxuXG4ub3BhY2l0eUlucHV0V3JhcHBlciB7XG4gIHBvc2l0aW9uOiByZWxhdGl2ZTtcbiAgZmxleDogMCAwIDU0cHg7XG59XG4ub3BhY2l0eUlucHV0IHtcbiAgcGFkZGluZy1sZWZ0OiB2YXIoLS1zcGFjZS04KTtcbn1cblxuLnBlcmNlbnRhZ2Uge1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIHRvcDogNTAlO1xuICByaWdodDogdmFyKC0tc3BhY2UtNik7XG4gIGNvbG9yOiB2YXIoLS1maWdtYS1jb2xvci10ZXh0LXNlY29uZGFyeSk7XG4gIHBvaW50ZXItZXZlbnRzOiBub25lO1xuICB0ZXh0LWFsaWduOiByaWdodDtcbiAgdHJhbnNmb3JtOiB0cmFuc2xhdGUoMCwgLTUwJSk7XG59XG4uZGlzYWJsZWQgLnBlcmNlbnRhZ2Uge1xuICBjb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItdGV4dC1kaXNhYmxlZCk7XG59XG5cbi5ib3JkZXIge1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIHRvcDogMDtcbiAgcmlnaHQ6IDA7XG4gIGJvdHRvbTogMDtcbiAgbGVmdDogMDtcbiAgYm9yZGVyOiB2YXIoLS1ib3JkZXItd2lkdGgtMSkgc29saWQgdHJhbnNwYXJlbnQ7XG4gIGJvcmRlci1yYWRpdXM6IHZhcigtLWJvcmRlci1yYWRpdXMtNCk7XG4gIHBvaW50ZXItZXZlbnRzOiBub25lO1xufVxuLnRleHRib3hDb2xvcjpub3QoLmRpc2FibGVkKTpob3ZlciAuYm9yZGVyIHtcbiAgYm9yZGVyLWNvbG9yOiB2YXIoLS1maWdtYS1jb2xvci1ib3JkZXIpO1xufVxuLnRleHRib3hDb2xvcjpub3QoLmRpc2FibGVkKTpmb2N1cy13aXRoaW4gLmJvcmRlciB7XG4gIGJvcmRlci1jb2xvcjogdmFyKC0tZmlnbWEtY29sb3ItYm9yZGVyLXNlbGVjdGVkKTtcbn1cbiJdfQ== */`;
+        document.head.append(element);
+      }
+      textbox_color_module_default = { "textboxColor": "_textboxColor_1yyub_1", "disabled": "_disabled_1yyub_16", "fullWidth": "_fullWidth_1yyub_21", "chit": "_chit_1yyub_25", "color": "_color_1yyub_38", "hexColorSelector": "_hexColorSelector_1yyub_43", "input": "_input_1yyub_53", "hexColorInput": "_hexColorInput_1yyub_70", "opacityInputWrapper": "_opacityInputWrapper_1yyub_76", "opacityInput": "_opacityInput_1yyub_76", "percentage": "_percentage_1yyub_84", "border": "_border_1yyub_97" };
+    }
+  });
+
+  // node_modules/@create-figma-plugin/ui/lib/components/textbox/textbox-color/textbox-color.js
+  function parseOpacity(opacity) {
+    if (opacity === MIXED_STRING || opacity === EMPTY_STRING4) {
+      return 1;
+    }
+    return parseInt(opacity, 10) / 100;
+  }
+  var EMPTY_STRING4, TextboxColor;
+  var init_textbox_color = __esm({
+    "node_modules/@create-figma-plugin/ui/lib/components/textbox/textbox-color/textbox-color.js"() {
+      init_lib();
+      init_preact_module();
+      init_hooks_module();
+      init_create_class_name();
+      init_create_component();
+      init_get_current_from_ref();
+      init_no_op();
+      init_raw_textbox_numeric();
+      init_create_rgba_color();
+      init_normalize_hex_color();
+      init_update_hex_color();
+      init_textbox_color_module();
+      EMPTY_STRING4 = "";
+      TextboxColor = createComponent(function(_a, ref) {
+        var _b = _a, { disabled = false, fullWidth = false, hexColor, hexColorPlaceholder, onCommand, onHexColorInput = noop, onHexColorKeyDown = noop, onHexColorValueInput = noop, onOpacityInput = noop, onOpacityKeyDown = noop, onOpacityNumericValueInput = noop, onOpacityValueInput = noop, onRgbaColorValueInput = noop, opacity, propagateEscapeKeyDown = true, revertOnEscapeKeyDown = false } = _b, rest = __objRest(_b, ["disabled", "fullWidth", "hexColor", "hexColorPlaceholder", "onCommand", "onHexColorInput", "onHexColorKeyDown", "onHexColorValueInput", "onOpacityInput", "onOpacityKeyDown", "onOpacityNumericValueInput", "onOpacityValueInput", "onRgbaColorValueInput", "opacity", "propagateEscapeKeyDown", "revertOnEscapeKeyDown"]);
+        const hexColorInputElementRef = A2(null);
+        const opacityInputElementRef = A2(null);
+        const revertOnEscapeKeyDownRef = A2(false);
+        const [originalHexColor, setOriginalHexColor] = d2(EMPTY_STRING4);
+        const setHexColorInputElementValue = q2(function(value2) {
+          const inputElement = getCurrentFromRef(hexColorInputElementRef);
+          inputElement.value = value2;
+          const inputEvent = new window.Event("input", {
+            bubbles: true,
+            cancelable: true
+          });
+          inputElement.dispatchEvent(inputEvent);
+        }, []);
+        const handleHexColorSelectorFocus = q2(function(event) {
+          const hexColor2 = event.currentTarget.value.slice(1).toUpperCase();
+          setOriginalHexColor(hexColor2);
+        }, []);
+        const handleHexColorSelectorInput = q2(function(event) {
+          const hexColor2 = event.currentTarget.value.slice(1).toUpperCase();
+          setHexColorInputElementValue(hexColor2);
+        }, [setHexColorInputElementValue]);
+        const handleHexColorSelectorKeyDown = q2(function(event) {
+          if (event.key !== "Escape") {
+            return;
+          }
+          if (revertOnEscapeKeyDown === true) {
+            revertOnEscapeKeyDownRef.current = true;
+            setHexColorInputElementValue(originalHexColor);
+            setOriginalHexColor(EMPTY_STRING4);
+          }
+          if (propagateEscapeKeyDown === false) {
+            event.stopPropagation();
+          }
+          event.currentTarget.blur();
+        }, [
+          originalHexColor,
+          propagateEscapeKeyDown,
+          revertOnEscapeKeyDown,
+          setHexColorInputElementValue
+        ]);
+        const handleHexColorBlur = q2(function() {
+          if (revertOnEscapeKeyDownRef.current === true) {
+            revertOnEscapeKeyDownRef.current = false;
+            return;
+          }
+          if (hexColor === EMPTY_STRING4) {
+            if (originalHexColor !== EMPTY_STRING4) {
+              setHexColorInputElementValue(originalHexColor);
+            }
+            setOriginalHexColor(EMPTY_STRING4);
+            return;
+          }
+          if (hexColor !== MIXED_STRING) {
+            const normalizedHexColor2 = normalizeUserInputColor(hexColor);
+            const newHexColor = normalizedHexColor2 === null ? originalHexColor : normalizedHexColor2;
+            if (newHexColor !== hexColor) {
+              setHexColorInputElementValue(newHexColor);
+            }
+          }
+          setOriginalHexColor(EMPTY_STRING4);
+        }, [hexColor, originalHexColor, setHexColorInputElementValue]);
+        const handleHexColorFocus = q2(function(event) {
+          setOriginalHexColor(hexColor);
+          event.currentTarget.select();
+        }, [hexColor]);
+        const handleHexColorInput = q2(function(event) {
+          onHexColorInput(event);
+          const newHexColor = event.currentTarget.value;
+          onHexColorValueInput(newHexColor);
+          if (newHexColor === EMPTY_STRING4) {
+            onRgbaColorValueInput(null);
+            return;
+          }
+          const normalizedHexColor2 = normalizeUserInputColor(newHexColor);
+          if (normalizedHexColor2 === null) {
+            onRgbaColorValueInput(null);
+            return;
+          }
+          const rgba = createRgbaColor(normalizedHexColor2, opacity);
+          onRgbaColorValueInput(rgba);
+        }, [onHexColorInput, onHexColorValueInput, onRgbaColorValueInput, opacity]);
+        const handleHexColorKeyDown = q2(function(event) {
+          onHexColorKeyDown(event);
+          const key = event.key;
+          if (key === "Escape") {
+            if (revertOnEscapeKeyDown === true) {
+              revertOnEscapeKeyDownRef.current = true;
+              setHexColorInputElementValue(originalHexColor);
+              setOriginalHexColor(EMPTY_STRING4);
+            }
+            if (propagateEscapeKeyDown === false) {
+              event.stopPropagation();
+            }
+            event.currentTarget.blur();
+            return;
+          }
+          const element = event.currentTarget;
+          if (key === "ArrowDown" || key === "ArrowUp") {
+            event.preventDefault();
+            const delta = event.shiftKey === true ? 10 : 1;
+            const startingHexColor = hexColor === EMPTY_STRING4 || hexColor === MIXED_STRING ? key === "ArrowDown" ? "FFFFFF" : "000000" : hexColor;
+            const newHexColor = updateHexColor(startingHexColor, key === "ArrowDown" ? -1 * delta : delta);
+            setHexColorInputElementValue(newHexColor);
+            element.select();
+            return;
+          }
+          if (event.ctrlKey === true || event.metaKey === true) {
+            return;
+          }
+        }, [
+          hexColor,
+          onHexColorKeyDown,
+          originalHexColor,
+          propagateEscapeKeyDown,
+          revertOnEscapeKeyDown,
+          setHexColorInputElementValue
+        ]);
+        const handleHexColorMouseUp = q2(function(event) {
+          if (hexColor !== MIXED_STRING) {
+            return;
+          }
+          event.preventDefault();
+        }, [hexColor]);
+        const handleOpacityInput = q2(function(event) {
+          onOpacityInput(event);
+          const newOpacity = event.currentTarget.value;
+          const rgba = createRgbaColor(hexColor, newOpacity);
+          onRgbaColorValueInput(rgba);
+        }, [hexColor, onOpacityInput, onRgbaColorValueInput]);
+        const handleOpacityNumericValueInput = q2(function(opacity2) {
+          onOpacityNumericValueInput(opacity2 === null || opacity2 === MIXED_NUMBER ? opacity2 : opacity2 / 100);
+        }, [onOpacityNumericValueInput]);
+        const validateOpacityOnBlur = q2(function(opacity2) {
+          return opacity2 !== null;
+        }, []);
+        const parsedOpacity = parseOpacity(opacity);
+        const isHexColorValid = hexColor !== EMPTY_STRING4 && hexColor !== MIXED_STRING;
+        const normalizedHexColor = isHexColorValid === true ? normalizeUserInputColor(hexColor) : "FFFFFF";
+        const renderedHexColor = normalizedHexColor === null ? originalHexColor : normalizedHexColor;
+        return _(
+          "div",
+          { ref, class: createClassName([
+            textbox_color_module_default.textboxColor,
+            disabled === true ? textbox_color_module_default.disabled : null,
+            fullWidth === true ? textbox_color_module_default.fullWidth : null
+          ]) },
+          _(
+            "div",
+            { class: textbox_color_module_default.chit },
+            _("div", { class: textbox_color_module_default.color, style: isHexColorValid === true ? { backgroundColor: `#${renderedHexColor}` } : {} }),
+            parsedOpacity === 1 ? null : _("div", { class: textbox_color_module_default.color, style: isHexColorValid === true ? {
+              backgroundColor: `#${renderedHexColor}`,
+              opacity: parsedOpacity
+            } : {} })
+          ),
+          _("input", { class: textbox_color_module_default.hexColorSelector, disabled: disabled === true, onFocus: handleHexColorSelectorFocus, onInput: handleHexColorSelectorInput, onKeyDown: handleHexColorSelectorKeyDown, tabIndex: -1, type: "color", value: `#${renderedHexColor}` }),
+          _("input", __spreadProps(__spreadValues({}, rest), { ref: hexColorInputElementRef, class: createClassName([textbox_color_module_default.input, textbox_color_module_default.hexColorInput]), disabled: disabled === true, onBlur: handleHexColorBlur, onFocus: handleHexColorFocus, onInput: handleHexColorInput, onKeyDown: handleHexColorKeyDown, onMouseUp: handleHexColorMouseUp, placeholder: hexColorPlaceholder, spellcheck: false, tabIndex: 0, type: "text", value: hexColor === MIXED_STRING ? "Mixed" : hexColor })),
+          _(
+            "div",
+            { class: textbox_color_module_default.opacityInputWrapper },
+            _(RawTextboxNumeric, { ref: opacityInputElementRef, class: createClassName([textbox_color_module_default.input, textbox_color_module_default.opacityInput]), disabled: disabled === true, maximum: 100, minimum: 0, onInput: handleOpacityInput, onKeyDown: onOpacityKeyDown, onNumericValueInput: handleOpacityNumericValueInput, onValueInput: onOpacityValueInput, propagateEscapeKeyDown, revertOnEscapeKeyDown, validateOnBlur: validateOpacityOnBlur, value: opacity }),
+            opacity === MIXED_STRING ? null : _("div", { class: textbox_color_module_default.percentage }, "%")
+          ),
+          _("div", { class: textbox_color_module_default.border })
+        );
+      });
+    }
+  });
+
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a8f249b9-823c-48e1-ab1d-b2f838a496e2/textbox.module.js
   var textbox_module_default2;
   var init_textbox_module2 = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4f351434-ce23-4dae-a7bb-64f47338d30c/textbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a8f249b9-823c-48e1-ab1d-b2f838a496e2/textbox.module.js"() {
       if (document.getElementById("5c1c5c2d3d") === null) {
         const element = document.createElement("style");
         element.id = "5c1c5c2d3d";
@@ -3513,10 +4248,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/535812b2-5f09-4cd5-bf7e-24f5f200b61c/textbox-numeric.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/197f79a8-ca69-48a5-9bc2-0e869257de28/textbox-numeric.module.js
   var textbox_numeric_module_default;
   var init_textbox_numeric_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/535812b2-5f09-4cd5-bf7e-24f5f200b61c/textbox-numeric.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/197f79a8-ca69-48a5-9bc2-0e869257de28/textbox-numeric.module.js"() {
       if (document.getElementById("b6dab244a8") === null) {
         const element = document.createElement("style");
         element.id = "b6dab244a8";
@@ -3732,10 +4467,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/10d80ce3-9f55-4c7a-b405-7a0ace041dab/container.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c2b891c2-744b-4fc9-b8f6-cb702cfb8d0c/container.module.js
   var container_module_default;
   var init_container_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/10d80ce3-9f55-4c7a-b405-7a0ace041dab/container.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c2b891c2-744b-4fc9-b8f6-cb702cfb8d0c/container.module.js"() {
       if (document.getElementById("b49e1406f9") === null) {
         const element = document.createElement("style");
         element.id = "b49e1406f9";
@@ -3776,10 +4511,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/95db6a81-5761-47a8-bb8c-c64cca14ec83/vertical-space.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/3e10e4a3-9bcc-4b80-8e70-f0cbf273a4c9/vertical-space.module.js
   var vertical_space_module_default;
   var init_vertical_space_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/95db6a81-5761-47a8-bb8c-c64cca14ec83/vertical-space.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/3e10e4a3-9bcc-4b80-8e70-f0cbf273a4c9/vertical-space.module.js"() {
       if (document.getElementById("ba0eea5114") === null) {
         const element = document.createElement("style");
         element.id = "ba0eea5114";
@@ -3820,9 +4555,9 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f79ffdd9-1595-4904-b274-381d0d939761/base.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ccc2a020-eeed-4dbf-bc33-db568a732491/base.js
   var init_base = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f79ffdd9-1595-4904-b274-381d0d939761/base.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ccc2a020-eeed-4dbf-bc33-db568a732491/base.js"() {
       if (document.getElementById("0597dd81e7") === null) {
         const element = document.createElement("style");
         element.id = "0597dd81e7";
@@ -3980,6 +4715,7 @@ svg {
       init_tabs();
       init_text();
       init_textbox();
+      init_textbox_color();
       init_textbox_numeric();
       init_icon_adjust_16();
       init_icon_check_16();
@@ -4054,7 +4790,8 @@ svg {
         FIND_COLOR_MATCH_SET_COLLECTION: "FIND_COLOR_MATCH_SET_COLLECTION",
         FIND_COLOR_MATCH_SET_MODE: "FIND_COLOR_MATCH_SET_MODE",
         FIND_COLOR_MATCH_APPLY: "FIND_COLOR_MATCH_APPLY",
-        FIND_COLOR_MATCH_FOCUS_NODE: "FIND_COLOR_MATCH_FOCUS_NODE"
+        FIND_COLOR_MATCH_FOCUS_NODE: "FIND_COLOR_MATCH_FOCUS_NODE",
+        FIND_COLOR_MATCH_HEX_LOOKUP: "FIND_COLOR_MATCH_HEX_LOOKUP"
       };
       MAIN_TO_UI = {
         BOOTSTRAPPED: "BOOTSTRAPPED",
@@ -4104,7 +4841,8 @@ svg {
         FIND_COLOR_MATCH_COLLECTIONS: "FIND_COLOR_MATCH_COLLECTIONS",
         FIND_COLOR_MATCH_RESULT: "FIND_COLOR_MATCH_RESULT",
         FIND_COLOR_MATCH_PROGRESS: "FIND_COLOR_MATCH_PROGRESS",
-        FIND_COLOR_MATCH_APPLY_RESULT: "FIND_COLOR_MATCH_APPLY_RESULT"
+        FIND_COLOR_MATCH_APPLY_RESULT: "FIND_COLOR_MATCH_APPLY_RESULT",
+        FIND_COLOR_MATCH_HEX_RESULT: "FIND_COLOR_MATCH_HEX_RESULT"
       };
     }
   });
@@ -4278,7 +5016,7 @@ svg {
     ), /* @__PURE__ */ _(
       ToolCard,
       {
-        title: "Find Color Match",
+        title: "Find Color Match in Islands",
         description: "Find the closest variable for unbound colors",
         icon: /* @__PURE__ */ _(IconTarget16, null),
         onClick: () => props.goTo("find-color-match-tool")
@@ -7751,6 +8489,7 @@ svg {
 
   // src/app/views/find-color-match-tool/FindColorMatchToolView.tsx
   function FindColorMatchToolView({ onBack, initialSelectionEmpty }) {
+    var _a;
     const [collections, setCollections] = d2([]);
     const [selectedCollectionKey, setSelectedCollectionKey] = d2(null);
     const [selectedModeId, setSelectedModeId] = d2(null);
@@ -7760,10 +8499,16 @@ svg {
     const [appliedKeys, setAppliedKeys] = d2(/* @__PURE__ */ new Set());
     const [overrides, setOverrides] = d2({});
     const [selectionEmpty, setSelectionEmpty] = d2(initialSelectionEmpty != null ? initialSelectionEmpty : true);
+    const [hexInput, setHexInput] = d2("");
+    const [hexOpacity, setHexOpacity] = d2("100");
+    const [hexMatches, setHexMatches] = d2([]);
+    const [hexResultFor, setHexResultFor] = d2(null);
+    const [hexSelectedIdx, setHexSelectedIdx] = d2(0);
+    const [copiedName, setCopiedName] = d2(null);
     y2(() => {
       const handler = (event) => {
-        var _a;
-        const msg = (_a = event.data) == null ? void 0 : _a.pluginMessage;
+        var _a2;
+        const msg = (_a2 = event.data) == null ? void 0 : _a2.pluginMessage;
         if (!msg) return;
         if (msg.type === MAIN_TO_UI.FIND_COLOR_MATCH_COLLECTIONS) {
           setCollections(msg.payload.collections);
@@ -7804,6 +8549,11 @@ svg {
             });
           }
         }
+        if (msg.type === MAIN_TO_UI.FIND_COLOR_MATCH_HEX_RESULT) {
+          setHexMatches(msg.payload.allMatches);
+          setHexResultFor(msg.payload.hex);
+          setHexSelectedIdx(0);
+        }
         if (msg.type === MAIN_TO_UI.SELECTION_EMPTY) {
           setSelectionEmpty(true);
           setEntries([]);
@@ -7820,29 +8570,13 @@ svg {
     );
     const selectedCollection = T2(
       () => {
-        var _a;
-        return (_a = collections.find((c3) => c3.key === selectedCollectionKey)) != null ? _a : null;
+        var _a2;
+        return (_a2 = collections.find((c3) => c3.key === selectedCollectionKey)) != null ? _a2 : null;
       },
       [collections, selectedCollectionKey]
     );
     const collectionOptions = T2(() => {
-      const libraryCollections = collections.filter((c3) => c3.isLibrary);
-      const localCollections = collections.filter((c3) => !c3.isLibrary);
-      const options = [];
-      if (libraryCollections.length > 0) {
-        options.push({ header: "Libraries" });
-        for (const c3 of libraryCollections) {
-          options.push({ value: c3.key, text: `${c3.name} [${c3.libraryName}]` });
-        }
-      }
-      if (localCollections.length > 0) {
-        if (options.length > 0) options.push("-");
-        options.push({ header: "Local" });
-        for (const c3 of localCollections) {
-          options.push({ value: c3.key, text: c3.name });
-        }
-      }
-      return options;
+      return collections.map((c3) => ({ value: c3.key, text: c3.name }));
     }, [collections]);
     const modeOptions = T2(() => {
       if (!selectedCollection || selectedCollection.modes.length === 0) return [];
@@ -7852,14 +8586,14 @@ svg {
       }));
     }, [selectedCollection]);
     const handleCollectionChange = (value2) => {
-      var _a, _b;
+      var _a2, _b;
       setSelectedCollectionKey(value2);
       setEntries([]);
       setAppliedKeys(/* @__PURE__ */ new Set());
       setOverrides({});
       setIsLoading(true);
       const col = collections.find((c3) => c3.key === value2);
-      const firstModeId = (_b = (_a = col == null ? void 0 : col.modes[0]) == null ? void 0 : _a.modeId) != null ? _b : null;
+      const firstModeId = (_b = (_a2 = col == null ? void 0 : col.modes[0]) == null ? void 0 : _a2.modeId) != null ? _b : null;
       setSelectedModeId(firstModeId);
       parent.postMessage(
         { pluginMessage: { type: UI_TO_MAIN.FIND_COLOR_MATCH_SET_COLLECTION, collectionKey: value2 } },
@@ -7872,16 +8606,38 @@ svg {
       setAppliedKeys(/* @__PURE__ */ new Set());
       setOverrides({});
       setIsLoading(true);
+      setHexMatches([]);
+      setHexResultFor(null);
       parent.postMessage(
         { pluginMessage: { type: UI_TO_MAIN.FIND_COLOR_MATCH_SET_MODE, modeId: value2 } },
         "*"
       );
     };
+    const handleHexInput = (value2) => {
+      setHexInput(value2);
+      const clean = value2.replace(/^#/, "");
+      if (/^[0-9a-fA-F]{6}$/.test(clean)) {
+        parent.postMessage(
+          { pluginMessage: { type: UI_TO_MAIN.FIND_COLOR_MATCH_HEX_LOOKUP, hex: `#${clean}` } },
+          "*"
+        );
+      } else {
+        setHexMatches([]);
+        setHexResultFor(null);
+        setHexSelectedIdx(0);
+      }
+    };
+    const handleCopyName = (name) => {
+      navigator.clipboard.writeText(name).then(() => {
+        setCopiedName(name);
+        setTimeout(() => setCopiedName(null), 1500);
+      });
+    };
     const handleApply = (entry) => {
-      var _a;
+      var _a2;
       const key = entryKey(entry);
       const overrideVarId = overrides[key];
-      const variableId = overrideVarId != null ? overrideVarId : (_a = entry.bestMatch) == null ? void 0 : _a.variableId;
+      const variableId = overrideVarId != null ? overrideVarId : (_a2 = entry.bestMatch) == null ? void 0 : _a2.variableId;
       if (!variableId) return;
       parent.postMessage(
         {
@@ -7914,41 +8670,99 @@ svg {
     const showEmptySelection = !isLoading && selectionEmpty && entries.length === 0;
     const showNoUnbound = !isLoading && !selectionEmpty && entries.length === 0 && visibleEntries.length === 0;
     const showLoading = isLoading && entries.length === 0;
+    const hexSelectedMatch = hexMatches.length > 0 ? (_a = hexMatches[hexSelectedIdx]) != null ? _a : hexMatches[0] : null;
+    const hexTop2 = hexMatches.slice(0, 2);
     return /* @__PURE__ */ _(Page, null, /* @__PURE__ */ _(
       ToolHeader,
       {
-        title: "Find Color Match",
+        title: "Find Color Match in Islands",
         left: /* @__PURE__ */ _(IconButton, { onClick: onBack }, /* @__PURE__ */ _(IconHome16, null))
       }
-    ), collections.length > 0 && /* @__PURE__ */ _("div", null, /* @__PURE__ */ _(Container, { space: "small" }, /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(Stack, { space: "extraSmall" }, collectionOptions.length > 0 && /* @__PURE__ */ _(
+    ), /* @__PURE__ */ _("div", null, /* @__PURE__ */ _(Container, { space: "small" }, /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _("div", { style: { display: "flex", gap: 6, alignItems: "stretch" } }, collectionOptions.length > 1 && /* @__PURE__ */ _("div", { style: { flex: 1, minWidth: 0 } }, /* @__PURE__ */ _(
       Dropdown,
       {
         options: collectionOptions,
-        value: selectedCollectionKey != null ? selectedCollectionKey : "",
+        value: selectedCollectionKey != null ? selectedCollectionKey : null,
         onChange: (e3) => handleCollectionChange(e3.currentTarget.value)
       }
-    ), modeOptions.length > 0 && /* @__PURE__ */ _(
+    )), modeOptions.length > 0 && /* @__PURE__ */ _("div", { style: { flex: 1, minWidth: 0 } }, /* @__PURE__ */ _(
       Dropdown,
       {
         options: modeOptions,
-        value: selectedModeId != null ? selectedModeId : "",
+        value: selectedModeId != null ? selectedModeId : null,
         onChange: (e3) => handleModeChange(e3.currentTarget.value)
       }
-    )), /* @__PURE__ */ _(VerticalSpace, { space: "small" })), /* @__PURE__ */ _(Divider, null)), showLoading && /* @__PURE__ */ _(ToolBody, { mode: "state" }, /* @__PURE__ */ _(State, { title: progress ? progress.message : "Loading\u2026" })), showEmptySelection && /* @__PURE__ */ _(ToolBody, { mode: "state" }, /* @__PURE__ */ _(
+    ))), /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _("div", { style: { flex: 1, minWidth: 0 } }, /* @__PURE__ */ _(
+      TextboxColor,
+      {
+        hexColor: hexInput,
+        hexColorPlaceholder: "Paste hex",
+        opacity: hexOpacity,
+        onHexColorValueInput: handleHexInput,
+        onOpacityValueInput: setHexOpacity
+      }
+    )), /* @__PURE__ */ _(VerticalSpace, { space: "small" })), /* @__PURE__ */ _(Divider, null)), hexSelectedMatch && hexResultFor && /* @__PURE__ */ _("div", null, /* @__PURE__ */ _(Container, { space: "small" }, /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(
+      "div",
+      {
+        style: {
+          border: "1px solid var(--figma-color-border)",
+          borderRadius: 6,
+          padding: "8px 10px"
+        }
+      },
+      /* @__PURE__ */ _("div", { style: { display: "flex", alignItems: "center", gap: 8 } }, /* @__PURE__ */ _(ColorSwatch, { hex: hexResultFor, opacityPercent: 100 }), /* @__PURE__ */ _("div", { style: { flex: 1, minWidth: 0 } }, /* @__PURE__ */ _("div", { style: { fontSize: 11, fontWeight: 600 } }, "Hex lookup"), /* @__PURE__ */ _("div", { style: { fontSize: 10, color: "var(--figma-color-text-secondary)" } }, hexResultFor))),
+      /* @__PURE__ */ _("div", { style: { marginTop: 6 } }, hexTop2.map((m3, i3) => /* @__PURE__ */ _(
+        "div",
+        {
+          key: m3.variableId,
+          style: {
+            display: "flex",
+            alignItems: "center",
+            gap: 6,
+            marginBottom: 4,
+            cursor: "pointer",
+            padding: "2px 4px",
+            borderRadius: 4,
+            background: i3 === hexSelectedIdx ? "var(--figma-color-bg-hover)" : "transparent"
+          },
+          onClick: () => setHexSelectedIdx(i3)
+        },
+        /* @__PURE__ */ _(ColorSwatch, { hex: m3.hex, opacityPercent: m3.opacityPercent }),
+        /* @__PURE__ */ _("div", { style: { flex: 1, minWidth: 0, fontSize: 11, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" } }, m3.variableName),
+        /* @__PURE__ */ _("div", { style: { fontSize: 10, color: "var(--figma-color-text-secondary)", flexShrink: 0 } }, m3.matchPercent, "%")
+      )), hexMatches.length > 2 && /* @__PURE__ */ _(
+        Dropdown,
+        {
+          options: hexMatches.slice(2).map((m3, i3) => ({
+            value: String(i3 + 2),
+            text: `${m3.variableName} (${m3.matchPercent}%)`
+          })),
+          value: hexSelectedIdx >= 2 ? String(hexSelectedIdx) : null,
+          onChange: (e3) => setHexSelectedIdx(Number(e3.currentTarget.value)),
+          placeholder: "More matches\u2026",
+          style: { marginBottom: 4 }
+        }
+      ), /* @__PURE__ */ _(
+        Button,
+        {
+          onClick: () => handleCopyName(hexSelectedMatch.variableName),
+          secondary: true,
+          style: { width: "100%" }
+        },
+        copiedName === hexSelectedMatch.variableName ? "Copied!" : "Copy name"
+      ))
+    ), /* @__PURE__ */ _(VerticalSpace, { space: "small" })), /* @__PURE__ */ _(Divider, null)), showLoading && /* @__PURE__ */ _(ToolBody, { mode: "state" }, /* @__PURE__ */ _(State, { title: progress ? progress.message : "Loading\u2026" })), showEmptySelection && /* @__PURE__ */ _(ToolBody, { mode: "state" }, /* @__PURE__ */ _(
       State,
       {
         icon: /* @__PURE__ */ _(IconInteractionClickSmall24, null),
         title: "Select layers to find color matches"
       }
     )), showNoUnbound && /* @__PURE__ */ _(ToolBody, { mode: "state" }, /* @__PURE__ */ _(State, { title: "No unbound colors found in selection" })), visibleEntries.length > 0 && /* @__PURE__ */ _(ToolBody, { mode: "content" }, /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, visibleEntries.length, " unbound color", visibleEntries.length !== 1 ? "s" : "", " found"), /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(Stack, { space: "extraSmall" }, visibleEntries.map((entry) => {
-      var _a, _b, _c;
+      var _a2, _b;
       const key = entryKey(entry);
       const overrideVarId = overrides[key];
-      const selectedMatch = overrideVarId ? (_a = entry.allMatches.find((m3) => m3.variableId === overrideVarId)) != null ? _a : entry.bestMatch : entry.bestMatch;
-      const matchOptions = entry.allMatches.map((m3) => ({
-        value: m3.variableId,
-        text: `${m3.variableName} (${m3.matchPercent}%)`
-      }));
+      const top2 = entry.allMatches.slice(0, 2);
+      const selectedVarId = (_b = overrideVarId != null ? overrideVarId : (_a2 = entry.bestMatch) == null ? void 0 : _a2.variableId) != null ? _b : "";
       return /* @__PURE__ */ _(
         "div",
         {
@@ -7975,16 +8789,39 @@ svg {
           },
           entry.found.nodeName
         ), /* @__PURE__ */ _("div", { style: { fontSize: 10, color: "var(--figma-color-text-secondary)" } }, entry.found.hex, " \xB7 ", entry.found.colorType.toLowerCase(), entry.found.opacity < 100 ? ` \xB7 ${entry.found.opacity}%` : ""))),
-        selectedMatch && /* @__PURE__ */ _("div", { style: { marginTop: 6 } }, /* @__PURE__ */ _("div", { style: { display: "flex", alignItems: "center", gap: 6, marginBottom: 4 } }, /* @__PURE__ */ _("div", { style: { fontSize: 10, color: "var(--figma-color-text-tertiary)" } }, "\u2192"), /* @__PURE__ */ _(ColorSwatch, { hex: selectedMatch.hex, opacityPercent: selectedMatch.opacityPercent }), /* @__PURE__ */ _("div", { style: { fontSize: 10, color: "var(--figma-color-text-secondary)" } }, selectedMatch.matchPercent, "% match")), matchOptions.length > 1 && /* @__PURE__ */ _(
+        top2.length > 0 && /* @__PURE__ */ _("div", { style: { marginTop: 6 } }, top2.map((m3) => /* @__PURE__ */ _(
+          "div",
+          {
+            key: m3.variableId,
+            style: {
+              display: "flex",
+              alignItems: "center",
+              gap: 6,
+              marginBottom: 4,
+              cursor: "pointer",
+              padding: "2px 4px",
+              borderRadius: 4,
+              background: m3.variableId === selectedVarId ? "var(--figma-color-bg-hover)" : "transparent"
+            },
+            onClick: () => handleOverrideVariable(key, m3.variableId)
+          },
+          /* @__PURE__ */ _(ColorSwatch, { hex: m3.hex, opacityPercent: m3.opacityPercent }),
+          /* @__PURE__ */ _("div", { style: { flex: 1, minWidth: 0, fontSize: 11, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" } }, m3.variableName),
+          /* @__PURE__ */ _("div", { style: { fontSize: 10, color: "var(--figma-color-text-secondary)", flexShrink: 0 } }, m3.matchPercent, "%")
+        )), entry.allMatches.length > 2 && /* @__PURE__ */ _(
           Dropdown,
           {
-            options: matchOptions,
-            value: (_c = overrideVarId != null ? overrideVarId : (_b = entry.bestMatch) == null ? void 0 : _b.variableId) != null ? _c : "",
+            options: entry.allMatches.slice(2).map((m3) => ({
+              value: m3.variableId,
+              text: `${m3.variableName} (${m3.matchPercent}%)`
+            })),
+            value: overrideVarId && !top2.find((m3) => m3.variableId === overrideVarId) ? overrideVarId : null,
             onChange: (e3) => handleOverrideVariable(key, e3.currentTarget.value),
+            placeholder: "More matches\u2026",
             style: { marginBottom: 4 }
           }
-        ), matchOptions.length <= 1 && selectedMatch && /* @__PURE__ */ _("div", { style: { fontSize: 11, marginBottom: 4 } }, selectedMatch.variableName), /* @__PURE__ */ _(Button, { onClick: () => handleApply(entry), secondary: true, style: { width: "100%" } }, "Apply")),
-        !selectedMatch && /* @__PURE__ */ _("div", { style: { marginTop: 6, fontSize: 11, color: "var(--figma-color-text-tertiary)" } }, "No matching variable found")
+        ), /* @__PURE__ */ _(Button, { onClick: () => handleApply(entry), secondary: true, style: { width: "100%" } }, "Apply")),
+        top2.length === 0 && /* @__PURE__ */ _("div", { style: { marginTop: 6, fontSize: 11, color: "var(--figma-color-text-tertiary)" } }, "No matching variable found")
       );
     }))), isLoading && entries.length > 0 && progress && /* @__PURE__ */ _("div", { style: {
       position: "fixed",

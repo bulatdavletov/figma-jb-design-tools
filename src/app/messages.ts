@@ -46,6 +46,7 @@ export const UI_TO_MAIN = {
   FIND_COLOR_MATCH_SET_MODE: "FIND_COLOR_MATCH_SET_MODE",
   FIND_COLOR_MATCH_APPLY: "FIND_COLOR_MATCH_APPLY",
   FIND_COLOR_MATCH_FOCUS_NODE: "FIND_COLOR_MATCH_FOCUS_NODE",
+  FIND_COLOR_MATCH_HEX_LOOKUP: "FIND_COLOR_MATCH_HEX_LOOKUP",
 } as const
 
 export const MAIN_TO_UI = {
@@ -97,6 +98,7 @@ export const MAIN_TO_UI = {
   FIND_COLOR_MATCH_RESULT: "FIND_COLOR_MATCH_RESULT",
   FIND_COLOR_MATCH_PROGRESS: "FIND_COLOR_MATCH_PROGRESS",
   FIND_COLOR_MATCH_APPLY_RESULT: "FIND_COLOR_MATCH_APPLY_RESULT",
+  FIND_COLOR_MATCH_HEX_RESULT: "FIND_COLOR_MATCH_HEX_RESULT",
 } as const
 
 export type UiToMainMessage =
@@ -147,6 +149,7 @@ export type UiToMainMessage =
   | { type: typeof UI_TO_MAIN.FIND_COLOR_MATCH_SET_MODE; modeId: string }
   | { type: typeof UI_TO_MAIN.FIND_COLOR_MATCH_APPLY; request: FindColorMatchApplyRequest }
   | { type: typeof UI_TO_MAIN.FIND_COLOR_MATCH_FOCUS_NODE; nodeId: string }
+  | { type: typeof UI_TO_MAIN.FIND_COLOR_MATCH_HEX_LOOKUP; hex: string }
 
 export type ActiveTool =
   | "home"
@@ -363,6 +366,7 @@ export type MainToUiMessage =
   | { type: typeof MAIN_TO_UI.FIND_COLOR_MATCH_RESULT; payload: FindColorMatchResultPayload }
   | { type: typeof MAIN_TO_UI.FIND_COLOR_MATCH_PROGRESS; progress: FindColorMatchProgressPayload }
   | { type: typeof MAIN_TO_UI.FIND_COLOR_MATCH_APPLY_RESULT; result: FindColorMatchApplyResultPayload }
+  | { type: typeof MAIN_TO_UI.FIND_COLOR_MATCH_HEX_RESULT; payload: FindColorMatchHexResultPayload }
 
 // ============================================================================
 // Variables Batch Rename Types
@@ -960,4 +964,9 @@ export type FindColorMatchApplyResultPayload = {
   reason?: string
   nodeId: string
   variableId: string
+}
+
+export type FindColorMatchHexResultPayload = {
+  hex: string
+  allMatches: FindColorMatchVariableEntry[]
 }

@@ -55,7 +55,7 @@ export function HomeView(props: { goTo: (route: Route) => void }) {
               onClick={() => props.goTo("color-chain-tool")}
             />
             <ToolCard
-              title="Find Color Match"
+              title="Find Color Match in Islands"
               description="Find the closest variable for unbound colors"
               icon={<IconTarget16 />}
               onClick={() => props.goTo("find-color-match-tool")}

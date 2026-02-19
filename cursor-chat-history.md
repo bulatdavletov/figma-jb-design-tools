@@ -12,6 +12,20 @@
 - Fix: Inverted `diffPercent` → `matchPercent` across 5 files (`match.ts`, `types.ts`, `messages.ts`, `main-thread.ts`, `FindColorMatchToolView.tsx`). Formula changed from `distance/max * 100` to `100 - distance/max * 100`. UI label changed from "diff" to "match".
 - Build passes.
 
+#### Find Color Match Tool — major improvements
+- **Renamed** tool to "Find Color Match in Islands" (`package.json`, `HomeView.tsx`, `ToolHeader`).
+- **Hardcoded library**: Added `INT_UI_KIT_COLOR_COLLECTION_KEYS` to `constants.ts` (Color palette + Semantic colors). Removed other-library and local-collection discovery from `variables.ts`. Collection dropdown only shows when >1 Int UI Kit collection.
+- **Hex input**: Added `TextboxColor` for pasting hex values. New message flow: `FIND_COLOR_MATCH_HEX_LOOKUP` → `FIND_COLOR_MATCH_HEX_RESULT`. Shows best match with "Copy name" button.
+- **Horizontal layout**: Mode dropdown and hex input sit side-by-side in a flex row.
+- **Background preload**: Candidates are preloaded on tool activation via `preloadCandidatesInBackground()`. First scan uses cached data instead of blocking on import.
+- Build passes.
+
+#### Find Color Match Tool — UI polish (2026-02-19)
+- **Removed arrows**: Removed `→` arrow indicators from match rows (both hex lookup and selection results).
+- **Show top 2 matches**: Both hex lookup and selection results now show the top 2 matches inline with swatches, names, and percentages. Clicking a row selects it (highlighted background). Dropdown shows remaining matches beyond top 2.
+- **Fixed hex dropdown**: The hex lookup dropdown's `onChange` was `() => {}` (no-op) and `value` was always pinned to best match. Added `hexSelectedIdx` state so dropdown/row clicks actually change the selected match and update the "Copy name" button.
+- Build passes.
+
 ### 2026-02-18
 
 #### Find Color Match Tool — implementation

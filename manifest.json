@@ -45,7 +45,7 @@
       "command": "src/variables-replace-usages-tool/main.ts--default"
     },
     {
-      "name": "Find Color Match",
+      "name": "Find Color Match in Islands",
       "command": "src/find-color-match-tool/main.ts--default"
     }
   ],

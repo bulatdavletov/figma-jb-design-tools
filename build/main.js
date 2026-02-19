@@ -110,7 +110,8 @@ var init_messages = __esm({
       FIND_COLOR_MATCH_SET_COLLECTION: "FIND_COLOR_MATCH_SET_COLLECTION",
       FIND_COLOR_MATCH_SET_MODE: "FIND_COLOR_MATCH_SET_MODE",
       FIND_COLOR_MATCH_APPLY: "FIND_COLOR_MATCH_APPLY",
-      FIND_COLOR_MATCH_FOCUS_NODE: "FIND_COLOR_MATCH_FOCUS_NODE"
+      FIND_COLOR_MATCH_FOCUS_NODE: "FIND_COLOR_MATCH_FOCUS_NODE",
+      FIND_COLOR_MATCH_HEX_LOOKUP: "FIND_COLOR_MATCH_HEX_LOOKUP"
     };
     MAIN_TO_UI = {
       BOOTSTRAPPED: "BOOTSTRAPPED",
@@ -160,7 +161,8 @@ var init_messages = __esm({
       FIND_COLOR_MATCH_COLLECTIONS: "FIND_COLOR_MATCH_COLLECTIONS",
       FIND_COLOR_MATCH_RESULT: "FIND_COLOR_MATCH_RESULT",
       FIND_COLOR_MATCH_PROGRESS: "FIND_COLOR_MATCH_PROGRESS",
-      FIND_COLOR_MATCH_APPLY_RESULT: "FIND_COLOR_MATCH_APPLY_RESULT"
+      FIND_COLOR_MATCH_APPLY_RESULT: "FIND_COLOR_MATCH_APPLY_RESULT",
+      FIND_COLOR_MATCH_HEX_RESULT: "FIND_COLOR_MATCH_HEX_RESULT"
     };
   }
 });
@@ -37670,7 +37672,7 @@ var init_main_thread4 = __esm({
 });
 
 // src/app/tools/variables-shared/caching.ts
-var variableCache, collectionCache, localVariablesCache, getVariable, getCollection, getLocalVariablesForType, getAllLocalVariables, getAllCollections, buildExistingNamesByCollection, buildLocalVariablesIndex, updateVariableInCache, clearLocalVariablesCache;
+var variableCache, collectionCache, localVariablesCache, getVariable, getCollection, getLocalVariablesForType, getAllLocalVariables, buildExistingNamesByCollection, buildLocalVariablesIndex, updateVariableInCache, clearLocalVariablesCache;
 var init_caching = __esm({
   "src/app/tools/variables-shared/caching.ts"() {
     "use strict";
@@ -37717,13 +37719,6 @@ var init_caching = __esm({
         types.map(async (type) => getLocalVariablesForType(type))
       );
       return variablesByType.flat();
-    };
-    getAllCollections = async () => {
-      const collections = await figma.variables.getLocalVariableCollectionsAsync();
-      for (const collection of collections) {
-        collectionCache.set(collection.id, collection);
-      }
-      return collections;
     };
     buildExistingNamesByCollection = async (scopeTypes, scopeCollectionId) => {
       var _a;
@@ -40338,11 +40333,17 @@ var init_apply2 = __esm({
 });
 
 // src/app/tools/int-ui-kit-library/constants.ts
-var INT_UI_KIT_LIBRARY_NAME;
+var INT_UI_KIT_LIBRARY_NAME, INT_UI_KIT_COLOR_COLLECTION_KEYS;
 var init_constants2 = __esm({
   "src/app/tools/int-ui-kit-library/constants.ts"() {
     "use strict";
     INT_UI_KIT_LIBRARY_NAME = "Int UI Kit: Islands";
+    INT_UI_KIT_COLOR_COLLECTION_KEYS = [
+      "1fa92c89b22a23406e3b081a0543a85c394d689f",
+      // Color palette
+      "d6b578f625affd30e445e429f388985d9651488a"
+      // Semantic colors
+    ];
   }
 });
 
@@ -40374,6 +40375,9 @@ async function discoverIntUiKitCollections() {
         `[Int UI Kit] Matched ${matched.length} collection(s):`,
         matched.map((c) => ({ key: c.key, name: c.name }))
       );
+      for (const c of matched) {
+        console.log(`\u{1F511} COLLECTION KEY: "${c.key}"  \u2014  name: "${c.name}"  library: "${c.libraryName}"`);
+      }
     }
     return matched.map((c) => ({
       key: c.key,
@@ -40452,51 +40456,17 @@ var init_resolve3 = __esm({
 
 // src/app/tools/find-color-match/variables.ts
 async function discoverCollectionSources() {
-  var _a;
-  const sources = [];
+  const colorKeySet = new Set(INT_UI_KIT_COLOR_COLLECTION_KEYS);
   const intUiKitCollections = await discoverIntUiKitCollections();
-  for (const lc of intUiKitCollections) {
-    sources.push({
-      key: lc.key,
-      name: lc.name,
-      libraryName: lc.libraryName,
-      isLibrary: true,
-      modes: lc.modes
-    });
-  }
-  try {
-    const allLibraryCollections = await figma.teamLibrary.getAvailableLibraryVariableCollectionsAsync();
-    const intUiKitKeys = new Set(intUiKitCollections.map((c) => c.key));
-    for (const lc of allLibraryCollections) {
-      if (intUiKitKeys.has(lc.key)) continue;
-      sources.push({
-        key: lc.key,
-        name: lc.name,
-        libraryName: (_a = lc.libraryName) != null ? _a : null,
-        isLibrary: true,
-        modes: []
-      });
-    }
-  } catch (e) {
-  }
-  try {
-    const localCollections = await getAllCollections();
-    for (const lc of localCollections) {
-      sources.push({
-        key: lc.id,
-        name: lc.name,
-        libraryName: null,
-        isLibrary: false,
-        modes: lc.modes.map((m) => ({ modeId: m.modeId, modeName: m.name }))
-      });
-    }
-  } catch (e) {
-  }
-  return sources;
+  return intUiKitCollections.filter((lc) => colorKeySet.has(lc.key)).map((lc) => ({
+    key: lc.key,
+    name: lc.name,
+    libraryName: lc.libraryName,
+    isLibrary: true,
+    modes: lc.modes
+  }));
 }
 function findDefaultCollection(sources) {
-  const intUiKit = sources.find((s) => s.isLibrary && s.libraryName != null);
-  if (intUiKit) return intUiKit;
   return sources.length > 0 ? sources[0] : null;
 }
 async function loadLibraryCollectionModes2(collectionKey) {
@@ -40505,46 +40475,11 @@ async function loadLibraryCollectionModes2(collectionKey) {
 async function loadVariablesFromLibrary(collectionKey, modeId, onProgress) {
   return loadAndResolveLibraryColorVariables(collectionKey, modeId, onProgress);
 }
-async function loadVariablesFromLocal(collectionId, modeId) {
-  var _a, _b;
-  const allVars = await figma.variables.getLocalVariablesAsync("COLOR");
-  const filtered = allVars.filter((v) => v.variableCollectionId === collectionId);
-  const collection = await figma.variables.getVariableCollectionByIdAsync(collectionId);
-  if (!collection) return [];
-  const effectiveModeId = modeId != null ? modeId : (_a = collection.modes[0]) == null ? void 0 : _a.modeId;
-  if (!effectiveModeId) return [];
-  const candidates = [];
-  for (const variable of filtered) {
-    try {
-      const resolved = await resolveChainForMode(variable, effectiveModeId);
-      if (!resolved.finalHex) continue;
-      const hex = resolved.finalHex;
-      const r = parseInt(hex.slice(1, 3), 16) / 255;
-      const g = parseInt(hex.slice(3, 5), 16) / 255;
-      const b = parseInt(hex.slice(5, 7), 16) / 255;
-      candidates.push({
-        variableId: variable.id,
-        variableKey: "",
-        variableName: variable.name,
-        collectionKey: collectionId,
-        collectionName: collection.name,
-        hex,
-        r,
-        g,
-        b,
-        opacityPercent: (_b = resolved.finalOpacityPercent) != null ? _b : 100
-      });
-    } catch (e) {
-    }
-  }
-  return candidates;
-}
 var init_variables = __esm({
   "src/app/tools/find-color-match/variables.ts"() {
     "use strict";
-    init_variable_chain();
-    init_caching();
     init_resolve3();
+    init_constants2();
   }
 });
 
@@ -40556,6 +40491,7 @@ function registerFindColorMatchTool(getActiveTool) {
   let activeModeId = null;
   let candidateCache = [];
   let candidateCacheKey = "";
+  let preloadPromise = null;
   const sendError = (message) => {
     figma.ui.postMessage({ type: MAIN_TO_UI.ERROR, message });
   };
@@ -40563,7 +40499,7 @@ function registerFindColorMatchTool(getActiveTool) {
     var _a, _b, _c;
     collectionSources = await discoverCollectionSources();
     const defaultCollection = findDefaultCollection(collectionSources);
-    if (defaultCollection && defaultCollection.isLibrary && defaultCollection.modes.length === 0) {
+    if (defaultCollection && defaultCollection.modes.length === 0) {
       const modes = await loadLibraryCollectionModes2(defaultCollection.key);
       defaultCollection.modes = modes;
     }
@@ -40591,24 +40527,29 @@ function registerFindColorMatchTool(getActiveTool) {
     }
     const source = collectionSources.find((s) => s.key === activeCollectionKey);
     if (!source) return [];
-    let candidates;
-    if (source.isLibrary) {
-      candidates = await loadVariablesFromLibrary(
-        activeCollectionKey,
-        activeModeId,
-        (progress) => {
-          figma.ui.postMessage({
-            type: MAIN_TO_UI.FIND_COLOR_MATCH_PROGRESS,
-            progress
-          });
-        }
-      );
-    } else {
-      candidates = await loadVariablesFromLocal(activeCollectionKey, activeModeId);
-    }
+    const candidates = await loadVariablesFromLibrary(
+      activeCollectionKey,
+      activeModeId,
+      (progress) => {
+        figma.ui.postMessage({
+          type: MAIN_TO_UI.FIND_COLOR_MATCH_PROGRESS,
+          progress
+        });
+      }
+    );
     candidateCache = candidates;
     candidateCacheKey = cacheKey;
     return candidates;
+  };
+  const preloadCandidatesInBackground = () => {
+    if (preloadPromise) return;
+    preloadPromise = loadCandidates().then(() => {
+      console.log(`[Find Color Match] Preloaded ${candidateCache.length} candidates`);
+    }).catch((e) => {
+      console.warn("[Find Color Match] Preload failed:", e);
+    }).finally(() => {
+      preloadPromise = null;
+    });
   };
   const runScan = async () => {
     if (getActiveTool() !== "find-color-match-tool") return;
@@ -40627,6 +40568,7 @@ function registerFindColorMatchTool(getActiveTool) {
       });
       return;
     }
+    if (preloadPromise) await preloadPromise;
     const candidates = await loadCandidates();
     const matches = findBestMatches(foundColors, candidates);
     const entries = matches.map((m) => ({
@@ -40663,6 +40605,28 @@ function registerFindColorMatchTool(getActiveTool) {
       payload: { entries, collectionKey: activeCollectionKey != null ? activeCollectionKey : "", modeId: activeModeId }
     });
   };
+  const runHexLookup = async (hex) => {
+    if (preloadPromise) await preloadPromise;
+    const candidates = await loadCandidates();
+    if (candidates.length === 0) return;
+    const r = parseInt(hex.slice(1, 3), 16) / 255;
+    const g = parseInt(hex.slice(3, 5), 16) / 255;
+    const b = parseInt(hex.slice(5, 7), 16) / 255;
+    const inputColor = { r, g, b };
+    const scored = candidates.map((c) => ({ candidate: c, distance: deltaE(inputColor, c) })).sort((a, b2) => a.distance - b2.distance).slice(0, 10);
+    const allMatches = scored.map((s) => ({
+      variableId: s.candidate.variableId,
+      variableKey: s.candidate.variableKey,
+      variableName: s.candidate.variableName,
+      hex: s.candidate.hex,
+      opacityPercent: s.candidate.opacityPercent,
+      matchPercent: matchPercent(s.distance)
+    }));
+    figma.ui.postMessage({
+      type: MAIN_TO_UI.FIND_COLOR_MATCH_HEX_RESULT,
+      payload: { hex, allMatches }
+    });
+  };
   const scheduleUpdate = () => {
     if (getActiveTool() !== "find-color-match-tool") return;
     if (pendingTimer != null) clearTimeout(pendingTimer);
@@ -40685,7 +40649,7 @@ function registerFindColorMatchTool(getActiveTool) {
         candidateCacheKey = "";
         const source = collectionSources.find((s) => s.key === msg.collectionKey);
         if (source) {
-          if (source.isLibrary && source.modes.length === 0) {
+          if (source.modes.length === 0) {
             const modes = await loadLibraryCollectionModes2(msg.collectionKey);
             source.modes = modes;
           }
@@ -40704,6 +40668,7 @@ function registerFindColorMatchTool(getActiveTool) {
             }
           });
         }
+        preloadCandidatesInBackground();
         await runScan();
         return true;
       }
@@ -40711,6 +40676,7 @@ function registerFindColorMatchTool(getActiveTool) {
         activeModeId = msg.modeId;
         candidateCache = [];
         candidateCacheKey = "";
+        preloadCandidatesInBackground();
         await runScan();
         return true;
       }
@@ -40736,6 +40702,10 @@ function registerFindColorMatchTool(getActiveTool) {
         }
         return true;
       }
+      if (msg.type === UI_TO_MAIN.FIND_COLOR_MATCH_HEX_LOOKUP) {
+        await runHexLookup(msg.hex);
+        return true;
+      }
     } catch (e) {
       sendError(e instanceof Error ? e.message : String(e));
     }
@@ -40744,6 +40714,7 @@ function registerFindColorMatchTool(getActiveTool) {
   return {
     onActivate: async () => {
       await sendCollections();
+      preloadCandidatesInBackground();
       scheduleUpdate();
     },
     onMessage
