@@ -2,7 +2,7 @@ const fs = require("node:fs")
 const path = require("node:path")
 
 const ROOT = path.resolve(__dirname, "..")
-const ICONS_DIR = path.join(ROOT, "src/app/components/custom-icons")
+const ICONS_DIR = path.join(ROOT, "custom-icons")
 const OUT_FILE = path.join(ICONS_DIR, "generated.tsx")
 const WATCH = process.argv.includes("--watch")
 

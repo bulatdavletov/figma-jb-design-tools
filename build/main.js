@@ -165,33 +165,260 @@ var init_messages = __esm({
   }
 });
 
-// src/app/tools/mockup-markup-quick-apply-tool/presets.ts
-function getColorVariableNameCandidates(preset) {
-  switch (preset) {
-    case "text":
-      return ["markup-text", "Markup Text", "Text"];
-    case "text-secondary":
-      return ["markup-text-secondary", "Markup Text Secondary", "Text Secondary", "Markup Text secondary", "Text secondary"];
-    case "purple":
-      return ["markup-text-purple", "Markup Purple", "Purple"];
-  }
-}
-var MOCKUP_MARKUP_LIBRARY_NAME, TEXT_STYLE_ID_BY_PRESET, COLOR_VARIABLE_ID_RAW_BY_PRESET;
-var init_presets = __esm({
-  "src/app/tools/mockup-markup-quick-apply-tool/presets.ts"() {
+// src/app/tools/mockup-markup-library/constants.ts
+var MARKUP_LIBRARY_NAME, MARKUP_COLOR_VARIABLE_RAW_IDS, MARKUP_COLOR_VARIABLE_NAME_CANDIDATES, MARKUP_TEXT_STYLE_IDS;
+var init_constants = __esm({
+  "src/app/tools/mockup-markup-library/constants.ts"() {
     "use strict";
-    MOCKUP_MARKUP_LIBRARY_NAME = "Mockup markup";
-    TEXT_STYLE_ID_BY_PRESET = {
+    MARKUP_LIBRARY_NAME = "Mockup markup";
+    MARKUP_COLOR_VARIABLE_RAW_IDS = {
+      text: "VariableID:35e0b230bbdc8fa1906c60a25117319e726f2bd7/1116:1",
+      textSecondary: "VariableID:84f084bc9e1c3ed3add7febfe9326d633010f8a2/1260:12",
+      purple: "VariableID:cefb32503d23428db2c20bac7615cff7b5feab07/1210:6"
+    };
+    MARKUP_COLOR_VARIABLE_NAME_CANDIDATES = {
+      text: ["markup-text", "Markup Text", "Text"],
+      textSecondary: ["markup-text-secondary", "Markup Text Secondary", "Text Secondary", "Markup Text secondary", "Text secondary"],
+      purple: ["markup-text-purple", "Markup Purple", "Purple"]
+    };
+    MARKUP_TEXT_STYLE_IDS = {
       h1: "S:3e9bacca6574fd3bb647bc3f3fec124903d58931,1190:2",
       h2: "S:d8f137455e6ade1a64398ac113cf0a49c2991ff6,1190:1",
       h3: "S:a7abb8bbbf3b902fa8801548a013157907e75bc2,1260:33",
       description: "S:d8195a8211b3819b1a888e4d1edf6218ff5d2fd5,1282:7",
       paragraph: "S:a6d1706e317719d0750eae3655a3b4360ad2b9ef,1260:39"
     };
+  }
+});
+
+// src/app/tools/mockup-markup-library/resolve.ts
+function normalizeVariableId(raw) {
+  const trimmed = (raw != null ? raw : "").trim();
+  if (!trimmed) return "";
+  const slashIdx = trimmed.indexOf("/");
+  return (slashIdx >= 0 ? trimmed.slice(0, slashIdx) : trimmed).trim();
+}
+function extractVariableKey(rawId) {
+  var _a;
+  const match = /^VariableID:([a-f0-9]+)/i.exec((rawId != null ? rawId : "").trim());
+  return (_a = match == null ? void 0 : match[1]) != null ? _a : null;
+}
+function extractStyleKey(styleId) {
+  var _a, _b;
+  const match = /^S:([^,]+)/.exec((_a = styleId == null ? void 0 : styleId.trim()) != null ? _a : "");
+  return (_b = match == null ? void 0 : match[1]) != null ? _b : null;
+}
+function leafName(name) {
+  const idx = (name != null ? name : "").lastIndexOf("/");
+  return idx >= 0 ? name.slice(idx + 1) || name : name;
+}
+function namesMatch(candidate, wanted) {
+  const c = (candidate != null ? candidate : "").trim().toLowerCase();
+  const w = (wanted != null ? wanted : "").trim().toLowerCase();
+  if (!c || !w) return false;
+  return c === w || leafName(c) === w;
+}
+function libraryNameMatches(candidate) {
+  const c = (candidate != null ? candidate : "").trim().toLowerCase();
+  const w = MARKUP_LIBRARY_NAME.toLowerCase();
+  return c === w;
+}
+async function resolveMarkupColorVariable(rawId, fallbackNames) {
+  const normalized = normalizeVariableId(rawId);
+  if (normalized) {
+    try {
+      const v = await figma.variables.getVariableByIdAsync(normalized);
+      if (v == null ? void 0 : v.id) return { id: v.id, source: "id" };
+    } catch (e) {
+    }
+  }
+  const variableKey = extractVariableKey(rawId);
+  if (variableKey) {
+    try {
+      const imported = await figma.variables.importVariableByKeyAsync(variableKey);
+      if ((imported == null ? void 0 : imported.id) && imported.resolvedType === "COLOR") {
+        return { id: imported.id, source: "key-import" };
+      }
+    } catch (e) {
+    }
+  }
+  try {
+    const locals = await figma.variables.getLocalVariablesAsync("COLOR");
+    for (const wanted of fallbackNames) {
+      const match = locals.find((v) => {
+        var _a;
+        return namesMatch((_a = v.name) != null ? _a : "", wanted);
+      });
+      if (match == null ? void 0 : match.id) return { id: match.id, source: "local-name" };
+    }
+  } catch (e) {
+  }
+  try {
+    const collections = await figma.teamLibrary.getAvailableLibraryVariableCollectionsAsync();
+    const preferred = collections.filter((c) => libraryNameMatches(c.libraryName));
+    const rest = collections.filter((c) => !libraryNameMatches(c.libraryName));
+    const ordered = preferred.length > 0 ? [...preferred, ...rest] : collections;
+    for (const c of ordered) {
+      try {
+        const vars = await figma.teamLibrary.getVariablesInLibraryCollectionAsync(c.key);
+        for (const wanted of fallbackNames) {
+          const libMatch = vars.find(
+            (v) => {
+              var _a;
+              return v.resolvedType === "COLOR" && namesMatch((_a = v.name) != null ? _a : "", wanted);
+            }
+          );
+          if (libMatch == null ? void 0 : libMatch.key) {
+            const imported = await figma.variables.importVariableByKeyAsync(libMatch.key);
+            if (imported == null ? void 0 : imported.id) return { id: imported.id, source: "library-import" };
+          }
+        }
+      } catch (e) {
+      }
+    }
+  } catch (e) {
+  }
+  return null;
+}
+async function importTextStyleByKey(key) {
+  if (!key) return null;
+  try {
+    const style = await figma.importStyleByKeyAsync(key);
+    if (style && style.type === "TEXT") {
+      return style;
+    }
+  } catch (e) {
+  }
+  return null;
+}
+async function findLocalTextStyleByName(namePattern) {
+  var _a;
+  try {
+    const styles = await figma.getLocalTextStylesAsync();
+    return (_a = styles.find((s) => {
+      var _a2;
+      return namePattern.test((_a2 = s.name) != null ? _a2 : "");
+    })) != null ? _a : null;
+  } catch (e) {
+    return null;
+  }
+}
+function createVariableBoundPaint(variableId) {
+  const paint = { type: "SOLID", color: { r: 0, g: 0, b: 0 }, opacity: 1 };
+  paint.boundVariables = { color: { type: "VARIABLE_ALIAS", id: variableId } };
+  return paint;
+}
+function verifyFillBinding(node, expectedVariableId) {
+  var _a, _b;
+  try {
+    const fills = node.fills;
+    if (fills.length === 0) return false;
+    const first = fills[0];
+    if (first.type !== "SOLID") return false;
+    const boundId = (_b = (_a = first.boundVariables) == null ? void 0 : _a.color) == null ? void 0 : _b.id;
+    return boundId === expectedVariableId;
+  } catch (e) {
+    return false;
+  }
+}
+async function reassertPageModeForVariable(variableId) {
+  var _a;
+  try {
+    const variable = await figma.variables.getVariableByIdAsync(variableId);
+    if (!variable) return;
+    const collectionId = variable.variableCollectionId;
+    if (!collectionId) return;
+    const collection = await figma.variables.getVariableCollectionByIdAsync(collectionId);
+    if (!collection) return;
+    const explicitModes = figma.currentPage.explicitVariableModes;
+    const currentModeId = explicitModes == null ? void 0 : explicitModes[collectionId];
+    const defaultModeId = collection.defaultModeId;
+    const modeId = currentModeId || defaultModeId || Array.isArray(collection.modes) && ((_a = collection.modes[0]) == null ? void 0 : _a.modeId) || null;
+    if (modeId) {
+      figma.currentPage.setExplicitVariableModeForCollection(collection, modeId);
+    }
+  } catch (e) {
+  }
+}
+async function setPageVariableMode(variableId, modeName) {
+  var _a;
+  try {
+    const variable = await figma.variables.getVariableByIdAsync(variableId);
+    if (!variable) return { ok: false, reason: "Variable not found" };
+    const collectionId = variable.variableCollectionId;
+    if (!collectionId) return { ok: false, reason: "Variable has no collection" };
+    const collection = await figma.variables.getVariableCollectionByIdAsync(collectionId);
+    if (!collection) return { ok: false, reason: "Collection not found" };
+    const modes = (_a = collection.modes) != null ? _a : [];
+    const targetMode = modes.find((m) => {
+      var _a2;
+      return ((_a2 = m.name) != null ? _a2 : "").trim().toLowerCase() === modeName;
+    });
+    if (targetMode == null ? void 0 : targetMode.modeId) {
+      figma.currentPage.setExplicitVariableModeForCollection(collection, targetMode.modeId);
+      return { ok: true, value: void 0 };
+    }
+    if (modeName === "light") {
+      try {
+        figma.currentPage.clearExplicitVariableModeForCollection(collection);
+        return { ok: true, value: void 0 };
+      } catch (e) {
+      }
+    }
+    return { ok: false, reason: `Mode "${modeName}" not found in collection` };
+  } catch (e) {
+    return { ok: false, reason: e instanceof Error ? e.message : String(e) };
+  }
+}
+async function loadFontForTextStyle(styleId) {
+  try {
+    const style = await figma.getStyleByIdAsync(styleId);
+    if (!style || style.type !== "TEXT") {
+      return { ok: false, reason: "Style not found or not a text style" };
+    }
+    const fontName = style.fontName;
+    if (!fontName) {
+      return { ok: false, reason: "Style has no font name" };
+    }
+    await figma.loadFontAsync(fontName);
+    return { ok: true, value: void 0 };
+  } catch (e) {
+    return { ok: false, reason: e instanceof Error ? e.message : String(e) };
+  }
+}
+var init_resolve = __esm({
+  "src/app/tools/mockup-markup-library/resolve.ts"() {
+    "use strict";
+    init_constants();
+  }
+});
+
+// src/app/tools/mockup-markup-quick-apply-tool/presets.ts
+function getColorVariableNameCandidates(preset) {
+  const key = COLOR_PRESET_TO_KEY[preset];
+  return [...MARKUP_COLOR_VARIABLE_NAME_CANDIDATES[key]];
+}
+var COLOR_PRESET_TO_KEY, TEXT_STYLE_ID_BY_PRESET, COLOR_VARIABLE_ID_RAW_BY_PRESET;
+var init_presets = __esm({
+  "src/app/tools/mockup-markup-quick-apply-tool/presets.ts"() {
+    "use strict";
+    init_constants();
+    COLOR_PRESET_TO_KEY = {
+      text: "text",
+      "text-secondary": "textSecondary",
+      purple: "purple"
+    };
+    TEXT_STYLE_ID_BY_PRESET = {
+      h1: MARKUP_TEXT_STYLE_IDS.h1,
+      h2: MARKUP_TEXT_STYLE_IDS.h2,
+      h3: MARKUP_TEXT_STYLE_IDS.h3,
+      description: MARKUP_TEXT_STYLE_IDS.description,
+      paragraph: MARKUP_TEXT_STYLE_IDS.paragraph
+    };
     COLOR_VARIABLE_ID_RAW_BY_PRESET = {
-      text: "VariableID:35e0b230bbdc8fa1906c60a25117319e726f2bd7/1116:1",
-      "text-secondary": "VariableID:84f084bc9e1c3ed3add7febfe9326d633010f8a2/1260:12",
-      purple: "VariableID:cefb32503d23428db2c20bac7615cff7b5feab07/1210:6"
+      text: MARKUP_COLOR_VARIABLE_RAW_IDS.text,
+      "text-secondary": MARKUP_COLOR_VARIABLE_RAW_IDS.textSecondary,
+      purple: MARKUP_COLOR_VARIABLE_RAW_IDS.purple
     };
   }
 });
@@ -247,38 +474,6 @@ var init_utils = __esm({
 });
 
 // src/app/tools/mockup-markup-quick-apply-tool/resolve.ts
-function extractStyleKey(styleId) {
-  var _a, _b;
-  const match = /^S:([^,]+)/.exec((_a = styleId == null ? void 0 : styleId.trim()) != null ? _a : "");
-  return (_b = match == null ? void 0 : match[1]) != null ? _b : null;
-}
-async function importStyleByKey(key) {
-  if (!key) return null;
-  try {
-    const style = await figma.importStyleByKeyAsync(key);
-    if (style && style.type === "TEXT") {
-      return style;
-    }
-  } catch (e) {
-    logDebug("importStyleByKey", `Could not import style`, {
-      key,
-      error: e instanceof Error ? e.message : String(e)
-    });
-  }
-  return null;
-}
-async function findLocalStyleByName(namePattern) {
-  var _a;
-  try {
-    const styles = await figma.getLocalTextStylesAsync();
-    return (_a = styles.find((s) => {
-      var _a2;
-      return namePattern.test((_a2 = s.name) != null ? _a2 : "");
-    })) != null ? _a : null;
-  } catch (e) {
-    return null;
-  }
-}
 function getStyleNamePattern(preset) {
   switch (preset) {
     case "h1":
@@ -297,14 +492,14 @@ async function resolveTextStyleIdForPreset(preset) {
   const preferredId = TEXT_STYLE_ID_BY_PRESET[preset];
   const key = extractStyleKey(preferredId);
   if (key) {
-    const imported = await importStyleByKey(key);
+    const imported = await importTextStyleByKey(key);
     if (imported == null ? void 0 : imported.id) {
       logDebug("resolveTextStyleId", `Imported style for ${preset}`, { styleId: imported.id });
       return imported.id;
     }
   }
   const namePattern = getStyleNamePattern(preset);
-  const byName = await findLocalStyleByName(namePattern);
+  const byName = await findLocalTextStyleByName(namePattern);
   if (byName == null ? void 0 : byName.id) {
     logDebug("resolveTextStyleId", `Found local style by name for ${preset}`, {
       styleId: byName.id,
@@ -319,166 +514,13 @@ async function resolveTextStyleIdForPreset(preset) {
   });
   return null;
 }
-async function loadFontForTextStyle(styleId) {
-  try {
-    const style = await figma.getStyleByIdAsync(styleId);
-    if (!style || style.type !== "TEXT") {
-      return { ok: false, reason: "Style not found or not a text style" };
-    }
-    const fontName = style.fontName;
-    if (!fontName) {
-      return { ok: false, reason: "Style has no font name" };
-    }
-    await figma.loadFontAsync(fontName);
-    return { ok: true, value: void 0 };
-  } catch (e) {
-    return { ok: false, reason: e instanceof Error ? e.message : String(e) };
-  }
-}
-function normalizeVariableId(rawId) {
-  const trimmed = (rawId != null ? rawId : "").trim();
-  if (!trimmed) return "";
-  const slashIdx = trimmed.indexOf("/");
-  return (slashIdx >= 0 ? trimmed.slice(0, slashIdx) : trimmed).trim();
-}
-function extractVariableKey(rawId) {
-  var _a;
-  const match = /^VariableID:([a-f0-9]+)/i.exec((rawId != null ? rawId : "").trim());
-  return (_a = match == null ? void 0 : match[1]) != null ? _a : null;
-}
-async function importVariableByKey(key) {
-  if (!key) return null;
-  try {
-    const variable = await figma.variables.importVariableByKeyAsync(key);
-    if (variable && variable.resolvedType === "COLOR") {
-      return variable;
-    }
-  } catch (e) {
-    logDebug("importVariableByKey", `Could not import variable`, {
-      key,
-      error: e instanceof Error ? e.message : String(e)
-    });
-  }
-  return null;
-}
-function namesMatch(candidate, wanted) {
-  const normalize = (s) => (s != null ? s : "").trim().toLowerCase();
-  const c = normalize(candidate);
-  const w = normalize(wanted);
-  if (!c || !w) return false;
-  if (c === w) return true;
-  const leafIdx = c.lastIndexOf("/");
-  const leaf = leafIdx >= 0 ? c.slice(leafIdx + 1) : c;
-  return leaf === w;
-}
-async function getVariableById(variableId) {
-  try {
-    const v = await figma.variables.getVariableByIdAsync(variableId);
-    return v != null ? v : null;
-  } catch (e) {
-    return null;
-  }
-}
-async function findLocalVariableByName(nameCandidates) {
-  try {
-    const locals = await figma.variables.getLocalVariablesAsync("COLOR");
-    for (const wanted of nameCandidates) {
-      const match = locals.find((v) => {
-        var _a;
-        return namesMatch((_a = v.name) != null ? _a : "", wanted);
-      });
-      if (match) return match;
-    }
-  } catch (e) {
-  }
-  return null;
-}
-async function importVariableFromLibrary(nameCandidates) {
-  var _a;
-  try {
-    const collections = await figma.teamLibrary.getAvailableLibraryVariableCollectionsAsync();
-    logDebug("importVariableFromLibrary", `Found ${collections.length} library collections`, {
-      collections: collections.map((c) => ({
-        name: c.name,
-        libraryName: c.libraryName,
-        key: c.key
-      }))
-    });
-    const libraryName = MOCKUP_MARKUP_LIBRARY_NAME.toLowerCase();
-    const preferred = collections.filter(
-      (c) => {
-        var _a2;
-        return ((_a2 = c.libraryName) != null ? _a2 : "").trim().toLowerCase() === libraryName;
-      }
-    );
-    const rest = collections.filter(
-      (c) => {
-        var _a2;
-        return ((_a2 = c.libraryName) != null ? _a2 : "").trim().toLowerCase() !== libraryName;
-      }
-    );
-    const ordered = [...preferred, ...rest];
-    for (const collection of ordered) {
-      try {
-        const vars = await figma.teamLibrary.getVariablesInLibraryCollectionAsync(collection.key);
-        const colorVars = vars.filter((v) => v.resolvedType === "COLOR");
-        if (((_a = collection.libraryName) != null ? _a : "").trim().toLowerCase() === libraryName) {
-          logDebug("importVariableFromLibrary", `COLOR variables in "${collection.libraryName}" / "${collection.name}"`, {
-            count: colorVars.length,
-            variables: colorVars.map((v) => ({ name: v.name, key: v.key }))
-          });
-        }
-        for (const wanted of nameCandidates) {
-          const match = colorVars.find((v) => {
-            var _a2;
-            return namesMatch((_a2 = v.name) != null ? _a2 : "", wanted);
-          });
-          if (match == null ? void 0 : match.key) {
-            const imported = await figma.variables.importVariableByKeyAsync(match.key);
-            if (imported) {
-              logDebug("importVariableFromLibrary", `Imported variable`, {
-                name: match.name,
-                library: collection.libraryName
-              });
-              return imported;
-            }
-          }
-        }
-      } catch (e) {
-      }
-    }
-  } catch (e) {
-  }
-  return null;
-}
 async function resolveColorVariableForPreset(preset) {
   const rawId = COLOR_VARIABLE_ID_RAW_BY_PRESET[preset];
-  const normalizedId = normalizeVariableId(rawId);
   const nameCandidates = getColorVariableNameCandidates(preset);
-  if (normalizedId) {
-    const byId = await getVariableById(normalizedId);
-    if (byId == null ? void 0 : byId.id) {
-      logDebug("resolveColorVariable", `Found variable by ID for ${preset}`, { id: byId.id });
-      return byId.id;
-    }
-  }
-  const variableKey = extractVariableKey(rawId);
-  if (variableKey) {
-    const byKey = await importVariableByKey(variableKey);
-    if (byKey == null ? void 0 : byKey.id) {
-      logDebug("resolveColorVariable", `Imported variable by key for ${preset}`, { id: byKey.id, key: variableKey });
-      return byKey.id;
-    }
-  }
-  const local = await findLocalVariableByName(nameCandidates);
-  if (local == null ? void 0 : local.id) {
-    logDebug("resolveColorVariable", `Found local variable for ${preset}`, { id: local.id });
-    return local.id;
-  }
-  const imported = await importVariableFromLibrary(nameCandidates);
-  if (imported == null ? void 0 : imported.id) {
-    logDebug("resolveColorVariable", `Imported variable for ${preset}`, { id: imported.id });
-    return imported.id;
+  const result = await resolveMarkupColorVariable(rawId, nameCandidates);
+  if (result) {
+    logDebug("resolveColorVariable", `Resolved variable for ${preset}`, { id: result.id, source: result.source });
+    return result.id;
   }
   logWarn("resolveColorVariable", `Could not resolve variable for ${preset}`, {
     rawId,
@@ -487,58 +529,10 @@ async function resolveColorVariableForPreset(preset) {
   });
   return null;
 }
-function createVariableBoundPaint(variableId) {
-  const paint = {
-    type: "SOLID",
-    color: { r: 0, g: 0, b: 0 },
-    opacity: 1
-  };
-  paint.boundVariables = {
-    color: { type: "VARIABLE_ALIAS", id: variableId }
-  };
-  return paint;
-}
-async function setPageVariableMode(variableId, modeName) {
-  var _a;
-  try {
-    const variable = await figma.variables.getVariableByIdAsync(variableId);
-    if (!variable) {
-      return { ok: false, reason: "Variable not found" };
-    }
-    const collectionId = variable.variableCollectionId;
-    if (!collectionId) {
-      return { ok: false, reason: "Variable has no collection" };
-    }
-    const collection = await figma.variables.getVariableCollectionByIdAsync(collectionId);
-    if (!collection) {
-      return { ok: false, reason: "Collection not found" };
-    }
-    const modes = (_a = collection.modes) != null ? _a : [];
-    const targetMode = modes.find((m) => {
-      var _a2;
-      return ((_a2 = m.name) != null ? _a2 : "").trim().toLowerCase() === modeName;
-    });
-    if (targetMode == null ? void 0 : targetMode.modeId) {
-      figma.currentPage.setExplicitVariableModeForCollection(collection, targetMode.modeId);
-      logDebug("setPageVariableMode", `Set mode to ${modeName}`, { modeId: targetMode.modeId });
-      return { ok: true, value: void 0 };
-    }
-    if (modeName === "light") {
-      try {
-        figma.currentPage.clearExplicitVariableModeForCollection(collection);
-        logDebug("setPageVariableMode", "Cleared explicit mode (light fallback)");
-        return { ok: true, value: void 0 };
-      } catch (e) {
-      }
-    }
-    return { ok: false, reason: `Mode "${modeName}" not found in collection` };
-  } catch (e) {
-    return { ok: false, reason: e instanceof Error ? e.message : String(e) };
-  }
-}
-var init_resolve = __esm({
+var init_resolve2 = __esm({
   "src/app/tools/mockup-markup-quick-apply-tool/resolve.ts"() {
     "use strict";
+    init_resolve();
     init_presets();
     init_utils();
   }
@@ -671,7 +665,7 @@ function showResultNotification(result) {
 var init_apply = __esm({
   "src/app/tools/mockup-markup-quick-apply-tool/apply.ts"() {
     "use strict";
-    init_resolve();
+    init_resolve2();
     init_utils();
   }
 });
@@ -765,7 +759,7 @@ async function getMockupMarkupColorPreviews(forceModeName) {
 var init_color_previews = __esm({
   "src/app/tools/mockup-markup-quick-apply-tool/color-previews.ts"() {
     "use strict";
-    init_resolve();
+    init_resolve2();
     init_utils();
   }
 });
@@ -877,7 +871,7 @@ async function createMockupMarkupText(request) {
 var init_create = __esm({
   "src/app/tools/mockup-markup-quick-apply-tool/create.ts"() {
     "use strict";
-    init_resolve();
+    init_resolve2();
     init_utils();
   }
 });
@@ -933,7 +927,7 @@ var STORAGE_KEY, ALL_PRESETS;
 var init_import_once = __esm({
   "src/app/tools/mockup-markup-quick-apply-tool/import-once.ts"() {
     "use strict";
-    init_resolve();
+    init_resolve2();
     init_utils();
     STORAGE_KEY = "mockup-markup.import-status-v3";
     ALL_PRESETS = ["text", "text-secondary", "purple"];
@@ -36561,91 +36555,6 @@ function multiplyPaintOpacity(paints, multiplier) {
     return p;
   });
 }
-function normalizeVariableId2(raw) {
-  const trimmed = (raw != null ? raw : "").trim();
-  if (!trimmed) return "";
-  const slashIdx = trimmed.indexOf("/");
-  return (slashIdx >= 0 ? trimmed.slice(0, slashIdx) : trimmed).trim();
-}
-function leafName(name) {
-  const idx = (name != null ? name : "").lastIndexOf("/");
-  return idx >= 0 ? name.slice(idx + 1) || name : name;
-}
-function namesMatch2(candidate, wanted) {
-  const c = (candidate != null ? candidate : "").trim().toLowerCase();
-  const w = (wanted != null ? wanted : "").trim().toLowerCase();
-  if (!c || !w) return false;
-  return c === w || leafName(c) === w;
-}
-function libraryNameMatches(candidate, wanted) {
-  const c = (candidate != null ? candidate : "").trim().toLowerCase();
-  const w = (wanted != null ? wanted : "").trim().toLowerCase();
-  if (!c || !w) return false;
-  return c === w;
-}
-function extractVariableKey2(rawId) {
-  var _a;
-  const match = /^VariableID:([a-f0-9]+)/i.exec((rawId != null ? rawId : "").trim());
-  return (_a = match == null ? void 0 : match[1]) != null ? _a : null;
-}
-async function resolveColorVariableId(rawId, fallbackNames) {
-  const normalized = normalizeVariableId2(rawId);
-  if (normalized) {
-    try {
-      const v = await figma.variables.getVariableByIdAsync(normalized);
-      if (v == null ? void 0 : v.id) return { id: v.id, source: "id" };
-    } catch (e) {
-    }
-  }
-  const variableKey = extractVariableKey2(rawId);
-  if (variableKey) {
-    try {
-      const imported = await figma.variables.importVariableByKeyAsync(variableKey);
-      if ((imported == null ? void 0 : imported.id) && imported.resolvedType === "COLOR") {
-        debugLog("Resolved variable by key import", { key: variableKey, id: imported.id });
-        return { id: imported.id, source: "key-import" };
-      }
-    } catch (e) {
-    }
-  }
-  try {
-    const locals = await figma.variables.getLocalVariablesAsync("COLOR");
-    for (const wanted of fallbackNames) {
-      const match = locals.find((v) => {
-        var _a;
-        return namesMatch2((_a = v.name) != null ? _a : "", wanted);
-      });
-      if (match == null ? void 0 : match.id) return { id: match.id, source: "local-name" };
-    }
-  } catch (e) {
-  }
-  try {
-    const collections = await figma.teamLibrary.getAvailableLibraryVariableCollectionsAsync();
-    const preferred = collections.filter((c) => libraryNameMatches(c.libraryName, MARKUP_LIBRARY_NAME));
-    const rest = collections.filter((c) => !libraryNameMatches(c.libraryName, MARKUP_LIBRARY_NAME));
-    const ordered = preferred.length > 0 ? [...preferred, ...rest] : collections;
-    for (const c of ordered) {
-      try {
-        const vars = await figma.teamLibrary.getVariablesInLibraryCollectionAsync(c.key);
-        for (const wanted of fallbackNames) {
-          const libMatch = vars.find(
-            (v) => {
-              var _a;
-              return v.resolvedType === "COLOR" && namesMatch2((_a = v.name) != null ? _a : "", wanted);
-            }
-          );
-          if (libMatch == null ? void 0 : libMatch.key) {
-            const imported = await figma.variables.importVariableByKeyAsync(libMatch.key);
-            if (imported == null ? void 0 : imported.id) return { id: imported.id, source: "library-import" };
-          }
-        }
-      } catch (e) {
-      }
-    }
-  } catch (e) {
-  }
-  return null;
-}
 function makeSolidPaint(color, opacity = 1) {
   return { type: "SOLID", color, opacity };
 }
@@ -36655,40 +36564,6 @@ function getThemeColors(theme) {
   const secondaryColor = isWhite ? { r: 1, g: 1, b: 1 } : { r: 0, g: 0, b: 0 };
   return { primary: primaryColor, secondary: secondaryColor };
 }
-async function reassertPageModeForVariable(variableId) {
-  var _a;
-  try {
-    const variable = await figma.variables.getVariableByIdAsync(variableId);
-    if (!variable) return;
-    const collectionId = variable.variableCollectionId;
-    if (!collectionId) return;
-    const collection = await figma.variables.getVariableCollectionByIdAsync(collectionId);
-    if (!collection) return;
-    const explicitModes = figma.currentPage.explicitVariableModes;
-    const currentModeId = explicitModes == null ? void 0 : explicitModes[collectionId];
-    const defaultModeId = collection.defaultModeId;
-    const modeId = currentModeId || defaultModeId || Array.isArray(collection.modes) && ((_a = collection.modes[0]) == null ? void 0 : _a.modeId) || null;
-    if (modeId) {
-      figma.currentPage.setExplicitVariableModeForCollection(collection, modeId);
-      debugLog("Reasserted page mode for variable collection", { collectionId, modeId, wasExplicit: !!currentModeId });
-    }
-  } catch (e) {
-    debugLog("reassertPageModeForVariable failed (non-fatal)", { variableId, error: String(e) });
-  }
-}
-function verifyFillBinding(node, expectedVariableId) {
-  var _a, _b;
-  try {
-    const fills = node.fills;
-    if (fills.length === 0) return false;
-    const first = fills[0];
-    if (first.type !== "SOLID") return false;
-    const boundId = (_b = (_a = first.boundVariables) == null ? void 0 : _a.color) == null ? void 0 : _b.id;
-    return boundId === expectedVariableId;
-  } catch (e) {
-    return false;
-  }
-}
 async function resolveMarkupTextFills(themeColors) {
   const fallbackPrimary = [makeSolidPaint(themeColors.primary, 1)];
   const fallbackSecondary = [makeSolidPaint(themeColors.secondary, 0.5)];
@@ -36696,57 +36571,38 @@ async function resolveMarkupTextFills(themeColors) {
   let secondary = fallbackSecondary;
   let primaryVariableId = null;
   let secondaryVariableId = null;
-  const resolvedPrimary = await resolveColorVariableId(MARKUP_TEXT_COLOR_VARIABLE_ID_RAW, MARKUP_TEXT_VARIABLE_NAME_CANDIDATES);
+  const resolvedPrimary = await resolveMarkupColorVariable(
+    MARKUP_COLOR_VARIABLE_RAW_IDS.text,
+    [...MARKUP_COLOR_VARIABLE_NAME_CANDIDATES.text]
+  );
   if (resolvedPrimary == null ? void 0 : resolvedPrimary.id) {
     primaryVariableId = resolvedPrimary.id;
-    const paint = { type: "SOLID", color: { r: 0, g: 0, b: 0 }, opacity: 1 };
-    paint.boundVariables = { color: { type: "VARIABLE_ALIAS", id: resolvedPrimary.id } };
-    primary = [paint];
+    primary = [createVariableBoundPaint(resolvedPrimary.id)];
     await reassertPageModeForVariable(resolvedPrimary.id);
     debugLog("Markup Text variable resolved", {
-      raw: MARKUP_TEXT_COLOR_VARIABLE_ID_RAW,
-      normalized: normalizeVariableId2(MARKUP_TEXT_COLOR_VARIABLE_ID_RAW),
       resolvedId: resolvedPrimary.id,
-      source: resolvedPrimary.source,
-      namesTried: MARKUP_TEXT_VARIABLE_NAME_CANDIDATES
+      source: resolvedPrimary.source
     });
   } else {
-    debugLog("Markup Text variable NOT resolved (using theme)", {
-      raw: MARKUP_TEXT_COLOR_VARIABLE_ID_RAW,
-      normalized: normalizeVariableId2(MARKUP_TEXT_COLOR_VARIABLE_ID_RAW),
-      namesTried: MARKUP_TEXT_VARIABLE_NAME_CANDIDATES
-    });
+    debugLog("Markup Text variable NOT resolved (using theme)");
   }
-  const resolvedSecondary = await resolveColorVariableId(
-    MARKUP_TEXT_SECONDARY_COLOR_VARIABLE_ID_RAW,
-    MARKUP_TEXT_SECONDARY_VARIABLE_NAME_CANDIDATES
+  const resolvedSecondary = await resolveMarkupColorVariable(
+    MARKUP_COLOR_VARIABLE_RAW_IDS.textSecondary,
+    [...MARKUP_COLOR_VARIABLE_NAME_CANDIDATES.textSecondary]
   );
   if (resolvedSecondary == null ? void 0 : resolvedSecondary.id) {
     secondaryVariableId = resolvedSecondary.id;
-    const paint = { type: "SOLID", color: { r: 0, g: 0, b: 0 }, opacity: 1 };
-    paint.boundVariables = { color: { type: "VARIABLE_ALIAS", id: resolvedSecondary.id } };
-    secondary = [paint];
+    secondary = [createVariableBoundPaint(resolvedSecondary.id)];
     debugLog("Markup Text Secondary variable resolved", {
-      raw: MARKUP_TEXT_SECONDARY_COLOR_VARIABLE_ID_RAW,
-      normalized: normalizeVariableId2(MARKUP_TEXT_SECONDARY_COLOR_VARIABLE_ID_RAW),
       resolvedId: resolvedSecondary.id,
-      source: resolvedSecondary.source,
-      namesTried: MARKUP_TEXT_SECONDARY_VARIABLE_NAME_CANDIDATES
+      source: resolvedSecondary.source
     });
   } else {
     if (primary !== fallbackPrimary) secondary = multiplyPaintOpacity(primary, 0.5);
     debugLog("Markup Text Secondary variable NOT resolved", {
-      raw: MARKUP_TEXT_SECONDARY_COLOR_VARIABLE_ID_RAW,
-      normalized: normalizeVariableId2(MARKUP_TEXT_SECONDARY_COLOR_VARIABLE_ID_RAW),
-      namesTried: MARKUP_TEXT_SECONDARY_VARIABLE_NAME_CANDIDATES,
-      usingFallback50pctOfPrimary: primary !== fallbackPrimary,
-      secondarySource: primary !== fallbackPrimary ? "derived" : "theme"
+      usingFallback50pctOfPrimary: primary !== fallbackPrimary
     });
   }
-  debugLog("Resolved label fills", {
-    primarySource: primary === fallbackPrimary ? "theme" : "variable",
-    secondarySource: secondary === fallbackSecondary ? "theme" : "variable_or_derived"
-  });
   return { primary, secondary, primaryVariableId, secondaryVariableId };
 }
 async function resolveMarkupDescriptionTextStyle() {
@@ -36788,13 +36644,10 @@ async function applyTypographyToLabel(text, markupDescriptionStyle) {
       if (len > 0) {
         await text.setRangeTextStyleIdAsync(0, len, MARKUP_LABEL_TEXT_STYLE_ID);
       }
-      debugLog("Applied label textStyleId", { textStyleId: MARKUP_LABEL_TEXT_STYLE_ID, rangeLen: len });
     } catch (e) {
-      debugLog("Applied label textStyleId (range apply failed)", { textStyleId: MARKUP_LABEL_TEXT_STYLE_ID, error: String(e) });
     }
     return;
   } catch (e) {
-    debugLog("Failed to apply label textStyleId (will fallback)", { textStyleId: MARKUP_LABEL_TEXT_STYLE_ID, error: String(e) });
   }
   if (markupDescriptionStyle) {
     text.fontName = markupDescriptionStyle.fontName;
@@ -36807,17 +36660,14 @@ async function applyTypographyToLabel(text, markupDescriptionStyle) {
   text.fontSize = 15;
   text.lineHeight = { value: 21, unit: "PIXELS" };
 }
-var DEBUG_MARKUP_IDS, MARKUP_TEXT_COLOR_VARIABLE_ID_RAW, MARKUP_TEXT_SECONDARY_COLOR_VARIABLE_ID_RAW, MARKUP_LIBRARY_NAME, MARKUP_TEXT_VARIABLE_NAME_CANDIDATES, MARKUP_TEXT_SECONDARY_VARIABLE_NAME_CANDIDATES, MARKUP_LABEL_TEXT_STYLE_ID;
+var DEBUG_MARKUP_IDS, MARKUP_LABEL_TEXT_STYLE_ID;
 var init_markup_kit = __esm({
   "src/app/tools/print-color-usages/markup-kit.ts"() {
     "use strict";
+    init_constants();
+    init_resolve();
     DEBUG_MARKUP_IDS = false;
-    MARKUP_TEXT_COLOR_VARIABLE_ID_RAW = "VariableID:35e0b230bbdc8fa1906c60a25117319e726f2bd7/1116:1";
-    MARKUP_TEXT_SECONDARY_COLOR_VARIABLE_ID_RAW = "VariableID:84f084bc9e1c3ed3add7febfe9326d633010f8a2/1260:12";
-    MARKUP_LIBRARY_NAME = "Mockup markup";
-    MARKUP_TEXT_VARIABLE_NAME_CANDIDATES = ["markup-text", "Markup Text", "Text"];
-    MARKUP_TEXT_SECONDARY_VARIABLE_NAME_CANDIDATES = ["markup-text-secondary", "Markup Text Secondary", "Text Secondary", "Markup Text secondary", "Text secondary"];
-    MARKUP_LABEL_TEXT_STYLE_ID = "S:a6d1706e317719d0750eae3655a3b4360ad2b9ef,1260:39";
+    MARKUP_LABEL_TEXT_STYLE_ID = MARKUP_TEXT_STYLE_IDS.paragraph;
   }
 });
 
@@ -40489,7 +40339,7 @@ var init_apply2 = __esm({
 
 // src/app/tools/int-ui-kit-library/constants.ts
 var INT_UI_KIT_LIBRARY_NAME;
-var init_constants = __esm({
+var init_constants2 = __esm({
   "src/app/tools/int-ui-kit-library/constants.ts"() {
     "use strict";
     INT_UI_KIT_LIBRARY_NAME = "Int UI Kit: Islands";
@@ -40592,11 +40442,11 @@ async function loadAndResolveLibraryColorVariables(collectionKey, modeId, onProg
   }
   return results;
 }
-var init_resolve2 = __esm({
+var init_resolve3 = __esm({
   "src/app/tools/int-ui-kit-library/resolve.ts"() {
     "use strict";
     init_variable_chain();
-    init_constants();
+    init_constants2();
   }
 });
 
@@ -40694,7 +40544,7 @@ var init_variables = __esm({
     "use strict";
     init_variable_chain();
     init_caching();
-    init_resolve2();
+    init_resolve3();
   }
 });
 

@@ -1,44 +1,54 @@
 ---
-name: Find Color Match Tool
-overview: "Add a new \"Find Color Match\" tool that scans the selection for unbound solid colors, matches them against color variables from the \"Int UI Kit: Islands\" library (filtered by collection and mode), and lets the user apply a variable binding per color row."
-todos:
-  - id: extract-color-utils
-    content: Export colorToRgbHex / colorToOpacityPercent from variable-chain.ts (or extract to shared color-utils) so scan.ts and match.ts can reuse them
-    status: completed
-  - id: create-types
-    content: Create src/app/tools/find-color-match/types.ts with FoundColor, VariableCandidate, MatchResult, and other shared types
-    status: completed
-  - id: create-scan
-    content: Create src/app/tools/find-color-match/scan.ts — recursive selection scanner that extracts unbound SOLID colors (fills, strokes, text fills) with skip rules
-    status: completed
-  - id: create-variables
-    content: Create src/app/tools/find-color-match/variables.ts — load variable candidates from local collections AND library collections (team library API with importVariableByKeyAsync), resolve to HEX per mode, with progress callback
-    status: completed
-  - id: create-match
-    content: Create src/app/tools/find-color-match/match.ts — RGB Euclidean distance calculation, best-match sorting, diff % computation
-    status: completed
-  - id: create-apply
-    content: Create src/app/tools/find-color-match/apply.ts — bind a chosen variable to a specific paint on a specific node
-    status: completed
-  - id: add-messages
-    content: Add FIND_COLOR_MATCH_* message constants and payload types to src/app/messages.ts
-    status: completed
-  - id: create-main-thread
-    content: Create src/app/tools/find-color-match/main-thread.ts — registerFindColorMatchTool with scan, match, apply handlers + selection change listener
-    status: completed
-  - id: create-entry
-    content: Create src/find-color-match-tool/main.ts entry point
-    status: completed
-  - id: create-view
-    content: Create src/app/views/find-color-match-tool/FindColorMatchToolView.tsx — UI with collection/mode dropdowns, results list with per-row Apply
-    status: completed
-  - id: wire-routing
-    content: Update run.ts, ui.tsx, HomeView.tsx, package.json to register the new tool
-    status: completed
-  - id: build-verify
-    content: Run npm run build and fix any lint/type errors
-    status: completed
+name: ""
+overview: ""
+todos: []
 isProject: false
+---
+
+---
+
+name: Find Color Match Tool
+overview: "Add a new Find Color Match tool that scans the selection for unbound solid colors, matches them against color variables from the Int UI Kit: Islands library (filtered by collection and mode), and lets the user apply a variable binding per color row."
+todos:
+
+- id: extract-color-utils
+content: Export colorToRgbHex / colorToOpacityPercent from variable-chain.ts (or extract to shared color-utils) so scan.ts and match.ts can reuse them
+status: completed
+- id: create-types
+content: Create src/app/tools/find-color-match/types.ts with FoundColor, VariableCandidate, MatchResult, and other shared types
+status: completed
+- id: create-scan
+content: Create src/app/tools/find-color-match/scan.ts — recursive selection scanner that extracts unbound SOLID colors (fills, strokes, text fills) with skip rules
+status: completed
+- id: create-variables
+content: Create src/app/tools/find-color-match/variables.ts — load variable candidates from local collections AND library collections (team library API with importVariableByKeyAsync), resolve to HEX per mode, with progress callback
+status: completed
+- id: create-match
+content: Create src/app/tools/find-color-match/match.ts — RGB Euclidean distance calculation, best-match sorting, diff % computation
+status: completed
+- id: create-apply
+content: Create src/app/tools/find-color-match/apply.ts — bind a chosen variable to a specific paint on a specific node
+status: completed
+- id: add-messages
+content: Add FIND_COLOR_MATCH_* message constants and payload types to src/app/messages.ts
+status: completed
+- id: create-main-thread
+content: Create src/app/tools/find-color-match/main-thread.ts — registerFindColorMatchTool with scan, match, apply handlers + selection change listener
+status: completed
+- id: create-entry
+content: Create src/find-color-match-tool/main.ts entry point
+status: completed
+- id: create-view
+content: Create src/app/views/find-color-match-tool/FindColorMatchToolView.tsx — UI with collection/mode dropdowns, results list with per-row Apply
+status: completed
+- id: wire-routing
+content: Update run.ts, ui.tsx, HomeView.tsx, package.json to register the new tool
+status: completed
+- id: build-verify
+content: Run npm run build and fix any lint/type errors
+status: completed
+isProject: false
+
 ---
 
 # Find Color Match Tool
