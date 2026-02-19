@@ -5,6 +5,27 @@
 
 ---
 
+### 2026-02-19
+
+#### Automations Tool — Phase 1 implementation
+- Implemented the full Automations tool per the plan in `.cursor/plans/automations_tool_409706d6.plan.md`.
+- Purpose: Create, save, and run sequential automation workflows by chaining actions (Apple Shortcuts-style for Figma).
+- **New files:**
+  - `src/automations-tool/main.ts` — tool entry point
+  - `src/app/tools/automations/types.ts` — ActionType, Automation, AutomationStep, ActionDefinition types + constants
+  - `src/app/tools/automations/storage.ts` — clientStorage CRUD for automations, JSON export/import
+  - `src/app/tools/automations/actions/selection-actions.ts` — selectByType, selectByName, expandToChildren
+  - `src/app/tools/automations/actions/property-actions.ts` — renameLayers, setFillColor, setFillVariable, setOpacity, notify
+  - `src/app/tools/automations/executor.ts` — sequential execution engine with progress + stop support
+  - `src/app/tools/automations/main-thread.ts` — registerAutomationsTool handler (CRUD + run + stop)
+  - `src/app/views/automations-tool/AutomationsToolView.tsx` — full UI (list, builder, step config screens)
+- **Modified files:** `messages.ts` (AUTOMATIONS_* message types + payload types), `run.ts` (tool registration), `ui.tsx` (route), `HomeView.tsx` (tool card with IconPrototype16), `package.json` (menu entry)
+- **Features:** List/create/delete automations, builder with add/remove/reorder steps, action picker, per-step config forms, enable/disable steps, export/import JSON, run with progress, stop support
+- **Core actions:** Select by type, Select by name (contains/startsWith/regex), Expand to children, Rename layers, Set fill color, Set fill variable, Set opacity, Notify
+- Builds cleanly (only pre-existing FindColorMatch TS errors remain).
+
+---
+
 ### 2026-02-18
 
 #### Find Color Match Tool — implementation

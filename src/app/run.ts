@@ -11,6 +11,7 @@ import { registerVariablesBatchRenameTool } from "./tools/variables-batch-rename
 import { registerVariablesCreateLinkedColorsTool } from "./tools/variables-create-linked-colors/main-thread"
 import { registerVariablesReplaceUsagesTool } from "./tools/variables-replace-usages/main-thread"
 import { registerFindColorMatchTool } from "./tools/find-color-match/main-thread"
+import { registerAutomationsTool } from "./tools/automations/main-thread"
 
 function getToolTitle(command: string): string {
   switch (command) {
@@ -32,6 +33,8 @@ function getToolTitle(command: string): string {
       return "Variables Replace Usages"
     case "find-color-match-tool":
       return "Find Color Match"
+    case "automations-tool":
+      return "Automations"
     default:
       return "Int UI Design Tools"
   }
@@ -57,6 +60,7 @@ export function run(command: string) {
     "variables-create-linked-colors-tool",
     "variables-replace-usages-tool",
     "find-color-match-tool",
+    "automations-tool",
   ]
 
   let activeTool: ActiveTool = toolCommands.includes(command as ActiveTool)
@@ -74,6 +78,7 @@ export function run(command: string) {
   const variablesCreateLinkedColors = registerVariablesCreateLinkedColorsTool(getActiveTool)
   const variablesReplaceUsages = registerVariablesReplaceUsagesTool(getActiveTool)
   const findColorMatch = registerFindColorMatchTool(getActiveTool)
+  const automations = registerAutomationsTool(getActiveTool)
 
   const activate = async (tool: ActiveTool) => {
     activeTool = tool
@@ -113,6 +118,10 @@ export function run(command: string) {
       await findColorMatch.onActivate()
       return
     }
+    if (tool === "automations-tool") {
+      await automations.onActivate()
+      return
+    }
   }
 
   figma.ui.onmessage = async (msg: UiToMainMessage) => {
@@ -142,6 +151,7 @@ export function run(command: string) {
       if (await variablesCreateLinkedColors.onMessage(msg)) return
       if (await variablesReplaceUsages.onMessage(msg)) return
       if (await findColorMatch.onMessage(msg)) return
+      if (await automations.onMessage(msg)) return
     } catch (e) {
       // eslint-disable-next-line no-console
       console.log("[run] Unhandled error in onmessage", e)

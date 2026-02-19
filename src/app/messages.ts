@@ -46,6 +46,12 @@ export const UI_TO_MAIN = {
   FIND_COLOR_MATCH_SET_MODE: "FIND_COLOR_MATCH_SET_MODE",
   FIND_COLOR_MATCH_APPLY: "FIND_COLOR_MATCH_APPLY",
   FIND_COLOR_MATCH_FOCUS_NODE: "FIND_COLOR_MATCH_FOCUS_NODE",
+  // Automations
+  AUTOMATIONS_LOAD: "AUTOMATIONS_LOAD",
+  AUTOMATIONS_SAVE: "AUTOMATIONS_SAVE",
+  AUTOMATIONS_DELETE: "AUTOMATIONS_DELETE",
+  AUTOMATIONS_RUN: "AUTOMATIONS_RUN",
+  AUTOMATIONS_STOP: "AUTOMATIONS_STOP",
 } as const
 
 export const MAIN_TO_UI = {
@@ -97,6 +103,11 @@ export const MAIN_TO_UI = {
   FIND_COLOR_MATCH_RESULT: "FIND_COLOR_MATCH_RESULT",
   FIND_COLOR_MATCH_PROGRESS: "FIND_COLOR_MATCH_PROGRESS",
   FIND_COLOR_MATCH_APPLY_RESULT: "FIND_COLOR_MATCH_APPLY_RESULT",
+  // Automations
+  AUTOMATIONS_LIST: "AUTOMATIONS_LIST",
+  AUTOMATIONS_SAVED: "AUTOMATIONS_SAVED",
+  AUTOMATIONS_RUN_PROGRESS: "AUTOMATIONS_RUN_PROGRESS",
+  AUTOMATIONS_RUN_RESULT: "AUTOMATIONS_RUN_RESULT",
 } as const
 
 export type UiToMainMessage =
@@ -147,6 +158,12 @@ export type UiToMainMessage =
   | { type: typeof UI_TO_MAIN.FIND_COLOR_MATCH_SET_MODE; modeId: string }
   | { type: typeof UI_TO_MAIN.FIND_COLOR_MATCH_APPLY; request: FindColorMatchApplyRequest }
   | { type: typeof UI_TO_MAIN.FIND_COLOR_MATCH_FOCUS_NODE; nodeId: string }
+  // Automations
+  | { type: typeof UI_TO_MAIN.AUTOMATIONS_LOAD }
+  | { type: typeof UI_TO_MAIN.AUTOMATIONS_SAVE; automation: AutomationPayload }
+  | { type: typeof UI_TO_MAIN.AUTOMATIONS_DELETE; automationId: string }
+  | { type: typeof UI_TO_MAIN.AUTOMATIONS_RUN; automationId: string }
+  | { type: typeof UI_TO_MAIN.AUTOMATIONS_STOP }
 
 export type ActiveTool =
   | "home"
@@ -159,6 +176,7 @@ export type ActiveTool =
   | "variables-replace-usages-tool"
   | "library-swap-tool"
   | "find-color-match-tool"
+  | "automations-tool"
 
 export type PrintColorUsagesUiSettings = {
   textPosition: "left" | "right"
@@ -363,6 +381,11 @@ export type MainToUiMessage =
   | { type: typeof MAIN_TO_UI.FIND_COLOR_MATCH_RESULT; payload: FindColorMatchResultPayload }
   | { type: typeof MAIN_TO_UI.FIND_COLOR_MATCH_PROGRESS; progress: FindColorMatchProgressPayload }
   | { type: typeof MAIN_TO_UI.FIND_COLOR_MATCH_APPLY_RESULT; result: FindColorMatchApplyResultPayload }
+  // Automations
+  | { type: typeof MAIN_TO_UI.AUTOMATIONS_LIST; automations: AutomationListItem[] }
+  | { type: typeof MAIN_TO_UI.AUTOMATIONS_SAVED; automation: AutomationPayload }
+  | { type: typeof MAIN_TO_UI.AUTOMATIONS_RUN_PROGRESS; progress: AutomationsRunProgress }
+  | { type: typeof MAIN_TO_UI.AUTOMATIONS_RUN_RESULT; result: AutomationsRunResult }
 
 // ============================================================================
 // Variables Batch Rename Types
@@ -960,4 +983,47 @@ export type FindColorMatchApplyResultPayload = {
   reason?: string
   nodeId: string
   variableId: string
+}
+
+// ============================================================================
+// Automations Types
+// ============================================================================
+
+export type AutomationStepPayload = {
+  id: string
+  actionType: string
+  params: Record<string, unknown>
+  enabled: boolean
+}
+
+export type AutomationPayload = {
+  id: string
+  name: string
+  steps: AutomationStepPayload[]
+  createdAt: number
+  updatedAt: number
+}
+
+export type AutomationListItem = {
+  id: string
+  name: string
+  stepCount: number
+  createdAt: number
+  updatedAt: number
+}
+
+export type AutomationsRunProgress = {
+  automationName: string
+  currentStep: number
+  totalSteps: number
+  stepName: string
+  status: "running" | "done" | "error"
+}
+
+export type AutomationsRunResult = {
+  success: boolean
+  message: string
+  stepsCompleted: number
+  totalSteps: number
+  errors: string[]
 }

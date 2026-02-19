@@ -13,6 +13,7 @@ import { VariablesBatchRenameToolView } from "./views/variables-batch-rename-too
 import { VariablesCreateLinkedColorsToolView } from "./views/variables-create-linked-colors-tool/VariablesCreateLinkedColorsToolView"
 import { VariablesReplaceUsagesToolView } from "./views/variables-replace-usages-tool/VariablesReplaceUsagesToolView"
 import { FindColorMatchToolView } from "./views/find-color-match-tool/FindColorMatchToolView"
+import { AutomationsToolView } from "./views/automations-tool/AutomationsToolView"
 
 type Route =
   | "home"
@@ -25,6 +26,7 @@ type Route =
   | "variables-create-linked-colors-tool"
   | "variables-replace-usages-tool"
   | "find-color-match-tool"
+  | "automations-tool"
 
 export function App() {
   const [route, setRoute] = useState<Route>("home")
@@ -46,6 +48,7 @@ export function App() {
           "variables-create-linked-colors-tool",
           "variables-replace-usages-tool",
           "find-color-match-tool",
+          "automations-tool",
         ]
         setRoute(
           validRoutes.includes(msg.command as Route) ? (msg.command as Route) : "home"
@@ -123,6 +126,10 @@ export function App() {
         initialSelectionEmpty={selectionSize === 0}
       />
     )
+  }
+
+  if (route === "automations-tool") {
+    return <AutomationsToolView onBack={() => setRoute("home")} />
   }
 
   return <HomeView goTo={setRoute} />

@@ -90,6 +90,11 @@
         "name": "Find Color Match",
         "main": "src/find-color-match-tool/main.ts",
         "ui": "src/app/ui.tsx"
+      },
+      {
+        "name": "Automations",
+        "main": "src/automations-tool/main.ts",
+        "ui": "src/app/ui.tsx"
       }
     ]
   }

@@ -8,6 +8,7 @@ import {
   IconVariable16,
   IconAdjust16,
   IconFolder16,
+  IconPrototype16,
   Stack,
   Text,
   VerticalSpace,
@@ -29,6 +30,7 @@ type Route =
   | "variables-replace-usages-tool"
   | "library-swap-tool"
   | "find-color-match-tool"
+  | "automations-tool"
 
 const sectionTitleStyle = { fontWeight: 600 } as const
 
@@ -65,6 +67,12 @@ export function HomeView(props: { goTo: (route: Route) => void }) {
               description="Swap component instances from old libraries to new ones"
               icon={<IconLibrary16 />}
               onClick={() => props.goTo("library-swap-tool")}
+            />
+            <ToolCard
+              title="Automations"
+              description="Create and run sequential automation workflows"
+              icon={<IconPrototype16 />}
+              onClick={() => props.goTo("automations-tool")}
             />
           </Stack>
           
