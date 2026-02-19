@@ -9,6 +9,7 @@ import {
   IconInteractionClickSmall24,
   Stack,
   Text,
+  TextboxColor,
   VerticalSpace,
 } from "@create-figma-plugin/ui"
 import { h } from "preact"
@@ -18,13 +19,15 @@ import { MAIN_TO_UI, UI_TO_MAIN, type MainToUiMessage } from "../../messages"
 import type {
   FindColorMatchCollectionInfo,
   FindColorMatchResultEntry,
-  FindColorMatchProgressPayload,
+  FindColorMatchVariableEntry,
+  LibraryCacheStatusPayload,
 } from "../../messages"
 import { Page } from "../../components/Page"
 import { ToolHeader } from "../../components/ToolHeader"
 import { ToolBody } from "../../components/ToolBody"
 import { State } from "../../components/State"
 import { ColorSwatch } from "../../components/ColorSwatch"
+import { LibraryCacheStatusBar } from "../../components/LibraryCacheStatusBar"
 
 type Props = {
   onBack: () => void
@@ -36,11 +39,21 @@ export function FindColorMatchToolView({ onBack, initialSelectionEmpty }: Props)
   const [selectedCollectionKey, setSelectedCollectionKey] = useState<string | null>(null)
   const [selectedModeId, setSelectedModeId] = useState<string | null>(null)
   const [entries, setEntries] = useState<FindColorMatchResultEntry[]>([])
-  const [progress, setProgress] = useState<FindColorMatchProgressPayload | null>(null)
+  const [cacheStatus, setCacheStatus] = useState<LibraryCacheStatusPayload | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [appliedKeys, setAppliedKeys] = useState<Set<string>>(new Set())
   const [overrides, setOverrides] = useState<Record<string, string>>({})
   const [selectionEmpty, setSelectionEmpty] = useState(initialSelectionEmpty ?? true)
+
+  const [groupsByCollection, setGroupsByCollection] = useState<Record<string, string[]>>({})
+  const [selectedGroup, setSelectedGroup] = useState<string | null>(null)
+
+  const [hexInput, setHexInput] = useState("")
+  const [hexOpacity, setHexOpacity] = useState("100")
+  const [hexMatches, setHexMatches] = useState<FindColorMatchVariableEntry[]>([])
+  const [hexResultFor, setHexResultFor] = useState<string | null>(null)
+  const [hexSelectedIdx, setHexSelectedIdx] = useState(0)
+  const [copiedName, setCopiedName] = useState<string | null>(null)
 
   useEffect(() => {
     const handler = (event: MessageEvent) => {
@@ -61,16 +74,14 @@ export function FindColorMatchToolView({ onBack, initialSelectionEmpty }: Props)
       if (msg.type === MAIN_TO_UI.FIND_COLOR_MATCH_RESULT) {
         const hasEntries = msg.payload.entries.length > 0
         setEntries(msg.payload.entries)
-        setProgress(null)
         setIsLoading(false)
         setSelectionEmpty(!hasEntries)
         setAppliedKeys(new Set())
         setOverrides({})
       }
 
-      if (msg.type === MAIN_TO_UI.FIND_COLOR_MATCH_PROGRESS) {
-        setProgress(msg.progress)
-        setIsLoading(true)
+      if (msg.type === MAIN_TO_UI.LIBRARY_CACHE_STATUS) {
+        setCacheStatus(msg.status)
       }
 
       if (msg.type === MAIN_TO_UI.FIND_COLOR_MATCH_APPLY_RESULT) {
@@ -90,11 +101,20 @@ export function FindColorMatchToolView({ onBack, initialSelectionEmpty }: Props)
         }
       }
 
+      if (msg.type === MAIN_TO_UI.FIND_COLOR_MATCH_HEX_RESULT) {
+        setHexMatches(msg.payload.allMatches)
+        setHexResultFor(msg.payload.hex)
+        setHexSelectedIdx(0)
+      }
+
+      if (msg.type === MAIN_TO_UI.FIND_COLOR_MATCH_GROUPS) {
+        setGroupsByCollection(msg.groupsByCollection)
+      }
+
       if (msg.type === MAIN_TO_UI.SELECTION_EMPTY) {
         setSelectionEmpty(true)
         setEntries([])
         setIsLoading(false)
-        setProgress(null)
       }
     }
 
@@ -113,27 +133,6 @@ export function FindColorMatchToolView({ onBack, initialSelectionEmpty }: Props)
     [collections, selectedCollectionKey]
   )
 
-  const collectionOptions: DropdownOption[] = useMemo(() => {
-    const libraryCollections = collections.filter((c) => c.isLibrary)
-    const localCollections = collections.filter((c) => !c.isLibrary)
-
-    const options: DropdownOption[] = []
-    if (libraryCollections.length > 0) {
-      options.push({ header: "Libraries" })
-      for (const c of libraryCollections) {
-        options.push({ value: c.key, text: `${c.name} [${c.libraryName}]` })
-      }
-    }
-    if (localCollections.length > 0) {
-      if (options.length > 0) options.push("-")
-      options.push({ header: "Local" })
-      for (const c of localCollections) {
-        options.push({ value: c.key, text: c.name })
-      }
-    }
-    return options
-  }, [collections])
-
   const modeOptions: DropdownOption[] = useMemo(() => {
     if (!selectedCollection || selectedCollection.modes.length === 0) return []
     return selectedCollection.modes.map((m) => ({
@@ -142,34 +141,103 @@ export function FindColorMatchToolView({ onBack, initialSelectionEmpty }: Props)
     }))
   }, [selectedCollection])
 
-  const handleCollectionChange = (value: string) => {
-    setSelectedCollectionKey(value)
-    setEntries([])
-    setAppliedKeys(new Set())
-    setOverrides({})
-    setIsLoading(true)
+  // Combined collection + group dropdown
+  const combinedCollectionValue = useMemo(() => {
+    const colKey = selectedCollectionKey ?? ""
+    return selectedGroup ? `${colKey}::${selectedGroup}` : `${colKey}::__all__`
+  }, [selectedCollectionKey, selectedGroup])
 
-    const col = collections.find((c) => c.key === value)
-    const firstModeId = col?.modes[0]?.modeId ?? null
-    setSelectedModeId(firstModeId)
+  const combinedCollectionOptions: DropdownOption[] = useMemo(() => {
+    const opts: DropdownOption[] = []
+    for (let ci = 0; ci < collections.length; ci++) {
+      const col = collections[ci]
+      if (ci > 0) opts.push("-" as DropdownOption)
+      opts.push({ value: `${col.key}::__all__`, text: col.name })
+      const colGroups = groupsByCollection[col.key] ?? []
+      for (const g of colGroups) {
+        opts.push({ value: `${col.key}::${g}`, text: g })
+      }
+    }
+    return opts
+  }, [collections, groupsByCollection])
 
-    parent.postMessage(
-      { pluginMessage: { type: UI_TO_MAIN.FIND_COLOR_MATCH_SET_COLLECTION, collectionKey: value } },
-      "*"
-    )
+  const handleCombinedCollectionChange = (value: string) => {
+    const sepIdx = value.indexOf("::")
+    if (sepIdx < 0) return
+    const colKey = value.substring(0, sepIdx)
+    const groupPart = value.substring(sepIdx + 2)
+    const newGroup = groupPart === "__all__" ? null : groupPart
+
+    const collectionChanged = colKey !== selectedCollectionKey
+    if (collectionChanged) {
+      setSelectedCollectionKey(colKey)
+      setSelectedGroup(null)
+      setEntries([])
+      setAppliedKeys(new Set())
+      setOverrides({})
+      setIsLoading(true)
+      setHexMatches([])
+      setHexResultFor(null)
+
+      const col = collections.find((c) => c.key === colKey)
+      const firstModeId = col?.modes[0]?.modeId ?? null
+      setSelectedModeId(firstModeId)
+
+      parent.postMessage(
+        { pluginMessage: { type: UI_TO_MAIN.FIND_COLOR_MATCH_SET_COLLECTION, collectionKey: colKey } },
+        "*"
+      )
+    } else if (newGroup !== selectedGroup) {
+      setSelectedGroup(newGroup)
+      setEntries([])
+      setAppliedKeys(new Set())
+      setOverrides({})
+      setIsLoading(true)
+      setHexMatches([])
+      setHexResultFor(null)
+      parent.postMessage(
+        { pluginMessage: { type: UI_TO_MAIN.FIND_COLOR_MATCH_SET_GROUP, group: newGroup } },
+        "*"
+      )
+    }
   }
 
   const handleModeChange = (value: string) => {
     setSelectedModeId(value)
+    setSelectedGroup(null)
     setEntries([])
     setAppliedKeys(new Set())
     setOverrides({})
     setIsLoading(true)
+    setHexMatches([])
+    setHexResultFor(null)
 
     parent.postMessage(
       { pluginMessage: { type: UI_TO_MAIN.FIND_COLOR_MATCH_SET_MODE, modeId: value } },
       "*"
     )
+  }
+
+  const handleHexInput = (value: string) => {
+    setHexInput(value)
+    const clean = value.replace(/^#/, "")
+    if (/^[0-9a-fA-F]{6}$/.test(clean)) {
+      parent.postMessage(
+        { pluginMessage: { type: UI_TO_MAIN.FIND_COLOR_MATCH_HEX_LOOKUP, hex: `#${clean}` } },
+        "*"
+      )
+    } else {
+      setHexMatches([])
+      setHexResultFor(null)
+      setHexSelectedIdx(0)
+    }
+  }
+
+  const handleCopyName = (name: string) => {
+    navigator.clipboard.writeText(name).then(() => {
+      setCopiedName(name)
+      setTimeout(() => setCopiedName(null), 1500)
+    })
   }
 
   const handleApply = (entry: FindColorMatchResultEntry) => {
@@ -212,12 +280,14 @@ export function FindColorMatchToolView({ onBack, initialSelectionEmpty }: Props)
 
   const showEmptySelection = !isLoading && selectionEmpty && entries.length === 0
   const showNoUnbound = !isLoading && !selectionEmpty && entries.length === 0 && visibleEntries.length === 0
-  const showLoading = isLoading && entries.length === 0
+
+  const hexSelectedMatch = hexMatches.length > 0 ? hexMatches[hexSelectedIdx] ?? hexMatches[0] : null
+  const hexTop2 = hexMatches.slice(0, 2)
 
   return (
     <Page>
       <ToolHeader
-        title="Find Color Match"
+        title="Find Color Match in Islands"
         left={
           <IconButton onClick={onBack}>
             <IconHome16 />
@@ -225,38 +295,118 @@ export function FindColorMatchToolView({ onBack, initialSelectionEmpty }: Props)
         }
       />
 
-      {/* Filters */}
-      {collections.length > 0 && (
+      {/* Filters: collection, mode, and hex input — horizontal */}
+      <div>
+        <Container space="small">
+          <VerticalSpace space="small" />
+          <div style={{ display: "flex", gap: 6, alignItems: "stretch" }}>
+            {combinedCollectionOptions.length > 0 && (
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <Dropdown
+                  options={combinedCollectionOptions}
+                  value={combinedCollectionValue}
+                  onChange={(e: any) => handleCombinedCollectionChange(e.currentTarget.value)}
+                />
+              </div>
+            )}
+            {modeOptions.length > 0 && (
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <Dropdown
+                  options={modeOptions}
+                  value={selectedModeId ?? null}
+                  onChange={(e: any) => handleModeChange(e.currentTarget.value)}
+                />
+              </div>
+            )}
+          </div>
+          <VerticalSpace space="small" />
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <TextboxColor
+              hexColor={hexInput}
+              hexColorPlaceholder="Paste hex"
+              opacity={hexOpacity}
+              onHexColorValueInput={handleHexInput}
+              onOpacityValueInput={setHexOpacity}
+            />
+          </div>
+          <VerticalSpace space="small" />
+        </Container>
+        <Divider />
+      </div>
+
+      {/* Hex lookup result */}
+      {hexSelectedMatch && hexResultFor && (
         <div>
           <Container space="small">
             <VerticalSpace space="small" />
-            <Stack space="extraSmall">
-              {collectionOptions.length > 0 && (
-                <Dropdown
-                  options={collectionOptions}
-                  value={selectedCollectionKey ?? ""}
-                  onChange={(e: any) => handleCollectionChange(e.currentTarget.value)}
-                />
-              )}
-              {modeOptions.length > 0 && (
-                <Dropdown
-                  options={modeOptions}
-                  value={selectedModeId ?? ""}
-                  onChange={(e: any) => handleModeChange(e.currentTarget.value)}
-                />
-              )}
-            </Stack>
+            <div
+              style={{
+                border: "1px solid var(--figma-color-border)",
+                borderRadius: 6,
+                padding: "8px 10px",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <ColorSwatch hex={hexResultFor} opacityPercent={100} />
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: 11, fontWeight: 600 }}>Hex lookup</div>
+                  <div style={{ fontSize: 10, color: "var(--figma-color-text-secondary)" }}>
+                    {hexResultFor}
+                  </div>
+                </div>
+              </div>
+              <div style={{ marginTop: 6 }}>
+                {hexTop2.map((m, i) => (
+                  <div
+                    key={m.variableId}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 6,
+                      marginBottom: 4,
+                      cursor: "pointer",
+                      padding: "2px 4px",
+                      borderRadius: 4,
+                      background: i === hexSelectedIdx ? "var(--figma-color-bg-hover)" : "transparent",
+                    }}
+                    onClick={() => setHexSelectedIdx(i)}
+                  >
+                    <ColorSwatch hex={m.hex} opacityPercent={m.opacityPercent} />
+                    <div style={{ flex: 1, minWidth: 0, fontSize: 11, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                      {m.variableName}
+                    </div>
+                    <div style={{ fontSize: 10, color: "var(--figma-color-text-secondary)", flexShrink: 0 }}>
+                      {m.matchPercent}%
+                    </div>
+                  </div>
+                ))}
+
+                {hexMatches.length > 2 && (
+                  <Dropdown
+                    options={hexMatches.slice(2).map((m, i) => ({
+                      value: String(i + 2),
+                      text: `${m.variableName} (${m.matchPercent}%)`,
+                    }))}
+                    value={hexSelectedIdx >= 2 ? String(hexSelectedIdx) : null}
+                    onChange={(e: any) => setHexSelectedIdx(Number(e.currentTarget.value))}
+                    placeholder="More matches…"
+                    style={{ marginBottom: 4 }}
+                  />
+                )}
+
+                <Button
+                  onClick={() => handleCopyName(hexSelectedMatch.variableName)}
+                  secondary
+                  style={{ width: "100%" }}
+                >
+                  {copiedName === hexSelectedMatch.variableName ? "Copied!" : "Copy name"}
+                </Button>
+              </div>
+            </div>
             <VerticalSpace space="small" />
           </Container>
           <Divider />
         </div>
-      )}
-
-      {/* Loading state */}
-      {showLoading && (
-        <ToolBody mode="state">
-          <State title={progress ? progress.message : "Loading…"} />
-        </ToolBody>
       )}
 
       {/* Empty: no selection */}
@@ -288,15 +438,8 @@ export function FindColorMatchToolView({ onBack, initialSelectionEmpty }: Props)
             {visibleEntries.map((entry) => {
               const key = entryKey(entry)
               const overrideVarId = overrides[key]
-
-              const selectedMatch = overrideVarId
-                ? entry.allMatches.find((m) => m.variableId === overrideVarId) ?? entry.bestMatch
-                : entry.bestMatch
-
-              const matchOptions: DropdownOption[] = entry.allMatches.map((m) => ({
-                value: m.variableId,
-                text: `${m.variableName} (${m.diffPercent}%)`,
-              }))
+              const top2 = entry.allMatches.slice(0, 2)
+              const selectedVarId = overrideVarId ?? entry.bestMatch?.variableId ?? ""
 
               return (
                 <div
@@ -332,30 +475,45 @@ export function FindColorMatchToolView({ onBack, initialSelectionEmpty }: Props)
                     </div>
                   </div>
 
-                  {/* Match suggestion */}
-                  {selectedMatch && (
+                  {/* Match suggestions — top 2 */}
+                  {top2.length > 0 && (
                     <div style={{ marginTop: 6 }}>
-                      <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
-                        <div style={{ fontSize: 10, color: "var(--figma-color-text-tertiary)" }}>→</div>
-                        <ColorSwatch hex={selectedMatch.hex} opacityPercent={selectedMatch.opacityPercent} />
-                        <div style={{ fontSize: 10, color: "var(--figma-color-text-secondary)" }}>
-                          {selectedMatch.diffPercent}% diff
+                      {top2.map((m) => (
+                        <div
+                          key={m.variableId}
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 6,
+                            marginBottom: 4,
+                            cursor: "pointer",
+                            padding: "2px 4px",
+                            borderRadius: 4,
+                            background: m.variableId === selectedVarId ? "var(--figma-color-bg-hover)" : "transparent",
+                          }}
+                          onClick={() => handleOverrideVariable(key, m.variableId)}
+                        >
+                          <ColorSwatch hex={m.hex} opacityPercent={m.opacityPercent} />
+                          <div style={{ flex: 1, minWidth: 0, fontSize: 11, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                            {m.variableName}
+                          </div>
+                          <div style={{ fontSize: 10, color: "var(--figma-color-text-secondary)", flexShrink: 0 }}>
+                            {m.matchPercent}%
+                          </div>
                         </div>
-                      </div>
+                      ))}
 
-                      {matchOptions.length > 1 && (
+                      {entry.allMatches.length > 2 && (
                         <Dropdown
-                          options={matchOptions}
-                          value={overrideVarId ?? entry.bestMatch?.variableId ?? ""}
+                          options={entry.allMatches.slice(2).map((m) => ({
+                            value: m.variableId,
+                            text: `${m.variableName} (${m.matchPercent}%)`,
+                          }))}
+                          value={overrideVarId && !top2.find((m) => m.variableId === overrideVarId) ? overrideVarId : null}
                           onChange={(e: any) => handleOverrideVariable(key, e.currentTarget.value)}
+                          placeholder="More matches…"
                           style={{ marginBottom: 4 }}
                         />
-                      )}
-
-                      {matchOptions.length <= 1 && selectedMatch && (
-                        <div style={{ fontSize: 11, marginBottom: 4 }}>
-                          {selectedMatch.variableName}
-                        </div>
                       )}
 
                       <Button onClick={() => handleApply(entry)} secondary style={{ width: "100%" }}>
@@ -365,7 +523,7 @@ export function FindColorMatchToolView({ onBack, initialSelectionEmpty }: Props)
                   )}
 
                   {/* No match */}
-                  {!selectedMatch && (
+                  {top2.length === 0 && (
                     <div style={{ marginTop: 6, fontSize: 11, color: "var(--figma-color-text-tertiary)" }}>
                       No matching variable found
                     </div>
@@ -377,22 +535,7 @@ export function FindColorMatchToolView({ onBack, initialSelectionEmpty }: Props)
         </ToolBody>
       )}
 
-      {/* Progress overlay when loading with existing results */}
-      {isLoading && entries.length > 0 && progress && (
-        <div style={{
-          position: "fixed",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          padding: "8px 12px",
-          background: "var(--figma-color-bg)",
-          borderTop: "1px solid var(--figma-color-border)",
-          fontSize: 11,
-          color: "var(--figma-color-text-secondary)",
-        }}>
-          {progress.message}
-        </div>
-      )}
+      <LibraryCacheStatusBar status={cacheStatus} />
     </Page>
   )
 }

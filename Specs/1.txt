@@ -1,0 +1,22 @@
+[Library Swap] Available libraries with variable collections:
+  library: "[ARCHIVE] Int UI Kit"
+      Spacing (key: 7ea5d4bc3b53b2553f72d357145eaa922c5279f9)
+  library: "Int UI Icons"
+      Default (key: b8caf24cfd484e897e6dfef73771823aae5461ff)
+  library: "Int UI Kit: Islands"
+      Spacing and arcs (key: 16e5c386531f6d3d55c2e924f1aaaba696a5a80f)
+      Color palette (key: 1fa92c89b22a23406e3b081a0543a85c394d689f)
+      Semantic colors (key: d6b578f625affd30e445e429f388985d9651488a)
+  library: "Mockup markup"
+      Color Styles (key: 72ef78a92d79d94ca0667ee58282cff3950e2d93)
+[Library Swap] Available libraries with variable collections:
+  library: "[ARCHIVE] Int UI Kit"
+      Spacing (key: 7ea5d4bc3b53b2553f72d357145eaa922c5279f9)
+  library: "Int UI Icons"
+      Default (key: b8caf24cfd484e897e6dfef73771823aae5461ff)
+  library: "Int UI Kit: Islands"
+      Spacing and arcs (key: 16e5c386531f6d3d55c2e924f1aaaba696a5a80f)
+      Color palette (key: 1fa92c89b22a23406e3b081a0543a85c394d689f)
+      Semantic colors (key: d6b578f625affd30e445e429f388985d9651488a)
+  library: "Mockup markup"
+      Color Styles (key: 72ef78a92d79d94ca0667ee58282cff3950e2d93)
