@@ -11,5 +11,5 @@ export {
   IconChevronLeft16,
   IconChevronRight16,
   IconChevronUp16,
-} from "./custom-icons/generated"
+} from "../../../custom-icons/generated"
 
