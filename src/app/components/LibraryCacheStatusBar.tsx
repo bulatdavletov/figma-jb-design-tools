@@ -28,14 +28,17 @@ export function LibraryCacheStatusBar({ status }: Props) {
         right: 0,
         display: "flex",
         alignItems: "center",
-        gap: 8,
+        justifyContent: "center",
+        gap: 6,
         padding: "6px 12px",
         background: "var(--figma-color-bg)",
         borderTop: "1px solid var(--figma-color-border)",
         zIndex: 100,
       }}
     >
-      <LoadingIndicator />
+      <div style={{ flexShrink: 0, width: 16, height: 16 }}>
+        <LoadingIndicator style={{ margin: 0 }} />
+      </div>
       <Text style={{ fontSize: 11, color: "var(--figma-color-text-secondary)" }}>
         {message}
       </Text>

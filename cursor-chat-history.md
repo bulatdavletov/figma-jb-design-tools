@@ -5,6 +5,15 @@
 
 ---
 
+### 2026-02-20
+
+#### LibraryCacheStatusBar — UI alignment fix
+- Bug: Spinner and text were spread far apart in the bottom status bar. Spinner on left edge, text on right edge.
+- Root cause: `LoadingIndicator` from `@create-figma-plugin/ui` has `margin: auto` in its CSS, which in a flex container absorbs all available space.
+- Fix: Wrapped `LoadingIndicator` in a fixed-size container (16x16) and overrode `margin: 0`. Added `justifyContent: "center"` to center the spinner+text group. Reduced gap from 8 to 6.
+
+---
+
 ### 2026-02-19
 
 #### Find Color Match Tool — unified library cache with smart invalidation
