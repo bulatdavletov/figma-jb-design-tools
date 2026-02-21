@@ -41735,10 +41735,11 @@ function getToolTitle(command) {
   }
 }
 function run(command) {
+  const isAutomations = command === "automations-tool";
   showUI(
     {
-      width: 360,
-      height: 500,
+      width: isAutomations ? AUTOMATIONS_WIDTH : DEFAULT_WIDTH,
+      height: isAutomations ? AUTOMATIONS_HEIGHT : DEFAULT_HEIGHT,
       title: getToolTitle(command)
     },
     { command }
@@ -41769,6 +41770,11 @@ function run(command) {
   const automations = registerAutomationsTool(getActiveTool);
   const activate = async (tool) => {
     activeTool = tool;
+    if (tool === "automations-tool") {
+      figma.ui.resize(AUTOMATIONS_WIDTH, AUTOMATIONS_HEIGHT);
+    } else {
+      figma.ui.resize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+    }
     if (tool === "mockup-markup-tool") {
       await mockupMarkup.onActivate();
       return;
@@ -41844,6 +41850,7 @@ function run(command) {
     }
   };
 }
+var DEFAULT_WIDTH, DEFAULT_HEIGHT, AUTOMATIONS_WIDTH, AUTOMATIONS_HEIGHT;
 var init_run = __esm({
   "src/app/run.ts"() {
     "use strict";
@@ -41859,6 +41866,10 @@ var init_run = __esm({
     init_main_thread8();
     init_main_thread9();
     init_main_thread10();
+    DEFAULT_WIDTH = 360;
+    DEFAULT_HEIGHT = 500;
+    AUTOMATIONS_WIDTH = 680;
+    AUTOMATIONS_HEIGHT = 520;
   }
 });
 

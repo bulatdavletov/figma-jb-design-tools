@@ -4,6 +4,32 @@ Create automations like Apple Shortcuts, but for Figma. Chain actions together, 
 
 [Implementation Plan](../.cursor/plans/automations_tool_409706d6.plan.md)
 
+I want to create Automation tool, where I can create automations, like Apple Shortcuts, but for Figma.
+
+The thing is: I don't want to search for plugin every time.
+I want to create my own automations.
+
+Let's think how to do it. What i need for that.
+
+List of actions from Figma API
+
+List of Object types
+
+List of actions in Automations tool
+
+Automations should be exportable/importable as JSON files (for sharing between team members or across devices).
+
+[Plan](../.cursor/plans/automations_tool_409706d6.plan.md)
+
+UI:
+This tool requires lot's of space, but our plugin is quite narrow.
+We need to come up with the way to resize plugin window, to increase it.
+
+Several columns, Like apple shortcuts:
+Left side for steps. Right side is dynamic: if nothing selected - for available actions. If step selected - for parameters.
+
+When plugin finishes - there should be way to show output inside plugin window.
+
 ---
 
 ## Core Idea
@@ -495,22 +521,199 @@ For safety (aligning with Design Principles — preview before apply):
 
 ---
 
+## Expressions and Pipeline Variables
+
+### The problem
+
+Currently, action parameters are static — you type a fixed string, a fixed number. But real workflows need dynamic values:
+
+- **Append text to a layer name** — not find/replace, but "take current name and add ' (deprecated)' to the end"
+- **Read a property from one node and set it on another** — "copy this frame's width and set it as that frame's width"
+- **Use a node's property in a notification** — "Processed layer: {name}, opacity was {opacity}"
+- **Math** — "set opacity to current opacity × 0.5"
+
+Without this, automations are limited to hardcoded values. With it, automations become truly programmable.
+
+### Expression tokens
+
+Any text parameter can contain `{token}` expressions that resolve at runtime against the current node being processed.
+
+**Node property tokens:**
+
+| Token | Resolves to | Example |
+|-------|------------|---------|
+| `{name}` | Current node's name | `Button`, `Frame 42` |
+| `{type}` | Node type string | `TEXT`, `FRAME`, `INSTANCE` |
+| `{index}` | Position in the current working set (0-based) | `0`, `1`, `2` |
+| `{count}` | Total items in working set | `15` |
+| `{width}` | Node width | `200` |
+| `{height}` | Node height | `100` |
+| `{opacity}` | Node opacity (0–1) | `0.5` |
+| `{x}` | X position | `120` |
+| `{y}` | Y position | `340` |
+| `{fillHex}` | First fill's hex color | `#FF0000` |
+| `{componentName}` | Main component name (instances) | `Button/Primary` |
+| `{pageName}` | Containing page's name | `Dashboard` |
+| `{id}` | Node ID | `123:456` |
+
+**Usage examples:**
+
+| Action | Parameter | Expression | Result |
+|--------|-----------|-----------|--------|
+| Set name | name | `{name} (old)` | `Button (old)` |
+| Set name | name | `{type}/{name}` | `TEXT/Label` |
+| Set name | name | `Item {index}` | `Item 0`, `Item 1`, ... |
+| Notify | message | `Done: {count} layers` | `Done: 15 layers` |
+| Log | message | `{name}: {fillHex}` | `Card: #FFFFFF` |
+
+### Pipeline variables (store and reuse values across steps)
+
+For cross-step data flow, introduce **pipeline variables** — named values that steps can write and later steps can read. Prefix: `$`.
+
+**New actions:**
+
+| Action | Category | Description | Parameters |
+|--------|----------|-------------|-----------|
+| **Set variable** | Transform | Store a value for later use | `variableName`: string, `value`: expression |
+| **Set variable from property** | Transform | Read a property from current node(s) and store it | `variableName`: string, `property`: name / type / width / height / opacity / fillHex / ... |
+
+**Reading pipeline variables in expressions:** `{$myVar}`
+
+**Example: Copy width from one frame to another**
+
+```
+Step 1: Source — From selection
+Step 2: Filter by name — "Source Frame"
+Step 3: Set variable from property — $sourceWidth = {width}
+Step 4: Source — From selection (resets working set)
+Step 5: Filter by name — "Target Frame"
+Step 6: Resize — width: {$sourceWidth}
+Step 7: Notify — "Set width to {$sourceWidth}"
+```
+
+**Example: Append text to all layer names**
+
+```
+Step 1: Source — From selection
+Step 2: Set name — "{name} - Copy"
+Step 3: Notify — "Renamed {count} layers"
+```
+
+**Example: Tag layers with their type**
+
+```
+Step 1: Source — From current page
+Step 2: Flatten descendants
+Step 3: Set name — "[{type}] {name}"
+Step 4: Notify — "Tagged {count} layers"
+```
+
+### String operations (future)
+
+For more complex transformations, consider built-in string functions:
+
+| Function | Example | Result |
+|----------|---------|--------|
+| `{name\|upper}` | `button` → `BUTTON` |
+| `{name\|lower}` | `MyFrame` → `myframe` |
+| `{name\|trim}` | `" hello "` → `"hello"` |
+| `{name\|replace:old:new}` | `old-button` → `new-button` |
+| `{name\|slice:0:5}` | `ButtonPrimary` → `Butto` |
+| `{width\|round}` | `199.7` → `200` |
+
+### Implementation notes
+
+- Expression resolution happens in the executor, not in individual actions. Each action receives already-resolved parameter values.
+- Pipeline variables live in the `AutomationContext` alongside `nodes`, `variables`, `styles`, `log`:
+  ```
+  Context {
+    nodes: SceneNode[]
+    variables: Variable[]
+    styles: BaseStyle[]
+    log: string[]
+    pipelineVars: Record<string, string | number | boolean>
+  }
+  ```
+- Token resolution iterates over `{...}` patterns in string params. Unknown tokens resolve to empty string with a warning in the log.
+- For actions that operate on multiple nodes (like "Set name"), tokens resolve per-node — each node gets its own `{name}`, `{index}`, etc.
+- Pipeline variables (`$`) resolve once from `context.pipelineVars` (same value for all nodes in that step).
+
+---
+
+## Implementation Progress
+
+### What's built (Phase 1 — initial, 2026-02-19)
+
+Skeleton of the tool is working. 8 basic actions, flat execution model, single-column UI.
+
+**Files created:**
+- `src/automations-tool/main.ts` — entry point
+- `src/app/tools/automations/types.ts` — types + action definitions
+- `src/app/tools/automations/storage.ts` — clientStorage CRUD + JSON export/import
+- `src/app/tools/automations/actions/selection-actions.ts` — selectByType, selectByName, expandToChildren
+- `src/app/tools/automations/actions/property-actions.ts` — renameLayers, setFillColor, setFillVariable, setOpacity, notify
+- `src/app/tools/automations/executor.ts` — sequential execution with progress + stop
+- `src/app/tools/automations/main-thread.ts` — message handler (CRUD + run + stop)
+- `src/app/views/automations-tool/AutomationsToolView.tsx` — UI (list, builder, step config screens)
+
+**What works:**
+- Create / edit / delete / duplicate automations
+- Add / remove / reorder / enable-disable steps
+- Action picker with all 8 actions
+- Per-step config forms
+- Run with progress indicator (step X of Y)
+- Stop mid-execution
+- JSON export / import for sharing
+- Saved to `figma.clientStorage` under `"automations_v1"`
+
+**Architectural gaps vs. this spec:**
+- **No Context object** — current implementation manipulates Figma's canvas selection directly instead of passing a `Context { nodes, variables, styles, log }` between steps. This blocks variable-centric flows, accumulated log, `{count}` tokens, and dry run.
+- **No plugin window resize** — everything is squeezed into the narrow plugin column.
+- **No two-column layout** — uses separate screens (list → builder → step config) instead of the Apple Shortcuts side-by-side design.
+- **No Run Output screen** — result is shown as a simple toast, not a step-by-step log.
+- **Flat action list** — no Source/Filter/Navigate/Transform/Output categories, no action compatibility checks.
+- **Old action names** — `selectByType` instead of `filterByType`, etc.
+
+---
+
 ## Implementation Phases
 
-### Phase 1 — Core pipeline + basic actions
-- Pipeline engine with context passing
-- Source actions: selection, current page
-- Filter actions: by type, by name
-- Navigate: expand to children, flatten descendants
-- Transform: rename, set fill color, set opacity, set visibility
-- Output: notify, select results, count
-- JSON export/import
-- Basic two-column UI
+### Phase 1.5 — Architecture refactor (next)
+
+Rework the foundation before adding more actions. Goal: match this spec's pipeline model.
+
+1. **Introduce Context model + expression tokens**
+   - Create `AutomationContext { nodes, variables, styles, log, pipelineVars }` type
+   - Update executor to pass context between steps
+   - Migrate all 8 existing actions to receive/return `AutomationContext`
+   - Implement expression token resolver (`{name}`, `{type}`, `{index}`, `{count}`, etc.)
+   - Apply token resolution to all string params before passing to actions
+   - Add pipeline variable actions: "Set variable", "Set variable from property"
+
+2. **Plugin window resize + two-column UI**
+   - `figma.ui.resize(width, height)` when Automations tool activates
+   - Restore original size when navigating away
+   - Left column: step list (pipeline view)
+   - Right column: action picker (when no step selected) or parameter config (when step selected)
+
+3. **Action categories and naming**
+   - Rename actions to match spec (`selectByType` → `filterByType`, etc.)
+   - Add Source category (`sourceFromSelection`, `sourceFromPage`)
+   - Organize action picker by category with headers
+   - Migration: update stored automations on load (old action names → new names)
+
+4. **Run Output screen**
+   - Show accumulated `context.log` after execution
+   - Per-step summary: step name, items processed, status (success / skip / error)
+   - Replace toast-only result display
 
 ### Phase 2 — Extended actions + tool wrappers
 - All remaining filter actions (by variable, by style, by component, by color)
 - All remaining transform actions (text, components, variables, styles, layout)
+- Navigate actions: go to parent, flatten descendants, enter instances
+- Source actions: from all pages, from page by name, from local variables, from local styles
 - Tool wrapper actions (Print Colors, Library Swap, Replace Usages, etc.)
+- Object-action compatibility checks in the builder UI
 - Dry run / preview mode
 
 ### Phase 3 — Advanced flow control

@@ -7,6 +7,16 @@
 
 ### 2026-02-21
 
+#### Automations Tool — Plugin resize + two-column builder layout
+- **Plugin window resize**: `figma.ui.resize(680, 520)` when Automations tool activates, restores to `360x500` when switching to any other tool or home. Handled in `run.ts` `activate()` function. Also set as initial size if plugin launches directly into automations-tool.
+- **Two-column builder layout**: Replaced the three-screen approach (list → builder → step-config) with a two-screen approach (list → builder). The builder screen is now two-column:
+  - Left (260px): automation name field + scrollable step list + "Add step" button
+  - Right (flexible): dynamic panel — shows action picker when adding steps, step config form when a step is selected, or a hint when idle
+- Step config is no longer a separate screen — selecting a step in the left column shows its parameters in the right column.
+- When a new step is added from the action picker, it's auto-selected so its config appears immediately.
+- Footer: Save + Export JSON buttons side-by-side (horizontal layout in wider window).
+- Build passes cleanly.
+
 #### Merge main into automations branch
 - Merged 7 commits from main into `cursor/automations-tool-plan-7b14`.
 - Resolved conflicts in `messages.ts` (kept both Automations + new Find Color Match / Library Cache messages), `cursor-chat-history.md`, `build/ui.js`.

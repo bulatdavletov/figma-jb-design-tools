@@ -47,7 +47,7 @@ import {
   parseImportJson,
 } from "../../tools/automations/storage"
 
-type Screen = "list" | "builder" | "step-config"
+type Screen = "list" | "builder"
 
 function postMessage(msg: object) {
   parent.postMessage({ pluginMessage: msg }, "*")
@@ -69,7 +69,6 @@ export function AutomationsToolView(props: { onBack: () => void }) {
   const [screen, setScreen] = useState<Screen>("list")
   const [automations, setAutomations] = useState<AutomationListItem[]>([])
   const [editingAutomation, setEditingAutomation] = useState<AutomationPayload | null>(null)
-  const [editingStepIndex, setEditingStepIndex] = useState<number>(-1)
   const [runProgress, setRunProgress] = useState<AutomationsRunProgress | null>(null)
   const [runResult, setRunResult] = useState<AutomationsRunResult | null>(null)
 
@@ -184,23 +183,6 @@ export function AutomationsToolView(props: { onBack: () => void }) {
     downloadTextFile(filename, json)
   }, [editingAutomation])
 
-  if (screen === "step-config" && editingAutomation && editingStepIndex >= 0) {
-    const step = editingAutomation.steps[editingStepIndex]
-    if (step) {
-      return (
-        <StepConfigScreen
-          step={step}
-          onBack={() => setScreen("builder")}
-          onChange={(updated) => {
-            const steps = [...editingAutomation.steps]
-            steps[editingStepIndex] = updated
-            setEditingAutomation({ ...editingAutomation, steps })
-          }}
-        />
-      )
-    }
-  }
-
   if (screen === "builder" && editingAutomation) {
     return (
       <BuilderScreen
@@ -213,10 +195,6 @@ export function AutomationsToolView(props: { onBack: () => void }) {
         onChange={setEditingAutomation}
         onSave={handleSave}
         onExport={handleBuilderExport}
-        onConfigStep={(idx) => {
-          setEditingStepIndex(idx)
-          setScreen("step-config")
-        }}
       />
     )
   }
@@ -411,8 +389,10 @@ function AutomationRow(props: {
 }
 
 // ============================================================================
-// Builder Screen
+// Builder Screen — Two-column layout
 // ============================================================================
+
+type RightPanel = "empty" | "picker" | "config"
 
 function BuilderScreen(props: {
   automation: AutomationPayload
@@ -420,10 +400,15 @@ function BuilderScreen(props: {
   onChange: (a: AutomationPayload) => void
   onSave: () => void
   onExport: () => void
-  onConfigStep: (idx: number) => void
 }) {
   const { automation, onChange } = props
-  const [showActionPicker, setShowActionPicker] = useState(false)
+  const [selectedStepIndex, setSelectedStepIndex] = useState<number | null>(null)
+  const [rightPanel, setRightPanel] = useState<RightPanel>("empty")
+
+  const selectedStep =
+    selectedStepIndex !== null && automation.steps[selectedStepIndex]
+      ? automation.steps[selectedStepIndex]
+      : null
 
   const addStep = (actionType: ActionType) => {
     const def = ACTION_DEFINITIONS.find((d) => d.type === actionType)
@@ -434,14 +419,22 @@ function BuilderScreen(props: {
       params: { ...def.defaultParams },
       enabled: true,
     }
-    onChange({ ...automation, steps: [...automation.steps, newStep] })
-    setShowActionPicker(false)
+    const newSteps = [...automation.steps, newStep]
+    onChange({ ...automation, steps: newSteps })
+    setSelectedStepIndex(newSteps.length - 1)
+    setRightPanel("config")
   }
 
   const removeStep = (idx: number) => {
     const steps = [...automation.steps]
     steps.splice(idx, 1)
     onChange({ ...automation, steps })
+    if (selectedStepIndex === idx) {
+      setSelectedStepIndex(null)
+      setRightPanel("empty")
+    } else if (selectedStepIndex !== null && selectedStepIndex > idx) {
+      setSelectedStepIndex(selectedStepIndex - 1)
+    }
   }
 
   const moveStep = (idx: number, direction: -1 | 1) => {
@@ -452,11 +445,36 @@ function BuilderScreen(props: {
     steps[idx] = steps[newIdx]
     steps[newIdx] = temp
     onChange({ ...automation, steps })
+    if (selectedStepIndex === idx) {
+      setSelectedStepIndex(newIdx)
+    } else if (selectedStepIndex === newIdx) {
+      setSelectedStepIndex(idx)
+    }
   }
 
   const toggleStep = (idx: number) => {
     const steps = [...automation.steps]
     steps[idx] = { ...steps[idx], enabled: !steps[idx].enabled }
+    onChange({ ...automation, steps })
+  }
+
+  const selectStep = (idx: number) => {
+    setSelectedStepIndex(idx)
+    setRightPanel("config")
+  }
+
+  const showPicker = () => {
+    setSelectedStepIndex(null)
+    setRightPanel("picker")
+  }
+
+  const updateStepParam = (key: string, value: unknown) => {
+    if (selectedStepIndex === null || !selectedStep) return
+    const steps = [...automation.steps]
+    steps[selectedStepIndex] = {
+      ...steps[selectedStepIndex],
+      params: { ...steps[selectedStepIndex].params, [key]: value },
+    }
     onChange({ ...automation, steps })
   }
 
@@ -472,81 +490,143 @@ function BuilderScreen(props: {
           </IconButton>
         }
       />
-      <ToolBody mode="content">
-        <Textbox
-          value={automation.name}
-          onValueInput={(value: string) => onChange({ ...automation, name: value })}
-          placeholder="Automation name"
-        />
-        <VerticalSpace space="medium" />
 
-        {automation.steps.length === 0 ? (
-          <Fragment>
+      {/* Two-column body */}
+      <div style={{ display: "flex", flex: 1, minHeight: 0 }}>
+        {/* Left column — step list */}
+        <div
+          style={{
+            flex: 1,
+            minWidth: 0,
+            borderRight: "1px solid var(--figma-color-border)",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          {/* Name field */}
+          <div style={{ padding: "8px 12px 0 12px" }}>
+            <Textbox
+              value={automation.name}
+              onValueInput={(value: string) => onChange({ ...automation, name: value })}
+              placeholder="Automation name"
+            />
+          </div>
+
+          {/* Step list (scrollable) */}
+          <div style={{ flex: 1, minHeight: 0, overflowY: "auto", padding: "8px 8px" }}>
+            {automation.steps.length === 0 ? (
+              <div
+                style={{
+                  fontSize: 11,
+                  color: "var(--figma-color-text-secondary)",
+                  textAlign: "center",
+                  padding: "24px 8px",
+                }}
+              >
+                No steps yet
+              </div>
+            ) : (
+              <Stack space="extraSmall">
+                {automation.steps.map((step, idx) => (
+                  <StepRow
+                    key={step.id}
+                    step={step}
+                    index={idx}
+                    total={automation.steps.length}
+                    selected={selectedStepIndex === idx}
+                    onSelect={() => selectStep(idx)}
+                    onToggle={() => toggleStep(idx)}
+                    onRemove={() => removeStep(idx)}
+                    onMoveUp={() => moveStep(idx, -1)}
+                    onMoveDown={() => moveStep(idx, 1)}
+                  />
+                ))}
+              </Stack>
+            )}
+          </div>
+
+          {/* Add step button */}
+          <div style={{ padding: "4px 8px 8px 8px" }}>
+            <Button fullWidth secondary onClick={showPicker}>
+              <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                <IconPlus16 />
+                <Text>Add step</Text>
+              </div>
+            </Button>
+          </div>
+        </div>
+
+        {/* Right column — dynamic panel */}
+        <div
+          style={{
+            flex: 1,
+            minWidth: 0,
+            display: "flex",
+            flexDirection: "column",
+            overflowY: "auto",
+          }}
+        >
+          {rightPanel === "picker" && (
+            <ActionPickerPanel onSelect={addStep} />
+          )}
+          {rightPanel === "config" && selectedStep && (
+            <StepConfigPanel step={selectedStep} onUpdateParam={updateStepParam} />
+          )}
+          {rightPanel === "empty" && (
             <div
               style={{
-                fontSize: 11,
-                color: "var(--figma-color-text-secondary)",
-                textAlign: "center",
-                padding: "16px 0",
+                flex: 1,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: 24,
               }}
             >
-              No steps yet. Add your first step below.
+              <Text
+                style={{
+                  fontSize: 11,
+                  color: "var(--figma-color-text-tertiary)",
+                  textAlign: "center",
+                }}
+              >
+                Select a step to configure, or click "Add step" to browse available actions
+              </Text>
             </div>
-          </Fragment>
-        ) : (
-          <Stack space="extraSmall">
-            {automation.steps.map((step, idx) => (
-              <StepRow
-                key={step.id}
-                step={step}
-                index={idx}
-                total={automation.steps.length}
-                onToggle={() => toggleStep(idx)}
-                onConfigure={() => props.onConfigStep(idx)}
-                onRemove={() => removeStep(idx)}
-                onMoveUp={() => moveStep(idx, -1)}
-                onMoveDown={() => moveStep(idx, 1)}
-              />
-            ))}
-          </Stack>
-        )}
+          )}
+        </div>
+      </div>
 
-        <VerticalSpace space="small" />
-        {showActionPicker ? (
-          <ActionPicker onSelect={addStep} onCancel={() => setShowActionPicker(false)} />
-        ) : (
-          <Button fullWidth secondary onClick={() => setShowActionPicker(true)}>
-            <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-              <IconPlus16 />
-              <Text>Add step</Text>
-            </div>
-          </Button>
-        )}
-      </ToolBody>
-
-      <Divider />
-      <Container space="medium">
-        <VerticalSpace space="small" />
-        <Stack space="extraSmall">
-          <Button fullWidth onClick={props.onSave}>
-            Save
-          </Button>
-          <Button fullWidth secondary onClick={props.onExport}>
-            Export as JSON
-          </Button>
-        </Stack>
-        <VerticalSpace space="small" />
-      </Container>
+      {/* Footer */}
+      <div
+        style={{
+          borderTop: "1px solid var(--figma-color-border)",
+          padding: "8px 12px",
+          display: "flex",
+          gap: 8,
+        }}
+      >
+        <Button style={{ flex: 1 }} onClick={props.onSave}>
+          Save
+        </Button>
+        <Button style={{ flex: 1 }} secondary onClick={props.onExport}>
+          Export JSON
+        </Button>
+      </div>
     </Page>
   )
 }
+
+// ============================================================================
+// Step Row (left column)
+// ============================================================================
 
 function StepRow(props: {
   step: AutomationStepPayload
   index: number
   total: number
+  selected: boolean
+  onSelect: () => void
   onToggle: () => void
-  onConfigure: () => void
   onRemove: () => void
   onMoveUp: () => void
   onMoveDown: () => void
@@ -560,26 +640,31 @@ function StepRow(props: {
     <div
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      onClick={props.onSelect}
       style={{
         display: "flex",
         alignItems: "center",
         gap: 4,
         padding: "4px 4px",
         borderRadius: 4,
-        background: hovered ? "var(--figma-color-bg-hover)" : "transparent",
+        background: props.selected
+          ? "var(--figma-color-bg-selected)"
+          : hovered
+            ? "var(--figma-color-bg-hover)"
+            : "transparent",
         opacity: props.step.enabled ? 1 : 0.5,
+        cursor: "pointer",
       }}
     >
-      <Checkbox
-        value={props.step.enabled}
-        onValueChange={props.onToggle}
-      >
-        <Text>{" "}</Text>
-      </Checkbox>
-      <div
-        style={{ flex: 1, minWidth: 0, cursor: "pointer" }}
-        onClick={props.onConfigure}
-      >
+      <div onClick={(e) => e.stopPropagation()}>
+        <Checkbox
+          value={props.step.enabled}
+          onValueChange={props.onToggle}
+        >
+          <Text>{" "}</Text>
+        </Checkbox>
+      </div>
+      <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ fontSize: 11, color: "var(--figma-color-text)" }}>
           {props.index + 1}. {label}
         </div>
@@ -599,7 +684,10 @@ function StepRow(props: {
         )}
       </div>
       {hovered && (
-        <div style={{ display: "flex", gap: 2, flexShrink: 0 }}>
+        <div
+          style={{ display: "flex", gap: 2, flexShrink: 0 }}
+          onClick={(e) => e.stopPropagation()}
+        >
           {props.index > 0 && (
             <IconButton onClick={props.onMoveUp}>
               <IconChevronDown16 style={{ transform: "rotate(180deg)" }} />
@@ -643,32 +731,27 @@ function getParamSummary(step: AutomationStepPayload): string {
   }
 }
 
-function ActionPicker(props: { onSelect: (type: ActionType) => void; onCancel: () => void }) {
+// ============================================================================
+// Action Picker Panel (right column)
+// ============================================================================
+
+function ActionPickerPanel(props: { onSelect: (type: ActionType) => void }) {
   return (
-    <div
-      style={{
-        border: "1px solid var(--figma-color-border)",
-        borderRadius: 4,
-        overflow: "hidden",
-      }}
-    >
+    <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
       <div
         style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "6px 8px",
+          padding: "8px 12px",
+          borderBottom: "1px solid var(--figma-color-border)",
           background: "var(--figma-color-bg-secondary)",
         }}
       >
         <Text style={{ fontWeight: 600, fontSize: 11 }}>Choose an action</Text>
-        <IconButton onClick={props.onCancel}>
-          <IconClose16 />
-        </IconButton>
       </div>
-      {ACTION_DEFINITIONS.map((def) => (
-        <ActionPickerRow key={def.type} def={def} onSelect={() => props.onSelect(def.type)} />
-      ))}
+      <div style={{ flex: 1, overflowY: "auto" }}>
+        {ACTION_DEFINITIONS.map((def) => (
+          <ActionPickerRow key={def.type} def={def} onSelect={() => props.onSelect(def.type)} />
+        ))}
+      </div>
     </div>
   )
 }
@@ -681,10 +764,10 @@ function ActionPickerRow(props: { def: ActionDefinition; onSelect: () => void })
       onMouseLeave={() => setHovered(false)}
       onClick={props.onSelect}
       style={{
-        padding: "6px 8px",
+        padding: "8px 12px",
         cursor: "pointer",
         background: hovered ? "var(--figma-color-bg-hover)" : "transparent",
-        borderTop: "1px solid var(--figma-color-border)",
+        borderBottom: "1px solid var(--figma-color-border)",
       }}
     >
       <div style={{ fontSize: 11, color: "var(--figma-color-text)" }}>{props.def.label}</div>
@@ -692,7 +775,7 @@ function ActionPickerRow(props: { def: ActionDefinition; onSelect: () => void })
         style={{
           fontSize: 10,
           color: "var(--figma-color-text-secondary)",
-          marginTop: 1,
+          marginTop: 2,
         }}
       >
         {props.def.description}
@@ -702,45 +785,30 @@ function ActionPickerRow(props: { def: ActionDefinition; onSelect: () => void })
 }
 
 // ============================================================================
-// Step Configuration Screen
+// Step Config Panel (right column)
 // ============================================================================
 
-function StepConfigScreen(props: {
+function StepConfigPanel(props: {
   step: AutomationStepPayload
-  onBack: () => void
-  onChange: (step: AutomationStepPayload) => void
+  onUpdateParam: (key: string, value: unknown) => void
 }) {
-  const { step, onChange } = props
+  const { step, onUpdateParam } = props
   const def = ACTION_DEFINITIONS.find((d) => d.type === step.actionType)
 
-  const updateParam = (key: string, value: unknown) => {
-    onChange({ ...step, params: { ...step.params, [key]: value } })
-  }
-
   return (
-    <Page>
-      <ToolHeader
-        title={def?.label ?? step.actionType}
-        left={
-          <IconButton onClick={props.onBack}>
-            <IconChevronRight16
-              style={{ transform: "rotate(180deg)" }}
-            />
-          </IconButton>
-        }
-      />
-      <ToolBody mode="content">
-        {def && (
-          <Fragment>
-            <Text style={{ fontSize: 11, color: "var(--figma-color-text-secondary)" }}>
-              {def.description}
-            </Text>
-            <VerticalSpace space="medium" />
-          </Fragment>
-        )}
-        {renderStepParams(step, updateParam)}
-      </ToolBody>
-    </Page>
+    <div style={{ padding: 12 }}>
+      {def && (
+        <Fragment>
+          <Text style={{ fontWeight: 600, fontSize: 12 }}>{def.label}</Text>
+          <VerticalSpace space="extraSmall" />
+          <Text style={{ fontSize: 11, color: "var(--figma-color-text-secondary)" }}>
+            {def.description}
+          </Text>
+          <VerticalSpace space="medium" />
+        </Fragment>
+      )}
+      {renderStepParams(step, onUpdateParam)}
+    </div>
   )
 }
 

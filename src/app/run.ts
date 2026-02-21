@@ -40,11 +40,17 @@ function getToolTitle(command: string): string {
   }
 }
 
+const DEFAULT_WIDTH = 360
+const DEFAULT_HEIGHT = 500
+const AUTOMATIONS_WIDTH = 680
+const AUTOMATIONS_HEIGHT = 520
+
 export function run(command: string) {
+  const isAutomations = command === "automations-tool"
   showUI(
     {
-      width: 360,
-      height: 500,
+      width: isAutomations ? AUTOMATIONS_WIDTH : DEFAULT_WIDTH,
+      height: isAutomations ? AUTOMATIONS_HEIGHT : DEFAULT_HEIGHT,
       title: getToolTitle(command),
     },
     { command }
@@ -82,6 +88,11 @@ export function run(command: string) {
 
   const activate = async (tool: ActiveTool) => {
     activeTool = tool
+    if (tool === "automations-tool") {
+      figma.ui.resize(AUTOMATIONS_WIDTH, AUTOMATIONS_HEIGHT)
+    } else {
+      figma.ui.resize(DEFAULT_WIDTH, DEFAULT_HEIGHT)
+    }
     if (tool === "mockup-markup-tool") {
       await mockupMarkup.onActivate()
       return
