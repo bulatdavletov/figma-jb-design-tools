@@ -103,6 +103,61 @@ export type MergedMeta = {
   newFullName?: string
 }
 
+// ---------------------------------------------------------------------------
+// Rich merge – returns newKey + description per old key.
+// Includes text-only entries (match="" with a description) so Scan Legacy
+// can distinguish "has replacement" / "text-only guidance" / "not mapped".
+// ---------------------------------------------------------------------------
+
+export type MergedMatchEntry = {
+  newKey: string
+  oldFullName?: string
+  newFullName?: string
+  description?: string
+}
+
+export function mergeMappingMatchesRich(
+  mappings: MappingAny[]
+): Record<string, MergedMatchEntry> {
+  const merged: Record<string, MergedMatchEntry> = {}
+  for (const m of mappings) {
+    if (m.schemaVersion === 3) {
+      for (const [oldKey, entry] of Object.entries(m.matches)) {
+        const e = entry as MappingMatchV3
+        const newKey = e.match ?? ""
+        if (newKey || e.description) {
+          merged[oldKey] = {
+            newKey,
+            oldFullName: e.oldFullName ?? merged[oldKey]?.oldFullName,
+            newFullName: e.newFullName ?? merged[oldKey]?.newFullName,
+            description: e.description ?? merged[oldKey]?.description,
+          }
+        }
+      }
+    } else if (m.schemaVersion === 2) {
+      const meta = (m as MappingV2).matchMeta
+      for (const [oldKey, newKey] of Object.entries(m.matches)) {
+        if (typeof newKey === "string" && newKey) {
+          const metaEntry = meta?.[oldKey]
+          merged[oldKey] = {
+            newKey,
+            oldFullName: metaEntry?.oldFullName ?? merged[oldKey]?.oldFullName,
+            newFullName: metaEntry?.newFullName ?? merged[oldKey]?.newFullName,
+            description: metaEntry?.description ?? merged[oldKey]?.description,
+          }
+        }
+      }
+    } else {
+      for (const [oldKey, newKey] of Object.entries(m.matches)) {
+        if (typeof newKey === "string" && newKey) {
+          merged[oldKey] = { ...merged[oldKey], newKey }
+        }
+      }
+    }
+  }
+  return merged
+}
+
 export function mergeMappingMeta(
   mappings: MappingAny[]
 ): Record<string, MergedMeta> {

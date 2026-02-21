@@ -94,6 +94,9 @@ export async function discoverIntUiKitCollections(): Promise<LibraryCollectionIn
         `[Int UI Kit] Matched ${matched.length} collection(s):`,
         matched.map((c) => ({ key: c.key, name: c.name }))
       )
+      for (const c of matched) {
+        console.log(`🔑 COLLECTION KEY: "${c.key}"  —  name: "${c.name}"  library: "${c.libraryName}"`)
+      }
     }
 
     return matched.map((c) => ({

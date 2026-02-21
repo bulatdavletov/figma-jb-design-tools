@@ -87,7 +87,7 @@
         "ui": "src/app/ui.tsx"
       },
       {
-        "name": "Find Color Match",
+        "name": "Find Color Match in Islands",
         "main": "src/find-color-match-tool/main.ts",
         "ui": "src/app/ui.tsx"
       },

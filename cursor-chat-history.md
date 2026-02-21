@@ -5,26 +5,86 @@
 
 ---
 
+### 2026-02-21
+
+#### Merge main into automations branch
+- Merged 7 commits from main into `cursor/automations-tool-plan-7b14`.
+- Resolved conflicts in `messages.ts` (kept both Automations + new Find Color Match / Library Cache messages), `cursor-chat-history.md`, `build/ui.js`.
+
+---
+
+### 2026-02-20
+
+#### LibraryCacheStatusBar — UI alignment fix
+- Bug: Spinner and text were spread far apart in the bottom status bar. Spinner on left edge, text on right edge.
+- Root cause: `LoadingIndicator` from `@create-figma-plugin/ui` has `margin: auto` in its CSS, which in a flex container absorbs all available space.
+- Fix: Wrapped `LoadingIndicator` in a fixed-size container (16x16) and overrode `margin: 0`. Added `justifyContent: "center"` to center the spinner+text group. Reduced gap from 8 to 6.
+
+---
+
 ### 2026-02-19
 
 #### Automations Tool — Phase 1 implementation
 - Implemented the full Automations tool per the plan in `.cursor/plans/automations_tool_409706d6.plan.md`.
 - Purpose: Create, save, and run sequential automation workflows by chaining actions (Apple Shortcuts-style for Figma).
-- **New files:**
-  - `src/automations-tool/main.ts` — tool entry point
-  - `src/app/tools/automations/types.ts` — ActionType, Automation, AutomationStep, ActionDefinition types + constants
-  - `src/app/tools/automations/storage.ts` — clientStorage CRUD for automations, JSON export/import
-  - `src/app/tools/automations/actions/selection-actions.ts` — selectByType, selectByName, expandToChildren
-  - `src/app/tools/automations/actions/property-actions.ts` — renameLayers, setFillColor, setFillVariable, setOpacity, notify
-  - `src/app/tools/automations/executor.ts` — sequential execution engine with progress + stop support
-  - `src/app/tools/automations/main-thread.ts` — registerAutomationsTool handler (CRUD + run + stop)
-  - `src/app/views/automations-tool/AutomationsToolView.tsx` — full UI (list, builder, step config screens)
-- **Modified files:** `messages.ts` (AUTOMATIONS_* message types + payload types), `run.ts` (tool registration), `ui.tsx` (route), `HomeView.tsx` (tool card with IconPrototype16), `package.json` (menu entry)
-- **Features:** List/create/delete automations, builder with add/remove/reorder steps, action picker, per-step config forms, enable/disable steps, export/import JSON, run with progress, stop support
-- **Core actions:** Select by type, Select by name (contains/startsWith/regex), Expand to children, Rename layers, Set fill color, Set fill variable, Set opacity, Notify
+- **New files:** entry point, types, storage (CRUD + JSON export/import), selection actions (selectByType, selectByName, expandToChildren), property actions (renameLayers, setFillColor, setFillVariable, setOpacity, notify), executor (sequential + progress + stop), main-thread handler, full UI view (list, builder, step config).
+- **Modified files:** `messages.ts`, `run.ts`, `ui.tsx`, `HomeView.tsx`, `package.json`.
+- **Features:** CRUD automations, builder with reorder/enable/disable, action picker, per-step config forms, export/import JSON, run with progress, stop support.
 - Builds cleanly (only pre-existing FindColorMatch TS errors remain).
 
----
+#### Figma API Reference spec
+- Created `Specs/Figma API Reference.md` — comprehensive reference covering all Figma object types and available Plugin API actions.
+- Covers: node type hierarchy, all node types with `.type` strings, non-node resources (styles, variables, team library), and 19 categories of API actions (document access, node lookup/search, selection/viewport, node creation, manipulation, paint/color, text, component/instance, styles, variables, team library, variable modes, auto layout, effects, export, UI communication, notifications, client storage, events/misc).
+- Supersedes the simpler `Object types in Figma.md` (which only had node types and basic style/variable info, no API actions).
+- Useful as reference for Automations Tool spec (which requires "List of actions from Figma API") and general plugin development.
+
+#### Automations Tool — Objects + Actions Pipeline Design
+- Rewrote `Specs/Automations Tool.md` with comprehensive design for how Figma object types and API actions work together in the automation system.
+- **Pipeline Model**: Steps pass a **Context** (nodes, variables, styles, log) from one step to the next. Steps are categorized: Source → Filter → Navigate → Transform → Output.
+- **Object-Action Compatibility**: Matrix showing which node types support which properties (fills, strokes, text, auto layout, swap component, children). Context type determines available actions.
+- **Action Catalog**: 72+ actions organized into 11 categories — Source (6), Filter (12), Navigate (4), Properties (17), Text (8), Components (4), Variables (4), Styles (2), Layout (4), Output (5), Tool Wrappers (6).
+- **6 practical examples**: clean up text layers, replace old color variable, migration report, batch variable rename, consistent frame styling, detach deprecated instances.
+- **JSON format**: shows how automations serialize for team sharing.
+- **UI design**: two-column layout (step list + dynamic panel), action picker organized by category, run output screen with step-by-step summary.
+- **Execution engine**: sequential context-passing, dry run / preview mode, error handling with step identification.
+- **3 implementation phases**: Phase 1 core pipeline + basic actions, Phase 2 extended actions + tool wrappers, Phase 3 conditions/loops/shortcuts.
+
+#### Find Color Match Tool — unified library cache with smart invalidation
+- **Problem**: Cache was cleared on every collection/mode change and re-discovered on every tool activation. Loading 200+ variables took several seconds. Full-screen `State` component blocked the UI during loading.
+- **Solution**: Fingerprint-based shared cache + subtle bottom status bar.
+- **New file: `src/app/tools/int-ui-kit-library/cache.ts`** — Global in-memory cache for Int UI Kit library data. Uses fingerprint (sorted COLOR variable keys from `getVariablesInLibraryCollectionAsync`) to detect changes. API: `getCachedCollections()`, `getVariables(key, mode, onStatus)`, `getCachedVariablesSync(key, mode)`, `ensureCollectionModes()`, `invalidateAll()`.
+- **New file: `src/app/components/LibraryCacheStatusBar.tsx`** — Subtle fixed-bottom bar showing "Checking library for updates…" / "Loading variables… N/M". Uses `LoadingIndicator` from `@create-figma-plugin/ui`. Auto-hides when idle/ready.
+- **Modified `messages.ts`**: Added `LIBRARY_CACHE_STATUS` message type and `LibraryCacheStatusPayload` type.
+- **Modified `find-color-match/main-thread.ts`**: Removed local `candidateCache`/`candidateCacheKey`/`preloadPromise`. Now uses shared cache. On activation: serves from cache instantly via `runScanFromCacheSync()`, then runs `backgroundCacheCheck()` to validate fingerprint. On collection/mode change: uses `getVariables()` which checks fingerprint — no manual cache clearing.
+- **Modified `FindColorMatchToolView.tsx`**: Replaced full-screen loading `State` with `LibraryCacheStatusBar`. Removed `progress` state (no longer sent). Added `cacheStatus` state driven by `LIBRARY_CACHE_STATUS` messages.
+- Build passes cleanly.
+
+#### Find Color Match Tool — percentage inversion fix
+- Bug: 0% was shown for exact matches; user expected 100% = exact match.
+- Fix: Inverted `diffPercent` → `matchPercent` across 5 files (`match.ts`, `types.ts`, `messages.ts`, `main-thread.ts`, `FindColorMatchToolView.tsx`). Formula changed from `distance/max * 100` to `100 - distance/max * 100`. UI label changed from "diff" to "match".
+- Build passes.
+
+#### Find Color Match Tool — major improvements
+- **Renamed** tool to "Find Color Match in Islands" (`package.json`, `HomeView.tsx`, `ToolHeader`).
+- **Hardcoded library**: Added `INT_UI_KIT_COLOR_COLLECTION_KEYS` to `constants.ts` (Color palette + Semantic colors). Removed other-library and local-collection discovery from `variables.ts`. Collection dropdown only shows when >1 Int UI Kit collection.
+- **Hex input**: Added `TextboxColor` for pasting hex values. New message flow: `FIND_COLOR_MATCH_HEX_LOOKUP` → `FIND_COLOR_MATCH_HEX_RESULT`. Shows best match with "Copy name" button.
+- **Horizontal layout**: Mode dropdown and hex input sit side-by-side in a flex row.
+- **Background preload**: Candidates are preloaded on tool activation via `preloadCandidatesInBackground()`. First scan uses cached data instead of blocking on import.
+- Build passes.
+
+#### Find Color Match Tool — UI polish (2026-02-19)
+- **Removed arrows**: Removed `→` arrow indicators from match rows (both hex lookup and selection results).
+- **Show top 2 matches**: Both hex lookup and selection results now show the top 2 matches inline with swatches, names, and percentages. Clicking a row selects it (highlighted background). Dropdown shows remaining matches beyond top 2.
+- **Fixed hex dropdown**: The hex lookup dropdown's `onChange` was `() => {}` (no-op) and `value` was always pinned to best match. Added `hexSelectedIdx` state so dropdown/row clicks actually change the selected match and update the "Copy name" button.
+- Build passes.
+
+#### Find Color Match Tool — Group filter (2026-02-19)
+- **Combined collection+group dropdown**: Merged collection and group into a single dropdown. Collections appear as section headers (when >1), groups as items beneath the active collection. Value encoding: `collectionKey::groupName` (or `__all__`). Selecting a group from a different collection triggers both collection switch and group filter.
+- **Group names**: Shown without trailing slash (e.g., "text" not "text/").
+- **Flow**: Main thread extracts groups after loading candidates → sends `FIND_COLOR_MATCH_GROUPS` to UI → UI builds combined dropdown with headers + groups → selecting an item sends `SET_COLLECTION` and/or `SET_GROUP` → main thread filters candidates by prefix → re-scans.
+- **Resets**: Group resets to "All" when collection or mode changes.
+- **Files modified**: `messages.ts` (new `SET_GROUP` + `GROUPS` messages), `main-thread.ts` (group prefix filtering, group extraction), `FindColorMatchToolView.tsx` (combined dropdown replacing separate collection + group dropdowns).
+- Build passes.
 
 ### 2026-02-18
 
@@ -939,6 +999,36 @@ Olya suggested to rename from JetBrains Design Tools to Int UI Design Tools
 - Root cause: instance list was collected once before swapping. When a parent was swapped, its old children were orphaned and new children (potentially referencing old library components) weren't in the list.
 - Fix: `swapInstances()` now uses a multi-pass loop (up to 5 passes). After each pass, re-scans for remaining old-library instances. Tracks already-swapped IDs to avoid re-processing. Stops when no more swaps occur in a pass.
 - Verification: `npm run build` passed; no linter errors.
+
+### 2026-02-19 — Scan Legacy feature
+- **New feature**: "Scan Legacy" action within Library Swap tool.
+- Purpose: Scans the current scope for old library remnants — remote paint styles (fills/strokes) and components from old libraries.
+- **Paint styles**: Detects any remote paint style applied as fill or stroke. Shows style name, property type (fill/stroke), whether it's an override (inside an instance). Override items have a "Reset" button. Non-override items show info only (no action).
+- **Reset override fix (2026-02-19)**: Reset now properly restores the main component's default fill/stroke instead of clearing the style. Uses ID-based child matching (`instance child ID → extract relative ID after ";" → find child in main component`) to locate the corresponding node in the master component, then copies its fillStyleId or raw fills/strokes.
+- **Components**: Uses the existing mapping system (built-in + custom). Categorizes found instances as:
+  - `mapped` — has a replacement component (shows suggested new component name in green)
+  - `text_only` — has custom description text but no replacement (shows description in amber)
+  - `unmapped` — known old component with no replacement (shows "No replacement" in red). Detected by matching remote component display names against a hardcoded list of 39 unmatched old Int UI Kit component names (from `unmatched-components.md`).
+- **Text-only mappings**: Extended `MappingMatchV3` support so `match` can be `""` while `description` holds custom guidance text. Added `mergeMappingMatchesRich()` to `mapping-types.ts` that returns full `{ newKey, oldFullName, newFullName, description }` per old key.
+- **Files created**: `src/app/tools/library-swap/scan-legacy.ts` (scan logic + reset override)
+- **Files modified**: `mapping-types.ts` (added `MergedMatchEntry` type + `mergeMappingMatchesRich`), `messages.ts` (new message types + payload types), `main-thread.ts` (new handlers), `LibrarySwapToolView.tsx` (new button + results display)
+- Build passes cleanly.
+
+### 2026-02-19 — Library Swap Redesign
+- **Merged Scan Legacy into Analyze**: The "Scan Legacy" button is removed. Now when user clicks "Analyze", it runs both `analyzeSwap()` and `scanForLegacyItems()` sequentially. Results appear together.
+- **Sticky footer**: Moved Analyze + Apply buttons to a sticky footer below the scrollable body. Progress spinner also lives in the footer.
+- **Preview in body**: Preview button now appears inside the scrollable body, only after Analyze completes successfully. Positioned right after the Scope selector. Includes a "Clear previews" button next to it.
+- **Override detection fixed**: Replaced the `isInsideInstance()` heuristic with proper `InstanceNode.overrides` API usage. Now reads `instance.overrides` to check if the specific node has `fillStyleId`/`fills` or `strokeStyleId`/`strokes` in its `overriddenFields`. Uses a per-scan cache to avoid redundant reads.
+- **NodeTypeIcon component**: Created `src/app/components/NodeTypeIcon.tsx` — a shared SVG icon for indicating Figma object types. Currently supports `colorStyleFill` (solid circle) and `colorStyleStroke` (outlined circle). Extensible for variable, text, frame types.
+- **Legacy color styles table redesign**: Removed the "Type" text column. Added a narrow icon column at the start of each row with `NodeTypeIcon` — filled circle for fill styles, outlined circle for stroke styles. Visually communicates fill vs. stroke without wasting a column on text.
+- **Vertical spacing**: Added `VerticalSpace` between consecutive DataTable blocks.
+- **Message cleanup**: Removed `LIBRARY_SWAP_SCAN_LEGACY` from `UI_TO_MAIN` enum and union type (no longer a separate action). Removed unused `LibrarySwapScanLegacyRequest` type. Kept `SCAN_LEGACY_RESULT` and `SCAN_LEGACY_RESET` messages.
+- Build passes cleanly.
+
+### 2026-02-20 — Merge mapping inbox
+- Merged 2 exported mapping JSONs from `Figma JSONs/mapping inbox/` into `default-uikit-mapping.json` using `scripts/merge-mapping.cjs`.
+- `manual-mapping-export.json`: +1 entry (Toolbar / Search). `banner.json`: +2 entries (Banner variants).
+- UIKit mapping: 633 → 636 entries.
 
 ---
 

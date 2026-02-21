@@ -691,10 +691,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8501bb33-0978-4f73-a119-3099ace44f4b/loading-indicator.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b14a71b4-37c4-47fe-84d8-9839515849d3/loading-indicator.module.js
   var loading_indicator_module_default;
   var init_loading_indicator_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8501bb33-0978-4f73-a119-3099ace44f4b/loading-indicator.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b14a71b4-37c4-47fe-84d8-9839515849d3/loading-indicator.module.js"() {
       if (document.getElementById("3fe0db8eb7") === null) {
         const element = document.createElement("style");
         element.id = "3fe0db8eb7";
@@ -755,10 +755,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f482a1bf-723c-4d92-8cb1-58c0fccf7427/button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4262048a-17b7-420c-9d22-e63549dd0e6b/button.module.js
   var button_module_default;
   var init_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f482a1bf-723c-4d92-8cb1-58c0fccf7427/button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4262048a-17b7-420c-9d22-e63549dd0e6b/button.module.js"() {
       if (document.getElementById("1dddd0e4df") === null) {
         const element = document.createElement("style");
         element.id = "1dddd0e4df";
@@ -1406,10 +1406,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f2771312-7676-4eb8-9a98-a171b0933bab/checkbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/27461fc8-5720-4994-99dc-78c13c274021/checkbox.module.js
   var checkbox_module_default;
   var init_checkbox_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f2771312-7676-4eb8-9a98-a171b0933bab/checkbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/27461fc8-5720-4994-99dc-78c13c274021/checkbox.module.js"() {
       if (document.getElementById("f38d076240") === null) {
         const element = document.createElement("style");
         element.id = "f38d076240";
@@ -1572,10 +1572,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4e5d6297-04cc-494f-86dd-dc2a45959a15/disclosure.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8b7787e0-6cf0-4357-8f09-0ca9f4444d8b/disclosure.module.js
   var disclosure_module_default;
   var init_disclosure_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4e5d6297-04cc-494f-86dd-dc2a45959a15/disclosure.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8b7787e0-6cf0-4357-8f09-0ca9f4444d8b/disclosure.module.js"() {
       if (document.getElementById("4712e1cb0c") === null) {
         const element = document.createElement("style");
         element.id = "4712e1cb0c";
@@ -1676,10 +1676,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2833aebf-ce8b-4d9e-b0e3-cde7a0cc89c2/divider.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2f44208a-b2e1-4091-80ce-1ef7a6c50372/divider.module.js
   var divider_module_default;
   var init_divider_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2833aebf-ce8b-4d9e-b0e3-cde7a0cc89c2/divider.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2f44208a-b2e1-4091-80ce-1ef7a6c50372/divider.module.js"() {
       if (document.getElementById("4bf06403b9") === null) {
         const element = document.createElement("style");
         element.id = "4bf06403b9";
@@ -1709,10 +1709,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/028c2fe7-3a79-4b50-adbe-02f0729c0106/menu.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8bb4acff-9309-4e9d-bef2-817e776d9717/menu.module.js
   var menu_module_default;
   var init_menu_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/028c2fe7-3a79-4b50-adbe-02f0729c0106/menu.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8bb4acff-9309-4e9d-bef2-817e776d9717/menu.module.js"() {
       if (document.getElementById("29044db304") === null) {
         const element = document.createElement("style");
         element.id = "29044db304";
@@ -1935,10 +1935,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6ab06a0a-0c30-4123-bda8-a49da6171b04/dropdown.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/949c8568-28ec-4114-9608-e07f42e95559/dropdown.module.js
   var dropdown_module_default;
   var init_dropdown_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6ab06a0a-0c30-4123-bda8-a49da6171b04/dropdown.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/949c8568-28ec-4114-9608-e07f42e95559/dropdown.module.js"() {
       if (document.getElementById("5a226eb00e") === null) {
         const element = document.createElement("style");
         element.id = "5a226eb00e";
@@ -2379,10 +2379,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/cdbff64f-7479-4a53-bf20-90202eafc7cc/button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/275b0397-3c7b-4a12-b783-44e2f0a16ce5/button.module.js
   var button_module_default2;
   var init_button_module2 = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/cdbff64f-7479-4a53-bf20-90202eafc7cc/button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/275b0397-3c7b-4a12-b783-44e2f0a16ce5/button.module.js"() {
       if (document.getElementById("1dddd0e4df") === null) {
         const element = document.createElement("style");
         element.id = "1dddd0e4df";
@@ -2546,10 +2546,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7982fab8-1b6b-4a36-8dc1-64ab92f80109/file-upload-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7d40d18f-948f-4768-a058-ac5429840c3e/file-upload-button.module.js
   var file_upload_button_module_default;
   var init_file_upload_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7982fab8-1b6b-4a36-8dc1-64ab92f80109/file-upload-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7d40d18f-948f-4768-a058-ac5429840c3e/file-upload-button.module.js"() {
       if (document.getElementById("f115bb30c8") === null) {
         const element = document.createElement("style");
         element.id = "f115bb30c8";
@@ -2664,10 +2664,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/20e65f00-8cf0-4369-8fab-aafebc950653/icon-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/82223f59-5fef-4674-9658-caff3ea61f2c/icon-button.module.js
   var icon_button_module_default;
   var init_icon_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/20e65f00-8cf0-4369-8fab-aafebc950653/icon-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/82223f59-5fef-4674-9658-caff3ea61f2c/icon-button.module.js"() {
       if (document.getElementById("c8b08e6568") === null) {
         const element = document.createElement("style");
         element.id = "c8b08e6568";
@@ -2745,10 +2745,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/52ed9388-62be-42c7-832d-0f15b0332da4/text.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/581c1ff8-1a2b-4ab4-92c0-264c8ad4def2/text.module.js
   var text_module_default;
   var init_text_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/52ed9388-62be-42c7-832d-0f15b0332da4/text.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/581c1ff8-1a2b-4ab4-92c0-264c8ad4def2/text.module.js"() {
       if (document.getElementById("1278016d5c") === null) {
         const element = document.createElement("style");
         element.id = "1278016d5c";
@@ -2806,10 +2806,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/db245d8d-358e-4cc9-99c7-15540aed528c/inline.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b8d55dd2-7732-4aa8-9d38-160f694e2c10/inline.module.js
   var inline_module_default;
   var init_inline_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/db245d8d-358e-4cc9-99c7-15540aed528c/inline.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b8d55dd2-7732-4aa8-9d38-160f694e2c10/inline.module.js"() {
       if (document.getElementById("3e1b2856fc") === null) {
         const element = document.createElement("style");
         element.id = "3e1b2856fc";
@@ -2871,10 +2871,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/837d5efc-9ae2-4c82-b78b-8b13b93c3b6c/stack.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/af44ec9d-220a-4360-ae29-622e8d56d02e/stack.module.js
   var stack_module_default;
   var init_stack_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/837d5efc-9ae2-4c82-b78b-8b13b93c3b6c/stack.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/af44ec9d-220a-4360-ae29-622e8d56d02e/stack.module.js"() {
       if (document.getElementById("317515cc3f") === null) {
         const element = document.createElement("style");
         element.id = "317515cc3f";
@@ -2917,10 +2917,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e6a2dad1-37ab-4a05-841c-00b3244913ce/radio-buttons.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/eb363765-954f-4bc9-a83a-575d01ecbb77/radio-buttons.module.js
   var radio_buttons_module_default;
   var init_radio_buttons_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e6a2dad1-37ab-4a05-841c-00b3244913ce/radio-buttons.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/eb363765-954f-4bc9-a83a-575d01ecbb77/radio-buttons.module.js"() {
       if (document.getElementById("a066c67891") === null) {
         const element = document.createElement("style");
         element.id = "a066c67891";
@@ -3039,10 +3039,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d4abf610-13b3-4e5d-8b9b-0c52b95210f3/segmented-control.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/82fa85f6-293b-42d6-bb78-d5c3035287fd/segmented-control.module.js
   var segmented_control_module_default;
   var init_segmented_control_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d4abf610-13b3-4e5d-8b9b-0c52b95210f3/segmented-control.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/82fa85f6-293b-42d6-bb78-d5c3035287fd/segmented-control.module.js"() {
       if (document.getElementById("bc6858a1b5") === null) {
         const element = document.createElement("style");
         element.id = "bc6858a1b5";
@@ -3143,10 +3143,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e44d6118-af28-42d5-aa09-9590593e58f9/tabs.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/33829091-c745-4d1f-9a2d-8495c64fcb9d/tabs.module.js
   var tabs_module_default;
   var init_tabs_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e44d6118-af28-42d5-aa09-9590593e58f9/tabs.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/33829091-c745-4d1f-9a2d-8495c64fcb9d/tabs.module.js"() {
       if (document.getElementById("b2487bb7e6") === null) {
         const element = document.createElement("style");
         element.id = "b2487bb7e6";
@@ -3363,10 +3363,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9b8ed2a2-ca28-4371-a13e-51d72431cb45/textbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/98703729-7c22-48c7-ad02-6d11db4354b5/textbox.module.js
   var textbox_module_default;
   var init_textbox_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9b8ed2a2-ca28-4371-a13e-51d72431cb45/textbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/98703729-7c22-48c7-ad02-6d11db4354b5/textbox.module.js"() {
       if (document.getElementById("5c1c5c2d3d") === null) {
         const element = document.createElement("style");
         element.id = "5c1c5c2d3d";
@@ -3853,10 +3853,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9d19e6c6-6d3d-43c9-99c7-bbfd7f45af10/textbox-color.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b0bfcc91-e289-4229-b890-19c8ca73e04c/textbox-color.module.js
   var textbox_color_module_default;
   var init_textbox_color_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9d19e6c6-6d3d-43c9-99c7-bbfd7f45af10/textbox-color.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b0bfcc91-e289-4229-b890-19c8ca73e04c/textbox-color.module.js"() {
       if (document.getElementById("77000fee0f") === null) {
         const element = document.createElement("style");
         element.id = "77000fee0f";
@@ -4174,10 +4174,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6a2d1ae6-7cac-4c03-ae70-75e48438ca17/textbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/828f02f2-0391-4cc4-a002-c64bad81c57f/textbox.module.js
   var textbox_module_default2;
   var init_textbox_module2 = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6a2d1ae6-7cac-4c03-ae70-75e48438ca17/textbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/828f02f2-0391-4cc4-a002-c64bad81c57f/textbox.module.js"() {
       if (document.getElementById("5c1c5c2d3d") === null) {
         const element = document.createElement("style");
         element.id = "5c1c5c2d3d";
@@ -4248,10 +4248,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a2046317-ebf3-45b6-9022-d0231e290378/textbox-numeric.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9a79ceeb-be17-454c-949c-f64ff33aedb7/textbox-numeric.module.js
   var textbox_numeric_module_default;
   var init_textbox_numeric_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a2046317-ebf3-45b6-9022-d0231e290378/textbox-numeric.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9a79ceeb-be17-454c-949c-f64ff33aedb7/textbox-numeric.module.js"() {
       if (document.getElementById("b6dab244a8") === null) {
         const element = document.createElement("style");
         element.id = "b6dab244a8";
@@ -4383,6 +4383,34 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
+  // node_modules/@create-figma-plugin/ui/lib/icons/icon-16/icon-plus-16.js
+  var IconPlus16;
+  var init_icon_plus_16 = __esm({
+    "node_modules/@create-figma-plugin/ui/lib/icons/icon-16/icon-plus-16.js"() {
+      init_preact_module();
+      init_create_icon();
+      IconPlus16 = createIcon(_(
+        "svg",
+        { fill: "none", height: "16", viewBox: "0 0 16 16", width: "16", xmlns: "http://www.w3.org/2000/svg" },
+        _("path", { "clip-rule": "evenodd", d: "M8.5 2.5c0-.27614-.22386-.5-.5-.5s-.5.22386-.5.5v5h-5c-.27614 0-.5.22386-.5.5s.22386.5.5.5h5v5c0 .2761.22386.5.5.5s.5-.2239.5-.5v-5h5c.2761 0 .5-.22386.5-.5s-.2239-.5-.5-.5h-5z", fill: "currentColor", "fill-rule": "evenodd" })
+      ));
+    }
+  });
+
+  // node_modules/@create-figma-plugin/ui/lib/icons/icon-16/icon-prototype-16.js
+  var IconPrototype16;
+  var init_icon_prototype_16 = __esm({
+    "node_modules/@create-figma-plugin/ui/lib/icons/icon-16/icon-prototype-16.js"() {
+      init_preact_module();
+      init_create_icon();
+      IconPrototype16 = createIcon(_(
+        "svg",
+        { fill: "none", height: "16", viewBox: "0 0 16 16", width: "16", xmlns: "http://www.w3.org/2000/svg" },
+        _("path", { "clip-rule": "evenodd", d: "M12.257 9.31185 6.49892 12.7667C5.39915 13.4266 4 12.6344 4 11.3519V4.64791c0-1.28254 1.39915-2.07472 2.49892-1.41486L12.257 6.68792c.9905.59426.9905 2.02967 0 2.62393m-.5145-.85749c.3431-.20586.3431-.70309 0-.90895L5.98442 4.09054C5.55118 3.83059 5 4.14267 5 4.64791v6.70399c0 .5052.55118.8173.98442.5573z", fill: "currentColor", "fill-rule": "evenodd" })
+      ));
+    }
+  });
+
   // node_modules/@create-figma-plugin/ui/lib/icons/icon-16/icon-shape-text-16.js
   var IconShapeText16;
   var init_icon_shape_text_16 = __esm({
@@ -4467,10 +4495,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/454a3fe4-1f11-49a6-bf33-5634936aea16/container.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/687337ca-3ffa-4b8e-8e36-32a74f71eb56/container.module.js
   var container_module_default;
   var init_container_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/454a3fe4-1f11-49a6-bf33-5634936aea16/container.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/687337ca-3ffa-4b8e-8e36-32a74f71eb56/container.module.js"() {
       if (document.getElementById("b49e1406f9") === null) {
         const element = document.createElement("style");
         element.id = "b49e1406f9";
@@ -4511,10 +4539,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ebe9f664-78d2-436f-9954-9905f3258b15/vertical-space.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a6118075-b053-4b46-89c3-81e13d2b3727/vertical-space.module.js
   var vertical_space_module_default;
   var init_vertical_space_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ebe9f664-78d2-436f-9954-9905f3258b15/vertical-space.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a6118075-b053-4b46-89c3-81e13d2b3727/vertical-space.module.js"() {
       if (document.getElementById("ba0eea5114") === null) {
         const element = document.createElement("style");
         element.id = "ba0eea5114";
@@ -4555,9 +4583,9 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ef79a95e-13df-4ea4-a948-a188a7ed4bc0/base.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4bd7e93b-a97a-49af-8e02-010f6d83d089/base.js
   var init_base = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ef79a95e-13df-4ea4-a948-a188a7ed4bc0/base.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4bd7e93b-a97a-49af-8e02-010f6d83d089/base.js"() {
       if (document.getElementById("0597dd81e7") === null) {
         const element = document.createElement("style");
         element.id = "0597dd81e7";
@@ -4719,11 +4747,15 @@ svg {
       init_textbox_numeric();
       init_icon_adjust_16();
       init_icon_check_16();
+      init_icon_chevron_down_16();
+      init_icon_chevron_right_16();
       init_icon_close_16();
       init_icon_folder_16();
       init_icon_home_16();
       init_icon_library_16();
       init_icon_link_16();
+      init_icon_plus_16();
+      init_icon_prototype_16();
       init_icon_shape_text_16();
       init_icon_text_16();
       init_icon_variable_16();
@@ -4785,7 +4817,6 @@ svg {
         LIBRARY_SWAP_CAPTURE_OLD: "LIBRARY_SWAP_CAPTURE_OLD",
         LIBRARY_SWAP_CAPTURE_NEW: "LIBRARY_SWAP_CAPTURE_NEW",
         LIBRARY_SWAP_REMOVE_PAIR: "LIBRARY_SWAP_REMOVE_PAIR",
-        LIBRARY_SWAP_SCAN_LEGACY: "LIBRARY_SWAP_SCAN_LEGACY",
         LIBRARY_SWAP_SCAN_LEGACY_RESET: "LIBRARY_SWAP_SCAN_LEGACY_RESET",
         // Find Color Match
         FIND_COLOR_MATCH_SCAN: "FIND_COLOR_MATCH_SCAN",
@@ -4794,7 +4825,14 @@ svg {
         FIND_COLOR_MATCH_APPLY: "FIND_COLOR_MATCH_APPLY",
         FIND_COLOR_MATCH_FOCUS_NODE: "FIND_COLOR_MATCH_FOCUS_NODE",
         FIND_COLOR_MATCH_HEX_LOOKUP: "FIND_COLOR_MATCH_HEX_LOOKUP",
-        FIND_COLOR_MATCH_SET_GROUP: "FIND_COLOR_MATCH_SET_GROUP"
+        FIND_COLOR_MATCH_SET_GROUP: "FIND_COLOR_MATCH_SET_GROUP",
+        // Automations
+        AUTOMATIONS_LOAD: "AUTOMATIONS_LOAD",
+        AUTOMATIONS_GET: "AUTOMATIONS_GET",
+        AUTOMATIONS_SAVE: "AUTOMATIONS_SAVE",
+        AUTOMATIONS_DELETE: "AUTOMATIONS_DELETE",
+        AUTOMATIONS_RUN: "AUTOMATIONS_RUN",
+        AUTOMATIONS_STOP: "AUTOMATIONS_STOP"
       };
       MAIN_TO_UI = {
         BOOTSTRAPPED: "BOOTSTRAPPED",
@@ -4850,7 +4888,13 @@ svg {
         FIND_COLOR_MATCH_HEX_RESULT: "FIND_COLOR_MATCH_HEX_RESULT",
         FIND_COLOR_MATCH_GROUPS: "FIND_COLOR_MATCH_GROUPS",
         // Library cache
-        LIBRARY_CACHE_STATUS: "LIBRARY_CACHE_STATUS"
+        LIBRARY_CACHE_STATUS: "LIBRARY_CACHE_STATUS",
+        // Automations
+        AUTOMATIONS_LIST: "AUTOMATIONS_LIST",
+        AUTOMATIONS_FULL: "AUTOMATIONS_FULL",
+        AUTOMATIONS_SAVED: "AUTOMATIONS_SAVED",
+        AUTOMATIONS_RUN_PROGRESS: "AUTOMATIONS_RUN_PROGRESS",
+        AUTOMATIONS_RUN_RESULT: "AUTOMATIONS_RUN_RESULT"
       };
     }
   });
@@ -5036,6 +5080,14 @@ svg {
         description: "Swap component instances from old libraries to new ones",
         icon: /* @__PURE__ */ _(IconLibrary16, null),
         onClick: () => props.goTo("library-swap-tool")
+      }
+    ), /* @__PURE__ */ _(
+      ToolCard,
+      {
+        title: "Automations",
+        description: "Create and run sequential automation workflows",
+        icon: /* @__PURE__ */ _(IconPrototype16, null),
+        onClick: () => props.goTo("automations-tool")
       }
     )), /* @__PURE__ */ _(VerticalSpace, { space: "large" }), /* @__PURE__ */ _(Text, { style: sectionTitleStyle }, "Variables Management"), /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(
       ToolCard,
@@ -6050,6 +6102,46 @@ svg {
     }
   });
 
+  // src/app/components/NodeTypeIcon.tsx
+  function NodeTypeIcon(props) {
+    var _a, _b;
+    const size = (_a = props.size) != null ? _a : 12;
+    const color = (_b = props.color) != null ? _b : "var(--figma-color-text-secondary)";
+    if (props.type === "colorStyleFill") {
+      return /* @__PURE__ */ _(
+        "svg",
+        {
+          width: size,
+          height: size,
+          viewBox: "0 0 12 12",
+          fill: "none",
+          xmlns: "http://www.w3.org/2000/svg"
+        },
+        /* @__PURE__ */ _("circle", { cx: "6", cy: "6", r: "5", fill: color })
+      );
+    }
+    if (props.type === "colorStyleStroke") {
+      return /* @__PURE__ */ _(
+        "svg",
+        {
+          width: size,
+          height: size,
+          viewBox: "0 0 12 12",
+          fill: "none",
+          xmlns: "http://www.w3.org/2000/svg"
+        },
+        /* @__PURE__ */ _("circle", { cx: "6", cy: "6", r: "4.25", stroke: color, "stroke-width": "3" })
+      );
+    }
+    return null;
+  }
+  var init_NodeTypeIcon = __esm({
+    "src/app/components/NodeTypeIcon.tsx"() {
+      "use strict";
+      init_preact_module();
+    }
+  });
+
   // src/app/components/ScopeControl.tsx
   function useScope(initialSelectionEmpty) {
     const [selectionSize, setSelectionSize] = d2(initialSelectionEmpty ? 0 : 1);
@@ -6114,6 +6206,30 @@ svg {
     }
   });
 
+  // src/app/components/ToolFooter.tsx
+  function ToolFooter(props) {
+    return /* @__PURE__ */ _(
+      "div",
+      {
+        style: {
+          borderTop: "1px solid var(--figma-color-border)",
+          padding: "8px 12px",
+          display: "flex",
+          flexDirection: "column",
+          gap: 8,
+          flexShrink: 0
+        }
+      },
+      H(props.children).map((child, i3) => /* @__PURE__ */ _("div", { key: i3, style: { display: "flex", width: "100%" } }, /* @__PURE__ */ _("div", { style: { flex: 1, minWidth: 0 } }, child)))
+    );
+  }
+  var init_ToolFooter = __esm({
+    "src/app/components/ToolFooter.tsx"() {
+      "use strict";
+      init_preact_module();
+    }
+  });
+
   // src/app/views/library-swap-tool/LibrarySwapToolView.tsx
   function LibrarySwapToolView({ onBack, initialSelectionEmpty }) {
     const { scope, setScope, selectionSize, hasSelection, updateSelectionSize } = useScope(initialSelectionEmpty);
@@ -6143,15 +6259,8 @@ svg {
           updateSelectionSize(msg.selectionSize);
         }
         if (msg.type === MAIN_TO_UI.LIBRARY_SWAP_ANALYZE_RESULT) {
-          setIsBusy(false);
-          setStage("idle");
-          setProgress(null);
           setErrorMessage(null);
           setAnalyzeResult(msg.payload);
-          const p3 = msg.payload;
-          setSuccessMessage(
-            `Found ${p3.totalInstances} instances, ${p3.mappableInstances} mappable (${p3.uniqueOldKeys} unique components)`
-          );
         }
         if (msg.type === MAIN_TO_UI.LIBRARY_SWAP_PROGRESS) {
           setProgress(msg.progress);
@@ -6163,6 +6272,7 @@ svg {
           setErrorMessage(null);
           setApplyResult(msg.payload);
           setAnalyzeResult(null);
+          setScanLegacyResult(null);
           setSuccessMessage(`${msg.payload.swapped} swapped, ${msg.payload.skipped} skipped`);
         }
         if (msg.type === MAIN_TO_UI.LIBRARY_SWAP_PREVIEW_RESULT) {
@@ -6190,11 +6300,8 @@ svg {
           setStage("idle");
           setProgress(null);
           setErrorMessage(null);
+          setSuccessMessage(null);
           setScanLegacyResult(msg.payload);
-          const { styles, components } = msg.payload;
-          setSuccessMessage(
-            `Found ${styles.length} legacy style${styles.length !== 1 ? "s" : ""}, ${components.length} legacy component${components.length !== 1 ? "s" : ""}`
-          );
         }
         if (msg.type === MAIN_TO_UI.LIBRARY_SWAP_SCAN_LEGACY_RESET_RESULT) {
           if (msg.ok && scanLegacyResult) {
@@ -6221,6 +6328,7 @@ svg {
       setErrorMessage(null);
       setSuccessMessage(null);
       setApplyResult(null);
+      setScanLegacyResult(null);
       parent.postMessage(
         { pluginMessage: { type: UI_TO_MAIN.LIBRARY_SWAP_ANALYZE, request: buildRequest() } },
         "*"
@@ -6243,17 +6351,6 @@ svg {
       setSuccessMessage(null);
       parent.postMessage(
         { pluginMessage: { type: UI_TO_MAIN.LIBRARY_SWAP_APPLY, request: buildRequest() } },
-        "*"
-      );
-    }
-    function handleScanLegacy() {
-      setIsBusy(true);
-      setStage("scan_legacy");
-      setErrorMessage(null);
-      setSuccessMessage(null);
-      setScanLegacyResult(null);
-      parent.postMessage(
-        { pluginMessage: { type: UI_TO_MAIN.LIBRARY_SWAP_SCAN_LEGACY, request: buildRequest() } },
         "*"
       );
     }
@@ -6336,6 +6433,12 @@ svg {
       { label: "Old component", width: "35%" },
       { label: "New component", width: "35%" }
     ];
+    const legacyStyleColumns = [
+      { label: "", width: 24 },
+      { label: "Layer", width: "25%" },
+      { label: "Style", width: "40%" },
+      { label: "", width: "35%" }
+    ];
     const pairsColumns = [
       { label: "Old component", width: "42%" },
       { label: "New component", width: "42%" },
@@ -6347,6 +6450,11 @@ svg {
       overflow: "hidden",
       textOverflow: "ellipsis",
       whiteSpace: "nowrap"
+    };
+    const iconCellStyle = {
+      padding: "6px 4px",
+      textAlign: "center",
+      verticalAlign: "middle"
     };
     if (!hasMapping) {
       return /* @__PURE__ */ _(Page, null, /* @__PURE__ */ _(
@@ -6363,6 +6471,7 @@ svg {
         }
       )));
     }
+    const analyzeLabel = isBusy && stage === "analyze" ? "Analyzing..." : "Analyze";
     const applyLabel = (() => {
       if (isBusy && stage === "apply") return "Applying...";
       if (analyzeResult) return `Apply swap (${analyzeResult.mappableInstances})`;
@@ -6382,15 +6491,7 @@ svg {
         onValueChange: setScope,
         disabled: isBusy
       }
-    )), /* @__PURE__ */ _(Inline, { space: "extraSmall" }, /* @__PURE__ */ _(
-      Button,
-      {
-        onClick: handleAnalyze,
-        disabled: !canAct,
-        secondary: true
-      },
-      isBusy && stage === "analyze" ? "Analyzing..." : "Analyze"
-    ), /* @__PURE__ */ _(
+    )), analyzeResult && !isBusy && /* @__PURE__ */ _(Inline, { space: "extraSmall" }, /* @__PURE__ */ _(
       Button,
       {
         onClick: handlePreview,
@@ -6401,19 +6502,12 @@ svg {
     ), /* @__PURE__ */ _(
       Button,
       {
-        onClick: handleApply,
-        disabled: !canAct
-      },
-      applyLabel
-    ), /* @__PURE__ */ _(
-      Button,
-      {
-        onClick: handleScanLegacy,
-        disabled: !canAct,
+        onClick: handleClearPreviews,
+        disabled: isBusy,
         secondary: true
       },
-      isBusy && stage === "scan_legacy" ? "Scanning..." : "Scan Legacy"
-    )), errorMessage && /* @__PURE__ */ _("div", { style: { padding: 8, background: "#fff1f2", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "#9f1239" } }, errorMessage)), successMessage && !errorMessage && /* @__PURE__ */ _("div", { style: { padding: 8, background: "#ecfdf3", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, successMessage)), isBusy && /* @__PURE__ */ _(Inline, { space: "extraSmall" }, /* @__PURE__ */ _(LoadingIndicator, null), /* @__PURE__ */ _(Text, null, progress ? progress.message : stage === "analyze" ? "Analyzing..." : stage === "preview" ? "Creating preview..." : stage === "scan_legacy" ? "Scanning legacy..." : "Swapping...")), analyzeResult && !isBusy && /* @__PURE__ */ _(
+      "Clear previews"
+    )), errorMessage && /* @__PURE__ */ _("div", { style: { padding: 8, background: "#fff1f2", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "#9f1239" } }, errorMessage)), successMessage && !errorMessage && /* @__PURE__ */ _("div", { style: { padding: 8, background: "#ecfdf3", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, successMessage)), analyzeResult && !isBusy && (analyzeResult.mappableInstances > 0 ? /* @__PURE__ */ _(
       DataTable,
       {
         header: "Instances to swap",
@@ -6432,7 +6526,7 @@ svg {
         /* @__PURE__ */ _("td", { style: cellStyle }, item.oldComponentName),
         /* @__PURE__ */ _("td", { style: cellStyle }, item.newComponentName)
       ))
-    ), applyResult && !isBusy && /* @__PURE__ */ _(
+    ) : /* @__PURE__ */ _("div", { style: { padding: 8, background: "var(--figma-color-bg-secondary)", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)", fontSize: 11 } }, "No mappable instances found (", analyzeResult.totalInstances, " total scanned)"))), applyResult && !isBusy && /* @__PURE__ */ _(
       DataTable,
       {
         header: "Swapped instances",
@@ -6451,7 +6545,7 @@ svg {
         /* @__PURE__ */ _("td", { style: cellStyle }, item.oldComponentName),
         /* @__PURE__ */ _("td", { style: cellStyle }, item.newComponentName)
       ))
-    ), scanLegacyResult && !isBusy && /* @__PURE__ */ _(k, null, scanLegacyResult.components.length > 0 && /* @__PURE__ */ _(
+    ), scanLegacyResult && !isBusy && /* @__PURE__ */ _(k, null, scanLegacyResult.components.length > 0 && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(
       DataTable,
       {
         header: "Legacy components",
@@ -6474,45 +6568,47 @@ svg {
         /* @__PURE__ */ _("td", { style: cellStyle }, item.oldComponentName),
         /* @__PURE__ */ _("td", { style: cellStyle }, item.category === "mapped" && /* @__PURE__ */ _(Text, { style: { fontSize: 11, color: "#067647" } }, "\u2192 ", item.newComponentName), item.category === "text_only" && /* @__PURE__ */ _(Text, { style: { fontSize: 11, color: "#b45309" } }, item.description), item.category === "unmapped" && /* @__PURE__ */ _(Text, { style: { fontSize: 11, color: "#9f1239" } }, "No replacement"))
       ))
-    ), scanLegacyResult.styles.length > 0 && /* @__PURE__ */ _(
+    )), scanLegacyResult.styles.length > 0 && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(
       DataTable,
       {
         header: "Legacy color styles",
         summary: `${scanLegacyResult.styles.length} style usage${scanLegacyResult.styles.length !== 1 ? "s" : ""} found`,
-        columns: [
-          { label: "Layer", width: "25%" },
-          { label: "Style", width: "25%" },
-          { label: "Type", width: "12%" },
-          { label: "Override", width: "14%" },
-          { label: "", width: "24%" }
-        ]
+        columns: legacyStyleColumns
       },
-      scanLegacyResult.styles.map((item, idx) => /* @__PURE__ */ _(
-        "tr",
-        {
-          key: `${item.nodeId}-${item.property}-${idx}`,
-          style: { cursor: "pointer" },
-          onClick: () => handleFocusNode(item.nodeId),
-          title: `${item.pageName} \u2014 click to focus`
-        },
-        /* @__PURE__ */ _("td", { style: cellStyle }, item.nodeName),
-        /* @__PURE__ */ _("td", { style: cellStyle }, item.styleName),
-        /* @__PURE__ */ _("td", { style: cellStyle }, item.property),
-        /* @__PURE__ */ _("td", { style: cellStyle }, item.isOverride ? "Yes" : "No"),
-        /* @__PURE__ */ _("td", { style: __spreadProps(__spreadValues({}, cellStyle), { textAlign: "center" }) }, item.isOverride && /* @__PURE__ */ _(
-          Button,
+      scanLegacyResult.styles.map((item, idx) => {
+        var _a;
+        return /* @__PURE__ */ _(
+          "tr",
           {
-            secondary: true,
-            onClick: (e3) => {
-              e3.stopPropagation();
-              handleResetOverride(item.nodeId, item.property);
-            },
-            style: { fontSize: 10, padding: "2px 6px" }
+            key: `${item.nodeId}-${item.property}-${idx}`,
+            style: { cursor: "pointer" },
+            onClick: () => handleFocusNode(item.nodeId),
+            title: `${item.pageName} \u2014 click to focus`
           },
-          "Reset"
-        ))
-      ))
-    ), scanLegacyResult.styles.length === 0 && scanLegacyResult.components.length === 0 && /* @__PURE__ */ _("div", { style: { padding: 8, background: "#ecfdf3", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, "No legacy items found \u2014 clean!"))), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Mappings"), /* @__PURE__ */ _(
+          /* @__PURE__ */ _("td", { style: iconCellStyle }, /* @__PURE__ */ _(
+            NodeTypeIcon,
+            {
+              type: item.property === "fill" ? "colorStyleFill" : "colorStyleStroke",
+              color: (_a = item.colorHex) != null ? _a : void 0
+            }
+          )),
+          /* @__PURE__ */ _("td", { style: cellStyle }, item.nodeName),
+          /* @__PURE__ */ _("td", { style: cellStyle }, item.styleName),
+          /* @__PURE__ */ _("td", { style: __spreadProps(__spreadValues({}, cellStyle), { textAlign: "center" }) }, item.isOverride && /* @__PURE__ */ _(
+            Button,
+            {
+              secondary: true,
+              onClick: (e3) => {
+                e3.stopPropagation();
+                handleResetOverride(item.nodeId, item.property);
+              },
+              style: { fontSize: 10, padding: "2px 6px" }
+            },
+            "Reset override"
+          ))
+        );
+      })
+    )), scanLegacyResult.styles.length === 0 && scanLegacyResult.components.length === 0 && /* @__PURE__ */ _("div", { style: { padding: 8, background: "#ecfdf3", borderRadius: 4 } }, /* @__PURE__ */ _(Text, { style: { color: "#067647" } }, "No legacy items found \u2014 clean!"))), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Mappings"), /* @__PURE__ */ _(
       Checkbox,
       {
         value: useBuiltInIcons,
@@ -6526,13 +6622,6 @@ svg {
         onValueChange: setUseBuiltInUikit
       },
       /* @__PURE__ */ _(Text, null, "Int UI Kit Islands")
-    ), /* @__PURE__ */ _(
-      FileUploadButton,
-      {
-        acceptedFileTypes: [".json", "application/json"],
-        onSelectedFiles: handleLoadFile
-      },
-      customFilename ? `Custom: ${customFilename}` : "Import mapping JSON..."
     )), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Text, { style: { fontWeight: 600 } }, "Manual pairs"), /* @__PURE__ */ _("div", { style: { display: "flex", gap: 12, fontSize: 11 } }, /* @__PURE__ */ _(Text, { style: { fontSize: 11, color: capturedOldName ? "var(--figma-color-text)" : "var(--figma-color-text-tertiary)" } }, "Old: ", capturedOldName != null ? capturedOldName : "\u2014"), /* @__PURE__ */ _(Text, { style: { fontSize: 11, color: capturedNewName ? "var(--figma-color-text)" : "var(--figma-color-text-tertiary)" } }, "New: ", capturedNewName != null ? capturedNewName : "\u2014")), /* @__PURE__ */ _(Inline, { space: "extraSmall" }, /* @__PURE__ */ _(
       Button,
       {
@@ -6565,6 +6654,23 @@ svg {
         disabled: manualPairs.length === 0
       },
       "Export mapping"
+    )))), /* @__PURE__ */ _(ToolFooter, null, isBusy && /* @__PURE__ */ _(Inline, { space: "extraSmall" }, /* @__PURE__ */ _(LoadingIndicator, null), /* @__PURE__ */ _(Text, null, progress ? progress.message : stage === "analyze" ? "Analyzing..." : stage === "preview" ? "Creating preview..." : "Swapping...")), /* @__PURE__ */ _("div", { style: { display: "flex", gap: 8 } }, /* @__PURE__ */ _("div", { style: { flex: 1, minWidth: 0 } }, /* @__PURE__ */ _(
+      Button,
+      {
+        onClick: handleAnalyze,
+        disabled: !canAct,
+        fullWidth: true,
+        secondary: true
+      },
+      analyzeLabel
+    )), /* @__PURE__ */ _("div", { style: { flex: 1, minWidth: 0 } }, /* @__PURE__ */ _(
+      Button,
+      {
+        onClick: handleApply,
+        disabled: !canAct,
+        fullWidth: true
+      },
+      applyLabel
     )))));
   }
   var init_LibrarySwapToolView = __esm({
@@ -6575,10 +6681,12 @@ svg {
       init_hooks_module();
       init_messages();
       init_DataTable();
+      init_NodeTypeIcon();
       init_Page();
       init_ScopeControl();
       init_State();
       init_ToolBody();
+      init_ToolFooter();
       init_ToolHeader();
     }
   });
@@ -8614,14 +8722,15 @@ svg {
           right: 0,
           display: "flex",
           alignItems: "center",
-          gap: 8,
+          justifyContent: "center",
+          gap: 6,
           padding: "6px 12px",
           background: "var(--figma-color-bg)",
           borderTop: "1px solid var(--figma-color-border)",
           zIndex: 100
         }
       },
-      /* @__PURE__ */ _(LoadingIndicator, null),
+      /* @__PURE__ */ _("div", { style: { flexShrink: 0, width: 16, height: 16 } }, /* @__PURE__ */ _(LoadingIndicator, { style: { margin: 0 } })),
       /* @__PURE__ */ _(Text, { style: { fontSize: 11, color: "var(--figma-color-text-secondary)" } }, message)
     );
   }
@@ -9027,6 +9136,784 @@ svg {
     }
   });
 
+  // src/app/tools/automations/types.ts
+  function generateAutomationId() {
+    return `auto_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+  }
+  var ACTION_DEFINITIONS, ALL_ACTION_TYPES, VALID_NODE_TYPES, MATCH_MODES;
+  var init_types = __esm({
+    "src/app/tools/automations/types.ts"() {
+      "use strict";
+      ACTION_DEFINITIONS = [
+        {
+          type: "selectByType",
+          label: "Select by type",
+          description: "Filter current selection to only nodes of a given type",
+          defaultParams: { nodeType: "TEXT" }
+        },
+        {
+          type: "selectByName",
+          label: "Select by name",
+          description: "Filter selection by name pattern",
+          defaultParams: { pattern: "", matchMode: "contains" }
+        },
+        {
+          type: "expandToChildren",
+          label: "Expand to children",
+          description: "Replace selection with all direct children",
+          defaultParams: {}
+        },
+        {
+          type: "renameLayers",
+          label: "Rename layers",
+          description: "Find/replace in selected layer names",
+          defaultParams: { find: "", replace: "" }
+        },
+        {
+          type: "setFillColor",
+          label: "Set fill color",
+          description: "Set fill to a specific hex color",
+          defaultParams: { hex: "#000000" }
+        },
+        {
+          type: "setFillVariable",
+          label: "Set fill variable",
+          description: "Bind fill to a variable by name",
+          defaultParams: { variableName: "" }
+        },
+        {
+          type: "setOpacity",
+          label: "Set opacity",
+          description: "Set opacity on selected nodes (0\u2013100)",
+          defaultParams: { opacity: 100 }
+        },
+        {
+          type: "notify",
+          label: "Notify",
+          description: "Show a Figma notification message",
+          defaultParams: { message: "" }
+        }
+      ];
+      ALL_ACTION_TYPES = ACTION_DEFINITIONS.map((d3) => d3.type);
+      VALID_NODE_TYPES = [
+        "TEXT",
+        "FRAME",
+        "GROUP",
+        "COMPONENT",
+        "COMPONENT_SET",
+        "INSTANCE",
+        "RECTANGLE",
+        "ELLIPSE",
+        "LINE",
+        "POLYGON",
+        "STAR",
+        "VECTOR",
+        "BOOLEAN_OPERATION",
+        "SECTION"
+      ];
+      MATCH_MODES = ["contains", "startsWith", "regex"];
+    }
+  });
+
+  // src/app/tools/automations/storage.ts
+  function createNewAutomation(name) {
+    const now = Date.now();
+    return {
+      id: generateAutomationId(),
+      name: name != null ? name : "New automation",
+      steps: [],
+      createdAt: now,
+      updatedAt: now
+    };
+  }
+  function automationToExportJson(automation) {
+    const exportData = {
+      version: 1,
+      automation: {
+        name: automation.name,
+        steps: automation.steps.map((s3) => ({
+          actionType: s3.actionType,
+          params: s3.params,
+          enabled: s3.enabled
+        }))
+      }
+    };
+    return JSON.stringify(exportData, null, 2);
+  }
+  function parseImportJson(jsonText) {
+    try {
+      const data = JSON.parse(jsonText);
+      if (!data || typeof data !== "object") return null;
+      if (data.version !== 1) return null;
+      if (!data.automation || typeof data.automation !== "object") return null;
+      const { name, steps } = data.automation;
+      if (typeof name !== "string" || !Array.isArray(steps)) return null;
+      const now = Date.now();
+      return {
+        id: generateAutomationId(),
+        name,
+        steps: steps.filter(
+          (s3) => s3 && typeof s3 === "object" && typeof s3.actionType === "string" && typeof s3.params === "object"
+        ).map((s3, i3) => {
+          var _a;
+          return {
+            id: `step_${now}_${i3}`,
+            actionType: s3.actionType,
+            params: (_a = s3.params) != null ? _a : {},
+            enabled: s3.enabled !== false
+          };
+        }),
+        createdAt: now,
+        updatedAt: now
+      };
+    } catch (e3) {
+      return null;
+    }
+  }
+  var init_storage = __esm({
+    "src/app/tools/automations/storage.ts"() {
+      "use strict";
+      init_types();
+    }
+  });
+
+  // src/app/views/automations-tool/AutomationsToolView.tsx
+  function postMessage(msg) {
+    parent.postMessage({ pluginMessage: msg }, "*");
+  }
+  function downloadTextFile4(filename, text) {
+    const blob = new Blob([text], { type: "application/json;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a3 = document.createElement("a");
+    a3.href = url;
+    a3.download = filename;
+    document.body.appendChild(a3);
+    a3.click();
+    document.body.removeChild(a3);
+    URL.revokeObjectURL(url);
+  }
+  function AutomationsToolView(props) {
+    const [screen, setScreen] = d2("list");
+    const [automations, setAutomations] = d2([]);
+    const [editingAutomation, setEditingAutomation] = d2(null);
+    const [editingStepIndex, setEditingStepIndex] = d2(-1);
+    const [runProgress, setRunProgress] = d2(null);
+    const [runResult, setRunResult] = d2(null);
+    y2(() => {
+      const handleMessage = (event) => {
+        var _a;
+        const msg = (_a = event.data) == null ? void 0 : _a.pluginMessage;
+        if (!msg) return;
+        if (msg.type === MAIN_TO_UI.AUTOMATIONS_LIST) {
+          setAutomations(msg.automations);
+        }
+        if (msg.type === MAIN_TO_UI.AUTOMATIONS_FULL) {
+          if (msg.automation) {
+            setEditingAutomation(msg.automation);
+            setScreen("builder");
+          }
+        }
+        if (msg.type === MAIN_TO_UI.AUTOMATIONS_SAVED) {
+          setEditingAutomation(msg.automation);
+          postMessage({ type: UI_TO_MAIN.AUTOMATIONS_LOAD });
+        }
+        if (msg.type === MAIN_TO_UI.AUTOMATIONS_RUN_PROGRESS) {
+          setRunProgress(msg.progress);
+        }
+        if (msg.type === MAIN_TO_UI.AUTOMATIONS_RUN_RESULT) {
+          setRunResult(msg.result);
+          setRunProgress(null);
+        }
+      };
+      window.addEventListener("message", handleMessage);
+      postMessage({ type: UI_TO_MAIN.AUTOMATIONS_LOAD });
+      return () => window.removeEventListener("message", handleMessage);
+    }, []);
+    const handleCreateNew = q2(() => {
+      const auto = createNewAutomation();
+      const payload = {
+        id: auto.id,
+        name: auto.name,
+        steps: [],
+        createdAt: auto.createdAt,
+        updatedAt: auto.updatedAt
+      };
+      setEditingAutomation(payload);
+      setScreen("builder");
+    }, []);
+    const handleEdit = q2((id) => {
+      postMessage({ type: UI_TO_MAIN.AUTOMATIONS_GET, automationId: id });
+    }, []);
+    const handleRun = q2((id) => {
+      setRunResult(null);
+      setRunProgress(null);
+      postMessage({ type: UI_TO_MAIN.AUTOMATIONS_RUN, automationId: id });
+    }, []);
+    const handleDelete = q2((id) => {
+      postMessage({ type: UI_TO_MAIN.AUTOMATIONS_DELETE, automationId: id });
+    }, []);
+    const handleImport = q2((files) => {
+      if (files.length === 0) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        const text = reader.result;
+        const automation = parseImportJson(text);
+        if (!automation) {
+          return;
+        }
+        const payload = {
+          id: automation.id,
+          name: automation.name,
+          steps: automation.steps.map((s3) => ({
+            id: s3.id,
+            actionType: s3.actionType,
+            params: s3.params,
+            enabled: s3.enabled
+          })),
+          createdAt: automation.createdAt,
+          updatedAt: automation.updatedAt
+        };
+        postMessage({ type: UI_TO_MAIN.AUTOMATIONS_SAVE, automation: payload });
+      };
+      reader.readAsText(files[0]);
+    }, []);
+    const handleSave = q2(() => {
+      if (!editingAutomation) return;
+      postMessage({
+        type: UI_TO_MAIN.AUTOMATIONS_SAVE,
+        automation: __spreadProps(__spreadValues({}, editingAutomation), { updatedAt: Date.now() })
+      });
+    }, [editingAutomation]);
+    const handleBuilderExport = q2(() => {
+      if (!editingAutomation) return;
+      const automation = {
+        id: editingAutomation.id,
+        name: editingAutomation.name,
+        steps: editingAutomation.steps.map((s3) => ({
+          id: s3.id,
+          actionType: s3.actionType,
+          params: s3.params,
+          enabled: s3.enabled
+        })),
+        createdAt: editingAutomation.createdAt,
+        updatedAt: editingAutomation.updatedAt
+      };
+      const json = automationToExportJson(automation);
+      const filename = `${editingAutomation.name.replace(/[^a-zA-Z0-9-_ ]/g, "").replace(/\s+/g, "-")}.json`;
+      downloadTextFile4(filename, json);
+    }, [editingAutomation]);
+    if (screen === "step-config" && editingAutomation && editingStepIndex >= 0) {
+      const step = editingAutomation.steps[editingStepIndex];
+      if (step) {
+        return /* @__PURE__ */ _(
+          StepConfigScreen,
+          {
+            step,
+            onBack: () => setScreen("builder"),
+            onChange: (updated) => {
+              const steps = [...editingAutomation.steps];
+              steps[editingStepIndex] = updated;
+              setEditingAutomation(__spreadProps(__spreadValues({}, editingAutomation), { steps }));
+            }
+          }
+        );
+      }
+    }
+    if (screen === "builder" && editingAutomation) {
+      return /* @__PURE__ */ _(
+        BuilderScreen,
+        {
+          automation: editingAutomation,
+          onBack: () => {
+            setScreen("list");
+            setEditingAutomation(null);
+            postMessage({ type: UI_TO_MAIN.AUTOMATIONS_LOAD });
+          },
+          onChange: setEditingAutomation,
+          onSave: handleSave,
+          onExport: handleBuilderExport,
+          onConfigStep: (idx) => {
+            setEditingStepIndex(idx);
+            setScreen("step-config");
+          }
+        }
+      );
+    }
+    return /* @__PURE__ */ _(
+      ListScreen,
+      {
+        automations,
+        runProgress,
+        runResult,
+        onBack: props.onBack,
+        onCreateNew: handleCreateNew,
+        onEdit: handleEdit,
+        onRun: handleRun,
+        onDelete: handleDelete,
+        onImport: handleImport
+      }
+    );
+  }
+  function ListScreen(props) {
+    return /* @__PURE__ */ _(Page, null, /* @__PURE__ */ _(
+      ToolHeader,
+      {
+        title: "Automations",
+        left: /* @__PURE__ */ _(IconButton, { onClick: props.onBack }, /* @__PURE__ */ _(IconHome16, null))
+      }
+    ), props.automations.length === 0 ? /* @__PURE__ */ _(ToolBody, { mode: "state" }, /* @__PURE__ */ _(
+      State,
+      {
+        title: "No automations yet",
+        description: "Create your first automation or import one from a JSON file"
+      }
+    )) : /* @__PURE__ */ _(ToolBody, { mode: "content" }, props.runProgress && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(
+      "div",
+      {
+        style: {
+          padding: "8px 0",
+          fontSize: 11,
+          color: "var(--figma-color-text-secondary)"
+        }
+      },
+      'Running "',
+      props.runProgress.automationName,
+      '" \u2014 step ',
+      props.runProgress.currentStep,
+      "/",
+      props.runProgress.totalSteps,
+      ": ",
+      props.runProgress.stepName
+    ), /* @__PURE__ */ _(VerticalSpace, { space: "small" })), props.runResult && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(
+      "div",
+      {
+        style: {
+          padding: "8px 0",
+          fontSize: 11,
+          color: props.runResult.success ? "var(--figma-color-text-success)" : "var(--figma-color-text-danger)"
+        }
+      },
+      props.runResult.message,
+      props.runResult.errors.length > 0 && /* @__PURE__ */ _("div", { style: { marginTop: 4 } }, props.runResult.errors.map((e3, i3) => /* @__PURE__ */ _("div", { key: i3 }, e3)))
+    ), /* @__PURE__ */ _(VerticalSpace, { space: "small" })), /* @__PURE__ */ _(DataList, { header: `${props.automations.length} automation(s)` }, props.automations.map((a3) => /* @__PURE__ */ _(
+      AutomationRow,
+      {
+        key: a3.id,
+        automation: a3,
+        onEdit: () => props.onEdit(a3.id),
+        onRun: () => props.onRun(a3.id),
+        onDelete: () => props.onDelete(a3.id)
+      }
+    )))), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(Container, { space: "medium" }, /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(Button, { fullWidth: true, onClick: props.onCreateNew }, "New automation"), /* @__PURE__ */ _(
+      FileUploadButton,
+      {
+        acceptedFileTypes: ["application/json", ".json"],
+        fullWidth: true,
+        onSelectedFiles: props.onImport,
+        secondary: true
+      },
+      "Import from JSON"
+    )), /* @__PURE__ */ _(VerticalSpace, { space: "small" })));
+  }
+  function AutomationRow(props) {
+    const [hovered, setHovered] = d2(false);
+    const a3 = props.automation;
+    return /* @__PURE__ */ _(
+      "div",
+      {
+        onMouseEnter: () => setHovered(true),
+        onMouseLeave: () => setHovered(false),
+        style: {
+          display: "flex",
+          alignItems: "center",
+          padding: "6px 8px",
+          gap: 8,
+          background: hovered ? "var(--figma-color-bg-hover)" : "transparent",
+          borderRadius: 4,
+          cursor: "pointer"
+        },
+        onClick: props.onEdit
+      },
+      /* @__PURE__ */ _("div", { style: { flex: 1, minWidth: 0 } }, /* @__PURE__ */ _(
+        "div",
+        {
+          style: {
+            fontSize: 11,
+            color: "var(--figma-color-text)",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap"
+          }
+        },
+        a3.name
+      ), /* @__PURE__ */ _(
+        "div",
+        {
+          style: {
+            fontSize: 10,
+            color: "var(--figma-color-text-secondary)",
+            marginTop: 1
+          }
+        },
+        a3.stepCount,
+        " step(s)"
+      )),
+      hovered && /* @__PURE__ */ _("div", { style: { display: "flex", gap: 4, flexShrink: 0 }, onClick: (e3) => e3.stopPropagation() }, /* @__PURE__ */ _(
+        Button,
+        {
+          onClick: props.onRun,
+          style: { fontSize: 10, padding: "2px 8px", minHeight: 0 }
+        },
+        /* @__PURE__ */ _(Text, null, "Run")
+      ), /* @__PURE__ */ _(
+        Button,
+        {
+          onClick: props.onDelete,
+          secondary: true,
+          style: { fontSize: 10, padding: "2px 8px", minHeight: 0 }
+        },
+        /* @__PURE__ */ _(Text, null, "Delete")
+      ))
+    );
+  }
+  function BuilderScreen(props) {
+    const { automation, onChange } = props;
+    const [showActionPicker, setShowActionPicker] = d2(false);
+    const addStep = (actionType) => {
+      const def = ACTION_DEFINITIONS.find((d3) => d3.type === actionType);
+      if (!def) return;
+      const newStep = {
+        id: `step_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+        actionType,
+        params: __spreadValues({}, def.defaultParams),
+        enabled: true
+      };
+      onChange(__spreadProps(__spreadValues({}, automation), { steps: [...automation.steps, newStep] }));
+      setShowActionPicker(false);
+    };
+    const removeStep = (idx) => {
+      const steps = [...automation.steps];
+      steps.splice(idx, 1);
+      onChange(__spreadProps(__spreadValues({}, automation), { steps }));
+    };
+    const moveStep = (idx, direction) => {
+      const newIdx = idx + direction;
+      if (newIdx < 0 || newIdx >= automation.steps.length) return;
+      const steps = [...automation.steps];
+      const temp = steps[idx];
+      steps[idx] = steps[newIdx];
+      steps[newIdx] = temp;
+      onChange(__spreadProps(__spreadValues({}, automation), { steps }));
+    };
+    const toggleStep = (idx) => {
+      const steps = [...automation.steps];
+      steps[idx] = __spreadProps(__spreadValues({}, steps[idx]), { enabled: !steps[idx].enabled });
+      onChange(__spreadProps(__spreadValues({}, automation), { steps }));
+    };
+    return /* @__PURE__ */ _(Page, null, /* @__PURE__ */ _(
+      ToolHeader,
+      {
+        title: "Edit Automation",
+        left: /* @__PURE__ */ _(IconButton, { onClick: props.onBack }, /* @__PURE__ */ _(
+          IconChevronRight16,
+          {
+            style: { transform: "rotate(180deg)" }
+          }
+        ))
+      }
+    ), /* @__PURE__ */ _(ToolBody, { mode: "content" }, /* @__PURE__ */ _(
+      Textbox,
+      {
+        value: automation.name,
+        onValueInput: (value2) => onChange(__spreadProps(__spreadValues({}, automation), { name: value2 })),
+        placeholder: "Automation name"
+      }
+    ), /* @__PURE__ */ _(VerticalSpace, { space: "medium" }), automation.steps.length === 0 ? /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(
+      "div",
+      {
+        style: {
+          fontSize: 11,
+          color: "var(--figma-color-text-secondary)",
+          textAlign: "center",
+          padding: "16px 0"
+        }
+      },
+      "No steps yet. Add your first step below."
+    )) : /* @__PURE__ */ _(Stack, { space: "extraSmall" }, automation.steps.map((step, idx) => /* @__PURE__ */ _(
+      StepRow,
+      {
+        key: step.id,
+        step,
+        index: idx,
+        total: automation.steps.length,
+        onToggle: () => toggleStep(idx),
+        onConfigure: () => props.onConfigStep(idx),
+        onRemove: () => removeStep(idx),
+        onMoveUp: () => moveStep(idx, -1),
+        onMoveDown: () => moveStep(idx, 1)
+      }
+    ))), /* @__PURE__ */ _(VerticalSpace, { space: "small" }), showActionPicker ? /* @__PURE__ */ _(ActionPicker, { onSelect: addStep, onCancel: () => setShowActionPicker(false) }) : /* @__PURE__ */ _(Button, { fullWidth: true, secondary: true, onClick: () => setShowActionPicker(true) }, /* @__PURE__ */ _("div", { style: { display: "flex", alignItems: "center", gap: 4 } }, /* @__PURE__ */ _(IconPlus16, null), /* @__PURE__ */ _(Text, null, "Add step")))), /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(Container, { space: "medium" }, /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(Button, { fullWidth: true, onClick: props.onSave }, "Save"), /* @__PURE__ */ _(Button, { fullWidth: true, secondary: true, onClick: props.onExport }, "Export as JSON")), /* @__PURE__ */ _(VerticalSpace, { space: "small" })));
+  }
+  function StepRow(props) {
+    var _a;
+    const [hovered, setHovered] = d2(false);
+    const def = ACTION_DEFINITIONS.find((d3) => d3.type === props.step.actionType);
+    const label = (_a = def == null ? void 0 : def.label) != null ? _a : props.step.actionType;
+    const paramSummary = getParamSummary(props.step);
+    return /* @__PURE__ */ _(
+      "div",
+      {
+        onMouseEnter: () => setHovered(true),
+        onMouseLeave: () => setHovered(false),
+        style: {
+          display: "flex",
+          alignItems: "center",
+          gap: 4,
+          padding: "4px 4px",
+          borderRadius: 4,
+          background: hovered ? "var(--figma-color-bg-hover)" : "transparent",
+          opacity: props.step.enabled ? 1 : 0.5
+        }
+      },
+      /* @__PURE__ */ _(
+        Checkbox,
+        {
+          value: props.step.enabled,
+          onValueChange: props.onToggle
+        },
+        /* @__PURE__ */ _(Text, null, " ")
+      ),
+      /* @__PURE__ */ _(
+        "div",
+        {
+          style: { flex: 1, minWidth: 0, cursor: "pointer" },
+          onClick: props.onConfigure
+        },
+        /* @__PURE__ */ _("div", { style: { fontSize: 11, color: "var(--figma-color-text)" } }, props.index + 1, ". ", label),
+        paramSummary && /* @__PURE__ */ _(
+          "div",
+          {
+            style: {
+              fontSize: 10,
+              color: "var(--figma-color-text-secondary)",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+              marginTop: 1
+            }
+          },
+          paramSummary
+        )
+      ),
+      hovered && /* @__PURE__ */ _("div", { style: { display: "flex", gap: 2, flexShrink: 0 } }, props.index > 0 && /* @__PURE__ */ _(IconButton, { onClick: props.onMoveUp }, /* @__PURE__ */ _(IconChevronDown16, { style: { transform: "rotate(180deg)" } })), props.index < props.total - 1 && /* @__PURE__ */ _(IconButton, { onClick: props.onMoveDown }, /* @__PURE__ */ _(IconChevronDown16, null)), /* @__PURE__ */ _(IconButton, { onClick: props.onRemove }, /* @__PURE__ */ _(IconClose16, null)))
+    );
+  }
+  function getParamSummary(step) {
+    var _a, _b, _c, _d, _e, _f, _g, _h, _i;
+    const p3 = step.params;
+    switch (step.actionType) {
+      case "selectByType":
+        return String((_a = p3.nodeType) != null ? _a : "");
+      case "selectByName":
+        return `${(_b = p3.matchMode) != null ? _b : "contains"}: "${(_c = p3.pattern) != null ? _c : ""}"`;
+      case "expandToChildren":
+        return "";
+      case "renameLayers":
+        return `"${(_d = p3.find) != null ? _d : ""}" \u2192 "${(_e = p3.replace) != null ? _e : ""}"`;
+      case "setFillColor":
+        return String((_f = p3.hex) != null ? _f : "");
+      case "setFillVariable":
+        return String((_g = p3.variableName) != null ? _g : "");
+      case "setOpacity":
+        return `${(_h = p3.opacity) != null ? _h : 100}%`;
+      case "notify":
+        return String((_i = p3.message) != null ? _i : "");
+      default:
+        return "";
+    }
+  }
+  function ActionPicker(props) {
+    return /* @__PURE__ */ _(
+      "div",
+      {
+        style: {
+          border: "1px solid var(--figma-color-border)",
+          borderRadius: 4,
+          overflow: "hidden"
+        }
+      },
+      /* @__PURE__ */ _(
+        "div",
+        {
+          style: {
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            padding: "6px 8px",
+            background: "var(--figma-color-bg-secondary)"
+          }
+        },
+        /* @__PURE__ */ _(Text, { style: { fontWeight: 600, fontSize: 11 } }, "Choose an action"),
+        /* @__PURE__ */ _(IconButton, { onClick: props.onCancel }, /* @__PURE__ */ _(IconClose16, null))
+      ),
+      ACTION_DEFINITIONS.map((def) => /* @__PURE__ */ _(ActionPickerRow, { key: def.type, def, onSelect: () => props.onSelect(def.type) }))
+    );
+  }
+  function ActionPickerRow(props) {
+    const [hovered, setHovered] = d2(false);
+    return /* @__PURE__ */ _(
+      "div",
+      {
+        onMouseEnter: () => setHovered(true),
+        onMouseLeave: () => setHovered(false),
+        onClick: props.onSelect,
+        style: {
+          padding: "6px 8px",
+          cursor: "pointer",
+          background: hovered ? "var(--figma-color-bg-hover)" : "transparent",
+          borderTop: "1px solid var(--figma-color-border)"
+        }
+      },
+      /* @__PURE__ */ _("div", { style: { fontSize: 11, color: "var(--figma-color-text)" } }, props.def.label),
+      /* @__PURE__ */ _(
+        "div",
+        {
+          style: {
+            fontSize: 10,
+            color: "var(--figma-color-text-secondary)",
+            marginTop: 1
+          }
+        },
+        props.def.description
+      )
+    );
+  }
+  function StepConfigScreen(props) {
+    var _a;
+    const { step, onChange } = props;
+    const def = ACTION_DEFINITIONS.find((d3) => d3.type === step.actionType);
+    const updateParam = (key, value2) => {
+      onChange(__spreadProps(__spreadValues({}, step), { params: __spreadProps(__spreadValues({}, step.params), { [key]: value2 }) }));
+    };
+    return /* @__PURE__ */ _(Page, null, /* @__PURE__ */ _(
+      ToolHeader,
+      {
+        title: (_a = def == null ? void 0 : def.label) != null ? _a : step.actionType,
+        left: /* @__PURE__ */ _(IconButton, { onClick: props.onBack }, /* @__PURE__ */ _(
+          IconChevronRight16,
+          {
+            style: { transform: "rotate(180deg)" }
+          }
+        ))
+      }
+    ), /* @__PURE__ */ _(ToolBody, { mode: "content" }, def && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(Text, { style: { fontSize: 11, color: "var(--figma-color-text-secondary)" } }, def.description), /* @__PURE__ */ _(VerticalSpace, { space: "medium" })), renderStepParams(step, updateParam)));
+  }
+  function renderStepParams(step, updateParam) {
+    var _a, _b, _c, _d, _e, _f, _g, _h, _i;
+    switch (step.actionType) {
+      case "selectByType":
+        return /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(Text, { style: { fontSize: 11 } }, "Node type"), /* @__PURE__ */ _(VerticalSpace, { space: "extraSmall" }), /* @__PURE__ */ _(
+          Dropdown,
+          {
+            value: String((_a = step.params.nodeType) != null ? _a : "TEXT"),
+            options: VALID_NODE_TYPES.map((t3) => ({ value: t3 })),
+            onValueChange: (v3) => updateParam("nodeType", v3)
+          }
+        ));
+      case "selectByName":
+        return /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(Text, { style: { fontSize: 11 } }, "Match mode"), /* @__PURE__ */ _(VerticalSpace, { space: "extraSmall" }), /* @__PURE__ */ _(
+          Dropdown,
+          {
+            value: String((_b = step.params.matchMode) != null ? _b : "contains"),
+            options: MATCH_MODES.map((m3) => ({ value: m3 })),
+            onValueChange: (v3) => updateParam("matchMode", v3)
+          }
+        ), /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(Text, { style: { fontSize: 11 } }, "Pattern"), /* @__PURE__ */ _(VerticalSpace, { space: "extraSmall" }), /* @__PURE__ */ _(
+          Textbox,
+          {
+            value: String((_c = step.params.pattern) != null ? _c : ""),
+            onValueInput: (v3) => updateParam("pattern", v3),
+            placeholder: "Enter pattern..."
+          }
+        ));
+      case "expandToChildren":
+        return /* @__PURE__ */ _(Text, { style: { fontSize: 11, color: "var(--figma-color-text-secondary)" } }, "No parameters needed. This action replaces the current selection with all direct children of the selected nodes.");
+      case "renameLayers":
+        return /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(Text, { style: { fontSize: 11 } }, "Find"), /* @__PURE__ */ _(VerticalSpace, { space: "extraSmall" }), /* @__PURE__ */ _(
+          Textbox,
+          {
+            value: String((_d = step.params.find) != null ? _d : ""),
+            onValueInput: (v3) => updateParam("find", v3),
+            placeholder: "Text to find..."
+          }
+        ), /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(Text, { style: { fontSize: 11 } }, "Replace with"), /* @__PURE__ */ _(VerticalSpace, { space: "extraSmall" }), /* @__PURE__ */ _(
+          Textbox,
+          {
+            value: String((_e = step.params.replace) != null ? _e : ""),
+            onValueInput: (v3) => updateParam("replace", v3),
+            placeholder: "Replacement text..."
+          }
+        ));
+      case "setFillColor":
+        return /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(Text, { style: { fontSize: 11 } }, "Hex color"), /* @__PURE__ */ _(VerticalSpace, { space: "extraSmall" }), /* @__PURE__ */ _(
+          Textbox,
+          {
+            value: String((_f = step.params.hex) != null ? _f : "#000000"),
+            onValueInput: (v3) => updateParam("hex", v3),
+            placeholder: "#000000"
+          }
+        ));
+      case "setFillVariable":
+        return /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(Text, { style: { fontSize: 11 } }, "Variable name"), /* @__PURE__ */ _(VerticalSpace, { space: "extraSmall" }), /* @__PURE__ */ _(
+          Textbox,
+          {
+            value: String((_g = step.params.variableName) != null ? _g : ""),
+            onValueInput: (v3) => updateParam("variableName", v3),
+            placeholder: "e.g. control-border-raised"
+          }
+        ));
+      case "setOpacity":
+        return /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(Text, { style: { fontSize: 11 } }, "Opacity (%)"), /* @__PURE__ */ _(VerticalSpace, { space: "extraSmall" }), /* @__PURE__ */ _(
+          Textbox,
+          {
+            value: String((_h = step.params.opacity) != null ? _h : 100),
+            onValueInput: (v3) => {
+              const n2 = parseInt(v3, 10);
+              if (!isNaN(n2)) updateParam("opacity", Math.max(0, Math.min(100, n2)));
+            },
+            placeholder: "0\u2013100"
+          }
+        ));
+      case "notify":
+        return /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(Text, { style: { fontSize: 11 } }, "Message"), /* @__PURE__ */ _(VerticalSpace, { space: "extraSmall" }), /* @__PURE__ */ _(
+          Textbox,
+          {
+            value: String((_i = step.params.message) != null ? _i : ""),
+            onValueInput: (v3) => updateParam("message", v3),
+            placeholder: "Notification message..."
+          }
+        ));
+      default:
+        return /* @__PURE__ */ _(Text, { style: { fontSize: 11, color: "var(--figma-color-text-secondary)" } }, "Unknown action type: ", step.actionType);
+    }
+  }
+  var init_AutomationsToolView = __esm({
+    "src/app/views/automations-tool/AutomationsToolView.tsx"() {
+      "use strict";
+      init_lib2();
+      init_preact_module();
+      init_hooks_module();
+      init_Page();
+      init_ToolHeader();
+      init_ToolBody();
+      init_State();
+      init_DataList();
+      init_messages();
+      init_types();
+      init_storage();
+    }
+  });
+
   // src/app/ui.tsx
   var ui_exports = {};
   __export(ui_exports, {
@@ -9052,7 +9939,8 @@ svg {
             "variables-batch-rename-tool",
             "variables-create-linked-colors-tool",
             "variables-replace-usages-tool",
-            "find-color-match-tool"
+            "find-color-match-tool",
+            "automations-tool"
           ];
           setRoute(
             validRoutes.includes(msg.command) ? msg.command : "home"
@@ -9122,6 +10010,9 @@ svg {
         }
       );
     }
+    if (route === "automations-tool") {
+      return /* @__PURE__ */ _(AutomationsToolView, { onBack: () => setRoute("home") });
+    }
     return /* @__PURE__ */ _(HomeView, { goTo: setRoute });
   }
   var ui_default;
@@ -9142,13 +10033,14 @@ svg {
       init_VariablesCreateLinkedColorsToolView();
       init_VariablesReplaceUsagesToolView();
       init_FindColorMatchToolView();
+      init_AutomationsToolView();
       ui_default = render(App);
     }
   });
 
   // <stdin>
   var rootNode = document.getElementById("create-figma-plugin");
-  var modules = { "src/home/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/mockup-markup-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/color-chain-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/library-swap-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/print-color-usages-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/variables-export-import-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/variables-batch-rename-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/variables-create-linked-colors-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/variables-replace-usages-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/find-color-match-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"] };
+  var modules = { "src/home/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/mockup-markup-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/color-chain-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/library-swap-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/print-color-usages-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/variables-export-import-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/variables-batch-rename-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/variables-create-linked-colors-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/variables-replace-usages-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/find-color-match-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/automations-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"] };
   var commandId = __FIGMA_COMMAND__ === "" ? "src/home/main.ts--default" : __FIGMA_COMMAND__;
   if (typeof modules[commandId] === "undefined") {
     throw new Error(

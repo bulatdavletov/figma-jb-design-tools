@@ -105,12 +105,22 @@ var init_messages = __esm({
       LIBRARY_SWAP_CAPTURE_OLD: "LIBRARY_SWAP_CAPTURE_OLD",
       LIBRARY_SWAP_CAPTURE_NEW: "LIBRARY_SWAP_CAPTURE_NEW",
       LIBRARY_SWAP_REMOVE_PAIR: "LIBRARY_SWAP_REMOVE_PAIR",
+      LIBRARY_SWAP_SCAN_LEGACY_RESET: "LIBRARY_SWAP_SCAN_LEGACY_RESET",
       // Find Color Match
       FIND_COLOR_MATCH_SCAN: "FIND_COLOR_MATCH_SCAN",
       FIND_COLOR_MATCH_SET_COLLECTION: "FIND_COLOR_MATCH_SET_COLLECTION",
       FIND_COLOR_MATCH_SET_MODE: "FIND_COLOR_MATCH_SET_MODE",
       FIND_COLOR_MATCH_APPLY: "FIND_COLOR_MATCH_APPLY",
-      FIND_COLOR_MATCH_FOCUS_NODE: "FIND_COLOR_MATCH_FOCUS_NODE"
+      FIND_COLOR_MATCH_FOCUS_NODE: "FIND_COLOR_MATCH_FOCUS_NODE",
+      FIND_COLOR_MATCH_HEX_LOOKUP: "FIND_COLOR_MATCH_HEX_LOOKUP",
+      FIND_COLOR_MATCH_SET_GROUP: "FIND_COLOR_MATCH_SET_GROUP",
+      // Automations
+      AUTOMATIONS_LOAD: "AUTOMATIONS_LOAD",
+      AUTOMATIONS_GET: "AUTOMATIONS_GET",
+      AUTOMATIONS_SAVE: "AUTOMATIONS_SAVE",
+      AUTOMATIONS_DELETE: "AUTOMATIONS_DELETE",
+      AUTOMATIONS_RUN: "AUTOMATIONS_RUN",
+      AUTOMATIONS_STOP: "AUTOMATIONS_STOP"
     };
     MAIN_TO_UI = {
       BOOTSTRAPPED: "BOOTSTRAPPED",
@@ -156,11 +166,23 @@ var init_messages = __esm({
       LIBRARY_SWAP_PREVIEW_RESULT: "LIBRARY_SWAP_PREVIEW_RESULT",
       LIBRARY_SWAP_CAPTURE_RESULT: "LIBRARY_SWAP_CAPTURE_RESULT",
       LIBRARY_SWAP_PAIRS_UPDATED: "LIBRARY_SWAP_PAIRS_UPDATED",
+      LIBRARY_SWAP_SCAN_LEGACY_RESULT: "LIBRARY_SWAP_SCAN_LEGACY_RESULT",
+      LIBRARY_SWAP_SCAN_LEGACY_RESET_RESULT: "LIBRARY_SWAP_SCAN_LEGACY_RESET_RESULT",
       // Find Color Match
       FIND_COLOR_MATCH_COLLECTIONS: "FIND_COLOR_MATCH_COLLECTIONS",
       FIND_COLOR_MATCH_RESULT: "FIND_COLOR_MATCH_RESULT",
       FIND_COLOR_MATCH_PROGRESS: "FIND_COLOR_MATCH_PROGRESS",
-      FIND_COLOR_MATCH_APPLY_RESULT: "FIND_COLOR_MATCH_APPLY_RESULT"
+      FIND_COLOR_MATCH_APPLY_RESULT: "FIND_COLOR_MATCH_APPLY_RESULT",
+      FIND_COLOR_MATCH_HEX_RESULT: "FIND_COLOR_MATCH_HEX_RESULT",
+      FIND_COLOR_MATCH_GROUPS: "FIND_COLOR_MATCH_GROUPS",
+      // Library cache
+      LIBRARY_CACHE_STATUS: "LIBRARY_CACHE_STATUS",
+      // Automations
+      AUTOMATIONS_LIST: "AUTOMATIONS_LIST",
+      AUTOMATIONS_FULL: "AUTOMATIONS_FULL",
+      AUTOMATIONS_SAVED: "AUTOMATIONS_SAVED",
+      AUTOMATIONS_RUN_PROGRESS: "AUTOMATIONS_RUN_PROGRESS",
+      AUTOMATIONS_RUN_RESULT: "AUTOMATIONS_RUN_RESULT"
     };
   }
 });
@@ -1160,14 +1182,14 @@ async function collectVariablesFromNodeTree(root, onVariable) {
   }
 }
 async function getFoundVariablesFromRoots(roots) {
-  const variableCache2 = /* @__PURE__ */ new Map();
+  const variableCache3 = /* @__PURE__ */ new Map();
   const collectionCache2 = /* @__PURE__ */ new Map();
   async function getVariable2(id) {
     var _a;
-    if (!variableCache2.has(id)) {
-      variableCache2.set(id, await figma.variables.getVariableByIdAsync(id));
+    if (!variableCache3.has(id)) {
+      variableCache3.set(id, await figma.variables.getVariableByIdAsync(id));
     }
-    return (_a = variableCache2.get(id)) != null ? _a : null;
+    return (_a = variableCache3.get(id)) != null ? _a : null;
   }
   async function getCollection2(id) {
     var _a;
@@ -1496,6 +1518,46 @@ function mergeMappingMatches(mappings) {
     } else {
       for (const [oldKey, newKey] of Object.entries(m.matches)) {
         if (typeof newKey === "string" && newKey) merged[oldKey] = newKey;
+      }
+    }
+  }
+  return merged;
+}
+function mergeMappingMatchesRich(mappings) {
+  var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m;
+  const merged = {};
+  for (const m of mappings) {
+    if (m.schemaVersion === 3) {
+      for (const [oldKey, entry] of Object.entries(m.matches)) {
+        const e = entry;
+        const newKey = (_a = e.match) != null ? _a : "";
+        if (newKey || e.description) {
+          merged[oldKey] = {
+            newKey,
+            oldFullName: (_c = e.oldFullName) != null ? _c : (_b = merged[oldKey]) == null ? void 0 : _b.oldFullName,
+            newFullName: (_e = e.newFullName) != null ? _e : (_d = merged[oldKey]) == null ? void 0 : _d.newFullName,
+            description: (_g = e.description) != null ? _g : (_f = merged[oldKey]) == null ? void 0 : _f.description
+          };
+        }
+      }
+    } else if (m.schemaVersion === 2) {
+      const meta = m.matchMeta;
+      for (const [oldKey, newKey] of Object.entries(m.matches)) {
+        if (typeof newKey === "string" && newKey) {
+          const metaEntry = meta == null ? void 0 : meta[oldKey];
+          merged[oldKey] = {
+            newKey,
+            oldFullName: (_i = metaEntry == null ? void 0 : metaEntry.oldFullName) != null ? _i : (_h = merged[oldKey]) == null ? void 0 : _h.oldFullName,
+            newFullName: (_k = metaEntry == null ? void 0 : metaEntry.newFullName) != null ? _k : (_j = merged[oldKey]) == null ? void 0 : _j.newFullName,
+            description: (_m = metaEntry == null ? void 0 : metaEntry.description) != null ? _m : (_l = merged[oldKey]) == null ? void 0 : _l.description
+          };
+        }
+      }
+    } else {
+      for (const [oldKey, newKey] of Object.entries(m.matches)) {
+        if (typeof newKey === "string" && newKey) {
+          merged[oldKey] = __spreadProps(__spreadValues({}, merged[oldKey]), { newKey });
+        }
       }
     }
   }
@@ -1919,6 +1981,257 @@ var init_swap_logic = __esm({
     HEADER_FONT = { family: "Inter", style: "Bold" };
     LABEL_FONT = { family: "Inter", style: "Regular" };
     ARROW_FONT = { family: "Inter", style: "Regular" };
+  }
+});
+
+// src/app/tools/library-swap/scan-legacy.ts
+function extractHexFromStyle(style) {
+  const paints = style.paints;
+  if (!paints || paints.length === 0) return null;
+  const paint = paints[0];
+  if (paint.type !== "SOLID") return null;
+  const { r, g, b } = paint.color;
+  const toHex = (v) => Math.round(v * 255).toString(16).padStart(2, "0");
+  return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+}
+function getPageName2(node) {
+  let current = node;
+  while (current) {
+    if (current.type === "PAGE") return current.name;
+    current = current.parent;
+  }
+  return "";
+}
+function isPropertyOverridden(node, property) {
+  const instance = getNearestInstanceAncestor(node);
+  if (!instance) return false;
+  let nodeOverrides = overridesCache.get(instance.id);
+  if (!nodeOverrides) {
+    nodeOverrides = /* @__PURE__ */ new Map();
+    try {
+      for (const entry of instance.overrides) {
+        nodeOverrides.set(entry.id, new Set(entry.overriddenFields));
+      }
+    } catch (e) {
+    }
+    overridesCache.set(instance.id, nodeOverrides);
+  }
+  const fields = nodeOverrides.get(node.id);
+  if (!fields) return false;
+  if (property === "fill") {
+    return fields.has("fillStyleId") || fields.has("fills");
+  }
+  return fields.has("strokeStyleId") || fields.has("strokes");
+}
+function getNearestInstanceAncestor(node) {
+  let current = node.parent;
+  while (current) {
+    if (current.type === "INSTANCE") return current;
+    if (current.type === "PAGE" || current.type === "DOCUMENT") return null;
+    current = current.parent;
+  }
+  return null;
+}
+async function ensureAllPagesLoaded2() {
+  if (typeof figma.loadAllPagesAsync === "function") {
+    await figma.loadAllPagesAsync();
+  }
+}
+function collectNodesInSelection() {
+  const sel = figma.currentPage.selection;
+  const out = [];
+  for (const node of sel) {
+    if (!node) continue;
+    out.push(node);
+    if ("findAll" in node && typeof node.findAll === "function") {
+      const descendants = node.findAll();
+      for (const d of descendants) out.push(d);
+    }
+  }
+  return out;
+}
+async function getNodesForScope(scope) {
+  if (scope === "all_pages") {
+    await ensureAllPagesLoaded2();
+    return figma.root.findAll();
+  }
+  if (scope === "selection") {
+    return collectNodesInSelection();
+  }
+  return figma.currentPage.findAll();
+}
+async function scanStyles(scope, onProgress) {
+  var _a;
+  overridesCache.clear();
+  const allNodes = await getNodesForScope(scope);
+  const items = [];
+  const styleCache = /* @__PURE__ */ new Map();
+  for (let i = 0; i < allNodes.length; i++) {
+    const node = allNodes[i];
+    for (const prop of ["fillStyleId", "strokeStyleId"]) {
+      const styleId = node[prop];
+      if (typeof styleId !== "string" || !styleId) continue;
+      let style = styleCache.get(styleId);
+      if (style === void 0) {
+        try {
+          style = await figma.getStyleByIdAsync(styleId);
+        } catch (e) {
+          style = null;
+        }
+        styleCache.set(styleId, style != null ? style : null);
+      }
+      if (!style) continue;
+      if (!style.remote) continue;
+      if (items.length < SCAN_ITEMS_CAP) {
+        items.push({
+          nodeId: node.id,
+          nodeName: (_a = node.name) != null ? _a : "(unnamed)",
+          pageName: getPageName2(node),
+          styleName: style.name,
+          styleKey: style.key,
+          property: prop === "fillStyleId" ? "fill" : "stroke",
+          isOverride: isPropertyOverridden(node, prop === "fillStyleId" ? "fill" : "stroke"),
+          colorHex: extractHexFromStyle(style)
+        });
+      }
+    }
+    if (onProgress && i % 200 === 0) {
+      onProgress(i, allNodes.length);
+      await new Promise((r) => setTimeout(r, 0));
+    }
+  }
+  return { items, nodesScanned: allNodes.length };
+}
+async function scanComponents(scope, richMatches, onProgress) {
+  var _a, _b, _c;
+  const instances = await getInstancesForScope(scope);
+  const items = [];
+  const allMappedKeys = new Set(Object.keys(richMatches));
+  for (let i = 0; i < instances.length; i++) {
+    const inst = instances[i];
+    let main = null;
+    try {
+      main = await inst.getMainComponentAsync();
+    } catch (e) {
+      main = null;
+    }
+    const oldKey = (_a = main == null ? void 0 : main.key) != null ? _a : null;
+    if (!oldKey) continue;
+    if (allMappedKeys.has(oldKey)) {
+      const entry = richMatches[oldKey];
+      if (!entry) continue;
+      if (items.length >= SCAN_ITEMS_CAP) break;
+      const oldName = main ? getComponentDisplayName(main) : (_b = entry.oldFullName) != null ? _b : oldKey;
+      if (entry.newKey) {
+        items.push({
+          nodeId: inst.id,
+          nodeName: inst.name,
+          pageName: getPageName2(inst),
+          oldComponentKey: oldKey,
+          oldComponentName: oldName,
+          category: "mapped",
+          newComponentName: (_c = entry.newFullName) != null ? _c : entry.newKey
+        });
+      } else if (entry.description) {
+        items.push({
+          nodeId: inst.id,
+          nodeName: inst.name,
+          pageName: getPageName2(inst),
+          oldComponentKey: oldKey,
+          oldComponentName: oldName,
+          category: "text_only",
+          description: entry.description
+        });
+      }
+    } else if (main && main.remote) {
+      const displayName = getComponentDisplayName(main);
+      if (UNMATCHED_OLD_COMPONENT_NAMES.has(displayName)) {
+        if (items.length >= SCAN_ITEMS_CAP) break;
+        items.push({
+          nodeId: inst.id,
+          nodeName: inst.name,
+          pageName: getPageName2(inst),
+          oldComponentKey: oldKey,
+          oldComponentName: displayName,
+          category: "unmapped"
+        });
+      }
+    }
+    if (onProgress && i % 100 === 0) {
+      onProgress(i, instances.length);
+      await new Promise((r) => setTimeout(r, 0));
+    }
+  }
+  return items;
+}
+async function scanForLegacyItems(scope, richMatches, onProgress) {
+  onProgress == null ? void 0 : onProgress("Scanning styles...", 0, 0);
+  const { items: styles, nodesScanned } = await scanStyles(scope, (done, total) => {
+    onProgress == null ? void 0 : onProgress(`Scanning styles... ${done} / ${total}`, done, total);
+  });
+  onProgress == null ? void 0 : onProgress("Scanning components...", 0, 0);
+  const components = await scanComponents(scope, richMatches, (done, total) => {
+    onProgress == null ? void 0 : onProgress(`Scanning components... ${done} / ${total}`, done, total);
+  });
+  return { styles, components, totalNodesScanned: nodesScanned };
+}
+async function resetStyleOverride(nodeId, _property) {
+  const node = await figma.getNodeByIdAsync(nodeId);
+  if (!node) return false;
+  const instance = getNearestInstanceAncestor(node);
+  if (!instance) return false;
+  instance.removeOverrides();
+  return true;
+}
+var UNMATCHED_OLD_COMPONENT_NAMES, SCAN_ITEMS_CAP, overridesCache;
+var init_scan_legacy = __esm({
+  "src/app/tools/library-swap/scan-legacy.ts"() {
+    "use strict";
+    init_swap_logic();
+    init_component_name();
+    UNMATCHED_OLD_COMPONENT_NAMES = /* @__PURE__ */ new Set([
+      "_Close",
+      "_Icon",
+      "_Icons",
+      "_Indeterminate",
+      "_Inline / State",
+      "_Inline action / button",
+      "_Inline action / right side",
+      "_Split Button Dropdown",
+      "_Tab / Background",
+      "_Table / Header",
+      "_Tree / Selection",
+      "Collapsible",
+      "Dialog / Group",
+      "Editor / Tab",
+      "Editor / Tab / Close",
+      "Editor / Tabs",
+      "Editor Code",
+      "Inline Search",
+      "Main Toolbar / MacOS Buttons",
+      "Main Toolbar / Project Dropdown",
+      "Main Toolbar / Split Button",
+      "Main Toolbar / Win Button",
+      "Main Toolbar / Windows Buttons",
+      "Popup / Cell / Selection",
+      "Popup / Context Menu",
+      "Project Icon",
+      "Run Widget",
+      "Run Widget / Configurations",
+      "Run Widget / Debug Button",
+      "Run Widget / Run Button",
+      "Run Widget / Simple Button",
+      "Run Widget / Stop Button",
+      "Shortcut",
+      "Status Bar / Breadcrumb",
+      "Stripes / Button",
+      "Stripes / Separator",
+      "Stripes / Stripe",
+      "Tabs",
+      "Toolbar / Icon"
+    ]);
+    SCAN_ITEMS_CAP = 300;
+    overridesCache = /* @__PURE__ */ new Map();
   }
 });
 
@@ -33493,7 +33806,10 @@ var init_default_uikit_mapping = __esm({
         b7d73b53b46b634b823b8c46e8354d684d2794f6: "65fa0a46f6f049068c4b421e814e09daffbd8bc5",
         c495835fba151e1f13fbde02afd820a7d893ec2e: "f2e16db5233979587670a833aa9b6badba115941",
         "36831a010d161361716995e930e25931496c25e0": "f2e16db5233979587670a833aa9b6badba115941",
-        "96bdcaedc645659f0b7566bb40bf20f990ba7572": "65fa0a46f6f049068c4b421e814e09daffbd8bc5"
+        "96bdcaedc645659f0b7566bb40bf20f990ba7572": "65fa0a46f6f049068c4b421e814e09daffbd8bc5",
+        "911346ae160652adad39f9040f32d12658e969f8": "3977bc194044832c1e652f1e3c5ee7d78547e8c3",
+        "792de419c0b204efc80d855c6fbc093a7c1329cf": "4b5ae55368852903d5dd31c2838f2705f7e2ebec",
+        "13cabef8da4fb49fd9393caa5d0c49e24aae9511": "4b5ae55368852903d5dd31c2838f2705f7e2ebec"
       },
       matchMeta: {
         adb3d32220ea462bd3c30e1c0e50930bd6e8cde2: {
@@ -36149,6 +36465,18 @@ var init_default_uikit_mapping = __esm({
         "96bdcaedc645659f0b7566bb40bf20f990ba7572": {
           oldFullName: "Theme=Dark, Type=Vertical",
           newFullName: "Horizontal=No"
+        },
+        "911346ae160652adad39f9040f32d12658e969f8": {
+          oldFullName: "Toolbar / Search",
+          newFullName: "Toolbar / Search"
+        },
+        "792de419c0b204efc80d855c6fbc093a7c1329cf": {
+          oldFullName: "Banner",
+          newFullName: "Banner"
+        },
+        "13cabef8da4fb49fd9393caa5d0c49e24aae9511": {
+          oldFullName: "Banner",
+          newFullName: "Banner"
         }
       }
     };
@@ -36313,6 +36641,7 @@ function registerLibrarySwapTool(getActiveTool) {
           const sources = collectSources(useBuiltInIcons, useBuiltInUikit, customMappingJsonText);
           const merged = mergeMappingMatches(sources);
           const meta = mergeMappingMeta(sources);
+          const richMatches = mergeMappingMatchesRich(sources);
           if (Object.keys(merged).length === 0) {
             figma.ui.postMessage({
               type: MAIN_TO_UI.ERROR,
@@ -36334,6 +36663,25 @@ function registerLibrarySwapTool(getActiveTool) {
           figma.ui.postMessage({
             type: MAIN_TO_UI.LIBRARY_SWAP_ANALYZE_RESULT,
             payload: result
+          });
+          figma.ui.postMessage({
+            type: MAIN_TO_UI.LIBRARY_SWAP_PROGRESS,
+            progress: { current: 0, total: 0, message: "Scanning legacy items..." }
+          });
+          await new Promise((r) => setTimeout(r, 0));
+          const legacyResult = await scanForLegacyItems(
+            scope,
+            richMatches,
+            (message, done, total) => {
+              figma.ui.postMessage({
+                type: MAIN_TO_UI.LIBRARY_SWAP_PROGRESS,
+                progress: { current: done, total, message }
+              });
+            }
+          );
+          figma.ui.postMessage({
+            type: MAIN_TO_UI.LIBRARY_SWAP_SCAN_LEGACY_RESULT,
+            payload: legacyResult
           });
         } catch (e) {
           figma.notify(e instanceof Error ? e.message : "Analyze failed");
@@ -36476,6 +36824,16 @@ function registerLibrarySwapTool(getActiveTool) {
         });
         return true;
       }
+      if (msg.type === UI_TO_MAIN.LIBRARY_SWAP_SCAN_LEGACY_RESET) {
+        const ok = await resetStyleOverride(msg.nodeId, msg.property);
+        figma.ui.postMessage({
+          type: MAIN_TO_UI.LIBRARY_SWAP_SCAN_LEGACY_RESET_RESULT,
+          ok,
+          nodeId: msg.nodeId
+        });
+        if (ok) figma.notify("Override reset");
+        return true;
+      }
       return false;
     }
   };
@@ -36487,6 +36845,7 @@ var init_main_thread3 = __esm({
     init_mapping_types();
     init_swap_logic();
     init_component_name();
+    init_scan_legacy();
     init_default_icon_mapping();
     init_default_uikit_mapping();
   }
@@ -37670,7 +38029,7 @@ var init_main_thread4 = __esm({
 });
 
 // src/app/tools/variables-shared/caching.ts
-var variableCache, collectionCache, localVariablesCache, getVariable, getCollection, getLocalVariablesForType, getAllLocalVariables, getAllCollections, buildExistingNamesByCollection, buildLocalVariablesIndex, updateVariableInCache, clearLocalVariablesCache;
+var variableCache, collectionCache, localVariablesCache, getVariable, getCollection, getLocalVariablesForType, getAllLocalVariables, buildExistingNamesByCollection, buildLocalVariablesIndex, updateVariableInCache, clearLocalVariablesCache;
 var init_caching = __esm({
   "src/app/tools/variables-shared/caching.ts"() {
     "use strict";
@@ -37717,13 +38076,6 @@ var init_caching = __esm({
         types.map(async (type) => getLocalVariablesForType(type))
       );
       return variablesByType.flat();
-    };
-    getAllCollections = async () => {
-      const collections = await figma.variables.getLocalVariableCollectionsAsync();
-      for (const collection of collections) {
-        collectionCache.set(collection.id, collection);
-      }
-      return collections;
     };
     buildExistingNamesByCollection = async (scopeTypes, scopeCollectionId) => {
       var _a;
@@ -40233,9 +40585,9 @@ function deltaE(c1, c2) {
   const db = b1 - b2;
   return Math.sqrt(dL * dL + da * da + db * db);
 }
-function diffPercent(distance) {
-  const pct = distance / MAX_PRACTICAL_DELTA_E * 100;
-  return Math.round(Math.min(pct, 100) * 10) / 10;
+function matchPercent(distance) {
+  const pct = 100 - distance / MAX_PRACTICAL_DELTA_E * 100;
+  return Math.round(Math.max(pct, 0) * 10) / 10;
 }
 function findBestMatches(foundColors, candidates, maxSuggestions = 10) {
   return foundColors.map((found) => {
@@ -40246,13 +40598,13 @@ function findBestMatches(foundColors, candidates, maxSuggestions = 10) {
     })).sort((a, b) => a.distance - b.distance);
     const allMatches = scored.slice(0, maxSuggestions).map((s) => ({
       candidate: s.candidate,
-      diffPercent: diffPercent(s.distance)
+      matchPercent: matchPercent(s.distance)
     }));
     const best = scored[0];
     return {
       found,
       bestMatch: (_a = best == null ? void 0 : best.candidate) != null ? _a : null,
-      diffPercent: best ? diffPercent(best.distance) : 100,
+      matchPercent: best ? matchPercent(best.distance) : 0,
       allMatches
     };
   });
@@ -40338,11 +40690,17 @@ var init_apply2 = __esm({
 });
 
 // src/app/tools/int-ui-kit-library/constants.ts
-var INT_UI_KIT_LIBRARY_NAME;
+var INT_UI_KIT_LIBRARY_NAME, INT_UI_KIT_COLOR_COLLECTION_KEYS;
 var init_constants2 = __esm({
   "src/app/tools/int-ui-kit-library/constants.ts"() {
     "use strict";
     INT_UI_KIT_LIBRARY_NAME = "Int UI Kit: Islands";
+    INT_UI_KIT_COLOR_COLLECTION_KEYS = [
+      "1fa92c89b22a23406e3b081a0543a85c394d689f",
+      // Color palette
+      "d6b578f625affd30e445e429f388985d9651488a"
+      // Semantic colors
+    ];
   }
 });
 
@@ -40374,6 +40732,9 @@ async function discoverIntUiKitCollections() {
         `[Int UI Kit] Matched ${matched.length} collection(s):`,
         matched.map((c) => ({ key: c.key, name: c.name }))
       );
+      for (const c of matched) {
+        console.log(`\u{1F511} COLLECTION KEY: "${c.key}"  \u2014  name: "${c.name}"  library: "${c.libraryName}"`);
+      }
     }
     return matched.map((c) => ({
       key: c.key,
@@ -40451,100 +40812,84 @@ var init_resolve3 = __esm({
 });
 
 // src/app/tools/find-color-match/variables.ts
-async function discoverCollectionSources() {
-  var _a;
-  const sources = [];
-  const intUiKitCollections = await discoverIntUiKitCollections();
-  for (const lc of intUiKitCollections) {
-    sources.push({
-      key: lc.key,
-      name: lc.name,
-      libraryName: lc.libraryName,
-      isLibrary: true,
-      modes: lc.modes
-    });
-  }
-  try {
-    const allLibraryCollections = await figma.teamLibrary.getAvailableLibraryVariableCollectionsAsync();
-    const intUiKitKeys = new Set(intUiKitCollections.map((c) => c.key));
-    for (const lc of allLibraryCollections) {
-      if (intUiKitKeys.has(lc.key)) continue;
-      sources.push({
-        key: lc.key,
-        name: lc.name,
-        libraryName: (_a = lc.libraryName) != null ? _a : null,
-        isLibrary: true,
-        modes: []
-      });
-    }
-  } catch (e) {
-  }
-  try {
-    const localCollections = await getAllCollections();
-    for (const lc of localCollections) {
-      sources.push({
-        key: lc.id,
-        name: lc.name,
-        libraryName: null,
-        isLibrary: false,
-        modes: lc.modes.map((m) => ({ modeId: m.modeId, modeName: m.name }))
-      });
-    }
-  } catch (e) {
-  }
-  return sources;
-}
 function findDefaultCollection(sources) {
-  const intUiKit = sources.find((s) => s.isLibrary && s.libraryName != null);
-  if (intUiKit) return intUiKit;
   return sources.length > 0 ? sources[0] : null;
-}
-async function loadLibraryCollectionModes2(collectionKey) {
-  return loadLibraryCollectionModes(collectionKey);
-}
-async function loadVariablesFromLibrary(collectionKey, modeId, onProgress) {
-  return loadAndResolveLibraryColorVariables(collectionKey, modeId, onProgress);
-}
-async function loadVariablesFromLocal(collectionId, modeId) {
-  var _a, _b;
-  const allVars = await figma.variables.getLocalVariablesAsync("COLOR");
-  const filtered = allVars.filter((v) => v.variableCollectionId === collectionId);
-  const collection = await figma.variables.getVariableCollectionByIdAsync(collectionId);
-  if (!collection) return [];
-  const effectiveModeId = modeId != null ? modeId : (_a = collection.modes[0]) == null ? void 0 : _a.modeId;
-  if (!effectiveModeId) return [];
-  const candidates = [];
-  for (const variable of filtered) {
-    try {
-      const resolved = await resolveChainForMode(variable, effectiveModeId);
-      if (!resolved.finalHex) continue;
-      const hex = resolved.finalHex;
-      const r = parseInt(hex.slice(1, 3), 16) / 255;
-      const g = parseInt(hex.slice(3, 5), 16) / 255;
-      const b = parseInt(hex.slice(5, 7), 16) / 255;
-      candidates.push({
-        variableId: variable.id,
-        variableKey: "",
-        variableName: variable.name,
-        collectionKey: collectionId,
-        collectionName: collection.name,
-        hex,
-        r,
-        g,
-        b,
-        opacityPercent: (_b = resolved.finalOpacityPercent) != null ? _b : 100
-      });
-    } catch (e) {
-    }
-  }
-  return candidates;
 }
 var init_variables = __esm({
   "src/app/tools/find-color-match/variables.ts"() {
     "use strict";
-    init_variable_chain();
-    init_caching();
     init_resolve3();
+    init_constants2();
+  }
+});
+
+// src/app/tools/int-ui-kit-library/cache.ts
+function cacheKey(collectionKey, modeId) {
+  return `${collectionKey}:${modeId != null ? modeId : "default"}`;
+}
+async function computeFingerprint(collectionKey) {
+  const vars = await figma.teamLibrary.getVariablesInLibraryCollectionAsync(collectionKey);
+  const colorKeys = vars.filter((v) => v.resolvedType === "COLOR").map((v) => v.key).sort();
+  return `${colorKeys.length}:${colorKeys.join(",")}`;
+}
+async function getCachedCollections(forceRefresh = false) {
+  if (collectionsCache && !forceRefresh) return collectionsCache;
+  collectionsCache = await discoverIntUiKitCollections();
+  return collectionsCache;
+}
+async function ensureCollectionModes(collection) {
+  if (collection.modes.length > 0) return;
+  collection.modes = await loadLibraryCollectionModes(collection.key);
+}
+function getCachedVariablesSync(collectionKey, modeId) {
+  var _a, _b;
+  return (_b = (_a = variableCache2.get(cacheKey(collectionKey, modeId))) == null ? void 0 : _a.variables) != null ? _b : null;
+}
+async function getVariables(collectionKey, modeId, onStatus, onProgress) {
+  const key = cacheKey(collectionKey, modeId);
+  const existing = variableCache2.get(key);
+  if (existing) {
+    onStatus == null ? void 0 : onStatus({ state: "checking" });
+    try {
+      const fp = await computeFingerprint(collectionKey);
+      if (fp === existing.fingerprint) {
+        console.log(`[LibCache] Cache hit for ${key} (fingerprint match)`);
+        onStatus == null ? void 0 : onStatus({ state: "ready" });
+        return existing.variables;
+      }
+      console.log(`[LibCache] Fingerprint changed for ${key}, reloading\u2026`);
+    } catch (e) {
+      console.warn("[LibCache] Fingerprint check failed, returning cached data:", e);
+      onStatus == null ? void 0 : onStatus({ state: "ready" });
+      return existing.variables;
+    }
+  }
+  onStatus == null ? void 0 : onStatus({ state: "updating", current: 0, total: 0, message: "Loading library\u2026" });
+  const variables = await loadAndResolveLibraryColorVariables(
+    collectionKey,
+    modeId,
+    (p) => {
+      onStatus == null ? void 0 : onStatus({ state: "updating", current: p.current, total: p.total, message: p.message });
+      onProgress == null ? void 0 : onProgress(p);
+    }
+  );
+  let fingerprint = "";
+  try {
+    fingerprint = await computeFingerprint(collectionKey);
+  } catch (e) {
+  }
+  variableCache2.set(key, { variables, fingerprint, timestamp: Date.now() });
+  console.log(`[LibCache] Cached ${variables.length} variables for ${key}`);
+  onStatus == null ? void 0 : onStatus({ state: "ready" });
+  return variables;
+}
+var collectionsCache, variableCache2;
+var init_cache = __esm({
+  "src/app/tools/int-ui-kit-library/cache.ts"() {
+    "use strict";
+    init_resolve3();
+    collectionsCache = null;
+    variableCache2 = /* @__PURE__ */ new Map();
   }
 });
 
@@ -40554,18 +40899,33 @@ function registerFindColorMatchTool(getActiveTool) {
   let collectionSources = [];
   let activeCollectionKey = null;
   let activeModeId = null;
-  let candidateCache = [];
-  let candidateCacheKey = "";
+  let activeGroupPrefix = null;
+  let backgroundCheckPromise = null;
+  const groupsPerCollection = {};
   const sendError = (message) => {
     figma.ui.postMessage({ type: MAIN_TO_UI.ERROR, message });
   };
+  const sendCacheStatus = (status) => {
+    figma.ui.postMessage({ type: MAIN_TO_UI.LIBRARY_CACHE_STATUS, status });
+  };
   const sendCollections = async () => {
     var _a, _b, _c;
-    collectionSources = await discoverCollectionSources();
+    const colorKeySet = new Set(INT_UI_KIT_COLOR_COLLECTION_KEYS);
+    const allCollections = await getCachedCollections();
+    collectionSources = allCollections.filter((lc) => colorKeySet.has(lc.key)).map((lc) => ({
+      key: lc.key,
+      name: lc.name,
+      libraryName: lc.libraryName,
+      isLibrary: true,
+      modes: lc.modes
+    }));
     const defaultCollection = findDefaultCollection(collectionSources);
-    if (defaultCollection && defaultCollection.isLibrary && defaultCollection.modes.length === 0) {
-      const modes = await loadLibraryCollectionModes2(defaultCollection.key);
-      defaultCollection.modes = modes;
+    if (defaultCollection && defaultCollection.modes.length === 0) {
+      const col = allCollections.find((c) => c.key === defaultCollection.key);
+      if (col) {
+        await ensureCollectionModes(col);
+        defaultCollection.modes = col.modes;
+      }
     }
     activeCollectionKey = (_a = defaultCollection == null ? void 0 : defaultCollection.key) != null ? _a : null;
     activeModeId = (_c = (_b = defaultCollection == null ? void 0 : defaultCollection.modes[0]) == null ? void 0 : _b.modeId) != null ? _c : null;
@@ -40583,53 +40943,68 @@ function registerFindColorMatchTool(getActiveTool) {
       }
     });
   };
+  const extractGroups = (candidates) => {
+    const seen = /* @__PURE__ */ new Set();
+    const result = [];
+    for (const c of candidates) {
+      const slashIdx = c.variableName.indexOf("/");
+      if (slashIdx > 0) {
+        const group = c.variableName.substring(0, slashIdx);
+        if (!seen.has(group)) {
+          seen.add(group);
+          result.push(group);
+        }
+      }
+    }
+    return result;
+  };
+  const sendAllGroups = () => {
+    figma.ui.postMessage({
+      type: MAIN_TO_UI.FIND_COLOR_MATCH_GROUPS,
+      groupsByCollection: __spreadValues({}, groupsPerCollection)
+    });
+  };
+  const discoverAllGroups = async () => {
+    var _a, _b;
+    for (const source of collectionSources) {
+      if (groupsPerCollection[source.key]) continue;
+      const modeId = (_b = (_a = source.modes[0]) == null ? void 0 : _a.modeId) != null ? _b : null;
+      let candidates = getCachedVariablesSync(source.key, modeId);
+      if (!candidates || candidates.length === 0) {
+        try {
+          candidates = await getVariables(source.key, modeId, sendCacheStatus);
+        } catch (e) {
+          continue;
+        }
+      }
+      groupsPerCollection[source.key] = extractGroups(candidates);
+    }
+    sendAllGroups();
+  };
+  const getFilteredCandidates = (candidates) => {
+    if (!activeGroupPrefix) return candidates;
+    const prefix = activeGroupPrefix + "/";
+    return candidates.filter((c) => c.variableName.startsWith(prefix));
+  };
   const loadCandidates = async () => {
     if (!activeCollectionKey) return [];
-    const cacheKey = `${activeCollectionKey}:${activeModeId != null ? activeModeId : "default"}`;
-    if (cacheKey === candidateCacheKey && candidateCache.length > 0) {
-      return candidateCache;
+    const candidates = await getVariables(
+      activeCollectionKey,
+      activeModeId,
+      sendCacheStatus
+    );
+    const newGroups = extractGroups(candidates);
+    const prev = groupsPerCollection[activeCollectionKey];
+    if (!prev || prev.length !== newGroups.length || prev.some((g, i) => g !== newGroups[i])) {
+      groupsPerCollection[activeCollectionKey] = newGroups;
+      sendAllGroups();
     }
-    const source = collectionSources.find((s) => s.key === activeCollectionKey);
-    if (!source) return [];
-    let candidates;
-    if (source.isLibrary) {
-      candidates = await loadVariablesFromLibrary(
-        activeCollectionKey,
-        activeModeId,
-        (progress) => {
-          figma.ui.postMessage({
-            type: MAIN_TO_UI.FIND_COLOR_MATCH_PROGRESS,
-            progress
-          });
-        }
-      );
-    } else {
-      candidates = await loadVariablesFromLocal(activeCollectionKey, activeModeId);
-    }
-    candidateCache = candidates;
-    candidateCacheKey = cacheKey;
     return candidates;
   };
-  const runScan = async () => {
-    if (getActiveTool() !== "find-color-match-tool") return;
-    if (figma.currentPage.selection.length === 0) {
-      figma.ui.postMessage({
-        type: MAIN_TO_UI.FIND_COLOR_MATCH_RESULT,
-        payload: { entries: [], collectionKey: activeCollectionKey != null ? activeCollectionKey : "", modeId: activeModeId }
-      });
-      return;
-    }
-    const foundColors = await scanSelectionForUnboundColors();
-    if (foundColors.length === 0) {
-      figma.ui.postMessage({
-        type: MAIN_TO_UI.FIND_COLOR_MATCH_RESULT,
-        payload: { entries: [], collectionKey: activeCollectionKey != null ? activeCollectionKey : "", modeId: activeModeId }
-      });
-      return;
-    }
-    const candidates = await loadCandidates();
-    const matches = findBestMatches(foundColors, candidates);
-    const entries = matches.map((m) => ({
+  const buildEntries = (foundColors, candidates) => {
+    const filtered = getFilteredCandidates(candidates);
+    const matches = findBestMatches(foundColors, filtered);
+    return matches.map((m) => ({
       found: {
         hex: m.found.hex,
         r: m.found.r,
@@ -40647,7 +41022,7 @@ function registerFindColorMatchTool(getActiveTool) {
         variableName: m.bestMatch.variableName,
         hex: m.bestMatch.hex,
         opacityPercent: m.bestMatch.opacityPercent,
-        diffPercent: m.diffPercent
+        matchPercent: m.matchPercent
       } : null,
       allMatches: m.allMatches.map((am) => ({
         variableId: am.candidate.variableId,
@@ -40655,12 +41030,98 @@ function registerFindColorMatchTool(getActiveTool) {
         variableName: am.candidate.variableName,
         hex: am.candidate.hex,
         opacityPercent: am.candidate.opacityPercent,
-        diffPercent: am.diffPercent
+        matchPercent: am.matchPercent
       }))
     }));
+  };
+  const sendEmptyResult = () => {
+    figma.ui.postMessage({
+      type: MAIN_TO_UI.FIND_COLOR_MATCH_RESULT,
+      payload: { entries: [], collectionKey: activeCollectionKey != null ? activeCollectionKey : "", modeId: activeModeId }
+    });
+  };
+  const runScan = async () => {
+    if (getActiveTool() !== "find-color-match-tool") return;
+    if (figma.currentPage.selection.length === 0) {
+      sendEmptyResult();
+      return;
+    }
+    const foundColors = await scanSelectionForUnboundColors();
+    if (foundColors.length === 0) {
+      sendEmptyResult();
+      return;
+    }
+    const allCandidates = await loadCandidates();
+    const entries = buildEntries(foundColors, allCandidates);
     figma.ui.postMessage({
       type: MAIN_TO_UI.FIND_COLOR_MATCH_RESULT,
       payload: { entries, collectionKey: activeCollectionKey != null ? activeCollectionKey : "", modeId: activeModeId }
+    });
+  };
+  const runScanFromCacheSync = async () => {
+    if (!activeCollectionKey) return false;
+    const cached = getCachedVariablesSync(activeCollectionKey, activeModeId);
+    if (!cached || cached.length === 0) return false;
+    const newGroups = extractGroups(cached);
+    const prev = groupsPerCollection[activeCollectionKey];
+    if (!prev || prev.length !== newGroups.length || prev.some((g, i) => g !== newGroups[i])) {
+      groupsPerCollection[activeCollectionKey] = newGroups;
+      sendAllGroups();
+    }
+    if (figma.currentPage.selection.length === 0) {
+      sendEmptyResult();
+      return true;
+    }
+    const foundColors = await scanSelectionForUnboundColors();
+    if (foundColors.length === 0) {
+      sendEmptyResult();
+      return true;
+    }
+    const entries = buildEntries(foundColors, cached);
+    figma.ui.postMessage({
+      type: MAIN_TO_UI.FIND_COLOR_MATCH_RESULT,
+      payload: { entries, collectionKey: activeCollectionKey != null ? activeCollectionKey : "", modeId: activeModeId }
+    });
+    return true;
+  };
+  const backgroundCacheCheck = () => {
+    if (backgroundCheckPromise) return;
+    backgroundCheckPromise = (async () => {
+      try {
+        const previousCached = getCachedVariablesSync(activeCollectionKey, activeModeId);
+        const fresh = await loadCandidates();
+        if (previousCached && fresh !== previousCached && fresh.length > 0) {
+          console.log("[Find Color Match] Library data updated, re-scanning\u2026");
+          await runScan();
+        }
+      } catch (e) {
+        console.warn("[Find Color Match] Background cache check failed:", e);
+      } finally {
+        backgroundCheckPromise = null;
+        sendCacheStatus({ state: "idle" });
+      }
+    })();
+  };
+  const runHexLookup = async (hex) => {
+    const allCandidates = await loadCandidates();
+    const candidates = getFilteredCandidates(allCandidates);
+    if (candidates.length === 0) return;
+    const r = parseInt(hex.slice(1, 3), 16) / 255;
+    const g = parseInt(hex.slice(3, 5), 16) / 255;
+    const b = parseInt(hex.slice(5, 7), 16) / 255;
+    const inputColor = { r, g, b };
+    const scored = candidates.map((c) => ({ candidate: c, distance: deltaE(inputColor, c) })).sort((a, b2) => a.distance - b2.distance).slice(0, 10);
+    const allMatches = scored.map((s) => ({
+      variableId: s.candidate.variableId,
+      variableKey: s.candidate.variableKey,
+      variableName: s.candidate.variableName,
+      hex: s.candidate.hex,
+      opacityPercent: s.candidate.opacityPercent,
+      matchPercent: matchPercent(s.distance)
+    }));
+    figma.ui.postMessage({
+      type: MAIN_TO_UI.FIND_COLOR_MATCH_HEX_RESULT,
+      payload: { hex, allMatches }
     });
   };
   const scheduleUpdate = () => {
@@ -40681,13 +41142,15 @@ function registerFindColorMatchTool(getActiveTool) {
       }
       if (msg.type === UI_TO_MAIN.FIND_COLOR_MATCH_SET_COLLECTION) {
         activeCollectionKey = msg.collectionKey;
-        candidateCache = [];
-        candidateCacheKey = "";
+        activeGroupPrefix = null;
         const source = collectionSources.find((s) => s.key === msg.collectionKey);
         if (source) {
-          if (source.isLibrary && source.modes.length === 0) {
-            const modes = await loadLibraryCollectionModes2(msg.collectionKey);
-            source.modes = modes;
+          if (source.modes.length === 0) {
+            const col = (await getCachedCollections()).find((c) => c.key === msg.collectionKey);
+            if (col) {
+              await ensureCollectionModes(col);
+              source.modes = col.modes;
+            }
           }
           activeModeId = (_b = (_a = source.modes[0]) == null ? void 0 : _a.modeId) != null ? _b : null;
           figma.ui.postMessage({
@@ -40709,8 +41172,7 @@ function registerFindColorMatchTool(getActiveTool) {
       }
       if (msg.type === UI_TO_MAIN.FIND_COLOR_MATCH_SET_MODE) {
         activeModeId = msg.modeId;
-        candidateCache = [];
-        candidateCacheKey = "";
+        activeGroupPrefix = null;
         await runScan();
         return true;
       }
@@ -40736,6 +41198,15 @@ function registerFindColorMatchTool(getActiveTool) {
         }
         return true;
       }
+      if (msg.type === UI_TO_MAIN.FIND_COLOR_MATCH_HEX_LOOKUP) {
+        await runHexLookup(msg.hex);
+        return true;
+      }
+      if (msg.type === UI_TO_MAIN.FIND_COLOR_MATCH_SET_GROUP) {
+        activeGroupPrefix = msg.group;
+        await runScan();
+        return true;
+      }
     } catch (e) {
       sendError(e instanceof Error ? e.message : String(e));
     }
@@ -40744,7 +41215,13 @@ function registerFindColorMatchTool(getActiveTool) {
   return {
     onActivate: async () => {
       await sendCollections();
-      scheduleUpdate();
+      await discoverAllGroups();
+      const servedFromCache = await runScanFromCacheSync();
+      if (servedFromCache) {
+        backgroundCacheCheck();
+      } else {
+        await runScan();
+      }
     },
     onMessage
   };
@@ -40757,6 +41234,476 @@ var init_main_thread9 = __esm({
     init_match();
     init_apply2();
     init_variables();
+    init_cache();
+    init_constants2();
+  }
+});
+
+// src/app/tools/automations/types.ts
+function getActionDefinition(type) {
+  return ACTION_DEFINITIONS.find((d) => d.type === type);
+}
+var ACTION_DEFINITIONS, ALL_ACTION_TYPES;
+var init_types = __esm({
+  "src/app/tools/automations/types.ts"() {
+    "use strict";
+    ACTION_DEFINITIONS = [
+      {
+        type: "selectByType",
+        label: "Select by type",
+        description: "Filter current selection to only nodes of a given type",
+        defaultParams: { nodeType: "TEXT" }
+      },
+      {
+        type: "selectByName",
+        label: "Select by name",
+        description: "Filter selection by name pattern",
+        defaultParams: { pattern: "", matchMode: "contains" }
+      },
+      {
+        type: "expandToChildren",
+        label: "Expand to children",
+        description: "Replace selection with all direct children",
+        defaultParams: {}
+      },
+      {
+        type: "renameLayers",
+        label: "Rename layers",
+        description: "Find/replace in selected layer names",
+        defaultParams: { find: "", replace: "" }
+      },
+      {
+        type: "setFillColor",
+        label: "Set fill color",
+        description: "Set fill to a specific hex color",
+        defaultParams: { hex: "#000000" }
+      },
+      {
+        type: "setFillVariable",
+        label: "Set fill variable",
+        description: "Bind fill to a variable by name",
+        defaultParams: { variableName: "" }
+      },
+      {
+        type: "setOpacity",
+        label: "Set opacity",
+        description: "Set opacity on selected nodes (0\u2013100)",
+        defaultParams: { opacity: 100 }
+      },
+      {
+        type: "notify",
+        label: "Notify",
+        description: "Show a Figma notification message",
+        defaultParams: { message: "" }
+      }
+    ];
+    ALL_ACTION_TYPES = ACTION_DEFINITIONS.map((d) => d.type);
+  }
+});
+
+// src/app/tools/automations/storage.ts
+async function loadAutomations() {
+  const raw = await figma.clientStorage.getAsync(STORAGE_KEY2);
+  if (!Array.isArray(raw)) return [];
+  return raw.filter(isValidAutomation);
+}
+async function saveAutomations(automations) {
+  await figma.clientStorage.setAsync(STORAGE_KEY2, automations);
+}
+async function getAutomation(id) {
+  var _a;
+  const all = await loadAutomations();
+  return (_a = all.find((a) => a.id === id)) != null ? _a : null;
+}
+async function saveAutomation(automation) {
+  const all = await loadAutomations();
+  const idx = all.findIndex((a) => a.id === automation.id);
+  if (idx >= 0) {
+    all[idx] = automation;
+  } else {
+    all.push(automation);
+  }
+  await saveAutomations(all);
+}
+async function deleteAutomation(id) {
+  const all = await loadAutomations();
+  await saveAutomations(all.filter((a) => a.id !== id));
+}
+function isValidAutomation(value) {
+  if (!value || typeof value !== "object") return false;
+  const obj = value;
+  return typeof obj.id === "string" && typeof obj.name === "string" && Array.isArray(obj.steps) && typeof obj.createdAt === "number" && typeof obj.updatedAt === "number";
+}
+var STORAGE_KEY2;
+var init_storage = __esm({
+  "src/app/tools/automations/storage.ts"() {
+    "use strict";
+    init_types();
+    STORAGE_KEY2 = "automations_v1";
+  }
+});
+
+// src/app/tools/automations/actions/selection-actions.ts
+async function selectByType(params) {
+  var _a;
+  const nodeType = String((_a = params.nodeType) != null ? _a : "TEXT");
+  const selection = figma.currentPage.selection;
+  if (selection.length === 0) return "No selection to filter";
+  const allNodes = [];
+  for (const node of selection) {
+    collectAllDescendants(node, allNodes);
+  }
+  const filtered = allNodes.filter((n) => n.type === nodeType);
+  figma.currentPage.selection = filtered;
+  return `Selected ${filtered.length} ${nodeType} node(s)`;
+}
+async function selectByName(params) {
+  var _a, _b;
+  const pattern = String((_a = params.pattern) != null ? _a : "");
+  const matchMode = (_b = params.matchMode) != null ? _b : "contains";
+  if (!pattern) return "No pattern specified";
+  const selection = figma.currentPage.selection;
+  if (selection.length === 0) return "No selection to filter";
+  const allNodes = [];
+  for (const node of selection) {
+    collectAllDescendants(node, allNodes);
+  }
+  const filtered = allNodes.filter((n) => matchesName(n.name, pattern, matchMode));
+  figma.currentPage.selection = filtered;
+  return `Selected ${filtered.length} node(s) matching "${pattern}"`;
+}
+async function expandToChildren(_params) {
+  const selection = figma.currentPage.selection;
+  if (selection.length === 0) return "No selection to expand";
+  const children = [];
+  for (const node of selection) {
+    if ("children" in node) {
+      for (const child of node.children) {
+        children.push(child);
+      }
+    }
+  }
+  figma.currentPage.selection = children;
+  return `Expanded to ${children.length} children`;
+}
+function collectAllDescendants(node, out) {
+  out.push(node);
+  if ("children" in node) {
+    for (const child of node.children) {
+      collectAllDescendants(child, out);
+    }
+  }
+}
+function matchesName(name, pattern, mode) {
+  switch (mode) {
+    case "contains":
+      return name.toLowerCase().includes(pattern.toLowerCase());
+    case "startsWith":
+      return name.toLowerCase().startsWith(pattern.toLowerCase());
+    case "regex":
+      try {
+        return new RegExp(pattern, "i").test(name);
+      } catch (e) {
+        return false;
+      }
+    default:
+      return false;
+  }
+}
+var init_selection_actions = __esm({
+  "src/app/tools/automations/actions/selection-actions.ts"() {
+    "use strict";
+  }
+});
+
+// src/app/tools/automations/actions/property-actions.ts
+async function renameLayers(params) {
+  var _a, _b;
+  const find = String((_a = params.find) != null ? _a : "");
+  const replace = String((_b = params.replace) != null ? _b : "");
+  if (!find) return "No find pattern specified";
+  const selection = figma.currentPage.selection;
+  if (selection.length === 0) return "No selection";
+  let renamed = 0;
+  for (const node of selection) {
+    if (node.name.includes(find)) {
+      node.name = node.name.split(find).join(replace);
+      renamed++;
+    }
+  }
+  return `Renamed ${renamed} layer(s)`;
+}
+async function setFillColor(params) {
+  var _a;
+  const hex = String((_a = params.hex) != null ? _a : "#000000").replace(/^#/, "");
+  const r = parseInt(hex.slice(0, 2), 16) / 255;
+  const g = parseInt(hex.slice(2, 4), 16) / 255;
+  const b = parseInt(hex.slice(4, 6), 16) / 255;
+  if (isNaN(r) || isNaN(g) || isNaN(b)) return "Invalid hex color";
+  const selection = figma.currentPage.selection;
+  if (selection.length === 0) return "No selection";
+  let applied = 0;
+  for (const node of selection) {
+    if ("fills" in node) {
+      const fillsNode = node;
+      fillsNode.fills = [{ type: "SOLID", color: { r, g, b } }];
+      applied++;
+    }
+  }
+  return `Applied fill #${hex} to ${applied} node(s)`;
+}
+async function setFillVariable(params) {
+  var _a;
+  const variableName = String((_a = params.variableName) != null ? _a : "").trim();
+  if (!variableName) return "No variable name specified";
+  const selection = figma.currentPage.selection;
+  if (selection.length === 0) return "No selection";
+  const variables = await figma.variables.getLocalVariablesAsync("COLOR");
+  const variable = variables.find((v) => v.name === variableName);
+  if (!variable) return `Variable "${variableName}" not found`;
+  let applied = 0;
+  for (const node of selection) {
+    if ("fills" in node) {
+      const fillsNode = node;
+      const solidFill = { type: "SOLID", color: { r: 0, g: 0, b: 0 } };
+      const fill = figma.variables.setBoundVariableForPaint(solidFill, "color", variable);
+      fillsNode.fills = [fill];
+      applied++;
+    }
+  }
+  return `Bound variable "${variableName}" on ${applied} node(s)`;
+}
+async function setOpacity(params) {
+  var _a;
+  const opacity = Math.max(0, Math.min(100, Number((_a = params.opacity) != null ? _a : 100)));
+  const selection = figma.currentPage.selection;
+  if (selection.length === 0) return "No selection";
+  let applied = 0;
+  for (const node of selection) {
+    if ("opacity" in node) {
+      ;
+      node.opacity = opacity / 100;
+      applied++;
+    }
+  }
+  return `Set opacity ${opacity}% on ${applied} node(s)`;
+}
+async function notifyAction(params) {
+  var _a;
+  const message = String((_a = params.message) != null ? _a : "").trim();
+  if (!message) return "No message specified";
+  figma.notify(message);
+  return `Notification shown: "${message}"`;
+}
+var init_property_actions = __esm({
+  "src/app/tools/automations/actions/property-actions.ts"() {
+    "use strict";
+  }
+});
+
+// src/app/tools/automations/executor.ts
+function requestStop() {
+  stopRequested = true;
+}
+async function executeAutomation(automation) {
+  var _a;
+  stopRequested = false;
+  const enabledSteps = automation.steps.filter((s) => s.enabled);
+  if (enabledSteps.length === 0) {
+    return { success: true, message: "No enabled steps to run", stepsCompleted: 0, errors: [] };
+  }
+  const errors = [];
+  let stepsCompleted = 0;
+  for (let i = 0; i < enabledSteps.length; i++) {
+    if (stopRequested) {
+      return {
+        success: false,
+        message: `Stopped after ${stepsCompleted} of ${enabledSteps.length} steps`,
+        stepsCompleted,
+        errors
+      };
+    }
+    const step = enabledSteps[i];
+    const definition = getActionDefinition(step.actionType);
+    const stepName = (_a = definition == null ? void 0 : definition.label) != null ? _a : step.actionType;
+    figma.ui.postMessage({
+      type: MAIN_TO_UI.AUTOMATIONS_RUN_PROGRESS,
+      progress: {
+        automationName: automation.name,
+        currentStep: i + 1,
+        totalSteps: enabledSteps.length,
+        stepName,
+        status: "running"
+      }
+    });
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    const runner = ACTION_RUNNERS[step.actionType];
+    if (!runner) {
+      errors.push(`Step ${i + 1} (${stepName}): Unknown action type "${step.actionType}"`);
+      continue;
+    }
+    try {
+      await runner(step.params);
+      stepsCompleted++;
+    } catch (e) {
+      const errorMsg = e instanceof Error ? e.message : String(e);
+      errors.push(`Step ${i + 1} (${stepName}): ${errorMsg}`);
+    }
+    await new Promise((resolve) => setTimeout(resolve, 0));
+  }
+  const success = errors.length === 0;
+  const message = success ? `Completed ${stepsCompleted} step(s) successfully` : `Completed with ${errors.length} error(s)`;
+  return { success, message, stepsCompleted, errors };
+}
+var ACTION_RUNNERS, stopRequested;
+var init_executor = __esm({
+  "src/app/tools/automations/executor.ts"() {
+    "use strict";
+    init_types();
+    init_selection_actions();
+    init_property_actions();
+    init_messages();
+    ACTION_RUNNERS = {
+      selectByType,
+      selectByName,
+      expandToChildren,
+      renameLayers,
+      setFillColor,
+      setFillVariable,
+      setOpacity,
+      notify: notifyAction
+    };
+    stopRequested = false;
+  }
+});
+
+// src/app/tools/automations/main-thread.ts
+function registerAutomationsTool(getActiveTool) {
+  const sendList = async () => {
+    if (getActiveTool() !== "automations-tool") return;
+    const automations = await loadAutomations();
+    figma.ui.postMessage({
+      type: MAIN_TO_UI.AUTOMATIONS_LIST,
+      automations: automations.map((a) => ({
+        id: a.id,
+        name: a.name,
+        stepCount: a.steps.length,
+        createdAt: a.createdAt,
+        updatedAt: a.updatedAt
+      }))
+    });
+  };
+  const onMessage = async (msg) => {
+    try {
+      if (msg.type === UI_TO_MAIN.AUTOMATIONS_LOAD) {
+        await sendList();
+        return true;
+      }
+      if (msg.type === UI_TO_MAIN.AUTOMATIONS_GET) {
+        const automation = await getAutomation(msg.automationId);
+        figma.ui.postMessage({
+          type: MAIN_TO_UI.AUTOMATIONS_FULL,
+          automation: automation ? automationToPayload(automation) : null
+        });
+        return true;
+      }
+      if (msg.type === UI_TO_MAIN.AUTOMATIONS_SAVE) {
+        const automation = payloadToAutomation(msg.automation);
+        automation.updatedAt = Date.now();
+        await saveAutomation(automation);
+        figma.ui.postMessage({
+          type: MAIN_TO_UI.AUTOMATIONS_SAVED,
+          automation: automationToPayload(automation)
+        });
+        return true;
+      }
+      if (msg.type === UI_TO_MAIN.AUTOMATIONS_DELETE) {
+        await deleteAutomation(msg.automationId);
+        await sendList();
+        return true;
+      }
+      if (msg.type === UI_TO_MAIN.AUTOMATIONS_RUN) {
+        const automation = await getAutomation(msg.automationId);
+        if (!automation) {
+          figma.ui.postMessage({
+            type: MAIN_TO_UI.AUTOMATIONS_RUN_RESULT,
+            result: {
+              success: false,
+              message: "Automation not found",
+              stepsCompleted: 0,
+              totalSteps: 0,
+              errors: ["Automation not found"]
+            }
+          });
+          return true;
+        }
+        const result = await executeAutomation(automation);
+        figma.ui.postMessage({
+          type: MAIN_TO_UI.AUTOMATIONS_RUN_RESULT,
+          result: __spreadProps(__spreadValues({}, result), {
+            totalSteps: automation.steps.filter((s) => s.enabled).length
+          })
+        });
+        if (result.success) {
+          figma.notify(`${automation.name}: ${result.message}`);
+        } else if (result.errors.length > 0) {
+          figma.notify(`${automation.name}: ${result.errors[0]}`, { error: true });
+        }
+        return true;
+      }
+      if (msg.type === UI_TO_MAIN.AUTOMATIONS_STOP) {
+        requestStop();
+        return true;
+      }
+    } catch (e) {
+      figma.ui.postMessage({
+        type: MAIN_TO_UI.ERROR,
+        message: e instanceof Error ? e.message : String(e)
+      });
+    }
+    return false;
+  };
+  return {
+    onActivate: async () => {
+      await sendList();
+    },
+    onMessage
+  };
+}
+function payloadToAutomation(payload) {
+  return {
+    id: payload.id,
+    name: payload.name,
+    steps: payload.steps.map((s) => ({
+      id: s.id,
+      actionType: s.actionType,
+      params: s.params,
+      enabled: s.enabled
+    })),
+    createdAt: payload.createdAt,
+    updatedAt: payload.updatedAt
+  };
+}
+function automationToPayload(automation) {
+  return {
+    id: automation.id,
+    name: automation.name,
+    steps: automation.steps.map((s) => ({
+      id: s.id,
+      actionType: s.actionType,
+      params: s.params,
+      enabled: s.enabled
+    })),
+    createdAt: automation.createdAt,
+    updatedAt: automation.updatedAt
+  };
+}
+var init_main_thread10 = __esm({
+  "src/app/tools/automations/main-thread.ts"() {
+    "use strict";
+    init_messages();
+    init_storage();
+    init_executor();
   }
 });
 
@@ -40781,6 +41728,8 @@ function getToolTitle(command) {
       return "Variables Replace Usages";
     case "find-color-match-tool":
       return "Find Color Match";
+    case "automations-tool":
+      return "Automations";
     default:
       return "Int UI Design Tools";
   }
@@ -40803,7 +41752,8 @@ function run(command) {
     "variables-batch-rename-tool",
     "variables-create-linked-colors-tool",
     "variables-replace-usages-tool",
-    "find-color-match-tool"
+    "find-color-match-tool",
+    "automations-tool"
   ];
   let activeTool = toolCommands.includes(command) ? command : "home";
   const getActiveTool = () => activeTool;
@@ -40816,6 +41766,7 @@ function run(command) {
   const variablesCreateLinkedColors = registerVariablesCreateLinkedColorsTool(getActiveTool);
   const variablesReplaceUsages = registerVariablesReplaceUsagesTool(getActiveTool);
   const findColorMatch = registerFindColorMatchTool(getActiveTool);
+  const automations = registerAutomationsTool(getActiveTool);
   const activate = async (tool) => {
     activeTool = tool;
     if (tool === "mockup-markup-tool") {
@@ -40854,6 +41805,10 @@ function run(command) {
       await findColorMatch.onActivate();
       return;
     }
+    if (tool === "automations-tool") {
+      await automations.onActivate();
+      return;
+    }
   };
   figma.ui.onmessage = async (msg) => {
     try {
@@ -40879,6 +41834,7 @@ function run(command) {
       if (await variablesCreateLinkedColors.onMessage(msg)) return;
       if (await variablesReplaceUsages.onMessage(msg)) return;
       if (await findColorMatch.onMessage(msg)) return;
+      if (await automations.onMessage(msg)) return;
     } catch (e) {
       console.log("[run] Unhandled error in onmessage", e);
       try {
@@ -40902,6 +41858,7 @@ var init_run = __esm({
     init_main_thread7();
     init_main_thread8();
     init_main_thread9();
+    init_main_thread10();
   }
 });
 
@@ -41055,7 +42012,22 @@ var init_main10 = __esm({
   }
 });
 
+// src/automations-tool/main.ts
+var main_exports11 = {};
+__export(main_exports11, {
+  default: () => main_default11
+});
+function main_default11() {
+  run("automations-tool");
+}
+var init_main11 = __esm({
+  "src/automations-tool/main.ts"() {
+    "use strict";
+    init_run();
+  }
+});
+
 // <stdin>
-var modules = { "src/home/main.ts--default": (init_main(), __toCommonJS(main_exports))["default"], "src/mockup-markup-tool/main.ts--default": (init_main2(), __toCommonJS(main_exports2))["default"], "src/color-chain-tool/main.ts--default": (init_main3(), __toCommonJS(main_exports3))["default"], "src/library-swap-tool/main.ts--default": (init_main4(), __toCommonJS(main_exports4))["default"], "src/print-color-usages-tool/main.ts--default": (init_main5(), __toCommonJS(main_exports5))["default"], "src/variables-export-import-tool/main.ts--default": (init_main6(), __toCommonJS(main_exports6))["default"], "src/variables-batch-rename-tool/main.ts--default": (init_main7(), __toCommonJS(main_exports7))["default"], "src/variables-create-linked-colors-tool/main.ts--default": (init_main8(), __toCommonJS(main_exports8))["default"], "src/variables-replace-usages-tool/main.ts--default": (init_main9(), __toCommonJS(main_exports9))["default"], "src/find-color-match-tool/main.ts--default": (init_main10(), __toCommonJS(main_exports10))["default"] };
+var modules = { "src/home/main.ts--default": (init_main(), __toCommonJS(main_exports))["default"], "src/mockup-markup-tool/main.ts--default": (init_main2(), __toCommonJS(main_exports2))["default"], "src/color-chain-tool/main.ts--default": (init_main3(), __toCommonJS(main_exports3))["default"], "src/library-swap-tool/main.ts--default": (init_main4(), __toCommonJS(main_exports4))["default"], "src/print-color-usages-tool/main.ts--default": (init_main5(), __toCommonJS(main_exports5))["default"], "src/variables-export-import-tool/main.ts--default": (init_main6(), __toCommonJS(main_exports6))["default"], "src/variables-batch-rename-tool/main.ts--default": (init_main7(), __toCommonJS(main_exports7))["default"], "src/variables-create-linked-colors-tool/main.ts--default": (init_main8(), __toCommonJS(main_exports8))["default"], "src/variables-replace-usages-tool/main.ts--default": (init_main9(), __toCommonJS(main_exports9))["default"], "src/find-color-match-tool/main.ts--default": (init_main10(), __toCommonJS(main_exports10))["default"], "src/automations-tool/main.ts--default": (init_main11(), __toCommonJS(main_exports11))["default"] };
 var commandId = typeof figma.command === "undefined" || figma.command === "" || figma.command === "generate" ? "src/home/main.ts--default" : figma.command;
 modules[commandId]();

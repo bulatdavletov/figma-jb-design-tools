@@ -637,7 +637,10 @@
     "b7d73b53b46b634b823b8c46e8354d684d2794f6": "65fa0a46f6f049068c4b421e814e09daffbd8bc5",
     "c495835fba151e1f13fbde02afd820a7d893ec2e": "f2e16db5233979587670a833aa9b6badba115941",
     "36831a010d161361716995e930e25931496c25e0": "f2e16db5233979587670a833aa9b6badba115941",
-    "96bdcaedc645659f0b7566bb40bf20f990ba7572": "65fa0a46f6f049068c4b421e814e09daffbd8bc5"
+    "96bdcaedc645659f0b7566bb40bf20f990ba7572": "65fa0a46f6f049068c4b421e814e09daffbd8bc5",
+    "911346ae160652adad39f9040f32d12658e969f8": "3977bc194044832c1e652f1e3c5ee7d78547e8c3",
+    "792de419c0b204efc80d855c6fbc093a7c1329cf": "4b5ae55368852903d5dd31c2838f2705f7e2ebec",
+    "13cabef8da4fb49fd9393caa5d0c49e24aae9511": "4b5ae55368852903d5dd31c2838f2705f7e2ebec"
   },
   "matchMeta": {
     "adb3d32220ea462bd3c30e1c0e50930bd6e8cde2": {
@@ -3293,6 +3296,18 @@
     "96bdcaedc645659f0b7566bb40bf20f990ba7572": {
       "oldFullName": "Theme=Dark, Type=Vertical",
       "newFullName": "Horizontal=No"
+    },
+    "911346ae160652adad39f9040f32d12658e969f8": {
+      "oldFullName": "Toolbar / Search",
+      "newFullName": "Toolbar / Search"
+    },
+    "792de419c0b204efc80d855c6fbc093a7c1329cf": {
+      "oldFullName": "Banner",
+      "newFullName": "Banner"
+    },
+    "13cabef8da4fb49fd9393caa5d0c49e24aae9511": {
+      "oldFullName": "Banner",
+      "newFullName": "Banner"
     }
   }
 }
