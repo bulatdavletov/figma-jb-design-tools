@@ -16,6 +16,23 @@
 
 ### 2026-02-19
 
+#### Figma API Reference spec
+- Created `Specs/Figma API Reference.md` — comprehensive reference covering all Figma object types and available Plugin API actions.
+- Covers: node type hierarchy, all node types with `.type` strings, non-node resources (styles, variables, team library), and 19 categories of API actions (document access, node lookup/search, selection/viewport, node creation, manipulation, paint/color, text, component/instance, styles, variables, team library, variable modes, auto layout, effects, export, UI communication, notifications, client storage, events/misc).
+- Supersedes the simpler `Object types in Figma.md` (which only had node types and basic style/variable info, no API actions).
+- Useful as reference for Automations Tool spec (which requires "List of actions from Figma API") and general plugin development.
+
+#### Automations Tool — Objects + Actions Pipeline Design
+- Rewrote `Specs/Automations Tool.md` with comprehensive design for how Figma object types and API actions work together in the automation system.
+- **Pipeline Model**: Steps pass a **Context** (nodes, variables, styles, log) from one step to the next. Steps are categorized: Source → Filter → Navigate → Transform → Output.
+- **Object-Action Compatibility**: Matrix showing which node types support which properties (fills, strokes, text, auto layout, swap component, children). Context type determines available actions.
+- **Action Catalog**: 72+ actions organized into 11 categories — Source (6), Filter (12), Navigate (4), Properties (17), Text (8), Components (4), Variables (4), Styles (2), Layout (4), Output (5), Tool Wrappers (6).
+- **6 practical examples**: clean up text layers, replace old color variable, migration report, batch variable rename, consistent frame styling, detach deprecated instances.
+- **JSON format**: shows how automations serialize for team sharing.
+- **UI design**: two-column layout (step list + dynamic panel), action picker organized by category, run output screen with step-by-step summary.
+- **Execution engine**: sequential context-passing, dry run / preview mode, error handling with step identification.
+- **3 implementation phases**: Phase 1 core pipeline + basic actions, Phase 2 extended actions + tool wrappers, Phase 3 conditions/loops/shortcuts.
+
 #### Find Color Match Tool — unified library cache with smart invalidation
 - **Problem**: Cache was cleared on every collection/mode change and re-discovered on every tool activation. Loading 200+ variables took several seconds. Full-screen `State` component blocked the UI during loading.
 - **Solution**: Fingerprint-based shared cache + subtle bottom status bar.
