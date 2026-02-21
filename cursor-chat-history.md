@@ -992,6 +992,11 @@ Olya suggested to rename from JetBrains Design Tools to Int UI Design Tools
 - **Message cleanup**: Removed `LIBRARY_SWAP_SCAN_LEGACY` from `UI_TO_MAIN` enum and union type (no longer a separate action). Removed unused `LibrarySwapScanLegacyRequest` type. Kept `SCAN_LEGACY_RESULT` and `SCAN_LEGACY_RESET` messages.
 - Build passes cleanly.
 
+### 2026-02-20 — Merge mapping inbox
+- Merged 2 exported mapping JSONs from `Figma JSONs/mapping inbox/` into `default-uikit-mapping.json` using `scripts/merge-mapping.cjs`.
+- `manual-mapping-export.json`: +1 entry (Toolbar / Search). `banner.json`: +2 entries (Banner variants).
+- UIKit mapping: 633 → 636 entries.
+
 ---
 
 ## Mockup Markup Tool
