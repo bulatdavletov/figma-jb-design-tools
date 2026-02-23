@@ -61,6 +61,7 @@ export const UI_TO_MAIN = {
   AUTOMATIONS_DELETE: "AUTOMATIONS_DELETE",
   AUTOMATIONS_RUN: "AUTOMATIONS_RUN",
   AUTOMATIONS_STOP: "AUTOMATIONS_STOP",
+  AUTOMATIONS_INPUT_RESPONSE: "AUTOMATIONS_INPUT_RESPONSE",
 } as const
 
 export const MAIN_TO_UI = {
@@ -124,6 +125,7 @@ export const MAIN_TO_UI = {
   AUTOMATIONS_SAVED: "AUTOMATIONS_SAVED",
   AUTOMATIONS_RUN_PROGRESS: "AUTOMATIONS_RUN_PROGRESS",
   AUTOMATIONS_RUN_RESULT: "AUTOMATIONS_RUN_RESULT",
+  AUTOMATIONS_INPUT_REQUEST: "AUTOMATIONS_INPUT_REQUEST",
 } as const
 
 export type UiToMainMessage =
@@ -186,6 +188,7 @@ export type UiToMainMessage =
   | { type: typeof UI_TO_MAIN.AUTOMATIONS_DELETE; automationId: string }
   | { type: typeof UI_TO_MAIN.AUTOMATIONS_RUN; automationId: string }
   | { type: typeof UI_TO_MAIN.AUTOMATIONS_STOP }
+  | { type: typeof UI_TO_MAIN.AUTOMATIONS_INPUT_RESPONSE; value: string }
 
 
 export type PrintColorUsagesUiSettings = {
@@ -405,6 +408,7 @@ export type MainToUiMessage =
   | { type: typeof MAIN_TO_UI.AUTOMATIONS_SAVED; automation: AutomationPayload }
   | { type: typeof MAIN_TO_UI.AUTOMATIONS_RUN_PROGRESS; progress: AutomationsRunProgress }
   | { type: typeof MAIN_TO_UI.AUTOMATIONS_RUN_RESULT; result: AutomationsRunResult }
+  | { type: typeof MAIN_TO_UI.AUTOMATIONS_INPUT_REQUEST; request: AutomationsInputRequest }
 
 // ============================================================================
 // Variables Batch Rename Types
@@ -1056,6 +1060,8 @@ export type AutomationStepPayload = {
   actionType: string
   params: Record<string, unknown>
   enabled: boolean
+  outputName?: string
+  children?: AutomationStepPayload[]
 }
 
 export type AutomationPayload = {
@@ -1099,4 +1105,10 @@ export type AutomationsRunResult = {
   totalSteps: number
   errors: string[]
   log: AutomationsStepLog[]
+}
+
+export type AutomationsInputRequest = {
+  label: string
+  placeholder: string
+  inputType: "text" | "textarea"
 }
