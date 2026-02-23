@@ -53,6 +53,10 @@ It should have delay, before hover, and then show the resize handle.
 
 If I press update, show preview, what will be updated, before after, and only then apply.
 
+- [x] @src/app/views/print-color-usages-tool/UpdateTab.tsx:52-70 move this button to footer
+
+- [x] @src/app/views/print-color-usages-tool/PrintTab.tsx Print button shouldn't be active, when there is no selection
+
 ### Update tool:
 Sometimes I don't want to apply text style or color.
 Only update layer name and content.
@@ -70,3 +74,7 @@ Print, bug: got-it-control-border   #FFFFFF 24% 24% - percantage printed 2 times
 Refactor Print Color Usages tool, as it has separated Tabs, and too much code in one file.
 
 ToolBody spacing: too much vertical space before/after content in compact views (e.g. Print Color Usages Settings disclosure). Root cause is ToolBody's `<VerticalSpace space="medium" />` top/bottom. Needs a proper solution (e.g. a `compact` prop or smaller default) without hacks like negative margins. Affects all tools using ToolBody.
+
+## Migrate to New UI Kit
+
+- [ ] Manual pairs - make it as separate Tab
