@@ -17,7 +17,7 @@ import { ColorSwatch } from "../app/components/ColorSwatch"
 import { DataList } from "../app/components/DataList"
 import { DataRow } from "../app/components/DataRow"
 import { DataTable } from "../app/components/DataTable"
-import { IconArrowDown16, IconArrowRight16, IconChevronDown16 } from "../app/components/AppIcons"
+import { IconStub16 } from "../../custom-icons/generated"
 import { ScopeControl, type ScopeValue } from "../app/components/ScopeControl"
 import { State } from "../app/components/State"
 import { Tree, type TreeNode } from "../app/components/Tree"
@@ -27,7 +27,7 @@ import { ToolPreview } from "./ToolPreview"
 import { tools } from "./tool-registry"
 
 type Theme = "figma-light" | "figma-dark"
-type Page = "components" | "home" | `tool:${string}`
+type Page = "overview" | `component:${string}` | "home" | `tool:${string}`
 
 function setTheme(theme: Theme) {
   document.documentElement.classList.remove("figma-light", "figma-dark")
@@ -75,10 +75,17 @@ function NavItem(props: {
   )
 }
 
-function Sidebar(props: { page: Page; onNavigate: (p: Page) => void; theme: Theme; onToggleTheme: () => void }) {
-  const generalTools = tools.filter((t) => t.section === "general")
-  const variablesTools = tools.filter((t) => t.section === "variables")
+function SectionHeader(props: { children: string }) {
+  return (
+    <div style={{ padding: "8px 12px 2px" }}>
+      <Text style={{ fontSize: 10, fontWeight: 600, color: "var(--figma-color-text-tertiary)", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+        {props.children}
+      </Text>
+    </div>
+  )
+}
 
+function Sidebar(props: { page: Page; onNavigate: (p: Page) => void; theme: Theme; onToggleTheme: () => void }) {
   return (
     <div
       style={{
@@ -102,35 +109,24 @@ function Sidebar(props: { page: Page; onNavigate: (p: Page) => void; theme: Them
         </Text>
       </div>
 
-      <div style={{ padding: "4px 8px" }}>
-        <NavItem label="Components" active={props.page === "components"} onClick={() => props.onNavigate("components")} />
-        <NavItem label="Home Page" active={props.page === "home"} onClick={() => props.onNavigate("home")} />
-      </div>
-
-      <div style={{ padding: "8px 12px 2px" }}>
-        <Text style={{ fontSize: 10, fontWeight: 600, color: "var(--figma-color-text-tertiary)", textTransform: "uppercase", letterSpacing: "0.5px" }}>
-          General Tools
-        </Text>
-      </div>
+      <SectionHeader>Components</SectionHeader>
       <div style={{ padding: "2px 8px" }}>
-        {generalTools.map((t) => (
+        <NavItem label="Overview" active={props.page === "overview"} onClick={() => props.onNavigate("overview")} />
+        {componentShowcases.map((c) => (
           <NavItem
-            key={t.id}
-            label={t.label}
-            active={props.page === `tool:${t.id}`}
+            key={c.id}
+            label={c.label}
+            active={props.page === `component:${c.id}`}
             indent
-            onClick={() => props.onNavigate(`tool:${t.id}`)}
+            onClick={() => props.onNavigate(`component:${c.id}`)}
           />
         ))}
       </div>
 
-      <div style={{ padding: "8px 12px 2px" }}>
-        <Text style={{ fontSize: 10, fontWeight: 600, color: "var(--figma-color-text-tertiary)", textTransform: "uppercase", letterSpacing: "0.5px" }}>
-          Variables Tools
-        </Text>
-      </div>
+      <SectionHeader>Screens</SectionHeader>
       <div style={{ padding: "2px 8px 12px" }}>
-        {variablesTools.map((t) => (
+        <NavItem label="Home Page" active={props.page === "home"} onClick={() => props.onNavigate("home")} />
+        {tools.map((t) => (
           <NavItem
             key={t.id}
             label={t.label}
@@ -145,7 +141,7 @@ function Sidebar(props: { page: Page; onNavigate: (p: Page) => void; theme: Them
 }
 
 // ---------------------------------------------------------------------------
-// Content pages
+// Showcase helpers
 // ---------------------------------------------------------------------------
 
 function ShowcaseSection(props: {
@@ -157,11 +153,11 @@ function ShowcaseSection(props: {
   return (
     <Fragment>
       <Text style={{ fontWeight: 600 }}>{props.title}</Text>
-      <VerticalSpace space="extraSmall" />
+      <VerticalSpace space="medium" />
       <Text style={{ color: "var(--figma-color-text-secondary)" }}>{props.description}</Text>
       {props.options ? (
         <Fragment>
-          <VerticalSpace space="extraSmall" />
+          <VerticalSpace space="medium" />
           <Text style={{ color: "var(--figma-color-text-tertiary)", fontSize: 11 }}>
             {props.options}
           </Text>
@@ -176,20 +172,74 @@ function ShowcaseSection(props: {
   )
 }
 
-function ComponentsPage(props: { theme: Theme; setTheme: (t: Theme) => void }) {
+// ---------------------------------------------------------------------------
+// Individual component showcases
+// ---------------------------------------------------------------------------
+
+function ToolCardShowcase() {
+  return (
+    <ShowcaseSection title="ToolCard" description="Home-screen card for launching a tool." options="Props: title, description, icon, onClick">
+      <ToolCard
+        title="Tool Name"
+        icon={<IconStub16 />}
+        onClick={() => alert("ToolCard clicked")} />
+    </ShowcaseSection>
+  )
+}
+
+function ActionsShowcase() {
+  return (
+    <ShowcaseSection title="Actions" description="Primary action styles with icons and labels." options="Components: ButtonWithIcon, Button">
+      <Button onClick={() => alert("ButtonWithIcon clicked")}>
+        Apply selected changes
+      </Button>
+      <VerticalSpace space="extraSmall" />
+      <Button disabled>Disabled action</Button>
+    </ShowcaseSection>
+  )
+}
+
+function ToolTabsShowcase() {
+  const [activeTab, setActiveTab] = useState("Overview")
+  return (
+    <ShowcaseSection title="ToolTabs" description="Top-level tab navigation used inside larger tool views." options="Props: value, options, onValueChange">
+      <ToolTabs
+        value={activeTab}
+        onValueChange={setActiveTab}
+        options={[
+          { value: "Overview" },
+          { value: "Preview" },
+          { value: "History" },
+        ]}
+      />
+    </ShowcaseSection>
+  )
+}
+
+function ScopeControlShowcase() {
   const [scope, setScope] = useState<ScopeValue>("selection")
   const [hasSelection, setHasSelection] = useState(true)
-  const [activeTab, setActiveTab] = useState("overview")
-  const [openById, setOpenById] = useState<Record<string, boolean>>({ "group:1": true })
+  return (
+    <ShowcaseSection title="ScopeControl" description="Reusable scope selector with selection-aware disabling." options={`State: value=${scope}, hasSelection=${String(hasSelection)}`}>
+      <ScopeControl value={scope} hasSelection={hasSelection} onValueChange={setScope} />
+      <VerticalSpace space="extraSmall" />
+      <Button onClick={() => setHasSelection((v) => !v)}>
+        Toggle hasSelection ({hasSelection ? "true" : "false"})
+      </Button>
+    </ShowcaseSection>
+  )
+}
 
+function TreeShowcase() {
+  const [openById, setOpenById] = useState<Record<string, boolean>>({ "group:1": true })
   const sampleTree = useMemo<Array<TreeNode>>(
     () => [
       {
         id: "group:1",
         title: "Buttons",
-        icon: <IconChevronDown16 />,
+        icon: <IconStub16 />,
         children: [
-          { id: "row:1", title: "Primary action", description: "Used for main CTA", icon: <IconArrowRight16 /> },
+          { id: "row:1", title: "Primary action", description: "Used for main CTA", icon: <IconStub16 /> },
           { id: "row:2", title: "Secondary action", titleStrong: true },
         ],
       },
@@ -198,93 +248,111 @@ function ComponentsPage(props: { theme: Theme; setTheme: (t: Theme) => void }) {
     ],
     []
   )
-
   return (
-    <Container space="small">
-      <ShowcaseSection title="Theme" description="Quickly test all components in light/dark Figma themes." options={`Current: ${props.theme}`}>
-        <Button onClick={() => props.setTheme("figma-light")}>Light</Button>
-        <VerticalSpace space="extraSmall" />
-        <Button onClick={() => props.setTheme("figma-dark")}>Dark</Button>
-      </ShowcaseSection>
+    <ShowcaseSection title="Tree" description="Collapsible hierarchy for grouped content and rows." options="Props: nodes, openById, onToggle">
+      <Tree nodes={sampleTree} openById={openById} onToggle={(id) => setOpenById((prev) => ({ ...prev, [id]: !prev[id] }))} />
+    </ShowcaseSection>
+  )
+}
 
-      <ShowcaseSection title="ToolCard" description="Home-screen card for launching a tool." options="Props: title, description, icon, onClick">
-        <ToolCard title="View Colors Chain" description="Inspect selection to see full variable alias chains." icon={<IconChevronDown16 />} onClick={() => alert("ToolCard clicked")} />
-      </ShowcaseSection>
+function DataListShowcase() {
+  return (
+    <ShowcaseSection title="DataList + DataRow" description="Card-like list rows for previews, warnings, and inline actions." options="Supports secondary/tertiary text, alert block, checkbox, trailing content">
+      <DataList header="Changes preview" summary="Candidates: 2 | Will update: 1" emptyText="Nothing to show">
+        <DataRow primary="button/background" secondary="#0086FF → #005BD3" tertiary="Collection: Int UI Kit" alert="Opacity mismatch detected" trailing={<ColorSwatch hex="#005BD3" />} />
+        <DataRow primary="text/primary" secondary="#0B0F14 (kept)" tertiary="No change required" />
+      </DataList>
+    </ShowcaseSection>
+  )
+}
 
-      <ShowcaseSection title="Actions" description="Primary action styles with icons and labels." options="Components: ButtonWithIcon, Button">
-        <ButtonWithIcon icon={<IconArrowDown16 />} onClick={() => alert("ButtonWithIcon clicked")}>
-          Apply selected changes
-        </ButtonWithIcon>
-        <VerticalSpace space="extraSmall" />
-        <Button disabled>Disabled action</Button>
-      </ShowcaseSection>
+function DataTableShowcase() {
+  return (
+    <ShowcaseSection title="DataTable" description="Structured table for rename/import workflows with fixed headers." options="Props: columns, header, summary, table rows">
+      <DataTable header="Rename plan" summary="Rows: 2" columns={[{ label: "Variable", width: "44%" }, { label: "Old", width: "28%" }, { label: "New", width: "28%" }]}>
+        <tr>
+          <td style={{ padding: "6px 8px", borderBottom: "1px solid var(--figma-color-border-secondary)" }}>color/button/primary</td>
+          <td style={{ padding: "6px 8px", borderBottom: "1px solid var(--figma-color-border-secondary)" }}>#0086FF</td>
+          <td style={{ padding: "6px 8px", borderBottom: "1px solid var(--figma-color-border-secondary)" }}>#005BD3</td>
+        </tr>
+        <tr>
+          <td style={{ padding: "6px 8px" }}>color/text/primary</td>
+          <td style={{ padding: "6px 8px" }}>#0B0F14</td>
+          <td style={{ padding: "6px 8px" }}>#111827</td>
+        </tr>
+      </DataTable>
+    </ShowcaseSection>
+  )
+}
 
-      <ShowcaseSection title="ToolTabs" description="Top-level tab navigation used inside larger tool views." options="Props: value, options, onValueChange">
-        <ToolTabs
-          value={activeTab}
-          onValueChange={setActiveTab}
-          options={[
-            { value: "overview", children: "Overview" },
-            { value: "preview", children: "Preview" },
-            { value: "history", children: "History" },
-          ]}
+function ColorRowShowcase() {
+  return (
+    <ShowcaseSection title="ColorRow + ColorSwatch" description="Compact row for color chains with contextual actions on hover." options="ColorSwatch shows checkerboard + split alpha preview">
+      <div style={{ border: "1px solid var(--figma-color-border)", borderRadius: 6, overflow: "hidden" }}>
+        <ColorRow
+          title="got-it-control-border"
+          description="#FFFFFF 24%"
+          icon={<ColorSwatch hex="#FFFFFF" opacityPercent={24} />}
+          actions={[{ id: "copy", label: "Copy", kind: "button", onClick: () => alert("Copied") }]}
         />
-      </ShowcaseSection>
-
-      <ShowcaseSection title="ScopeControl" description="Reusable scope selector with selection-aware disabling." options={`State: value=${scope}, hasSelection=${String(hasSelection)}`}>
-        <ScopeControl value={scope} hasSelection={hasSelection} onValueChange={setScope} />
-        <VerticalSpace space="extraSmall" />
-        <Button onClick={() => setHasSelection((v) => !v)}>
-          Toggle hasSelection ({hasSelection ? "true" : "false"})
-        </Button>
-      </ShowcaseSection>
-
-      <ShowcaseSection title="Tree" description="Collapsible hierarchy for grouped content and rows." options="Props: nodes, openById, onToggle">
-        <Tree nodes={sampleTree} openById={openById} onToggle={(id) => setOpenById((prev) => ({ ...prev, [id]: !prev[id] }))} />
-      </ShowcaseSection>
-
-      <ShowcaseSection title="DataList + DataRow" description="Card-like list rows for previews, warnings, and inline actions." options="Supports secondary/tertiary text, alert block, checkbox, trailing content">
-        <DataList header="Changes preview" summary="Candidates: 2 | Will update: 1" emptyText="Nothing to show">
-          <DataRow primary="button/background" secondary="#0086FF → #005BD3" tertiary="Collection: Int UI Kit" alert="Opacity mismatch detected" trailing={<ColorSwatch hex="#005BD3" />} />
-          <DataRow primary="text/primary" secondary="#0B0F14 (kept)" tertiary="No change required" />
-        </DataList>
-      </ShowcaseSection>
-
-      <ShowcaseSection title="DataTable" description="Structured table for rename/import workflows with fixed headers." options="Props: columns, header, summary, table rows">
-        <DataTable header="Rename plan" summary="Rows: 2" columns={[{ label: "Variable", width: "44%" }, { label: "Old", width: "28%" }, { label: "New", width: "28%" }]}>
-          <tr>
-            <td style={{ padding: "6px 8px", borderBottom: "1px solid var(--figma-color-border-secondary)" }}>color/button/primary</td>
-            <td style={{ padding: "6px 8px", borderBottom: "1px solid var(--figma-color-border-secondary)" }}>#0086FF</td>
-            <td style={{ padding: "6px 8px", borderBottom: "1px solid var(--figma-color-border-secondary)" }}>#005BD3</td>
-          </tr>
-          <tr>
-            <td style={{ padding: "6px 8px" }}>color/text/primary</td>
-            <td style={{ padding: "6px 8px" }}>#0B0F14</td>
-            <td style={{ padding: "6px 8px" }}>#111827</td>
-          </tr>
-        </DataTable>
-      </ShowcaseSection>
-
-      <ShowcaseSection title="ColorRow + ColorSwatch" description="Compact row for color chains with contextual actions on hover." options="ColorSwatch shows checkerboard + split alpha preview">
-        <div style={{ border: "1px solid var(--figma-color-border)", borderRadius: 6, overflow: "hidden" }}>
-          <ColorRow
-            title="got-it-control-border"
-            description="#FFFFFF 24%"
-            icon={<ColorSwatch hex="#FFFFFF" opacityPercent={24} />}
-            actions={[{ id: "copy", label: "Copy", kind: "button", onClick: () => alert("Copied") }]}
-          />
-        </div>
-      </ShowcaseSection>
-
-      <Text style={{ fontWeight: 600 }}>State</Text>
-      <VerticalSpace space="extraSmall" />
-      <Text style={{ color: "var(--figma-color-text-secondary)" }}>Empty/loading/error surface for each tool.</Text>
-      <VerticalSpace space="small" />
-      <div style={{ border: "1px solid var(--figma-color-border)", borderRadius: 8 }}>
-        <State icon={<IconChevronDown16 />} title="Nothing here yet" description="This is a preview state." />
       </div>
-      <VerticalSpace space="large" />
-    </Container>
+    </ShowcaseSection>
+  )
+}
+
+function StateShowcase() {
+  return (
+    <ShowcaseSection title="State" description="Empty/loading/error surface for each tool.">
+      <div style={{ border: "1px solid var(--figma-color-border)", borderRadius: 8 }}>
+        <State icon={<IconStub16 />} title="Nothing here yet" description="This is a preview state." />
+      </div>
+    </ShowcaseSection>
+  )
+}
+
+// ---------------------------------------------------------------------------
+// Component registry
+// ---------------------------------------------------------------------------
+
+const componentShowcases = [
+  { id: "toolcard", label: "ToolCard", Component: ToolCardShowcase },
+  { id: "actions", label: "Actions", Component: ActionsShowcase },
+  { id: "tooltabs", label: "ToolTabs", Component: ToolTabsShowcase },
+  { id: "scopecontrol", label: "ScopeControl", Component: ScopeControlShowcase },
+  { id: "tree", label: "Tree", Component: TreeShowcase },
+  { id: "datalist", label: "DataList + DataRow", Component: DataListShowcase },
+  { id: "datatable", label: "DataTable", Component: DataTableShowcase },
+  { id: "colorrow", label: "ColorRow + Swatch", Component: ColorRowShowcase },
+  { id: "state", label: "State", Component: StateShowcase },
+]
+
+// ---------------------------------------------------------------------------
+// Pages
+// ---------------------------------------------------------------------------
+
+function ComponentsOverview() {
+  return (
+    <div style={{ maxWidth: PLUGIN_WIDTH, padding: "16px 24px" }}>
+      <Container space="small">
+        <VerticalSpace space="medium" />
+        {componentShowcases.map(({ id, Component }) => (
+          <Component key={id} />
+        ))}
+      </Container>
+    </div>
+  )
+}
+
+function ComponentPage(props: { id: string }) {
+  const entry = componentShowcases.find((c) => c.id === props.id)
+  if (!entry) return null
+  return (
+    <div style={{ maxWidth: PLUGIN_WIDTH, padding: "16px 24px" }}>
+      <Container space="small">
+        <VerticalSpace space="small" />
+        <entry.Component />
+      </Container>
+    </div>
   )
 }
 
@@ -312,8 +380,8 @@ function HomePreview(props: { theme: Theme }) {
 // ---------------------------------------------------------------------------
 
 export function PreviewApp() {
-  const [theme, setThemeState] = useState<Theme>("figma-light")
-  const [page, setPage] = useState<Page>("home")
+  const [theme, setThemeState] = useState<Theme>("figma-dark")
+  const [page, setPage] = useState<Page>("overview")
 
   useEffect(() => {
     setTheme(theme)
@@ -322,13 +390,15 @@ export function PreviewApp() {
   const toggleTheme = () => setThemeState((t) => (t === "figma-light" ? "figma-dark" : "figma-light"))
 
   const activeTool = page.startsWith("tool:") ? tools.find((t) => t.id === page.slice(5)) : null
+  const activeComponent = page.startsWith("component:") ? page.slice(10) : null
 
   return (
     <div style={{ height: "100vh", display: "flex" }}>
       <Sidebar page={page} onNavigate={setPage} theme={theme} onToggleTheme={toggleTheme} />
 
       <div style={{ flex: 1, overflow: "auto" }}>
-        {page === "components" && <ComponentsPage theme={theme} setTheme={setThemeState} />}
+        {page === "overview" && <ComponentsOverview />}
+        {activeComponent && <ComponentPage id={activeComponent} />}
         {page === "home" && <HomePreview theme={theme} />}
         {activeTool && <ToolPreview tool={activeTool} theme={theme} />}
       </div>

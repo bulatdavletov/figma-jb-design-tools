@@ -57,9 +57,8 @@ export function ToolPreview(props: { tool: ToolEntry; theme: Theme }) {
       <div
         style={{
           display: "flex",
-          gap: 20,
-          overflowX: "auto",
-          paddingBottom: 16,
+          flexDirection: "column",
+          gap: 24,
         }}
       >
         {props.tool.scenarios.map((scenario) => (
