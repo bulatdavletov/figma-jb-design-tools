@@ -25,7 +25,7 @@ export type ToolRegistryEntry = {
   description: string
   category: ToolCategory
   order: number
-  icon: "shape-text" | "variable-color" | "target" | "library" | "text" | "folder" | "variable" | "link" | "adjust"
+  icon: "IconShapeText16" | "IconVariableColor16" | "IconTarget16" | "IconLibrary16" | "IconText16" | "IconFolder16" | "IconVariable16" | "IconLink16" | "IconAdjust16"
   needsSelection: boolean
 }
 
