@@ -1,56 +1,115 @@
-export async function renameLayers(params: Record<string, unknown>): Promise<string> {
+import type { AutomationContext, ActionHandler } from "../context"
+import { resolveTokens, type TokenScope } from "../tokens"
+
+export const renameLayers: ActionHandler = async (context, params) => {
   const find = String(params.find ?? "")
   const replace = String(params.replace ?? "")
-  if (!find) return "No find pattern specified"
-
-  const selection = figma.currentPage.selection
-  if (selection.length === 0) return "No selection"
+  if (!find) {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Rename layers",
+      message: "No find pattern specified — skipped",
+      itemsIn: context.nodes.length,
+      itemsOut: context.nodes.length,
+      status: "skipped",
+    })
+    return context
+  }
 
   let renamed = 0
-  for (const node of selection) {
+  for (let i = 0; i < context.nodes.length; i++) {
+    const node = context.nodes[i]
+    const scope: TokenScope = { node, index: i, context }
+    const resolvedReplace = resolveTokens(replace, scope)
     if (node.name.includes(find)) {
-      node.name = node.name.split(find).join(replace)
+      node.name = node.name.split(find).join(resolvedReplace)
       renamed++
     }
   }
-  return `Renamed ${renamed} layer(s)`
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Rename layers",
+    message: `Renamed ${renamed} of ${context.nodes.length} layer(s)`,
+    itemsIn: context.nodes.length,
+    itemsOut: context.nodes.length,
+    status: "success",
+  })
+
+  return context
 }
 
-export async function setFillColor(params: Record<string, unknown>): Promise<string> {
+export const setFillColor: ActionHandler = async (context, params) => {
   const hex = String(params.hex ?? "#000000").replace(/^#/, "")
   const r = parseInt(hex.slice(0, 2), 16) / 255
   const g = parseInt(hex.slice(2, 4), 16) / 255
   const b = parseInt(hex.slice(4, 6), 16) / 255
 
-  if (isNaN(r) || isNaN(g) || isNaN(b)) return "Invalid hex color"
-
-  const selection = figma.currentPage.selection
-  if (selection.length === 0) return "No selection"
+  if (isNaN(r) || isNaN(g) || isNaN(b)) {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Set fill color",
+      message: "Invalid hex color",
+      itemsIn: context.nodes.length,
+      itemsOut: context.nodes.length,
+      status: "error",
+      error: "Invalid hex color",
+    })
+    return context
+  }
 
   let applied = 0
-  for (const node of selection) {
+  for (const node of context.nodes) {
     if ("fills" in node) {
       const fillsNode = node as GeometryMixin
       fillsNode.fills = [{ type: "SOLID", color: { r, g, b } }]
       applied++
     }
   }
-  return `Applied fill #${hex} to ${applied} node(s)`
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Set fill color",
+    message: `Applied fill #${hex.toUpperCase()} to ${applied} node(s)`,
+    itemsIn: context.nodes.length,
+    itemsOut: context.nodes.length,
+    status: "success",
+  })
+
+  return context
 }
 
-export async function setFillVariable(params: Record<string, unknown>): Promise<string> {
+export const setFillVariable: ActionHandler = async (context, params) => {
   const variableName = String(params.variableName ?? "").trim()
-  if (!variableName) return "No variable name specified"
-
-  const selection = figma.currentPage.selection
-  if (selection.length === 0) return "No selection"
+  if (!variableName) {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Set fill variable",
+      message: "No variable name specified — skipped",
+      itemsIn: context.nodes.length,
+      itemsOut: context.nodes.length,
+      status: "skipped",
+    })
+    return context
+  }
 
   const variables = await figma.variables.getLocalVariablesAsync("COLOR")
   const variable = variables.find((v) => v.name === variableName)
-  if (!variable) return `Variable "${variableName}" not found`
+  if (!variable) {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Set fill variable",
+      message: `Variable "${variableName}" not found`,
+      itemsIn: context.nodes.length,
+      itemsOut: context.nodes.length,
+      status: "error",
+      error: `Variable "${variableName}" not found`,
+    })
+    return context
+  }
 
   let applied = 0
-  for (const node of selection) {
+  for (const node of context.nodes) {
     if ("fills" in node) {
       const fillsNode = node as GeometryMixin
       const solidFill: SolidPaint = { type: "SOLID", color: { r: 0, g: 0, b: 0 } }
@@ -59,28 +118,67 @@ export async function setFillVariable(params: Record<string, unknown>): Promise<
       applied++
     }
   }
-  return `Bound variable "${variableName}" on ${applied} node(s)`
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Set fill variable",
+    message: `Bound variable "${variableName}" on ${applied} node(s)`,
+    itemsIn: context.nodes.length,
+    itemsOut: context.nodes.length,
+    status: "success",
+  })
+
+  return context
 }
 
-export async function setOpacity(params: Record<string, unknown>): Promise<string> {
+export const setOpacity: ActionHandler = async (context, params) => {
   const opacity = Math.max(0, Math.min(100, Number(params.opacity ?? 100)))
 
-  const selection = figma.currentPage.selection
-  if (selection.length === 0) return "No selection"
-
   let applied = 0
-  for (const node of selection) {
+  for (const node of context.nodes) {
     if ("opacity" in node) {
       ;(node as BlendMixin).opacity = opacity / 100
       applied++
     }
   }
-  return `Set opacity ${opacity}% on ${applied} node(s)`
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Set opacity",
+    message: `Set opacity ${opacity}% on ${applied} node(s)`,
+    itemsIn: context.nodes.length,
+    itemsOut: context.nodes.length,
+    status: "success",
+  })
+
+  return context
 }
 
-export async function notifyAction(params: Record<string, unknown>): Promise<string> {
-  const message = String(params.message ?? "").trim()
-  if (!message) return "No message specified"
-  figma.notify(message)
-  return `Notification shown: "${message}"`
+export const notifyAction: ActionHandler = async (context, params) => {
+  const rawMessage = String(params.message ?? "").trim()
+  if (!rawMessage) {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Notify",
+      message: "No message specified — skipped",
+      itemsIn: context.nodes.length,
+      itemsOut: context.nodes.length,
+      status: "skipped",
+    })
+    return context
+  }
+
+  const resolvedMessage = resolveTokens(rawMessage, { context })
+  figma.notify(resolvedMessage)
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Notify",
+    message: `Notification: "${resolvedMessage}"`,
+    itemsIn: context.nodes.length,
+    itemsOut: context.nodes.length,
+    status: "success",
+  })
+
+  return context
 }

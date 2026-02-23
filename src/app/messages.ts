@@ -1082,10 +1082,21 @@ export type AutomationsRunProgress = {
   status: "running" | "done" | "error"
 }
 
+export type AutomationsStepLog = {
+  stepIndex: number
+  stepName: string
+  message: string
+  itemsIn: number
+  itemsOut: number
+  status: "success" | "skipped" | "error"
+  error?: string
+}
+
 export type AutomationsRunResult = {
   success: boolean
   message: string
   stepsCompleted: number
   totalSteps: number
   errors: string[]
+  log: AutomationsStepLog[]
 }

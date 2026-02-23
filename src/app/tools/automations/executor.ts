@@ -1,20 +1,30 @@
 import type { Automation, ActionType } from "./types"
 import { getActionDefinition } from "./types"
-import { findByType, selectByName, expandToChildren } from "./actions/selection-actions"
+import type { AutomationContext, ActionHandler } from "./context"
+import { createInitialContext } from "./context"
+import { filterByType, filterByName, expandToChildren } from "./actions/selection-actions"
 import { renameLayers, setFillColor, setFillVariable, setOpacity, notifyAction } from "./actions/property-actions"
+import { sourceFromSelection, sourceFromPage } from "./actions/source-actions"
+import { selectResults, logAction, countAction } from "./actions/output-actions"
+import { setPipelineVariable, setPipelineVariableFromProperty } from "./actions/variable-actions"
 import { MAIN_TO_UI } from "../../messages"
 
-type ActionRunner = (params: Record<string, unknown>) => Promise<string>
-
-const ACTION_RUNNERS: Record<ActionType, ActionRunner> = {
-  findByType,
-  selectByName,
+const ACTION_HANDLERS: Record<ActionType, ActionHandler> = {
+  sourceFromSelection,
+  sourceFromPage,
+  filterByType,
+  filterByName,
   expandToChildren,
   renameLayers,
   setFillColor,
   setFillVariable,
   setOpacity,
   notify: notifyAction,
+  selectResults,
+  log: logAction,
+  count: countAction,
+  setPipelineVariable,
+  setPipelineVariableFromProperty,
 }
 
 let stopRequested = false
@@ -25,25 +35,35 @@ export function requestStop() {
 
 export async function executeAutomation(
   automation: Automation,
-): Promise<{ success: boolean; message: string; stepsCompleted: number; errors: string[] }> {
+): Promise<AutomationContext> {
   stopRequested = false
+  const context = createInitialContext()
 
   const enabledSteps = automation.steps.filter((s) => s.enabled)
   if (enabledSteps.length === 0) {
-    return { success: true, message: "No enabled steps to run", stepsCompleted: 0, errors: [] }
+    context.log.push({
+      stepIndex: 0,
+      stepName: "(none)",
+      message: "No enabled steps to run",
+      itemsIn: 0,
+      itemsOut: 0,
+      status: "skipped",
+    })
+    return context
   }
-
-  const errors: string[] = []
-  let stepsCompleted = 0
 
   for (let i = 0; i < enabledSteps.length; i++) {
     if (stopRequested) {
-      return {
-        success: false,
-        message: `Stopped after ${stepsCompleted} of ${enabledSteps.length} steps`,
-        stepsCompleted,
-        errors,
-      }
+      context.log.push({
+        stepIndex: i,
+        stepName: "(stopped)",
+        message: `Stopped by user after step ${i}`,
+        itemsIn: context.nodes.length,
+        itemsOut: context.nodes.length,
+        status: "error",
+        error: "Stopped by user",
+      })
+      break
     }
 
     const step = enabledSteps[i]
@@ -63,27 +83,46 @@ export async function executeAutomation(
 
     await new Promise((resolve) => setTimeout(resolve, 0))
 
-    const runner = ACTION_RUNNERS[step.actionType]
-    if (!runner) {
-      errors.push(`Step ${i + 1} (${stepName}): Unknown action type "${step.actionType}"`)
+    const handler = ACTION_HANDLERS[step.actionType]
+    if (!handler) {
+      context.log.push({
+        stepIndex: i,
+        stepName,
+        message: `Unknown action type "${step.actionType}"`,
+        itemsIn: context.nodes.length,
+        itemsOut: context.nodes.length,
+        status: "error",
+        error: `Unknown action type "${step.actionType}"`,
+      })
       continue
     }
 
+    const itemsBefore = context.nodes.length
+
     try {
-      await runner(step.params)
-      stepsCompleted++
+      await handler(context, step.params)
+
+      const lastLog = context.log[context.log.length - 1]
+      if (lastLog && lastLog.stepIndex === -1) {
+        lastLog.stepIndex = i
+      }
     } catch (e) {
       const errorMsg = e instanceof Error ? e.message : String(e)
-      errors.push(`Step ${i + 1} (${stepName}): ${errorMsg}`)
+      context.log.push({
+        stepIndex: i,
+        stepName,
+        message: errorMsg,
+        itemsIn: itemsBefore,
+        itemsOut: context.nodes.length,
+        status: "error",
+        error: errorMsg,
+      })
     }
 
     await new Promise((resolve) => setTimeout(resolve, 0))
   }
 
-  const success = errors.length === 0
-  const message = success
-    ? `Completed ${stepsCompleted} step(s) successfully`
-    : `Completed with ${errors.length} error(s)`
+  figma.currentPage.selection = context.nodes
 
-  return { success, message, stepsCompleted, errors }
+  return context
 }
