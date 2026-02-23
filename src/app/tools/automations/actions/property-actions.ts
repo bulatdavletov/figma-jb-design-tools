@@ -154,6 +154,124 @@ export const setOpacity: ActionHandler = async (context, params) => {
   return context
 }
 
+export const setCharacters: ActionHandler = async (context, params) => {
+  const template = String(params.characters ?? "")
+  if (!template) {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Set text content",
+      message: "No text template specified — skipped",
+      itemsIn: context.nodes.length,
+      itemsOut: context.nodes.length,
+      status: "skipped",
+    })
+    return context
+  }
+
+  let applied = 0
+  for (let i = 0; i < context.nodes.length; i++) {
+    const node = context.nodes[i]
+    if (node.type !== "TEXT") continue
+    const textNode = node as TextNode
+    const scope: TokenScope = { node, index: i, context }
+    const resolved = resolveTokens(template, scope)
+
+    try {
+      await figma.loadFontAsync(textNode.getRangeFontName(0, 1) as FontName)
+      textNode.characters = resolved
+      applied++
+    } catch {
+      // Font load failed — skip this node silently
+    }
+  }
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Set text content",
+    message: `Set text content on ${applied} node(s)`,
+    itemsIn: context.nodes.length,
+    itemsOut: context.nodes.length,
+    status: "success",
+  })
+
+  return context
+}
+
+export const resizeAction: ActionHandler = async (context, params) => {
+  const rawWidth = params.width
+  const rawHeight = params.height
+
+  let applied = 0
+  for (let i = 0; i < context.nodes.length; i++) {
+    const node = context.nodes[i]
+    if (!("resize" in node)) continue
+
+    const scope: TokenScope = { node, index: i, context }
+
+    const widthStr = typeof rawWidth === "string" ? resolveTokens(rawWidth, scope) : String(rawWidth ?? "")
+    const heightStr = typeof rawHeight === "string" ? resolveTokens(rawHeight, scope) : String(rawHeight ?? "")
+
+    const w = widthStr ? Number(widthStr) : NaN
+    const h = heightStr ? Number(heightStr) : NaN
+
+    const finalW = isNaN(w) ? node.width : w
+    const finalH = isNaN(h) ? node.height : h
+
+    if (finalW > 0 && finalH > 0) {
+      ;(node as LayoutMixin).resize(finalW, finalH)
+      applied++
+    }
+  }
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Resize",
+    message: `Resized ${applied} node(s)`,
+    itemsIn: context.nodes.length,
+    itemsOut: context.nodes.length,
+    status: "success",
+  })
+
+  return context
+}
+
+export const setLayoutMode: ActionHandler = async (context, params) => {
+  const layoutMode = String(params.layoutMode ?? "VERTICAL") as "HORIZONTAL" | "VERTICAL" | "NONE"
+  const validModes = ["HORIZONTAL", "VERTICAL", "NONE"]
+
+  if (!validModes.includes(layoutMode)) {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Set auto layout",
+      message: `Invalid layout mode "${layoutMode}"`,
+      itemsIn: context.nodes.length,
+      itemsOut: context.nodes.length,
+      status: "error",
+      error: `Invalid layout mode "${layoutMode}"`,
+    })
+    return context
+  }
+
+  let applied = 0
+  for (const node of context.nodes) {
+    if (node.type === "FRAME" || node.type === "COMPONENT") {
+      ;(node as FrameNode).layoutMode = layoutMode
+      applied++
+    }
+  }
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Set auto layout",
+    message: `Set auto layout ${layoutMode} on ${applied} node(s)`,
+    itemsIn: context.nodes.length,
+    itemsOut: context.nodes.length,
+    status: "success",
+  })
+
+  return context
+}
+
 export const notifyAction: ActionHandler = async (context, params) => {
   const rawMessage = String(params.message ?? "").trim()
   if (!rawMessage) {

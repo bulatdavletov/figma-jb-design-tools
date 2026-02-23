@@ -1,4 +1,4 @@
-import type { ActionHandler } from "../context"
+import type { ActionHandler, ActionResult } from "../context"
 import { resolveTokens } from "../tokens"
 import { getNodeProperty } from "../properties"
 
@@ -89,4 +89,55 @@ export const setPipelineVariableFromProperty: ActionHandler = async (context, pa
   }
 
   return context
+}
+
+export const splitText: ActionHandler = async (context, params): Promise<ActionResult> => {
+  const sourceVar = String(params.sourceVar ?? "").trim()
+  let delimiter = String(params.delimiter ?? "\\n")
+
+  if (delimiter === "\\n") delimiter = "\n"
+  else if (delimiter === "\\t") delimiter = "\t"
+
+  if (!sourceVar) {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Split text",
+      message: "No source variable specified — skipped",
+      itemsIn: context.nodes.length,
+      itemsOut: context.nodes.length,
+      status: "skipped",
+    })
+    return { context }
+  }
+
+  const rawValue = context.pipelineVars[sourceVar]
+  if (rawValue === undefined) {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Split text",
+      message: `Variable "$${sourceVar}" not found`,
+      itemsIn: context.nodes.length,
+      itemsOut: context.nodes.length,
+      status: "error",
+      error: `Variable "$${sourceVar}" not found`,
+    })
+    return { context }
+  }
+
+  const text = String(rawValue)
+  let parts = text.split(delimiter)
+  if (parts.length > 1 && parts[parts.length - 1] === "") {
+    parts = parts.slice(0, -1)
+  }
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Split text",
+    message: `Split $${sourceVar} → ${parts.length} item(s)`,
+    itemsIn: context.nodes.length,
+    itemsOut: context.nodes.length,
+    status: "success",
+  })
+
+  return { context, output: parts }
 }
