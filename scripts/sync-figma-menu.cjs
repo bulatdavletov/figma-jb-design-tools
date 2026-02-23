@@ -1,0 +1,28 @@
+const fs = require('fs')
+const path = require('path')
+
+const root = path.resolve(__dirname, '..')
+const pkgPath = path.join(root, 'package.json')
+const registryPath = path.join(root, 'src', 'app', 'tools-registry-data.json')
+
+const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'))
+const tools = JSON.parse(fs.readFileSync(registryPath, 'utf8'))
+
+const menu = [
+  {
+    name: 'Tools Home',
+    main: 'src/home/main.ts',
+    ui: 'src/app/ui.tsx',
+  },
+  ...tools.map((tool) => ({
+    name: tool.menuLabel,
+    main: tool.main,
+    ui: 'src/app/ui.tsx',
+  })),
+]
+
+pkg['figma-plugin'] = pkg['figma-plugin'] || {}
+pkg['figma-plugin'].menu = menu
+
+fs.writeFileSync(pkgPath, `${JSON.stringify(pkg, null, 2)}\n`, 'utf8')
+console.log(`Synced ${menu.length} menu entries from tools-registry-data.json`)

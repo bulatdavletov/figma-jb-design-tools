@@ -1,3 +1,6 @@
+import type { ActiveTool } from "./tools-registry"
+export type { ActiveTool }
+
 export const UI_TO_MAIN = {
   BOOT: "BOOT",
   SET_ACTIVE_TOOL: "SET_ACTIVE_TOOL",
@@ -160,17 +163,6 @@ export type UiToMainMessage =
   | { type: typeof UI_TO_MAIN.FIND_COLOR_MATCH_HEX_LOOKUP; hex: string }
   | { type: typeof UI_TO_MAIN.FIND_COLOR_MATCH_SET_GROUP; group: string | null }
 
-export type ActiveTool =
-  | "home"
-  | "mockup-markup-tool"
-  | "color-chain-tool"
-  | "print-color-usages-tool"
-  | "variables-export-import-tool"
-  | "variables-batch-rename-tool"
-  | "variables-create-linked-colors-tool"
-  | "variables-replace-usages-tool"
-  | "library-swap-tool"
-  | "find-color-match-tool"
 
 export type PrintColorUsagesUiSettings = {
   textPosition: "left" | "right"

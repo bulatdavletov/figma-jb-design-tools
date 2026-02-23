@@ -13,21 +13,37 @@ import { VariablesBatchRenameToolView } from "./views/variables-batch-rename-too
 import { VariablesCreateLinkedColorsToolView } from "./views/variables-create-linked-colors-tool/VariablesCreateLinkedColorsToolView"
 import { VariablesReplaceUsagesToolView } from "./views/variables-replace-usages-tool/VariablesReplaceUsagesToolView"
 import { FindColorMatchToolView } from "./views/find-color-match-tool/FindColorMatchToolView"
+import { isToolId, TOOLS_REGISTRY, type ActiveTool, type ToolId } from "./tools-registry"
 
-type Route =
-  | "home"
-  | "mockup-markup-tool"
-  | "color-chain-tool"
-  | "library-swap-tool"
-  | "print-color-usages-tool"
-  | "variables-export-import-tool"
-  | "variables-batch-rename-tool"
-  | "variables-create-linked-colors-tool"
-  | "variables-replace-usages-tool"
-  | "find-color-match-tool"
+type ToolViewProps = {
+  onBack: () => void
+  initialSelectionEmpty: boolean
+}
+
+const TOOL_VIEW_BY_ID: Record<ToolId, (props: ToolViewProps) => preact.ComponentChildren> = {
+  "mockup-markup-tool": ({ onBack }) => <MockupMarkupToolView onBack={onBack} />,
+  "color-chain-tool": ({ onBack, initialSelectionEmpty }) => (
+    <ColorChainToolView onBack={onBack} initialSelectionEmpty={initialSelectionEmpty} />
+  ),
+  "library-swap-tool": ({ onBack, initialSelectionEmpty }) => (
+    <LibrarySwapToolView onBack={onBack} initialSelectionEmpty={initialSelectionEmpty} />
+  ),
+  "print-color-usages-tool": ({ onBack }) => <PrintColorUsagesToolView onBack={onBack} />,
+  "variables-export-import-tool": ({ onBack }) => <VariablesExportImportToolView onBack={onBack} />,
+  "variables-batch-rename-tool": ({ onBack }) => <VariablesBatchRenameToolView onBack={onBack} />,
+  "variables-create-linked-colors-tool": ({ onBack }) => (
+    <VariablesCreateLinkedColorsToolView onBack={onBack} />
+  ),
+  "variables-replace-usages-tool": ({ onBack, initialSelectionEmpty }) => (
+    <VariablesReplaceUsagesToolView onBack={onBack} initialSelectionEmpty={initialSelectionEmpty} />
+  ),
+  "find-color-match-tool": ({ onBack, initialSelectionEmpty }) => (
+    <FindColorMatchToolView onBack={onBack} initialSelectionEmpty={initialSelectionEmpty} />
+  ),
+}
 
 export function App() {
-  const [route, setRoute] = useState<Route>("home")
+  const [route, setRoute] = useState<ActiveTool>("home")
   const [selectionSize, setSelectionSize] = useState<number>(0)
 
   useEffect(() => {
@@ -36,20 +52,7 @@ export function App() {
       if (!msg) return
       if (msg.type === MAIN_TO_UI.BOOTSTRAPPED) {
         setSelectionSize(msg.selectionSize)
-        const validRoutes: Route[] = [
-          "mockup-markup-tool",
-          "color-chain-tool",
-          "library-swap-tool",
-          "print-color-usages-tool",
-          "variables-export-import-tool",
-          "variables-batch-rename-tool",
-          "variables-create-linked-colors-tool",
-          "variables-replace-usages-tool",
-          "find-color-match-tool",
-        ]
-        setRoute(
-          validRoutes.includes(msg.command as Route) ? (msg.command as Route) : "home"
-        )
+        setRoute(isToolId(msg.command) ? msg.command : "home")
       }
     }
     window.addEventListener("message", handleMessage)
@@ -57,7 +60,6 @@ export function App() {
     return () => window.removeEventListener("message", handleMessage)
   }, [])
 
-  // Inform main thread which tool is currently visible (so it can route selection updates).
   useEffect(() => {
     parent.postMessage(
       {
@@ -74,59 +76,15 @@ export function App() {
     return <HomeView goTo={setRoute} />
   }
 
-  if (route === "mockup-markup-tool") {
-    return <MockupMarkupToolView onBack={() => setRoute("home")} />
+  const entry = TOOLS_REGISTRY.find((tool) => tool.id === route)
+  if (!entry) {
+    return <HomeView goTo={setRoute} />
   }
 
-  if (route === "color-chain-tool") {
-    return <ColorChainToolView onBack={() => setRoute("home")} initialSelectionEmpty={selectionSize === 0} />
-  }
-
-  if (route === "library-swap-tool") {
-    return (
-      <LibrarySwapToolView
-        onBack={() => setRoute("home")}
-        initialSelectionEmpty={selectionSize === 0}
-      />
-    )
-  }
-
-  if (route === "print-color-usages-tool") {
-    return <PrintColorUsagesToolView onBack={() => setRoute("home")} />
-  }
-
-  if (route === "variables-export-import-tool") {
-    return <VariablesExportImportToolView onBack={() => setRoute("home")} />
-  }
-
-  if (route === "variables-batch-rename-tool") {
-    return <VariablesBatchRenameToolView onBack={() => setRoute("home")} />
-  }
-
-  if (route === "variables-create-linked-colors-tool") {
-    return <VariablesCreateLinkedColorsToolView onBack={() => setRoute("home")} />
-  }
-
-  if (route === "variables-replace-usages-tool") {
-    return (
-      <VariablesReplaceUsagesToolView
-        onBack={() => setRoute("home")}
-        initialSelectionEmpty={selectionSize === 0}
-      />
-    )
-  }
-
-  if (route === "find-color-match-tool") {
-    return (
-      <FindColorMatchToolView
-        onBack={() => setRoute("home")}
-        initialSelectionEmpty={selectionSize === 0}
-      />
-    )
-  }
-
-  return <HomeView goTo={setRoute} />
+  return TOOL_VIEW_BY_ID[entry.id]({
+    onBack: () => setRoute("home"),
+    initialSelectionEmpty: selectionSize === 0,
+  })
 }
 
 export default render(App)
-
