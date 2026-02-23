@@ -4,24 +4,35 @@ export type ActionType =
   | "filterByType"
   | "filterByName"
   | "expandToChildren"
+  | "goToParent"
+  | "flattenDescendants"
+  | "restoreNodes"
   | "renameLayers"
   | "setFillColor"
   | "setFillVariable"
   | "setOpacity"
+  | "setCharacters"
+  | "resize"
+  | "setLayoutMode"
   | "notify"
   | "selectResults"
   | "log"
   | "count"
   | "setPipelineVariable"
   | "setPipelineVariableFromProperty"
+  | "splitText"
+  | "askForInput"
+  | "repeatWithEach"
 
-export type ActionCategory = "source" | "filter" | "navigate" | "transform" | "output" | "variables"
+export type ActionCategory = "source" | "filter" | "navigate" | "transform" | "output" | "variables" | "input" | "flow"
 
 export interface AutomationStep {
   id: string
   actionType: ActionType
   params: Record<string, unknown>
   enabled: boolean
+  outputName?: string
+  children?: AutomationStep[]
 }
 
 export interface Automation {
@@ -32,15 +43,19 @@ export interface Automation {
   updatedAt: number
 }
 
+export interface AutomationExportStepFormat {
+  actionType: ActionType
+  params: Record<string, unknown>
+  enabled: boolean
+  outputName?: string
+  children?: AutomationExportStepFormat[]
+}
+
 export interface AutomationExportFormat {
   version: 1
   automation: {
     name: string
-    steps: Array<{
-      actionType: ActionType
-      params: Record<string, unknown>
-      enabled: boolean
-    }>
+    steps: AutomationExportStepFormat[]
   }
 }
 
@@ -50,6 +65,8 @@ export interface ActionDefinition {
   description: string
   category: ActionCategory
   defaultParams: Record<string, unknown>
+  outputRequired?: boolean
+  producesData?: boolean
 }
 
 export const ACTION_CATEGORIES: { key: ActionCategory; label: string }[] = [
@@ -57,7 +74,9 @@ export const ACTION_CATEGORIES: { key: ActionCategory; label: string }[] = [
   { key: "filter", label: "Filter" },
   { key: "navigate", label: "Navigate" },
   { key: "transform", label: "Transform" },
+  { key: "input", label: "Input" },
   { key: "variables", label: "Pipeline Variables" },
+  { key: "flow", label: "Flow" },
   { key: "output", label: "Output" },
 ]
 
@@ -102,6 +121,27 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "navigate",
     defaultParams: {},
   },
+  {
+    type: "goToParent",
+    label: "Go to parent",
+    description: "Replace each node with its parent (deduplicated). Skips page-root nodes",
+    category: "navigate",
+    defaultParams: {},
+  },
+  {
+    type: "flattenDescendants",
+    label: "Flatten descendants",
+    description: "Recursively collect all descendants into a flat list",
+    category: "navigate",
+    defaultParams: {},
+  },
+  {
+    type: "restoreNodes",
+    label: "Restore nodes",
+    description: "Restore a previously saved node snapshot to the working set",
+    category: "navigate",
+    defaultParams: { snapshotName: "" },
+  },
 
   // Transform
   {
@@ -132,6 +172,37 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "transform",
     defaultParams: { opacity: 100 },
   },
+  {
+    type: "setCharacters",
+    label: "Set text content",
+    description: "Set text content on TEXT nodes. Supports {$var}, {name} tokens",
+    category: "transform",
+    defaultParams: { characters: "" },
+  },
+  {
+    type: "resize",
+    label: "Resize",
+    description: "Set width and/or height on nodes. Leave blank to keep original",
+    category: "transform",
+    defaultParams: { width: "", height: "" },
+  },
+  {
+    type: "setLayoutMode",
+    label: "Set auto layout",
+    description: "Set auto layout direction on frames/components",
+    category: "transform",
+    defaultParams: { layoutMode: "VERTICAL" },
+  },
+
+  // Input
+  {
+    type: "askForInput",
+    label: "Ask for input",
+    description: "Pause and ask the user to enter text. Output saved as pipeline variable",
+    category: "input",
+    defaultParams: { label: "Enter text", placeholder: "", inputType: "text" },
+    outputRequired: true,
+  },
 
   // Pipeline Variables
   {
@@ -147,6 +218,24 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     description: "Read a property from the first node and store it for later steps",
     category: "variables",
     defaultParams: { variableName: "", property: "name" },
+  },
+  {
+    type: "splitText",
+    label: "Split text",
+    description: "Split a pipeline variable string by delimiter into a list",
+    category: "variables",
+    defaultParams: { sourceVar: "", delimiter: "\\n" },
+    outputRequired: true,
+    producesData: true,
+  },
+
+  // Flow
+  {
+    type: "repeatWithEach",
+    label: "Repeat with each",
+    description: "Loop over a list variable or working set nodes, running child steps for each item",
+    category: "flow",
+    defaultParams: { source: "nodes", itemVar: "item", onMismatch: "error" },
   },
 
   // Output
@@ -177,6 +266,7 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     description: "Log the count of items in the working set",
     category: "output",
     defaultParams: { label: "Count" },
+    producesData: true,
   },
 ]
 
@@ -188,6 +278,11 @@ export function getActionDefinition(type: ActionType): ActionDefinition | undefi
 
 export function getActionsByCategory(category: ActionCategory): ActionDefinition[] {
   return ACTION_DEFINITIONS.filter((d) => d.category === category)
+}
+
+export function actionProducesData(actionType: ActionType): boolean {
+  const def = getActionDefinition(actionType)
+  return def?.producesData === true
 }
 
 export function generateStepId(): string {
