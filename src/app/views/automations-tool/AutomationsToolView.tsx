@@ -24,6 +24,7 @@ import { ToolHeader } from "../../components/ToolHeader"
 import { ToolBody } from "../../components/ToolBody"
 import { State } from "../../components/State"
 import { DataList } from "../../components/DataList"
+import { ToolFooter } from "../../components/ToolFooter"
 import {
   MAIN_TO_UI,
   UI_TO_MAIN,
@@ -279,7 +280,6 @@ function ListScreen(props: {
         <ToolBody mode="state">
           <State
             title="No automations yet"
-            description="Create your first automation or import one from a JSON file"
           />
         </ToolBody>
       ) : (
@@ -335,24 +335,22 @@ function ListScreen(props: {
           </DataList>
         </ToolBody>
       )}
-      <Divider />
-      <Container space="medium">
-        <VerticalSpace space="small" />
-        <Stack space="extraSmall">
-          <Button fullWidth onClick={props.onCreateNew}>
-            New automation
-          </Button>
-          <FileUploadButton
-            acceptedFileTypes={["application/json", ".json"]}
-            fullWidth
-            onSelectedFiles={props.onImport}
-            secondary
-          >
-            Import from JSON
-          </FileUploadButton>
-        </Stack>
-        <VerticalSpace space="small" />
-      </Container>
+      <ToolFooter>
+        <Button
+          fullWidth
+          onClick={props.onCreateNew}
+        >
+          New automation
+        </Button>
+        <FileUploadButton
+          acceptedFileTypes={["application/json", ".json"]}
+          fullWidth
+          onSelectedFiles={props.onImport}
+          secondary
+        >
+          Import from JSON
+        </FileUploadButton>
+      </ToolFooter>
     </Page>
   )
 }

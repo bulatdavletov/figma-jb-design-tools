@@ -663,7 +663,7 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
       </ToolBody>
 
       {/* -- Footer (sticky) ----------------------------------------------- */}
-      <ToolFooter>
+      <ToolFooter direction="column">
         {isBusy && (
           <Inline space="extraSmall">
             <LoadingIndicator />
