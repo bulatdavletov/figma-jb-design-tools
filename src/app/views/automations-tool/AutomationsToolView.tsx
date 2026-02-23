@@ -659,6 +659,12 @@ function StepLogRow(props: { entry: AutomationsStepLog }) {
 // ============================================================================
 
 type RightPanel = "empty" | "picker" | "config"
+type StepPath = { index: number; childIndex?: number }
+
+function stepsPathEqual(a: StepPath | null, b: StepPath | null): boolean {
+  if (!a || !b) return a === b
+  return a.index === b.index && a.childIndex === b.childIndex
+}
 
 function BuilderScreen(props: {
   automation: AutomationPayload
@@ -668,13 +674,21 @@ function BuilderScreen(props: {
   onExport: () => void
 }) {
   const { automation, onChange } = props
-  const [selectedStepIndex, setSelectedStepIndex] = useState<number | null>(null)
+  const [selectedPath, setSelectedPath] = useState<StepPath | null>(null)
   const [rightPanel, setRightPanel] = useState<RightPanel>("empty")
+  const [pickerParentIndex, setPickerParentIndex] = useState<number | null>(null)
 
-  const selectedStep =
-    selectedStepIndex !== null && automation.steps[selectedStepIndex]
-      ? automation.steps[selectedStepIndex]
-      : null
+  const getSelectedStep = (): AutomationStepPayload | null => {
+    if (!selectedPath) return null
+    const topStep = automation.steps[selectedPath.index]
+    if (!topStep) return null
+    if (selectedPath.childIndex !== undefined) {
+      return topStep.children?.[selectedPath.childIndex] ?? null
+    }
+    return topStep
+  }
+
+  const selectedStep = getSelectedStep()
 
   const addStep = (actionType: ActionType) => {
     const def = ACTION_DEFINITIONS.find((d) => d.type === actionType)
@@ -685,71 +699,134 @@ function BuilderScreen(props: {
       params: { ...def.defaultParams },
       enabled: true,
     }
-    const newSteps = [...automation.steps, newStep]
-    onChange({ ...automation, steps: newSteps })
-    setSelectedStepIndex(newSteps.length - 1)
+
+    if (pickerParentIndex !== null) {
+      const steps = [...automation.steps]
+      const parent = { ...steps[pickerParentIndex] }
+      const children = [...(parent.children ?? []), newStep]
+      parent.children = children
+      steps[pickerParentIndex] = parent
+      onChange({ ...automation, steps })
+      setSelectedPath({ index: pickerParentIndex, childIndex: children.length - 1 })
+    } else {
+      const newSteps = [...automation.steps, newStep]
+      onChange({ ...automation, steps: newSteps })
+      setSelectedPath({ index: newSteps.length - 1 })
+    }
     setRightPanel("config")
+    setPickerParentIndex(null)
   }
 
-  const removeStep = (idx: number) => {
+  const removeStep = (path: StepPath) => {
     const steps = [...automation.steps]
-    steps.splice(idx, 1)
+    if (path.childIndex !== undefined) {
+      const parent = { ...steps[path.index] }
+      const children = [...(parent.children ?? [])]
+      children.splice(path.childIndex, 1)
+      parent.children = children.length > 0 ? children : undefined
+      steps[path.index] = parent
+    } else {
+      steps.splice(path.index, 1)
+    }
     onChange({ ...automation, steps })
-    if (selectedStepIndex === idx) {
-      setSelectedStepIndex(null)
+    if (stepsPathEqual(selectedPath, path)) {
+      setSelectedPath(null)
       setRightPanel("empty")
-    } else if (selectedStepIndex !== null && selectedStepIndex > idx) {
-      setSelectedStepIndex(selectedStepIndex - 1)
     }
   }
 
-  const moveStep = (idx: number, direction: -1 | 1) => {
-    const newIdx = idx + direction
-    if (newIdx < 0 || newIdx >= automation.steps.length) return
+  const moveStep = (path: StepPath, direction: -1 | 1) => {
     const steps = [...automation.steps]
-    const temp = steps[idx]
-    steps[idx] = steps[newIdx]
-    steps[newIdx] = temp
-    onChange({ ...automation, steps })
-    if (selectedStepIndex === idx) {
-      setSelectedStepIndex(newIdx)
-    } else if (selectedStepIndex === newIdx) {
-      setSelectedStepIndex(idx)
+    if (path.childIndex !== undefined) {
+      const parent = { ...steps[path.index] }
+      const children = [...(parent.children ?? [])]
+      const newIdx = path.childIndex + direction
+      if (newIdx < 0 || newIdx >= children.length) return
+      const temp = children[path.childIndex]
+      children[path.childIndex] = children[newIdx]
+      children[newIdx] = temp
+      parent.children = children
+      steps[path.index] = parent
+      onChange({ ...automation, steps })
+      if (stepsPathEqual(selectedPath, path)) {
+        setSelectedPath({ index: path.index, childIndex: newIdx })
+      }
+    } else {
+      const newIdx = path.index + direction
+      if (newIdx < 0 || newIdx >= steps.length) return
+      const temp = steps[path.index]
+      steps[path.index] = steps[newIdx]
+      steps[newIdx] = temp
+      onChange({ ...automation, steps })
+      if (stepsPathEqual(selectedPath, path)) {
+        setSelectedPath({ index: newIdx })
+      }
     }
   }
 
-  const toggleStep = (idx: number) => {
+  const toggleStep = (path: StepPath) => {
     const steps = [...automation.steps]
-    steps[idx] = { ...steps[idx], enabled: !steps[idx].enabled }
+    if (path.childIndex !== undefined) {
+      const parent = { ...steps[path.index] }
+      const children = [...(parent.children ?? [])]
+      children[path.childIndex] = { ...children[path.childIndex], enabled: !children[path.childIndex].enabled }
+      parent.children = children
+      steps[path.index] = parent
+    } else {
+      steps[path.index] = { ...steps[path.index], enabled: !steps[path.index].enabled }
+    }
     onChange({ ...automation, steps })
   }
 
-  const selectStep = (idx: number) => {
-    setSelectedStepIndex(idx)
+  const selectStep = (path: StepPath) => {
+    setSelectedPath(path)
     setRightPanel("config")
   }
 
-  const showPicker = () => {
-    setSelectedStepIndex(null)
+  const showPicker = (parentIndex?: number) => {
+    setSelectedPath(null)
+    setPickerParentIndex(parentIndex ?? null)
     setRightPanel("picker")
   }
 
   const updateStepParam = (key: string, value: unknown) => {
-    if (selectedStepIndex === null || !selectedStep) return
+    if (!selectedPath || !selectedStep) return
     const steps = [...automation.steps]
-    steps[selectedStepIndex] = {
-      ...steps[selectedStepIndex],
-      params: { ...steps[selectedStepIndex].params, [key]: value },
+    if (selectedPath.childIndex !== undefined) {
+      const parent = { ...steps[selectedPath.index] }
+      const children = [...(parent.children ?? [])]
+      children[selectedPath.childIndex] = {
+        ...children[selectedPath.childIndex],
+        params: { ...children[selectedPath.childIndex].params, [key]: value },
+      }
+      parent.children = children
+      steps[selectedPath.index] = parent
+    } else {
+      steps[selectedPath.index] = {
+        ...steps[selectedPath.index],
+        params: { ...steps[selectedPath.index].params, [key]: value },
+      }
     }
     onChange({ ...automation, steps })
   }
 
   const updateStepOutputName = (value: string) => {
-    if (selectedStepIndex === null || !selectedStep) return
+    if (!selectedPath || !selectedStep) return
     const steps = [...automation.steps]
-    steps[selectedStepIndex] = {
-      ...steps[selectedStepIndex],
-      outputName: value || undefined,
+    if (selectedPath.childIndex !== undefined) {
+      const parent = { ...steps[selectedPath.index] }
+      const children = [...(parent.children ?? [])]
+      children[selectedPath.childIndex] = {
+        ...children[selectedPath.childIndex],
+        outputName: value || undefined,
+      }
+      parent.children = children
+      steps[selectedPath.index] = parent
+    } else {
+      steps[selectedPath.index] = {
+        ...steps[selectedPath.index],
+        outputName: value || undefined,
+      }
     }
     onChange({ ...automation, steps })
   }
@@ -803,18 +880,31 @@ function BuilderScreen(props: {
             ) : (
               <Stack space="extraSmall">
                 {automation.steps.map((step, idx) => (
-                  <StepRow
-                    key={step.id}
-                    step={step}
-                    index={idx}
-                    total={automation.steps.length}
-                    selected={selectedStepIndex === idx}
-                    onSelect={() => selectStep(idx)}
-                    onToggle={() => toggleStep(idx)}
-                    onRemove={() => removeStep(idx)}
-                    onMoveUp={() => moveStep(idx, -1)}
-                    onMoveDown={() => moveStep(idx, 1)}
-                  />
+                  <Fragment key={step.id}>
+                    <StepRow
+                      step={step}
+                      index={idx}
+                      total={automation.steps.length}
+                      selected={stepsPathEqual(selectedPath, { index: idx })}
+                      onSelect={() => selectStep({ index: idx })}
+                      onToggle={() => toggleStep({ index: idx })}
+                      onRemove={() => removeStep({ index: idx })}
+                      onMoveUp={() => moveStep({ index: idx }, -1)}
+                      onMoveDown={() => moveStep({ index: idx }, 1)}
+                    />
+                    {step.actionType === "repeatWithEach" && (
+                      <RepeatChildrenBlock
+                        parentIndex={idx}
+                        children={step.children ?? []}
+                        selectedPath={selectedPath}
+                        onSelectChild={(childIdx) => selectStep({ index: idx, childIndex: childIdx })}
+                        onToggleChild={(childIdx) => toggleStep({ index: idx, childIndex: childIdx })}
+                        onRemoveChild={(childIdx) => removeStep({ index: idx, childIndex: childIdx })}
+                        onMoveChild={(childIdx, dir) => moveStep({ index: idx, childIndex: childIdx }, dir)}
+                        onAddChild={() => showPicker(idx)}
+                      />
+                    )}
+                  </Fragment>
                 ))}
               </Stack>
             )}
@@ -822,7 +912,7 @@ function BuilderScreen(props: {
 
           {/* Add step button */}
           <div style={{ padding: "4px 8px 8px 8px" }}>
-            <Button fullWidth secondary onClick={showPicker}>
+            <Button fullWidth secondary onClick={() => showPicker()}>
               <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
                 <IconPlus16 />
                 <Text>Add step</Text>
@@ -905,6 +995,7 @@ function StepRow(props: {
   onRemove: () => void
   onMoveUp: () => void
   onMoveDown: () => void
+  labelPrefix?: string
 }) {
   const [hovered, setHovered] = useState(false)
   const def = ACTION_DEFINITIONS.find((d) => d.type === props.step.actionType)
@@ -942,7 +1033,7 @@ function StepRow(props: {
       </div>
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 11, color: "var(--figma-color-text)" }}>
-          <span>{props.index + 1}. {label}</span>
+          <span>{props.labelPrefix ?? ""}{props.index + 1}. {label}</span>
           {categoryLabel && (
             <span
               style={{
@@ -1003,6 +1094,71 @@ function StepRow(props: {
           </IconButton>
         </div>
       )}
+    </div>
+  )
+}
+
+function RepeatChildrenBlock(props: {
+  parentIndex: number
+  children: AutomationStepPayload[]
+  selectedPath: StepPath | null
+  onSelectChild: (childIdx: number) => void
+  onToggleChild: (childIdx: number) => void
+  onRemoveChild: (childIdx: number) => void
+  onMoveChild: (childIdx: number, direction: -1 | 1) => void
+  onAddChild: () => void
+}) {
+  return (
+    <div
+      style={{
+        marginLeft: 16,
+        borderLeft: "2px solid var(--figma-color-border)",
+        paddingLeft: 8,
+        paddingTop: 4,
+        paddingBottom: 4,
+      }}
+    >
+      {props.children.length === 0 ? (
+        <div
+          style={{
+            fontSize: 10,
+            color: "var(--figma-color-text-tertiary)",
+            padding: "4px 4px",
+          }}
+        >
+          No child steps
+        </div>
+      ) : (
+        <Stack space="extraSmall">
+          {props.children.map((child, childIdx) => (
+            <StepRow
+              key={child.id}
+              step={child}
+              index={childIdx}
+              total={props.children.length}
+              selected={stepsPathEqual(props.selectedPath, { index: props.parentIndex, childIndex: childIdx })}
+              onSelect={() => props.onSelectChild(childIdx)}
+              onToggle={() => props.onToggleChild(childIdx)}
+              onRemove={() => props.onRemoveChild(childIdx)}
+              onMoveUp={() => props.onMoveChild(childIdx, -1)}
+              onMoveDown={() => props.onMoveChild(childIdx, 1)}
+              labelPrefix={`${props.parentIndex + 1}.`}
+            />
+          ))}
+        </Stack>
+      )}
+      <div style={{ paddingTop: 4 }}>
+        <Button
+          secondary
+          onClick={props.onAddChild}
+          style={{ fontSize: 10 }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+            <IconPlus16 />
+            <Text>Add child step</Text>
+          </div>
+        </Button>
+      </div>
     </div>
   )
 }
