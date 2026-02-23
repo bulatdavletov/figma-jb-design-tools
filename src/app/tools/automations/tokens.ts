@@ -11,8 +11,9 @@ export interface TokenScope {
  * Resolve `{token}` expressions in a template string.
  *
  * Context-level tokens (resolve once per step):
- *   {count}  — total items in working set
- *   {$var}   — pipeline variable
+ *   {count}       — total items in working set
+ *   {$var}        — pipeline variable (scalar or stringified array)
+ *   {#snap.prop}  — property from first node of a saved node set
  *
  * Node-level tokens (require node in scope):
  *   {index}  — position in working set
@@ -23,7 +24,20 @@ export function resolveTokens(template: string, scope: TokenScope): string {
     if (token.startsWith("$")) {
       const varName = token.slice(1)
       const value = scope.context.pipelineVars[varName]
-      return value !== undefined ? String(value) : ""
+      if (value === undefined) return ""
+      if (Array.isArray(value)) return value.join(", ")
+      return String(value)
+    }
+
+    if (token.startsWith("#")) {
+      const dotIndex = token.indexOf(".")
+      if (dotIndex === -1) return ""
+      const snapName = token.slice(1, dotIndex)
+      const propKey = token.slice(dotIndex + 1)
+      const savedNodes = scope.context.savedNodeSets[snapName]
+      if (!savedNodes || savedNodes.length === 0) return ""
+      const value = getNodeProperty(savedNodes[0], propKey)
+      return value !== null ? String(value) : ""
     }
 
     if (token === "count") {

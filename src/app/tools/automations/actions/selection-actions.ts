@@ -90,6 +90,64 @@ export const expandToChildren: ActionHandler = async (context, _params) => {
   return context
 }
 
+export const goToParent: ActionHandler = async (context, _params) => {
+  const before = context.nodes.length
+  const seen = new Set<string>()
+  const parents: SceneNode[] = []
+
+  for (const node of context.nodes) {
+    const parent = node.parent
+    if (!parent || parent.type === "PAGE" || parent.type === "DOCUMENT") continue
+    if (seen.has(parent.id)) continue
+    seen.add(parent.id)
+    parents.push(parent as SceneNode)
+  }
+
+  context.nodes = parents
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Go to parent",
+    message: `Navigated to ${parents.length} parent(s) from ${before} node(s)`,
+    itemsIn: before,
+    itemsOut: parents.length,
+    status: "success",
+  })
+
+  return context
+}
+
+export const flattenDescendants: ActionHandler = async (context, _params) => {
+  const before = context.nodes.length
+  const descendants: SceneNode[] = []
+
+  for (const node of context.nodes) {
+    collectAllDescendantsOnly(node, descendants)
+  }
+
+  context.nodes = descendants
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Flatten descendants",
+    message: `Flattened to ${descendants.length} descendant(s) from ${before} node(s)`,
+    itemsIn: before,
+    itemsOut: descendants.length,
+    status: "success",
+  })
+
+  return context
+}
+
+function collectAllDescendantsOnly(node: SceneNode, out: SceneNode[]): void {
+  if ("children" in node) {
+    for (const child of (node as ChildrenMixin).children) {
+      out.push(child as SceneNode)
+      collectAllDescendantsOnly(child as SceneNode, out)
+    }
+  }
+}
+
 function collectAllFromPage(): SceneNode[] {
   const out: SceneNode[] = []
   for (const child of figma.currentPage.children) {
