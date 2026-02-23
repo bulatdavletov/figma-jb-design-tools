@@ -431,7 +431,7 @@ export function PrintColorUsagesToolView(props: { onBack: () => void }) {
           {/* Settings tab                                                    */}
           {/* ============================================================ */}
           {activeTab === "Settings" ? (
-            <Stack space="small"> {/* Gap between Position/Distance and Checkboxes*/}
+            <Stack space="small">
 
               {/* Position */}
               <Stack space="extraSmall">

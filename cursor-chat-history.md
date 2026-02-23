@@ -1084,3 +1084,12 @@ Olya suggested to rename from JetBrains Design Tools to Int UI Design Tools
 - `d947045` → `Specs: Add Figma plugin testing guide` + `tests: Add fake-data fixtures and Print Color Usages unit test`
 - `10d4d49` → `tools-registry: Add shared tool registry and data` + `sync-figma-menu: Add menu sync script` + `run, ui, HomeView, messages: Refactor to use tools-registry`
 - Force pushed to origin/main.
+
+### 2026-02-23 — PrintColorUsages: Move Settings to separate tab
+- User started extracting the Settings `Disclosure` into its own "Settings" tab (third tab alongside Print/Update).
+- Finished the migration: fixed `activeTab` type to include `"Settings"`, fixed tab change handler to recognize all 3 values, cleaned up extra wrapper divs in Settings content, hid footer action buttons when on Settings tab, removed unused `settingsOpen` state and `Disclosure`/`Columns` imports.
+- Added two new settings: `applyTextColor` and `applyTextStyle` (both default `true`). These control whether Mockup Markup library color and text style are applied to printed labels.
+- Made the Distance `TextboxNumeric` input narrower (80px) instead of full width.
+- Updated type (`messages.ts`), defaults (view, `settings.ts`, test fixtures), loader (`settings.ts`), and main-thread logic (`print.ts`) to support new fields.
+- Added "Settings Tab" scenario to `print-color-usages.ts` test fixtures.
+- Build passes cleanly.

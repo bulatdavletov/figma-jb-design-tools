@@ -188,7 +188,7 @@ var init_tools_registry_data = __esm({
         description: "Apply text styles and colors",
         category: "General",
         order: 1,
-        icon: "shape-text",
+        icon: "IconShapeText16",
         needsSelection: false
       },
       {
@@ -200,7 +200,7 @@ var init_tools_registry_data = __esm({
         description: "Inspect selection to see full variable alias chains",
         category: "General",
         order: 2,
-        icon: "variable-color",
+        icon: "IconVariableColor16",
         needsSelection: true
       },
       {
@@ -212,19 +212,19 @@ var init_tools_registry_data = __esm({
         description: "Find the closest variable for unbound colors",
         category: "General",
         order: 3,
-        icon: "target",
+        icon: "IconTarget16",
         needsSelection: true
       },
       {
         id: "library-swap-tool",
-        title: "Library Swap",
-        menuLabel: "Library Swap",
+        title: "Migrate to New UI Kit",
+        menuLabel: "Migrate to New UI Kit",
         main: "src/library-swap-tool/main.ts",
-        cardTitle: "Library Swap",
-        description: "Swap component instances from old libraries to new ones",
+        cardTitle: "Migrate to New UI Kit",
+        description: "Replace old library components and icons with their new equivalents",
         category: "General",
         order: 4,
-        icon: "library",
+        icon: "IconLibrary16",
         needsSelection: true
       },
       {
@@ -236,7 +236,7 @@ var init_tools_registry_data = __esm({
         description: "Print unique colors as text labels near selection",
         category: "Variables Management",
         order: 1,
-        icon: "text",
+        icon: "IconText16",
         needsSelection: false
       },
       {
@@ -248,7 +248,7 @@ var init_tools_registry_data = __esm({
         description: "Export variable collections to JSON, import from backup",
         category: "Variables Management",
         order: 2,
-        icon: "folder",
+        icon: "IconFolder16",
         needsSelection: false
       },
       {
@@ -260,7 +260,7 @@ var init_tools_registry_data = __esm({
         description: "Rename multiple variables using a JSON file",
         category: "Variables Management",
         order: 3,
-        icon: "variable",
+        icon: "IconVariable16",
         needsSelection: false
       },
       {
@@ -272,7 +272,7 @@ var init_tools_registry_data = __esm({
         description: "Create new color variables or rename existing ones",
         category: "Variables Management",
         order: 4,
-        icon: "link",
+        icon: "IconLink16",
         needsSelection: false
       },
       {
@@ -284,7 +284,7 @@ var init_tools_registry_data = __esm({
         description: "Replace variable bindings in selection with different variables",
         category: "Variables Management",
         order: 5,
-        icon: "adjust",
+        icon: "IconAdjust16",
         needsSelection: true
       }
     ];
@@ -36994,11 +36994,13 @@ async function loadPrintColorUsagesSettings() {
     return {
       textPosition: (saved == null ? void 0 : saved.textPosition) === "left" || (saved == null ? void 0 : saved.textPosition) === "right" ? saved.textPosition : "right",
       showLinkedColors: typeof (saved == null ? void 0 : saved.showLinkedColors) === "boolean" ? saved.showLinkedColors : true,
-      hideFolderNames: typeof (saved == null ? void 0 : saved.hideFolderNames) === "boolean" ? saved.hideFolderNames : true,
+      showFolderNames: typeof (saved == null ? void 0 : saved.showFolderNames) === "boolean" ? saved.showFolderNames : true,
       textTheme: (saved == null ? void 0 : saved.textTheme) === "dark" || (saved == null ? void 0 : saved.textTheme) === "light" ? saved.textTheme : "dark",
       checkByContent: typeof (saved == null ? void 0 : saved.checkByContent) === "boolean" ? saved.checkByContent : false,
       checkNested: typeof (saved == null ? void 0 : saved.checkNested) === "boolean" ? saved.checkNested : true,
-      printDistance: typeof (saved == null ? void 0 : saved.printDistance) === "number" && saved.printDistance >= 0 ? saved.printDistance : 16
+      printDistance: typeof (saved == null ? void 0 : saved.printDistance) === "number" && saved.printDistance >= 0 ? saved.printDistance : 16,
+      applyTextColor: typeof (saved == null ? void 0 : saved.applyTextColor) === "boolean" ? saved.applyTextColor : true,
+      applyTextStyle: typeof (saved == null ? void 0 : saved.applyTextStyle) === "boolean" ? saved.applyTextStyle : true
     };
   } catch (e) {
     return DEFAULT_PRINT_COLOR_USAGES_SETTINGS;
@@ -37018,11 +37020,13 @@ var init_settings = __esm({
     DEFAULT_PRINT_COLOR_USAGES_SETTINGS = {
       textPosition: "right",
       showLinkedColors: true,
-      hideFolderNames: true,
+      showFolderNames: true,
       textTheme: "dark",
       checkByContent: false,
       checkNested: true,
-      printDistance: 16
+      printDistance: 16,
+      applyTextColor: true,
+      applyTextStyle: true
     };
   }
 });
@@ -37165,8 +37169,8 @@ var init_markup_kit = __esm({
 });
 
 // src/app/tools/print-color-usages/shared.ts
-function maybeStripFolderPrefix(name, hideFolderNames) {
-  if (!hideFolderNames) return name;
+function maybeStripFolderPrefix(name, showFolderNames) {
+  if (!showFolderNames) return name;
   const idx = name.lastIndexOf("/");
   if (idx === -1) return name;
   const leaf = name.slice(idx + 1);
@@ -37263,10 +37267,10 @@ function rgbToHex2(rgb) {
   };
   return `#${toHex(red)}${toHex(green)}${toHex(blue)}`.toUpperCase();
 }
-async function resolveVariableLabelPartsFromVariable(variableId, showLinkedColors, node, hideFolderNames, explicitModeId) {
+async function resolveVariableLabelPartsFromVariable(variableId, showLinkedColors, node, showFolderNames, explicitModeId) {
   var _a, _b, _c;
   const variable = await figma.variables.getVariableByIdAsync(variableId);
-  const primaryText = maybeStripFolderPrefix((_b = (_a = variable == null ? void 0 : variable.name) != null ? _a : variable == null ? void 0 : variable.key) != null ? _b : "Unknown Variable", hideFolderNames);
+  const primaryText = maybeStripFolderPrefix((_b = (_a = variable == null ? void 0 : variable.name) != null ? _a : variable == null ? void 0 : variable.key) != null ? _b : "Unknown Variable", showFolderNames);
   const modeContext = await resolveVariableModeContext(
     variable == null ? void 0 : variable.variableCollectionId,
     node,
@@ -37283,7 +37287,7 @@ async function resolveVariableLabelPartsFromVariable(variableId, showLinkedColor
     if (aliasValue.id) {
       try {
         const linkedVariable = await figma.variables.getVariableByIdAsync(aliasValue.id);
-        if (linkedVariable == null ? void 0 : linkedVariable.name) secondaryText = maybeStripFolderPrefix(linkedVariable.name, hideFolderNames);
+        if (linkedVariable == null ? void 0 : linkedVariable.name) secondaryText = maybeStripFolderPrefix(linkedVariable.name, showFolderNames);
       } catch (e) {
       }
     }
@@ -37301,7 +37305,7 @@ async function resolveVariableLabelPartsFromVariable(variableId, showLinkedColor
         const styleOpacity = stylePaint.opacity === void 0 ? 1 : stylePaint.opacity;
         const colorMatch = Math.abs(stylePaint.color.r - rgb.r) < 1e-3 && Math.abs(stylePaint.color.g - rgb.g) < 1e-3 && Math.abs(stylePaint.color.b - rgb.b) < 1e-3 && Math.abs(styleOpacity - valueOpacity) < 1e-3;
         if (colorMatch) {
-          secondaryText = maybeStripFolderPrefix(style.name, hideFolderNames);
+          secondaryText = maybeStripFolderPrefix(style.name, showFolderNames);
           break;
         }
       }
@@ -37365,10 +37369,10 @@ async function getStyleName(node, property) {
   }
   return null;
 }
-async function getColorUsage(paint, showLinkedColors = true, node, hideFolderNames = false) {
+async function getColorUsage(paint, showLinkedColors = true, node, showFolderNames = false) {
   const boundVariableId = getBoundColorVariableIdFromPaint(paint);
   if (boundVariableId) {
-    const parts = await resolveVariableLabelPartsFromVariable(boundVariableId, showLinkedColors, node, hideFolderNames);
+    const parts = await resolveVariableLabelPartsFromVariable(boundVariableId, showLinkedColors, node, showFolderNames);
     const primaryText = parts.primaryText;
     const secondaryText = parts.secondaryText;
     if (showLinkedColors && secondaryText && paint.type === "SOLID") {
@@ -37418,17 +37422,17 @@ async function getColorUsage(paint, showLinkedColors = true, node, hideFolderNam
   }
   return { label: "unknown color", layerName: "unknown color", uniqueKey: "unknown color" };
 }
-async function analyzeNodeColors(node, showLinkedColors = true, hideFolderNames = false, checkNested = true) {
+async function analyzeNodeColors(node, showLinkedColors = true, showFolderNames = false, checkNested = true) {
   const colorInfo = [];
   if (node.visible === false) return colorInfo;
   if ("fills" in node && node.fills && Array.isArray(node.fills) && node.fills.length > 0) {
     const fillStyleName = await getStyleName(node, "fills");
     if (fillStyleName) {
-      const label = maybeStripFolderPrefix(fillStyleName, hideFolderNames);
+      const label = maybeStripFolderPrefix(fillStyleName, showFolderNames);
       colorInfo.push({ label, layerName: label, uniqueKey: label });
     } else {
       const fillColors = await Promise.all(
-        node.fills.filter((fill) => fill.type === "SOLID" && fill.visible !== false && (fill.opacity === void 0 || fill.opacity > 0)).map((fill) => getColorUsage(fill, showLinkedColors, node, hideFolderNames))
+        node.fills.filter((fill) => fill.type === "SOLID" && fill.visible !== false && (fill.opacity === void 0 || fill.opacity > 0)).map((fill) => getColorUsage(fill, showLinkedColors, node, showFolderNames))
       );
       colorInfo.push(...fillColors);
     }
@@ -37436,11 +37440,11 @@ async function analyzeNodeColors(node, showLinkedColors = true, hideFolderNames 
   if ("strokes" in node && node.strokes && Array.isArray(node.strokes) && node.strokes.length > 0) {
     const strokeStyleName = await getStyleName(node, "strokes");
     if (strokeStyleName) {
-      const label = maybeStripFolderPrefix(strokeStyleName, hideFolderNames);
+      const label = maybeStripFolderPrefix(strokeStyleName, showFolderNames);
       colorInfo.push({ label, layerName: label, uniqueKey: label });
     } else {
       const strokeColors = await Promise.all(
-        node.strokes.filter((stroke) => stroke.type === "SOLID" && stroke.visible !== false && (stroke.opacity === void 0 || stroke.opacity > 0)).map((stroke) => getColorUsage(stroke, showLinkedColors, node, hideFolderNames))
+        node.strokes.filter((stroke) => stroke.type === "SOLID" && stroke.visible !== false && (stroke.opacity === void 0 || stroke.opacity > 0)).map((stroke) => getColorUsage(stroke, showLinkedColors, node, showFolderNames))
       );
       colorInfo.push(...strokeColors);
     }
@@ -37450,7 +37454,7 @@ async function analyzeNodeColors(node, showLinkedColors = true, hideFolderNames 
     if (!isUnion) {
       const children = node;
       for (const child of children.children) {
-        const childColors = await analyzeNodeColors(child, showLinkedColors, hideFolderNames, checkNested);
+        const childColors = await analyzeNodeColors(child, showLinkedColors, showFolderNames, checkNested);
         colorInfo.push(...childColors);
       }
     }
@@ -37526,7 +37530,7 @@ function getNodeRectInContainer(node, container) {
   };
 }
 async function printColorUsagesFromSelection(settings) {
-  var _a, _b;
+  var _a, _b, _c, _d;
   const selection = figma.currentPage.selection;
   if (selection.length === 0) {
     figma.notify("Please select an element first");
@@ -37535,24 +37539,28 @@ async function printColorUsagesFromSelection(settings) {
   await savePrintColorUsagesSettings(settings);
   const textPosition = settings.textPosition;
   const showLinkedColors = settings.showLinkedColors;
-  const hideFolderNames = settings.hideFolderNames;
+  const showFolderNames = settings.showFolderNames;
   const checkNested = settings.checkNested !== false;
   const printDistance = typeof settings.printDistance === "number" ? settings.printDistance : 16;
+  const useMarkupStyle = settings.applyTextStyle !== false;
+  const useMarkupColor = settings.applyTextColor !== false;
   let markupDescriptionStyle = null;
-  try {
-    markupDescriptionStyle = await resolveMarkupDescriptionTextStyle();
-  } catch (e) {
+  if (useMarkupStyle) {
+    try {
+      markupDescriptionStyle = await resolveMarkupDescriptionTextStyle();
+    } catch (e) {
+    }
   }
   await loadFontsForLabelTextStyle(markupDescriptionStyle);
   const themeColors = getThemeColors(settings.textTheme);
-  const labelFills = await resolveMarkupTextFills(themeColors);
-  const primaryFills = labelFills.primary;
-  const secondaryFills = labelFills.secondary;
+  const labelFills = useMarkupColor ? await resolveMarkupTextFills(themeColors) : null;
+  const primaryFills = (_a = labelFills == null ? void 0 : labelFills.primary) != null ? _a : [{ type: "SOLID", color: themeColors.primary }];
+  const secondaryFills = (_b = labelFills == null ? void 0 : labelFills.secondary) != null ? _b : [{ type: "SOLID", color: themeColors.secondary }];
   const textNodes = [];
   let groupsWithNoColors = 0;
   const groups = /* @__PURE__ */ new Map();
   for (const selected of selection) {
-    const anchor = (_a = findOutermostContainingInstance(selected)) != null ? _a : selected;
+    const anchor = (_c = findOutermostContainingInstance(selected)) != null ? _c : selected;
     const key = anchor.id;
     const existing = groups.get(key);
     if (!existing) groups.set(key, { anchor, selectedNodes: [selected] });
@@ -37563,7 +37571,7 @@ async function printColorUsagesFromSelection(settings) {
     const nodesToAnalyze = group.selectedNodes.some((n) => n.id === anchor.id) ? [anchor] : group.selectedNodes;
     const merged = [];
     for (const n of nodesToAnalyze) {
-      const colors = await analyzeNodeColors(n, showLinkedColors, hideFolderNames, checkNested);
+      const colors = await analyzeNodeColors(n, showLinkedColors, showFolderNames, checkNested);
       merged.push(...colors);
     }
     const uniqueByKey = /* @__PURE__ */ new Map();
@@ -37581,7 +37589,7 @@ async function printColorUsagesFromSelection(settings) {
       groupsWithNoColors++;
       continue;
     }
-    const parentContainer = (_b = findContainingFrame(anchor)) != null ? _b : figma.currentPage;
+    const parentContainer = (_d = findContainingFrame(anchor)) != null ? _d : figma.currentPage;
     const nodeRect = getNodeRectInContainer(anchor, parentContainer);
     for (let i = 0; i < colorInfo.length; i++) {
       const info = colorInfo[i];
@@ -37598,7 +37606,7 @@ async function printColorUsagesFromSelection(settings) {
       text.x = position.x;
       text.y = position.y;
       text.fills = primaryFills;
-      if (labelFills.primaryVariableId && !verifyFillBinding(text, labelFills.primaryVariableId)) {
+      if ((labelFills == null ? void 0 : labelFills.primaryVariableId) && !verifyFillBinding(text, labelFills.primaryVariableId)) {
         console.warn("[Print Color Usages] Fill binding mismatch on primary fill for", text.name);
       }
       const parts = info.styledVariableParts;
@@ -37741,7 +37749,7 @@ async function resolveUpdateTargetForText(text, settings) {
       variableIdToUse,
       settings.showLinkedColors,
       text,
-      settings.hideFolderNames,
+      settings.showFolderNames,
       explicitModeId
     );
   } catch (e) {
@@ -37970,11 +37978,11 @@ function registerPrintColorUsagesTool(getActiveTool) {
     }
     const settings = cachedSettings != null ? cachedSettings : await loadPrintColorUsagesSettings();
     const showLinkedColors = settings.showLinkedColors;
-    const hideFolderNames = settings.hideFolderNames;
+    const showFolderNames = settings.showFolderNames;
     const checkNested = settings.checkNested !== false;
     const merged = [];
     for (const n of selection) {
-      const colors = await analyzeNodeColors(n, showLinkedColors, hideFolderNames, checkNested);
+      const colors = await analyzeNodeColors(n, showLinkedColors, showFolderNames, checkNested);
       merged.push(...colors);
     }
     const uniqueByKey = /* @__PURE__ */ new Map();
