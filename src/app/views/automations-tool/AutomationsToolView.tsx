@@ -13,6 +13,7 @@ import {
   Stack,
   Text,
   Textbox,
+  TextboxMultiline,
   VerticalSpace,
 } from "@create-figma-plugin/ui"
 import { h, Fragment } from "preact"
@@ -35,6 +36,7 @@ import {
   type AutomationsRunProgress,
   type AutomationsRunResult,
   type AutomationsStepLog,
+  type AutomationsInputRequest,
 } from "../../messages"
 import {
   ACTION_DEFINITIONS,
@@ -112,6 +114,7 @@ export function AutomationsToolView(props: { onBack: () => void }) {
   const [editingAutomation, setEditingAutomation] = useState<AutomationPayload | null>(null)
   const [runProgress, setRunProgress] = useState<AutomationsRunProgress | null>(null)
   const [runResult, setRunResult] = useState<AutomationsRunResult | null>(null)
+  const [inputRequest, setInputRequest] = useState<AutomationsInputRequest | null>(null)
 
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
@@ -138,10 +141,14 @@ export function AutomationsToolView(props: { onBack: () => void }) {
       if (msg.type === MAIN_TO_UI.AUTOMATIONS_RUN_RESULT) {
         setRunResult(msg.result)
         setRunProgress(null)
+        setInputRequest(null)
         if (msg.result.log && msg.result.log.length > 0) {
           setScreen("runOutput")
           postMessage({ type: UI_TO_MAIN.RESIZE_WINDOW, width: BUILDER_WIDTH, height: BUILDER_HEIGHT })
         }
+      }
+      if (msg.type === MAIN_TO_UI.AUTOMATIONS_INPUT_REQUEST) {
+        setInputRequest(msg.request)
       }
     }
     window.addEventListener("message", handleMessage)
@@ -196,6 +203,11 @@ export function AutomationsToolView(props: { onBack: () => void }) {
       postMessage({ type: UI_TO_MAIN.AUTOMATIONS_SAVE, automation: payload })
     }
     reader.readAsText(files[0])
+  }, [])
+
+  const handleInputSubmit = useCallback((value: string) => {
+    postMessage({ type: UI_TO_MAIN.AUTOMATIONS_INPUT_RESPONSE, value })
+    setInputRequest(null)
   }, [])
 
   const handleSave = useCallback(() => {
@@ -256,17 +268,105 @@ export function AutomationsToolView(props: { onBack: () => void }) {
   }
 
   return (
-    <ListScreen
-      automations={automations}
-      runProgress={runProgress}
-      runResult={runResult}
-      onBack={props.onBack}
-      onCreateNew={handleCreateNew}
-      onEdit={handleEdit}
-      onRun={handleRun}
-      onDelete={handleDelete}
-      onImport={handleImport}
-    />
+    <Fragment>
+      <ListScreen
+        automations={automations}
+        runProgress={runProgress}
+        runResult={runResult}
+        onBack={props.onBack}
+        onCreateNew={handleCreateNew}
+        onEdit={handleEdit}
+        onRun={handleRun}
+        onDelete={handleDelete}
+        onImport={handleImport}
+      />
+      {inputRequest && (
+        <InputDialog
+          request={inputRequest}
+          onSubmit={handleInputSubmit}
+        />
+      )}
+    </Fragment>
+  )
+}
+
+// ============================================================================
+// Input Dialog (overlay during askForInput execution)
+// ============================================================================
+
+function InputDialog(props: {
+  request: AutomationsInputRequest
+  onSubmit: (value: string) => void
+}) {
+  const [value, setValue] = useState("")
+
+  const handleSubmit = () => {
+    props.onSubmit(value)
+  }
+
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (e.key === "Enter" && props.request.inputType === "text") {
+      e.preventDefault()
+      handleSubmit()
+    }
+  }
+
+  return (
+    <div
+      style={{
+        position: "fixed",
+        inset: 0,
+        zIndex: 1000,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        background: "rgba(0, 0, 0, 0.4)",
+      }}
+    >
+      <div
+        style={{
+          background: "var(--figma-color-bg)",
+          borderRadius: 8,
+          padding: 16,
+          width: 300,
+          boxShadow: "0 4px 24px rgba(0, 0, 0, 0.3)",
+        }}
+      >
+        <Text style={{ fontSize: 12, fontWeight: 600 }}>{props.request.label}</Text>
+        <VerticalSpace space="small" />
+        {props.request.inputType === "textarea" ? (
+          <TextboxMultiline
+            value={value}
+            onValueInput={setValue}
+            placeholder={props.request.placeholder || "Enter text..."}
+            rows={6}
+          />
+        ) : (
+          <Textbox
+            value={value}
+            onValueInput={setValue}
+            onKeyDown={handleKeyDown}
+            placeholder={props.request.placeholder || "Enter text..."}
+          />
+        )}
+        <VerticalSpace space="small" />
+        <div style={{ display: "flex", gap: 8 }}>
+          <Button
+            style={{ flex: 1 }}
+            onClick={handleSubmit}
+          >
+            Submit
+          </Button>
+          <Button
+            style={{ flex: 1 }}
+            secondary
+            onClick={() => props.onSubmit("")}
+          >
+            Cancel
+          </Button>
+        </div>
+      </div>
+    </div>
   )
 }
 
