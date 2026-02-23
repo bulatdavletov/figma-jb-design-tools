@@ -690,10 +690,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0efdda9e-20bf-4138-9182-efe2fca1d163/loading-indicator.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/fc032e12-691a-44cf-8521-fb0c0d3f601a/loading-indicator.module.js
   var loading_indicator_module_default;
   var init_loading_indicator_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0efdda9e-20bf-4138-9182-efe2fca1d163/loading-indicator.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/fc032e12-691a-44cf-8521-fb0c0d3f601a/loading-indicator.module.js"() {
       if (document.getElementById("3fe0db8eb7") === null) {
         const element = document.createElement("style");
         element.id = "3fe0db8eb7";
@@ -754,10 +754,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d1818605-7760-4e6e-b94c-996e9c788d73/button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/13b48531-5ac1-4320-be42-cbb9bd031ffc/button.module.js
   var button_module_default;
   var init_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d1818605-7760-4e6e-b94c-996e9c788d73/button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/13b48531-5ac1-4320-be42-cbb9bd031ffc/button.module.js"() {
       if (document.getElementById("1dddd0e4df") === null) {
         const element = document.createElement("style");
         element.id = "1dddd0e4df";
@@ -1405,10 +1405,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/39362f2e-31a6-4737-90da-9edb42a4ba10/checkbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/25027975-53e9-495e-a8fb-7ffbf7c4f465/checkbox.module.js
   var checkbox_module_default;
   var init_checkbox_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/39362f2e-31a6-4737-90da-9edb42a4ba10/checkbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/25027975-53e9-495e-a8fb-7ffbf7c4f465/checkbox.module.js"() {
       if (document.getElementById("f38d076240") === null) {
         const element = document.createElement("style");
         element.id = "f38d076240";
@@ -1557,10 +1557,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/bea5c91e-a49b-4dcf-b59a-bbea34e11228/divider.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ae26bb4b-2fbf-40f1-adaa-ad9fa5631630/divider.module.js
   var divider_module_default;
   var init_divider_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/bea5c91e-a49b-4dcf-b59a-bbea34e11228/divider.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ae26bb4b-2fbf-40f1-adaa-ad9fa5631630/divider.module.js"() {
       if (document.getElementById("4bf06403b9") === null) {
         const element = document.createElement("style");
         element.id = "4bf06403b9";
@@ -1590,10 +1590,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f721f784-944a-4d3c-bf3b-35512255b4b6/menu.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/277cf3ac-7bf0-4b4f-965b-2573cbf2ca2c/menu.module.js
   var menu_module_default;
   var init_menu_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f721f784-944a-4d3c-bf3b-35512255b4b6/menu.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/277cf3ac-7bf0-4b4f-965b-2573cbf2ca2c/menu.module.js"() {
       if (document.getElementById("29044db304") === null) {
         const element = document.createElement("style");
         element.id = "29044db304";
@@ -1816,10 +1816,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e89f8463-2f30-471a-be01-b1d6f5fa5248/dropdown.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2833fa9f-addf-42d6-ac26-e46eac24bdd2/dropdown.module.js
   var dropdown_module_default;
   var init_dropdown_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e89f8463-2f30-471a-be01-b1d6f5fa5248/dropdown.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2833fa9f-addf-42d6-ac26-e46eac24bdd2/dropdown.module.js"() {
       if (document.getElementById("5a226eb00e") === null) {
         const element = document.createElement("style");
         element.id = "5a226eb00e";
@@ -2260,10 +2260,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f06bac48-8a00-45db-8b06-75dc833939cf/button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9dfdd039-a0bc-49a8-a1b6-c8788005bd4e/button.module.js
   var button_module_default2;
   var init_button_module2 = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f06bac48-8a00-45db-8b06-75dc833939cf/button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9dfdd039-a0bc-49a8-a1b6-c8788005bd4e/button.module.js"() {
       if (document.getElementById("1dddd0e4df") === null) {
         const element = document.createElement("style");
         element.id = "1dddd0e4df";
@@ -2427,10 +2427,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/98f8db82-ebcb-4d4f-a477-0a447db3804d/file-upload-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d7519507-e29b-4143-b6e2-e4ce23e7b9f6/file-upload-button.module.js
   var file_upload_button_module_default;
   var init_file_upload_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/98f8db82-ebcb-4d4f-a477-0a447db3804d/file-upload-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d7519507-e29b-4143-b6e2-e4ce23e7b9f6/file-upload-button.module.js"() {
       if (document.getElementById("f115bb30c8") === null) {
         const element = document.createElement("style");
         element.id = "f115bb30c8";
@@ -2545,10 +2545,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f5552d98-50c7-45e7-b090-fb4f6f6bb78d/icon-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f1ac92b3-2953-4c86-b69c-3acc7b8ca228/icon-button.module.js
   var icon_button_module_default;
   var init_icon_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f5552d98-50c7-45e7-b090-fb4f6f6bb78d/icon-button.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f1ac92b3-2953-4c86-b69c-3acc7b8ca228/icon-button.module.js"() {
       if (document.getElementById("c8b08e6568") === null) {
         const element = document.createElement("style");
         element.id = "c8b08e6568";
@@ -2626,10 +2626,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b34c0206-888a-4f79-95db-9f42b2861fdc/text.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c07e0ec6-c33f-4705-a536-db18fde45ae3/text.module.js
   var text_module_default;
   var init_text_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b34c0206-888a-4f79-95db-9f42b2861fdc/text.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c07e0ec6-c33f-4705-a536-db18fde45ae3/text.module.js"() {
       if (document.getElementById("1278016d5c") === null) {
         const element = document.createElement("style");
         element.id = "1278016d5c";
@@ -2687,10 +2687,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c7c7fa30-cc93-48f8-a198-64cc3e379e60/inline.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/cab29b5e-1e43-49e6-8c5e-e9af198760c2/inline.module.js
   var inline_module_default;
   var init_inline_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c7c7fa30-cc93-48f8-a198-64cc3e379e60/inline.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/cab29b5e-1e43-49e6-8c5e-e9af198760c2/inline.module.js"() {
       if (document.getElementById("3e1b2856fc") === null) {
         const element = document.createElement("style");
         element.id = "3e1b2856fc";
@@ -2752,10 +2752,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/435a3d06-c2d0-4679-8fd9-a0975db12f10/stack.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/62ef28d9-d7c7-4dc8-a1af-57469d6fbdf9/stack.module.js
   var stack_module_default;
   var init_stack_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/435a3d06-c2d0-4679-8fd9-a0975db12f10/stack.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/62ef28d9-d7c7-4dc8-a1af-57469d6fbdf9/stack.module.js"() {
       if (document.getElementById("317515cc3f") === null) {
         const element = document.createElement("style");
         element.id = "317515cc3f";
@@ -2798,10 +2798,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/74b1d128-65b8-4334-9baf-30dd717cb8ea/radio-buttons.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/004cd102-2886-46d3-901b-1daa73f25d36/radio-buttons.module.js
   var radio_buttons_module_default;
   var init_radio_buttons_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/74b1d128-65b8-4334-9baf-30dd717cb8ea/radio-buttons.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/004cd102-2886-46d3-901b-1daa73f25d36/radio-buttons.module.js"() {
       if (document.getElementById("a066c67891") === null) {
         const element = document.createElement("style");
         element.id = "a066c67891";
@@ -2920,10 +2920,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0f1f1f81-3746-4d18-ac9e-add0ae8e6538/segmented-control.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e240b278-b806-41cd-a151-7dc3720284f6/segmented-control.module.js
   var segmented_control_module_default;
   var init_segmented_control_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0f1f1f81-3746-4d18-ac9e-add0ae8e6538/segmented-control.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e240b278-b806-41cd-a151-7dc3720284f6/segmented-control.module.js"() {
       if (document.getElementById("bc6858a1b5") === null) {
         const element = document.createElement("style");
         element.id = "bc6858a1b5";
@@ -3024,10 +3024,10 @@
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f1e056ba-0099-4ce1-a8fd-a8d5b05ea7b7/tabs.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/235d249c-a9ab-4b40-b783-37aa6a626358/tabs.module.js
   var tabs_module_default;
   var init_tabs_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f1e056ba-0099-4ce1-a8fd-a8d5b05ea7b7/tabs.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/235d249c-a9ab-4b40-b783-37aa6a626358/tabs.module.js"() {
       if (document.getElementById("b2487bb7e6") === null) {
         const element = document.createElement("style");
         element.id = "b2487bb7e6";
@@ -3244,10 +3244,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/adc9cada-d364-4558-a8e4-ce2922b25373/textbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ca266221-29d9-43cf-a900-25b660820281/textbox.module.js
   var textbox_module_default;
   var init_textbox_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/adc9cada-d364-4558-a8e4-ce2922b25373/textbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ca266221-29d9-43cf-a900-25b660820281/textbox.module.js"() {
       if (document.getElementById("5c1c5c2d3d") === null) {
         const element = document.createElement("style");
         element.id = "5c1c5c2d3d";
@@ -3734,10 +3734,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8f56453b-4f4a-4af1-be39-c09814cae2da/textbox-color.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4fa0251d-1420-4adf-aff3-082c09db553b/textbox-color.module.js
   var textbox_color_module_default;
   var init_textbox_color_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8f56453b-4f4a-4af1-be39-c09814cae2da/textbox-color.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4fa0251d-1420-4adf-aff3-082c09db553b/textbox-color.module.js"() {
       if (document.getElementById("77000fee0f") === null) {
         const element = document.createElement("style");
         element.id = "77000fee0f";
@@ -4055,10 +4055,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e5569b7e-89a4-4458-a873-9da6129b35e1/textbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/134a18da-9ffd-4e82-a21b-96089d2e15df/textbox.module.js
   var textbox_module_default2;
   var init_textbox_module2 = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e5569b7e-89a4-4458-a873-9da6129b35e1/textbox.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/134a18da-9ffd-4e82-a21b-96089d2e15df/textbox.module.js"() {
       if (document.getElementById("5c1c5c2d3d") === null) {
         const element = document.createElement("style");
         element.id = "5c1c5c2d3d";
@@ -4129,10 +4129,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b6cbe4ec-311a-4dfa-92ab-0f8e969c5fe1/textbox-numeric.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/eb0fa701-01e5-4340-8a1b-af7ffbeb03d2/textbox-numeric.module.js
   var textbox_numeric_module_default;
   var init_textbox_numeric_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b6cbe4ec-311a-4dfa-92ab-0f8e969c5fe1/textbox-numeric.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/eb0fa701-01e5-4340-8a1b-af7ffbeb03d2/textbox-numeric.module.js"() {
       if (document.getElementById("b6dab244a8") === null) {
         const element = document.createElement("style");
         element.id = "b6dab244a8";
@@ -4362,10 +4362,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5b74fb09-b5c5-4a16-a106-e6d9436b1850/container.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c09b0532-4a6e-4804-9087-93198fb958cb/container.module.js
   var container_module_default;
   var init_container_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5b74fb09-b5c5-4a16-a106-e6d9436b1850/container.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c09b0532-4a6e-4804-9087-93198fb958cb/container.module.js"() {
       if (document.getElementById("b49e1406f9") === null) {
         const element = document.createElement("style");
         element.id = "b49e1406f9";
@@ -4406,10 +4406,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ec6363b9-e931-4113-a147-83c2371942c3/vertical-space.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2a222cf1-4ae3-41f9-bf13-0026156566d6/vertical-space.module.js
   var vertical_space_module_default;
   var init_vertical_space_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ec6363b9-e931-4113-a147-83c2371942c3/vertical-space.module.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2a222cf1-4ae3-41f9-bf13-0026156566d6/vertical-space.module.js"() {
       if (document.getElementById("ba0eea5114") === null) {
         const element = document.createElement("style");
         element.id = "ba0eea5114";
@@ -4450,9 +4450,9 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6212272c-05d0-4e8b-8be6-9beb8edefbce/base.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f04d666b-7665-4ad6-bc28-edc8446165c9/base.js
   var init_base = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6212272c-05d0-4e8b-8be6-9beb8edefbce/base.js"() {
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f04d666b-7665-4ad6-bc28-edc8446165c9/base.js"() {
       if (document.getElementById("0597dd81e7") === null) {
         const element = document.createElement("style");
         element.id = "0597dd81e7";
@@ -5187,7 +5187,9 @@ svg {
             flexDirection: "column"
           }
         },
-        /* @__PURE__ */ _(Stack, { space: "medium" }, props.children)
+        /* @__PURE__ */ _(VerticalSpace, { space: "medium" }),
+        props.children,
+        /* @__PURE__ */ _(VerticalSpace, { space: "medium" })
       )
     );
   }
@@ -5716,6 +5718,7 @@ svg {
         },
         props.icon
       ), /* @__PURE__ */ _(VerticalSpace, { space: "medium" })) : null,
+      props.loading ? /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(LoadingIndicator, null)) : null,
       /* @__PURE__ */ _(Text, { style: { color: textColor } }, props.title),
       props.description ? /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(VerticalSpace, { space: "extraSmall" }), /* @__PURE__ */ _(Text, { style: { color: textColor } }, props.description)) : null
     );
@@ -6644,6 +6647,23 @@ svg {
     }
   });
 
+  // src/app/components/ToolTabs.tsx
+  function ToolTabs({ value: value2, onValueChange, options }) {
+    const tabOptions = T2(
+      () => options.map((o3) => ({ value: o3.value, children: null })),
+      [options]
+    );
+    return /* @__PURE__ */ _("div", { "data-tool-tabs": true }, /* @__PURE__ */ _(Tabs, { value: value2, onValueChange, options: tabOptions }), /* @__PURE__ */ _("style", null, `[data-tool-tabs] > div:first-child { border-bottom: none; }`));
+  }
+  var init_ToolTabs = __esm({
+    "src/app/components/ToolTabs.tsx"() {
+      "use strict";
+      init_lib2();
+      init_preact_module();
+      init_hooks_module();
+    }
+  });
+
   // src/app/components/DataList.tsx
   function DataList(props) {
     var _a;
@@ -6656,7 +6676,7 @@ svg {
           color: "var(--figma-color-text-secondary)",
           fontSize: 11,
           lineHeight: "16px",
-          marginBottom: 6
+          marginBottom: 10
         }
       },
       props.header
@@ -6828,6 +6848,117 @@ svg {
     }
   });
 
+  // src/app/views/print-color-usages-tool/PrintTab.tsx
+  function PrintTab(props) {
+    const { printPreview, selectionSize } = props;
+    if (selectionSize === 0) {
+      return /* @__PURE__ */ _(
+        State,
+        {
+          icon: /* @__PURE__ */ _(IconInteractionClickSmall24, null),
+          title: "Select layers to print color usages."
+        }
+      );
+    }
+    if (!printPreview) {
+      return /* @__PURE__ */ _(State, { loading: true });
+    }
+    if (printPreview.entries.length === 0) {
+      return /* @__PURE__ */ _(State, { title: "No colors found in selection" });
+    }
+    return /* @__PURE__ */ _(Stack, { space: "medium" }, /* @__PURE__ */ _(DataList, { header: "Will be printed" }, printPreview.entries.map((entry, index) => /* @__PURE__ */ _(
+      DataRow,
+      {
+        key: `${entry.layerName}-${index}`,
+        primary: entry.label,
+        secondary: entry.layerName,
+        trailing: /* @__PURE__ */ _(CopyIconButton, { text: entry.layerName, title: "Copy layer name" })
+      }
+    ))));
+  }
+  var init_PrintTab = __esm({
+    "src/app/views/print-color-usages-tool/PrintTab.tsx"() {
+      "use strict";
+      init_lib2();
+      init_preact_module();
+      init_CopyIconButton();
+      init_DataList();
+      init_DataRow();
+      init_State();
+    }
+  });
+
+  // src/app/views/print-color-usages-tool/SettingsTab.tsx
+  function SettingsTab(props) {
+    const { settings, setSettings } = props;
+    return /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(Text, null, "Position"), /* @__PURE__ */ _("div", { style: { height: 24, display: "flex", alignItems: "center" } }, /* @__PURE__ */ _(
+      RadioButtons,
+      {
+        direction: "horizontal",
+        value: settings.textPosition,
+        onValueChange: (value2) => setSettings((s3) => __spreadProps(__spreadValues({}, s3), {
+          textPosition: value2 === "left" || value2 === "right" ? value2 : "right"
+        })),
+        options: [
+          { value: "left", children: /* @__PURE__ */ _(Text, null, "Left") },
+          { value: "right", children: /* @__PURE__ */ _(Text, null, "Right") }
+        ]
+      }
+    ))), /* @__PURE__ */ _(Stack, { space: "extraSmall", style: { marginBottom: 20 } }, /* @__PURE__ */ _(Text, null, "Distance"), /* @__PURE__ */ _("div", { style: { width: 80 } }, /* @__PURE__ */ _(
+      TextboxNumeric,
+      {
+        icon: /* @__PURE__ */ _(IconSpacingHorizontalSmall24, null),
+        value: String(settings.printDistance),
+        onNumericValueInput: (value2) => setSettings((s3) => __spreadProps(__spreadValues({}, s3), { printDistance: value2 != null ? value2 : 16 })),
+        minimum: 0,
+        integer: true,
+        suffix: " px"
+      }
+    ))), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(
+      Checkbox,
+      {
+        value: settings.showLinkedColors,
+        onValueChange: (value2) => setSettings((s3) => __spreadProps(__spreadValues({}, s3), { showLinkedColors: value2 }))
+      },
+      /* @__PURE__ */ _(Text, null, "Show linked colors")
+    ), /* @__PURE__ */ _(
+      Checkbox,
+      {
+        value: settings.showFolderNames,
+        onValueChange: (value2) => setSettings((s3) => __spreadProps(__spreadValues({}, s3), { showFolderNames: value2 }))
+      },
+      /* @__PURE__ */ _(Text, null, "Show folder name (before slash)")
+    ), /* @__PURE__ */ _(
+      Checkbox,
+      {
+        value: settings.checkNested,
+        onValueChange: (value2) => setSettings((s3) => __spreadProps(__spreadValues({}, s3), { checkNested: value2 }))
+      },
+      /* @__PURE__ */ _(Text, null, "Check colors of nested items")
+    ), /* @__PURE__ */ _(
+      Checkbox,
+      {
+        value: settings.applyTextColor,
+        onValueChange: (value2) => setSettings((s3) => __spreadProps(__spreadValues({}, s3), { applyTextColor: value2 }))
+      },
+      /* @__PURE__ */ _(Text, null, "Apply text color from Mockup Markup")
+    ), /* @__PURE__ */ _(
+      Checkbox,
+      {
+        value: settings.applyTextStyle,
+        onValueChange: (value2) => setSettings((s3) => __spreadProps(__spreadValues({}, s3), { applyTextStyle: value2 }))
+      },
+      /* @__PURE__ */ _(Text, null, "Apply text style from Mockup Markup")
+    )));
+  }
+  var init_SettingsTab = __esm({
+    "src/app/views/print-color-usages-tool/SettingsTab.tsx"() {
+      "use strict";
+      init_lib2();
+      init_preact_module();
+    }
+  });
+
   // src/app/components/InlineTextDiff.tsx
   function splitDiff(before, after) {
     const a3 = String(before != null ? before : "");
@@ -6879,125 +7010,24 @@ svg {
     }
   });
 
-  // src/app/components/ToolTabs.tsx
-  function ToolTabs({ value: value2, onValueChange, options }) {
-    const tabOptions = T2(
-      () => options.map((o3) => ({ value: o3.value, children: null })),
-      [options]
-    );
-    return /* @__PURE__ */ _("div", { "data-tool-tabs": true }, /* @__PURE__ */ _(Tabs, { value: value2, onValueChange, options: tabOptions }), /* @__PURE__ */ _("style", null, `[data-tool-tabs] > div:first-child { border-bottom: none; }`));
-  }
-  var init_ToolTabs = __esm({
-    "src/app/components/ToolTabs.tsx"() {
-      "use strict";
-      init_lib2();
-      init_preact_module();
-      init_hooks_module();
-    }
-  });
-
-  // src/app/views/print-color-usages-tool/PrintColorUsagesToolView.tsx
-  function PrintColorUsagesToolView(props) {
-    const [settings, setSettings] = d2(DEFAULT_SETTINGS);
-    const [activeTab, setActiveTab] = d2("Print");
-    const [loaded, setLoaded] = d2(false);
-    const [status, setStatus] = d2({ status: "idle" });
-    const [selectionSize, setSelectionSize] = d2(0);
-    const [scope, setScope] = d2("page");
-    const [preview, setPreview] = d2(null);
-    const [selectedPreviewNodeIds, setSelectedPreviewNodeIds] = d2([]);
-    const [printPreview, setPrintPreview] = d2(null);
-    y2(() => {
-      const handleMessage = (event) => {
-        var _a;
-        const msg = (_a = event.data) == null ? void 0 : _a.pluginMessage;
-        if (!msg) return;
-        if (msg.type === MAIN_TO_UI.BOOTSTRAPPED) {
-          setSelectionSize(msg.selectionSize);
-          return;
-        }
-        if (msg.type === MAIN_TO_UI.PRINT_COLOR_USAGES_SETTINGS) {
-          setSettings(__spreadProps(__spreadValues({}, msg.settings), { textTheme: "dark" }));
-          setLoaded(true);
-          return;
-        }
-        if (msg.type === MAIN_TO_UI.PRINT_COLOR_USAGES_SELECTION) {
-          setSelectionSize(msg.selectionSize);
-          return;
-        }
-        if (msg.type === MAIN_TO_UI.PRINT_COLOR_USAGES_STATUS) {
-          setStatus(msg.status);
-          return;
-        }
-        if (msg.type === MAIN_TO_UI.PRINT_COLOR_USAGES_UPDATE_PREVIEW) {
-          setPreview(msg.payload);
-          setSelectedPreviewNodeIds(msg.payload.entries.map((entry) => entry.nodeId));
-          return;
-        }
-        if (msg.type === MAIN_TO_UI.PRINT_COLOR_USAGES_PRINT_PREVIEW) {
-          setPrintPreview(msg.payload);
-          return;
-        }
-      };
-      window.addEventListener("message", handleMessage);
-      parent.postMessage({ pluginMessage: { type: UI_TO_MAIN.PRINT_COLOR_USAGES_LOAD_SETTINGS } }, "*");
-      return () => window.removeEventListener("message", handleMessage);
-    }, []);
-    y2(() => {
-      if (!loaded) return;
-      setPreview(null);
-      setSelectedPreviewNodeIds([]);
-      setPrintPreview(null);
-      parent.postMessage(
-        { pluginMessage: { type: UI_TO_MAIN.PRINT_COLOR_USAGES_SAVE_SETTINGS, settings } },
-        "*"
-      );
-    }, [loaded, settings]);
-    const isWorking = status.status === "working";
+  // src/app/views/print-color-usages-tool/UpdateTab.tsx
+  function UpdateTab(props) {
+    const {
+      settings,
+      setSettings,
+      isWorking,
+      status,
+      hasSelection,
+      preview,
+      setPreview,
+      selectedPreviewNodeIds,
+      setSelectedPreviewNodeIds,
+      scope,
+      setScope
+    } = props;
     const selectedPreviewNodeIdSet = T2(() => new Set(selectedPreviewNodeIds), [selectedPreviewNodeIds]);
     const selectedPreviewCount = selectedPreviewNodeIds.length;
-    const hasPreviewChanges = selectedPreviewCount > 0;
-    const hasSelection = selectionSize > 0;
-    y2(() => {
-      if (hasSelection) {
-        setScope("selection");
-      } else if (scope === "selection") {
-        setScope("page");
-      }
-    }, [hasSelection]);
-    const applyLabel = T2(() => {
-      var _a;
-      const s3 = (_a = preview == null ? void 0 : preview.scope) != null ? _a : scope;
-      if (s3 === "selection") return "Apply in Selection";
-      if (s3 === "all_pages") return "Apply on All Pages";
-      return "Apply on Page";
-    }, [scope, preview]);
-    return /* @__PURE__ */ _(Page, null, /* @__PURE__ */ _(
-      ToolHeader,
-      {
-        title: "Print Color Usages",
-        left: /* @__PURE__ */ _(IconButton, { onClick: props.onBack, title: "Home" }, /* @__PURE__ */ _(IconHome16, null))
-      }
-    ), /* @__PURE__ */ _("div", { style: { flex: 1, minHeight: 0, display: "flex", flexDirection: "column" } }, /* @__PURE__ */ _(
-      ToolTabs,
-      {
-        value: activeTab,
-        onValueChange: (value2) => setActiveTab(value2 === "Update" ? "Update" : value2 === "Settings" ? "Settings" : "Print"),
-        options: [
-          { value: "Print" },
-          { value: "Update" },
-          { value: "Settings" }
-        ]
-      }
-    ), /* @__PURE__ */ _(ToolBody, { mode: "content" }, activeTab === "Print" ? /* @__PURE__ */ _(Stack, { space: "medium" }, printPreview && printPreview.entries.length > 0 ? /* @__PURE__ */ _(DataList, { header: "Will be printed" }, printPreview.entries.map((entry, index) => /* @__PURE__ */ _(
-      DataRow,
-      {
-        key: `${entry.layerName}-${index}`,
-        primary: entry.label,
-        secondary: entry.layerName,
-        trailing: /* @__PURE__ */ _(CopyIconButton, { text: entry.layerName, title: "Copy layer name" })
-      }
-    ))) : null, !printPreview && selectionSize > 0 ? /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-tertiary)" } }, "Loading", "\u2026") : null, printPreview && printPreview.entries.length === 0 && selectionSize > 0 ? /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-tertiary)" } }, "No colors found in selection.") : null) : null, activeTab === "Update" ? /* @__PURE__ */ _(Stack, { space: "medium" }, /* @__PURE__ */ _(
+    return /* @__PURE__ */ _(Stack, { space: "medium" }, /* @__PURE__ */ _(
       Checkbox,
       {
         value: settings.checkByContent,
@@ -7011,26 +7041,6 @@ svg {
         hasSelection,
         onValueChange: setScope
       }
-    ), /* @__PURE__ */ _(
-      Button,
-      {
-        secondary: true,
-        loading: isWorking,
-        onClick: () => {
-          setStatus({ status: "working", message: "Checking changes\u2026" });
-          parent.postMessage(
-            {
-              pluginMessage: {
-                type: UI_TO_MAIN.PRINT_COLOR_USAGES_PREVIEW_UPDATE,
-                settings,
-                scope
-              }
-            },
-            "*"
-          );
-        }
-      },
-      "Check changes"
     ), isWorking && status.status === "working" && status.message ? /* @__PURE__ */ _(Text, { style: { color: "var(--figma-color-text-secondary)" } }, status.message) : null, preview ? preview.entries.length === 0 ? /* @__PURE__ */ _(
       DataList,
       {
@@ -7043,10 +7053,10 @@ svg {
       Button,
       {
         secondary: true,
-        onClick: () => setSelectedPreviewNodeIds(preview.entries.map((entry) => entry.nodeId))
+        onClick: () => setSelectedPreviewNodeIds(() => preview.entries.map((entry) => entry.nodeId))
       },
       "Select all"
-    ), /* @__PURE__ */ _(Button, { secondary: true, onClick: () => setSelectedPreviewNodeIds([]) }, "Clear"), /* @__PURE__ */ _(
+    ), /* @__PURE__ */ _(Button, { secondary: true, onClick: () => setSelectedPreviewNodeIds(() => []) }, "Clear"), /* @__PURE__ */ _(
       Button,
       {
         secondary: true,
@@ -7217,73 +7227,152 @@ svg {
           ))
         );
       })
-    )) : null) : null, activeTab === "Settings" ? /* @__PURE__ */ _(Stack, { space: "small" }, " ", /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(Text, null, "Position"), /* @__PURE__ */ _("div", { style: { height: 24, display: "flex", alignItems: "center" } }, /* @__PURE__ */ _(
-      RadioButtons,
+    )) : null);
+  }
+  var init_UpdateTab = __esm({
+    "src/app/views/print-color-usages-tool/UpdateTab.tsx"() {
+      "use strict";
+      init_lib2();
+      init_preact_module();
+      init_hooks_module();
+      init_messages();
+      init_DataList();
+      init_InlineTextDiff();
+      init_ScopeControl();
+    }
+  });
+
+  // src/app/views/print-color-usages-tool/PrintColorUsagesToolView.tsx
+  function toTabValue(value2) {
+    if (value2 === "Update" || value2 === "Settings") return value2;
+    return "Print";
+  }
+  function PrintColorUsagesToolView(props) {
+    const [settings, setSettings] = d2(DEFAULT_SETTINGS);
+    const [activeTab, setActiveTab] = d2(toTabValue(props.initialTab));
+    const [loaded, setLoaded] = d2(false);
+    const [status, setStatus] = d2({ status: "idle" });
+    const [selectionSize, setSelectionSize] = d2(0);
+    const [scope, setScope] = d2("page");
+    const [preview, setPreview] = d2(null);
+    const [selectedPreviewNodeIds, setSelectedPreviewNodeIds] = d2([]);
+    const [printPreview, setPrintPreview] = d2(null);
+    y2(() => {
+      const handleMessage = (event) => {
+        var _a;
+        const msg = (_a = event.data) == null ? void 0 : _a.pluginMessage;
+        if (!msg) return;
+        if (msg.type === MAIN_TO_UI.BOOTSTRAPPED) {
+          setSelectionSize(msg.selectionSize);
+          return;
+        }
+        if (msg.type === MAIN_TO_UI.PRINT_COLOR_USAGES_SETTINGS) {
+          setSettings(__spreadProps(__spreadValues({}, msg.settings), { textTheme: "dark" }));
+          setLoaded(true);
+          return;
+        }
+        if (msg.type === MAIN_TO_UI.PRINT_COLOR_USAGES_SELECTION) {
+          setSelectionSize(msg.selectionSize);
+          return;
+        }
+        if (msg.type === MAIN_TO_UI.PRINT_COLOR_USAGES_STATUS) {
+          setStatus(msg.status);
+          return;
+        }
+        if (msg.type === MAIN_TO_UI.PRINT_COLOR_USAGES_UPDATE_PREVIEW) {
+          setPreview(msg.payload);
+          setSelectedPreviewNodeIds(msg.payload.entries.map((entry) => entry.nodeId));
+          return;
+        }
+        if (msg.type === MAIN_TO_UI.PRINT_COLOR_USAGES_PRINT_PREVIEW) {
+          setPrintPreview(msg.payload);
+          return;
+        }
+      };
+      window.addEventListener("message", handleMessage);
+      parent.postMessage({ pluginMessage: { type: UI_TO_MAIN.PRINT_COLOR_USAGES_LOAD_SETTINGS } }, "*");
+      return () => window.removeEventListener("message", handleMessage);
+    }, []);
+    const settingsChangedAfterLoad = A2(false);
+    y2(() => {
+      if (!loaded) return;
+      if (!settingsChangedAfterLoad.current) {
+        settingsChangedAfterLoad.current = true;
+        parent.postMessage(
+          { pluginMessage: { type: UI_TO_MAIN.PRINT_COLOR_USAGES_SAVE_SETTINGS, settings } },
+          "*"
+        );
+        return;
+      }
+      setPreview(null);
+      setSelectedPreviewNodeIds([]);
+      setPrintPreview(null);
+      parent.postMessage(
+        { pluginMessage: { type: UI_TO_MAIN.PRINT_COLOR_USAGES_SAVE_SETTINGS, settings } },
+        "*"
+      );
+    }, [loaded, settings]);
+    const isWorking = status.status === "working";
+    const hasPreviewChanges = selectedPreviewNodeIds.length > 0;
+    const hasSelection = selectionSize > 0;
+    y2(() => {
+      if (hasSelection) {
+        setScope("selection");
+      } else if (scope === "selection") {
+        setScope("page");
+      }
+    }, [hasSelection]);
+    const printTabShowsState = !hasSelection || !printPreview || printPreview.entries.length === 0;
+    const toolBodyMode = activeTab === "Print" && printTabShowsState ? "state" : "content";
+    const applyLabel = T2(() => {
+      var _a;
+      const s3 = (_a = preview == null ? void 0 : preview.scope) != null ? _a : scope;
+      if (s3 === "selection") return "Apply in Selection";
+      if (s3 === "all_pages") return "Apply on All Pages";
+      return "Apply on Page";
+    }, [scope, preview]);
+    return /* @__PURE__ */ _(Page, null, /* @__PURE__ */ _(
+      ToolHeader,
       {
-        direction: "horizontal",
-        value: settings.textPosition,
-        onValueChange: (value2) => setSettings((s3) => __spreadProps(__spreadValues({}, s3), {
-          textPosition: value2 === "left" || value2 === "right" ? value2 : "right"
-        })),
+        title: "Print Color Usages",
+        left: /* @__PURE__ */ _(IconButton, { onClick: props.onBack, title: "Home" }, /* @__PURE__ */ _(IconHome16, null))
+      }
+    ), /* @__PURE__ */ _("div", { style: { flex: 1, minHeight: 0, display: "flex", flexDirection: "column" } }, /* @__PURE__ */ _(
+      ToolTabs,
+      {
+        value: activeTab,
+        onValueChange: (value2) => setActiveTab(toTabValue(value2)),
         options: [
-          { value: "left", children: /* @__PURE__ */ _(Text, null, "Left") },
-          { value: "right", children: /* @__PURE__ */ _(Text, null, "Right") }
+          { value: "Print" },
+          { value: "Update" },
+          { value: "Settings" }
         ]
       }
-    ))), /* @__PURE__ */ _(Stack, { space: "extraSmall", style: { marginBottom: 20 } }, /* @__PURE__ */ _(Text, null, "Distance"), /* @__PURE__ */ _("div", { style: { width: 80 } }, /* @__PURE__ */ _(
-      TextboxNumeric,
+    ), /* @__PURE__ */ _(ToolBody, { mode: toolBodyMode }, activeTab === "Print" ? /* @__PURE__ */ _(PrintTab, { printPreview, selectionSize }) : null, activeTab === "Update" ? /* @__PURE__ */ _(
+      UpdateTab,
       {
-        icon: /* @__PURE__ */ _(IconSpacingHorizontalSmall24, null),
-        value: String(settings.printDistance),
-        onNumericValueInput: (value2) => setSettings((s3) => __spreadProps(__spreadValues({}, s3), { printDistance: value2 != null ? value2 : 16 })),
-        minimum: 0,
-        integer: true,
-        suffix: " px"
+        settings,
+        setSettings,
+        isWorking,
+        status,
+        hasSelection,
+        preview,
+        setPreview,
+        selectedPreviewNodeIds,
+        setSelectedPreviewNodeIds,
+        scope,
+        setScope
       }
-    ))), /* @__PURE__ */ _(Stack, { space: "small" }, /* @__PURE__ */ _(
-      Checkbox,
-      {
-        value: settings.showLinkedColors,
-        onValueChange: (value2) => setSettings((s3) => __spreadProps(__spreadValues({}, s3), { showLinkedColors: value2 }))
-      },
-      /* @__PURE__ */ _(Text, null, "Show linked colors")
-    ), /* @__PURE__ */ _(
-      Checkbox,
-      {
-        value: settings.showFolderNames,
-        onValueChange: (value2) => setSettings((s3) => __spreadProps(__spreadValues({}, s3), { showFolderNames: value2 }))
-      },
-      /* @__PURE__ */ _(Text, null, "Show folder name (before slash)")
-    ), /* @__PURE__ */ _(
-      Checkbox,
-      {
-        value: settings.checkNested,
-        onValueChange: (value2) => setSettings((s3) => __spreadProps(__spreadValues({}, s3), { checkNested: value2 }))
-      },
-      /* @__PURE__ */ _(Text, null, "Check colors of nested items")
-    ), /* @__PURE__ */ _(
-      Checkbox,
-      {
-        value: settings.applyTextColor,
-        onValueChange: (value2) => setSettings((s3) => __spreadProps(__spreadValues({}, s3), { applyTextColor: value2 }))
-      },
-      /* @__PURE__ */ _(Text, null, "Apply text color from Mockup Markup")
-    ), /* @__PURE__ */ _(
-      Checkbox,
-      {
-        value: settings.applyTextStyle,
-        onValueChange: (value2) => setSettings((s3) => __spreadProps(__spreadValues({}, s3), { applyTextStyle: value2 }))
-      },
-      /* @__PURE__ */ _(Text, null, "Apply text style from Mockup Markup")
-    ))) : null), activeTab !== "Settings" && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(Container, { space: "small" }, /* @__PURE__ */ _(VerticalSpace, { space: "small" }), activeTab === "Print" ? /* @__PURE__ */ _(
+    ) : null, activeTab === "Settings" ? /* @__PURE__ */ _(SettingsTab, { settings, setSettings }) : null), activeTab !== "Settings" && /* @__PURE__ */ _(k, null, /* @__PURE__ */ _(Divider, null), /* @__PURE__ */ _(Container, { space: "small" }, /* @__PURE__ */ _(VerticalSpace, { space: "small" }), activeTab === "Print" ? /* @__PURE__ */ _(
       Button,
       {
         fullWidth: true,
         loading: isWorking,
+        disabled: !hasSelection,
         onClick: () => parent.postMessage({ pluginMessage: { type: UI_TO_MAIN.PRINT_COLOR_USAGES_PRINT, settings } }, "*")
       },
       "Print"
-    ) : /* @__PURE__ */ _(
+    ) : preview ? /* @__PURE__ */ _(
       Button,
       {
         fullWidth: true,
@@ -7301,6 +7390,26 @@ svg {
         )
       },
       applyLabel
+    ) : /* @__PURE__ */ _(
+      Button,
+      {
+        fullWidth: true,
+        loading: isWorking,
+        onClick: () => {
+          setStatus({ status: "working", message: "Checking changes\u2026" });
+          parent.postMessage(
+            {
+              pluginMessage: {
+                type: UI_TO_MAIN.PRINT_COLOR_USAGES_PREVIEW_UPDATE,
+                settings,
+                scope
+              }
+            },
+            "*"
+          );
+        }
+      },
+      "Check changes"
     ), /* @__PURE__ */ _(VerticalSpace, { space: "small" })))));
   }
   var DEFAULT_SETTINGS;
@@ -7311,15 +7420,13 @@ svg {
       init_preact_module();
       init_hooks_module();
       init_messages();
-      init_CopyIconButton();
-      init_DataList();
-      init_DataRow();
-      init_InlineTextDiff();
       init_Page();
-      init_ScopeControl();
       init_ToolBody();
       init_ToolHeader();
       init_ToolTabs();
+      init_PrintTab();
+      init_SettingsTab();
+      init_UpdateTab();
       DEFAULT_SETTINGS = {
         textPosition: "right",
         showLinkedColors: true,

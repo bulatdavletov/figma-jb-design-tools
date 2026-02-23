@@ -1093,3 +1093,11 @@ Olya suggested to rename from JetBrains Design Tools to Int UI Design Tools
 - Updated type (`messages.ts`), defaults (view, `settings.ts`, test fixtures), loader (`settings.ts`), and main-thread logic (`print.ts`) to support new fields.
 - Added "Settings Tab" scenario to `print-color-usages.ts` test fixtures.
 - Build passes cleanly.
+
+### 2026-02-23 — Fix Showcase bugs + PrintTab empty state
+- **Bug: Settings tab showed Print tab in Showcase** — Scenarios had no way to set active tab. Added `initialTab` prop to `Scenario.props` (`types.ts`), `ToolViewProps` (`tool-registry.ts`), `IsolatedToolView.tsx`, and `PrintColorUsagesToolView`. Extracted `toTabValue()` helper for safe tab value parsing.
+- **Bug: Print/Update previews showed Loading instead of mock data** — Race condition in `useEffect([loaded, settings])`: Preact's deferred effect execution cleared `printPreview`/`preview` after the fixture messages had already set them. Fixed with `settingsChangedAfterLoad` ref to skip clearing on initial load (correct for production too — no stale data exists on first load).
+- **PrintTab empty state** — Added `State` component with `IconInteractionClickSmall24` icon and "Select layers to print color usages." message when `selectionSize === 0`, matching the pattern used by ColorChainToolView, FindColorMatchToolView, etc.
+- Updated `toolBodyMode` logic to use `"state"` mode for all non-data PrintTab states (no selection, loading, no colors).
+- Added new test fixture scenarios: "Update Tab — Idle" and updated "Settings Tab" and "Update Tab — Preview" with `initialTab` prop.
+- Build passes cleanly.
