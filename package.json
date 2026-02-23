@@ -70,6 +70,11 @@
         "ui": "src/app/ui.tsx"
       },
       {
+        "name": "Automations",
+        "main": "src/automations-tool/main.ts",
+        "ui": "src/app/ui.tsx"
+      },
+      {
         "name": "Print Color Usages",
         "main": "src/print-color-usages-tool/main.ts",
         "ui": "src/app/ui.tsx"

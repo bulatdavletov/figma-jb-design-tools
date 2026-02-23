@@ -31,6 +31,7 @@ const REGISTER_TOOL_CONTROLLER: Record<
   "variables-create-linked-colors-tool": registerVariablesCreateLinkedColorsTool,
   "variables-replace-usages-tool": registerVariablesReplaceUsagesTool,
   "find-color-match-tool": registerFindColorMatchTool,
+  "automations-tool": registerAutomationsTool,
 }
 
 function getToolTitle(command: string): string {

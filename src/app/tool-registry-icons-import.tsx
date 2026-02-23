@@ -7,6 +7,7 @@ import {
   IconText16,
   IconVariable16,
   IconVariableColor16,
+  IconPrototype16,
 } from "@create-figma-plugin/ui"
 import { h } from "preact"
 
@@ -23,6 +24,7 @@ const COMPONENTS = {
   IconText16,
   IconVariable16,
   IconVariableColor16,
+  IconPrototype16,
 }
 
 export const TOOL_ICONS = Object.fromEntries(

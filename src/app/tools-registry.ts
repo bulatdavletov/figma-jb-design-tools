@@ -10,6 +10,7 @@ export const TOOL_IDS = [
   "variables-create-linked-colors-tool",
   "variables-replace-usages-tool",
   "find-color-match-tool",
+  "automations-tool"
 ] as const
 
 export type ToolId = (typeof TOOL_IDS)[number]
@@ -25,7 +26,7 @@ export type ToolRegistryEntry = {
   description: string
   category: ToolCategory
   order: number
-  icon: "IconShapeText16" | "IconVariableColor16" | "IconTarget16" | "IconLibrary16" | "IconText16" | "IconFolder16" | "IconVariable16" | "IconLink16" | "IconAdjust16"
+  icon: "IconShapeText16" | "IconVariableColor16" | "IconTarget16" | "IconLibrary16" | "IconText16" | "IconFolder16" | "IconVariable16" | "IconLink16" | "IconAdjust16" | "IconPrototype16"
   needsSelection: boolean
 }
 
