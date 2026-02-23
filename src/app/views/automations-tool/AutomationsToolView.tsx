@@ -49,6 +49,11 @@ import {
 
 type Screen = "list" | "builder"
 
+const BUILDER_WIDTH = 680
+const BUILDER_HEIGHT = 520
+const LIST_WIDTH = 360
+const LIST_HEIGHT = 500
+
 function postMessage(msg: object) {
   parent.postMessage({ pluginMessage: msg }, "*")
 }
@@ -84,6 +89,7 @@ export function AutomationsToolView(props: { onBack: () => void }) {
         if (msg.automation) {
           setEditingAutomation(msg.automation)
           setScreen("builder")
+          postMessage({ type: UI_TO_MAIN.RESIZE_WINDOW, width: BUILDER_WIDTH, height: BUILDER_HEIGHT })
         }
       }
       if (msg.type === MAIN_TO_UI.AUTOMATIONS_SAVED) {
@@ -114,6 +120,7 @@ export function AutomationsToolView(props: { onBack: () => void }) {
     }
     setEditingAutomation(payload)
     setScreen("builder")
+    postMessage({ type: UI_TO_MAIN.RESIZE_WINDOW, width: BUILDER_WIDTH, height: BUILDER_HEIGHT })
   }, [])
 
   const handleEdit = useCallback((id: string) => {
@@ -191,6 +198,7 @@ export function AutomationsToolView(props: { onBack: () => void }) {
           setScreen("list")
           setEditingAutomation(null)
           postMessage({ type: UI_TO_MAIN.AUTOMATIONS_LOAD })
+          postMessage({ type: UI_TO_MAIN.RESIZE_WINDOW, width: LIST_WIDTH, height: LIST_HEIGHT })
         }}
         onChange={setEditingAutomation}
         onSave={handleSave}

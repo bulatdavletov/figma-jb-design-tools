@@ -40,15 +40,12 @@ function getToolTitle(command: string): string {
 
 const DEFAULT_WIDTH = 360
 const DEFAULT_HEIGHT = 500
-const AUTOMATIONS_WIDTH = 680
-const AUTOMATIONS_HEIGHT = 520
 
 export function run(command: string) {
-  const isAutomations = command === "automations-tool"
   showUI(
     {
-      width: isAutomations ? AUTOMATIONS_WIDTH : DEFAULT_WIDTH,
-      height: isAutomations ? AUTOMATIONS_HEIGHT : DEFAULT_HEIGHT,
+      width: DEFAULT_WIDTH,
+      height: DEFAULT_HEIGHT,
       title: getToolTitle(command),
     },
     { command }
@@ -81,6 +78,11 @@ export function run(command: string) {
 
       if (msg.type === UI_TO_MAIN.SET_ACTIVE_TOOL) {
         await activate(msg.tool)
+        return
+      }
+
+      if (msg.type === UI_TO_MAIN.RESIZE_WINDOW) {
+        figma.ui.resize(msg.width, msg.height)
         return
       }
 

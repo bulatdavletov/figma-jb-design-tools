@@ -52,6 +52,8 @@ export const UI_TO_MAIN = {
   FIND_COLOR_MATCH_FOCUS_NODE: "FIND_COLOR_MATCH_FOCUS_NODE",
   FIND_COLOR_MATCH_HEX_LOOKUP: "FIND_COLOR_MATCH_HEX_LOOKUP",
   FIND_COLOR_MATCH_SET_GROUP: "FIND_COLOR_MATCH_SET_GROUP",
+  // Window
+  RESIZE_WINDOW: "RESIZE_WINDOW",
   // Automations
   AUTOMATIONS_LOAD: "AUTOMATIONS_LOAD",
   AUTOMATIONS_GET: "AUTOMATIONS_GET",
@@ -175,6 +177,8 @@ export type UiToMainMessage =
   | { type: typeof UI_TO_MAIN.FIND_COLOR_MATCH_FOCUS_NODE; nodeId: string }
   | { type: typeof UI_TO_MAIN.FIND_COLOR_MATCH_HEX_LOOKUP; hex: string }
   | { type: typeof UI_TO_MAIN.FIND_COLOR_MATCH_SET_GROUP; group: string | null }
+  // Window
+  | { type: typeof UI_TO_MAIN.RESIZE_WINDOW; width: number; height: number }
   // Automations
   | { type: typeof UI_TO_MAIN.AUTOMATIONS_LOAD }
   | { type: typeof UI_TO_MAIN.AUTOMATIONS_GET; automationId: string }
