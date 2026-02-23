@@ -4,7 +4,7 @@ import { useState } from "preact/hooks"
 
 export function ToolCard(props: {
   title: string
-  description: string
+  description?: string
   icon: preact.ComponentChildren
   onClick: () => void
 }) {
