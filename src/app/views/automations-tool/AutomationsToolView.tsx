@@ -42,6 +42,7 @@ import {
   type ActionType,
   type ActionDefinition,
   type ActionCategory,
+  type AutomationStep,
   VALID_NODE_TYPES,
   MATCH_MODES,
   FIND_SCOPES,
@@ -75,6 +76,34 @@ function downloadTextFile(filename: string, text: string) {
   a.click()
   document.body.removeChild(a)
   URL.revokeObjectURL(url)
+}
+
+function stepToPayload(s: AutomationStep): AutomationStepPayload {
+  const payload: AutomationStepPayload = {
+    id: s.id,
+    actionType: s.actionType,
+    params: s.params,
+    enabled: s.enabled,
+  }
+  if (s.outputName) payload.outputName = s.outputName
+  if (s.children && s.children.length > 0) {
+    payload.children = s.children.map(stepToPayload)
+  }
+  return payload
+}
+
+function payloadToStep(s: AutomationStepPayload): AutomationStep {
+  const step: AutomationStep = {
+    id: s.id,
+    actionType: s.actionType as ActionType,
+    params: s.params,
+    enabled: s.enabled,
+  }
+  if (s.outputName) step.outputName = s.outputName
+  if (s.children && s.children.length > 0) {
+    step.children = s.children.map(payloadToStep)
+  }
+  return step
 }
 
 export function AutomationsToolView(props: { onBack: () => void }) {
@@ -160,12 +189,7 @@ export function AutomationsToolView(props: { onBack: () => void }) {
       const payload: AutomationPayload = {
         id: automation.id,
         name: automation.name,
-        steps: automation.steps.map((s) => ({
-          id: s.id,
-          actionType: s.actionType,
-          params: s.params,
-          enabled: s.enabled,
-        })),
+        steps: automation.steps.map(stepToPayload),
         createdAt: automation.createdAt,
         updatedAt: automation.updatedAt,
       }
@@ -187,12 +211,7 @@ export function AutomationsToolView(props: { onBack: () => void }) {
     const automation = {
       id: editingAutomation.id,
       name: editingAutomation.name,
-      steps: editingAutomation.steps.map((s) => ({
-        id: s.id,
-        actionType: s.actionType as ActionType,
-        params: s.params,
-        enabled: s.enabled,
-      })),
+      steps: editingAutomation.steps.map(payloadToStep),
       createdAt: editingAutomation.createdAt,
       updatedAt: editingAutomation.updatedAt,
     }
@@ -625,6 +644,16 @@ function BuilderScreen(props: {
     onChange({ ...automation, steps })
   }
 
+  const updateStepOutputName = (value: string) => {
+    if (selectedStepIndex === null || !selectedStep) return
+    const steps = [...automation.steps]
+    steps[selectedStepIndex] = {
+      ...steps[selectedStepIndex],
+      outputName: value || undefined,
+    }
+    onChange({ ...automation, steps })
+  }
+
   return (
     <Page>
       <ToolHeader
@@ -716,7 +745,7 @@ function BuilderScreen(props: {
             <ActionPickerPanel onSelect={addStep} />
           )}
           {rightPanel === "config" && selectedStep && (
-            <StepConfigPanel step={selectedStep} onUpdateParam={updateStepParam} />
+            <StepConfigPanel step={selectedStep} onUpdateParam={updateStepParam} onUpdateOutputName={updateStepOutputName} />
           )}
           {rightPanel === "empty" && (
             <div
@@ -842,6 +871,17 @@ function StepRow(props: {
             {paramSummary}
           </div>
         )}
+        {props.step.outputName && (
+          <div
+            style={{
+              fontSize: 9,
+              color: "var(--figma-color-text-brand)",
+              marginTop: 1,
+            }}
+          >
+            → {def?.producesData ? "$" : "#"}{props.step.outputName}
+          </div>
+        )}
       </div>
       {hovered && (
         <div
@@ -873,7 +913,9 @@ function getCategoryBadge(category: ActionCategory): string {
     case "filter": return "FLT"
     case "navigate": return "NAV"
     case "transform": return "TRN"
+    case "input": return "IN"
     case "variables": return "VAR"
+    case "flow": return "FLW"
     case "output": return "OUT"
     default: return ""
   }
@@ -913,6 +955,30 @@ function getParamSummary(step: AutomationStepPayload): string {
       return p.variableName ? `$${p.variableName} = ${p.value ?? ""}` : ""
     case "setPipelineVariableFromProperty":
       return p.variableName ? `$${p.variableName} ← ${p.property ?? "name"}` : ""
+    case "goToParent":
+    case "flattenDescendants":
+      return ""
+    case "restoreNodes":
+      return p.snapshotName ? `from #${p.snapshotName}` : ""
+    case "setCharacters":
+      return String(p.characters ?? "")
+    case "resize": {
+      const parts: string[] = []
+      if (p.width) parts.push(`W: ${p.width}`)
+      if (p.height) parts.push(`H: ${p.height}`)
+      return parts.join(", ")
+    }
+    case "setLayoutMode":
+      return String(p.layoutMode ?? "VERTICAL")
+    case "askForInput":
+      return String(p.label ?? "Enter text")
+    case "splitText":
+      return p.sourceVar ? `$${p.sourceVar}` : ""
+    case "repeatWithEach": {
+      const src = String(p.source ?? "nodes")
+      if (src === "nodes") return "nodes"
+      return `$${src} → $${p.itemVar ?? "item"}`
+    }
     default:
       return ""
   }
@@ -1001,9 +1067,11 @@ function ActionPickerRow(props: { def: ActionDefinition; onSelect: () => void })
 function StepConfigPanel(props: {
   step: AutomationStepPayload
   onUpdateParam: (key: string, value: unknown) => void
+  onUpdateOutputName: (value: string) => void
 }) {
-  const { step, onUpdateParam } = props
+  const { step, onUpdateParam, onUpdateOutputName } = props
   const def = ACTION_DEFINITIONS.find((d) => d.type === step.actionType)
+  const isOutputRequired = def?.outputRequired === true
 
   return (
     <div style={{ padding: 12 }}>
@@ -1018,6 +1086,28 @@ function StepConfigPanel(props: {
         </Fragment>
       )}
       {renderStepParams(step, onUpdateParam)}
+
+      {step.actionType !== "repeatWithEach" && (
+        <Fragment>
+          <VerticalSpace space="medium" />
+          <Divider />
+          <VerticalSpace space="small" />
+          <Text style={{ fontSize: 11 }}>
+            Output name{isOutputRequired ? " (required)" : " (optional)"}
+          </Text>
+          <VerticalSpace space="extraSmall" />
+          <Textbox
+            value={step.outputName ?? ""}
+            onValueInput={onUpdateOutputName}
+            placeholder={isOutputRequired ? "e.g. myVar" : "Save output as..."}
+          />
+          <Text style={{ fontSize: 10, color: "var(--figma-color-text-tertiary)", marginTop: 4 }}>
+            {def?.producesData
+              ? "Saves the result as a pipeline variable ($name)"
+              : "Saves the current working set as a node snapshot (#name)"}
+          </Text>
+        </Fragment>
+      )}
     </div>
   )
 }
@@ -1097,6 +1187,33 @@ function renderStepParams(
         </Text>
       )
 
+    case "goToParent":
+      return (
+        <Text style={{ fontSize: 11, color: "var(--figma-color-text-secondary)" }}>
+          No parameters. Replaces each node with its parent (deduplicated). Skips nodes at page root.
+        </Text>
+      )
+
+    case "flattenDescendants":
+      return (
+        <Text style={{ fontSize: 11, color: "var(--figma-color-text-secondary)" }}>
+          No parameters. Recursively collects all descendants into a flat list.
+        </Text>
+      )
+
+    case "restoreNodes":
+      return (
+        <Fragment>
+          <Text style={{ fontSize: 11 }}>Snapshot name</Text>
+          <VerticalSpace space="extraSmall" />
+          <Textbox
+            value={String(step.params.snapshotName ?? "")}
+            onValueInput={(v: string) => updateParam("snapshotName", v)}
+            placeholder="Name of saved node set (without #)"
+          />
+        </Fragment>
+      )
+
     case "renameLayers":
       return (
         <Fragment>
@@ -1156,6 +1273,151 @@ function renderStepParams(
               if (!isNaN(n)) updateParam("opacity", Math.max(0, Math.min(100, n)))
             }}
             placeholder="0–100"
+          />
+        </Fragment>
+      )
+
+    case "setCharacters":
+      return (
+        <Fragment>
+          <Text style={{ fontSize: 11 }}>Text content</Text>
+          <VerticalSpace space="extraSmall" />
+          <Textbox
+            value={String(step.params.characters ?? "")}
+            onValueInput={(v: string) => updateParam("characters", v)}
+            placeholder="Supports {$var}, {name}, {index} tokens..."
+          />
+        </Fragment>
+      )
+
+    case "resize":
+      return (
+        <Fragment>
+          <Text style={{ fontSize: 11 }}>Width</Text>
+          <VerticalSpace space="extraSmall" />
+          <Textbox
+            value={String(step.params.width ?? "")}
+            onValueInput={(v: string) => updateParam("width", v)}
+            placeholder="Leave empty to keep original. Supports {$var}, {#snap.width}"
+          />
+          <VerticalSpace space="small" />
+          <Text style={{ fontSize: 11 }}>Height</Text>
+          <VerticalSpace space="extraSmall" />
+          <Textbox
+            value={String(step.params.height ?? "")}
+            onValueInput={(v: string) => updateParam("height", v)}
+            placeholder="Leave empty to keep original. Supports {$var}, {#snap.height}"
+          />
+        </Fragment>
+      )
+
+    case "setLayoutMode":
+      return (
+        <Fragment>
+          <Text style={{ fontSize: 11 }}>Layout mode</Text>
+          <VerticalSpace space="extraSmall" />
+          <Dropdown
+            value={String(step.params.layoutMode ?? "VERTICAL")}
+            options={[
+              { value: "VERTICAL", text: "Vertical" },
+              { value: "HORIZONTAL", text: "Horizontal" },
+              { value: "NONE", text: "None (remove)" },
+            ]}
+            onValueChange={(v: string) => updateParam("layoutMode", v)}
+          />
+        </Fragment>
+      )
+
+    case "askForInput":
+      return (
+        <Fragment>
+          <Text style={{ fontSize: 11 }}>Prompt label</Text>
+          <VerticalSpace space="extraSmall" />
+          <Textbox
+            value={String(step.params.label ?? "Enter text")}
+            onValueInput={(v: string) => updateParam("label", v)}
+            placeholder="Label shown to user"
+          />
+          <VerticalSpace space="small" />
+          <Text style={{ fontSize: 11 }}>Placeholder</Text>
+          <VerticalSpace space="extraSmall" />
+          <Textbox
+            value={String(step.params.placeholder ?? "")}
+            onValueInput={(v: string) => updateParam("placeholder", v)}
+            placeholder="Placeholder text..."
+          />
+          <VerticalSpace space="small" />
+          <Text style={{ fontSize: 11 }}>Input type</Text>
+          <VerticalSpace space="extraSmall" />
+          <Dropdown
+            value={String(step.params.inputType ?? "text")}
+            options={[
+              { value: "text", text: "Single line" },
+              { value: "textarea", text: "Multi-line" },
+            ]}
+            onValueChange={(v: string) => updateParam("inputType", v)}
+          />
+        </Fragment>
+      )
+
+    case "splitText":
+      return (
+        <Fragment>
+          <Text style={{ fontSize: 11 }}>Source variable</Text>
+          <VerticalSpace space="extraSmall" />
+          <Textbox
+            value={String(step.params.sourceVar ?? "")}
+            onValueInput={(v: string) => updateParam("sourceVar", v)}
+            placeholder="Variable name (without $)"
+          />
+          <VerticalSpace space="small" />
+          <Text style={{ fontSize: 11 }}>Delimiter</Text>
+          <VerticalSpace space="extraSmall" />
+          <Dropdown
+            value={String(step.params.delimiter ?? "\\n")}
+            options={[
+              { value: "\\n", text: "Newline (\\n)" },
+              { value: ",", text: "Comma (,)" },
+              { value: ";", text: "Semicolon (;)" },
+              { value: "\\t", text: "Tab (\\t)" },
+            ]}
+            onValueChange={(v: string) => updateParam("delimiter", v)}
+          />
+        </Fragment>
+      )
+
+    case "repeatWithEach":
+      return (
+        <Fragment>
+          <Text style={{ fontSize: 11 }}>Source</Text>
+          <VerticalSpace space="extraSmall" />
+          <Textbox
+            value={String(step.params.source ?? "nodes")}
+            onValueInput={(v: string) => updateParam("source", v)}
+            placeholder='"nodes" or a list variable name (without $)'
+          />
+          <Text style={{ fontSize: 10, color: "var(--figma-color-text-tertiary)", marginTop: 2 }}>
+            Use "nodes" to iterate the working set, or a variable name for a list
+          </Text>
+          <VerticalSpace space="small" />
+          <Text style={{ fontSize: 11 }}>Item variable name</Text>
+          <VerticalSpace space="extraSmall" />
+          <Textbox
+            value={String(step.params.itemVar ?? "item")}
+            onValueInput={(v: string) => updateParam("itemVar", v)}
+            placeholder="item"
+          />
+          <VerticalSpace space="small" />
+          <Text style={{ fontSize: 11 }}>On mismatch</Text>
+          <VerticalSpace space="extraSmall" />
+          <Dropdown
+            value={String(step.params.onMismatch ?? "error")}
+            options={[
+              { value: "error", text: "Error if different" },
+              { value: "repeatList", text: "Cycle list" },
+              { value: "skipExtra", text: "Skip extras" },
+            ]}
+            onValueChange={(v: string) => updateParam("onMismatch", v)}
           />
         </Fragment>
       )
