@@ -65,7 +65,7 @@
         "ui": "src/app/ui.tsx"
       },
       {
-        "name": "Library Swap",
+        "name": "Migrate to New UI Kit",
         "main": "src/library-swap-tool/main.ts",
         "ui": "src/app/ui.tsx"
       },

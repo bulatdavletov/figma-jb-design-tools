@@ -25,7 +25,7 @@
       "command": "src/find-color-match-tool/main.ts--default"
     },
     {
-      "name": "Library Swap",
+      "name": "Migrate to New UI Kit",
       "command": "src/library-swap-tool/main.ts--default"
     },
     {

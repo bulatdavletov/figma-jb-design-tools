@@ -57,7 +57,7 @@ export const tools: ToolEntry[] = [
   },
   {
     id: "library-swap-tool",
-    label: "Library Swap",
+    label: "Migrate to New UI Kit",
     section: "general",
     scenarios: librarySwapScenarios,
     loadView: () =>

@@ -363,7 +363,7 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
   return (
     <Page>
       <ToolHeader
-        title="Library Swap"
+        title="Migrate to New UI Kit"
         left={
           <IconButton onClick={onBack} title="Home">
             <IconHome16 />
