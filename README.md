@@ -10,6 +10,7 @@ Create UI Figma
 Storybook https://yuanqing.github.io/create-figma-plugin/storybook/?path=/story/index--index
 
 ### How to test
+- `npm test` runs node-based unit tests with deterministic fake Figma data fixtures.
 
 ### Tools
 Mockup Markup Quick Apply
