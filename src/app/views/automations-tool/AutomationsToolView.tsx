@@ -18,7 +18,7 @@ import {
 import { h, Fragment } from "preact"
 import { useEffect, useState, useCallback } from "preact/hooks"
 
-import { IconArrowUp16, IconArrowDown16 } from "../../../../custom-icons/generated"
+import { IconArrowUp16, IconArrowDown16, IconChevronLeft16 } from "../../../../custom-icons/generated"
 import { Page } from "../../components/Page"
 import { ToolHeader } from "../../components/ToolHeader"
 import { ToolBody } from "../../components/ToolBody"
@@ -493,8 +493,7 @@ function BuilderScreen(props: {
         title="Edit Automation"
         left={
           <IconButton onClick={props.onBack}>
-            <IconChevronRight16
-              style={{ transform: "rotate(180deg)" }}
+            <IconChevronLeft16
             />
           </IconButton>
         }
