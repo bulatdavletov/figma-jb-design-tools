@@ -194,7 +194,7 @@ Auto-refresh on selection change (debounced), per design principles for small ut
 
 ## Existing Code to Reuse
 
-- `**[src/app/variable-chain.ts](src/app/variable-chain.ts)**`: `resolveChainForMode` for alias chain resolution to final HEX. Will need to export `colorToRgbHex` and `colorToOpacityPercent` (currently private)
+- `**[src/app/variable-chain.ts](src/app/variable-chain.ts)`**: `resolveChainForMode` for alias chain resolution to final HEX. Will need to export `colorToRgbHex` and `colorToOpacityPercent` (currently private)
 - `**[src/app/tools/variables-shared/caching.ts](src/app/tools/variables-shared/caching.ts)**`: `getLocalVariablesForType("COLOR")`, `getAllCollections()`, `getCollection()`
 - `**[src/app/tools/mockup-markup/resolve.ts](src/app/tools/mockup-markup/resolve.ts)**`: Pattern for `getAvailableLibraryVariableCollectionsAsync()` + `getVariablesInLibraryCollectionAsync()` + `importVariableByKeyAsync()` -- proven library variable access flow
 - **Shared components**: `ColorSwatch`, `ToolHeader`, `ToolBody`, `State`, `DataTable`
