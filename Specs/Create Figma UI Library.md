@@ -14,6 +14,12 @@ Also removed the now-unnecessary overflow: hidden wrappers and reduced the expli
 Key pattern to remember: Avoid using the library's Text component when vertical spacing between stacked text items matters.
 
 
+## IconArrow16 from @create-figma-plugin/ui renders as a diagonal arrow
+
+The library's `IconArrow16` is a diagonal (↗) arrow, not a directional one. When rotated for up/down controls it still looks like a tilted diagonal, not a proper vertical arrow.
+Fix: Use custom icons from `custom-icons/generated.tsx` instead — `IconArrowUp16`, `IconArrowDown16`, `IconArrowLeft16`, `IconArrowRight16`. These are proper straight arrows designed for directional controls.
+
+
 ## Stack vs VerticalSpace — never nest together
 
 `Stack` and `VerticalSpace` are two alternative ways to add vertical spacing. **Never use VerticalSpace inside a Stack** — it causes double spacing.

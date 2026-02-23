@@ -1,5 +1,5 @@
 export type ActionType =
-  | "selectByType"
+  | "findByType"
   | "selectByName"
   | "expandToChildren"
   | "renameLayers"
@@ -44,10 +44,10 @@ export interface ActionDefinition {
 
 export const ACTION_DEFINITIONS: ActionDefinition[] = [
   {
-    type: "selectByType",
-    label: "Select by type",
-    description: "Filter current selection to only nodes of a given type",
-    defaultParams: { nodeType: "TEXT" },
+    type: "findByType",
+    label: "Find by type",
+    description: "Find nodes of a given type in selection, page, or entire document",
+    defaultParams: { nodeType: "TEXT", scope: "selection" },
   },
   {
     type: "selectByName",
@@ -125,6 +125,9 @@ export const VALID_NODE_TYPES = [
 ] as const
 
 export type SelectableNodeType = (typeof VALID_NODE_TYPES)[number]
+
+export const FIND_SCOPES = ["selection", "page", "all_pages"] as const
+export type FindScope = (typeof FIND_SCOPES)[number]
 
 export const MATCH_MODES = ["contains", "startsWith", "regex"] as const
 export type MatchMode = (typeof MATCH_MODES)[number]

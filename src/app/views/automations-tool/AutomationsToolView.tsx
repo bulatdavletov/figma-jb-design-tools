@@ -6,7 +6,6 @@ import {
   Dropdown,
   FileUploadButton,
   IconButton,
-  IconChevronDown16,
   IconChevronRight16,
   IconClose16,
   IconHome16,
@@ -19,6 +18,7 @@ import {
 import { h, Fragment } from "preact"
 import { useEffect, useState, useCallback } from "preact/hooks"
 
+import { IconArrowUp16, IconArrowDown16 } from "../../../../custom-icons/generated"
 import { Page } from "../../components/Page"
 import { ToolHeader } from "../../components/ToolHeader"
 import { ToolBody } from "../../components/ToolBody"
@@ -40,6 +40,7 @@ import {
   type ActionDefinition,
   VALID_NODE_TYPES,
   MATCH_MODES,
+  FIND_SCOPES,
 } from "../../tools/automations/types"
 import {
   createNewAutomation,
@@ -698,12 +699,12 @@ function StepRow(props: {
         >
           {props.index > 0 && (
             <IconButton onClick={props.onMoveUp}>
-              <IconChevronDown16 style={{ transform: "rotate(180deg)" }} />
+              <IconArrowUp16 />
             </IconButton>
           )}
           {props.index < props.total - 1 && (
             <IconButton onClick={props.onMoveDown}>
-              <IconChevronDown16 />
+              <IconArrowDown16 />
             </IconButton>
           )}
           <IconButton onClick={props.onRemove}>
@@ -718,8 +719,11 @@ function StepRow(props: {
 function getParamSummary(step: AutomationStepPayload): string {
   const p = step.params
   switch (step.actionType) {
-    case "selectByType":
-      return String(p.nodeType ?? "")
+    case "findByType": {
+      const scope = String(p.scope ?? "selection")
+      const scopeLabel = scope === "selection" ? "in selection" : scope === "page" ? "on page" : "in all pages"
+      return `${p.nodeType ?? "TEXT"} ${scopeLabel}`
+    }
     case "selectByName":
       return `${p.matchMode ?? "contains"}: "${p.pattern ?? ""}"`
     case "expandToChildren":
@@ -825,9 +829,20 @@ function renderStepParams(
   updateParam: (key: string, value: unknown) => void
 ) {
   switch (step.actionType) {
-    case "selectByType":
+    case "findByType":
       return (
         <Fragment>
+          <Text style={{ fontSize: 11 }}>Scope</Text>
+          <VerticalSpace space="extraSmall" />
+          <Dropdown
+            value={String(step.params.scope ?? "selection")}
+            options={FIND_SCOPES.map((s) => ({
+              value: s,
+              text: s === "selection" ? "Selection" : s === "page" ? "Current page" : "All pages",
+            }))}
+            onValueChange={(v: string) => updateParam("scope", v)}
+          />
+          <VerticalSpace space="small" />
           <Text style={{ fontSize: 11 }}>Node type</Text>
           <VerticalSpace space="extraSmall" />
           <Dropdown

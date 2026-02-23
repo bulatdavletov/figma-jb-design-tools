@@ -1,13 +1,13 @@
 import type { Automation, ActionType } from "./types"
 import { getActionDefinition } from "./types"
-import { selectByType, selectByName, expandToChildren } from "./actions/selection-actions"
+import { findByType, selectByName, expandToChildren } from "./actions/selection-actions"
 import { renameLayers, setFillColor, setFillVariable, setOpacity, notifyAction } from "./actions/property-actions"
 import { MAIN_TO_UI } from "../../messages"
 
 type ActionRunner = (params: Record<string, unknown>) => Promise<string>
 
 const ACTION_RUNNERS: Record<ActionType, ActionRunner> = {
-  selectByType,
+  findByType,
   selectByName,
   expandToChildren,
   renameLayers,

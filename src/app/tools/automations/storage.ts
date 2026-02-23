@@ -6,7 +6,12 @@ const STORAGE_KEY = "automations_v1"
 export async function loadAutomations(): Promise<Automation[]> {
   const raw = await figma.clientStorage.getAsync(STORAGE_KEY)
   if (!Array.isArray(raw)) return []
-  return raw.filter(isValidAutomation)
+  const automations = raw.filter(isValidAutomation)
+  const migrated = automations.map(migrateAutomation)
+  if (migrated.some((a, i) => a !== automations[i])) {
+    await figma.clientStorage.setAsync(STORAGE_KEY, migrated)
+  }
+  return migrated
 }
 
 export async function saveAutomations(automations: Automation[]): Promise<void> {
@@ -83,7 +88,7 @@ export function parseImportJson(jsonText: string): Automation | null {
         )
         .map((s: any, i: number) => ({
           id: `step_${now}_${i}`,
-          actionType: s.actionType as ActionType,
+          actionType: migrateActionType(s.actionType),
           params: s.params ?? {},
           enabled: s.enabled !== false,
         })),
@@ -93,6 +98,27 @@ export function parseImportJson(jsonText: string): Automation | null {
   } catch {
     return null
   }
+}
+
+const ACTION_TYPE_MIGRATIONS: Record<string, ActionType> = {
+  selectByType: "findByType",
+}
+
+function migrateAutomation(automation: Automation): Automation {
+  let changed = false
+  const steps = automation.steps.map((step) => {
+    const newType = ACTION_TYPE_MIGRATIONS[step.actionType]
+    if (newType) {
+      changed = true
+      return { ...step, actionType: newType }
+    }
+    return step
+  })
+  return changed ? { ...automation, steps } : automation
+}
+
+function migrateActionType(actionType: string): ActionType {
+  return (ACTION_TYPE_MIGRATIONS[actionType] ?? actionType) as ActionType
 }
 
 function isValidAutomation(value: unknown): value is Automation {
