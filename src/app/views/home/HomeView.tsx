@@ -1,39 +1,19 @@
 import {
   Container,
-  IconLibrary16,
-  IconLink16,
-  IconShapeText16,
-  IconText16,
-  IconVariableColor16,
-  IconVariable16,
-  IconAdjust16,
-  IconFolder16,
   Stack,
   Text,
   VerticalSpace,
 } from "@create-figma-plugin/ui"
 import { h } from "preact"
 
-import { IconTarget16 } from "../../../../custom-icons/generated"
 import { Page } from "../../components/Page"
 import { ToolCard } from "../../components/ToolCard"
-import { TOOLS_REGISTRY, type ActiveTool, type ToolCategory, type ToolRegistryEntry } from "../../tools-registry"
+import { TOOL_ICONS } from "../../tool-registry-icons-import"
+import { TOOLS_REGISTRY, type ActiveTool, type ToolCategory } from "../../tools-registry"
 
 const sectionTitleStyle = { fontWeight: 600 } as const
 
 const CATEGORY_ORDER: ToolCategory[] = ["General", "Variables Management"]
-
-const ICON_BY_NAME: Record<ToolRegistryEntry["icon"], preact.ComponentChildren> = {
-  "shape-text": <IconShapeText16 />,
-  "variable-color": <IconVariableColor16 />,
-  target: <IconTarget16 />,
-  library: <IconLibrary16 />,
-  text: <IconText16 />,
-  folder: <IconFolder16 />,
-  variable: <IconVariable16 />,
-  link: <IconLink16 />,
-  adjust: <IconAdjust16 />,
-}
 
 export function HomeView(props: { goTo: (route: ActiveTool) => void }) {
   return (
@@ -54,8 +34,8 @@ export function HomeView(props: { goTo: (route: ActiveTool) => void }) {
                   <ToolCard
                     key={tool.id}
                     title={tool.cardTitle}
-                    description={tool.description}
-                    icon={ICON_BY_NAME[tool.icon]}
+                    //description={tool.description} // Decided to try without description for cleaner look
+                    icon={TOOL_ICONS[tool.icon]}
                     onClick={() => props.goTo(tool.id)}
                   />
                 ))}
