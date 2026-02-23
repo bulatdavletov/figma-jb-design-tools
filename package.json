@@ -4,8 +4,8 @@
   "private": true,
   "description": "Internal Figma plugin: tools launcher + token tools",
   "scripts": {
-    "build": "node scripts/generate-custom-icons.cjs && build-figma-plugin --typecheck",
-    "watch": "node scripts/generate-custom-icons.cjs --watch & build-figma-plugin --typecheck --watch",
+    "build": "node scripts/sync-figma-menu.cjs && node scripts/generate-custom-icons.cjs && build-figma-plugin --typecheck",
+    "watch": "node scripts/sync-figma-menu.cjs && node scripts/generate-custom-icons.cjs --watch & build-figma-plugin --typecheck --watch",
     "preview": "vite",
     "preview:build": "vite build",
     "preview:serve": "vite preview",
@@ -59,6 +59,11 @@
         "ui": "src/app/ui.tsx"
       },
       {
+        "name": "Find Color Match in Islands",
+        "main": "src/find-color-match-tool/main.ts",
+        "ui": "src/app/ui.tsx"
+      },
+      {
         "name": "Library Swap",
         "main": "src/library-swap-tool/main.ts",
         "ui": "src/app/ui.tsx"
@@ -86,11 +91,6 @@
       {
         "name": "Variables Replace Usages",
         "main": "src/variables-replace-usages-tool/main.ts",
-        "ui": "src/app/ui.tsx"
-      },
-      {
-        "name": "Find Color Match in Islands",
-        "main": "src/find-color-match-tool/main.ts",
         "ui": "src/app/ui.tsx"
       }
     ]

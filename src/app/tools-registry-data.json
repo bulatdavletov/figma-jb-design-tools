@@ -1,0 +1,110 @@
+[
+  {
+    "id": "mockup-markup-tool",
+    "title": "Mockup Markup Quick Apply",
+    "menuLabel": "Mockup Markup Quick Apply",
+    "main": "src/mockup-markup-tool/main.ts",
+    "cardTitle": "Mockup Markup Quick Apply",
+    "description": "Apply text styles and colors",
+    "category": "General",
+    "order": 1,
+    "icon": "shape-text",
+    "needsSelection": false
+  },
+  {
+    "id": "color-chain-tool",
+    "title": "View Colors Chain",
+    "menuLabel": "View Colors Chain",
+    "main": "src/color-chain-tool/main.ts",
+    "cardTitle": "View Colors Chain",
+    "description": "Inspect selection to see full variable alias chains",
+    "category": "General",
+    "order": 2,
+    "icon": "variable-color",
+    "needsSelection": true
+  },
+  {
+    "id": "find-color-match-tool",
+    "title": "Find Color Match",
+    "menuLabel": "Find Color Match in Islands",
+    "main": "src/find-color-match-tool/main.ts",
+    "cardTitle": "Find Color Match in Islands",
+    "description": "Find the closest variable for unbound colors",
+    "category": "General",
+    "order": 3,
+    "icon": "target",
+    "needsSelection": true
+  },
+  {
+    "id": "library-swap-tool",
+    "title": "Library Swap",
+    "menuLabel": "Library Swap",
+    "main": "src/library-swap-tool/main.ts",
+    "cardTitle": "Library Swap",
+    "description": "Swap component instances from old libraries to new ones",
+    "category": "General",
+    "order": 4,
+    "icon": "library",
+    "needsSelection": true
+  },
+  {
+    "id": "print-color-usages-tool",
+    "title": "Print Color Usages",
+    "menuLabel": "Print Color Usages",
+    "main": "src/print-color-usages-tool/main.ts",
+    "cardTitle": "Print Color Usages",
+    "description": "Print unique colors as text labels near selection",
+    "category": "Variables Management",
+    "order": 1,
+    "icon": "text",
+    "needsSelection": false
+  },
+  {
+    "id": "variables-export-import-tool",
+    "title": "Variables Export Import",
+    "menuLabel": "Variables Export Import",
+    "main": "src/variables-export-import-tool/main.ts",
+    "cardTitle": "Export / Import",
+    "description": "Export variable collections to JSON, import from backup",
+    "category": "Variables Management",
+    "order": 2,
+    "icon": "folder",
+    "needsSelection": false
+  },
+  {
+    "id": "variables-batch-rename-tool",
+    "title": "Rename Variables via JSON",
+    "menuLabel": "Rename Variables via JSON",
+    "main": "src/variables-batch-rename-tool/main.ts",
+    "cardTitle": "Rename via JSON",
+    "description": "Rename multiple variables using a JSON file",
+    "category": "Variables Management",
+    "order": 3,
+    "icon": "variable",
+    "needsSelection": false
+  },
+  {
+    "id": "variables-create-linked-colors-tool",
+    "title": "Variables Create Linked Colors",
+    "menuLabel": "Variables Create Linked Colors",
+    "main": "src/variables-create-linked-colors-tool/main.ts",
+    "cardTitle": "Create Linked Colors",
+    "description": "Create new color variables or rename existing ones",
+    "category": "Variables Management",
+    "order": 4,
+    "icon": "link",
+    "needsSelection": false
+  },
+  {
+    "id": "variables-replace-usages-tool",
+    "title": "Variables Replace Usages",
+    "menuLabel": "Variables Replace Usages",
+    "main": "src/variables-replace-usages-tool/main.ts",
+    "cardTitle": "Replace Usages",
+    "description": "Replace variable bindings in selection with different variables",
+    "category": "Variables Management",
+    "order": 5,
+    "icon": "adjust",
+    "needsSelection": true
+  }
+]
