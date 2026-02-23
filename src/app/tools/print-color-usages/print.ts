@@ -65,23 +65,27 @@ export async function printColorUsagesFromSelection(settings: PrintColorUsagesUi
 
   const textPosition = settings.textPosition
   const showLinkedColors = settings.showLinkedColors
-  const hideFolderNames = settings.hideFolderNames
+  const showFolderNames = settings.showFolderNames
   const checkNested = settings.checkNested !== false
   const printDistance = typeof settings.printDistance === "number" ? settings.printDistance : 16
 
-  // Typography: prefer "Markup Description text" style.
+  const useMarkupStyle = settings.applyTextStyle !== false
+  const useMarkupColor = settings.applyTextColor !== false
+
   let markupDescriptionStyle: TextStyle | null = null
-  try {
-    markupDescriptionStyle = await resolveMarkupDescriptionTextStyle()
-  } catch {
-    // ignore
+  if (useMarkupStyle) {
+    try {
+      markupDescriptionStyle = await resolveMarkupDescriptionTextStyle()
+    } catch {
+      // ignore
+    }
   }
   await loadFontsForLabelTextStyle(markupDescriptionStyle)
 
   const themeColors = getThemeColors(settings.textTheme)
-  const labelFills = await resolveMarkupTextFills(themeColors)
-  const primaryFills = labelFills.primary
-  const secondaryFills = labelFills.secondary
+  const labelFills = useMarkupColor ? await resolveMarkupTextFills(themeColors) : null
+  const primaryFills = labelFills?.primary ?? [{ type: "SOLID" as const, color: themeColors.primary }]
+  const secondaryFills = labelFills?.secondary ?? [{ type: "SOLID" as const, color: themeColors.secondary }]
 
   const textNodes: TextNode[] = []
   let groupsWithNoColors = 0
@@ -103,7 +107,7 @@ export async function printColorUsagesFromSelection(settings: PrintColorUsagesUi
 
     const merged: Array<ColorUsage> = []
     for (const n of nodesToAnalyze) {
-      const colors = await analyzeNodeColors(n, showLinkedColors, hideFolderNames, checkNested)
+      const colors = await analyzeNodeColors(n, showLinkedColors, showFolderNames, checkNested)
       merged.push(...colors)
     }
 
@@ -147,7 +151,7 @@ export async function printColorUsagesFromSelection(settings: PrintColorUsagesUi
       text.x = position.x
       text.y = position.y
       text.fills = primaryFills
-      if (labelFills.primaryVariableId && !verifyFillBinding(text, labelFills.primaryVariableId)) {
+      if (labelFills?.primaryVariableId && !verifyFillBinding(text, labelFills.primaryVariableId)) {
         console.warn("[Print Color Usages] Fill binding mismatch on primary fill for", text.name)
       }
 

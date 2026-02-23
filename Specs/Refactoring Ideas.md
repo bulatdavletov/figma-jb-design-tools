@@ -534,7 +534,7 @@ It should **not change**. Users do the same actions; the plugin becomes faster a
 ### Minimum "release" checklist
 - Run `npm run build`
 - In Figma:
-  - Run **Tools Home** — verify all tool cards appear
+  - Run **All Tools** — verify all tool cards appear
   - Run **View Colors Chain** — test empty, simple, and nested selection
   - Run **Print Color Usages** — test Print and Update actions
   - Run **Mockup Markup Quick Apply** — test Apply and Create actions

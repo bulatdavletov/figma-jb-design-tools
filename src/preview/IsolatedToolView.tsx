@@ -80,6 +80,7 @@ export function IsolatedToolView() {
     <View
       onBack={() => {}}
       initialSelectionEmpty={scenario.props?.initialSelectionEmpty}
+      initialTab={scenario.props?.initialTab}
     />
   )
 }

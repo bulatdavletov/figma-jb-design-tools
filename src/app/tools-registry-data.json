@@ -8,7 +8,7 @@
     "description": "Apply text styles and colors",
     "category": "General",
     "order": 1,
-    "icon": "shape-text",
+    "icon": "IconShapeText16",
     "needsSelection": false
   },
   {
@@ -20,7 +20,7 @@
     "description": "Inspect selection to see full variable alias chains",
     "category": "General",
     "order": 2,
-    "icon": "variable-color",
+    "icon": "IconVariableColor16",
     "needsSelection": true
   },
   {
@@ -32,19 +32,19 @@
     "description": "Find the closest variable for unbound colors",
     "category": "General",
     "order": 3,
-    "icon": "target",
+    "icon": "IconTarget16",
     "needsSelection": true
   },
   {
     "id": "library-swap-tool",
-    "title": "Library Swap",
-    "menuLabel": "Library Swap",
+    "title": "Migrate to New UI Kit",
+    "menuLabel": "Migrate to New UI Kit",
     "main": "src/library-swap-tool/main.ts",
-    "cardTitle": "Library Swap",
-    "description": "Swap component instances from old libraries to new ones",
+    "cardTitle": "Migrate to New UI Kit",
+    "description": "Replace old library components and icons with their new equivalents",
     "category": "General",
     "order": 4,
-    "icon": "library",
+    "icon": "IconLibrary16",
     "needsSelection": true
   },
   {
@@ -56,7 +56,7 @@
     "description": "Print unique colors as text labels near selection",
     "category": "Variables Management",
     "order": 1,
-    "icon": "text",
+    "icon": "IconText16",
     "needsSelection": false
   },
   {
@@ -68,7 +68,7 @@
     "description": "Export variable collections to JSON, import from backup",
     "category": "Variables Management",
     "order": 2,
-    "icon": "folder",
+    "icon": "IconFolder16",
     "needsSelection": false
   },
   {
@@ -80,7 +80,7 @@
     "description": "Rename multiple variables using a JSON file",
     "category": "Variables Management",
     "order": 3,
-    "icon": "variable",
+    "icon": "IconVariable16",
     "needsSelection": false
   },
   {
@@ -92,7 +92,7 @@
     "description": "Create new color variables or rename existing ones",
     "category": "Variables Management",
     "order": 4,
-    "icon": "link",
+    "icon": "IconLink16",
     "needsSelection": false
   },
   {
@@ -104,7 +104,7 @@
     "description": "Replace variable bindings in selection with different variables",
     "category": "Variables Management",
     "order": 5,
-    "icon": "adjust",
+    "icon": "IconAdjust16",
     "needsSelection": true
   }
 ]

@@ -1,6 +1,6 @@
-import { Button, Checkbox, Columns, Container, Disclosure, Divider, IconHome16, IconButton, RadioButtons, Stack, Text, TextboxNumeric, VerticalSpace } from "@create-figma-plugin/ui"
-import { h } from "preact"
-import { useEffect, useMemo, useState } from "preact/hooks"
+import { Button, Container, Divider, IconHome16, IconButton, VerticalSpace } from "@create-figma-plugin/ui"
+import { Fragment, h } from "preact"
+import { useEffect, useMemo, useRef, useState } from "preact/hooks"
 
 import {
   MAIN_TO_UI,
@@ -11,29 +11,37 @@ import {
   type PrintColorUsagesUiSettings,
   UI_TO_MAIN,
 } from "../../messages"
-import { CopyIconButton } from "../../components/CopyIconButton"
-import { DataList } from "../../components/DataList"
-import { DataRow } from "../../components/DataRow"
-import { renderInlineDiff } from "../../components/InlineTextDiff"
 import { Page } from "../../components/Page"
-import { ScopeControl, type ScopeValue } from "../../components/ScopeControl"
+import { type ScopeValue } from "../../components/ScopeControl"
 import { ToolBody } from "../../components/ToolBody"
 import { ToolHeader } from "../../components/ToolHeader"
 import { ToolTabs } from "../../components/ToolTabs"
+import { PrintTab } from "./PrintTab"
+import { SettingsTab } from "./SettingsTab"
+import { UpdateTab } from "./UpdateTab"
 
 const DEFAULT_SETTINGS: PrintColorUsagesUiSettings = {
   textPosition: "right",
   showLinkedColors: true,
-  hideFolderNames: true,
+  showFolderNames: true,
   textTheme: "dark",
   checkByContent: false,
   checkNested: true,
   printDistance: 16,
+  applyTextColor: true,
+  applyTextStyle: true,
 }
 
-export function PrintColorUsagesToolView(props: { onBack: () => void }) {
+type TabValue = "Print" | "Update" | "Settings"
+
+function toTabValue(value: string | undefined): TabValue {
+  if (value === "Update" || value === "Settings") return value
+  return "Print"
+}
+
+export function PrintColorUsagesToolView(props: { onBack: () => void; initialTab?: string }) {
   const [settings, setSettings] = useState<PrintColorUsagesUiSettings>(DEFAULT_SETTINGS)
-  const [activeTab, setActiveTab] = useState<"Print" | "Update">("Print")
+  const [activeTab, setActiveTab] = useState<TabValue>(toTabValue(props.initialTab))
   const [loaded, setLoaded] = useState(false)
   const [status, setStatus] = useState<PrintColorUsagesStatus>({ status: "idle" })
   const [selectionSize, setSelectionSize] = useState<number>(0)
@@ -41,7 +49,6 @@ export function PrintColorUsagesToolView(props: { onBack: () => void }) {
   const [preview, setPreview] = useState<PrintColorUsagesUpdatePreviewPayload | null>(null)
   const [selectedPreviewNodeIds, setSelectedPreviewNodeIds] = useState<string[]>([])
   const [printPreview, setPrintPreview] = useState<PrintColorUsagesPrintPreviewPayload | null>(null)
-  const [settingsOpen, setSettingsOpen] = useState(false)
 
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
@@ -54,7 +61,6 @@ export function PrintColorUsagesToolView(props: { onBack: () => void }) {
       }
 
       if (msg.type === MAIN_TO_UI.PRINT_COLOR_USAGES_SETTINGS) {
-        // Theme is not exposed in UI. We lock fallback to "dark" (white text) for consistency.
         setSettings({ ...msg.settings, textTheme: "dark" })
         setLoaded(true)
         return
@@ -87,9 +93,17 @@ export function PrintColorUsagesToolView(props: { onBack: () => void }) {
     return () => window.removeEventListener("message", handleMessage)
   }, [])
 
-  // Persist settings whenever they change after initial load.
+  const settingsChangedAfterLoad = useRef(false)
   useEffect(() => {
     if (!loaded) return
+    if (!settingsChangedAfterLoad.current) {
+      settingsChangedAfterLoad.current = true
+      parent.postMessage(
+        { pluginMessage: { type: UI_TO_MAIN.PRINT_COLOR_USAGES_SAVE_SETTINGS, settings } },
+        "*"
+      )
+      return
+    }
     setPreview(null)
     setSelectedPreviewNodeIds([])
     setPrintPreview(null)
@@ -100,12 +114,9 @@ export function PrintColorUsagesToolView(props: { onBack: () => void }) {
   }, [loaded, settings])
 
   const isWorking = status.status === "working"
-  const selectedPreviewNodeIdSet = useMemo(() => new Set(selectedPreviewNodeIds), [selectedPreviewNodeIds])
-  const selectedPreviewCount = selectedPreviewNodeIds.length
-  const hasPreviewChanges = selectedPreviewCount > 0
+  const hasPreviewChanges = selectedPreviewNodeIds.length > 0
   const hasSelection = selectionSize > 0
 
-  // Auto-adjust scope when selection changes
   useEffect(() => {
     if (hasSelection) {
       setScope("selection")
@@ -113,6 +124,9 @@ export function PrintColorUsagesToolView(props: { onBack: () => void }) {
       setScope("page")
     }
   }, [hasSelection])
+
+  const printTabShowsState = !hasSelection || !printPreview || printPreview.entries.length === 0
+  const toolBodyMode = activeTab === "Print" && printTabShowsState ? "state" : "content"
 
   const applyLabel = useMemo(() => {
     const s = preview?.scope ?? scope
@@ -135,132 +149,79 @@ export function PrintColorUsagesToolView(props: { onBack: () => void }) {
       <div style={{ flex: 1, minHeight: 0, display: "flex", flexDirection: "column" }}>
         <ToolTabs
           value={activeTab}
-          onValueChange={(value) =>
-            setActiveTab(value === "Update" ? "Update" : "Print")
-          }
+          onValueChange={(value) => setActiveTab(toTabValue(value))}
           options={[
-            { value: "Print", children: null },
-            { value: "Update", children: null },
+            { value: "Print" },
+            { value: "Update" },
+            { value: "Settings" },
           ]}
         />
 
-        <ToolBody mode="content">
-          <Stack space="small">
-            {/* ============================================================ */}
-            {/* Print tab                                                     */}
-            {/* ============================================================ */}
-            {activeTab === "Print" ? (
-              <Stack space="small">
-                {/* Settings under Disclosure -- collapsed by default */}
-                <Disclosure
-                  open={settingsOpen}
-                  onClick={() => setSettingsOpen(!settingsOpen)}
-                  title="Settings"
-                >
-                  <div>
-                    <Stack space="small">
-                      <Stack space="extraSmall">
-                        <Text>Printed text position</Text>
-                        <RadioButtons
-                          direction="horizontal"
-                          value={settings.textPosition}
-                          onValueChange={(value) =>
-                            setSettings((s) => ({
-                              ...s,
-                              textPosition: value === "left" || value === "right" ? value : "right",
-                            }))
-                          }
-                          options={[
-                            { value: "left", children: <Text>Left</Text> },
-                            { value: "right", children: <Text>Right</Text> },
-                          ]}
-                        />
-                      </Stack>
-                      <Stack space="extraSmall">
-                        <Text>Distance</Text>
-                        <TextboxNumeric
-                          value={String(settings.printDistance)}
-                          onNumericValueInput={(value) =>
-                            setSettings((s) => ({ ...s, printDistance: value ?? 16 }))
-                          }
-                          minimum={0}
-                          integer
-                          suffix=" px"
-                        />
-                      </Stack>
-                      <Stack space="extraSmall">
-                        <Checkbox
-                          value={settings.showLinkedColors}
-                          onValueChange={(value) => setSettings((s) => ({ ...s, showLinkedColors: value }))}
-                        >
-                          <Text>Show linked colors</Text>
-                        </Checkbox>
-                        <Checkbox
-                          value={settings.hideFolderNames}
-                          onValueChange={(value) => setSettings((s) => ({ ...s, hideFolderNames: value }))}
-                        >
-                          <Text>Hide folder prefixes (after {"\u201C"}/{"\u201D"})</Text>
-                        </Checkbox>
-                        <Checkbox
-                          value={settings.checkNested}
-                          onValueChange={(value) => setSettings((s) => ({ ...s, checkNested: value }))}
-                        >
-                          <Text>Check colors of nested items</Text>
-                        </Checkbox>
-                      </Stack>
-                      <Text style={{ color: "var(--figma-color-text-secondary)" }}>
-                        Text color is from Mockup markup
-                      </Text>
-                    </Stack>
-                  </div>
-                </Disclosure>
+        <ToolBody mode={toolBodyMode}>
+          {activeTab === "Print" ? (
+            <PrintTab printPreview={printPreview} selectionSize={selectionSize} />
+          ) : null}
 
-                {/* Live preview */}
-                {printPreview && printPreview.entries.length > 0 ? (
-                  <DataList header="Will be printed">
-                    {printPreview.entries.map((entry, index) => (
-                      <DataRow
-                        key={`${entry.layerName}-${index}`}
-                        primary={entry.label}
-                        secondary={entry.layerName}
-                        trailing={<CopyIconButton text={entry.layerName} title="Copy layer name" />}
-                      />
-                    ))}
-                  </DataList>
-                ) : null}
+          {activeTab === "Update" ? (
+            <UpdateTab
+              settings={settings}
+              setSettings={setSettings}
+              isWorking={isWorking}
+              status={status}
+              hasSelection={hasSelection}
+              preview={preview}
+              setPreview={setPreview}
+              selectedPreviewNodeIds={selectedPreviewNodeIds}
+              setSelectedPreviewNodeIds={setSelectedPreviewNodeIds}
+              scope={scope}
+              setScope={setScope}
+            />
+          ) : null}
 
-                {!printPreview && selectionSize > 0 ? (
-                  <Text style={{ color: "var(--figma-color-text-tertiary)" }}>
-                    Loading{"\u2026"}
-                  </Text>
-                ) : null}
+          {activeTab === "Settings" ? (
+            <SettingsTab settings={settings} setSettings={setSettings} />
+          ) : null}
+        </ToolBody>
 
-                {printPreview && printPreview.entries.length === 0 && selectionSize > 0 ? (
-                  <Text style={{ color: "var(--figma-color-text-tertiary)" }}>
-                    No colors found in selection.
-                  </Text>
-                ) : null}
-              </Stack>
-            ) : null}
-
-            {/* ============================================================ */}
-            {/* Update tab                                                    */}
-            {/* ============================================================ */}
-            {activeTab === "Update" ? (
-              <Stack space="small">
-                <Checkbox
-                  value={settings.checkByContent}
-                  onValueChange={(value) => setSettings((s) => ({ ...s, checkByContent: value }))}
-                >
-                  <Text>Check by content</Text>
-                </Checkbox>
-                <ScopeControl
-                  value={scope}
-                  hasSelection={hasSelection}
-                  onValueChange={setScope}
-                />
+        {activeTab !== "Settings" && (
+          <>
+            <Divider />
+            <Container space="small">
+              <VerticalSpace space="small" />
+              {activeTab === "Print" ? (
                 <Button
-                  secondary
+                  fullWidth
+                  loading={isWorking}
+                  disabled={!hasSelection}
+                  onClick={() =>
+                    parent.postMessage({ pluginMessage: { type: UI_TO_MAIN.PRINT_COLOR_USAGES_PRINT, settings } }, "*")
+                  }
+                >
+                  Print
+                </Button>
+              ) : preview ? (
+                <Button
+                  fullWidth
+                  loading={isWorking}
+                  disabled={!hasPreviewChanges}
+                  onClick={() =>
+                    parent.postMessage(
+                      {
+                        pluginMessage: {
+                          type: UI_TO_MAIN.PRINT_COLOR_USAGES_UPDATE,
+                          settings,
+                          targetNodeIds: selectedPreviewNodeIds,
+                        },
+                      },
+                      "*"
+                    )
+                  }
+                >
+                  {applyLabel}
+                </Button>
+              ) : (
+                <Button
+                  fullWidth
                   loading={isWorking}
                   onClick={() => {
                     setStatus({ status: "working", message: "Checking changes\u2026" })
@@ -278,258 +239,11 @@ export function PrintColorUsagesToolView(props: { onBack: () => void }) {
                 >
                   Check changes
                 </Button>
-
-                {isWorking && status.status === "working" && (status as any).message ? (
-                  <Text style={{ color: "var(--figma-color-text-secondary)" }}>
-                    {(status as any).message}
-                  </Text>
-                ) : null}
-
-                {preview ? (
-                  preview.entries.length === 0 ? (
-                    <DataList
-                      header="Changes found"
-                      summary={`Candidates: ${preview.totals.candidates} | Changes: ${preview.totals.changed} | Unchanged: ${preview.totals.unchanged} | Skipped: ${preview.totals.skipped}`}
-                      emptyText="No text changes found."
-                    >
-                      {null}
-                    </DataList>
-                  ) : (
-                    <Stack space="extraSmall">
-                      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                        <Text style={{ color: "var(--figma-color-text-secondary)" }}>
-                          Selected: {selectedPreviewCount} / {preview.entries.length}
-                        </Text>
-                        <div style={{ display: "flex", gap: 6 }}>
-                          <Button
-                            secondary
-                            onClick={() => setSelectedPreviewNodeIds(preview.entries.map((entry) => entry.nodeId))}
-                          >
-                            Select all
-                          </Button>
-                          <Button secondary onClick={() => setSelectedPreviewNodeIds([])}>
-                            Clear
-                          </Button>
-                          <Button
-                            secondary
-                            disabled={selectedPreviewCount === 0}
-                            onClick={() => {
-                              const idsToReset = [...selectedPreviewNodeIds]
-                              parent.postMessage(
-                                {
-                                  pluginMessage: {
-                                    type: UI_TO_MAIN.PRINT_COLOR_USAGES_RESET_LAYER_NAMES,
-                                    nodeIds: idsToReset,
-                                  },
-                                },
-                                "*"
-                              )
-                              // Remove reset entries from preview and selection.
-                              const resetSet = new Set(idsToReset)
-                              setPreview((prev) =>
-                                prev
-                                  ? {
-                                      ...prev,
-                                      entries: prev.entries.filter((e) => !resetSet.has(e.nodeId)),
-                                    }
-                                  : prev
-                              )
-                              setSelectedPreviewNodeIds((prev) =>
-                                prev.filter((id) => !resetSet.has(id))
-                              )
-                            }}
-                          >
-                            Reset names
-                          </Button>
-                        </div>
-                      </div>
-
-                      <DataList
-                        header="Changes found"
-                        summary={`Candidates: ${preview.totals.candidates} | Changes: ${preview.totals.changed} | Unchanged: ${preview.totals.unchanged} | Skipped: ${preview.totals.skipped}`}
-                      >
-                        {preview.entries.map((entry) => {
-                          const isChecked = selectedPreviewNodeIdSet.has(entry.nodeId)
-                          const textDiff = renderInlineDiff(entry.oldText ?? "", entry.newText ?? "")
-                          return (
-                            <div
-                              key={entry.nodeId}
-                              style={{
-                                padding: 10,
-                                background: isChecked
-                                  ? "var(--figma-color-bg-secondary)"
-                                  : "var(--figma-color-bg)",
-                              }}
-                            >
-                              {/* Checkbox + node name */}
-                              <Checkbox
-                                value={isChecked}
-                                onValueChange={(value) =>
-                                  setSelectedPreviewNodeIds((prev) =>
-                                    value
-                                      ? prev.includes(entry.nodeId)
-                                        ? prev
-                                        : [...prev, entry.nodeId]
-                                      : prev.filter((id) => id !== entry.nodeId)
-                                  )
-                                }
-                              >
-                                <Text>{entry.nodeName}</Text>
-                              </Checkbox>
-
-                              {/* Diff content -- clickable to focus node */}
-                              <button
-                                type="button"
-                                onClick={() =>
-                                  parent.postMessage(
-                                    {
-                                      pluginMessage: {
-                                        type: UI_TO_MAIN.PRINT_COLOR_USAGES_FOCUS_NODE,
-                                        nodeId: entry.nodeId,
-                                      },
-                                    },
-                                    "*"
-                                  )
-                                }
-                                style={{
-                                  marginTop: 4,
-                                  width: "100%",
-                                  display: "block",
-                                  border: "none",
-                                  background: "transparent",
-                                  textAlign: "left",
-                                  padding: "0 0 0 24px",
-                                  cursor: "pointer",
-                                }}
-                              >
-                                <Text
-                                  style={{
-                                    color: "var(--figma-color-text-secondary)",
-                                    whiteSpace: "pre-wrap",
-                                    wordBreak: "break-word",
-                                    lineHeight: "20px",
-                                  }}
-                                >
-                                  Old: {textDiff.beforeNode}
-                                </Text>
-                                <Text
-                                  style={{
-                                    color: "var(--figma-color-text)",
-                                    whiteSpace: "pre-wrap",
-                                    wordBreak: "break-word",
-                                    lineHeight: "20px",
-                                  }}
-                                >
-                                  New: {textDiff.afterNode}
-                                </Text>
-                                {entry.layerNameChanged ? (
-                                  <Text
-                                    style={{
-                                      color: "var(--figma-color-text-secondary)",
-                                      whiteSpace: "pre-wrap",
-                                      wordBreak: "break-word",
-                                      lineHeight: "18px",
-                                    }}
-                                  >
-                                    Layer: {entry.oldLayerName || "(empty)"} {"->"}  {entry.newLayerName || "(empty)"}
-                                  </Text>
-                                ) : null}
-                              </button>
-
-                              {/* Content mismatch alert (informational) */}
-                              {entry.contentMismatch ? (
-                                <div
-                                  style={{
-                                    marginTop: 4,
-                                    marginLeft: 24,
-                                    padding: "6px 8px",
-                                    borderRadius: 4,
-                                    background: "var(--figma-color-bg-warning-tertiary, #fff8e1)",
-                                    border: "1px solid var(--figma-color-border-warning, #ffd54f)",
-                                  }}
-                                >
-                                  <Text
-                                    style={{
-                                      color: "var(--figma-color-text-warning)",
-                                      fontSize: 11,
-                                      lineHeight: "16px",
-                                      wordBreak: "break-word",
-                                    }}
-                                  >
-                                    Layer name points to "{entry.contentMismatch.layerVariableName}" but text content matches "{entry.contentMismatch.contentVariableName}"
-                                  </Text>
-                                </div>
-                              ) : null}
-
-                              {/* Resolved by */}
-                              <div style={{ paddingLeft: 24, marginTop: 2 }}>
-                                <Text
-                                  style={{
-                                    color: "var(--figma-color-text-tertiary)",
-                                    whiteSpace: "pre-wrap",
-                                    wordBreak: "break-word",
-                                    lineHeight: "16px",
-                                    fontSize: 11,
-                                  }}
-                                >
-                                  Resolved by:{" "}
-                                  {entry.resolvedBy === "layer_variable_id"
-                                    ? "layer VariableID"
-                                    : entry.resolvedBy === "layer_name"
-                                      ? "layer name"
-                                      : "text content fallback"}
-                                </Text>
-                              </div>
-                            </div>
-                          )
-                        })}
-                      </DataList>
-                    </Stack>
-                  )
-                ) : null}
-              </Stack>
-            ) : null}
-
-          </Stack>
-        </ToolBody>
-
-        {/* Fixed bottom actions */}
-        <Divider />
-        <Container space="small">
-          <VerticalSpace space="small" />
-          {activeTab === "Print" ? (
-            <Button
-              fullWidth
-              loading={isWorking}
-              onClick={() =>
-                parent.postMessage({ pluginMessage: { type: UI_TO_MAIN.PRINT_COLOR_USAGES_PRINT, settings } }, "*")
-              }
-            >
-              Print
-            </Button>
-          ) : (
-            <Button
-              fullWidth
-              loading={isWorking}
-              disabled={!hasPreviewChanges}
-              onClick={() =>
-                parent.postMessage(
-                  {
-                    pluginMessage: {
-                      type: UI_TO_MAIN.PRINT_COLOR_USAGES_UPDATE,
-                      settings,
-                      targetNodeIds: selectedPreviewNodeIds,
-                    },
-                  },
-                  "*"
-                )
-              }
-            >
-              {applyLabel}
-            </Button>
-          )}
-          <VerticalSpace space="small" />
-        </Container>
+              )}
+              <VerticalSpace space="small" />
+            </Container>
+          </>
+        )}
       </div>
     </Page>
   )

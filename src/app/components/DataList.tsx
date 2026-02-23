@@ -30,7 +30,7 @@ export function DataList(props: DataListProps) {
             color: "var(--figma-color-text-secondary)",
             fontSize: 11,
             lineHeight: "16px",
-            marginBottom: 6,
+            marginBottom: 10,
           }}
         >
           {props.header}

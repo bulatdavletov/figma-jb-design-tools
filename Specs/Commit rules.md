@@ -1,5 +1,8 @@
 # Git Conventions
 
+## Before commit
+If changes worth to be mentioned in README.md, add/update it there.
+
 ## Commit Message Format
 
 Always start with the **tool or component name**, followed by a colon and a short description:

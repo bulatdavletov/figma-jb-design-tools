@@ -2,7 +2,7 @@
 
 ### What this is
 - A Figma plugin that has:
-  - **Tools Home** (launcher)
+  - **All Tools** (launcher)
   - **Variable Chain Inspector** (Flow A: inspect alias chain from selected layer’s bound variable)
 
 ### UI Framework
@@ -10,7 +10,9 @@ Create UI Figma
 Storybook https://yuanqing.github.io/create-figma-plugin/storybook/?path=/story/index--index
 
 ### How to test
-- `npm test` runs node-based unit tests with deterministic fake Figma data fixtures.
+- `npm test` runs Vitest unit tests (151 tests, ~1 sec) for all shared pure-logic modules
+- `npm run test:watch` starts Vitest in watch mode for active development
+- Pre-commit hook runs tests automatically before every commit
 
 ### UI Showcase
 - `npm run preview` opens a standalone Vite dev server at `http://localhost:5173`

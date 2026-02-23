@@ -8,5 +8,6 @@ export type Scenario = {
   /** Extra props forwarded to the tool view component. */
   props?: {
     initialSelectionEmpty?: boolean
+    initialTab?: string
   }
 }

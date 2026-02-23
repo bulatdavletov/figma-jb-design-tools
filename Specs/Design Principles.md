@@ -32,6 +32,7 @@
   - unchecked: no children selected
 - Indent child checkbox lists under parent for clear hierarchy.
 - Add visible spacing between parent row and child rows.
+- Prefer not to use negative forms (such as "Hide") for checkbox labels, as these can be confusing. Use affirmative forms ("Show") even if the default is to hide. For example, avoid a checkbox labeled "Hide folder names"—instead, use "Show folder names" and reflect the default in the checkbox's checked/unchecked state.
 
 ## Selection UX (Segmented vs. Radios)
 - Prefer Segmented Button groups over traditional Radio Buttons for mutually exclusive choices. Segmented Buttons are more modern, visually clear, and fit Figma/modern UI conventions.

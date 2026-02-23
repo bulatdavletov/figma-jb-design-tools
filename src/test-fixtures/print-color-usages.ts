@@ -4,11 +4,13 @@ import type { MainToUiMessage, PrintColorUsagesUiSettings } from "../app/message
 const DEFAULT_SETTINGS: PrintColorUsagesUiSettings = {
   textPosition: "right",
   showLinkedColors: true,
-  hideFolderNames: false,
+  showFolderNames: false,
   textTheme: "dark",
   checkByContent: false,
   checkNested: true,
   printDistance: 8,
+  applyTextColor: true,
+  applyTextStyle: true,
 }
 
 const SETTINGS_MSG: MainToUiMessage = {
@@ -18,8 +20,17 @@ const SETTINGS_MSG: MainToUiMessage = {
 
 export const scenarios: Scenario[] = [
   {
+    id: "print-no-selection",
+    label: "Print Tab — No Selection",
+    messages: [
+      SETTINGS_MSG,
+      { type: "PRINT_COLOR_USAGES_SELECTION", selectionSize: 0 },
+      { type: "PRINT_COLOR_USAGES_STATUS", status: { status: "idle" } },
+    ],
+  },
+  {
     id: "print-idle",
-    label: "Print Tab — Idle",
+    label: "Print Tab — Has Selection",
     messages: [
       SETTINGS_MSG,
       { type: "PRINT_COLOR_USAGES_SELECTION", selectionSize: 3 },
@@ -44,6 +55,26 @@ export const scenarios: Scenario[] = [
         },
       },
     ],
+  },
+  {
+    id: "settings",
+    label: "Settings Tab",
+    messages: [
+      SETTINGS_MSG,
+      { type: "PRINT_COLOR_USAGES_SELECTION", selectionSize: 0 },
+      { type: "PRINT_COLOR_USAGES_STATUS", status: { status: "idle" } },
+    ],
+    props: { initialTab: "Settings" },
+  },
+  {
+    id: "update-idle",
+    label: "Update Tab — Idle",
+    messages: [
+      SETTINGS_MSG,
+      { type: "PRINT_COLOR_USAGES_SELECTION", selectionSize: 3 },
+      { type: "PRINT_COLOR_USAGES_STATUS", status: { status: "idle" } },
+    ],
+    props: { initialTab: "Update" },
   },
   {
     id: "update-preview",
@@ -81,10 +112,11 @@ export const scenarios: Scenario[] = [
               layerNameChanged: false,
               linkedColorChanged: false,
               resolvedBy: "text_content",
-            },
-          ],
-        },
+          },
+        ],
       },
+    },
     ],
+    props: { initialTab: "Update" },
   },
 ]

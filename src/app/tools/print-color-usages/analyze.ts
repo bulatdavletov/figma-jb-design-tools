@@ -31,13 +31,13 @@ async function getColorUsage(
   paint: Paint,
   showLinkedColors: boolean = true,
   node?: SceneNode,
-  hideFolderNames: boolean = false
+  showFolderNames: boolean = false
 ): Promise<ColorUsage> {
   const boundVariableId = getBoundColorVariableIdFromPaint(paint)
 
   // Variable case: build parts so we can apply different fills to each segment.
   if (boundVariableId) {
-    const parts = await resolveVariableLabelPartsFromVariable(boundVariableId, showLinkedColors, node, hideFolderNames)
+    const parts = await resolveVariableLabelPartsFromVariable(boundVariableId, showLinkedColors, node, showFolderNames)
     const primaryText = parts.primaryText
     const secondaryText = parts.secondaryText
 
@@ -97,7 +97,7 @@ async function getColorUsage(
 export async function analyzeNodeColors(
   node: SceneNode,
   showLinkedColors: boolean = true,
-  hideFolderNames: boolean = false,
+  showFolderNames: boolean = false,
   checkNested: boolean = true
 ): Promise<Array<ColorUsage>> {
   const colorInfo: Array<ColorUsage> = []
@@ -108,13 +108,13 @@ export async function analyzeNodeColors(
   if ("fills" in node && node.fills && Array.isArray(node.fills) && node.fills.length > 0) {
     const fillStyleName = await getStyleName(node, "fills")
     if (fillStyleName) {
-      const label = maybeStripFolderPrefix(fillStyleName, hideFolderNames)
+      const label = maybeStripFolderPrefix(fillStyleName, showFolderNames)
       colorInfo.push({ label, layerName: label, uniqueKey: label })
     } else {
       const fillColors = await Promise.all(
         node.fills
           .filter((fill) => fill.type === "SOLID" && fill.visible !== false && (fill.opacity === undefined || fill.opacity > 0))
-          .map((fill) => getColorUsage(fill, showLinkedColors, node, hideFolderNames))
+          .map((fill) => getColorUsage(fill, showLinkedColors, node, showFolderNames))
       )
       colorInfo.push(...fillColors)
     }
@@ -124,13 +124,13 @@ export async function analyzeNodeColors(
   if ("strokes" in node && node.strokes && Array.isArray(node.strokes) && node.strokes.length > 0) {
     const strokeStyleName = await getStyleName(node, "strokes")
     if (strokeStyleName) {
-      const label = maybeStripFolderPrefix(strokeStyleName, hideFolderNames)
+      const label = maybeStripFolderPrefix(strokeStyleName, showFolderNames)
       colorInfo.push({ label, layerName: label, uniqueKey: label })
     } else {
       const strokeColors = await Promise.all(
         node.strokes
           .filter((stroke) => stroke.type === "SOLID" && stroke.visible !== false && (stroke.opacity === undefined || stroke.opacity > 0))
-          .map((stroke) => getColorUsage(stroke, showLinkedColors, node, hideFolderNames))
+          .map((stroke) => getColorUsage(stroke, showLinkedColors, node, showFolderNames))
       )
       colorInfo.push(...strokeColors)
     }
@@ -142,7 +142,7 @@ export async function analyzeNodeColors(
     if (!isUnion) {
       const children = node as unknown as ChildrenMixin
       for (const child of children.children) {
-        const childColors = await analyzeNodeColors(child, showLinkedColors, hideFolderNames, checkNested)
+        const childColors = await analyzeNodeColors(child, showLinkedColors, showFolderNames, checkNested)
         colorInfo.push(...childColors)
       }
     }

@@ -90,11 +90,31 @@ export function IconChevronUp16(props: SvgProps) {
   )
 }
 
+export function IconStub16(props: SvgProps) {
+  const color = props.color ?? "currentColor"
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-label={props.title}>
+      <path d="M12.5 2C13.3284 2 14 2.67157 14 3.5V12.5C14 13.3284 13.3284 14 12.5 14H3.5C2.67157 14 2 13.3284 2 12.5V3.5C2 2.67157 2.67157 2 3.5 2H12.5ZM3.70703 13H12.293L8 8.70703L3.70703 13ZM8.70703 8L13 12.293V3.70703L8.70703 8ZM3 12.293L7.29297 8L3 3.70703V12.293ZM8 7.29297L12.293 3H3.70703L8 7.29297Z" fill={color} fillOpacity={props.opacity ?? 0.9} />
+    </svg>
+  )
+}
+
 export function IconTarget16(props: SvgProps) {
   const color = props.color ?? "currentColor"
   return (
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-label={props.title}>
       <path d="M8 14.5C7.72386 14.5 7.5 14.2761 7.5 14V12.9756C5.13777 12.7411 3.25894 10.8622 3.02441 8.5H2C1.72386 8.5 1.5 8.27614 1.5 8C1.5 7.72386 1.72386 7.5 2 7.5H3.02441C3.25893 5.1378 5.13782 3.25996 7.5 3.02539V2C7.5 1.72386 7.72386 1.5 8 1.5C8.27614 1.5 8.5 1.72386 8.5 2V3.02539C10.8622 3.25996 12.7411 5.1378 12.9756 7.5H14C14.2761 7.5 14.5 7.72386 14.5 8C14.5 8.27614 14.2761 8.5 14 8.5H12.9756C12.7411 10.8622 10.8622 12.7411 8.5 12.9756V14C8.5 14.2761 8.27614 14.5 8 14.5ZM7.5 11C7.5 10.7239 7.72386 10.5 8 10.5C8.27614 10.5 8.5 10.7239 8.5 11V11.9688C10.3093 11.7431 11.7421 10.3093 11.9678 8.5H11C10.7239 8.5 10.5 8.27614 10.5 8C10.5 7.72386 10.7239 7.5 11 7.5H11.9678C11.7421 5.69077 10.3092 4.25791 8.5 4.03223V5C8.5 5.27614 8.27614 5.5 8 5.5C7.72386 5.5 7.5 5.27614 7.5 5V4.03223C5.69077 4.25791 4.25791 5.69077 4.03223 7.5H5C5.27614 7.5 5.5 7.72386 5.5 8C5.5 8.27614 5.27614 8.5 5 8.5H4.03223C4.25791 10.3093 5.69071 11.7431 7.5 11.9688V11Z" fill={color} fillOpacity={props.opacity ?? 0.9} />
+    </svg>
+  )
+}
+
+export function IconStub24(props: SvgProps) {
+  const color = props.color ?? "currentColor"
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-label={props.title}>
+      <path d="M18 4C19.1046 4 20 4.89543 20 6V18C20 19.1046 19.1046 20 18 20H6C4.89543 20 4 19.1046 4 18V6C4 4.89543 4.89543 4 6 4H18ZM6 5C5.44772 5 5 5.44772 5 6V18C5 18.5523 5.44772 19 6 19H18C18.5523 19 19 18.5523 19 18V6C19 5.44772 18.5523 5 18 5H6Z" fill={color} fillOpacity={props.opacity ?? 0.9} />
+      <path d="M5 5L19 19" fill={color} fillOpacity={props.opacity ?? 0.9} />
+      <path d="M19 5L5 19" fill={color} fillOpacity={props.opacity ?? 0.9} />
     </svg>
   )
 }

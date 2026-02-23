@@ -1,11 +1,12 @@
-import { Container, Text, VerticalSpace } from "@create-figma-plugin/ui"
+import { Container, LoadingIndicator, Text, VerticalSpace } from "@create-figma-plugin/ui"
 import { Fragment, h } from "preact"
 
 export type StateTone = "muted" | "default"
 
 export function State(props: {
   icon?: preact.ComponentChildren
-  title: string
+  loading?: boolean
+  title?: string
   description?: string
   tone?: StateTone
 }) {
@@ -43,6 +44,11 @@ export function State(props: {
           <VerticalSpace space="medium" />
         </Fragment>
       ) : null}
+      {props.loading ? (
+        <Fragment>
+          <LoadingIndicator />
+        </Fragment>
+      ) : null}
       <Text style={{ color: textColor }}>{props.title}</Text>
       {props.description ? (
         <Fragment>
@@ -53,4 +59,3 @@ export function State(props: {
     </Container>
   )
 }
-

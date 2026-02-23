@@ -14,6 +14,7 @@ import { scenarios as variablesReplaceUsagesScenarios } from "../test-fixtures/v
 export type ToolViewProps = {
   onBack: () => void
   initialSelectionEmpty?: boolean
+  initialTab?: string
 }
 
 export type ToolEntry = {
@@ -57,7 +58,7 @@ export const tools: ToolEntry[] = [
   },
   {
     id: "library-swap-tool",
-    label: "Library Swap",
+    label: "Migrate to New UI Kit",
     section: "general",
     scenarios: librarySwapScenarios,
     loadView: () =>
