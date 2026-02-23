@@ -25,3 +25,20 @@
 - The executor creates initial context from selection, passes it through each step, then syncs back to Figma selection
 - Each action adds its own log entries (the action knows best what it did)
 - Old automations with `findByType`/`selectByName` are migrated transparently on load
+
+### 2026-02-23: Added Automations to UI Showcase
+
+**Task:** Register Automations tool in UI Showcase with preview scenarios.
+
+**What was done:**
+- Added optional `size?: { width; height }` to `Scenario` type for tools that use non-standard frame sizes
+- Updated `ScenarioFrame` in `ToolPreview.tsx` to use per-scenario size overrides
+- Created `src/test-fixtures/automations.ts` with 8 scenarios:
+  - Empty list, List with items, List running, List run success (all 360x500)
+  - Builder empty, Builder with steps, Run output success, Run output error (all 680x520)
+- Registered `automations-tool` in `tool-registry.ts` under "general" section
+
+### 2026-02-23: Auto-save on Back button in Builder
+
+- `goToList` now sends `AUTOMATIONS_SAVE` before navigating if `editingAutomation` is present
+- Only fires from builder screen (editingAutomation is null on run output screen)

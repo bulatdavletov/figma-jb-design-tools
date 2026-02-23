@@ -201,12 +201,18 @@ export function AutomationsToolView(props: { onBack: () => void }) {
   }, [editingAutomation])
 
   const goToList = useCallback(() => {
+    if (editingAutomation) {
+      postMessage({
+        type: UI_TO_MAIN.AUTOMATIONS_SAVE,
+        automation: { ...editingAutomation, updatedAt: Date.now() },
+      })
+    }
     setScreen("list")
     setEditingAutomation(null)
     setRunResult(null)
     postMessage({ type: UI_TO_MAIN.AUTOMATIONS_LOAD })
     postMessage({ type: UI_TO_MAIN.RESIZE_WINDOW, width: LIST_WIDTH, height: LIST_HEIGHT })
-  }, [])
+  }, [editingAutomation])
 
   if (screen === "runOutput" && runResult) {
     return (
