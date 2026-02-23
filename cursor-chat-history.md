@@ -1,3 +1,25 @@
+## Testing Infrastructure
+
+### 2026-02-23 — Vitest setup + unit tests for shared logic
+- Replaced the hacky Node.js test runner (`tsc` → CJS → `node --test`) with **Vitest** (native TypeScript, fast, watch mode).
+- Migrated old `tests/` directory to **co-located test files** next to source (`*.test.ts` beside `*.ts`).
+- Created `src/test-fixtures/figma-fakes.ts` — typed factory helpers for fake Figma objects (`makeSolidPaint`, `makeSceneNode`).
+- Added `vitest.config.ts`; updated `package.json` scripts (`npm test` → `vitest run`, `npm run test:watch` → `vitest`).
+- Excluded `*.test.ts` from `tsconfig.json` so the Figma plugin build doesn't typecheck Vitest's own types.
+- Deleted old `tests/` directory entirely.
+- **151 unit tests across 6 test files**, all passing in ~160ms:
+  - `variable-chain.test.ts` — color math (`toByteHex`, `colorToRgbHex`, `colorToOpacityPercent`, `isColorValue`, `clamp01`)
+  - `json-parsers.test.ts` — all 3 JSON parsers + snapshot flattener
+  - `node-utils.test.ts` — type guards, node traversal, binding readers, color helpers, name helpers
+  - `shared.test.ts` — print-color-usages utilities (migrated from old CJS tests)
+  - `component-name.test.ts` — `stripVariantInfo`
+  - `mapping-types.test.ts` — library-swap validation, lookup, merge functions
+- Added **pre-commit git hook** (`.git/hooks/pre-commit`) that runs `npm test` before every commit.
+- Wrote `specs/Testing Approach.md` documenting current + future testing strategy.
+- Build passes cleanly with all changes.
+
+---
+
 ## Coding Conventions / UI Patterns
 
 ### @create-figma-plugin/ui components
@@ -1057,3 +1079,8 @@ Olya suggested to rename from JetBrains Design Tools to Int UI Design Tools
 - **New files:** `src/preview/IsolatedToolView.tsx`, `src/preview/ToolPreview.tsx`, `src/preview/tool-registry.ts`, `src/preview/mock-message-bus.ts`, plus 9 fixture files in `src/test-fixtures/`.
 - Updated `specs/UI Showcase.md` with full architecture docs.
 
+### 2026-02-23 — Rename commits per Commit rules
+- Renamed two commits on main to follow `specs/Commit rules.md` format (ComponentOrTool: Short description).
+- `d947045` → `Specs: Add Figma plugin testing guide` + `tests: Add fake-data fixtures and Print Color Usages unit test`
+- `10d4d49` → `tools-registry: Add shared tool registry and data` + `sync-figma-menu: Add menu sync script` + `run, ui, HomeView, messages: Refactor to use tools-registry`
+- Force pushed to origin/main.

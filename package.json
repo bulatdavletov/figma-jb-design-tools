@@ -9,8 +9,8 @@
     "preview": "vite",
     "preview:build": "vite build",
     "preview:serve": "vite preview",
-    "test": "rm -rf .tmp-tests && tsc src/app/tools/print-color-usages/shared.ts --module commonjs --target es2020 --skipLibCheck --lib es2020 --types @figma/plugin-typings --outDir .tmp-tests/src && node --test tests/**/*.test.cjs",
-    "test:watch": "npm test -- --watch"
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@create-figma-plugin/ui": "^4.0.3",
@@ -20,12 +20,13 @@
   "devDependencies": {
     "@create-figma-plugin/build": "^4.0.3",
     "@create-figma-plugin/tsconfig": "^4.0.3",
-    "@preact/preset-vite": "^2.10.1",
     "@figma/plugin-typings": "*",
+    "@preact/preset-vite": "^2.10.1",
     "@types/node": "^22.13.10",
     "esbuild": "^0.25.3",
     "typescript": "^5.3.2",
-    "vite": "^6.1.0"
+    "vite": "^6.1.0",
+    "vitest": "^4.0.18"
   },
   "figma-plugin": {
     "id": "1598773743246786962",
@@ -44,7 +45,7 @@
     ],
     "menu": [
       {
-        "name": "Tools Home",
+        "name": "All Tools",
         "main": "src/home/main.ts",
         "ui": "src/app/ui.tsx"
       },

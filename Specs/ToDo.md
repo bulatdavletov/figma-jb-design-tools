@@ -46,6 +46,9 @@ Cases, requirements.
 ~~Bug: No visible vertical spacing between primary and secondary text inside DataList/DataRow items.~~
 ✓ Fixed: Replaced `Text` component with plain `<div>` elements in DataRow and Print preview. The library's `Text` uses `::before { margin-top: -9px }` + `transform: translateY(4px)` which compressed layout heights (20px→12px, 16px→8px) and made text fill edge-to-edge, hiding the gap.
 
+Idea: new component located in right and bottom part of ui, that allows to resize the window.
+It should have delay, before hover, and then show the resize handle.
+
 ## Print tool:
 
 If I press update, show preview, what will be updated, before after, and only then apply.

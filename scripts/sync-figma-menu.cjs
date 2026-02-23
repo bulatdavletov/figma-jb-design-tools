@@ -10,7 +10,7 @@ const tools = JSON.parse(fs.readFileSync(registryPath, 'utf8'))
 
 const menu = [
   {
-    name: 'Tools Home',
+    name: 'All Tools',
     main: 'src/home/main.ts',
     ui: 'src/app/ui.tsx',
   },

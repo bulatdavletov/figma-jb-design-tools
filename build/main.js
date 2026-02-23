@@ -174,6 +174,153 @@ var init_messages = __esm({
   }
 });
 
+// src/app/tools-registry-data.json
+var tools_registry_data_default;
+var init_tools_registry_data = __esm({
+  "src/app/tools-registry-data.json"() {
+    tools_registry_data_default = [
+      {
+        id: "mockup-markup-tool",
+        title: "Mockup Markup Quick Apply",
+        menuLabel: "Mockup Markup Quick Apply",
+        main: "src/mockup-markup-tool/main.ts",
+        cardTitle: "Mockup Markup Quick Apply",
+        description: "Apply text styles and colors",
+        category: "General",
+        order: 1,
+        icon: "shape-text",
+        needsSelection: false
+      },
+      {
+        id: "color-chain-tool",
+        title: "View Colors Chain",
+        menuLabel: "View Colors Chain",
+        main: "src/color-chain-tool/main.ts",
+        cardTitle: "View Colors Chain",
+        description: "Inspect selection to see full variable alias chains",
+        category: "General",
+        order: 2,
+        icon: "variable-color",
+        needsSelection: true
+      },
+      {
+        id: "find-color-match-tool",
+        title: "Find Color Match",
+        menuLabel: "Find Color Match in Islands",
+        main: "src/find-color-match-tool/main.ts",
+        cardTitle: "Find Color Match in Islands",
+        description: "Find the closest variable for unbound colors",
+        category: "General",
+        order: 3,
+        icon: "target",
+        needsSelection: true
+      },
+      {
+        id: "library-swap-tool",
+        title: "Library Swap",
+        menuLabel: "Library Swap",
+        main: "src/library-swap-tool/main.ts",
+        cardTitle: "Library Swap",
+        description: "Swap component instances from old libraries to new ones",
+        category: "General",
+        order: 4,
+        icon: "library",
+        needsSelection: true
+      },
+      {
+        id: "print-color-usages-tool",
+        title: "Print Color Usages",
+        menuLabel: "Print Color Usages",
+        main: "src/print-color-usages-tool/main.ts",
+        cardTitle: "Print Color Usages",
+        description: "Print unique colors as text labels near selection",
+        category: "Variables Management",
+        order: 1,
+        icon: "text",
+        needsSelection: false
+      },
+      {
+        id: "variables-export-import-tool",
+        title: "Variables Export Import",
+        menuLabel: "Variables Export Import",
+        main: "src/variables-export-import-tool/main.ts",
+        cardTitle: "Export / Import",
+        description: "Export variable collections to JSON, import from backup",
+        category: "Variables Management",
+        order: 2,
+        icon: "folder",
+        needsSelection: false
+      },
+      {
+        id: "variables-batch-rename-tool",
+        title: "Rename Variables via JSON",
+        menuLabel: "Rename Variables via JSON",
+        main: "src/variables-batch-rename-tool/main.ts",
+        cardTitle: "Rename via JSON",
+        description: "Rename multiple variables using a JSON file",
+        category: "Variables Management",
+        order: 3,
+        icon: "variable",
+        needsSelection: false
+      },
+      {
+        id: "variables-create-linked-colors-tool",
+        title: "Variables Create Linked Colors",
+        menuLabel: "Variables Create Linked Colors",
+        main: "src/variables-create-linked-colors-tool/main.ts",
+        cardTitle: "Create Linked Colors",
+        description: "Create new color variables or rename existing ones",
+        category: "Variables Management",
+        order: 4,
+        icon: "link",
+        needsSelection: false
+      },
+      {
+        id: "variables-replace-usages-tool",
+        title: "Variables Replace Usages",
+        menuLabel: "Variables Replace Usages",
+        main: "src/variables-replace-usages-tool/main.ts",
+        cardTitle: "Replace Usages",
+        description: "Replace variable bindings in selection with different variables",
+        category: "Variables Management",
+        order: 5,
+        icon: "adjust",
+        needsSelection: true
+      }
+    ];
+  }
+});
+
+// src/app/tools-registry.ts
+function getToolById(id) {
+  return TOOL_BY_ID[id];
+}
+function isToolId(value) {
+  return TOOL_IDS.includes(value);
+}
+var TOOL_IDS, TOOLS_REGISTRY, TOOL_BY_ID;
+var init_tools_registry = __esm({
+  "src/app/tools-registry.ts"() {
+    "use strict";
+    init_tools_registry_data();
+    TOOL_IDS = [
+      "mockup-markup-tool",
+      "color-chain-tool",
+      "library-swap-tool",
+      "print-color-usages-tool",
+      "variables-export-import-tool",
+      "variables-batch-rename-tool",
+      "variables-create-linked-colors-tool",
+      "variables-replace-usages-tool",
+      "find-color-match-tool"
+    ];
+    TOOLS_REGISTRY = tools_registry_data_default;
+    TOOL_BY_ID = Object.fromEntries(
+      TOOLS_REGISTRY.map((tool) => [tool.id, tool])
+    );
+  }
+});
+
 // src/app/tools/mockup-markup-library/constants.ts
 var MARKUP_LIBRARY_NAME, MARKUP_COLOR_VARIABLE_RAW_IDS, MARKUP_COLOR_VARIABLE_NAME_CANDIDATES, MARKUP_TEXT_STYLE_IDS;
 var init_constants = __esm({
@@ -41228,28 +41375,7 @@ var init_main_thread9 = __esm({
 
 // src/app/run.ts
 function getToolTitle(command) {
-  switch (command) {
-    case "mockup-markup-tool":
-      return "Mockup Markup Quick Apply";
-    case "color-chain-tool":
-      return "View Colors Chain";
-    case "library-swap-tool":
-      return "Library Swap";
-    case "print-color-usages-tool":
-      return "Print Color Usages";
-    case "variables-export-import-tool":
-      return "Variables Export Import";
-    case "variables-batch-rename-tool":
-      return "Rename Variables via JSON";
-    case "variables-create-linked-colors-tool":
-      return "Variables Create Linked Colors";
-    case "variables-replace-usages-tool":
-      return "Variables Replace Usages";
-    case "find-color-match-tool":
-      return "Find Color Match";
-    default:
-      return "Int UI Design Tools";
-  }
+  return isToolId(command) ? getToolById(command).title : "Int UI Design Tools";
 }
 function run(command) {
   showUI(
@@ -41260,66 +41386,15 @@ function run(command) {
     },
     { command }
   );
-  const toolCommands = [
-    "mockup-markup-tool",
-    "color-chain-tool",
-    "library-swap-tool",
-    "print-color-usages-tool",
-    "variables-export-import-tool",
-    "variables-batch-rename-tool",
-    "variables-create-linked-colors-tool",
-    "variables-replace-usages-tool",
-    "find-color-match-tool"
-  ];
-  let activeTool = toolCommands.includes(command) ? command : "home";
+  let activeTool = isToolId(command) ? command : "home";
   const getActiveTool = () => activeTool;
-  const mockupMarkup = registerMockupMarkupTool(getActiveTool);
-  const colorChain = registerColorChainTool(getActiveTool);
-  const librarySwap = registerLibrarySwapTool(getActiveTool);
-  const printColorUsages = registerPrintColorUsagesTool(getActiveTool);
-  const variablesExportImport = registerVariablesExportImportTool(getActiveTool);
-  const variablesBatchRename = registerVariablesBatchRenameTool(getActiveTool);
-  const variablesCreateLinkedColors = registerVariablesCreateLinkedColorsTool(getActiveTool);
-  const variablesReplaceUsages = registerVariablesReplaceUsagesTool(getActiveTool);
-  const findColorMatch = registerFindColorMatchTool(getActiveTool);
+  const toolControllers = Object.fromEntries(
+    TOOLS_REGISTRY.map((tool) => [tool.id, REGISTER_TOOL_CONTROLLER[tool.id](getActiveTool)])
+  );
   const activate = async (tool) => {
     activeTool = tool;
-    if (tool === "mockup-markup-tool") {
-      await mockupMarkup.onActivate();
-      return;
-    }
-    if (tool === "color-chain-tool") {
-      await colorChain.onActivate();
-      return;
-    }
-    if (tool === "library-swap-tool") {
-      await librarySwap.onActivate();
-      return;
-    }
-    if (tool === "print-color-usages-tool") {
-      await printColorUsages.onActivate();
-      return;
-    }
-    if (tool === "variables-export-import-tool") {
-      await variablesExportImport.onActivate();
-      return;
-    }
-    if (tool === "variables-batch-rename-tool") {
-      await variablesBatchRename.onActivate();
-      return;
-    }
-    if (tool === "variables-create-linked-colors-tool") {
-      await variablesCreateLinkedColors.onActivate();
-      return;
-    }
-    if (tool === "variables-replace-usages-tool") {
-      await variablesReplaceUsages.onActivate();
-      return;
-    }
-    if (tool === "find-color-match-tool") {
-      await findColorMatch.onActivate();
-      return;
-    }
+    if (tool === "home") return;
+    await toolControllers[tool].onActivate();
   };
   figma.ui.onmessage = async (msg) => {
     try {
@@ -41336,15 +41411,11 @@ function run(command) {
         await activate(msg.tool);
         return;
       }
-      if (await mockupMarkup.onMessage(msg)) return;
-      if (await colorChain.onMessage(msg)) return;
-      if (await librarySwap.onMessage(msg)) return;
-      if (await printColorUsages.onMessage(msg)) return;
-      if (await variablesExportImport.onMessage(msg)) return;
-      if (await variablesBatchRename.onMessage(msg)) return;
-      if (await variablesCreateLinkedColors.onMessage(msg)) return;
-      if (await variablesReplaceUsages.onMessage(msg)) return;
-      if (await findColorMatch.onMessage(msg)) return;
+      for (const tool of TOOLS_REGISTRY) {
+        if (await toolControllers[tool.id].onMessage(msg)) {
+          return;
+        }
+      }
     } catch (e) {
       console.log("[run] Unhandled error in onmessage", e);
       try {
@@ -41354,11 +41425,13 @@ function run(command) {
     }
   };
 }
+var REGISTER_TOOL_CONTROLLER;
 var init_run = __esm({
   "src/app/run.ts"() {
     "use strict";
     init_lib();
     init_messages();
+    init_tools_registry();
     init_main_thread();
     init_main_thread2();
     init_main_thread3();
@@ -41368,6 +41441,17 @@ var init_run = __esm({
     init_main_thread7();
     init_main_thread8();
     init_main_thread9();
+    REGISTER_TOOL_CONTROLLER = {
+      "mockup-markup-tool": registerMockupMarkupTool,
+      "color-chain-tool": registerColorChainTool,
+      "library-swap-tool": registerLibrarySwapTool,
+      "print-color-usages-tool": registerPrintColorUsagesTool,
+      "variables-export-import-tool": registerVariablesExportImportTool,
+      "variables-batch-rename-tool": registerVariablesBatchRenameTool,
+      "variables-create-linked-colors-tool": registerVariablesCreateLinkedColorsTool,
+      "variables-replace-usages-tool": registerVariablesReplaceUsagesTool,
+      "find-color-match-tool": registerFindColorMatchTool
+    };
   }
 });
 
@@ -41416,15 +41500,30 @@ var init_main3 = __esm({
   }
 });
 
-// src/library-swap-tool/main.ts
+// src/find-color-match-tool/main.ts
 var main_exports4 = {};
 __export(main_exports4, {
   default: () => main_default4
 });
 function main_default4() {
-  run("library-swap-tool");
+  run("find-color-match-tool");
 }
 var init_main4 = __esm({
+  "src/find-color-match-tool/main.ts"() {
+    "use strict";
+    init_run();
+  }
+});
+
+// src/library-swap-tool/main.ts
+var main_exports5 = {};
+__export(main_exports5, {
+  default: () => main_default5
+});
+function main_default5() {
+  run("library-swap-tool");
+}
+var init_main5 = __esm({
   "src/library-swap-tool/main.ts"() {
     "use strict";
     init_run();
@@ -41432,14 +41531,14 @@ var init_main4 = __esm({
 });
 
 // src/print-color-usages-tool/main.ts
-var main_exports5 = {};
-__export(main_exports5, {
-  default: () => main_default5
+var main_exports6 = {};
+__export(main_exports6, {
+  default: () => main_default6
 });
-function main_default5() {
+function main_default6() {
   run("print-color-usages-tool");
 }
-var init_main5 = __esm({
+var init_main6 = __esm({
   "src/print-color-usages-tool/main.ts"() {
     "use strict";
     init_run();
@@ -41447,14 +41546,14 @@ var init_main5 = __esm({
 });
 
 // src/variables-export-import-tool/main.ts
-var main_exports6 = {};
-__export(main_exports6, {
-  default: () => main_default6
+var main_exports7 = {};
+__export(main_exports7, {
+  default: () => main_default7
 });
-function main_default6() {
+function main_default7() {
   run("variables-export-import-tool");
 }
-var init_main6 = __esm({
+var init_main7 = __esm({
   "src/variables-export-import-tool/main.ts"() {
     "use strict";
     init_run();
@@ -41462,14 +41561,14 @@ var init_main6 = __esm({
 });
 
 // src/variables-batch-rename-tool/main.ts
-var main_exports7 = {};
-__export(main_exports7, {
-  default: () => main_default7
+var main_exports8 = {};
+__export(main_exports8, {
+  default: () => main_default8
 });
-function main_default7() {
+function main_default8() {
   run("variables-batch-rename-tool");
 }
-var init_main7 = __esm({
+var init_main8 = __esm({
   "src/variables-batch-rename-tool/main.ts"() {
     "use strict";
     init_run();
@@ -41477,14 +41576,14 @@ var init_main7 = __esm({
 });
 
 // src/variables-create-linked-colors-tool/main.ts
-var main_exports8 = {};
-__export(main_exports8, {
-  default: () => main_default8
+var main_exports9 = {};
+__export(main_exports9, {
+  default: () => main_default9
 });
-function main_default8() {
+function main_default9() {
   run("variables-create-linked-colors-tool");
 }
-var init_main8 = __esm({
+var init_main9 = __esm({
   "src/variables-create-linked-colors-tool/main.ts"() {
     "use strict";
     init_run();
@@ -41492,36 +41591,21 @@ var init_main8 = __esm({
 });
 
 // src/variables-replace-usages-tool/main.ts
-var main_exports9 = {};
-__export(main_exports9, {
-  default: () => main_default9
+var main_exports10 = {};
+__export(main_exports10, {
+  default: () => main_default10
 });
-function main_default9() {
+function main_default10() {
   run("variables-replace-usages-tool");
 }
-var init_main9 = __esm({
+var init_main10 = __esm({
   "src/variables-replace-usages-tool/main.ts"() {
     "use strict";
     init_run();
   }
 });
 
-// src/find-color-match-tool/main.ts
-var main_exports10 = {};
-__export(main_exports10, {
-  default: () => main_default10
-});
-function main_default10() {
-  run("find-color-match-tool");
-}
-var init_main10 = __esm({
-  "src/find-color-match-tool/main.ts"() {
-    "use strict";
-    init_run();
-  }
-});
-
 // <stdin>
-var modules = { "src/home/main.ts--default": (init_main(), __toCommonJS(main_exports))["default"], "src/mockup-markup-tool/main.ts--default": (init_main2(), __toCommonJS(main_exports2))["default"], "src/color-chain-tool/main.ts--default": (init_main3(), __toCommonJS(main_exports3))["default"], "src/library-swap-tool/main.ts--default": (init_main4(), __toCommonJS(main_exports4))["default"], "src/print-color-usages-tool/main.ts--default": (init_main5(), __toCommonJS(main_exports5))["default"], "src/variables-export-import-tool/main.ts--default": (init_main6(), __toCommonJS(main_exports6))["default"], "src/variables-batch-rename-tool/main.ts--default": (init_main7(), __toCommonJS(main_exports7))["default"], "src/variables-create-linked-colors-tool/main.ts--default": (init_main8(), __toCommonJS(main_exports8))["default"], "src/variables-replace-usages-tool/main.ts--default": (init_main9(), __toCommonJS(main_exports9))["default"], "src/find-color-match-tool/main.ts--default": (init_main10(), __toCommonJS(main_exports10))["default"] };
+var modules = { "src/home/main.ts--default": (init_main(), __toCommonJS(main_exports))["default"], "src/mockup-markup-tool/main.ts--default": (init_main2(), __toCommonJS(main_exports2))["default"], "src/color-chain-tool/main.ts--default": (init_main3(), __toCommonJS(main_exports3))["default"], "src/find-color-match-tool/main.ts--default": (init_main4(), __toCommonJS(main_exports4))["default"], "src/library-swap-tool/main.ts--default": (init_main5(), __toCommonJS(main_exports5))["default"], "src/print-color-usages-tool/main.ts--default": (init_main6(), __toCommonJS(main_exports6))["default"], "src/variables-export-import-tool/main.ts--default": (init_main7(), __toCommonJS(main_exports7))["default"], "src/variables-batch-rename-tool/main.ts--default": (init_main8(), __toCommonJS(main_exports8))["default"], "src/variables-create-linked-colors-tool/main.ts--default": (init_main9(), __toCommonJS(main_exports9))["default"], "src/variables-replace-usages-tool/main.ts--default": (init_main10(), __toCommonJS(main_exports10))["default"] };
 var commandId = typeof figma.command === "undefined" || figma.command === "" || figma.command === "generate" ? "src/home/main.ts--default" : figma.command;
 modules[commandId]();

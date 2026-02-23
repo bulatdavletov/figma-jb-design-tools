@@ -691,17 +691,10 @@
     }
   });
 
-<<<<<<< HEAD
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e28f67eb-aaa9-4af3-9617-163996f85fac/loading-indicator.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/3ab9e31f-0339-49f1-a96b-10658926805e/loading-indicator.module.js
   var loading_indicator_module_default;
   var init_loading_indicator_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/e28f67eb-aaa9-4af3-9617-163996f85fac/loading-indicator.module.js"() {
-=======
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/dae4374e-ddd4-42d8-9204-c3b4fcec347a/loading-indicator.module.js
-  var loading_indicator_module_default;
-  var init_loading_indicator_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/dae4374e-ddd4-42d8-9204-c3b4fcec347a/loading-indicator.module.js"() {
->>>>>>> ed7c7af (Figma variables)
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/3ab9e31f-0339-49f1-a96b-10658926805e/loading-indicator.module.js"() {
       if (document.getElementById("3fe0db8eb7") === null) {
         const element = document.createElement("style");
         element.id = "3fe0db8eb7";
@@ -762,17 +755,10 @@
     }
   });
 
-<<<<<<< HEAD
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5e7d1524-8588-449f-bc91-cfc1eb0f8825/button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4dede5ed-6131-4985-b160-9684c8c70f46/button.module.js
   var button_module_default;
   var init_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5e7d1524-8588-449f-bc91-cfc1eb0f8825/button.module.js"() {
-=======
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d23b68e1-26a3-4e6d-8454-0c03c1473eeb/button.module.js
-  var button_module_default;
-  var init_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d23b68e1-26a3-4e6d-8454-0c03c1473eeb/button.module.js"() {
->>>>>>> ed7c7af (Figma variables)
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/4dede5ed-6131-4985-b160-9684c8c70f46/button.module.js"() {
       if (document.getElementById("1dddd0e4df") === null) {
         const element = document.createElement("style");
         element.id = "1dddd0e4df";
@@ -1420,17 +1406,10 @@
     }
   });
 
-<<<<<<< HEAD
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/31449225-41c7-4dd3-9fa8-71f4ee9fbb1e/checkbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/11feae55-950d-4a6a-99a0-11ecfa340c2b/checkbox.module.js
   var checkbox_module_default;
   var init_checkbox_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/31449225-41c7-4dd3-9fa8-71f4ee9fbb1e/checkbox.module.js"() {
-=======
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c15e8b9d-86c5-440c-8bbd-226cc54070f4/checkbox.module.js
-  var checkbox_module_default;
-  var init_checkbox_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c15e8b9d-86c5-440c-8bbd-226cc54070f4/checkbox.module.js"() {
->>>>>>> ed7c7af (Figma variables)
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/11feae55-950d-4a6a-99a0-11ecfa340c2b/checkbox.module.js"() {
       if (document.getElementById("f38d076240") === null) {
         const element = document.createElement("style");
         element.id = "f38d076240";
@@ -1593,17 +1572,10 @@
     }
   });
 
-<<<<<<< HEAD
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/66400808-2ec5-4d14-b079-d642e21e4c24/disclosure.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/77950ffb-f5f7-4fa9-9adf-d3551b491911/disclosure.module.js
   var disclosure_module_default;
   var init_disclosure_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/66400808-2ec5-4d14-b079-d642e21e4c24/disclosure.module.js"() {
-=======
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/516e6474-a50f-40ed-bb68-49fa42099cef/disclosure.module.js
-  var disclosure_module_default;
-  var init_disclosure_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/516e6474-a50f-40ed-bb68-49fa42099cef/disclosure.module.js"() {
->>>>>>> ed7c7af (Figma variables)
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/77950ffb-f5f7-4fa9-9adf-d3551b491911/disclosure.module.js"() {
       if (document.getElementById("4712e1cb0c") === null) {
         const element = document.createElement("style");
         element.id = "4712e1cb0c";
@@ -1704,17 +1676,10 @@
     }
   });
 
-<<<<<<< HEAD
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1d3d88e7-8363-47ed-aab4-dc913f016a69/divider.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7f679362-8775-4965-aaea-0d508538cc05/divider.module.js
   var divider_module_default;
   var init_divider_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1d3d88e7-8363-47ed-aab4-dc913f016a69/divider.module.js"() {
-=======
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6b84493d-94f4-41af-a086-1589d8b3611d/divider.module.js
-  var divider_module_default;
-  var init_divider_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6b84493d-94f4-41af-a086-1589d8b3611d/divider.module.js"() {
->>>>>>> ed7c7af (Figma variables)
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7f679362-8775-4965-aaea-0d508538cc05/divider.module.js"() {
       if (document.getElementById("4bf06403b9") === null) {
         const element = document.createElement("style");
         element.id = "4bf06403b9";
@@ -1744,17 +1709,10 @@
     }
   });
 
-<<<<<<< HEAD
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/64082ba4-fbd3-4318-870d-6f4e8e2af9ff/menu.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/13737db1-bf04-4580-a280-2d5cf0a33cc8/menu.module.js
   var menu_module_default;
   var init_menu_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/64082ba4-fbd3-4318-870d-6f4e8e2af9ff/menu.module.js"() {
-=======
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c939d913-bbb9-486e-8860-6ede2d7b66b5/menu.module.js
-  var menu_module_default;
-  var init_menu_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c939d913-bbb9-486e-8860-6ede2d7b66b5/menu.module.js"() {
->>>>>>> ed7c7af (Figma variables)
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/13737db1-bf04-4580-a280-2d5cf0a33cc8/menu.module.js"() {
       if (document.getElementById("29044db304") === null) {
         const element = document.createElement("style");
         element.id = "29044db304";
@@ -1977,17 +1935,10 @@
     }
   });
 
-<<<<<<< HEAD
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/3b74eec1-ef5f-4860-81a5-f330066d87f3/dropdown.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b08b5a7e-aacc-4e54-85c4-8ef392b62233/dropdown.module.js
   var dropdown_module_default;
   var init_dropdown_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/3b74eec1-ef5f-4860-81a5-f330066d87f3/dropdown.module.js"() {
-=======
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0a4a2ce0-c8a1-4eb1-85e2-163f7b24574b/dropdown.module.js
-  var dropdown_module_default;
-  var init_dropdown_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0a4a2ce0-c8a1-4eb1-85e2-163f7b24574b/dropdown.module.js"() {
->>>>>>> ed7c7af (Figma variables)
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/b08b5a7e-aacc-4e54-85c4-8ef392b62233/dropdown.module.js"() {
       if (document.getElementById("5a226eb00e") === null) {
         const element = document.createElement("style");
         element.id = "5a226eb00e";
@@ -2428,17 +2379,10 @@
     }
   });
 
-<<<<<<< HEAD
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2aa8a7c7-c400-42d1-8e4b-41de0f94aee9/button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0bb015b5-9f6f-49be-8fa2-4541d4e44f0a/button.module.js
   var button_module_default2;
   var init_button_module2 = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2aa8a7c7-c400-42d1-8e4b-41de0f94aee9/button.module.js"() {
-=======
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8f7e949f-55ff-4d0e-b87a-846dc956ca12/button.module.js
-  var button_module_default2;
-  var init_button_module2 = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/8f7e949f-55ff-4d0e-b87a-846dc956ca12/button.module.js"() {
->>>>>>> ed7c7af (Figma variables)
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0bb015b5-9f6f-49be-8fa2-4541d4e44f0a/button.module.js"() {
       if (document.getElementById("1dddd0e4df") === null) {
         const element = document.createElement("style");
         element.id = "1dddd0e4df";
@@ -2602,17 +2546,10 @@
     }
   });
 
-<<<<<<< HEAD
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/202af8a6-e7f4-4c71-88bc-23c40a699fa8/file-upload-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7bd9222e-5580-4a1c-81aa-05978e1a62ab/file-upload-button.module.js
   var file_upload_button_module_default;
   var init_file_upload_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/202af8a6-e7f4-4c71-88bc-23c40a699fa8/file-upload-button.module.js"() {
-=======
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7dd00c98-01e3-4493-b4fc-97146f11e3a5/file-upload-button.module.js
-  var file_upload_button_module_default;
-  var init_file_upload_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7dd00c98-01e3-4493-b4fc-97146f11e3a5/file-upload-button.module.js"() {
->>>>>>> ed7c7af (Figma variables)
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/7bd9222e-5580-4a1c-81aa-05978e1a62ab/file-upload-button.module.js"() {
       if (document.getElementById("f115bb30c8") === null) {
         const element = document.createElement("style");
         element.id = "f115bb30c8";
@@ -2727,17 +2664,10 @@
     }
   });
 
-<<<<<<< HEAD
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2c4e1cf6-0499-4895-a44a-7bbebcc951e1/icon-button.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/61a00c8d-75a4-4958-994f-d3e3756a28fc/icon-button.module.js
   var icon_button_module_default;
   var init_icon_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/2c4e1cf6-0499-4895-a44a-7bbebcc951e1/icon-button.module.js"() {
-=======
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6fb0e0fa-becb-4e17-8c2d-9dba75e3d214/icon-button.module.js
-  var icon_button_module_default;
-  var init_icon_button_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/6fb0e0fa-becb-4e17-8c2d-9dba75e3d214/icon-button.module.js"() {
->>>>>>> ed7c7af (Figma variables)
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/61a00c8d-75a4-4958-994f-d3e3756a28fc/icon-button.module.js"() {
       if (document.getElementById("c8b08e6568") === null) {
         const element = document.createElement("style");
         element.id = "c8b08e6568";
@@ -2815,17 +2745,10 @@
     }
   });
 
-<<<<<<< HEAD
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ad874a93-de5c-4cbe-abe8-1f5ba7e06096/text.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5f3269c7-bf8a-4cc6-be3d-d0d00b7d7bc2/text.module.js
   var text_module_default;
   var init_text_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ad874a93-de5c-4cbe-abe8-1f5ba7e06096/text.module.js"() {
-=======
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/dbeb85b6-259a-4922-b781-5f06d4d31b74/text.module.js
-  var text_module_default;
-  var init_text_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/dbeb85b6-259a-4922-b781-5f06d4d31b74/text.module.js"() {
->>>>>>> ed7c7af (Figma variables)
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5f3269c7-bf8a-4cc6-be3d-d0d00b7d7bc2/text.module.js"() {
       if (document.getElementById("1278016d5c") === null) {
         const element = document.createElement("style");
         element.id = "1278016d5c";
@@ -2883,17 +2806,10 @@
     }
   });
 
-<<<<<<< HEAD
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/cd13917f-f469-4939-a5fc-daa44dba7c3d/inline.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ae4b2473-2947-48cf-8bff-4e145a8fb3f9/inline.module.js
   var inline_module_default;
   var init_inline_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/cd13917f-f469-4939-a5fc-daa44dba7c3d/inline.module.js"() {
-=======
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/cf027d0c-ad6b-4b07-9bd8-a07b27fa2a95/inline.module.js
-  var inline_module_default;
-  var init_inline_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/cf027d0c-ad6b-4b07-9bd8-a07b27fa2a95/inline.module.js"() {
->>>>>>> ed7c7af (Figma variables)
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ae4b2473-2947-48cf-8bff-4e145a8fb3f9/inline.module.js"() {
       if (document.getElementById("3e1b2856fc") === null) {
         const element = document.createElement("style");
         element.id = "3e1b2856fc";
@@ -2955,17 +2871,10 @@
     }
   });
 
-<<<<<<< HEAD
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/3a7b659f-f174-4b92-ab7a-2a2c073e247c/stack.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1f0e39db-f09a-4c16-a416-07b2183d422b/stack.module.js
   var stack_module_default;
   var init_stack_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/3a7b659f-f174-4b92-ab7a-2a2c073e247c/stack.module.js"() {
-=======
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/bc58bb2e-7994-4d93-88d3-4238cde4768e/stack.module.js
-  var stack_module_default;
-  var init_stack_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/bc58bb2e-7994-4d93-88d3-4238cde4768e/stack.module.js"() {
->>>>>>> ed7c7af (Figma variables)
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1f0e39db-f09a-4c16-a416-07b2183d422b/stack.module.js"() {
       if (document.getElementById("317515cc3f") === null) {
         const element = document.createElement("style");
         element.id = "317515cc3f";
@@ -3008,17 +2917,10 @@
     }
   });
 
-<<<<<<< HEAD
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1fdb00b7-56ef-4702-9539-1eb3040115cd/radio-buttons.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/34cc07cd-d65f-4726-af12-757737937b37/radio-buttons.module.js
   var radio_buttons_module_default;
   var init_radio_buttons_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1fdb00b7-56ef-4702-9539-1eb3040115cd/radio-buttons.module.js"() {
-=======
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9c971100-881e-4c02-af1b-a1ea11ba9c0d/radio-buttons.module.js
-  var radio_buttons_module_default;
-  var init_radio_buttons_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/9c971100-881e-4c02-af1b-a1ea11ba9c0d/radio-buttons.module.js"() {
->>>>>>> ed7c7af (Figma variables)
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/34cc07cd-d65f-4726-af12-757737937b37/radio-buttons.module.js"() {
       if (document.getElementById("a066c67891") === null) {
         const element = document.createElement("style");
         element.id = "a066c67891";
@@ -3137,17 +3039,10 @@
     }
   });
 
-<<<<<<< HEAD
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/3e7efc33-be2a-4fa2-a1b6-300eafb483e0/segmented-control.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/357dc0fa-3cc8-439a-bf4c-5c005c3a497d/segmented-control.module.js
   var segmented_control_module_default;
   var init_segmented_control_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/3e7efc33-be2a-4fa2-a1b6-300eafb483e0/segmented-control.module.js"() {
-=======
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1622d1ce-aa4d-4cf5-ac1c-d88c4be5ad8d/segmented-control.module.js
-  var segmented_control_module_default;
-  var init_segmented_control_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/1622d1ce-aa4d-4cf5-ac1c-d88c4be5ad8d/segmented-control.module.js"() {
->>>>>>> ed7c7af (Figma variables)
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/357dc0fa-3cc8-439a-bf4c-5c005c3a497d/segmented-control.module.js"() {
       if (document.getElementById("bc6858a1b5") === null) {
         const element = document.createElement("style");
         element.id = "bc6858a1b5";
@@ -3248,17 +3143,10 @@
     }
   });
 
-<<<<<<< HEAD
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/db0a4769-28cb-48c4-8a37-546ed8177acd/tabs.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/dc1b48eb-6f52-42d4-ad35-0a34b98a492d/tabs.module.js
   var tabs_module_default;
   var init_tabs_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/db0a4769-28cb-48c4-8a37-546ed8177acd/tabs.module.js"() {
-=======
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a740ed18-484a-49aa-a973-25dc748abbb2/tabs.module.js
-  var tabs_module_default;
-  var init_tabs_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a740ed18-484a-49aa-a973-25dc748abbb2/tabs.module.js"() {
->>>>>>> ed7c7af (Figma variables)
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/dc1b48eb-6f52-42d4-ad35-0a34b98a492d/tabs.module.js"() {
       if (document.getElementById("b2487bb7e6") === null) {
         const element = document.createElement("style");
         element.id = "b2487bb7e6";
@@ -3475,17 +3363,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-<<<<<<< HEAD
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/735d9e19-c780-4fc4-b201-911982f60123/textbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/57f85bea-65c2-46c4-991c-30cda6bc54bb/textbox.module.js
   var textbox_module_default;
   var init_textbox_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/735d9e19-c780-4fc4-b201-911982f60123/textbox.module.js"() {
-=======
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f1eeebc2-fcd2-44c8-a986-38b162c88ce6/textbox.module.js
-  var textbox_module_default;
-  var init_textbox_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f1eeebc2-fcd2-44c8-a986-38b162c88ce6/textbox.module.js"() {
->>>>>>> ed7c7af (Figma variables)
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/57f85bea-65c2-46c4-991c-30cda6bc54bb/textbox.module.js"() {
       if (document.getElementById("5c1c5c2d3d") === null) {
         const element = document.createElement("style");
         element.id = "5c1c5c2d3d";
@@ -3972,17 +3853,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-<<<<<<< HEAD
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/43e7399d-f322-4930-959d-c36c4f9c0276/textbox-color.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5f39018d-454a-442f-a8d3-791977f08721/textbox-color.module.js
   var textbox_color_module_default;
   var init_textbox_color_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/43e7399d-f322-4930-959d-c36c4f9c0276/textbox-color.module.js"() {
-=======
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a624de4e-6698-4ccf-b732-2e94233d0d7a/textbox-color.module.js
-  var textbox_color_module_default;
-  var init_textbox_color_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/a624de4e-6698-4ccf-b732-2e94233d0d7a/textbox-color.module.js"() {
->>>>>>> ed7c7af (Figma variables)
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/5f39018d-454a-442f-a8d3-791977f08721/textbox-color.module.js"() {
       if (document.getElementById("77000fee0f") === null) {
         const element = document.createElement("style");
         element.id = "77000fee0f";
@@ -4300,17 +4174,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-<<<<<<< HEAD
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d4329459-58de-416f-80ab-72cbd4e3d428/textbox.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/87777a6f-f365-4979-9bdd-6c639111bb8a/textbox.module.js
   var textbox_module_default2;
   var init_textbox_module2 = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/d4329459-58de-416f-80ab-72cbd4e3d428/textbox.module.js"() {
-=======
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/90364f70-4216-448b-bfa1-cf7a60c56c14/textbox.module.js
-  var textbox_module_default2;
-  var init_textbox_module2 = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/90364f70-4216-448b-bfa1-cf7a60c56c14/textbox.module.js"() {
->>>>>>> ed7c7af (Figma variables)
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/87777a6f-f365-4979-9bdd-6c639111bb8a/textbox.module.js"() {
       if (document.getElementById("5c1c5c2d3d") === null) {
         const element = document.createElement("style");
         element.id = "5c1c5c2d3d";
@@ -4381,17 +4248,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-<<<<<<< HEAD
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ecf9ea75-e277-4830-8598-3a931c9f83b3/textbox-numeric.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/744122f8-8fbd-4f18-8b37-90f798541421/textbox-numeric.module.js
   var textbox_numeric_module_default;
   var init_textbox_numeric_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/ecf9ea75-e277-4830-8598-3a931c9f83b3/textbox-numeric.module.js"() {
-=======
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c2ef93c6-ecf9-4013-8677-175ac31949fd/textbox-numeric.module.js
-  var textbox_numeric_module_default;
-  var init_textbox_numeric_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c2ef93c6-ecf9-4013-8677-175ac31949fd/textbox-numeric.module.js"() {
->>>>>>> ed7c7af (Figma variables)
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/744122f8-8fbd-4f18-8b37-90f798541421/textbox-numeric.module.js"() {
       if (document.getElementById("b6dab244a8") === null) {
         const element = document.createElement("style");
         element.id = "b6dab244a8";
@@ -4607,17 +4467,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-<<<<<<< HEAD
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/697a4a5b-8bc8-4891-8d14-d59af75c5310/container.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f5db266c-ed7a-41e1-870b-fd65de85677d/container.module.js
   var container_module_default;
   var init_container_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/697a4a5b-8bc8-4891-8d14-d59af75c5310/container.module.js"() {
-=======
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0cd17afb-a67d-4772-b5cf-010b4de1d1df/container.module.js
-  var container_module_default;
-  var init_container_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/0cd17afb-a67d-4772-b5cf-010b4de1d1df/container.module.js"() {
->>>>>>> ed7c7af (Figma variables)
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f5db266c-ed7a-41e1-870b-fd65de85677d/container.module.js"() {
       if (document.getElementById("b49e1406f9") === null) {
         const element = document.createElement("style");
         element.id = "b49e1406f9";
@@ -4658,17 +4511,10 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-<<<<<<< HEAD
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c5811da1-1ce2-4fd9-a004-39230847fe9d/vertical-space.module.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/77e3c9e0-db57-4d73-889a-40880e8c96d4/vertical-space.module.js
   var vertical_space_module_default;
   var init_vertical_space_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/c5811da1-1ce2-4fd9-a004-39230847fe9d/vertical-space.module.js"() {
-=======
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f202c692-2e12-479e-8ab8-9b1eabe06715/vertical-space.module.js
-  var vertical_space_module_default;
-  var init_vertical_space_module = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/f202c692-2e12-479e-8ab8-9b1eabe06715/vertical-space.module.js"() {
->>>>>>> ed7c7af (Figma variables)
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/77e3c9e0-db57-4d73-889a-40880e8c96d4/vertical-space.module.js"() {
       if (document.getElementById("ba0eea5114") === null) {
         const element = document.createElement("style");
         element.id = "ba0eea5114";
@@ -4709,15 +4555,9 @@ label ._input_14pnx_22:checked ~ ._value_14pnx_28 {
     }
   });
 
-<<<<<<< HEAD
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/cf2ff079-14e6-4855-ab39-fc91eab79c91/base.js
+  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/29f8a590-507f-4431-800d-db88211d059f/base.js
   var init_base = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/cf2ff079-14e6-4855-ab39-fc91eab79c91/base.js"() {
-=======
-  // ../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/df611c39-bb0c-4e47-b7f5-83bc1392689f/base.js
-  var init_base = __esm({
-    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/df611c39-bb0c-4e47-b7f5-83bc1392689f/base.js"() {
->>>>>>> ed7c7af (Figma variables)
+    "../../../../private/var/folders/2j/0wddr5mn7c76chg83p1p6n580000gp/T/29f8a590-507f-4431-800d-db88211d059f/base.js"() {
       if (document.getElementById("0597dd81e7") === null) {
         const element = document.createElement("style");
         element.id = "0597dd81e7";
@@ -5014,6 +4854,24 @@ svg {
     }
   });
 
+  // custom-icons/generated.tsx
+  function IconChevronRight162(props) {
+    var _a, _b;
+    const color = (_a = props.color) != null ? _a : "currentColor";
+    return /* @__PURE__ */ _("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none", "aria-label": props.title }, /* @__PURE__ */ _("path", { d: "M6.76776 6.23269C6.5725 6.03743 6.5725 5.71994 6.76776 5.52468C6.96296 5.32976 7.2796 5.32976 7.47479 5.52468L9.9494 8.00027L7.47479 10.4749C7.27953 10.6701 6.96302 10.6701 6.76776 10.4749C6.5725 10.2796 6.5725 9.96311 6.76776 9.76785L8.53534 8.00027L6.76776 6.23269Z", fill: color, fillOpacity: (_b = props.opacity) != null ? _b : 0.9 }));
+  }
+  function IconTarget16(props) {
+    var _a, _b;
+    const color = (_a = props.color) != null ? _a : "currentColor";
+    return /* @__PURE__ */ _("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none", "aria-label": props.title }, /* @__PURE__ */ _("path", { d: "M8 14.5C7.72386 14.5 7.5 14.2761 7.5 14V12.9756C5.13777 12.7411 3.25894 10.8622 3.02441 8.5H2C1.72386 8.5 1.5 8.27614 1.5 8C1.5 7.72386 1.72386 7.5 2 7.5H3.02441C3.25893 5.1378 5.13782 3.25996 7.5 3.02539V2C7.5 1.72386 7.72386 1.5 8 1.5C8.27614 1.5 8.5 1.72386 8.5 2V3.02539C10.8622 3.25996 12.7411 5.1378 12.9756 7.5H14C14.2761 7.5 14.5 7.72386 14.5 8C14.5 8.27614 14.2761 8.5 14 8.5H12.9756C12.7411 10.8622 10.8622 12.7411 8.5 12.9756V14C8.5 14.2761 8.27614 14.5 8 14.5ZM7.5 11C7.5 10.7239 7.72386 10.5 8 10.5C8.27614 10.5 8.5 10.7239 8.5 11V11.9688C10.3093 11.7431 11.7421 10.3093 11.9678 8.5H11C10.7239 8.5 10.5 8.27614 10.5 8C10.5 7.72386 10.7239 7.5 11 7.5H11.9678C11.7421 5.69077 10.3092 4.25791 8.5 4.03223V5C8.5 5.27614 8.27614 5.5 8 5.5C7.72386 5.5 7.5 5.27614 7.5 5V4.03223C5.69077 4.25791 4.25791 5.69077 4.03223 7.5H5C5.27614 7.5 5.5 7.72386 5.5 8C5.5 8.27614 5.27614 8.5 5 8.5H4.03223C4.25791 10.3093 5.69071 11.7431 7.5 11.9688V11Z", fill: color, fillOpacity: (_b = props.opacity) != null ? _b : 0.9 }));
+  }
+  var init_generated = __esm({
+    "custom-icons/generated.tsx"() {
+      "use strict";
+      init_preact_module();
+    }
+  });
+
   // src/app/components/Page.tsx
   function Page(props) {
     return /* @__PURE__ */ _(
@@ -5039,24 +4897,6 @@ svg {
     }
   });
 
-  // custom-icons/generated.tsx
-  function IconChevronRight162(props) {
-    var _a, _b;
-    const color = (_a = props.color) != null ? _a : "currentColor";
-    return /* @__PURE__ */ _("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none", "aria-label": props.title }, /* @__PURE__ */ _("path", { d: "M6.76776 6.23269C6.5725 6.03743 6.5725 5.71994 6.76776 5.52468C6.96296 5.32976 7.2796 5.32976 7.47479 5.52468L9.9494 8.00027L7.47479 10.4749C7.27953 10.6701 6.96302 10.6701 6.76776 10.4749C6.5725 10.2796 6.5725 9.96311 6.76776 9.76785L8.53534 8.00027L6.76776 6.23269Z", fill: color, fillOpacity: (_b = props.opacity) != null ? _b : 0.9 }));
-  }
-  function IconTarget16(props) {
-    var _a, _b;
-    const color = (_a = props.color) != null ? _a : "currentColor";
-    return /* @__PURE__ */ _("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none", "aria-label": props.title }, /* @__PURE__ */ _("path", { d: "M8 14.5C7.72386 14.5 7.5 14.2761 7.5 14V12.9756C5.13777 12.7411 3.25894 10.8622 3.02441 8.5H2C1.72386 8.5 1.5 8.27614 1.5 8C1.5 7.72386 1.72386 7.5 2 7.5H3.02441C3.25893 5.1378 5.13782 3.25996 7.5 3.02539V2C7.5 1.72386 7.72386 1.5 8 1.5C8.27614 1.5 8.5 1.72386 8.5 2V3.02539C10.8622 3.25996 12.7411 5.1378 12.9756 7.5H14C14.2761 7.5 14.5 7.72386 14.5 8C14.5 8.27614 14.2761 8.5 14 8.5H12.9756C12.7411 10.8622 10.8622 12.7411 8.5 12.9756V14C8.5 14.2761 8.27614 14.5 8 14.5ZM7.5 11C7.5 10.7239 7.72386 10.5 8 10.5C8.27614 10.5 8.5 10.7239 8.5 11V11.9688C10.3093 11.7431 11.7421 10.3093 11.9678 8.5H11C10.7239 8.5 10.5 8.27614 10.5 8C10.5 7.72386 10.7239 7.5 11 7.5H11.9678C11.7421 5.69077 10.3092 4.25791 8.5 4.03223V5C8.5 5.27614 8.27614 5.5 8 5.5C7.72386 5.5 7.5 5.27614 7.5 5V4.03223C5.69077 4.25791 4.25791 5.69077 4.03223 7.5H5C5.27614 7.5 5.5 7.72386 5.5 8C5.5 8.27614 5.27614 8.5 5 8.5H4.03223C4.25791 10.3093 5.69071 11.7431 7.5 11.9688V11Z", fill: color, fillOpacity: (_b = props.opacity) != null ? _b : 0.9 }));
-  }
-  var init_generated = __esm({
-    "custom-icons/generated.tsx"() {
-      "use strict";
-      init_preact_module();
-    }
-  });
-
   // src/app/components/AppIcons.tsx
   var init_AppIcons = __esm({
     "src/app/components/AppIcons.tsx"() {
@@ -5069,87 +4909,90 @@ svg {
   function ToolCard(props) {
     const [hovered, setHovered] = d2(false);
     const [focused, setFocused] = d2(false);
-    return /* @__PURE__ */ _(
-      "button",
-      {
-        type: "button",
-        onClick: props.onClick,
-        onMouseEnter: () => setHovered(true),
-        onMouseLeave: () => setHovered(false),
-        onFocus: () => setFocused(true),
-        onBlur: () => setFocused(false),
-        style: {
-          width: "100%",
-          display: "flex",
-          alignItems: "center",
-          gap: 8,
-          padding: "4px 8px 4px 4px",
-          borderRadius: 6,
-          background: hovered ? "var(--figma-color-bg-hover)" : "var(--figma-color-bg)",
-          cursor: "pointer",
-          textAlign: "left",
-          outline: focused ? "2px solid var(--figma-color-border-selected)" : "none",
-          outlineOffset: 1
-        }
-      },
+    return (
+      /* Wrapper button for the entire card*/
       /* @__PURE__ */ _(
-        "div",
+        "button",
         {
+          type: "button",
+          onClick: props.onClick,
+          onMouseEnter: () => setHovered(true),
+          onMouseLeave: () => setHovered(false),
+          onFocus: () => setFocused(true),
+          onBlur: () => setFocused(false),
           style: {
-            width: 32,
-            height: 32,
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
+            padding: "4px 8px 4px 4px",
             borderRadius: 6,
-            background: "color-mix(in srgb, var(--figma-color-bg-tertiary) 80%, transparent)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            color: hovered ? "var(--figma-color-icon-hover)" : "var(--figma-color-icon)",
-            flex: "0 0 auto"
+            background: hovered ? "var(--figma-color-bg-hover)" : "var(--figma-color-bg)",
+            cursor: "pointer",
+            textAlign: "left",
+            outline: focused ? "2px solid var(--figma-color-border-selected)" : "none",
+            outlineOffset: 1
           }
         },
-        /* @__PURE__ */ _("div", { style: { width: 16, height: 16, display: "flex", alignItems: "center", justifyContent: "center" } }, props.icon)
-      ),
-      /* @__PURE__ */ _("div", { style: { flex: 1, minWidth: 0 } }, /* @__PURE__ */ _(
-        "div",
-        {
-          style: {
-            fontSize: 11,
-            color: "var(--figma-color-text)",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            whiteSpace: "nowrap"
-          }
-        },
-        props.title
-      ), /* @__PURE__ */ _(
-        "div",
-        {
-          style: {
-            marginTop: 1,
-            fontSize: 10,
-            color: "var(--figma-color-text-secondary)",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            whiteSpace: "nowrap"
-          }
-        },
-        props.description
-      )),
-      /* @__PURE__ */ _(
-        "div",
-        {
-          style: {
-            width: 16,
-            height: 16,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            color: hovered ? "var(--figma-color-icon-tertiary-hover)" : "var(--figma-color-icon-tertiary)",
-            flex: "0 0 auto"
+        /* @__PURE__ */ _(
+          "div",
+          {
+            style: {
+              width: 32,
+              height: 32,
+              borderRadius: 6,
+              background: "var(--figma-color-bg-secondary)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: hovered ? "var(--figma-color-icon-hover)" : "var(--figma-color-icon)",
+              flex: "0 0 auto"
+            }
           },
-          "aria-hidden": "true"
-        },
-        /* @__PURE__ */ _(IconChevronRight162, null)
+          /* @__PURE__ */ _("div", { style: { width: 16, height: 16, display: "flex", alignItems: "center", justifyContent: "center" } }, props.icon)
+        ),
+        /* @__PURE__ */ _("div", { style: { flex: 1, minWidth: 0 } }, /* @__PURE__ */ _(
+          "div",
+          {
+            style: {
+              fontSize: 11,
+              color: "var(--figma-color-text)",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap"
+            }
+          },
+          props.title
+        ), /* @__PURE__ */ _(
+          "div",
+          {
+            style: {
+              marginTop: 1,
+              fontSize: 10,
+              color: "var(--figma-color-text-secondary)",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap"
+            }
+          },
+          props.description
+        )),
+        /* @__PURE__ */ _(
+          "div",
+          {
+            style: {
+              width: 16,
+              height: 16,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: hovered ? "var(--figma-color-icon-tertiary-hover)" : "var(--figma-color-icon-tertiary)",
+              flex: "0 0 auto"
+            },
+            "aria-hidden": "true"
+          },
+          /* @__PURE__ */ _(IconChevronRight162, null)
+        )
       )
     );
   }
@@ -5162,92 +5005,189 @@ svg {
     }
   });
 
+  // src/app/tools-registry-data.json
+  var tools_registry_data_default;
+  var init_tools_registry_data = __esm({
+    "src/app/tools-registry-data.json"() {
+      tools_registry_data_default = [
+        {
+          id: "mockup-markup-tool",
+          title: "Mockup Markup Quick Apply",
+          menuLabel: "Mockup Markup Quick Apply",
+          main: "src/mockup-markup-tool/main.ts",
+          cardTitle: "Mockup Markup Quick Apply",
+          description: "Apply text styles and colors",
+          category: "General",
+          order: 1,
+          icon: "shape-text",
+          needsSelection: false
+        },
+        {
+          id: "color-chain-tool",
+          title: "View Colors Chain",
+          menuLabel: "View Colors Chain",
+          main: "src/color-chain-tool/main.ts",
+          cardTitle: "View Colors Chain",
+          description: "Inspect selection to see full variable alias chains",
+          category: "General",
+          order: 2,
+          icon: "variable-color",
+          needsSelection: true
+        },
+        {
+          id: "find-color-match-tool",
+          title: "Find Color Match",
+          menuLabel: "Find Color Match in Islands",
+          main: "src/find-color-match-tool/main.ts",
+          cardTitle: "Find Color Match in Islands",
+          description: "Find the closest variable for unbound colors",
+          category: "General",
+          order: 3,
+          icon: "target",
+          needsSelection: true
+        },
+        {
+          id: "library-swap-tool",
+          title: "Library Swap",
+          menuLabel: "Library Swap",
+          main: "src/library-swap-tool/main.ts",
+          cardTitle: "Library Swap",
+          description: "Swap component instances from old libraries to new ones",
+          category: "General",
+          order: 4,
+          icon: "library",
+          needsSelection: true
+        },
+        {
+          id: "print-color-usages-tool",
+          title: "Print Color Usages",
+          menuLabel: "Print Color Usages",
+          main: "src/print-color-usages-tool/main.ts",
+          cardTitle: "Print Color Usages",
+          description: "Print unique colors as text labels near selection",
+          category: "Variables Management",
+          order: 1,
+          icon: "text",
+          needsSelection: false
+        },
+        {
+          id: "variables-export-import-tool",
+          title: "Variables Export Import",
+          menuLabel: "Variables Export Import",
+          main: "src/variables-export-import-tool/main.ts",
+          cardTitle: "Export / Import",
+          description: "Export variable collections to JSON, import from backup",
+          category: "Variables Management",
+          order: 2,
+          icon: "folder",
+          needsSelection: false
+        },
+        {
+          id: "variables-batch-rename-tool",
+          title: "Rename Variables via JSON",
+          menuLabel: "Rename Variables via JSON",
+          main: "src/variables-batch-rename-tool/main.ts",
+          cardTitle: "Rename via JSON",
+          description: "Rename multiple variables using a JSON file",
+          category: "Variables Management",
+          order: 3,
+          icon: "variable",
+          needsSelection: false
+        },
+        {
+          id: "variables-create-linked-colors-tool",
+          title: "Variables Create Linked Colors",
+          menuLabel: "Variables Create Linked Colors",
+          main: "src/variables-create-linked-colors-tool/main.ts",
+          cardTitle: "Create Linked Colors",
+          description: "Create new color variables or rename existing ones",
+          category: "Variables Management",
+          order: 4,
+          icon: "link",
+          needsSelection: false
+        },
+        {
+          id: "variables-replace-usages-tool",
+          title: "Variables Replace Usages",
+          menuLabel: "Variables Replace Usages",
+          main: "src/variables-replace-usages-tool/main.ts",
+          cardTitle: "Replace Usages",
+          description: "Replace variable bindings in selection with different variables",
+          category: "Variables Management",
+          order: 5,
+          icon: "adjust",
+          needsSelection: true
+        }
+      ];
+    }
+  });
+
+  // src/app/tools-registry.ts
+  function isToolId(value2) {
+    return TOOL_IDS.includes(value2);
+  }
+  var TOOL_IDS, TOOLS_REGISTRY, TOOL_BY_ID;
+  var init_tools_registry = __esm({
+    "src/app/tools-registry.ts"() {
+      "use strict";
+      init_tools_registry_data();
+      TOOL_IDS = [
+        "mockup-markup-tool",
+        "color-chain-tool",
+        "library-swap-tool",
+        "print-color-usages-tool",
+        "variables-export-import-tool",
+        "variables-batch-rename-tool",
+        "variables-create-linked-colors-tool",
+        "variables-replace-usages-tool",
+        "find-color-match-tool"
+      ];
+      TOOLS_REGISTRY = tools_registry_data_default;
+      TOOL_BY_ID = Object.fromEntries(
+        TOOLS_REGISTRY.map((tool) => [tool.id, tool])
+      );
+    }
+  });
+
   // src/app/views/home/HomeView.tsx
   function HomeView(props) {
-    return /* @__PURE__ */ _(Page, null, /* @__PURE__ */ _(Container, { space: "small" }, /* @__PURE__ */ _(VerticalSpace, { space: "large" }), /* @__PURE__ */ _(Text, { style: sectionTitleStyle }, "General"), /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(
-      ToolCard,
-      {
-        title: "Mockup Markup Quick Apply",
-        description: "Apply text styles and colors",
-        icon: /* @__PURE__ */ _(IconShapeText16, null),
-        onClick: () => props.goTo("mockup-markup-tool")
-      }
-    ), /* @__PURE__ */ _(
-      ToolCard,
-      {
-        title: "View Colors Chain",
-        description: "Inspect selection to see full variable alias chains",
-        icon: /* @__PURE__ */ _(IconVariableColor16, null),
-        onClick: () => props.goTo("color-chain-tool")
-      }
-    ), /* @__PURE__ */ _(
-      ToolCard,
-      {
-        title: "Find Color Match in Islands",
-        description: "Find the closest variable for unbound colors",
-        icon: /* @__PURE__ */ _(IconTarget16, null),
-        onClick: () => props.goTo("find-color-match-tool")
-      }
-    ), /* @__PURE__ */ _(
-      ToolCard,
-      {
-        title: "Library Swap",
-        description: "Swap component instances from old libraries to new ones",
-        icon: /* @__PURE__ */ _(IconLibrary16, null),
-        onClick: () => props.goTo("library-swap-tool")
-      }
-    )), /* @__PURE__ */ _(VerticalSpace, { space: "large" }), /* @__PURE__ */ _(Text, { style: sectionTitleStyle }, "Variables Management"), /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(Stack, { space: "extraSmall" }, /* @__PURE__ */ _(
-      ToolCard,
-      {
-        title: "Print Color Usages",
-        description: "Print unique colors as text labels near selection",
-        icon: /* @__PURE__ */ _(IconText16, null),
-        onClick: () => props.goTo("print-color-usages-tool")
-      }
-    ), /* @__PURE__ */ _(
-      ToolCard,
-      {
-        title: "Export / Import",
-        description: "Export variable collections to JSON, import from backup",
-        icon: /* @__PURE__ */ _(IconFolder16, null),
-        onClick: () => props.goTo("variables-export-import-tool")
-      }
-    ), /* @__PURE__ */ _(
-      ToolCard,
-      {
-        title: "Rename via JSON",
-        description: "Rename multiple variables using a JSON file",
-        icon: /* @__PURE__ */ _(IconVariable16, null),
-        onClick: () => props.goTo("variables-batch-rename-tool")
-      }
-    ), /* @__PURE__ */ _(
-      ToolCard,
-      {
-        title: "Create Linked Colors",
-        description: "Create new color variables or rename existing ones",
-        icon: /* @__PURE__ */ _(IconLink16, null),
-        onClick: () => props.goTo("variables-create-linked-colors-tool")
-      }
-    ), /* @__PURE__ */ _(
-      ToolCard,
-      {
-        title: "Replace Usages",
-        description: "Replace variable bindings in selection with different variables",
-        icon: /* @__PURE__ */ _(IconAdjust16, null),
-        onClick: () => props.goTo("variables-replace-usages-tool")
-      }
-    )), /* @__PURE__ */ _(VerticalSpace, { space: "small" })));
+    return /* @__PURE__ */ _(Page, null, /* @__PURE__ */ _(Container, { space: "small" }, /* @__PURE__ */ _(VerticalSpace, { space: "large" }), CATEGORY_ORDER.map((category) => {
+      const categoryTools = TOOLS_REGISTRY.filter((tool) => tool.category === category).sort((a3, b2) => a3.order - b2.order);
+      return /* @__PURE__ */ _("div", { key: category }, /* @__PURE__ */ _(Text, { style: sectionTitleStyle }, category), /* @__PURE__ */ _(VerticalSpace, { space: "small" }), /* @__PURE__ */ _(Stack, { space: "extraSmall" }, categoryTools.map((tool) => /* @__PURE__ */ _(
+        ToolCard,
+        {
+          key: tool.id,
+          title: tool.cardTitle,
+          description: tool.description,
+          icon: ICON_BY_NAME[tool.icon],
+          onClick: () => props.goTo(tool.id)
+        }
+      ))), /* @__PURE__ */ _(VerticalSpace, { space: "large" }));
+    })));
   }
-  var sectionTitleStyle;
+  var sectionTitleStyle, CATEGORY_ORDER, ICON_BY_NAME;
   var init_HomeView = __esm({
     "src/app/views/home/HomeView.tsx"() {
       "use strict";
       init_lib2();
       init_preact_module();
+      init_generated();
       init_Page();
       init_ToolCard();
-      init_generated();
+      init_tools_registry();
       sectionTitleStyle = { fontWeight: 600 };
+      CATEGORY_ORDER = ["General", "Variables Management"];
+      ICON_BY_NAME = {
+        "shape-text": /* @__PURE__ */ _(IconShapeText16, null),
+        "variable-color": /* @__PURE__ */ _(IconVariableColor16, null),
+        target: /* @__PURE__ */ _(IconTarget16, null),
+        library: /* @__PURE__ */ _(IconLibrary16, null),
+        text: /* @__PURE__ */ _(IconText16, null),
+        folder: /* @__PURE__ */ _(IconFolder16, null),
+        variable: /* @__PURE__ */ _(IconVariable16, null),
+        link: /* @__PURE__ */ _(IconLink16, null),
+        adjust: /* @__PURE__ */ _(IconAdjust16, null)
+      };
     }
   });
 
@@ -9259,20 +9199,7 @@ svg {
         if (!msg) return;
         if (msg.type === MAIN_TO_UI.BOOTSTRAPPED) {
           setSelectionSize(msg.selectionSize);
-          const validRoutes = [
-            "mockup-markup-tool",
-            "color-chain-tool",
-            "library-swap-tool",
-            "print-color-usages-tool",
-            "variables-export-import-tool",
-            "variables-batch-rename-tool",
-            "variables-create-linked-colors-tool",
-            "variables-replace-usages-tool",
-            "find-color-match-tool"
-          ];
-          setRoute(
-            validRoutes.includes(msg.command) ? msg.command : "home"
-          );
+          setRoute(isToolId(msg.command) ? msg.command : "home");
         }
       };
       window.addEventListener("message", handleMessage);
@@ -9293,54 +9220,16 @@ svg {
     if (route === "home") {
       return /* @__PURE__ */ _(HomeView, { goTo: setRoute });
     }
-    if (route === "mockup-markup-tool") {
-      return /* @__PURE__ */ _(MockupMarkupToolView, { onBack: () => setRoute("home") });
+    const entry = TOOLS_REGISTRY.find((tool) => tool.id === route);
+    if (!entry) {
+      return /* @__PURE__ */ _(HomeView, { goTo: setRoute });
     }
-    if (route === "color-chain-tool") {
-      return /* @__PURE__ */ _(ColorChainToolView, { onBack: () => setRoute("home"), initialSelectionEmpty: selectionSize === 0 });
-    }
-    if (route === "library-swap-tool") {
-      return /* @__PURE__ */ _(
-        LibrarySwapToolView,
-        {
-          onBack: () => setRoute("home"),
-          initialSelectionEmpty: selectionSize === 0
-        }
-      );
-    }
-    if (route === "print-color-usages-tool") {
-      return /* @__PURE__ */ _(PrintColorUsagesToolView, { onBack: () => setRoute("home") });
-    }
-    if (route === "variables-export-import-tool") {
-      return /* @__PURE__ */ _(VariablesExportImportToolView, { onBack: () => setRoute("home") });
-    }
-    if (route === "variables-batch-rename-tool") {
-      return /* @__PURE__ */ _(VariablesBatchRenameToolView, { onBack: () => setRoute("home") });
-    }
-    if (route === "variables-create-linked-colors-tool") {
-      return /* @__PURE__ */ _(VariablesCreateLinkedColorsToolView, { onBack: () => setRoute("home") });
-    }
-    if (route === "variables-replace-usages-tool") {
-      return /* @__PURE__ */ _(
-        VariablesReplaceUsagesToolView,
-        {
-          onBack: () => setRoute("home"),
-          initialSelectionEmpty: selectionSize === 0
-        }
-      );
-    }
-    if (route === "find-color-match-tool") {
-      return /* @__PURE__ */ _(
-        FindColorMatchToolView,
-        {
-          onBack: () => setRoute("home"),
-          initialSelectionEmpty: selectionSize === 0
-        }
-      );
-    }
-    return /* @__PURE__ */ _(HomeView, { goTo: setRoute });
+    return TOOL_VIEW_BY_ID[entry.id]({
+      onBack: () => setRoute("home"),
+      initialSelectionEmpty: selectionSize === 0
+    });
   }
-  var ui_default;
+  var TOOL_VIEW_BY_ID, ui_default;
   var init_ui = __esm({
     "src/app/ui.tsx"() {
       "use strict";
@@ -9358,13 +9247,25 @@ svg {
       init_VariablesCreateLinkedColorsToolView();
       init_VariablesReplaceUsagesToolView();
       init_FindColorMatchToolView();
+      init_tools_registry();
+      TOOL_VIEW_BY_ID = {
+        "mockup-markup-tool": ({ onBack }) => /* @__PURE__ */ _(MockupMarkupToolView, { onBack }),
+        "color-chain-tool": ({ onBack, initialSelectionEmpty }) => /* @__PURE__ */ _(ColorChainToolView, { onBack, initialSelectionEmpty }),
+        "library-swap-tool": ({ onBack, initialSelectionEmpty }) => /* @__PURE__ */ _(LibrarySwapToolView, { onBack, initialSelectionEmpty }),
+        "print-color-usages-tool": ({ onBack }) => /* @__PURE__ */ _(PrintColorUsagesToolView, { onBack }),
+        "variables-export-import-tool": ({ onBack }) => /* @__PURE__ */ _(VariablesExportImportToolView, { onBack }),
+        "variables-batch-rename-tool": ({ onBack }) => /* @__PURE__ */ _(VariablesBatchRenameToolView, { onBack }),
+        "variables-create-linked-colors-tool": ({ onBack }) => /* @__PURE__ */ _(VariablesCreateLinkedColorsToolView, { onBack }),
+        "variables-replace-usages-tool": ({ onBack, initialSelectionEmpty }) => /* @__PURE__ */ _(VariablesReplaceUsagesToolView, { onBack, initialSelectionEmpty }),
+        "find-color-match-tool": ({ onBack, initialSelectionEmpty }) => /* @__PURE__ */ _(FindColorMatchToolView, { onBack, initialSelectionEmpty })
+      };
       ui_default = render(App);
     }
   });
 
   // <stdin>
   var rootNode = document.getElementById("create-figma-plugin");
-  var modules = { "src/home/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/mockup-markup-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/color-chain-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/library-swap-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/print-color-usages-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/variables-export-import-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/variables-batch-rename-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/variables-create-linked-colors-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/variables-replace-usages-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/find-color-match-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"] };
+  var modules = { "src/home/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/mockup-markup-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/color-chain-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/find-color-match-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/library-swap-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/print-color-usages-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/variables-export-import-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/variables-batch-rename-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/variables-create-linked-colors-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"], "src/variables-replace-usages-tool/main.ts--default": (init_ui(), __toCommonJS(ui_exports))["default"] };
   var commandId = __FIGMA_COMMAND__ === "" ? "src/home/main.ts--default" : __FIGMA_COMMAND__;
   if (typeof modules[commandId] === "undefined") {
     throw new Error(
