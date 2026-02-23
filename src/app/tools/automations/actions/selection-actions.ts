@@ -1,69 +1,119 @@
+import type { AutomationContext, ActionHandler } from "../context"
 import type { FindScope, MatchMode, SelectableNodeType } from "../types"
 
-export async function findByType(params: Record<string, unknown>): Promise<string> {
+export const filterByType: ActionHandler = async (context, params) => {
   const nodeType = String(params.nodeType ?? "TEXT")
-  const scope = (params.scope ?? "selection") as FindScope
+  const scope = (params.scope ?? undefined) as FindScope | undefined
 
-  const roots = getRootsForScope(scope)
-  if (roots.length === 0) {
-    return scope === "selection" ? "No selection to search in" : "No nodes found"
+  let sourceNodes: SceneNode[]
+
+  if (scope === "page") {
+    sourceNodes = collectAllFromPage()
+  } else if (scope === "all_pages") {
+    sourceNodes = collectAllFromAllPages()
+  } else {
+    sourceNodes = flattenNodes(context.nodes)
   }
 
-  const allNodes: SceneNode[] = []
-  for (const node of roots) {
-    collectAllDescendants(node, allNodes)
-  }
+  const before = sourceNodes.length
+  const filtered = sourceNodes.filter((n) => n.type === nodeType)
+  context.nodes = filtered
 
-  const filtered = allNodes.filter((n) => n.type === nodeType)
-  figma.currentPage.selection = filtered
-  const scopeLabel = scope === "selection" ? "in selection" : scope === "page" ? "on page" : "in all pages"
-  return `Found ${filtered.length} ${nodeType} node(s) ${scopeLabel}`
+  const scopeLabel =
+    scope === "page" ? "on page" : scope === "all_pages" ? "in all pages" : "in working set"
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Filter by type",
+    message: `Kept ${filtered.length} of ${before} ${nodeType} node(s) ${scopeLabel}`,
+    itemsIn: before,
+    itemsOut: filtered.length,
+    status: "success",
+  })
+
+  return context
 }
 
-export async function selectByName(params: Record<string, unknown>): Promise<string> {
+export const filterByName: ActionHandler = async (context, params) => {
   const pattern = String(params.pattern ?? "")
   const matchMode = (params.matchMode ?? "contains") as MatchMode
-  if (!pattern) return "No pattern specified"
-
-  const selection = figma.currentPage.selection
-  if (selection.length === 0) return "No selection to filter"
-
-  const allNodes: SceneNode[] = []
-  for (const node of selection) {
-    collectAllDescendants(node, allNodes)
+  if (!pattern) {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Filter by name",
+      message: "No pattern specified — skipped",
+      itemsIn: context.nodes.length,
+      itemsOut: context.nodes.length,
+      status: "skipped",
+    })
+    return context
   }
 
-  const filtered = allNodes.filter((n) => matchesName(n.name, pattern, matchMode))
-  figma.currentPage.selection = filtered
-  return `Selected ${filtered.length} node(s) matching "${pattern}"`
+  const sourceNodes = flattenNodes(context.nodes)
+  const before = sourceNodes.length
+  const filtered = sourceNodes.filter((n) => matchesName(n.name, pattern, matchMode))
+  context.nodes = filtered
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Filter by name",
+    message: `Kept ${filtered.length} of ${before} node(s) matching "${pattern}"`,
+    itemsIn: before,
+    itemsOut: filtered.length,
+    status: "success",
+  })
+
+  return context
 }
 
-export async function expandToChildren(_params: Record<string, unknown>): Promise<string> {
-  const selection = figma.currentPage.selection
-  if (selection.length === 0) return "No selection to expand"
-
+export const expandToChildren: ActionHandler = async (context, _params) => {
+  const before = context.nodes.length
   const children: SceneNode[] = []
-  for (const node of selection) {
+  for (const node of context.nodes) {
     if ("children" in node) {
       for (const child of (node as ChildrenMixin).children) {
         children.push(child as SceneNode)
       }
     }
   }
+  context.nodes = children
 
-  figma.currentPage.selection = children
-  return `Expanded to ${children.length} children`
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Expand to children",
+    message: `Expanded ${before} node(s) → ${children.length} children`,
+    itemsIn: before,
+    itemsOut: children.length,
+    status: "success",
+  })
+
+  return context
 }
 
-function getRootsForScope(scope: FindScope): readonly SceneNode[] {
-  switch (scope) {
-    case "selection":
-      return figma.currentPage.selection
-    case "page":
-      return figma.currentPage.children
-    case "all_pages":
-      return figma.root.children.flatMap((page) => [...page.children])
+function collectAllFromPage(): SceneNode[] {
+  const out: SceneNode[] = []
+  for (const child of figma.currentPage.children) {
+    collectAllDescendants(child, out)
   }
+  return out
+}
+
+function collectAllFromAllPages(): SceneNode[] {
+  const out: SceneNode[] = []
+  for (const page of figma.root.children) {
+    for (const child of page.children) {
+      collectAllDescendants(child as SceneNode, out)
+    }
+  }
+  return out
+}
+
+function flattenNodes(nodes: SceneNode[]): SceneNode[] {
+  const out: SceneNode[] = []
+  for (const node of nodes) {
+    collectAllDescendants(node, out)
+  }
+  return out
 }
 
 function collectAllDescendants(node: SceneNode, out: SceneNode[]): void {

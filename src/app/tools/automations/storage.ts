@@ -89,7 +89,7 @@ export function parseImportJson(jsonText: string): Automation | null {
         .map((s: any, i: number) => ({
           id: `step_${now}_${i}`,
           actionType: migrateActionType(s.actionType),
-          params: s.params ?? {},
+          params: migrateParams(migrateActionType(s.actionType), s.params ?? {}),
           enabled: s.enabled !== false,
         })),
       createdAt: now,
@@ -101,7 +101,9 @@ export function parseImportJson(jsonText: string): Automation | null {
 }
 
 const ACTION_TYPE_MIGRATIONS: Record<string, ActionType> = {
-  selectByType: "findByType",
+  selectByType: "filterByType",
+  findByType: "filterByType",
+  selectByName: "filterByName",
 }
 
 function migrateAutomation(automation: Automation): Automation {
@@ -110,7 +112,11 @@ function migrateAutomation(automation: Automation): Automation {
     const newType = ACTION_TYPE_MIGRATIONS[step.actionType]
     if (newType) {
       changed = true
-      return { ...step, actionType: newType }
+      return {
+        ...step,
+        actionType: newType,
+        params: migrateParams(newType, step.params),
+      }
     }
     return step
   })
@@ -119,6 +125,13 @@ function migrateAutomation(automation: Automation): Automation {
 
 function migrateActionType(actionType: string): ActionType {
   return (ACTION_TYPE_MIGRATIONS[actionType] ?? actionType) as ActionType
+}
+
+function migrateParams(
+  _actionType: ActionType,
+  params: Record<string, unknown>,
+): Record<string, unknown> {
+  return params
 }
 
 function isValidAutomation(value: unknown): value is Automation {

@@ -63,24 +63,36 @@ export function registerAutomationsTool(getActiveTool: () => ActiveTool) {
               stepsCompleted: 0,
               totalSteps: 0,
               errors: ["Automation not found"],
+              log: [],
             },
           })
           return true
         }
 
-        const result = await executeAutomation(automation)
+        const context = await executeAutomation(automation)
+        const enabledSteps = automation.steps.filter((s) => s.enabled)
+        const errors = context.log.filter((e) => e.status === "error").map((e) => e.message)
+        const stepsCompleted = context.log.filter((e) => e.status === "success").length
+        const success = errors.length === 0
+
         figma.ui.postMessage({
           type: MAIN_TO_UI.AUTOMATIONS_RUN_RESULT,
           result: {
-            ...result,
-            totalSteps: automation.steps.filter((s) => s.enabled).length,
+            success,
+            message: success
+              ? `Completed ${stepsCompleted} step(s) successfully`
+              : `Completed with ${errors.length} error(s)`,
+            stepsCompleted,
+            totalSteps: enabledSteps.length,
+            errors,
+            log: context.log,
           },
         })
 
-        if (result.success) {
-          figma.notify(`${automation.name}: ${result.message}`)
-        } else if (result.errors.length > 0) {
-          figma.notify(`${automation.name}: ${result.errors[0]}`, { error: true })
+        if (success) {
+          figma.notify(`${automation.name}: Completed ${stepsCompleted} step(s)`)
+        } else if (errors.length > 0) {
+          figma.notify(`${automation.name}: ${errors[0]}`, { error: true })
         }
         return true
       }

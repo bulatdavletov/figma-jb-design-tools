@@ -33,22 +33,27 @@ import {
   type AutomationStepPayload,
   type AutomationsRunProgress,
   type AutomationsRunResult,
+  type AutomationsStepLog,
 } from "../../messages"
 import {
   ACTION_DEFINITIONS,
+  ACTION_CATEGORIES,
   type ActionType,
   type ActionDefinition,
+  type ActionCategory,
   VALID_NODE_TYPES,
   MATCH_MODES,
   FIND_SCOPES,
+  getActionsByCategory,
 } from "../../tools/automations/types"
+import { PROPERTY_REGISTRY } from "../../tools/automations/properties"
 import {
   createNewAutomation,
   automationToExportJson,
   parseImportJson,
 } from "../../tools/automations/storage"
 
-type Screen = "list" | "builder"
+type Screen = "list" | "builder" | "runOutput"
 
 const BUILDER_WIDTH = 680
 const BUILDER_HEIGHT = 520
@@ -103,6 +108,10 @@ export function AutomationsToolView(props: { onBack: () => void }) {
       if (msg.type === MAIN_TO_UI.AUTOMATIONS_RUN_RESULT) {
         setRunResult(msg.result)
         setRunProgress(null)
+        if (msg.result.log && msg.result.log.length > 0) {
+          setScreen("runOutput")
+          postMessage({ type: UI_TO_MAIN.RESIZE_WINDOW, width: BUILDER_WIDTH, height: BUILDER_HEIGHT })
+        }
       }
     }
     window.addEventListener("message", handleMessage)
@@ -191,16 +200,28 @@ export function AutomationsToolView(props: { onBack: () => void }) {
     downloadTextFile(filename, json)
   }, [editingAutomation])
 
+  const goToList = useCallback(() => {
+    setScreen("list")
+    setEditingAutomation(null)
+    setRunResult(null)
+    postMessage({ type: UI_TO_MAIN.AUTOMATIONS_LOAD })
+    postMessage({ type: UI_TO_MAIN.RESIZE_WINDOW, width: LIST_WIDTH, height: LIST_HEIGHT })
+  }, [])
+
+  if (screen === "runOutput" && runResult) {
+    return (
+      <RunOutputScreen
+        result={runResult}
+        onBack={goToList}
+      />
+    )
+  }
+
   if (screen === "builder" && editingAutomation) {
     return (
       <BuilderScreen
         automation={editingAutomation}
-        onBack={() => {
-          setScreen("list")
-          setEditingAutomation(null)
-          postMessage({ type: UI_TO_MAIN.AUTOMATIONS_LOAD })
-          postMessage({ type: UI_TO_MAIN.RESIZE_WINDOW, width: LIST_WIDTH, height: LIST_HEIGHT })
-        }}
+        onBack={goToList}
         onChange={setEditingAutomation}
         onSave={handleSave}
         onExport={handleBuilderExport}
@@ -393,6 +414,119 @@ function AutomationRow(props: {
           </Button>
         </div>
       )}
+    </div>
+  )
+}
+
+// ============================================================================
+// Run Output Screen
+// ============================================================================
+
+function RunOutputScreen(props: {
+  result: AutomationsRunResult
+  onBack: () => void
+}) {
+  const { result } = props
+
+  return (
+    <Page>
+      <ToolHeader
+        title="Run Output"
+        left={
+          <IconButton onClick={props.onBack}>
+            <IconChevronRight16 style={{ transform: "rotate(180deg)" }} />
+          </IconButton>
+        }
+      />
+      <ToolBody mode="content">
+        <div
+          style={{
+            padding: "8px 0 4px 0",
+            fontSize: 11,
+            fontWeight: 600,
+            color: result.success
+              ? "var(--figma-color-text-success)"
+              : "var(--figma-color-text-danger)",
+          }}
+        >
+          {result.success ? "Completed successfully" : "Completed with errors"}
+        </div>
+        <div
+          style={{
+            fontSize: 10,
+            color: "var(--figma-color-text-secondary)",
+            marginBottom: 8,
+          }}
+        >
+          {result.stepsCompleted} of {result.totalSteps} step(s) completed
+        </div>
+
+        {result.log && result.log.length > 0 && (
+          <DataList header="Step log">
+            {result.log.map((entry, i) => (
+              <StepLogRow key={i} entry={entry} />
+            ))}
+          </DataList>
+        )}
+      </ToolBody>
+      <div
+        style={{
+          borderTop: "1px solid var(--figma-color-border)",
+          padding: "8px 12px",
+        }}
+      >
+        <Button fullWidth onClick={props.onBack}>
+          Done
+        </Button>
+      </div>
+    </Page>
+  )
+}
+
+function StepLogRow(props: { entry: AutomationsStepLog }) {
+  const { entry } = props
+  const statusColor =
+    entry.status === "success"
+      ? "var(--figma-color-text-success)"
+      : entry.status === "error"
+        ? "var(--figma-color-text-danger)"
+        : "var(--figma-color-text-secondary)"
+
+  return (
+    <div style={{ padding: "6px 8px" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+        <div
+          style={{
+            width: 6,
+            height: 6,
+            borderRadius: "50%",
+            background: statusColor,
+            flexShrink: 0,
+          }}
+        />
+        <div style={{ fontSize: 11, color: "var(--figma-color-text)", flex: 1 }}>
+          {entry.stepIndex + 1}. {entry.stepName}
+        </div>
+        <div
+          style={{
+            fontSize: 10,
+            color: "var(--figma-color-text-secondary)",
+            flexShrink: 0,
+          }}
+        >
+          {entry.itemsIn} → {entry.itemsOut}
+        </div>
+      </div>
+      <div
+        style={{
+          fontSize: 10,
+          color: "var(--figma-color-text-secondary)",
+          marginTop: 2,
+          paddingLeft: 12,
+        }}
+      >
+        {entry.message}
+      </div>
     </div>
   )
 }
@@ -642,6 +776,7 @@ function StepRow(props: {
   const [hovered, setHovered] = useState(false)
   const def = ACTION_DEFINITIONS.find((d) => d.type === props.step.actionType)
   const label = def?.label ?? props.step.actionType
+  const categoryLabel = def ? getCategoryBadge(def.category) : ""
   const paramSummary = getParamSummary(props.step)
 
   return (
@@ -673,8 +808,21 @@ function StepRow(props: {
         </Checkbox>
       </div>
       <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ fontSize: 11, color: "var(--figma-color-text)" }}>
-          {props.index + 1}. {label}
+        <div style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 11, color: "var(--figma-color-text)" }}>
+          <span>{props.index + 1}. {label}</span>
+          {categoryLabel && (
+            <span
+              style={{
+                fontSize: 9,
+                color: "var(--figma-color-text-tertiary)",
+                background: "var(--figma-color-bg-secondary)",
+                padding: "1px 4px",
+                borderRadius: 3,
+              }}
+            >
+              {categoryLabel}
+            </span>
+          )}
         </div>
         {paramSummary && (
           <div
@@ -715,15 +863,30 @@ function StepRow(props: {
   )
 }
 
+function getCategoryBadge(category: ActionCategory): string {
+  switch (category) {
+    case "source": return "SRC"
+    case "filter": return "FLT"
+    case "navigate": return "NAV"
+    case "transform": return "TRN"
+    case "variables": return "VAR"
+    case "output": return "OUT"
+    default: return ""
+  }
+}
+
 function getParamSummary(step: AutomationStepPayload): string {
   const p = step.params
   switch (step.actionType) {
-    case "findByType": {
-      const scope = String(p.scope ?? "selection")
-      const scopeLabel = scope === "selection" ? "in selection" : scope === "page" ? "on page" : "in all pages"
-      return `${p.nodeType ?? "TEXT"} ${scopeLabel}`
+    case "sourceFromSelection":
+    case "sourceFromPage":
+      return ""
+    case "filterByType": {
+      const scope = p.scope ? String(p.scope) : ""
+      const scopeLabel = scope === "page" ? "on page" : scope === "all_pages" ? "in all pages" : ""
+      return `${p.nodeType ?? "TEXT"}${scopeLabel ? ` ${scopeLabel}` : ""}`
     }
-    case "selectByName":
+    case "filterByName":
       return `${p.matchMode ?? "contains"}: "${p.pattern ?? ""}"`
     case "expandToChildren":
       return ""
@@ -736,14 +899,23 @@ function getParamSummary(step: AutomationStepPayload): string {
     case "setOpacity":
       return `${p.opacity ?? 100}%`
     case "notify":
+    case "log":
       return String(p.message ?? "")
+    case "count":
+      return String(p.label ?? "Count")
+    case "selectResults":
+      return ""
+    case "setPipelineVariable":
+      return p.variableName ? `$${p.variableName} = ${p.value ?? ""}` : ""
+    case "setPipelineVariableFromProperty":
+      return p.variableName ? `$${p.variableName} ← ${p.property ?? "name"}` : ""
     default:
       return ""
   }
 }
 
 // ============================================================================
-// Action Picker Panel (right column)
+// Action Picker Panel (right column) — organized by category
 // ============================================================================
 
 function ActionPickerPanel(props: { onSelect: (type: ActionType) => void }) {
@@ -759,9 +931,33 @@ function ActionPickerPanel(props: { onSelect: (type: ActionType) => void }) {
         <Text style={{ fontWeight: 600, fontSize: 11 }}>Choose an action</Text>
       </div>
       <div style={{ flex: 1, overflowY: "auto" }}>
-        {ACTION_DEFINITIONS.map((def) => (
-          <ActionPickerRow key={def.type} def={def} onSelect={() => props.onSelect(def.type)} />
-        ))}
+        {ACTION_CATEGORIES.map((cat) => {
+          const actions = getActionsByCategory(cat.key)
+          if (actions.length === 0) return null
+          return (
+            <Fragment key={cat.key}>
+              <div
+                style={{
+                  padding: "8px 12px 4px 12px",
+                  fontSize: 10,
+                  fontWeight: 600,
+                  color: "var(--figma-color-text-tertiary)",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.5px",
+                }}
+              >
+                {cat.label}
+              </div>
+              {actions.map((def) => (
+                <ActionPickerRow
+                  key={def.type}
+                  def={def}
+                  onSelect={() => props.onSelect(def.type)}
+                />
+              ))}
+            </Fragment>
+          )
+        })}
       </div>
     </div>
   )
@@ -775,10 +971,9 @@ function ActionPickerRow(props: { def: ActionDefinition; onSelect: () => void })
       onMouseLeave={() => setHovered(false)}
       onClick={props.onSelect}
       style={{
-        padding: "8px 12px",
+        padding: "6px 12px",
         cursor: "pointer",
         background: hovered ? "var(--figma-color-bg-hover)" : "transparent",
-        borderBottom: "1px solid var(--figma-color-border)",
       }}
     >
       <div style={{ fontSize: 11, color: "var(--figma-color-text)" }}>{props.def.label}</div>
@@ -786,7 +981,7 @@ function ActionPickerRow(props: { def: ActionDefinition; onSelect: () => void })
         style={{
           fontSize: 10,
           color: "var(--figma-color-text-secondary)",
-          marginTop: 2,
+          marginTop: 1,
         }}
       >
         {props.def.description}
@@ -828,20 +1023,23 @@ function renderStepParams(
   updateParam: (key: string, value: unknown) => void
 ) {
   switch (step.actionType) {
-    case "findByType":
+    case "sourceFromSelection":
+      return (
+        <Text style={{ fontSize: 11, color: "var(--figma-color-text-secondary)" }}>
+          No parameters. Uses the current Figma selection as the working set.
+        </Text>
+      )
+
+    case "sourceFromPage":
+      return (
+        <Text style={{ fontSize: 11, color: "var(--figma-color-text-secondary)" }}>
+          No parameters. Loads all nodes from the current page (deep traversal).
+        </Text>
+      )
+
+    case "filterByType":
       return (
         <Fragment>
-          <Text style={{ fontSize: 11 }}>Scope</Text>
-          <VerticalSpace space="extraSmall" />
-          <Dropdown
-            value={String(step.params.scope ?? "selection")}
-            options={FIND_SCOPES.map((s) => ({
-              value: s,
-              text: s === "selection" ? "Selection" : s === "page" ? "Current page" : "All pages",
-            }))}
-            onValueChange={(v: string) => updateParam("scope", v)}
-          />
-          <VerticalSpace space="small" />
           <Text style={{ fontSize: 11 }}>Node type</Text>
           <VerticalSpace space="extraSmall" />
           <Dropdown
@@ -849,10 +1047,25 @@ function renderStepParams(
             options={VALID_NODE_TYPES.map((t) => ({ value: t }))}
             onValueChange={(v: string) => updateParam("nodeType", v)}
           />
+          {step.params.scope && (
+            <Fragment>
+              <VerticalSpace space="small" />
+              <Text style={{ fontSize: 11 }}>Scope (legacy)</Text>
+              <VerticalSpace space="extraSmall" />
+              <Dropdown
+                value={String(step.params.scope ?? "selection")}
+                options={FIND_SCOPES.map((s) => ({
+                  value: s,
+                  text: s === "selection" ? "Working set" : s === "page" ? "Current page" : "All pages",
+                }))}
+                onValueChange={(v: string) => updateParam("scope", v)}
+              />
+            </Fragment>
+          )}
         </Fragment>
       )
 
-    case "selectByName":
+    case "filterByName":
       return (
         <Fragment>
           <Text style={{ fontSize: 11 }}>Match mode</Text>
@@ -876,8 +1089,7 @@ function renderStepParams(
     case "expandToChildren":
       return (
         <Text style={{ fontSize: 11, color: "var(--figma-color-text-secondary)" }}>
-          No parameters needed. This action replaces the current selection with all direct children
-          of the selected nodes.
+          No parameters. Replaces the working set with direct children of each node.
         </Text>
       )
 
@@ -897,7 +1109,7 @@ function renderStepParams(
           <Textbox
             value={String(step.params.replace ?? "")}
             onValueInput={(v: string) => updateParam("replace", v)}
-            placeholder="Replacement text..."
+            placeholder="Replacement text... supports {name}, {index}"
           />
         </Fragment>
       )
@@ -945,6 +1157,7 @@ function renderStepParams(
       )
 
     case "notify":
+    case "log":
       return (
         <Fragment>
           <Text style={{ fontSize: 11 }}>Message</Text>
@@ -952,7 +1165,77 @@ function renderStepParams(
           <Textbox
             value={String(step.params.message ?? "")}
             onValueInput={(v: string) => updateParam("message", v)}
-            placeholder="Notification message..."
+            placeholder="Supports {count}, {$var} tokens..."
+          />
+        </Fragment>
+      )
+
+    case "count":
+      return (
+        <Fragment>
+          <Text style={{ fontSize: 11 }}>Label</Text>
+          <VerticalSpace space="extraSmall" />
+          <Textbox
+            value={String(step.params.label ?? "Count")}
+            onValueInput={(v: string) => updateParam("label", v)}
+            placeholder="Count label"
+          />
+        </Fragment>
+      )
+
+    case "selectResults":
+      return (
+        <Fragment>
+          <Checkbox
+            value={step.params.scrollTo !== false}
+            onValueChange={(v: boolean) => updateParam("scrollTo", v)}
+          >
+            <Text>Scroll to results</Text>
+          </Checkbox>
+        </Fragment>
+      )
+
+    case "setPipelineVariable":
+      return (
+        <Fragment>
+          <Text style={{ fontSize: 11 }}>Variable name</Text>
+          <VerticalSpace space="extraSmall" />
+          <Textbox
+            value={String(step.params.variableName ?? "")}
+            onValueInput={(v: string) => updateParam("variableName", v)}
+            placeholder="myVar (without $)"
+          />
+          <VerticalSpace space="small" />
+          <Text style={{ fontSize: 11 }}>Value</Text>
+          <VerticalSpace space="extraSmall" />
+          <Textbox
+            value={String(step.params.value ?? "")}
+            onValueInput={(v: string) => updateParam("value", v)}
+            placeholder="Supports {count}, {name} tokens..."
+          />
+        </Fragment>
+      )
+
+    case "setPipelineVariableFromProperty":
+      return (
+        <Fragment>
+          <Text style={{ fontSize: 11 }}>Variable name</Text>
+          <VerticalSpace space="extraSmall" />
+          <Textbox
+            value={String(step.params.variableName ?? "")}
+            onValueInput={(v: string) => updateParam("variableName", v)}
+            placeholder="myVar (without $)"
+          />
+          <VerticalSpace space="small" />
+          <Text style={{ fontSize: 11 }}>Property</Text>
+          <VerticalSpace space="extraSmall" />
+          <Dropdown
+            value={String(step.params.property ?? "name")}
+            options={PROPERTY_REGISTRY.map((p) => ({
+              value: p.key,
+              text: `${p.label} (${p.key})`,
+            }))}
+            onValueChange={(v: string) => updateParam("property", v)}
           />
         </Fragment>
       )
