@@ -102,3 +102,41 @@
 - `TextboxWithSuggestions` component for token/variable input in step config forms
 - Triggered by `{` character → shows available tokens, `{$` for pipeline vars, `{#` for snapshots
 - Sources: property registry, previous steps' outputName, enclosing repeat vars
+
+### 2026-02-23: Phase 2 core implementation (2A–2P)
+
+**What was done:**
+- **Data model** (2A-2C): Added `outputName`, `children` to AutomationStep. Added `savedNodeSets` to context, `PipelineListValue` type, `ActionResult` return type, `isActionResult` helper. Deep clone for arrays and node sets.
+- **9 new action types**: goToParent, flattenDescendants, restoreNodes, setCharacters, resize, setLayoutMode, askForInput, splitText, repeatWithEach. 2 new categories: input, flow.
+- **Token resolution**: Added `{#snapshotName.property}` for saved node set properties. Array pipeline vars stringify with `join(", ")`.
+- **New action implementations**:
+  - `goToParent`: deduplicated parents, skips page root
+  - `flattenDescendants`: recursive deep collect of all descendants
+  - `restoreNodes`: loads saved node snapshot back to working set
+  - `setCharacters`: font loading per TEXT node + template token resolution
+  - `resizeAction`: token-aware width/height with fallback to original dimensions
+  - `setLayoutMode`: HORIZONTAL/VERTICAL/NONE on FRAME/COMPONENT nodes
+  - `splitText`: splits pipeline var string by delimiter, returns ActionResult with list
+  - `askForInput`: uses input bridge to pause execution and wait for user input
+- **Input bridge** (2D): Promise-based `requestInput`/`resolveInput`/`cancelInput` for main thread ↔ UI communication
+- **Messages** (2E): AUTOMATIONS_INPUT_REQUEST/RESPONSE messages, AutomationsInputRequest type
+- **Executor refactor** (2F+2J): Extracted `executeSteps` for recursive use, auto-save outputs (data→pipelineVars, nodes→savedNodeSets), repeatWithEach with list mode (paired with nodes, onMismatch: error/repeatList/skipExtra) and nodes mode
+- **Main thread** (2M): Handles AUTOMATIONS_INPUT_RESPONSE via input bridge
+- **Storage**: Export/import supports outputName + children (recursive)
+- **UI**:
+  - Config forms for all 9 new actions
+  - OutputName field on all step config panels with data/node hint
+  - Output name badge on StepRow ($var or #snapshot)
+  - Category badges for input (IN) and flow (FLW)
+  - Param summaries for all new actions
+  - Runtime input dialog overlay (modal with text/textarea, submit/cancel)
+  - Nested step rendering for repeatWithEach (indented children block with own Add Step button)
+  - StepPath-based selection supporting nested children
+
+**Architecture decisions:**
+- `ActionResult` type allows data actions to return output alongside modified context
+- `isActionResult` discriminator uses `"context" in value` to distinguish from plain AutomationContext
+- repeatWithEach is handled directly in executor (not an action handler) since it needs recursive executeSteps
+- In list mode, repeatList iterates nodeCount times (list cycles); skipExtra iterates min(list, nodes)
+- Input bridge uses promise pattern — requestInput posts message and returns promise, resolveInput completes it
+- StepPath = `{ index: number; childIndex?: number }` for clean nested selection tracking

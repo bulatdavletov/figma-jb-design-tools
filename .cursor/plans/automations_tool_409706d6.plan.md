@@ -40,52 +40,52 @@ todos:
     status: completed
   - id: phase2-output-model
     content: "Phase 2A: Add outputName to AutomationStep, add savedNodeSets to context, auto-save action results in executor"
-    status: pending
+    status: completed
   - id: phase2-list-vars
     content: "Phase 2B: Extend pipelineVars to support arrays (PipelineValue | PipelineListValue), update cloneContext deep clone"
-    status: pending
+    status: completed
   - id: phase2-children-model
     content: "Phase 2C: Add optional children field to AutomationStep for repeatWithEach body"
-    status: pending
+    status: completed
   - id: phase2-input-bridge
     content: "Phase 2D: Create input-bridge.ts with requestInput/resolveInput promise pattern"
-    status: pending
+    status: completed
   - id: phase2-messages
     content: "Phase 2E: Add AUTOMATIONS_INPUT_REQUEST and AUTOMATIONS_INPUT_RESPONSE messages"
-    status: pending
+    status: completed
   - id: phase2-executor-nested
     content: "Phase 2F: Refactor executor -- extract executeSteps, auto-save outputs, repeatWithEach loop logic (list + nodes modes, onMismatch)"
-    status: pending
+    status: completed
   - id: phase2-ask-for-input
     content: "Phase 2G: Implement askForInput action (output = entered text)"
-    status: pending
+    status: completed
   - id: phase2-split-text
     content: "Phase 2H: Implement splitText action (output = list of strings)"
-    status: pending
+    status: completed
   - id: phase2-set-characters
     content: "Phase 2I: Implement setCharacters action with font loading"
-    status: pending
+    status: completed
   - id: phase2-repeat-with-each
     content: "Phase 2J: Implement repeatWithEach -- iterate list var or working set, onMismatch param"
-    status: pending
+    status: completed
   - id: phase2-restore-nodes
     content: "Phase 2K: Implement restoreNodes action (load saved node snapshot back to working set)"
-    status: pending
+    status: completed
   - id: phase2-extra-actions
     content: "Phase 2L: Add goToParent, flattenDescendants, resize, setLayoutMode actions"
-    status: pending
+    status: completed
   - id: phase2-main-thread
     content: "Phase 2M: Handle AUTOMATIONS_INPUT_RESPONSE in main-thread.ts via input bridge"
-    status: pending
+    status: completed
   - id: phase2-ui-input-dialog
     content: "Phase 2N: Add runtime input dialog overlay to AutomationsToolView"
-    status: pending
+    status: completed
   - id: phase2-ui-config-forms
     content: "Phase 2O: Add step config forms for new actions + outputName field on all steps"
-    status: pending
+    status: completed
   - id: phase2-ui-nested-steps
     content: "Phase 2P: Builder UI for nested children inside repeatWithEach blocks"
-    status: pending
+    status: completed
   - id: phase2-ui-autocomplete
     content: "Phase 2Q: TextboxWithSuggestions component for token/variable autocomplete in step config forms"
     status: pending
