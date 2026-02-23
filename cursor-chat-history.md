@@ -1066,3 +1066,20 @@ Olya suggested to rename from JetBrains Design Tools to Int UI Design Tools
 - Clarification: user asked specifically about renaming the repository root folder (`figma-jb-variables-utilities`).
 - Extra risk note for root rename: local terminal scripts/shortcuts, Cursor workspace path, and any absolute paths outside the repo may need manual update; git history/remotes are typically unaffected.
 
+---
+
+## UI Preview / Showcase
+
+### 2026-02-22
+- Wrote `specs/UI Showcase.md` documenting how to open and use `src/preview/preview-app.tsx`.
+- Added "Home Page" preview mode to `preview-app.tsx` — renders the real `HomeView` inside a 360x500 plugin frame (matching exact Figma plugin dimensions). Preview app now has two tabs: "Home Page" (default, shows the full home screen with all 9 tool cards) and "Components" (existing UI element showcase). Theme toggle works across both tabs.
+
+### 2026-02-23 — Live tool previews with shared test fixtures
+- **Major rework:** Preview app now has sidebar navigation with Components, Home, and all 9 tools as separate pages.
+- **Tool pages show all states side by side** as 360x500 iframes (e.g. Color Chain: Empty Selection | Single Layer | Multi-layer | No Variables Found | Error).
+- **Iframe isolation:** each scenario frame is an `<iframe>` with its own `window`, so `window.addEventListener("message")` in real views doesn't interfere between instances.
+- **Shared test fixtures** (`src/test-fixtures/`): one file per tool, each exporting `Scenario[]` typed against `MainToUiMessage`. Same data can feed both UI showcase and future Vitest tests.
+- **Mock message bus** (`src/preview/mock-message-bus.ts`): dispatches fake `MainToUiMessage` payloads to `window`, patches `parent.postMessage` to no-op.
+- **New files:** `src/preview/IsolatedToolView.tsx`, `src/preview/ToolPreview.tsx`, `src/preview/tool-registry.ts`, `src/preview/mock-message-bus.ts`, plus 9 fixture files in `src/test-fixtures/`.
+- Updated `specs/UI Showcase.md` with full architecture docs.
+

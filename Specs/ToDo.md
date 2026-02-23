@@ -26,6 +26,8 @@ print anything by Variable ID or component key, maybe?.
 
 ## General
 
+- [x] UI elements showcase page with custom components, example data, options, and descriptions (for future Figma library + Code Connect prep).
+
 UI: Loader not aligned with text
 
 Need md file with available Figma colors,  Figma API actions.

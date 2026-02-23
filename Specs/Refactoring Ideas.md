@@ -28,6 +28,35 @@ Improve **performance**, **reliability** (no stale results / race conditions), a
 
 ---
 
+## Most Impactful Refactorings to Do Next (recommended order)
+
+1. **Single source of truth for tool registry (P0)**
+   - Replace duplicated per-tool lists and switch/if ladders in `src/app/run.ts`, `src/app/ui.tsx`, and `package.json`-aligned metadata with one shared `TOOLS_REGISTRY` (id, title, activate handler, view mapping, menu label).
+   - This removes the highest-risk maintenance issue today: adding a tool currently requires editing many places and can silently drift.
+
+2. **Centralize message routing/activation pipeline (P0)**
+   - In `run.ts`, replace repeated `if` chains for activation + message dispatch with a data-driven array/map of registered handlers.
+   - Gives immediate reliability and simpler extensibility for every new tool.
+
+3. **Extract shared variable + color utilities (P0)**
+   - Consolidate duplicated color/variable lookup helpers into `src/app/shared/*` as already outlined below.
+   - Low-risk code reduction with strong bug-fix leverage (fix once, applies across tools).
+
+4. **Add stale-result guards for async tool updates (P0)**
+   - Introduce request tokens/update IDs for long-running scans and ignore out-of-date responses.
+   - Highest user-facing reliability improvement (prevents flicker and wrong late results).
+
+5. **Normalize UI message hooks + route mapping (P1)**
+   - Introduce `usePluginMessages` and reuse shared route constants from the same tool registry.
+   - Improves readability and reduces repeated event listener logic in tool views.
+
+### Why this order
+- Items 1-2 reduce ongoing engineering cost and defect risk whenever tools are added.
+- Items 3-4 reduce correctness issues and duplicated bug surfaces.
+- Item 5 is useful, but mostly compounds value after the registry/routing foundation is in place.
+
+---
+
 ## Cross-tool: Shared Code Extraction
 
 ### P0.1 Extract shared color utilities

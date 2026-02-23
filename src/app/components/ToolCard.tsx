@@ -12,6 +12,8 @@ export function ToolCard(props: {
   const [focused, setFocused] = useState(false)
 
   return (
+
+    /* Wrapper button for the entire card*/
     <button
       type="button"
       onClick={props.onClick}
@@ -33,12 +35,14 @@ export function ToolCard(props: {
         outlineOffset: 1,
       }}
     >
+
+      {/* Icon container */}
       <div
         style={{
           width: 32,
           height: 32,
           borderRadius: 6,
-          background: "color-mix(in srgb, var(--figma-color-bg-tertiary) 80%, transparent)",
+          background: "var(--figma-color-bg-secondary)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -46,6 +50,8 @@ export function ToolCard(props: {
           flex: "0 0 auto",
         }}
       >
+
+        {/* Icon */}
         <div style={{ width: 16, height: 16, display: "flex", alignItems: "center", justifyContent: "center" }}>
           {props.icon}
         </div>
@@ -77,6 +83,7 @@ export function ToolCard(props: {
         </div>
       </div>
 
+      {/* Chevron icon */}
       <div
         style={{
           width: 16,

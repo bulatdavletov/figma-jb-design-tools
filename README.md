@@ -10,6 +10,13 @@ Create UI Figma
 Storybook https://yuanqing.github.io/create-figma-plugin/storybook/?path=/story/index--index
 
 ### How to test
+- `npm test` runs node-based unit tests with deterministic fake Figma data fixtures.
+
+### UI Showcase
+- `npm run preview` opens a standalone Vite dev server at `http://localhost:5173`
+- Browse reusable components, the plugin home page (at exact 360×500 size), and every tool view with multiple states side by side
+- Each tool state runs in an isolated iframe with mock data from `src/test-fixtures/` — no Figma needed
+- Light/dark theme toggle included
 
 ### Tools
 Mockup Markup Quick Apply

@@ -180,6 +180,67 @@ For this project, manual testing is documented in `Specs/Refactoring Ideas.md`. 
 
 ---
 
+
+## Fake Data Strategy for This Repository
+
+Use deterministic fixtures that model only the fields each function actually reads.
+
+### 1) Build tiny fixture factories
+
+Create reusable factory helpers for paints, variables, and selection trees. Keep defaults realistic and allow per-test overrides.
+
+```ts
+// tests/fixtures/figma-fakes.ts
+export function makeSolidPaint(overrides: Partial<SolidPaint> = {}): SolidPaint {
+  return {
+    type: 'SOLID',
+    visible: true,
+    opacity: 1,
+    color: { r: 0, g: 0, b: 0 },
+    ...overrides,
+  }
+}
+```
+
+### 2) Model only the minimum Figma shape
+
+For unit tests, prefer plain objects cast to minimal plugin types instead of full object graphs.
+
+- `collectTextNodesFromSelection`: fake `SceneNode` trees (`type`, `children`, `id`)
+- `analyzeNodeColors`: fake `fills`/`strokes` arrays with only `SOLID` paints
+- variable label parsing helpers: fake layer names + IDs
+
+### 3) Add golden JSON fixture sets
+
+For regression-heavy tools (`library-swap`, variable mapping), store fixture input/output JSON pairs:
+
+- `tests/fixtures/library-swap/input.json`
+- `tests/fixtures/library-swap/expected-output.json`
+
+Then assert deep equality after the transform runs.
+
+### 4) Keep fake data deterministic
+
+- Avoid timestamps and randomness in fixture data
+- Use stable IDs like `VariableID:primary/default`
+- Keep color examples human-readable (`#FF8000`, opacity `0.8`)
+
+---
+
+## Repository Link Check (from this spec)
+
+If you need to quickly validate referenced repositories from your machine:
+
+```bash
+curl -I -L https://github.com/react-figma/figma-api-stub
+curl -I -L https://github.com/tokilabs/figma-test-runner
+curl -I -L https://github.com/figma-plugin-sdk/runrun
+```
+
+Expected result: HTTP status `200` (or `301/302` then final `200`). If blocked by corporate proxy/network policy, run the same command in CI or another network and capture results in your QA notes.
+
+---
+
 ## Recommended Testing Strategy for This Project
 
 | Layer | What to Test | Tool |
