@@ -14,6 +14,7 @@ import { scenarios as variablesReplaceUsagesScenarios } from "../test-fixtures/v
 export type ToolViewProps = {
   onBack: () => void
   initialSelectionEmpty?: boolean
+  initialTab?: string
 }
 
 export type ToolEntry = {
