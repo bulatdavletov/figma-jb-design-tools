@@ -33,12 +33,12 @@ export function registerPrintColorUsagesTool(getActiveTool: () => ActiveTool) {
 
     const settings = cachedSettings ?? await loadPrintColorUsagesSettings()
     const showLinkedColors = settings.showLinkedColors
-    const hideFolderNames = settings.hideFolderNames
+    const showFolderNames = settings.showFolderNames
     const checkNested = settings.checkNested !== false
 
     const merged: Array<ColorUsage> = []
     for (const n of selection) {
-      const colors = await analyzeNodeColors(n, showLinkedColors, hideFolderNames, checkNested)
+      const colors = await analyzeNodeColors(n, showLinkedColors, showFolderNames, checkNested)
       merged.push(...colors)
     }
     const uniqueByKey = new Map<string, ColorUsage>()

@@ -167,11 +167,13 @@ export type UiToMainMessage =
 export type PrintColorUsagesUiSettings = {
   textPosition: "left" | "right"
   showLinkedColors: boolean
-  hideFolderNames: boolean
+  showFolderNames: boolean
   textTheme: "dark" | "light"
   checkByContent: boolean
   checkNested: boolean
   printDistance: number
+  applyTextColor: boolean
+  applyTextStyle: boolean
 }
 
 export type PrintColorUsagesStatus =

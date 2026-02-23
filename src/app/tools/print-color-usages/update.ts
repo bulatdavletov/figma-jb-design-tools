@@ -163,7 +163,7 @@ async function resolveUpdateTargetForText(
       variableIdToUse,
       settings.showLinkedColors,
       text,
-      settings.hideFolderNames,
+      settings.showFolderNames,
       explicitModeId
     )
   } catch {

@@ -11,7 +11,7 @@ import {
 } from './shared'
 
 describe('maybeStripFolderPrefix', () => {
-  it('returns full name when hideFolderNames is false', () => {
+  it('returns full name when showFolderNames is false', () => {
     expect(maybeStripFolderPrefix('Color/Primary/Default', false)).toBe('Color/Primary/Default')
   })
 

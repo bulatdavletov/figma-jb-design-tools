@@ -32,8 +32,8 @@ export type ColorUsage = {
   }
 }
 
-export function maybeStripFolderPrefix(name: string, hideFolderNames: boolean): string {
-  if (!hideFolderNames) return name
+export function maybeStripFolderPrefix(name: string, showFolderNames: boolean): string {
+  if (!showFolderNames) return name
   const idx = name.lastIndexOf("/")
   if (idx === -1) return name
   const leaf = name.slice(idx + 1)
@@ -175,11 +175,11 @@ export async function resolveVariableLabelPartsFromVariable(
   variableId: string,
   showLinkedColors: boolean,
   node: SceneNode | undefined,
-  hideFolderNames: boolean,
+  showFolderNames: boolean,
   explicitModeId?: string | null
 ): Promise<VariableLabelParts> {
   const variable = await figma.variables.getVariableByIdAsync(variableId)
-  const primaryText = maybeStripFolderPrefix(variable?.name ?? variable?.key ?? "Unknown Variable", hideFolderNames)
+  const primaryText = maybeStripFolderPrefix(variable?.name ?? variable?.key ?? "Unknown Variable", showFolderNames)
 
   const modeContext = await resolveVariableModeContext(
     variable?.variableCollectionId,
@@ -202,7 +202,7 @@ export async function resolveVariableLabelPartsFromVariable(
     if (aliasValue.id) {
       try {
         const linkedVariable = await figma.variables.getVariableByIdAsync(aliasValue.id)
-        if (linkedVariable?.name) secondaryText = maybeStripFolderPrefix(linkedVariable.name, hideFolderNames)
+        if (linkedVariable?.name) secondaryText = maybeStripFolderPrefix(linkedVariable.name, showFolderNames)
       } catch {
         // ignore
       }
@@ -228,7 +228,7 @@ export async function resolveVariableLabelPartsFromVariable(
           Math.abs(stylePaint.color.b - rgb.b) < 0.001 &&
           Math.abs(styleOpacity - valueOpacity) < 0.001
         if (colorMatch) {
-          secondaryText = maybeStripFolderPrefix(style.name, hideFolderNames)
+          secondaryText = maybeStripFolderPrefix(style.name, showFolderNames)
           break
         }
       }
