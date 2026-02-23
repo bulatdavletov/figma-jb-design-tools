@@ -4,6 +4,18 @@ Create automations like Apple Shortcuts, but for Figma. Chain actions together, 
 
 [Implementation Plan](../.cursor/plans/automations_tool_409706d6.plan.md)
 
+---
+## Principles
+
+### Figma-First Design
+Align with Figma Data Structure.
+Primitive actions should map directly to Figma API operations using Figma's property names as param keys. 
+Action labels use human-friendly terms. 
+Compound actions combine primitives for convenience and are clearly distinguished. 
+The goal: never invent an abstraction when Figma already has the concept.
+
+---
+
 I want to create Automation tool, where I can create automations, like Apple Shortcuts, but for Figma.
 
 The thing is: I don't want to search for plugin every time.
@@ -29,6 +41,40 @@ Several columns, Like apple shortcuts:
 Left side for steps. Right side is dynamic: if nothing selected - for available actions. If step selected - for parameters.
 
 When plugin finishes - there should be way to show output inside plugin window.
+
+---
+
+Idea: where to get ideas for actions for Automations plugin:
+Try to replace some plugins with automations.
+
+Many paster:
+- Ask for text
+- Choose what to do if amount of lines ends faster than amount of selected texts. Repeat list or not?
+- Split text into lines
+- Repeat with each line
+  - selected text content [N] = line [N]
+  - if repeat list = true
+    somehow start list of line from index 0
+
+Resize to parents width, height, or both
+- Choose: width, height, or both
+- Find parent node
+- Check it's size
+- Set size of selected node to parent's size
+
+Add autolayout to each:
+- Get selection nodes
+- For each node
+  - Add autolayout
+
+Print color usages
+- Find all unique colors used in selection
+  - Find all layers
+  - Extract all colors used in layers
+  - Dedupliacte list of colors
+- For every color
+  - Create a text layer with color as content
+  - Place near selected node
 
 ---
 

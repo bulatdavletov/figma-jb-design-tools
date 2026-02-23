@@ -42,3 +42,63 @@
 
 - `goToList` now sends `AUTOMATIONS_SAVE` before navigating if `editingAutomation` is present
 - Only fires from builder screen (editingAutomation is null on run output screen)
+
+### 2026-02-23: Discussed opportunities from Context system
+
+**Summary of Context capabilities:**
+- 16 actions across 6 categories (Source, Filter, Navigate, Transform, Pipeline Variables, Output)
+- 17 node properties in registry
+- Expression tokens: `{name}`, `{type}`, `{index}`, `{count}`, `{$var}` + all properties
+- Pipeline variables for passing data between steps
+- JSON export/import for sharing automations
+
+**Key opportunities identified:**
+- Composable multi-step workflows (source → filter → transform → output)
+- Wrapping existing tools (Print Colors, Library Swap) as automation actions (Phase 2)
+- Conditions and loops (Phase 3) — architecture already supports them
+- Dry run/preview mode — context cloning makes it feasible
+- Design QA automations, migration helpers, consistency checks
+- Shareable "recipe" automations via export/import
+
+### 2026-02-23: Phase 2 design — data primitives, loops, action outputs
+
+**Designed Phase 2 by analyzing three example automations from spec:**
+1. Many Paster (paste text into layers) — fully covered
+2. Resize to parent — needs goToParent, resize, node snapshots
+3. Print color usages — needs node creation, data extraction (Phase 4)
+
+**Key architecture decisions:**
+- **Action output model** (Apple Shortcuts-style): every step has optional `outputName`. Executor auto-saves result as pipeline var (data actions) or node snapshot (node actions)
+- **`savedNodeSets`** on context: named snapshots of working sets, restorable via `restoreNodes`
+- **`{#snapshotName.property}`** tokens: access properties of saved node snapshots
+- **`repeatWithEach`** supports two modes: iterate a list var (paired with nodes) OR iterate the working set directly
+- **`onMismatch`** param on repeat: `"error"` (default), `"repeatList"` (cycle), `"skipExtra"`
+- **`ActionResult`** return type: actions return `{ context, output? }` so executor can capture the data output
+
+**Phase 2 actions (8 total):**
+- askForInput, splitText, setCharacters (data primitives)
+- repeatWithEach (flow control)
+- restoreNodes, goToParent, flattenDescendants (navigate)
+- resize, setLayoutMode (transform)
+
+**Deferred to Phase 4:** extractPropertyToList, node creation, math expressions, compound actions
+
+### 2026-02-23: Added Figma-First principle, Quick Actions, builder autocomplete
+
+**Figma-First Design Principle:**
+- Primitive actions map 1:1 to Figma API operations
+- Param keys use Figma's property names (`characters`, `layoutMode`, `opacity`)
+- Action labels are human-friendly ("Set text content", "Set auto layout")
+- Two-tier model: Primitives (Figma API wrappers) + Compounds (convenience combos, Phase 4)
+- Renamed: `setTextContent` → `setCharacters`, `setAutoLayout` → `setLayoutMode`
+
+**Quick Actions (Phase 2R):**
+- "Run Automation" menu command with `figma.parameters` autocomplete
+- Cmd+/ → Tab → type automation name → runs immediately
+- Uses `parameterOnly: false` — Quick Actions shows autocomplete, regular menu opens full UI
+- Needs `sync-figma-menu.cjs` extension for `parameters` field support
+
+**Builder Autocomplete (Phase 2Q):**
+- `TextboxWithSuggestions` component for token/variable input in step config forms
+- Triggered by `{` character → shows available tokens, `{$` for pipeline vars, `{#` for snapshots
+- Sources: property registry, previous steps' outputName, enclosing repeat vars
