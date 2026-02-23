@@ -1,5 +1,5 @@
-import type { Automation, AutomationExportFormat, ActionType } from "./types"
-import { generateAutomationId } from "./types"
+import type { Automation, AutomationStep, AutomationExportFormat, AutomationExportStepFormat, ActionType } from "./types"
+import { generateAutomationId, generateStepId } from "./types"
 
 const STORAGE_KEY = "automations_v1"
 
@@ -50,16 +50,25 @@ export function createNewAutomation(name?: string): Automation {
   }
 }
 
+function stepToExportStep(s: AutomationStep): AutomationExportStepFormat {
+  const out: AutomationExportStepFormat = {
+    actionType: s.actionType,
+    params: s.params,
+    enabled: s.enabled,
+  }
+  if (s.outputName) out.outputName = s.outputName
+  if (s.children && s.children.length > 0) {
+    out.children = s.children.map(stepToExportStep)
+  }
+  return out
+}
+
 export function automationToExportJson(automation: Automation): string {
   const exportData: AutomationExportFormat = {
     version: 1,
     automation: {
       name: automation.name,
-      steps: automation.steps.map((s) => ({
-        actionType: s.actionType,
-        params: s.params,
-        enabled: s.enabled,
-      })),
+      steps: automation.steps.map(stepToExportStep),
     },
   }
   return JSON.stringify(exportData, null, 2)
@@ -86,18 +95,31 @@ export function parseImportJson(jsonText: string): Automation | null {
             typeof s.actionType === "string" &&
             typeof s.params === "object"
         )
-        .map((s: any, i: number) => ({
-          id: `step_${now}_${i}`,
-          actionType: migrateActionType(s.actionType),
-          params: migrateParams(migrateActionType(s.actionType), s.params ?? {}),
-          enabled: s.enabled !== false,
-        })),
+        .map((s: any) => importStep(s)),
       createdAt: now,
       updatedAt: now,
     }
   } catch {
     return null
   }
+}
+
+function importStep(s: any): AutomationStep {
+  const step: AutomationStep = {
+    id: generateStepId(),
+    actionType: migrateActionType(s.actionType),
+    params: migrateParams(migrateActionType(s.actionType), s.params ?? {}),
+    enabled: s.enabled !== false,
+  }
+  if (typeof s.outputName === "string" && s.outputName) {
+    step.outputName = s.outputName
+  }
+  if (Array.isArray(s.children) && s.children.length > 0) {
+    step.children = s.children
+      .filter((c: any) => c && typeof c === "object" && typeof c.actionType === "string")
+      .map((c: any) => importStep(c))
+  }
+  return step
 }
 
 const ACTION_TYPE_MIGRATIONS: Record<string, ActionType> = {

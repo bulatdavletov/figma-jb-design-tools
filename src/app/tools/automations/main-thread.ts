@@ -1,6 +1,7 @@
-import { MAIN_TO_UI, UI_TO_MAIN, type ActiveTool, type UiToMainMessage, type AutomationPayload } from "../../messages"
+import { MAIN_TO_UI, UI_TO_MAIN, type ActiveTool, type UiToMainMessage, type AutomationPayload, type AutomationStepPayload } from "../../messages"
 import { loadAutomations, saveAutomation, deleteAutomation, getAutomation } from "./storage"
 import { executeAutomation, requestStop } from "./executor"
+import { resolveInput } from "./input-bridge"
 import type { Automation, AutomationStep, ActionType } from "./types"
 
 export function registerAutomationsTool(getActiveTool: () => ActiveTool) {
@@ -101,6 +102,11 @@ export function registerAutomationsTool(getActiveTool: () => ActiveTool) {
         requestStop()
         return true
       }
+
+      if (msg.type === UI_TO_MAIN.AUTOMATIONS_INPUT_RESPONSE) {
+        resolveInput(msg.value)
+        return true
+      }
     } catch (e) {
       figma.ui.postMessage({
         type: MAIN_TO_UI.ERROR,
@@ -122,28 +128,46 @@ function payloadToAutomation(payload: AutomationPayload): Automation {
   return {
     id: payload.id,
     name: payload.name,
-    steps: payload.steps.map((s) => ({
-      id: s.id,
-      actionType: s.actionType as ActionType,
-      params: s.params,
-      enabled: s.enabled,
-    })),
+    steps: payload.steps.map(payloadStepToStep),
     createdAt: payload.createdAt,
     updatedAt: payload.updatedAt,
   }
+}
+
+function payloadStepToStep(s: AutomationStepPayload): AutomationStep {
+  const step: AutomationStep = {
+    id: s.id,
+    actionType: s.actionType as ActionType,
+    params: s.params,
+    enabled: s.enabled,
+  }
+  if (s.outputName) step.outputName = s.outputName
+  if (s.children && s.children.length > 0) {
+    step.children = s.children.map(payloadStepToStep)
+  }
+  return step
 }
 
 function automationToPayload(automation: Automation): AutomationPayload {
   return {
     id: automation.id,
     name: automation.name,
-    steps: automation.steps.map((s) => ({
-      id: s.id,
-      actionType: s.actionType,
-      params: s.params,
-      enabled: s.enabled,
-    })),
+    steps: automation.steps.map(stepToPayloadStep),
     createdAt: automation.createdAt,
     updatedAt: automation.updatedAt,
   }
+}
+
+function stepToPayloadStep(s: AutomationStep): AutomationStepPayload {
+  const payload: AutomationStepPayload = {
+    id: s.id,
+    actionType: s.actionType,
+    params: s.params,
+    enabled: s.enabled,
+  }
+  if (s.outputName) payload.outputName = s.outputName
+  if (s.children && s.children.length > 0) {
+    payload.children = s.children.map(stepToPayloadStep)
+  }
+  return payload
 }
