@@ -1,5 +1,6 @@
 import { loadAutomations, getAutomation } from "../app/tools/automations/storage"
 import { executeAutomation } from "../app/tools/automations/executor"
+import { setAutoRunAutomation } from "../app/tools/automations/main-thread"
 import { run } from "../app/run"
 
 figma.parameters.on("input", async ({ query, key, result }: ParameterInputEvent) => {
@@ -30,6 +31,7 @@ export default async function (event?: RunEvent) {
     )
 
     if (hasInput) {
+      setAutoRunAutomation(automationId)
       run("automations-tool")
       return
     }

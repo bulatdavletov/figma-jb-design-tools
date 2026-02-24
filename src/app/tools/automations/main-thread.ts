@@ -1,8 +1,14 @@
 import { MAIN_TO_UI, UI_TO_MAIN, type ActiveTool, type UiToMainMessage, type AutomationPayload, type AutomationStepPayload } from "../../messages"
 import { loadAutomations, saveAutomation, deleteAutomation, getAutomation } from "./storage"
 import { executeAutomation, requestStop } from "./executor"
-import { resolveInput } from "./input-bridge"
+import { resolveInput, cancelInput } from "./input-bridge"
 import type { Automation, AutomationStep, ActionType } from "./types"
+
+let pendingAutoRunId: string | null = null
+
+export function setAutoRunAutomation(id: string): void {
+  pendingAutoRunId = id
+}
 
 export function registerAutomationsTool(getActiveTool: () => ActiveTool) {
   const sendList = async () => {
@@ -18,6 +24,50 @@ export function registerAutomationsTool(getActiveTool: () => ActiveTool) {
         updatedAt: a.updatedAt,
       })),
     })
+  }
+
+  const runAutomationById = async (automationId: string) => {
+    const automation = await getAutomation(automationId)
+    if (!automation) {
+      figma.ui.postMessage({
+        type: MAIN_TO_UI.AUTOMATIONS_RUN_RESULT,
+        result: {
+          success: false,
+          message: "Automation not found",
+          stepsCompleted: 0,
+          totalSteps: 0,
+          errors: ["Automation not found"],
+          log: [],
+        },
+      })
+      return
+    }
+
+    const context = await executeAutomation(automation)
+    const enabledSteps = automation.steps.filter((s) => s.enabled)
+    const errors = context.log.filter((e) => e.status === "error").map((e) => e.message)
+    const stepsCompleted = context.log.filter((e) => e.status === "success").length
+    const success = errors.length === 0
+
+    figma.ui.postMessage({
+      type: MAIN_TO_UI.AUTOMATIONS_RUN_RESULT,
+      result: {
+        success,
+        message: success
+          ? `Completed ${stepsCompleted} step(s) successfully`
+          : `Completed with ${errors.length} error(s)`,
+        stepsCompleted,
+        totalSteps: enabledSteps.length,
+        errors,
+        log: context.log,
+      },
+    })
+
+    if (success) {
+      figma.notify(`${automation.name}: Completed ${stepsCompleted} step(s)`)
+    } else if (errors.length > 0) {
+      figma.notify(`${automation.name}: ${errors[0]}`, { error: true })
+    }
   }
 
   const onMessage = async (msg: UiToMainMessage): Promise<boolean> => {
@@ -54,47 +104,7 @@ export function registerAutomationsTool(getActiveTool: () => ActiveTool) {
       }
 
       if (msg.type === UI_TO_MAIN.AUTOMATIONS_RUN) {
-        const automation = await getAutomation(msg.automationId)
-        if (!automation) {
-          figma.ui.postMessage({
-            type: MAIN_TO_UI.AUTOMATIONS_RUN_RESULT,
-            result: {
-              success: false,
-              message: "Automation not found",
-              stepsCompleted: 0,
-              totalSteps: 0,
-              errors: ["Automation not found"],
-              log: [],
-            },
-          })
-          return true
-        }
-
-        const context = await executeAutomation(automation)
-        const enabledSteps = automation.steps.filter((s) => s.enabled)
-        const errors = context.log.filter((e) => e.status === "error").map((e) => e.message)
-        const stepsCompleted = context.log.filter((e) => e.status === "success").length
-        const success = errors.length === 0
-
-        figma.ui.postMessage({
-          type: MAIN_TO_UI.AUTOMATIONS_RUN_RESULT,
-          result: {
-            success,
-            message: success
-              ? `Completed ${stepsCompleted} step(s) successfully`
-              : `Completed with ${errors.length} error(s)`,
-            stepsCompleted,
-            totalSteps: enabledSteps.length,
-            errors,
-            log: context.log,
-          },
-        })
-
-        if (success) {
-          figma.notify(`${automation.name}: Completed ${stepsCompleted} step(s)`)
-        } else if (errors.length > 0) {
-          figma.notify(`${automation.name}: ${errors[0]}`, { error: true })
-        }
+        await runAutomationById(msg.automationId)
         return true
       }
 
@@ -104,7 +114,11 @@ export function registerAutomationsTool(getActiveTool: () => ActiveTool) {
       }
 
       if (msg.type === UI_TO_MAIN.AUTOMATIONS_INPUT_RESPONSE) {
-        resolveInput(msg.value)
+        if (msg.cancelled) {
+          cancelInput()
+        } else {
+          resolveInput(msg.value)
+        }
         return true
       }
     } catch (e) {
@@ -119,6 +133,11 @@ export function registerAutomationsTool(getActiveTool: () => ActiveTool) {
   return {
     onActivate: async () => {
       await sendList()
+      if (pendingAutoRunId) {
+        const id = pendingAutoRunId
+        pendingAutoRunId = null
+        await runAutomationById(id)
+      }
     },
     onMessage,
   }

@@ -39,7 +39,7 @@ function getToolTitle(command: string): string {
 }
 
 const DEFAULT_WIDTH = 360
-const DEFAULT_HEIGHT = 500
+const DEFAULT_HEIGHT = 540
 
 export function run(command: string) {
   showUI(

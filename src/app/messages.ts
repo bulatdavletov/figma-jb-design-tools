@@ -188,7 +188,7 @@ export type UiToMainMessage =
   | { type: typeof UI_TO_MAIN.AUTOMATIONS_DELETE; automationId: string }
   | { type: typeof UI_TO_MAIN.AUTOMATIONS_RUN; automationId: string }
   | { type: typeof UI_TO_MAIN.AUTOMATIONS_STOP }
-  | { type: typeof UI_TO_MAIN.AUTOMATIONS_INPUT_RESPONSE; value: string }
+  | { type: typeof UI_TO_MAIN.AUTOMATIONS_INPUT_RESPONSE; value: string; cancelled?: boolean }
 
 
 export type PrintColorUsagesUiSettings = {

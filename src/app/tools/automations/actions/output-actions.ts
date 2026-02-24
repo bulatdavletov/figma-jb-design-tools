@@ -1,4 +1,4 @@
-import type { ActionHandler } from "../context"
+import type { ActionHandler, ActionResult } from "../context"
 import { resolveTokens } from "../tokens"
 
 export const selectResults: ActionHandler = async (context, params) => {
@@ -37,17 +37,18 @@ export const logAction: ActionHandler = async (context, params) => {
   return context
 }
 
-export const countAction: ActionHandler = async (context, params) => {
+export const countAction: ActionHandler = async (context, params): Promise<ActionResult> => {
   const label = String(params.label ?? "Count")
+  const count = context.nodes.length
 
   context.log.push({
     stepIndex: -1,
     stepName: label,
-    message: `${label}: ${context.nodes.length} node(s)`,
-    itemsIn: context.nodes.length,
-    itemsOut: context.nodes.length,
+    message: `${label}: ${count} node(s)`,
+    itemsIn: count,
+    itemsOut: count,
     status: "success",
   })
 
-  return context
+  return { context, output: count }
 }

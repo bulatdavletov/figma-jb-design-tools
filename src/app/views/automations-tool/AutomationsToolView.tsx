@@ -49,6 +49,8 @@ import {
   MATCH_MODES,
   FIND_SCOPES,
   getActionsByCategory,
+  generateDefaultOutputName,
+  collectOutputNames,
 } from "../../tools/automations/types"
 import { PROPERTY_REGISTRY } from "../../tools/automations/properties"
 import { TextboxWithSuggestions, type Suggestion } from "../../components/TextboxWithSuggestions"
@@ -57,6 +59,7 @@ import {
   automationToExportJson,
   parseImportJson,
 } from "../../tools/automations/storage"
+import { ButtonWithIcon } from "../../components/ButtonWithIcon"
 
 type Screen = "list" | "builder" | "runOutput"
 
@@ -254,6 +257,11 @@ export function AutomationsToolView(props: { onBack: () => void }) {
     setInputRequest(null)
   }, [])
 
+  const handleInputCancel = useCallback(() => {
+    postMessage({ type: UI_TO_MAIN.AUTOMATIONS_INPUT_RESPONSE, value: "", cancelled: true })
+    setInputRequest(null)
+  }, [])
+
   const handleSave = useCallback(() => {
     if (!editingAutomation) return
     postMessage({
@@ -328,6 +336,7 @@ export function AutomationsToolView(props: { onBack: () => void }) {
         <InputDialog
           request={inputRequest}
           onSubmit={handleInputSubmit}
+          onCancel={handleInputCancel}
         />
       )}
     </Fragment>
@@ -341,6 +350,7 @@ export function AutomationsToolView(props: { onBack: () => void }) {
 function InputDialog(props: {
   request: AutomationsInputRequest
   onSubmit: (value: string) => void
+  onCancel: () => void
 }) {
   const [value, setValue] = useState("")
 
@@ -352,6 +362,10 @@ function InputDialog(props: {
     if (e.key === "Enter" && props.request.inputType === "text") {
       e.preventDefault()
       handleSubmit()
+    }
+    if (e.key === "Escape") {
+      e.preventDefault()
+      props.onCancel()
     }
   }
 
@@ -404,7 +418,7 @@ function InputDialog(props: {
           <Button
             style={{ flex: 1 }}
             secondary
-            onClick={() => props.onSubmit("")}
+            onClick={props.onCancel}
           >
             Cancel
           </Button>
@@ -589,11 +603,40 @@ function AutomationRow(props: {
 // Run Output Screen
 // ============================================================================
 
+function formatLogAsText(result: AutomationsRunResult): string {
+  const lines: string[] = []
+  lines.push(result.success ? "Completed successfully" : "Completed with errors")
+  lines.push(`${result.stepsCompleted} of ${result.totalSteps} step(s) completed`)
+  lines.push("")
+  if (result.log) {
+    for (const entry of result.log) {
+      const status = entry.status === "success" ? "OK" : entry.status === "error" ? "ERR" : "SKIP"
+      lines.push(`[${status}] ${entry.stepIndex + 1}. ${entry.stepName}  (${entry.itemsIn} → ${entry.itemsOut})`)
+      if (entry.message) lines.push(`     ${entry.message}`)
+    }
+  }
+  if (result.errors.length > 0) {
+    lines.push("")
+    lines.push("Errors:")
+    for (const e of result.errors) lines.push(`  - ${e}`)
+  }
+  return lines.join("\n")
+}
+
 function RunOutputScreen(props: {
   result: AutomationsRunResult
   onBack: () => void
 }) {
   const { result } = props
+  const [copied, setCopied] = useState(false)
+
+  const handleCopyLog = useCallback(() => {
+    const text = formatLogAsText(result)
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    })
+  }, [result])
 
   return (
     <Page>
@@ -601,7 +644,7 @@ function RunOutputScreen(props: {
         title="Run Output"
         left={
           <IconButton onClick={props.onBack}>
-            <IconChevronRight16 style={{ transform: "rotate(180deg)" }} />
+            <IconChevronLeft16/>
           </IconButton>
         }
       />
@@ -640,10 +683,15 @@ function RunOutputScreen(props: {
         style={{
           borderTop: "1px solid var(--figma-color-border)",
           padding: "8px 12px",
+          display: "flex",
+          gap: 8,
         }}
       >
-        <Button fullWidth onClick={props.onBack}>
+        <Button style={{ flex: 1 }} onClick={props.onBack}>
           Done
+        </Button>
+        <Button style={{ flex: 1 }} secondary onClick={handleCopyLog}>
+          {copied ? "Copied!" : "Copy log"}
         </Button>
       </div>
     </Page>
@@ -737,11 +785,46 @@ function BuilderScreen(props: {
   const addStep = (actionType: ActionType) => {
     const def = ACTION_DEFINITIONS.find((d) => d.type === actionType)
     if (!def) return
+
+    const existingNames = collectOutputNames(automation.steps)
+    const outputName = actionType === "repeatWithEach"
+      ? undefined
+      : generateDefaultOutputName(actionType, existingNames)
+
+    const params = { ...def.defaultParams }
+
+    const prevStep = pickerParentIndex !== null
+      ? (automation.steps[pickerParentIndex].children ?? []).at(-1) ?? automation.steps[pickerParentIndex]
+      : automation.steps.at(-1)
+
+    if (prevStep?.outputName) {
+      const prevDef = ACTION_DEFINITIONS.find((d) => d.type === prevStep.actionType)
+      const prevIsData = prevDef?.producesData === true
+
+      if (actionType === "splitText" && prevIsData) {
+        params.sourceVar = prevStep.outputName
+      }
+      if (actionType === "repeatWithEach" && prevIsData) {
+        params.source = prevStep.outputName
+      }
+    }
+
+    if (pickerParentIndex !== null) {
+      const parentStep = automation.steps[pickerParentIndex]
+      if (parentStep?.actionType === "repeatWithEach") {
+        const itemVar = String(parentStep.params.itemVar ?? "item")
+        if (actionType === "setCharacters") {
+          params.characters = `{$${itemVar}}`
+        }
+      }
+    }
+
     const newStep: AutomationStepPayload = {
       id: `step_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
       actionType,
-      params: { ...def.defaultParams },
+      params,
       enabled: true,
+      outputName,
     }
 
     if (pickerParentIndex !== null) {
@@ -955,14 +1038,11 @@ function BuilderScreen(props: {
           </div>
 
           {/* Add step button */}
-          <div style={{ padding: "4px 8px 8px 8px" }}>
-            <Button fullWidth secondary onClick={() => showPicker()}>
-              <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-                <IconPlus16 />
-                <Text>Add step</Text>
-              </div>
-            </Button>
-          </div>
+          <ToolFooter>
+            <ButtonWithIcon icon={<IconPlus16 />} fullWidth secondary onClick={() => showPicker()}>
+                Add step
+              </ButtonWithIcon>
+          </ToolFooter>
         </div>
 
         {/* Right column — dynamic panel */}
@@ -978,18 +1058,26 @@ function BuilderScreen(props: {
           {rightPanel === "picker" && (
             <ActionPickerPanel onSelect={addStep} />
           )}
-          {rightPanel === "config" && selectedStep && (
-            <StepConfigPanel
-              step={selectedStep}
-              onUpdateParam={updateStepParam}
-              onUpdateOutputName={updateStepOutputName}
-              suggestions={selectedPath ? buildSuggestions(
-                automation.steps,
-                selectedPath.index,
-                selectedPath.childIndex !== undefined ? automation.steps[selectedPath.index] : undefined,
-              ) : []}
-            />
-          )}
+          {rightPanel === "config" && selectedStep && selectedPath && (() => {
+            const parentStep = selectedPath.childIndex !== undefined
+              ? automation.steps[selectedPath.index]
+              : undefined
+            return (
+              <StepConfigPanel
+                step={selectedStep}
+                stepIndex={selectedPath.index}
+                allSteps={automation.steps}
+                parentStep={parentStep}
+                onUpdateParam={updateStepParam}
+                onUpdateOutputName={updateStepOutputName}
+                suggestions={buildSuggestions(
+                  automation.steps,
+                  selectedPath.index,
+                  parentStep,
+                )}
+              />
+            )
+          })()}
           {rightPanel === "empty" && (
             <div
               style={{
@@ -1314,6 +1402,20 @@ function getParamSummary(step: AutomationStepPayload): string {
 // ============================================================================
 
 function ActionPickerPanel(props: { onSelect: (type: ActionType) => void }) {
+  const [search, setSearch] = useState("")
+  const query = search.toLowerCase().trim()
+
+  const filteredCategories = ACTION_CATEGORIES.map((cat) => {
+    const actions = getActionsByCategory(cat.key).filter(
+      (def) =>
+        !query ||
+        def.label.toLowerCase().includes(query) ||
+        def.description.toLowerCase().includes(query) ||
+        def.type.toLowerCase().includes(query),
+    )
+    return { ...cat, actions }
+  }).filter((cat) => cat.actions.length > 0)
+
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
       <div
@@ -1323,36 +1425,48 @@ function ActionPickerPanel(props: { onSelect: (type: ActionType) => void }) {
           background: "var(--figma-color-bg-secondary)",
         }}
       >
-        <Text style={{ fontWeight: 600, fontSize: 11 }}>Choose an action</Text>
+        <Textbox
+          value={search}
+          onValueInput={setSearch}
+          placeholder="Search actions..."
+        />
       </div>
       <div style={{ flex: 1, overflowY: "auto" }}>
-        {ACTION_CATEGORIES.map((cat) => {
-          const actions = getActionsByCategory(cat.key)
-          if (actions.length === 0) return null
-          return (
-            <Fragment key={cat.key}>
-              <div
-                style={{
-                  padding: "8px 12px 4px 12px",
-                  fontSize: 10,
-                  fontWeight: 600,
-                  color: "var(--figma-color-text-tertiary)",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.5px",
-                }}
-              >
-                {cat.label}
-              </div>
-              {actions.map((def) => (
-                <ActionPickerRow
-                  key={def.type}
-                  def={def}
-                  onSelect={() => props.onSelect(def.type)}
-                />
-              ))}
-            </Fragment>
-          )
-        })}
+        {filteredCategories.length === 0 && (
+          <div
+            style={{
+              padding: "24px 12px",
+              fontSize: 11,
+              color: "var(--figma-color-text-tertiary)",
+              textAlign: "center",
+            }}
+          >
+            No actions matching "{search}"
+          </div>
+        )}
+        {filteredCategories.map((cat) => (
+          <Fragment key={cat.key}>
+            <div
+              style={{
+                padding: "8px 12px 4px 12px",
+                fontSize: 10,
+                fontWeight: 600,
+                color: "var(--figma-color-text-tertiary)",
+                textTransform: "uppercase",
+                letterSpacing: "0.5px",
+              }}
+            >
+              {cat.label}
+            </div>
+            {cat.actions.map((def) => (
+              <ActionPickerRow
+                key={def.type}
+                def={def}
+                onSelect={() => props.onSelect(def.type)}
+              />
+            ))}
+          </Fragment>
+        ))}
       </div>
     </div>
   )
@@ -1391,13 +1505,15 @@ function ActionPickerRow(props: { def: ActionDefinition; onSelect: () => void })
 
 function StepConfigPanel(props: {
   step: AutomationStepPayload
+  stepIndex: number
+  allSteps: AutomationStepPayload[]
+  parentStep?: AutomationStepPayload
   onUpdateParam: (key: string, value: unknown) => void
   onUpdateOutputName: (value: string) => void
   suggestions: Suggestion[]
 }) {
-  const { step, onUpdateParam, onUpdateOutputName, suggestions } = props
+  const { step, stepIndex, allSteps, parentStep, onUpdateParam, onUpdateOutputName, suggestions } = props
   const def = ACTION_DEFINITIONS.find((d) => d.type === step.actionType)
-  const isOutputRequired = def?.outputRequired === true
 
   return (
     <div style={{ padding: 12 }}>
@@ -1411,21 +1527,19 @@ function StepConfigPanel(props: {
           <VerticalSpace space="medium" />
         </Fragment>
       )}
-      {renderStepParams(step, onUpdateParam, suggestions)}
+      {renderStepParams(step, onUpdateParam, suggestions, allSteps, stepIndex, parentStep)}
 
       {step.actionType !== "repeatWithEach" && (
         <Fragment>
           <VerticalSpace space="medium" />
           <Divider />
           <VerticalSpace space="small" />
-          <Text style={{ fontSize: 11 }}>
-            Output name{isOutputRequired ? " (required)" : " (optional)"}
-          </Text>
+          <Text style={{ fontSize: 11 }}>Output name</Text>
           <VerticalSpace space="extraSmall" />
           <Textbox
             value={step.outputName ?? ""}
             onValueInput={onUpdateOutputName}
-            placeholder={isOutputRequired ? "e.g. myVar" : "Save output as..."}
+            placeholder="Auto-generated if empty"
           />
           <Text style={{ fontSize: 10, color: "var(--figma-color-text-tertiary)", marginTop: 4 }}>
             {def?.producesData
@@ -1438,10 +1552,34 @@ function StepConfigPanel(props: {
   )
 }
 
+function buildInputSourceOptions(
+  steps: AutomationStepPayload[],
+  currentStepIndex: number,
+  dataOnly: boolean,
+): { value: string; text: string }[] {
+  const options: { value: string; text: string }[] = []
+  for (let i = 0; i < currentStepIndex && i < steps.length; i++) {
+    const s = steps[i]
+    if (!s.outputName) continue
+    const def = ACTION_DEFINITIONS.find((d) => d.type === s.actionType)
+    const isData = def?.producesData === true
+    if (dataOnly && !isData) continue
+    const prefix = isData ? "$" : "#"
+    options.push({
+      value: s.outputName,
+      text: `${prefix}${s.outputName} (${def?.label ?? s.actionType})`,
+    })
+  }
+  return options
+}
+
 function renderStepParams(
   step: AutomationStepPayload,
   updateParam: (key: string, value: unknown) => void,
   suggestions: Suggestion[] = [],
+  allSteps: AutomationStepPayload[] = [],
+  stepIndex: number = 0,
+  parentStep?: AutomationStepPayload,
 ) {
   switch (step.actionType) {
     case "sourceFromSelection":
@@ -1528,18 +1666,32 @@ function renderStepParams(
         </Text>
       )
 
-    case "restoreNodes":
+    case "restoreNodes": {
+      const snapshotOptions = buildInputSourceOptions(allSteps, stepIndex, false)
+        .filter((o) => o.text.startsWith("#"))
       return (
         <Fragment>
-          <Text style={{ fontSize: 11 }}>Snapshot name</Text>
+          <Text style={{ fontSize: 11 }}>Input (node snapshot)</Text>
           <VerticalSpace space="extraSmall" />
-          <Textbox
-            value={String(step.params.snapshotName ?? "")}
-            onValueInput={(v: string) => updateParam("snapshotName", v)}
-            placeholder="Name of saved node set (without #)"
-          />
+          {snapshotOptions.length > 0 ? (
+            <Dropdown
+              value={String(step.params.snapshotName ?? "")}
+              options={[
+                { value: "", text: "Select snapshot..." },
+                ...snapshotOptions,
+              ]}
+              onValueChange={(v: string) => updateParam("snapshotName", v)}
+            />
+          ) : (
+            <Textbox
+              value={String(step.params.snapshotName ?? "")}
+              onValueInput={(v: string) => updateParam("snapshotName", v)}
+              placeholder="Name of saved node set (without #)"
+            />
+          )}
         </Fragment>
       )
+    }
 
     case "renameLayers":
       return (
@@ -1605,19 +1757,33 @@ function renderStepParams(
         </Fragment>
       )
 
-    case "setCharacters":
+    case "setCharacters": {
+      const isInRepeat = parentStep?.actionType === "repeatWithEach"
+      const repeatItemVar = isInRepeat ? String(parentStep.params.itemVar ?? "item") : null
       return (
         <Fragment>
+          {isInRepeat && repeatItemVar && (
+            <Fragment>
+              <Text style={{ fontSize: 11 }}>Input</Text>
+              <VerticalSpace space="extraSmall" />
+              <Text style={{ fontSize: 10, color: "var(--figma-color-text-tertiary)" }}>
+                Inside <b>Repeat with each</b> — use <b>{"{"}${repeatItemVar}{"}"}</b> for current item,{" "}
+                <b>{"{"}$repeatIndex{"}"}</b> for index
+              </Text>
+              <VerticalSpace space="small" />
+            </Fragment>
+          )}
           <Text style={{ fontSize: 11 }}>Text content</Text>
           <VerticalSpace space="extraSmall" />
           <TextboxWithSuggestions
             value={String(step.params.characters ?? "")}
             onValueInput={(v: string) => updateParam("characters", v)}
-            placeholder="Supports {$var}, {name}, {index} tokens..."
+            placeholder={isInRepeat ? `Use {$${repeatItemVar}} for current item` : "Supports {$var}, {name}, {index} tokens..."}
             suggestions={suggestions}
           />
         </Fragment>
       )
+    }
 
     case "resize":
       return (
@@ -1779,16 +1945,28 @@ function renderStepParams(
         </Fragment>
       )
 
-    case "splitText":
+    case "splitText": {
+      const splitInputOptions = buildInputSourceOptions(allSteps, stepIndex, true)
       return (
         <Fragment>
-          <Text style={{ fontSize: 11 }}>Source variable</Text>
+          <Text style={{ fontSize: 11 }}>Input</Text>
           <VerticalSpace space="extraSmall" />
-          <Textbox
-            value={String(step.params.sourceVar ?? "")}
-            onValueInput={(v: string) => updateParam("sourceVar", v)}
-            placeholder="Variable name (without $)"
-          />
+          {splitInputOptions.length > 0 ? (
+            <Dropdown
+              value={String(step.params.sourceVar ?? "")}
+              options={[
+                { value: "", text: "Select input..." },
+                ...splitInputOptions,
+              ]}
+              onValueChange={(v: string) => updateParam("sourceVar", v)}
+            />
+          ) : (
+            <Textbox
+              value={String(step.params.sourceVar ?? "")}
+              onValueInput={(v: string) => updateParam("sourceVar", v)}
+              placeholder="Variable name (without $)"
+            />
+          )}
           <VerticalSpace space="small" />
           <Text style={{ fontSize: 11 }}>Delimiter</Text>
           <VerticalSpace space="extraSmall" />
@@ -1804,42 +1982,81 @@ function renderStepParams(
           />
         </Fragment>
       )
+    }
 
-    case "repeatWithEach":
+    case "repeatWithEach": {
+      const repeatInputOptions = buildInputSourceOptions(allSteps, stepIndex, true)
+      const source = String(step.params.source ?? "nodes")
+      const itemVar = String(step.params.itemVar ?? "item")
+      const isListMode = source !== "nodes"
       return (
         <Fragment>
-          <Text style={{ fontSize: 11 }}>Source</Text>
+          <Text style={{ fontSize: 11 }}>Input</Text>
           <VerticalSpace space="extraSmall" />
-          <Textbox
-            value={String(step.params.source ?? "nodes")}
-            onValueInput={(v: string) => updateParam("source", v)}
-            placeholder='"nodes" or a list variable name (without $)'
+          <Dropdown
+            value={source}
+            options={[
+              { value: "nodes", text: "Current nodes" },
+              ...repeatInputOptions,
+            ]}
+            onValueChange={(v: string) => updateParam("source", v)}
           />
-          <Text style={{ fontSize: 10, color: "var(--figma-color-text-tertiary)", marginTop: 2 }}>
-            Use "nodes" to iterate the working set, or a variable name for a list
-          </Text>
           <VerticalSpace space="small" />
           <Text style={{ fontSize: 11 }}>Item variable name</Text>
           <VerticalSpace space="extraSmall" />
           <Textbox
-            value={String(step.params.itemVar ?? "item")}
+            value={itemVar}
             onValueInput={(v: string) => updateParam("itemVar", v)}
             placeholder="item"
           />
+          {isListMode && (
+            <Fragment>
+              <VerticalSpace space="small" />
+              <Text style={{ fontSize: 11 }}>On mismatch</Text>
+              <VerticalSpace space="extraSmall" />
+              <Dropdown
+                value={String(step.params.onMismatch ?? "error")}
+                options={[
+                  { value: "error", text: "Error if different" },
+                  { value: "repeatList", text: "Cycle list" },
+                  { value: "skipExtra", text: "Skip extras" },
+                ]}
+                onValueChange={(v: string) => updateParam("onMismatch", v)}
+              />
+            </Fragment>
+          )}
+          <VerticalSpace space="medium" />
+          <Divider />
           <VerticalSpace space="small" />
-          <Text style={{ fontSize: 11 }}>On mismatch</Text>
-          <VerticalSpace space="extraSmall" />
-          <Dropdown
-            value={String(step.params.onMismatch ?? "error")}
-            options={[
-              { value: "error", text: "Error if different" },
-              { value: "repeatList", text: "Cycle list" },
-              { value: "skipExtra", text: "Skip extras" },
-            ]}
-            onValueChange={(v: string) => updateParam("onMismatch", v)}
-          />
+          <Text style={{ fontSize: 10, color: "var(--figma-color-text-tertiary)" }}>
+            {isListMode ? (
+              <Fragment>
+                <b>List mode:</b> Pairs ${source} list items with working set nodes.
+                Each iteration sets <b>${itemVar}</b> to current list item and the
+                working set to the paired node.
+                <br /><br />
+                Use <b>{"{"}${itemVar}{"}"}</b> in child steps to access the current item value.
+                <br />
+                Use <b>{"{"}$repeatIndex{"}"}</b> for the current iteration index.
+                <br /><br />
+                <b>On mismatch</b> controls what happens when list size ≠ node count:
+                <br />• Error — stops execution
+                <br />• Cycle list — repeats list items from the start
+                <br />• Skip extras — iterates min(list, nodes) times
+              </Fragment>
+            ) : (
+              <Fragment>
+                <b>Nodes mode:</b> Iterates each node in the working set one at a time.
+                <br /><br />
+                Use <b>{"{"}$repeatIndex{"}"}</b> for the current iteration index.
+                <br />
+                Use <b>{"{"}name{"}"}</b>, <b>{"{"}type{"}"}</b> etc. in child steps to access current node properties.
+              </Fragment>
+            )}
+          </Text>
         </Fragment>
       )
+    }
 
     case "notify":
     case "log":
@@ -1856,9 +2073,27 @@ function renderStepParams(
         </Fragment>
       )
 
-    case "count":
+    case "count": {
+      const countInputDesc = stepIndex > 0
+        ? (() => {
+          const prev = allSteps[stepIndex - 1]
+          if (!prev) return null
+          const prevDef = ACTION_DEFINITIONS.find((d) => d.type === prev.actionType)
+          return prevDef?.label ?? prev.actionType
+        })()
+        : null
       return (
         <Fragment>
+          {countInputDesc && (
+            <Fragment>
+              <Text style={{ fontSize: 11 }}>Input</Text>
+              <VerticalSpace space="extraSmall" />
+              <Text style={{ fontSize: 10, color: "var(--figma-color-text-tertiary)" }}>
+                Counts nodes from previous step: <b>{countInputDesc}</b>
+              </Text>
+              <VerticalSpace space="small" />
+            </Fragment>
+          )}
           <Text style={{ fontSize: 11 }}>Label</Text>
           <VerticalSpace space="extraSmall" />
           <Textbox
@@ -1868,6 +2103,7 @@ function renderStepParams(
           />
         </Fragment>
       )
+    }
 
     case "selectResults":
       return (

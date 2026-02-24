@@ -9,6 +9,7 @@ import { selectResults, logAction, countAction } from "./actions/output-actions"
 import { setPipelineVariable, setPipelineVariableFromProperty, splitText } from "./actions/variable-actions"
 import { restoreNodes } from "./actions/navigate-actions"
 import { askForInput } from "./actions/input-actions"
+import { InputCancelledError } from "./input-bridge"
 import { MAIN_TO_UI } from "../../messages"
 
 const ACTION_HANDLERS: Partial<Record<ActionType, ActionHandler>> = {
@@ -150,6 +151,18 @@ async function executeSteps(
         saveStepOutput(context, step, dataOutput)
       }
     } catch (e) {
+      if (e instanceof InputCancelledError) {
+        context.log.push({
+          stepIndex,
+          stepName,
+          message: "Cancelled by user",
+          itemsIn: itemsBefore,
+          itemsOut: context.nodes.length,
+          status: "skipped",
+        })
+        stopRequested = true
+        break
+      }
       const errorMsg = e instanceof Error ? e.message : String(e)
       context.log.push({
         stepIndex,

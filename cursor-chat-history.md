@@ -193,3 +193,64 @@ What we should consider **aligning** (future phases):
 - Working set is updated to contain the new wrapper frames (not the original nodes), so subsequent `addAutoLayout` or `editAutoLayout` works.
 - Config form: dropdown for optional auto layout direction (None/Vertical/Horizontal)
 - Typical workflow: `sourceFromSelection` → `wrapInFrame(autoLayout: VERTICAL)` → done, or `wrapInFrame()` → `addAutoLayout` → `editAutoLayout`
+
+### 2026-02-24: Fix Many Paster automation + UX improvements
+
+**Task:** Many Paster automation failed because `askForInput` output wasn't being saved as a pipeline variable. Plus UX improvements: auto-generated output names, Input dropdowns with autocomplete, auto-populate from previous step.
+
+**Bugs fixed:**
+- **`askForInput` missing `producesData: true`**: Output was saved to `savedNodeSets` instead of `pipelineVars`, causing downstream `splitText` to fail with "Variable $input not found"
+- **`countAction` not returning `ActionResult`**: Had `producesData: true` but returned plain context, so output was silently dropped. Now returns `{ context, output: count }`
+
+**UX improvements:**
+- **Auto-generated output names**: New steps get default names based on action type (e.g., "askForInput", "splitText-2"). Implemented via `generateDefaultOutputName()` and `collectOutputNames()` in `types.ts`. `repeatWithEach` excluded (doesn't produce output).
+- **Input dropdowns with autocomplete**: `splitText`, `repeatWithEach`, and `restoreNodes` now show dropdown selectors listing available outputs from previous steps instead of raw text fields. Dropdowns filter by type (data-only for splitText/repeat, node snapshots for restoreNodes).
+- **Auto-populate input from previous step**: When adding `splitText` or `repeatWithEach`, auto-sets input to previous data-producing step's output.
+- **Removed `outputRequired` concept**: All outputs are optional with auto-generated defaults. Removed from `askForInput` and `splitText` definitions, removed from `ActionDefinition` interface.
+
+**Architecture:**
+- `buildInputSourceOptions()` helper: Scans previous steps for outputs, returns formatted dropdown options with `$`/`#` prefix indicators
+- `renderStepParams()` now receives `allSteps` and `stepIndex` for context-aware UI
+- `StepConfigPanel` passes step context to params renderer
+
+### 2026-02-24: Action picker search + repeatWithEach syntax help + spec update
+
+**What was done:**
+- **Action picker search**: Added search/filter textbox to `ActionPickerPanel`. Searches across label, description, and action type name. Shows "No actions matching" empty state when no results.
+- **repeatWithEach syntax help**: Added detailed inline documentation in the config panel explaining nodes mode vs list mode, available variables (`$itemVar`, `$repeatIndex`), and onMismatch behavior. `onMismatch` dropdown now only shown in list mode (hidden when source is "nodes").
+- **Spec updated**: Replaced outdated "Implementation Progress" and "Implementation Phases" sections in `Automations Tool.md` with comprehensive "Current Implementation" documentation covering all 28 action types, their params, the output system, expression tokens, JSON format with corrected Many Paster example, and updated phase descriptions.
+
+### 2026-02-24: Context-aware child steps + label improvements
+
+- **Renamed "Working set (nodes)"** → "Current nodes" in repeatWithEach dropdown — less jargon
+- **setCharacters context inside repeat**: When `setCharacters` is inside a `repeatWithEach`, shows "Input" section with available loop variables (`$item`, `$repeatIndex`). Placeholder changes to `Use {$item} for current item`.
+- **Auto-populate setCharacters in repeat**: When adding `setCharacters` inside a `repeatWithEach`, auto-fills `characters` param with `{$itemVar}` so user immediately sees what it will do.
+- **parentStep passed through config chain**: `StepConfigPanel` and `renderStepParams` now receive optional `parentStep` for context-aware rendering of child steps.
+
+### 2026-02-24: Count input hint + copy run log
+
+- **Count input hint**: `count` config now shows "Input" section indicating what nodes are being counted (label of previous step).
+- **Copy run log**: Run Output screen footer now has "Done" + "Copy log" buttons side by side. `formatLogAsText()` formats the log as plain text with status indicators (`[OK]`, `[ERR]`, `[SKIP]`), step names, item counts, messages, and errors. "Copy log" button shows "Copied!" feedback for 2 seconds.
+
+### 2026-02-24: Fix Cancel button in Ask for Input dialog
+
+**Bug:** Pressing Cancel in the input dialog submitted an empty string and continued the automation instead of stopping it.
+
+**Fix:** Cancel now properly stops the automation:
+- Added `InputCancelledError` class in `input-bridge.ts` — `cancelInput()` rejects the promise instead of resolving with ""
+- Added `cancelled` flag to `AUTOMATIONS_INPUT_RESPONSE` message type
+- Main thread calls `cancelInput()` when `cancelled: true` (was always calling `resolveInput`)
+- Executor catches `InputCancelledError` and sets `stopRequested = true` with "skipped" status (not error)
+- UI has separate `handleInputCancel` callback sending `cancelled: true`
+- `InputDialog` accepts `onCancel` prop, Cancel button calls it. Escape key also triggers cancel.
+
+### 2026-02-24: Fix Quick Actions auto-run for askForInput automations
+
+**Bug:** Running an automation with `askForInput` via Figma's Quick Actions (Cmd+/ → "Run Automation") just opened the Automations list — didn't actually run the automation. User had to find it and click Run again.
+
+**Fix:** Added auto-run mechanism:
+- `setAutoRunAutomation(id)` in `main-thread.ts` stores a pending automation ID
+- `run-automation/main.ts` calls `setAutoRunAutomation(automationId)` before `run("automations-tool")` for askForInput automations
+- `onActivate` checks for `pendingAutoRunId` — if set, immediately runs the automation after UI boots
+- Refactored `runAutomationById()` helper extracted from inline AUTOMATIONS_RUN handler to avoid duplication
+- Flow: Quick Actions → set pending ID → open UI → UI boots → auto-run → input dialog appears → user submits → execution completes → run output shown

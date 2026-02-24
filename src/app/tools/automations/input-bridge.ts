@@ -34,9 +34,16 @@ export function resolveInput(value: string): void {
   }
 }
 
+export class InputCancelledError extends Error {
+  constructor() {
+    super("Input cancelled by user")
+    this.name = "InputCancelledError"
+  }
+}
+
 export function cancelInput(): void {
   if (pending) {
-    pending.resolve("")
+    pending.reject(new InputCancelledError())
     pending = null
   }
 }

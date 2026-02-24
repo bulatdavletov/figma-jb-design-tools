@@ -68,7 +68,6 @@ export interface ActionDefinition {
   description: string
   category: ActionCategory
   defaultParams: Record<string, unknown>
-  outputRequired?: boolean
   producesData?: boolean
 }
 
@@ -225,7 +224,7 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     description: "Pause and ask the user to enter text. Output saved as pipeline variable",
     category: "input",
     defaultParams: { label: "Enter text", placeholder: "", inputType: "text" },
-    outputRequired: true,
+    producesData: true,
   },
 
   // Pipeline Variables
@@ -249,7 +248,6 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     description: "Split a pipeline variable string by delimiter into a list",
     category: "variables",
     defaultParams: { sourceVar: "", delimiter: "\\n" },
-    outputRequired: true,
     producesData: true,
   },
 
@@ -307,6 +305,30 @@ export function getActionsByCategory(category: ActionCategory): ActionDefinition
 export function actionProducesData(actionType: ActionType): boolean {
   const def = getActionDefinition(actionType)
   return def?.producesData === true
+}
+
+export function generateDefaultOutputName(
+  actionType: ActionType,
+  existingNames: string[],
+): string {
+  const base = actionType
+  if (!existingNames.includes(base)) return base
+  let counter = 2
+  while (existingNames.includes(`${base}-${counter}`)) counter++
+  return `${base}-${counter}`
+}
+
+export function collectOutputNames(steps: { outputName?: string; children?: { outputName?: string }[] }[]): string[] {
+  const names: string[] = []
+  for (const s of steps) {
+    if (s.outputName) names.push(s.outputName)
+    if (s.children) {
+      for (const c of s.children) {
+        if (c.outputName) names.push(c.outputName)
+      }
+    }
+  }
+  return names
 }
 
 export function generateStepId(): string {
