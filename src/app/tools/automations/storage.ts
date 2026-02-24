@@ -39,6 +39,21 @@ export async function deleteAutomation(id: string): Promise<void> {
   await saveAutomations(all.filter((a) => a.id !== id))
 }
 
+export async function duplicateAutomation(id: string): Promise<Automation | null> {
+  const source = await getAutomation(id)
+  if (!source) return null
+  const now = Date.now()
+  const clone: Automation = {
+    id: generateAutomationId(),
+    name: `${source.name} (copy)`,
+    steps: JSON.parse(JSON.stringify(source.steps)),
+    createdAt: now,
+    updatedAt: now,
+  }
+  await saveAutomation(clone)
+  return clone
+}
+
 export function createNewAutomation(name?: string): Automation {
   const now = Date.now()
   return {

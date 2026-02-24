@@ -321,3 +321,21 @@ What we should consider **aligning** (future phases):
 - `storage.ts` — `target` in export/import
 - `messages.ts` — `target` in `AutomationStepPayload`
 - `AutomationsToolView.tsx` — `buildSuggestions` expanded, `buildValueSourceOptions` helper, target dropdown in `StepConfigPanel`, resize/setPosition config forms with value-source dropdowns, `getParamSummary` case for setPosition, step row shows target
+
+### 2026-02-24: Automation card three-dot menu with Duplicate & Delete
+
+**Task:** Replace inline Delete button on automation list cards with a three-dot (kebab) menu containing Duplicate and Delete actions.
+
+**What was done:**
+- Added `AUTOMATIONS_DUPLICATE` message type for UI→main thread communication
+- Added `duplicateAutomation()` in `storage.ts` — creates a deep clone with new ID and "(copy)" suffix
+- Added handler in `main-thread.ts` to process duplicate requests and refresh the list
+- Replaced the Delete button in `AutomationRow` with a `···` kebab menu that opens a dropdown with "Duplicate" and "Delete" options
+- Run button remains visible on hover as the primary action
+- Menu closes on outside click or mouse leave
+
+**Files changed:**
+- `messages.ts` — `AUTOMATIONS_DUPLICATE` message type
+- `storage.ts` — `duplicateAutomation()` function
+- `main-thread.ts` — duplicate message handler
+- `AutomationsToolView.tsx` — `AutomationRow` kebab menu, `handleDuplicate` callback, wired through `ListScreen`

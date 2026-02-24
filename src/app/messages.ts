@@ -59,6 +59,7 @@ export const UI_TO_MAIN = {
   AUTOMATIONS_GET: "AUTOMATIONS_GET",
   AUTOMATIONS_SAVE: "AUTOMATIONS_SAVE",
   AUTOMATIONS_DELETE: "AUTOMATIONS_DELETE",
+  AUTOMATIONS_DUPLICATE: "AUTOMATIONS_DUPLICATE",
   AUTOMATIONS_RUN: "AUTOMATIONS_RUN",
   AUTOMATIONS_STOP: "AUTOMATIONS_STOP",
   AUTOMATIONS_INPUT_RESPONSE: "AUTOMATIONS_INPUT_RESPONSE",
@@ -186,6 +187,7 @@ export type UiToMainMessage =
   | { type: typeof UI_TO_MAIN.AUTOMATIONS_GET; automationId: string }
   | { type: typeof UI_TO_MAIN.AUTOMATIONS_SAVE; automation: AutomationPayload }
   | { type: typeof UI_TO_MAIN.AUTOMATIONS_DELETE; automationId: string }
+  | { type: typeof UI_TO_MAIN.AUTOMATIONS_DUPLICATE; automationId: string }
   | { type: typeof UI_TO_MAIN.AUTOMATIONS_RUN; automationId: string }
   | { type: typeof UI_TO_MAIN.AUTOMATIONS_STOP }
   | { type: typeof UI_TO_MAIN.AUTOMATIONS_INPUT_RESPONSE; value: string; cancelled?: boolean }
