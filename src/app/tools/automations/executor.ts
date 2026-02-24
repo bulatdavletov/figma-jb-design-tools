@@ -2,36 +2,65 @@ import type { Automation, AutomationStep, ActionType } from "./types"
 import { getActionDefinition, actionProducesData } from "./types"
 import type { AutomationContext, ActionHandler, PipelineValue, PipelineListValue } from "./context"
 import { createInitialContext, isActionResult } from "./context"
-import { filterByType, filterByName, expandToChildren, goToParent, flattenDescendants } from "./actions/selection-actions"
-import { renameLayers, setFillColor, setFillVariable, setOpacity, setCharacters, resizeAction, setPositionAction, wrapInFrame, addAutoLayout, editAutoLayout, removeAutoLayout, notifyAction } from "./actions/property-actions"
-import { sourceFromSelection, sourceFromPage } from "./actions/source-actions"
+import { expandToChildren, goToParent, flattenDescendants } from "./actions/selection-actions"
+import {
+  renameLayers, setFillColor, setFillVariable, setOpacity, setCharacters,
+  resizeAction, setPositionAction, wrapInFrame, addAutoLayout, editAutoLayout, removeAutoLayout,
+  notifyAction, setStrokeColor, removeFills, removeStrokes,
+  setVisibility, setLocked, setNameAction, setRotation,
+  removeNodeAction, cloneNodeAction,
+} from "./actions/property-actions"
+import { sourceFromSelection, sourceFromPage, sourceFromAllPages, sourceFromPageByName } from "./actions/source-actions"
+import { filterAction } from "./actions/filter-actions"
 import { selectResults, logAction, countAction } from "./actions/output-actions"
 import { setPipelineVariable, setPipelineVariableFromProperty, splitText } from "./actions/variable-actions"
 import { restoreNodes } from "./actions/navigate-actions"
 import { askForInput } from "./actions/input-actions"
+import { setFontSize, setFont, setTextAlignment, setTextCase, setTextDecoration, setLineHeight } from "./actions/text-actions"
+import { detachInstance, swapComponent } from "./actions/component-actions"
 import { InputCancelledError } from "./input-bridge"
 import { MAIN_TO_UI } from "../../messages"
 
 const ACTION_HANDLERS: Partial<Record<ActionType, ActionHandler>> = {
   sourceFromSelection,
   sourceFromPage,
-  filterByType,
-  filterByName,
+  sourceFromAllPages,
+  sourceFromPageByName,
+  filter: filterAction,
+  filterByType: filterAction,
+  filterByName: filterAction,
   expandToChildren,
   goToParent,
   flattenDescendants,
   restoreNodes,
   renameLayers,
+  setName: setNameAction,
   setFillColor,
   setFillVariable,
+  setStrokeColor,
+  removeFills,
+  removeStrokes,
   setOpacity,
+  setVisibility,
+  setLocked,
+  setRotation,
+  removeNode: removeNodeAction,
+  cloneNode: cloneNodeAction,
   setCharacters,
+  setFontSize,
+  setFont,
+  setTextAlignment,
+  setTextCase,
+  setTextDecoration,
+  setLineHeight,
   resize: resizeAction,
   setPosition: setPositionAction,
   wrapInFrame,
   addAutoLayout,
   editAutoLayout,
   removeAutoLayout,
+  detachInstance,
+  swapComponent,
   notify: notifyAction,
   selectResults,
   log: logAction,
