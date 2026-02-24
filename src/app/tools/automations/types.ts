@@ -13,7 +13,9 @@ export type ActionType =
   | "setOpacity"
   | "setCharacters"
   | "resize"
-  | "setLayoutMode"
+  | "addAutoLayout"
+  | "editAutoLayout"
+  | "removeAutoLayout"
   | "notify"
   | "selectResults"
   | "log"
@@ -187,11 +189,25 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     defaultParams: { width: "", height: "" },
   },
   {
-    type: "setLayoutMode",
-    label: "Set auto layout",
-    description: "Set auto layout direction on frames/components",
+    type: "addAutoLayout",
+    label: "Add auto layout",
+    description: "Enable auto layout on frames/components. Sets direction and optional initial spacing",
     category: "transform",
-    defaultParams: { layoutMode: "VERTICAL" },
+    defaultParams: { direction: "VERTICAL", itemSpacing: "" },
+  },
+  {
+    type: "editAutoLayout",
+    label: "Edit auto layout",
+    description: "Change properties on nodes that already have auto layout",
+    category: "transform",
+    defaultParams: { direction: "", itemSpacing: "", paddingTop: "", paddingRight: "", paddingBottom: "", paddingLeft: "" },
+  },
+  {
+    type: "removeAutoLayout",
+    label: "Remove auto layout",
+    description: "Turn off auto layout on frames/components",
+    category: "transform",
+    defaultParams: {},
   },
 
   // Input

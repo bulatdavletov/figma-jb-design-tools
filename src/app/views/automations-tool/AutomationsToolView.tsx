@@ -1277,8 +1277,20 @@ function getParamSummary(step: AutomationStepPayload): string {
       if (p.height) parts.push(`H: ${p.height}`)
       return parts.join(", ")
     }
-    case "setLayoutMode":
-      return String(p.layoutMode ?? "VERTICAL")
+    case "addAutoLayout": {
+      const dir = String(p.direction ?? "VERTICAL")
+      const sp = p.itemSpacing ? `, spacing: ${p.itemSpacing}` : ""
+      return `${dir}${sp}`
+    }
+    case "editAutoLayout": {
+      const edits: string[] = []
+      if (p.direction) edits.push(String(p.direction))
+      if (p.itemSpacing) edits.push(`gap: ${p.itemSpacing}`)
+      if (p.paddingTop || p.paddingRight || p.paddingBottom || p.paddingLeft) edits.push("padding")
+      return edits.join(", ") || "no changes"
+    }
+    case "removeAutoLayout":
+      return ""
     case "askForInput":
       return String(p.label ?? "Enter text")
     case "splitText":
@@ -1626,21 +1638,88 @@ function renderStepParams(
         </Fragment>
       )
 
-    case "setLayoutMode":
+    case "addAutoLayout":
       return (
         <Fragment>
-          <Text style={{ fontSize: 11 }}>Layout mode</Text>
+          <Text style={{ fontSize: 11 }}>Direction</Text>
           <VerticalSpace space="extraSmall" />
           <Dropdown
-            value={String(step.params.layoutMode ?? "VERTICAL")}
+            value={String(step.params.direction ?? "VERTICAL")}
             options={[
               { value: "VERTICAL", text: "Vertical" },
               { value: "HORIZONTAL", text: "Horizontal" },
-              { value: "NONE", text: "None (remove)" },
             ]}
-            onValueChange={(v: string) => updateParam("layoutMode", v)}
+            onValueChange={(v: string) => updateParam("direction", v)}
+          />
+          <VerticalSpace space="small" />
+          <Text style={{ fontSize: 11 }}>Item spacing (optional)</Text>
+          <VerticalSpace space="extraSmall" />
+          <Textbox
+            value={String(step.params.itemSpacing ?? "")}
+            onValueInput={(v: string) => updateParam("itemSpacing", v)}
+            placeholder="Leave empty for default"
           />
         </Fragment>
+      )
+
+    case "editAutoLayout":
+      return (
+        <Fragment>
+          <Text style={{ fontSize: 10, color: "var(--figma-color-text-tertiary)", marginBottom: 8 }}>
+            Only affects nodes that already have auto layout. Leave fields empty to keep current values.
+          </Text>
+          <Text style={{ fontSize: 11 }}>Direction</Text>
+          <VerticalSpace space="extraSmall" />
+          <Dropdown
+            value={String(step.params.direction ?? "")}
+            options={[
+              { value: "", text: "Keep current" },
+              { value: "VERTICAL", text: "Vertical" },
+              { value: "HORIZONTAL", text: "Horizontal" },
+            ]}
+            onValueChange={(v: string) => updateParam("direction", v)}
+          />
+          <VerticalSpace space="small" />
+          <Text style={{ fontSize: 11 }}>Item spacing</Text>
+          <VerticalSpace space="extraSmall" />
+          <Textbox
+            value={String(step.params.itemSpacing ?? "")}
+            onValueInput={(v: string) => updateParam("itemSpacing", v)}
+            placeholder="Leave empty to keep current"
+          />
+          <VerticalSpace space="small" />
+          <Text style={{ fontSize: 11 }}>Padding</Text>
+          <VerticalSpace space="extraSmall" />
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 4 }}>
+            <Textbox
+              value={String(step.params.paddingTop ?? "")}
+              onValueInput={(v: string) => updateParam("paddingTop", v)}
+              placeholder="Top"
+            />
+            <Textbox
+              value={String(step.params.paddingRight ?? "")}
+              onValueInput={(v: string) => updateParam("paddingRight", v)}
+              placeholder="Right"
+            />
+            <Textbox
+              value={String(step.params.paddingBottom ?? "")}
+              onValueInput={(v: string) => updateParam("paddingBottom", v)}
+              placeholder="Bottom"
+            />
+            <Textbox
+              value={String(step.params.paddingLeft ?? "")}
+              onValueInput={(v: string) => updateParam("paddingLeft", v)}
+              placeholder="Left"
+            />
+          </div>
+        </Fragment>
+      )
+
+    case "removeAutoLayout":
+      return (
+        <Text style={{ fontSize: 11, color: "var(--figma-color-text-secondary)" }}>
+          No parameters. Removes auto layout from all frames and components in the working set.
+        </Text>
       )
 
     case "askForInput":

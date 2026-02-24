@@ -235,35 +235,108 @@ export const resizeAction: ActionHandler = async (context, params) => {
   return context
 }
 
-export const setLayoutMode: ActionHandler = async (context, params) => {
-  const layoutMode = String(params.layoutMode ?? "VERTICAL") as "HORIZONTAL" | "VERTICAL" | "NONE"
-  const validModes = ["HORIZONTAL", "VERTICAL", "NONE"]
+function supportsAutoLayout(node: SceneNode): node is FrameNode {
+  return node.type === "FRAME" || node.type === "COMPONENT" || node.type === "COMPONENT_SET"
+}
 
-  if (!validModes.includes(layoutMode)) {
+export const addAutoLayout: ActionHandler = async (context, params) => {
+  const direction = String(params.direction ?? "VERTICAL") as "HORIZONTAL" | "VERTICAL"
+  if (direction !== "HORIZONTAL" && direction !== "VERTICAL") {
     context.log.push({
       stepIndex: -1,
-      stepName: "Set auto layout",
-      message: `Invalid layout mode "${layoutMode}"`,
+      stepName: "Add auto layout",
+      message: `Invalid direction "${direction}"`,
       itemsIn: context.nodes.length,
       itemsOut: context.nodes.length,
       status: "error",
-      error: `Invalid layout mode "${layoutMode}"`,
+      error: `Invalid direction "${direction}"`,
     })
     return context
   }
 
+  const rawSpacing = String(params.itemSpacing ?? "")
+  const spacing = rawSpacing ? Number(rawSpacing) : NaN
+
   let applied = 0
   for (const node of context.nodes) {
-    if (node.type === "FRAME" || node.type === "COMPONENT") {
-      ;(node as FrameNode).layoutMode = layoutMode
+    if (supportsAutoLayout(node)) {
+      ;(node as FrameNode).layoutMode = direction
+      if (!isNaN(spacing)) (node as FrameNode).itemSpacing = spacing
       applied++
     }
   }
 
   context.log.push({
     stepIndex: -1,
-    stepName: "Set auto layout",
-    message: `Set auto layout ${layoutMode} on ${applied} node(s)`,
+    stepName: "Add auto layout",
+    message: `Added auto layout (${direction}) on ${applied} node(s)`,
+    itemsIn: context.nodes.length,
+    itemsOut: context.nodes.length,
+    status: "success",
+  })
+
+  return context
+}
+
+export const editAutoLayout: ActionHandler = async (context, params) => {
+  let applied = 0
+
+  for (const node of context.nodes) {
+    if (!supportsAutoLayout(node)) continue
+    const frame = node as FrameNode
+    if (frame.layoutMode === "NONE") continue
+
+    const dir = String(params.direction ?? "")
+    if (dir === "HORIZONTAL" || dir === "VERTICAL") {
+      frame.layoutMode = dir
+    }
+
+    const spacing = String(params.itemSpacing ?? "")
+    if (spacing !== "") {
+      const n = Number(spacing)
+      if (!isNaN(n)) frame.itemSpacing = n
+    }
+
+    const pTop = String(params.paddingTop ?? "")
+    if (pTop !== "") { const n = Number(pTop); if (!isNaN(n)) frame.paddingTop = n }
+
+    const pRight = String(params.paddingRight ?? "")
+    if (pRight !== "") { const n = Number(pRight); if (!isNaN(n)) frame.paddingRight = n }
+
+    const pBottom = String(params.paddingBottom ?? "")
+    if (pBottom !== "") { const n = Number(pBottom); if (!isNaN(n)) frame.paddingBottom = n }
+
+    const pLeft = String(params.paddingLeft ?? "")
+    if (pLeft !== "") { const n = Number(pLeft); if (!isNaN(n)) frame.paddingLeft = n }
+
+    applied++
+  }
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Edit auto layout",
+    message: `Edited auto layout on ${applied} node(s)`,
+    itemsIn: context.nodes.length,
+    itemsOut: context.nodes.length,
+    status: "success",
+  })
+
+  return context
+}
+
+export const removeAutoLayout: ActionHandler = async (context, _params) => {
+  let applied = 0
+  for (const node of context.nodes) {
+    if (supportsAutoLayout(node)) {
+      ;(node as FrameNode).layoutMode = "NONE"
+      applied++
+    }
+  }
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Remove auto layout",
+    message: `Removed auto layout from ${applied} node(s)`,
     itemsIn: context.nodes.length,
     itemsOut: context.nodes.length,
     status: "success",
