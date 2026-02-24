@@ -339,3 +339,47 @@ What we should consider **aligning** (future phases):
 - `storage.ts` — `duplicateAutomation()` function
 - `main-thread.ts` — duplicate message handler
 - `AutomationsToolView.tsx` — `AutomationRow` kebab menu, `handleDuplicate` callback, wired through `ListScreen`
+
+### 2026-02-24: Phase 3 — Extended actions, unified filter, token UI
+
+**Task:** Add 19 new basic Figma API actions, replace separate filters with unified filter, audit output names to nouns, add token highlighting UI.
+
+**What was done:**
+
+1. **Output name audit**: Added `defaultOutputName` field to `ActionDefinition`. All 28 existing actions got noun-based defaults (e.g., `sourceFromSelection`→`selection`, `goToParent`→`parent`, `askForInput`→`input`). `generateDefaultOutputName()` now uses `def.defaultOutputName ?? actionType`.
+
+2. **Unified filter action**: Replaced `filterByType` + `filterByName` with single `filter` action supporting:
+   - AND/OR logic toggle between conditions
+   - 12 filter fields: type, name, visible, component, fillColor, fillVariable, hasFills, hasStrokes, hasVariable, opacity, width, height
+   - Query-builder UI with per-condition field/operator/value dropdowns and add/remove buttons
+   - Legacy `filterByType`/`filterByName` params still work via auto-detection in handler
+
+3. **19 new actions:**
+   - **Source (2):** `sourceFromAllPages`, `sourceFromPageByName`
+   - **Transform — Properties (9):** `setName`, `setStrokeColor`, `removeFills`, `removeStrokes`, `setVisibility`, `setLocked`, `setRotation`, `removeNode`, `cloneNode`
+   - **Transform — Text (6):** `setFontSize`, `setFont`, `setTextAlignment`, `setTextCase`, `setTextDecoration`, `setLineHeight`
+   - **Transform — Components (2):** `detachInstance`, `swapComponent`
+
+4. **TokenHighlighter component**: Renders `{token}` expressions with colored background pills:
+   - Blue/indigo for property tokens (`{name}`, `{width}`)
+   - Green for pipeline variables (`{$var}`)
+   - Orange/amber for snapshot references (`{#snap.prop}`)
+   - Used in step row param summaries
+
+5. **Storage migration**: Auto-converts on load:
+   - `filterByType`/`filterByName` → `filter` with conditions array
+   - Old verb-style output names → new noun defaults
+   - Token references `{#oldName.prop}` → `{#newName.prop}`
+
+**Files changed:**
+- `types.ts` — ActionType union (47 types), `defaultOutputName` field, `FilterCondition`/`FilterField`/`FilterLogic` types, `FILTER_FIELDS` array, `getOperatorsForField()`
+- `actions/filter-actions.ts` — new file, unified `filterAction` with `evaluateCondition()` for 12 fields
+- `actions/source-actions.ts` — `sourceFromAllPages`, `sourceFromPageByName`
+- `actions/property-actions.ts` — 9 new handlers: `setStrokeColor`, `removeFills`, `removeStrokes`, `setVisibility`, `setLocked`, `setNameAction`, `setRotation`, `removeNodeAction`, `cloneNodeAction`
+- `actions/text-actions.ts` — new file, 6 handlers: `setFontSize`, `setFont`, `setTextAlignment`, `setTextCase`, `setTextDecoration`, `setLineHeight`
+- `actions/component-actions.ts` — new file, 2 handlers: `detachInstance`, `swapComponent`
+- `executor.ts` — registered all 19 new + 1 unified filter handlers
+- `storage.ts` — `OUTPUT_NAME_MIGRATIONS` map, filter→conditions migration, token reference migration
+- `components/TokenHighlighter.tsx` — new file, colored pill rendering for `{token}` expressions
+- `AutomationsToolView.tsx` — imports, `getParamSummary()` for all new actions, `renderStepParams()` with unified filter query-builder UI and 19 new config forms, `TokenHighlighter` integration in step rows
+- `Specs/tools/Automations Tool.md` — updated Current Implementation section with all 47 actions
