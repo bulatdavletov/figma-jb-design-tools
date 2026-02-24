@@ -266,3 +266,19 @@ What we should consider **aligning** (future phases):
    - From Quick Actions: query mode → parameter collection → "run" event fires with `parameters` → `handleRun(parameters)` runs in normal mode
    - From Plugins menu: no query mode → "run" event fires without parameters → `handleRun(undefined)` → opens full Automations UI
 2. Wrapped `figma.ui.postMessage()` in `executor.ts` with try/catch — the progress update call crashed when running headlessly via Quick Actions (no UI to post to)
+
+### 2026-02-24: Automation builder UX improvements — auto-save, Run from Edit, inline output
+
+**Task:** Three UX improvements: (1) auto-save after each change, (2) allow running from builder, (3) show run output in right panel.
+
+**What was done:**
+- **Auto-save**: Debounced (800ms) save triggers whenever `editingAutomation` changes while on builder screen. Uses `lastSavedRef` to avoid re-save loops when AUTOMATIONS_SAVED response updates the state. Flushes immediately on Back navigation or Run button.
+- **Run from builder**: Footer changed from [Save] [Export JSON] to [▶ Run] [Export JSON]. Save button removed since auto-save makes it redundant. `handleBuilderRun` flushes pending auto-save, saves immediately, then sends AUTOMATIONS_RUN.
+- **Run output in right panel**: New `"runOutput"` state added to `RightPanel` type. `RunOutputPanel` component shows progress (step X/Y: stepName) while running, then full log with step-by-step results on completion. Reuses existing `StepLogRow` component.
+- **InputDialog on builder**: Input dialog overlay now renders on builder screen too (was only on list screen), so `askForInput` steps work when running from the builder.
+- **Run result routing**: `screenRef` tracks current screen. When result arrives and screen is "builder", result stays in right panel. When on list screen, still navigates to full RunOutputScreen as before.
+
+**Architecture decisions:**
+- Auto-save uses `useRef` for timer and last-saved JSON to avoid stale closure issues in useEffect
+- Run clears any pending auto-save timer and sends save+run messages sequentially (main thread processes in order)
+- `screenRef` (useRef) used instead of state in the message handler to avoid stale closure from the `useEffect([], [])` pattern
