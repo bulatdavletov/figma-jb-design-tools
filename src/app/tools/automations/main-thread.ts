@@ -1,5 +1,5 @@
 import { MAIN_TO_UI, UI_TO_MAIN, type ActiveTool, type UiToMainMessage, type AutomationPayload, type AutomationStepPayload } from "../../messages"
-import { loadAutomations, saveAutomation, deleteAutomation, getAutomation } from "./storage"
+import { loadAutomations, saveAutomation, deleteAutomation, duplicateAutomation, getAutomation } from "./storage"
 import { executeAutomation, requestStop } from "./executor"
 import { resolveInput, cancelInput } from "./input-bridge"
 import type { Automation, AutomationStep, ActionType } from "./types"
@@ -99,6 +99,12 @@ export function registerAutomationsTool(getActiveTool: () => ActiveTool) {
 
       if (msg.type === UI_TO_MAIN.AUTOMATIONS_DELETE) {
         await deleteAutomation(msg.automationId)
+        await sendList()
+        return true
+      }
+
+      if (msg.type === UI_TO_MAIN.AUTOMATIONS_DUPLICATE) {
+        await duplicateAutomation(msg.automationId)
         await sendList()
         return true
       }

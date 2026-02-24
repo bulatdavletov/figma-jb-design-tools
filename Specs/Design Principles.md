@@ -40,6 +40,7 @@
 ## Actions and Buttons
 - Prefer one clear primary action per section.
 - Button labels should reflect result count when possible (example: `Export N files`).
+- Never use simple pluralization like "N automation(s)". You have the capability to dynamically add or remove an "s" at the end of a noun based on the number (e.g. "1 automation" vs. "2 automations"). Design your button or message logic to produce correct grammar automatically depending on the count.
 - Disable actions when required input/selection is missing.
 - Keep status and errors visible near the related action.
 

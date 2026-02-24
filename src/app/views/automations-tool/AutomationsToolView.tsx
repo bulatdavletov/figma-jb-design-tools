@@ -276,6 +276,10 @@ export function AutomationsToolView(props: { onBack: () => void }) {
     postMessage({ type: UI_TO_MAIN.AUTOMATIONS_DELETE, automationId: id })
   }, [])
 
+  const handleDuplicate = useCallback((id: string) => {
+    postMessage({ type: UI_TO_MAIN.AUTOMATIONS_DUPLICATE, automationId: id })
+  }, [])
+
   const handleImport = useCallback((files: File[]) => {
     if (files.length === 0) return
     const reader = new FileReader()
@@ -403,6 +407,7 @@ export function AutomationsToolView(props: { onBack: () => void }) {
         onEdit={handleEdit}
         onRun={handleRun}
         onDelete={handleDelete}
+        onDuplicate={handleDuplicate}
         onImport={handleImport}
       />
       {inputRequest && (
@@ -514,6 +519,7 @@ function ListScreen(props: {
   onEdit: (id: string) => void
   onRun: (id: string) => void
   onDelete: (id: string) => void
+  onDuplicate: (id: string) => void
   onImport: (files: File[]) => void
 }) {
   return (
@@ -580,6 +586,7 @@ function ListScreen(props: {
                 onEdit={() => props.onEdit(a.id)}
                 onRun={() => props.onRun(a.id)}
                 onDelete={() => props.onDelete(a.id)}
+                onDuplicate={() => props.onDuplicate(a.id)}
               />
             ))}
           </DataList>
@@ -610,14 +617,49 @@ function AutomationRow(props: {
   onEdit: () => void
   onRun: () => void
   onDelete: () => void
+  onDuplicate: () => void
 }) {
   const [hovered, setHovered] = useState(false)
+  const [menuPos, setMenuPos] = useState<{ x: number; y: number } | null>(null)
+  const triggerRef = useRef<HTMLDivElement>(null)
+  const menuRef = useRef<HTMLDivElement>(null)
   const a = props.automation
+
+  const menuOpen = menuPos !== null
+
+  useEffect(() => {
+    if (!menuOpen) return
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        menuRef.current && !menuRef.current.contains(e.target as Node) &&
+        triggerRef.current && !triggerRef.current.contains(e.target as Node)
+      ) {
+        setMenuPos(null)
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [menuOpen])
+
+  const toggleMenu = () => {
+    if (menuOpen) {
+      setMenuPos(null)
+      return
+    }
+    if (!triggerRef.current) return
+    const rect = triggerRef.current.getBoundingClientRect()
+    const menuHeight = 60
+    const spaceBelow = window.innerHeight - rect.bottom
+    const y = spaceBelow >= menuHeight + 4
+      ? rect.bottom + 2
+      : rect.top - menuHeight - 2
+    setMenuPos({ x: rect.right, y })
+  }
 
   return (
     <div
       onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      onMouseLeave={() => { setHovered(false); setMenuPos(null) }}
       style={{
         display: "flex",
         alignItems: "center",
@@ -652,20 +694,81 @@ function AutomationRow(props: {
         </div>
       </div>
       {hovered && (
-        <div style={{ display: "flex", gap: 4, flexShrink: 0 }} onClick={(e) => e.stopPropagation()}>
+        <div style={{ display: "flex", gap: 4, flexShrink: 0, alignItems: "center" }} onClick={(e) => e.stopPropagation()}>
           <Button
             onClick={props.onRun}
             style={{ fontSize: 10, padding: "2px 8px", minHeight: 0 }}
           >
             <Text>Run</Text>
           </Button>
-          <Button
-            onClick={props.onDelete}
-            secondary
-            style={{ fontSize: 10, padding: "2px 8px", minHeight: 0 }}
-          >
-            <Text>Delete</Text>
-          </Button>
+          <div ref={triggerRef}>
+            <div
+              onClick={toggleMenu}
+              style={{
+                width: 24,
+                height: 24,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: 4,
+                cursor: "pointer",
+                background: menuOpen ? "var(--figma-color-bg-pressed)" : "transparent",
+                color: "var(--figma-color-text-secondary)",
+                fontSize: 14,
+                fontWeight: "bold",
+                letterSpacing: 1,
+              }}
+            >
+              ···
+            </div>
+          </div>
+          {menuOpen && menuPos && (
+            <div
+              ref={menuRef}
+              style={{
+                position: "fixed",
+                left: menuPos.x,
+                top: menuPos.y,
+                transform: "translateX(-100%)",
+                background: "var(--figma-color-bg)",
+                border: "1px solid var(--figma-color-border)",
+                borderRadius: 6,
+                boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+                zIndex: 9999,
+                minWidth: 120,
+                overflow: "hidden",
+              }}
+            >
+              <div
+                onClick={() => { setMenuPos(null); props.onDuplicate() }}
+                style={{
+                  padding: "6px 12px",
+                  fontSize: 11,
+                  cursor: "pointer",
+                  color: "var(--figma-color-text)",
+                  background: "transparent",
+                }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--figma-color-bg-hover)" }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "transparent" }}
+              >
+                Duplicate
+              </div>
+              <div
+                onClick={() => { setMenuPos(null); props.onDelete() }}
+                style={{
+                  padding: "6px 12px",
+                  fontSize: 11,
+                  cursor: "pointer",
+                  color: "var(--figma-color-text-danger)",
+                  background: "transparent",
+                }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--figma-color-bg-hover)" }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "transparent" }}
+              >
+                Delete
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
