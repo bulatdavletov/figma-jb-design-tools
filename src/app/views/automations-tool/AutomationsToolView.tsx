@@ -51,6 +51,7 @@ import {
   getActionsByCategory,
 } from "../../tools/automations/types"
 import { PROPERTY_REGISTRY } from "../../tools/automations/properties"
+import { TextboxWithSuggestions, type Suggestion } from "../../components/TextboxWithSuggestions"
 import {
   createNewAutomation,
   automationToExportJson,
@@ -106,6 +107,49 @@ function payloadToStep(s: AutomationStepPayload): AutomationStep {
     step.children = s.children.map(payloadToStep)
   }
   return step
+}
+
+function buildSuggestions(
+  steps: AutomationStepPayload[],
+  currentStepIndex: number,
+  parentStep?: AutomationStepPayload,
+): Suggestion[] {
+  const suggestions: Suggestion[] = []
+
+  suggestions.push(
+    { token: "count", label: "Working set size", category: "Context" },
+    { token: "index", label: "Position in set", category: "Context" },
+  )
+
+  for (const prop of PROPERTY_REGISTRY) {
+    suggestions.push({
+      token: prop.key,
+      label: prop.label,
+      category: "Properties",
+    })
+  }
+
+  for (let i = 0; i < currentStepIndex && i < steps.length; i++) {
+    const step = steps[i]
+    if (!step.outputName) continue
+    const def = ACTION_DEFINITIONS.find((d) => d.type === step.actionType)
+    const isData = def?.producesData === true
+    suggestions.push({
+      token: isData ? `$${step.outputName}` : `#${step.outputName}`,
+      label: `${def?.label ?? step.actionType} output`,
+      category: "Step outputs",
+    })
+  }
+
+  if (parentStep?.actionType === "repeatWithEach") {
+    const itemVar = String(parentStep.params.itemVar ?? "item")
+    suggestions.push(
+      { token: `$${itemVar}`, label: "Current loop item", category: "Loop" },
+      { token: "$repeatIndex", label: "Current iteration index", category: "Loop" },
+    )
+  }
+
+  return suggestions
 }
 
 export function AutomationsToolView(props: { onBack: () => void }) {
@@ -935,7 +979,16 @@ function BuilderScreen(props: {
             <ActionPickerPanel onSelect={addStep} />
           )}
           {rightPanel === "config" && selectedStep && (
-            <StepConfigPanel step={selectedStep} onUpdateParam={updateStepParam} onUpdateOutputName={updateStepOutputName} />
+            <StepConfigPanel
+              step={selectedStep}
+              onUpdateParam={updateStepParam}
+              onUpdateOutputName={updateStepOutputName}
+              suggestions={selectedPath ? buildSuggestions(
+                automation.steps,
+                selectedPath.index,
+                selectedPath.childIndex !== undefined ? automation.steps[selectedPath.index] : undefined,
+              ) : []}
+            />
           )}
           {rightPanel === "empty" && (
             <div
@@ -1324,8 +1377,9 @@ function StepConfigPanel(props: {
   step: AutomationStepPayload
   onUpdateParam: (key: string, value: unknown) => void
   onUpdateOutputName: (value: string) => void
+  suggestions: Suggestion[]
 }) {
-  const { step, onUpdateParam, onUpdateOutputName } = props
+  const { step, onUpdateParam, onUpdateOutputName, suggestions } = props
   const def = ACTION_DEFINITIONS.find((d) => d.type === step.actionType)
   const isOutputRequired = def?.outputRequired === true
 
@@ -1341,7 +1395,7 @@ function StepConfigPanel(props: {
           <VerticalSpace space="medium" />
         </Fragment>
       )}
-      {renderStepParams(step, onUpdateParam)}
+      {renderStepParams(step, onUpdateParam, suggestions)}
 
       {step.actionType !== "repeatWithEach" && (
         <Fragment>
@@ -1370,7 +1424,8 @@ function StepConfigPanel(props: {
 
 function renderStepParams(
   step: AutomationStepPayload,
-  updateParam: (key: string, value: unknown) => void
+  updateParam: (key: string, value: unknown) => void,
+  suggestions: Suggestion[] = [],
 ) {
   switch (step.actionType) {
     case "sourceFromSelection":
@@ -1483,10 +1538,11 @@ function renderStepParams(
           <VerticalSpace space="small" />
           <Text style={{ fontSize: 11 }}>Replace with</Text>
           <VerticalSpace space="extraSmall" />
-          <Textbox
+          <TextboxWithSuggestions
             value={String(step.params.replace ?? "")}
             onValueInput={(v: string) => updateParam("replace", v)}
             placeholder="Replacement text... supports {name}, {index}"
+            suggestions={suggestions}
           />
         </Fragment>
       )
@@ -1538,10 +1594,11 @@ function renderStepParams(
         <Fragment>
           <Text style={{ fontSize: 11 }}>Text content</Text>
           <VerticalSpace space="extraSmall" />
-          <Textbox
+          <TextboxWithSuggestions
             value={String(step.params.characters ?? "")}
             onValueInput={(v: string) => updateParam("characters", v)}
             placeholder="Supports {$var}, {name}, {index} tokens..."
+            suggestions={suggestions}
           />
         </Fragment>
       )
@@ -1551,18 +1608,20 @@ function renderStepParams(
         <Fragment>
           <Text style={{ fontSize: 11 }}>Width</Text>
           <VerticalSpace space="extraSmall" />
-          <Textbox
+          <TextboxWithSuggestions
             value={String(step.params.width ?? "")}
             onValueInput={(v: string) => updateParam("width", v)}
             placeholder="Leave empty to keep original. Supports {$var}, {#snap.width}"
+            suggestions={suggestions}
           />
           <VerticalSpace space="small" />
           <Text style={{ fontSize: 11 }}>Height</Text>
           <VerticalSpace space="extraSmall" />
-          <Textbox
+          <TextboxWithSuggestions
             value={String(step.params.height ?? "")}
             onValueInput={(v: string) => updateParam("height", v)}
             placeholder="Leave empty to keep original. Supports {$var}, {#snap.height}"
+            suggestions={suggestions}
           />
         </Fragment>
       )
@@ -1684,10 +1743,11 @@ function renderStepParams(
         <Fragment>
           <Text style={{ fontSize: 11 }}>Message</Text>
           <VerticalSpace space="extraSmall" />
-          <Textbox
+          <TextboxWithSuggestions
             value={String(step.params.message ?? "")}
             onValueInput={(v: string) => updateParam("message", v)}
             placeholder="Supports {count}, {$var} tokens..."
+            suggestions={suggestions}
           />
         </Fragment>
       )
@@ -1730,10 +1790,11 @@ function renderStepParams(
           <VerticalSpace space="small" />
           <Text style={{ fontSize: 11 }}>Value</Text>
           <VerticalSpace space="extraSmall" />
-          <Textbox
+          <TextboxWithSuggestions
             value={String(step.params.value ?? "")}
             onValueInput={(v: string) => updateParam("value", v)}
             placeholder="Supports {count}, {name} tokens..."
+            suggestions={suggestions}
           />
         </Fragment>
       )
