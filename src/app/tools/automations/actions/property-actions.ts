@@ -439,6 +439,233 @@ export const setPositionAction: ActionHandler = async (context, params) => {
   return context
 }
 
+export const setStrokeColor: ActionHandler = async (context, params) => {
+  const hex = String(params.hex ?? "#000000").replace(/^#/, "")
+  const r = parseInt(hex.slice(0, 2), 16) / 255
+  const g = parseInt(hex.slice(2, 4), 16) / 255
+  const b = parseInt(hex.slice(4, 6), 16) / 255
+
+  if (isNaN(r) || isNaN(g) || isNaN(b)) {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Set stroke color",
+      message: "Invalid hex color",
+      itemsIn: context.nodes.length,
+      itemsOut: context.nodes.length,
+      status: "error",
+      error: "Invalid hex color",
+    })
+    return context
+  }
+
+  let applied = 0
+  for (const node of context.nodes) {
+    if ("strokes" in node) {
+      const strokeNode = node as GeometryMixin
+      strokeNode.strokes = [{ type: "SOLID", color: { r, g, b } }]
+      applied++
+    }
+  }
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Set stroke color",
+    message: `Applied stroke #${hex.toUpperCase()} to ${applied} node(s)`,
+    itemsIn: context.nodes.length,
+    itemsOut: context.nodes.length,
+    status: "success",
+  })
+
+  return context
+}
+
+export const removeFills: ActionHandler = async (context, _params) => {
+  let applied = 0
+  for (const node of context.nodes) {
+    if ("fills" in node) {
+      ;(node as GeometryMixin).fills = []
+      applied++
+    }
+  }
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Remove fills",
+    message: `Removed fills from ${applied} node(s)`,
+    itemsIn: context.nodes.length,
+    itemsOut: context.nodes.length,
+    status: "success",
+  })
+
+  return context
+}
+
+export const removeStrokes: ActionHandler = async (context, _params) => {
+  let applied = 0
+  for (const node of context.nodes) {
+    if ("strokes" in node) {
+      ;(node as GeometryMixin).strokes = []
+      applied++
+    }
+  }
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Remove strokes",
+    message: `Removed strokes from ${applied} node(s)`,
+    itemsIn: context.nodes.length,
+    itemsOut: context.nodes.length,
+    status: "success",
+  })
+
+  return context
+}
+
+export const setVisibility: ActionHandler = async (context, params) => {
+  const visible = params.visible !== false
+
+  let applied = 0
+  for (const node of context.nodes) {
+    node.visible = visible
+    applied++
+  }
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Set visibility",
+    message: `Set ${visible ? "visible" : "hidden"} on ${applied} node(s)`,
+    itemsIn: context.nodes.length,
+    itemsOut: context.nodes.length,
+    status: "success",
+  })
+
+  return context
+}
+
+export const setLocked: ActionHandler = async (context, params) => {
+  const locked = params.locked !== false
+
+  let applied = 0
+  for (const node of context.nodes) {
+    node.locked = locked
+    applied++
+  }
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Set locked",
+    message: `Set ${locked ? "locked" : "unlocked"} on ${applied} node(s)`,
+    itemsIn: context.nodes.length,
+    itemsOut: context.nodes.length,
+    status: "success",
+  })
+
+  return context
+}
+
+export const setNameAction: ActionHandler = async (context, params) => {
+  const template = String(params.name ?? "")
+  if (!template) {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Set name",
+      message: "No name template specified — skipped",
+      itemsIn: context.nodes.length,
+      itemsOut: context.nodes.length,
+      status: "skipped",
+    })
+    return context
+  }
+
+  let applied = 0
+  for (let i = 0; i < context.nodes.length; i++) {
+    const node = context.nodes[i]
+    const scope: TokenScope = { node, index: i, context }
+    node.name = resolveTokens(template, scope)
+    applied++
+  }
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Set name",
+    message: `Named ${applied} node(s)`,
+    itemsIn: context.nodes.length,
+    itemsOut: context.nodes.length,
+    status: "success",
+  })
+
+  return context
+}
+
+export const setRotation: ActionHandler = async (context, params) => {
+  const rawDegrees = params.degrees
+
+  let applied = 0
+  for (let i = 0; i < context.nodes.length; i++) {
+    const node = context.nodes[i]
+    if (!("rotation" in node)) continue
+
+    const scope: TokenScope = { node, index: i, context }
+    const degStr = typeof rawDegrees === "string" ? resolveTokens(rawDegrees, scope) : String(rawDegrees ?? "0")
+    const deg = Number(degStr)
+    if (isNaN(deg)) continue
+
+    ;(node as LayoutMixin).rotation = deg
+    applied++
+  }
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Set rotation",
+    message: `Set rotation on ${applied} node(s)`,
+    itemsIn: context.nodes.length,
+    itemsOut: context.nodes.length,
+    status: "success",
+  })
+
+  return context
+}
+
+export const removeNodeAction: ActionHandler = async (context, _params) => {
+  const count = context.nodes.length
+  for (const node of context.nodes) {
+    try { node.remove() } catch { /* already removed */ }
+  }
+
+  context.nodes = []
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Remove node",
+    message: `Removed ${count} node(s)`,
+    itemsIn: count,
+    itemsOut: 0,
+    status: "success",
+  })
+
+  return context
+}
+
+export const cloneNodeAction: ActionHandler = async (context, _params) => {
+  const clones: SceneNode[] = []
+  for (const node of context.nodes) {
+    const clone = node.clone()
+    clones.push(clone)
+  }
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Clone node",
+    message: `Cloned ${clones.length} node(s)`,
+    itemsIn: context.nodes.length,
+    itemsOut: clones.length,
+    status: "success",
+  })
+
+  context.nodes = clones
+  return context
+}
+
 export const notifyAction: ActionHandler = async (context, params) => {
   const rawMessage = String(params.message ?? "").trim()
   if (!rawMessage) {

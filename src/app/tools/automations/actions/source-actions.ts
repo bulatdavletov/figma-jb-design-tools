@@ -33,6 +33,76 @@ export const sourceFromPage: ActionHandler = async (context, _params) => {
   return context
 }
 
+export const sourceFromAllPages: ActionHandler = async (context, _params) => {
+  await figma.loadAllPagesAsync()
+  const out: SceneNode[] = []
+  for (const page of figma.root.children) {
+    for (const child of page.children) {
+      collectAll([child] as readonly SceneNode[], out)
+    }
+  }
+  context.nodes = out
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Source: all pages",
+    message: `Loaded ${out.length} node(s) from ${figma.root.children.length} page(s)`,
+    itemsIn: 0,
+    itemsOut: out.length,
+    status: "success",
+  })
+
+  return context
+}
+
+export const sourceFromPageByName: ActionHandler = async (context, params) => {
+  const pageName = String(params.pageName ?? "").trim()
+  if (!pageName) {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Source: page by name",
+      message: "No page name specified — skipped",
+      itemsIn: 0,
+      itemsOut: 0,
+      status: "skipped",
+    })
+    return context
+  }
+
+  await figma.loadAllPagesAsync()
+  const page = figma.root.children.find(
+    (p) => p.name.toLowerCase() === pageName.toLowerCase(),
+  )
+
+  if (!page) {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Source: page by name",
+      message: `Page "${pageName}" not found`,
+      itemsIn: 0,
+      itemsOut: 0,
+      status: "error",
+      error: `Page "${pageName}" not found`,
+    })
+    return context
+  }
+
+  const out: SceneNode[] = []
+  collectAll(page.children as readonly SceneNode[], out)
+  context.nodes = out
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Source: page by name",
+    message: `Loaded ${out.length} node(s) from page "${page.name}"`,
+    itemsIn: 0,
+    itemsOut: out.length,
+    status: "success",
+  })
+
+  return context
+}
+
 function collectAll(children: readonly SceneNode[], out: SceneNode[]): void {
   for (const child of children) {
     out.push(child)
