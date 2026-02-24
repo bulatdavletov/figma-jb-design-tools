@@ -142,35 +142,165 @@ function importStep(s: any): AutomationStep {
 }
 
 const ACTION_TYPE_MIGRATIONS: Record<string, ActionType> = {
-  selectByType: "filterByType",
-  findByType: "filterByType",
-  selectByName: "filterByName",
+  selectByType: "filter",
+  findByType: "filter",
+  selectByName: "filter",
+  filterByType: "filter",
+  filterByName: "filter",
+}
+
+const OUTPUT_NAME_MIGRATIONS: Record<string, string> = {
+  sourceFromSelection: "selection",
+  sourceFromPage: "page",
+  filterByType: "filtered",
+  filterByName: "filtered",
+  expandToChildren: "children",
+  goToParent: "parent",
+  flattenDescendants: "descendants",
+  restoreNodes: "restored",
+  renameLayers: "renamed",
+  setFillColor: "filled",
+  setFillVariable: "filled",
+  setOpacity: "nodes",
+  setCharacters: "texts",
+  resize: "resized",
+  wrapInFrame: "frames",
+  addAutoLayout: "layouts",
+  editAutoLayout: "layouts",
+  removeAutoLayout: "nodes",
+  setPosition: "positioned",
+  askForInput: "input",
+  setPipelineVariable: "variable",
+  setPipelineVariableFromProperty: "property",
+  splitText: "parts",
+  notify: "notification",
+  selectResults: "selected",
+  log: "log",
+  count: "count",
 }
 
 function migrateStep(step: AutomationStep): AutomationStep {
-  const simpleRename = ACTION_TYPE_MIGRATIONS[step.actionType]
-  if (simpleRename) {
-    return { ...step, actionType: simpleRename, params: migrateParams(simpleRename, step.params) }
-  }
+  let migrated = step
 
+  // Phase 1 legacy: setLayoutMode
   if (step.actionType === ("setLayoutMode" as ActionType)) {
     const mode = String(step.params.layoutMode ?? "VERTICAL")
     if (mode === "NONE") {
-      return { ...step, actionType: "removeAutoLayout" as ActionType, params: {} }
+      migrated = { ...step, actionType: "removeAutoLayout" as ActionType, params: {} }
+    } else {
+      migrated = { ...step, actionType: "addAutoLayout" as ActionType, params: { direction: mode } }
     }
-    return { ...step, actionType: "addAutoLayout" as ActionType, params: { direction: mode } }
   }
 
-  return step
+  // Phase 3: convert filterByType/filterByName to unified filter
+  if (step.actionType === ("filterByType" as ActionType) || step.actionType === ("selectByType" as ActionType) || step.actionType === ("findByType" as ActionType)) {
+    migrated = {
+      ...migrated,
+      actionType: "filter",
+      params: {
+        logic: "and",
+        conditions: [{ field: "type", operator: "equals", value: String(step.params.nodeType ?? "TEXT") }],
+      },
+    }
+  }
+
+  if (step.actionType === ("filterByName" as ActionType) || step.actionType === ("selectByName" as ActionType)) {
+    const matchMode = String(step.params.matchMode ?? "contains")
+    migrated = {
+      ...migrated,
+      actionType: "filter",
+      params: {
+        logic: "and",
+        conditions: [{ field: "name", operator: matchMode, value: String(step.params.pattern ?? "") }],
+      },
+    }
+  }
+
+  // Phase 3: migrate output names from verb-style to noun-style
+  if (migrated.outputName) {
+    const baseMatch = migrated.outputName.match(/^([a-zA-Z]+?)(-\d+)?$/)
+    if (baseMatch) {
+      const baseName = baseMatch[1]
+      const suffix = baseMatch[2] ?? ""
+      if (OUTPUT_NAME_MIGRATIONS[baseName]) {
+        migrated = { ...migrated, outputName: OUTPUT_NAME_MIGRATIONS[baseName] + suffix }
+      }
+    }
+  }
+
+  // Migrate children recursively
+  if (migrated.children && migrated.children.length > 0) {
+    const migratedChildren = migrated.children.map(migrateStep)
+    if (migratedChildren.some((c, i) => c !== migrated.children![i])) {
+      migrated = { ...migrated, children: migratedChildren }
+    }
+  }
+
+  return migrated
+}
+
+function migrateTokenReferences(step: AutomationStep, nameMap: Map<string, string>): AutomationStep {
+  if (nameMap.size === 0) return step
+
+  let changed = false
+  const newParams: Record<string, unknown> = {}
+
+  for (const [key, value] of Object.entries(step.params)) {
+    if (typeof value === "string") {
+      let replaced = value
+      nameMap.forEach((newName, oldName) => {
+        replaced = replaced.split(`{#${oldName}.`).join(`{#${newName}.`)
+        replaced = replaced.split(`{$${oldName}}`).join(`{$${newName}}`)
+      })
+      newParams[key] = replaced
+      if (replaced !== value) changed = true
+    } else {
+      newParams[key] = value
+    }
+  }
+
+  // Migrate target reference
+  let newTarget = step.target
+  if (step.target && nameMap.has(step.target)) {
+    newTarget = nameMap.get(step.target)
+    changed = true
+  }
+
+  if (!changed) return step
+  return { ...step, params: newParams, target: newTarget }
 }
 
 function migrateAutomation(automation: Automation): Automation {
   let changed = false
+
+  // First pass: migrate step types and output names
   const steps = automation.steps.map((step) => {
     const migrated = migrateStep(step)
     if (migrated !== step) changed = true
     return migrated
   })
+
+  // Build name mapping from old to new output names
+  const nameMap = new Map<string, string>()
+  for (let i = 0; i < automation.steps.length; i++) {
+    const oldName = automation.steps[i].outputName
+    const newName = steps[i].outputName
+    if (oldName && newName && oldName !== newName) {
+      nameMap.set(oldName, newName)
+    }
+  }
+
+  // Second pass: migrate token references
+  if (nameMap.size > 0) {
+    for (let i = 0; i < steps.length; i++) {
+      const migrated = migrateTokenReferences(steps[i], nameMap)
+      if (migrated !== steps[i]) {
+        steps[i] = migrated
+        changed = true
+      }
+    }
+  }
+
   return changed ? { ...automation, steps } : automation
 }
 
@@ -180,9 +310,21 @@ function migrateActionType(actionType: string): ActionType {
 }
 
 function migrateParams(
-  _actionType: ActionType,
+  actionType: ActionType,
   params: Record<string, unknown>,
 ): Record<string, unknown> {
+  if (actionType === "filter" && params.nodeType) {
+    return {
+      logic: "and",
+      conditions: [{ field: "type", operator: "equals", value: String(params.nodeType) }],
+    }
+  }
+  if (actionType === "filter" && params.pattern) {
+    return {
+      logic: "and",
+      conditions: [{ field: "name", operator: String(params.matchMode ?? "contains"), value: String(params.pattern) }],
+    }
+  }
   return params
 }
 
