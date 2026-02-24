@@ -713,9 +713,11 @@ For more complex transformations, consider built-in string functions:
 
 - **Context-based execution**: Each step receives `AutomationContext` and returns modified context
 - **Two output types**: Pipeline variables (`$name`) for data, node snapshots (`#name`) for saved node sets
-- **Auto-generated output names**: Every new step gets a default output name based on action type (e.g., `askForInput`, `splitText-2`)
+- **Noun-based output names**: Every new step gets a default output name as a noun representing its content (e.g., `selection`, `filtered`, `parent`, `input`, `parts`)
 - **Expression tokens**: `{name}`, `{type}`, `{index}`, `{count}`, `{$var}`, `{#snap.prop}` — resolved per-node or per-context
+- **Token highlighting**: `{token}` expressions are rendered with colored background pills: blue for property tokens, green for `$pipeline` vars, orange for `#snapshot` refs
 - **Two-column builder**: Steps on left, config/picker on right. Action picker has search and category grouping
+- **Unified filter**: One `filter` action with a conditions builder (AND/OR logic, 12 filter fields) replaces separate filterByType/filterByName
 - **Quick Actions**: Run automations from Figma's Cmd+/ menu without opening the UI
 
 ### AutomationContext
@@ -755,64 +757,112 @@ Every step can have an `outputName`. What gets saved depends on the action:
 | `count` | yes | `pipelineVars` (as number) | `{$name}` |
 | All other actions | no | `savedNodeSets` | `{#name.property}` |
 
-### Implemented Actions
+### Implemented Actions (47 total)
 
-#### Source (category: `source`)
+#### Source (category: `source`) — default output names are nouns
 
-| `actionType` | Label | Params | Output |
-|--------------|-------|--------|--------|
-| `sourceFromSelection` | From selection | — | nodes |
-| `sourceFromPage` | From current page | — | nodes |
+| `actionType` | Label | Params | Default output |
+|--------------|-------|--------|----------------|
+| `sourceFromSelection` | From selection | — | `selection` |
+| `sourceFromPage` | From current page | — | `page` |
+| `sourceFromAllPages` | From all pages | — | `allPages` |
+| `sourceFromPageByName` | From page by name | `pageName`: string | `namedPage` |
 
-#### Filter (category: `filter`)
+#### Filter (category: `filter`) — unified conditions builder
 
-| `actionType` | Label | Params | Output |
-|--------------|-------|--------|--------|
-| `filterByType` | Filter by type | `nodeType`: TEXT, FRAME, INSTANCE, etc. | nodes (filtered) |
-| `filterByName` | Filter by name | `pattern`: string, `matchMode`: contains / startsWith / regex | nodes (filtered) |
+| `actionType` | Label | Params | Default output |
+|--------------|-------|--------|----------------|
+| `filter` | Filter | `logic`: and/or, `conditions[]`: field+operator+value | `filtered` |
+
+**Unified filter** replaces separate `filterByType`/`filterByName`. One action with multiple conditions combined via AND/OR logic.
+
+**Available filter fields (12):**
+
+| Field | Type | Operators |
+|-------|------|-----------|
+| `type` | enum | equals, notEquals |
+| `name` | string | equals, notEquals, contains, startsWith, endsWith, regex |
+| `visible` | boolean | is, isNot |
+| `component` | string | equals, notEquals, contains, startsWith, endsWith, regex |
+| `fillColor` | color | equals, notEquals |
+| `fillVariable` | string | equals, notEquals, contains, startsWith, endsWith, regex |
+| `hasFills` | boolean | is, isNot |
+| `hasStrokes` | boolean | is, isNot |
+| `hasVariable` | boolean | is, isNot |
+| `opacity` | number | =, ≠, >, < |
+| `width` | number | =, ≠, >, < |
+| `height` | number | =, ≠, >, < |
 
 #### Navigate (category: `navigate`)
 
-| `actionType` | Label | Params | Output |
-|--------------|-------|--------|--------|
-| `expandToChildren` | Expand to children | — | nodes (children) |
-| `goToParent` | Go to parent | — | nodes (parents, deduplicated) |
-| `flattenDescendants` | Flatten descendants | — | nodes (all descendants) |
-| `restoreNodes` | Restore nodes | `snapshotName`: string | nodes (from saved snapshot) |
+| `actionType` | Label | Params | Default output |
+|--------------|-------|--------|----------------|
+| `expandToChildren` | Expand to children | — | `children` |
+| `goToParent` | Go to parent | — | `parent` |
+| `flattenDescendants` | Flatten descendants | — | `descendants` |
+| `restoreNodes` | Restore nodes | `snapshotName`: string | `restored` |
 
-#### Transform (category: `transform`)
+#### Transform — Properties (category: `transform`)
 
-| `actionType` | Label | Params | Output |
-|--------------|-------|--------|--------|
-| `renameLayers` | Rename layers | `find`: string, `replace`: string (supports tokens) | nodes |
-| `setFillColor` | Set fill color | `hex`: color value | nodes |
-| `setFillVariable` | Set fill variable | `variableName`: string | nodes |
-| `setOpacity` | Set opacity | `opacity`: 0–100 | nodes |
-| `setCharacters` | Set text content | `characters`: string (supports tokens) | nodes |
-| `resize` | Resize | `width?`: string, `height?`: string (supports tokens) | nodes |
-| `wrapInFrame` | Wrap in frame | `autoLayout?`: "" / VERTICAL / HORIZONTAL | nodes (new frames) |
-| `addAutoLayout` | Add auto layout | `direction`: VERTICAL / HORIZONTAL, `itemSpacing?`: string | nodes |
-| `editAutoLayout` | Edit auto layout | `direction?`, `itemSpacing?`, `paddingTop/Right/Bottom/Left?` | nodes |
-| `removeAutoLayout` | Remove auto layout | — | nodes |
+| `actionType` | Label | Params | Default output |
+|--------------|-------|--------|----------------|
+| `renameLayers` | Rename layers | `find`, `replace` (supports tokens) | `renamed` |
+| `setName` | Set name | `name`: string (supports tokens) | `named` |
+| `setFillColor` | Set fill color | `hex`: color value | `filled` |
+| `setFillVariable` | Set fill variable | `variableName`: string | `filled` |
+| `setStrokeColor` | Set stroke color | `hex`: color value | `stroked` |
+| `removeFills` | Remove fills | — | `nodes` |
+| `removeStrokes` | Remove strokes | — | `nodes` |
+| `setOpacity` | Set opacity | `opacity`: 0–100 | `nodes` |
+| `setVisibility` | Set visibility | `visible`: boolean | `nodes` |
+| `setLocked` | Set locked | `locked`: boolean | `nodes` |
+| `setRotation` | Set rotation | `degrees`: string (supports tokens) | `rotated` |
+| `removeNode` | Remove node | — (destructive) | `removed` |
+| `cloneNode` | Clone node | — | `clones` |
+| `resize` | Resize | `width?`, `height?` (supports tokens) | `resized` |
+| `setPosition` | Set position | `x?`, `y?` (supports tokens) | `positioned` |
+| `wrapInFrame` | Wrap in frame | `autoLayout?` | `frames` |
+| `addAutoLayout` | Add auto layout | `direction`, `itemSpacing?` | `layouts` |
+| `editAutoLayout` | Edit auto layout | `direction?`, `itemSpacing?`, padding | `layouts` |
+| `removeAutoLayout` | Remove auto layout | — | `nodes` |
+
+#### Transform — Text (category: `transform`)
+
+| `actionType` | Label | Params | Default output |
+|--------------|-------|--------|----------------|
+| `setCharacters` | Set text content | `characters`: string (supports tokens) | `texts` |
+| `setFontSize` | Set font size | `size`: string (supports tokens) | `texts` |
+| `setFont` | Set font | `family`: string, `style`: string | `texts` |
+| `setTextAlignment` | Set text alignment | `align`: LEFT / CENTER / RIGHT / JUSTIFIED | `texts` |
+| `setTextCase` | Set text case | `textCase`: ORIGINAL / UPPER / LOWER / TITLE | `texts` |
+| `setTextDecoration` | Set text decoration | `decoration`: NONE / UNDERLINE / STRIKETHROUGH | `texts` |
+| `setLineHeight` | Set line height | `value`: string, `unit`: PIXELS / PERCENT / AUTO | `texts` |
+
+#### Transform — Components (category: `transform`)
+
+| `actionType` | Label | Params | Default output |
+|--------------|-------|--------|----------------|
+| `detachInstance` | Detach instance | — | `detached` |
+| `swapComponent` | Swap component | `componentName`: string | `swapped` |
 
 #### Input (category: `input`)
 
-| `actionType` | Label | Params | Output |
-|--------------|-------|--------|--------|
-| `askForInput` | Ask for input | `label`: string, `placeholder?`: string, `inputType`: text / textarea | **data** (user's text) |
+| `actionType` | Label | Params | Default output |
+|--------------|-------|--------|----------------|
+| `askForInput` | Ask for input | `label`, `placeholder?`, `inputType` | `input` |
 
 #### Pipeline Variables (category: `variables`)
 
-| `actionType` | Label | Params | Output |
-|--------------|-------|--------|--------|
-| `setPipelineVariable` | Set variable | `variableName`: string, `value`: string (supports tokens) | nodes (unchanged) |
-| `setPipelineVariableFromProperty` | Set variable from property | `variableName`: string, `property`: name / type / width / height / etc. | nodes (unchanged) |
-| `splitText` | Split text | `sourceVar`: variable name, `delimiter`: \n / , / ; / \t | **data** (list of strings) |
+| `actionType` | Label | Params | Default output |
+|--------------|-------|--------|----------------|
+| `setPipelineVariable` | Set variable | `variableName`, `value` (supports tokens) | `variable` |
+| `setPipelineVariableFromProperty` | Set variable from property | `variableName`, `property` | `property` |
+| `splitText` | Split text | `sourceVar`, `delimiter` | `parts` |
 
 #### Flow (category: `flow`)
 
-| `actionType` | Label | Params | Output |
-|--------------|-------|--------|--------|
+| `actionType` | Label | Params | Default output |
+|--------------|-------|--------|----------------|
 | `repeatWithEach` | Repeat with each | `source`, `itemVar`, `onMismatch`, `children[]` | — |
 
 **`repeatWithEach` details:**
@@ -840,12 +890,12 @@ Two modes depending on `source` value:
 
 #### Output (category: `output`)
 
-| `actionType` | Label | Params | Output |
-|--------------|-------|--------|--------|
-| `notify` | Notify | `message`: string (supports tokens) | nodes |
-| `selectResults` | Select results | `scrollTo?`: boolean | nodes |
-| `log` | Log message | `message`: string (supports tokens) | nodes |
-| `count` | Count items | `label?`: string | **data** (count number) |
+| `actionType` | Label | Params | Default output |
+|--------------|-------|--------|----------------|
+| `notify` | Notify | `message` (supports tokens) | `notification` |
+| `selectResults` | Select results | `scrollTo?`: boolean | `selected` |
+| `log` | Log message | `message` (supports tokens) | `log` |
+| `count` | Count items | `label?`: string | `count` |
 
 ### Expression Tokens
 
@@ -880,23 +930,23 @@ Tokens can be used in any text parameter that supports them (marked "supports to
         "actionType": "askForInput",
         "params": { "label": "Enter multi-line text", "inputType": "textarea" },
         "enabled": true,
-        "outputName": "askForInput"
+        "outputName": "input"
       },
       {
         "actionType": "splitText",
-        "params": { "sourceVar": "askForInput", "delimiter": "\\n" },
+        "params": { "sourceVar": "input", "delimiter": "\\n" },
         "enabled": true,
-        "outputName": "splitText"
+        "outputName": "parts"
       },
       {
         "actionType": "sourceFromSelection",
         "params": {},
         "enabled": true,
-        "outputName": "sourceFromSelection"
+        "outputName": "selection"
       },
       {
         "actionType": "repeatWithEach",
-        "params": { "source": "splitText", "itemVar": "item", "onMismatch": "skipExtra" },
+        "params": { "source": "parts", "itemVar": "item", "onMismatch": "skipExtra" },
         "enabled": true,
         "children": [
           {
@@ -924,12 +974,13 @@ Tokens can be used in any text parameter that supports them (marked "supports to
 
 ### Key conventions
 
-- `outputName` is auto-generated based on action type (e.g., `askForInput`, `splitText-2`). User can rename
+- `outputName` is auto-generated as a noun based on what the action produces (e.g., `selection`, `filtered`, `input`, `parts`). User can rename. Second occurrences append `-2`, `-3`, etc.
 - `sourceVar` / `source` reference output names without `$` prefix (the system adds `$` for display)
 - `children` array is only used by `repeatWithEach`
 - `enabled: false` skips the step during execution
-- Token expressions use `{curly braces}`. Builder has autocomplete triggered by `{`
+- Token expressions use `{curly braces}`. Builder has autocomplete triggered by `{`. Tokens are rendered with colored background pills in the UI.
 - Data-producing actions (`producesData: true`) save to `pipelineVars`, all others save to `savedNodeSets`
+- Storage migration auto-converts old action types (`filterByType`/`filterByName` → `filter`) and old output names on load
 
 ---
 
@@ -947,18 +998,18 @@ Context model, expression tokens, property registry, action categories, two-colu
 ### Phase 2.5 — UX improvements (2026-02-24, done)
 Auto-generated output names, Input dropdowns with autocomplete, action picker search, `repeatWithEach` syntax help.
 
-### Phase 3 — Extended actions + tool wrappers (planned)
-- Remaining filter actions (by variable, by style, by component, by color)
-- Remaining transform actions (text ops, components, styles)
-- Source actions: from all pages, from page by name, from local variables
-- Tool wrapper actions (Print Colors, Library Swap, Replace Usages)
-- Object-action compatibility checks in builder UI
-- Dry run / preview mode
+### Phase 3 — Extended actions, unified filter, token UI (2026-02-24, done)
+- **Output name audit**: All default output names changed to nouns (e.g., `selection`, `filtered`, `parent`, `input`)
+- **Unified filter**: Replaced `filterByType`/`filterByName` with single `filter` action supporting 12 fields, AND/OR logic, query-builder UI
+- **19 new actions**: `sourceFromAllPages`, `sourceFromPageByName`, `setName`, `setStrokeColor`, `removeFills`, `removeStrokes`, `setVisibility`, `setLocked`, `setRotation`, `removeNode`, `cloneNode`, `setFontSize`, `setFont`, `setTextAlignment`, `setTextCase`, `setTextDecoration`, `setLineHeight`, `detachInstance`, `swapComponent`
+- **Token highlighting**: `{token}` expressions rendered with colored background pills (blue for properties, green for `$vars`, orange for `#snapshots`)
+- **Storage migration**: Auto-converts old filter actions and output names
 
 ### Phase 4 — Advanced flow control (planned)
 - Conditions (if/otherwise/end if)
-- Action search within picker
-- Auto-generated output names as default
 - Choose from Menu / Choose from List input actions
 - Step notes/descriptions
 - Math expressions, compound actions
+- Tool wrapper actions (Print Colors, Library Swap, Replace Usages)
+- Object-action compatibility checks in builder UI
+- Dry run / preview mode
