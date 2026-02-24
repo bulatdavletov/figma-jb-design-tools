@@ -17,7 +17,7 @@ import {
   VerticalSpace,
 } from "@create-figma-plugin/ui"
 import { h, Fragment } from "preact"
-import { useEffect, useState, useCallback } from "preact/hooks"
+import { useEffect, useState, useCallback, useRef } from "preact/hooks"
 
 import { IconArrowUp16, IconArrowDown16, IconChevronLeft16 } from "../../../../custom-icons/generated"
 import { Page } from "../../components/Page"
@@ -160,6 +160,11 @@ export function AutomationsToolView(props: { onBack: () => void }) {
   const [runResult, setRunResult] = useState<AutomationsRunResult | null>(null)
   const [inputRequest, setInputRequest] = useState<AutomationsInputRequest | null>(null)
 
+  const autoSaveTimerRef = useRef<number | null>(null)
+  const lastSavedRef = useRef<string>("")
+  const screenRef = useRef<Screen>(screen)
+  useEffect(() => { screenRef.current = screen }, [screen])
+
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
       const msg = event.data?.pluginMessage as MainToUiMessage | undefined
@@ -177,6 +182,7 @@ export function AutomationsToolView(props: { onBack: () => void }) {
       }
       if (msg.type === MAIN_TO_UI.AUTOMATIONS_SAVED) {
         setEditingAutomation(msg.automation)
+        lastSavedRef.current = JSON.stringify(msg.automation)
         postMessage({ type: UI_TO_MAIN.AUTOMATIONS_LOAD })
       }
       if (msg.type === MAIN_TO_UI.AUTOMATIONS_RUN_PROGRESS) {
@@ -186,7 +192,7 @@ export function AutomationsToolView(props: { onBack: () => void }) {
         setRunResult(msg.result)
         setRunProgress(null)
         setInputRequest(null)
-        if (msg.result.log && msg.result.log.length > 0) {
+        if (screenRef.current !== "builder" && msg.result.log && msg.result.log.length > 0) {
           setScreen("runOutput")
           postMessage({ type: UI_TO_MAIN.RESIZE_WINDOW, width: BUILDER_WIDTH, height: BUILDER_HEIGHT })
         }
@@ -200,7 +206,33 @@ export function AutomationsToolView(props: { onBack: () => void }) {
     return () => window.removeEventListener("message", handleMessage)
   }, [])
 
+  useEffect(() => {
+    if (!editingAutomation || screen !== "builder") return
+    const currentJson = JSON.stringify(editingAutomation)
+    if (currentJson === lastSavedRef.current) return
+
+    if (autoSaveTimerRef.current !== null) {
+      clearTimeout(autoSaveTimerRef.current)
+    }
+
+    autoSaveTimerRef.current = window.setTimeout(() => {
+      postMessage({
+        type: UI_TO_MAIN.AUTOMATIONS_SAVE,
+        automation: { ...editingAutomation, updatedAt: Date.now() },
+      })
+      autoSaveTimerRef.current = null
+    }, 800) as unknown as number
+
+    return () => {
+      if (autoSaveTimerRef.current !== null) {
+        clearTimeout(autoSaveTimerRef.current)
+      }
+    }
+  }, [editingAutomation, screen])
+
   const handleCreateNew = useCallback(() => {
+    setRunResult(null)
+    setRunProgress(null)
     const auto = createNewAutomation()
     const payload: AutomationPayload = {
       id: auto.id,
@@ -215,6 +247,8 @@ export function AutomationsToolView(props: { onBack: () => void }) {
   }, [])
 
   const handleEdit = useCallback((id: string) => {
+    setRunResult(null)
+    setRunProgress(null)
     postMessage({ type: UI_TO_MAIN.AUTOMATIONS_GET, automationId: id })
   }, [])
 
@@ -262,6 +296,20 @@ export function AutomationsToolView(props: { onBack: () => void }) {
     })
   }, [editingAutomation])
 
+  const handleBuilderRun = useCallback(() => {
+    if (!editingAutomation) return
+    if (autoSaveTimerRef.current !== null) {
+      clearTimeout(autoSaveTimerRef.current)
+      autoSaveTimerRef.current = null
+    }
+    const updated = { ...editingAutomation, updatedAt: Date.now() }
+    postMessage({ type: UI_TO_MAIN.AUTOMATIONS_SAVE, automation: updated })
+    lastSavedRef.current = JSON.stringify(updated)
+    setRunResult(null)
+    setRunProgress(null)
+    postMessage({ type: UI_TO_MAIN.AUTOMATIONS_RUN, automationId: editingAutomation.id })
+  }, [editingAutomation])
+
   const handleBuilderExport = useCallback(() => {
     if (!editingAutomation) return
     const automation = {
@@ -277,11 +325,14 @@ export function AutomationsToolView(props: { onBack: () => void }) {
   }, [editingAutomation])
 
   const goToList = useCallback(() => {
+    if (autoSaveTimerRef.current !== null) {
+      clearTimeout(autoSaveTimerRef.current)
+      autoSaveTimerRef.current = null
+    }
     if (editingAutomation) {
-      postMessage({
-        type: UI_TO_MAIN.AUTOMATIONS_SAVE,
-        automation: { ...editingAutomation, updatedAt: Date.now() },
-      })
+      const updated = { ...editingAutomation, updatedAt: Date.now() }
+      postMessage({ type: UI_TO_MAIN.AUTOMATIONS_SAVE, automation: updated })
+      lastSavedRef.current = JSON.stringify(updated)
     }
     setScreen("list")
     setEditingAutomation(null)
@@ -301,13 +352,23 @@ export function AutomationsToolView(props: { onBack: () => void }) {
 
   if (screen === "builder" && editingAutomation) {
     return (
-      <BuilderScreen
-        automation={editingAutomation}
-        onBack={goToList}
-        onChange={setEditingAutomation}
-        onSave={handleSave}
-        onExport={handleBuilderExport}
-      />
+      <Fragment>
+        <BuilderScreen
+          automation={editingAutomation}
+          onBack={goToList}
+          onChange={setEditingAutomation}
+          onRun={handleBuilderRun}
+          onExport={handleBuilderExport}
+          runProgress={runProgress}
+          runResult={runResult}
+        />
+        {inputRequest && (
+          <InputDialog
+            request={inputRequest}
+            onSubmit={handleInputSubmit}
+          />
+        )}
+      </Fragment>
     )
   }
 
@@ -702,7 +763,7 @@ function StepLogRow(props: { entry: AutomationsStepLog }) {
 // Builder Screen — Two-column layout
 // ============================================================================
 
-type RightPanel = "empty" | "picker" | "config"
+type RightPanel = "empty" | "picker" | "config" | "runOutput"
 type StepPath = { index: number; childIndex?: number }
 
 function stepsPathEqual(a: StepPath | null, b: StepPath | null): boolean {
@@ -714,8 +775,10 @@ function BuilderScreen(props: {
   automation: AutomationPayload
   onBack: () => void
   onChange: (a: AutomationPayload) => void
-  onSave: () => void
+  onRun: () => void
   onExport: () => void
+  runProgress: AutomationsRunProgress | null
+  runResult: AutomationsRunResult | null
 }) {
   const { automation, onChange } = props
   const [selectedPath, setSelectedPath] = useState<StepPath | null>(null)
@@ -831,6 +894,12 @@ function BuilderScreen(props: {
     setSelectedPath(null)
     setPickerParentIndex(parentIndex ?? null)
     setRightPanel("picker")
+  }
+
+  const handleRunClick = () => {
+    setSelectedPath(null)
+    setRightPanel("runOutput")
+    props.onRun()
   }
 
   const updateStepParam = (key: string, value: unknown) => {
@@ -990,6 +1059,12 @@ function BuilderScreen(props: {
               ) : []}
             />
           )}
+          {rightPanel === "runOutput" && (
+            <RunOutputPanel
+              progress={props.runProgress}
+              result={props.runResult}
+            />
+          )}
           {rightPanel === "empty" && (
             <div
               style={{
@@ -1023,8 +1098,8 @@ function BuilderScreen(props: {
           gap: 8,
         }}
       >
-        <Button style={{ flex: 1 }} onClick={props.onSave}>
-          Save
+        <Button style={{ flex: 1 }} onClick={handleRunClick}>
+          ▶ Run
         </Button>
         <Button style={{ flex: 1 }} secondary onClick={props.onExport}>
           Export JSON
@@ -1307,6 +1382,122 @@ function getParamSummary(step: AutomationStepPayload): string {
     default:
       return ""
   }
+}
+
+// ============================================================================
+// Run Output Panel (right column)
+// ============================================================================
+
+function RunOutputPanel(props: {
+  progress: AutomationsRunProgress | null
+  result: AutomationsRunResult | null
+}) {
+  const { progress, result } = props
+
+  if (progress) {
+    return (
+      <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+        <div
+          style={{
+            padding: "8px 12px",
+            borderBottom: "1px solid var(--figma-color-border)",
+            background: "var(--figma-color-bg-secondary)",
+          }}
+        >
+          <Text style={{ fontWeight: 600, fontSize: 11 }}>Running…</Text>
+        </div>
+        <div style={{ padding: 12 }}>
+          <Text style={{ fontSize: 11, color: "var(--figma-color-text-secondary)" }}>
+            Step {progress.currentStep}/{progress.totalSteps}: {progress.stepName}
+          </Text>
+        </div>
+      </div>
+    )
+  }
+
+  if (!result) {
+    return (
+      <div
+        style={{
+          flex: 1,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: 24,
+        }}
+      >
+        <Text
+          style={{
+            fontSize: 11,
+            color: "var(--figma-color-text-tertiary)",
+            textAlign: "center",
+          }}
+        >
+          Click ▶ Run to execute this automation
+        </Text>
+      </div>
+    )
+  }
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+      <div
+        style={{
+          padding: "8px 12px",
+          borderBottom: "1px solid var(--figma-color-border)",
+          background: "var(--figma-color-bg-secondary)",
+        }}
+      >
+        <Text style={{ fontWeight: 600, fontSize: 11 }}>Run Output</Text>
+      </div>
+      <div style={{ flex: 1, overflowY: "auto", padding: "8px 8px" }}>
+        <div
+          style={{
+            padding: "4px 0",
+            fontSize: 11,
+            fontWeight: 600,
+            color: result.success
+              ? "var(--figma-color-text-success)"
+              : "var(--figma-color-text-danger)",
+          }}
+        >
+          {result.success ? "Completed successfully" : "Completed with errors"}
+        </div>
+        <div
+          style={{
+            fontSize: 10,
+            color: "var(--figma-color-text-secondary)",
+            marginBottom: 8,
+          }}
+        >
+          {result.stepsCompleted} of {result.totalSteps} step(s) completed
+        </div>
+        {result.log && result.log.length > 0 && (
+          <div>
+            {result.log.map((entry, i) => (
+              <StepLogRow key={i} entry={entry} />
+            ))}
+          </div>
+        )}
+        {result.errors.length > 0 && (
+          <div style={{ marginTop: 8 }}>
+            {result.errors.map((e, i) => (
+              <div
+                key={i}
+                style={{
+                  fontSize: 10,
+                  color: "var(--figma-color-text-danger)",
+                  padding: "2px 0",
+                }}
+              >
+                {e}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  )
 }
 
 // ============================================================================
