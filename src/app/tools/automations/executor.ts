@@ -3,7 +3,7 @@ import { getActionDefinition, actionProducesData } from "./types"
 import type { AutomationContext, ActionHandler, PipelineValue, PipelineListValue } from "./context"
 import { createInitialContext, isActionResult } from "./context"
 import { filterByType, filterByName, expandToChildren, goToParent, flattenDescendants } from "./actions/selection-actions"
-import { renameLayers, setFillColor, setFillVariable, setOpacity, setCharacters, resizeAction, wrapInFrame, addAutoLayout, editAutoLayout, removeAutoLayout, notifyAction } from "./actions/property-actions"
+import { renameLayers, setFillColor, setFillVariable, setOpacity, setCharacters, resizeAction, setPositionAction, wrapInFrame, addAutoLayout, editAutoLayout, removeAutoLayout, notifyAction } from "./actions/property-actions"
 import { sourceFromSelection, sourceFromPage } from "./actions/source-actions"
 import { selectResults, logAction, countAction } from "./actions/output-actions"
 import { setPipelineVariable, setPipelineVariableFromProperty, splitText } from "./actions/variable-actions"
@@ -27,6 +27,7 @@ const ACTION_HANDLERS: Partial<Record<ActionType, ActionHandler>> = {
   setOpacity,
   setCharacters,
   resize: resizeAction,
+  setPosition: setPositionAction,
   wrapInFrame,
   addAutoLayout,
   editAutoLayout,
@@ -132,6 +133,10 @@ async function executeSteps(
         error: `Unknown action type "${step.actionType}"`,
       })
       continue
+    }
+
+    if (step.target && context.savedNodeSets[step.target]) {
+      context.nodes = [...context.savedNodeSets[step.target]]
     }
 
     const itemsBefore = context.nodes.length

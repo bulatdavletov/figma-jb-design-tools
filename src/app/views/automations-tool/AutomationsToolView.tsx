@@ -92,6 +92,7 @@ function stepToPayload(s: AutomationStep): AutomationStepPayload {
     enabled: s.enabled,
   }
   if (s.outputName) payload.outputName = s.outputName
+  if (s.target) payload.target = s.target
   if (s.children && s.children.length > 0) {
     payload.children = s.children.map(stepToPayload)
   }
@@ -106,6 +107,7 @@ function payloadToStep(s: AutomationStepPayload): AutomationStep {
     enabled: s.enabled,
   }
   if (s.outputName) step.outputName = s.outputName
+  if (s.target) step.target = s.target
   if (s.children && s.children.length > 0) {
     step.children = s.children.map(payloadToStep)
   }
@@ -142,6 +144,15 @@ function buildSuggestions(
       label: `${def?.label ?? step.actionType} output`,
       category: "Step outputs",
     })
+    if (!isData) {
+      for (const prop of PROPERTY_REGISTRY) {
+        suggestions.push({
+          token: `#${step.outputName}.${prop.key}`,
+          label: `${prop.label} from "${step.outputName}"`,
+          category: `#${step.outputName}`,
+        })
+      }
+    }
   }
 
   if (parentStep?.actionType === "repeatWithEach") {
@@ -1028,6 +1039,27 @@ function BuilderScreen(props: {
     onChange({ ...automation, steps })
   }
 
+  const updateStepTarget = (value: string) => {
+    if (!selectedPath || !selectedStep) return
+    const steps = [...automation.steps]
+    if (selectedPath.childIndex !== undefined) {
+      const parent = { ...steps[selectedPath.index] }
+      const children = [...(parent.children ?? [])]
+      children[selectedPath.childIndex] = {
+        ...children[selectedPath.childIndex],
+        target: value || undefined,
+      }
+      parent.children = children
+      steps[selectedPath.index] = parent
+    } else {
+      steps[selectedPath.index] = {
+        ...steps[selectedPath.index],
+        target: value || undefined,
+      }
+    }
+    onChange({ ...automation, steps })
+  }
+
   return (
     <Page>
       <ToolHeader
@@ -1140,6 +1172,7 @@ function BuilderScreen(props: {
                 parentStep={parentStep}
                 onUpdateParam={updateStepParam}
                 onUpdateOutputName={updateStepOutputName}
+                onUpdateTarget={updateStepTarget}
                 suggestions={buildSuggestions(
                   automation.steps,
                   selectedPath.index,
@@ -1279,15 +1312,18 @@ function StepRow(props: {
             {paramSummary}
           </div>
         )}
-        {props.step.outputName && (
+        {(props.step.target || props.step.outputName) && (
           <div
             style={{
               fontSize: 9,
               color: "var(--figma-color-text-brand)",
               marginTop: 1,
+              display: "flex",
+              gap: 4,
             }}
           >
-            → {def?.producesData ? "$" : "#"}{props.step.outputName}
+            {props.step.target && <span>#{props.step.target} →</span>}
+            {props.step.outputName && <span>→ {def?.producesData ? "$" : "#"}{props.step.outputName}</span>}
           </div>
         )}
       </div>
@@ -1440,6 +1476,12 @@ function getParamSummary(step: AutomationStepPayload): string {
       if (p.width) parts.push(`W: ${p.width}`)
       if (p.height) parts.push(`H: ${p.height}`)
       return parts.join(", ")
+    }
+    case "setPosition": {
+      const posParts: string[] = []
+      if (p.x) posParts.push(`X: ${p.x}`)
+      if (p.y) posParts.push(`Y: ${p.y}`)
+      return posParts.join(", ")
     }
     case "wrapInFrame": {
       const al = String(p.autoLayout ?? "")
@@ -1702,10 +1744,17 @@ function StepConfigPanel(props: {
   parentStep?: AutomationStepPayload
   onUpdateParam: (key: string, value: unknown) => void
   onUpdateOutputName: (value: string) => void
+  onUpdateTarget: (value: string) => void
   suggestions: Suggestion[]
 }) {
-  const { step, stepIndex, allSteps, parentStep, onUpdateParam, onUpdateOutputName, suggestions } = props
+  const { step, stepIndex, allSteps, parentStep, onUpdateParam, onUpdateOutputName, onUpdateTarget, suggestions } = props
   const def = ACTION_DEFINITIONS.find((d) => d.type === step.actionType)
+  const showTargetDropdown = def && !["source", "output", "variables", "flow", "input"].includes(def.category)
+  const targetOptions = buildInputSourceOptions(allSteps, stepIndex, false)
+    .filter((o) => {
+      const sDef = ACTION_DEFINITIONS.find((d) => d.type === allSteps.find((s) => s.outputName === o.value)?.actionType)
+      return sDef?.producesData !== true
+    })
 
   return (
     <div style={{ padding: 12 }}>
@@ -1716,6 +1765,21 @@ function StepConfigPanel(props: {
           <Text style={{ fontSize: 11, color: "var(--figma-color-text-secondary)" }}>
             {def.description}
           </Text>
+          <VerticalSpace space="medium" />
+        </Fragment>
+      )}
+      {showTargetDropdown && targetOptions.length > 0 && (
+        <Fragment>
+          <Text style={{ fontSize: 11 }}>Target nodes</Text>
+          <VerticalSpace space="extraSmall" />
+          <Dropdown
+            value={step.target ?? ""}
+            onValueChange={onUpdateTarget}
+            options={[
+              { value: "", text: "Previous step (default)" },
+              ...targetOptions,
+            ]}
+          />
           <VerticalSpace space="medium" />
         </Fragment>
       )}
@@ -1765,6 +1829,94 @@ function buildInputSourceOptions(
   return options
 }
 
+function buildValueSourceOptions(
+  steps: AutomationStepPayload[],
+  currentStepIndex: number,
+  propertyKey: string,
+): { value: string; text: string }[] {
+  const options: { value: string; text: string }[] = [
+    { value: "", text: "Custom value" },
+  ]
+  const prop = PROPERTY_REGISTRY.find((p) => p.key === propertyKey)
+  if (!prop || prop.valueType !== "number") return options
+
+  for (let i = 0; i < currentStepIndex && i < steps.length; i++) {
+    const s = steps[i]
+    if (!s.outputName) continue
+    const def = ACTION_DEFINITIONS.find((d) => d.type === s.actionType)
+    if (def?.producesData) continue
+    options.push({
+      value: `{#${s.outputName}.${propertyKey}}`,
+      text: `${prop.label} from #${s.outputName}`,
+    })
+  }
+  return options
+}
+
+function renderInputContext(
+  allSteps: AutomationStepPayload[],
+  stepIndex: number,
+  parentStep?: AutomationStepPayload,
+  opts: { showTokens?: boolean; nodesLabel?: string } = {},
+): h.JSX.Element | null {
+  const { showTokens, nodesLabel = "Nodes from" } = opts
+  const lines: h.JSX.Element[] = []
+
+  if (stepIndex > 0) {
+    const prev = allSteps[stepIndex - 1]
+    if (prev) {
+      const def = ACTION_DEFINITIONS.find((d) => d.type === prev.actionType)
+      lines.push(
+        <div key="prev">{nodesLabel}: <b>{def?.label ?? prev.actionType}</b></div>,
+      )
+    }
+  }
+
+  const isInRepeat = parentStep?.actionType === "repeatWithEach"
+  if (isInRepeat) {
+    const itemVar = String(parentStep!.params.itemVar ?? "item")
+    const src = String(parentStep!.params.source ?? "nodes")
+    lines.push(
+      <div key="repeat">
+        Inside <b>Repeat with each</b>
+        {src !== "nodes" && (
+          <Fragment> — use <b>{`{$${itemVar}}`}</b> for current item</Fragment>
+        )}
+      </div>,
+    )
+  }
+
+  if (showTokens) {
+    const tokens: string[] = []
+    for (let i = 0; i < stepIndex; i++) {
+      const s = allSteps[i]
+      if (!s.outputName) continue
+      const def = ACTION_DEFINITIONS.find((d) => d.type === s.actionType)
+      if (def?.producesData) tokens.push(`{$${s.outputName}}`)
+      else tokens.push(`{#${s.outputName}.*}`)
+    }
+    if (isInRepeat) {
+      const itemVar = String(parentStep!.params.itemVar ?? "item")
+      tokens.push(`{$${itemVar}}`, "{$repeatIndex}")
+    }
+    if (tokens.length > 0) {
+      lines.push(<div key="tokens">Available: {tokens.join(", ")}</div>)
+    }
+  }
+
+  if (lines.length === 0) return null
+  return (
+    <Fragment>
+      <Text style={{ fontSize: 11 }}>Input</Text>
+      <VerticalSpace space="extraSmall" />
+      <Text style={{ fontSize: 10, color: "var(--figma-color-text-tertiary)" }}>
+        {lines}
+      </Text>
+      <VerticalSpace space="small" />
+    </Fragment>
+  )
+}
+
 function renderStepParams(
   step: AutomationStepPayload,
   updateParam: (key: string, value: unknown) => void,
@@ -1773,6 +1925,9 @@ function renderStepParams(
   stepIndex: number = 0,
   parentStep?: AutomationStepPayload,
 ) {
+  const inputCtx = renderInputContext(allSteps, stepIndex, parentStep)
+  const inputCtxTokens = renderInputContext(allSteps, stepIndex, parentStep, { showTokens: true })
+
   switch (step.actionType) {
     case "sourceFromSelection":
       return (
@@ -1791,6 +1946,7 @@ function renderStepParams(
     case "filterByType":
       return (
         <Fragment>
+          {renderInputContext(allSteps, stepIndex, parentStep, { nodesLabel: "Filtering" })}
           <Text style={{ fontSize: 11 }}>Node type</Text>
           <VerticalSpace space="extraSmall" />
           <Dropdown
@@ -1819,6 +1975,7 @@ function renderStepParams(
     case "filterByName":
       return (
         <Fragment>
+          {renderInputContext(allSteps, stepIndex, parentStep, { nodesLabel: "Filtering" })}
           <Text style={{ fontSize: 11 }}>Match mode</Text>
           <VerticalSpace space="extraSmall" />
           <Dropdown
@@ -1839,23 +1996,32 @@ function renderStepParams(
 
     case "expandToChildren":
       return (
-        <Text style={{ fontSize: 11, color: "var(--figma-color-text-secondary)" }}>
-          No parameters. Replaces the working set with direct children of each node.
-        </Text>
+        <Fragment>
+          {inputCtx}
+          <Text style={{ fontSize: 11, color: "var(--figma-color-text-secondary)" }}>
+            No parameters. Replaces the working set with direct children of each node.
+          </Text>
+        </Fragment>
       )
 
     case "goToParent":
       return (
-        <Text style={{ fontSize: 11, color: "var(--figma-color-text-secondary)" }}>
-          No parameters. Replaces each node with its parent (deduplicated). Skips nodes at page root.
-        </Text>
+        <Fragment>
+          {inputCtx}
+          <Text style={{ fontSize: 11, color: "var(--figma-color-text-secondary)" }}>
+            No parameters. Replaces each node with its parent (deduplicated). Skips nodes at page root.
+          </Text>
+        </Fragment>
       )
 
     case "flattenDescendants":
       return (
-        <Text style={{ fontSize: 11, color: "var(--figma-color-text-secondary)" }}>
-          No parameters. Recursively collects all descendants into a flat list.
-        </Text>
+        <Fragment>
+          {inputCtx}
+          <Text style={{ fontSize: 11, color: "var(--figma-color-text-secondary)" }}>
+            No parameters. Recursively collects all descendants into a flat list.
+          </Text>
+        </Fragment>
       )
 
     case "restoreNodes": {
@@ -1888,6 +2054,7 @@ function renderStepParams(
     case "renameLayers":
       return (
         <Fragment>
+          {inputCtxTokens}
           <Text style={{ fontSize: 11 }}>Find</Text>
           <VerticalSpace space="extraSmall" />
           <Textbox
@@ -1910,6 +2077,7 @@ function renderStepParams(
     case "setFillColor":
       return (
         <Fragment>
+          {inputCtx}
           <Text style={{ fontSize: 11 }}>Hex color</Text>
           <VerticalSpace space="extraSmall" />
           <Textbox
@@ -1923,6 +2091,7 @@ function renderStepParams(
     case "setFillVariable":
       return (
         <Fragment>
+          {inputCtx}
           <Text style={{ fontSize: 11 }}>Variable name</Text>
           <VerticalSpace space="extraSmall" />
           <Textbox
@@ -1936,6 +2105,7 @@ function renderStepParams(
     case "setOpacity":
       return (
         <Fragment>
+          {inputCtx}
           <Text style={{ fontSize: 11 }}>Opacity (%)</Text>
           <VerticalSpace space="extraSmall" />
           <Textbox
@@ -1954,17 +2124,7 @@ function renderStepParams(
       const repeatItemVar = isInRepeat ? String(parentStep.params.itemVar ?? "item") : null
       return (
         <Fragment>
-          {isInRepeat && repeatItemVar && (
-            <Fragment>
-              <Text style={{ fontSize: 11 }}>Input</Text>
-              <VerticalSpace space="extraSmall" />
-              <Text style={{ fontSize: 10, color: "var(--figma-color-text-tertiary)" }}>
-                Inside <b>Repeat with each</b> — use <b>{"{"}${repeatItemVar}{"}"}</b> for current item,{" "}
-                <b>{"{"}$repeatIndex{"}"}</b> for index
-              </Text>
-              <VerticalSpace space="small" />
-            </Fragment>
-          )}
+          {inputCtxTokens}
           <Text style={{ fontSize: 11 }}>Text content</Text>
           <VerticalSpace space="extraSmall" />
           <TextboxWithSuggestions
@@ -1977,32 +2137,120 @@ function renderStepParams(
       )
     }
 
-    case "resize":
+    case "resize": {
+      const widthSrcOptions = buildValueSourceOptions(allSteps, stepIndex, "width")
+      const heightSrcOptions = buildValueSourceOptions(allSteps, stepIndex, "height")
+      const widthVal = String(step.params.width ?? "")
+      const heightVal = String(step.params.height ?? "")
+      const widthIsPreset = widthSrcOptions.some((o) => o.value !== "" && o.value === widthVal)
+      const heightIsPreset = heightSrcOptions.some((o) => o.value !== "" && o.value === heightVal)
       return (
         <Fragment>
+          {inputCtxTokens}
           <Text style={{ fontSize: 11 }}>Width</Text>
           <VerticalSpace space="extraSmall" />
-          <TextboxWithSuggestions
-            value={String(step.params.width ?? "")}
-            onValueInput={(v: string) => updateParam("width", v)}
-            placeholder="Leave empty to keep original. Supports {$var}, {#snap.width}"
-            suggestions={suggestions}
-          />
+          {widthSrcOptions.length > 1 && (
+            <Fragment>
+              <Dropdown
+                value={widthIsPreset ? widthVal : ""}
+                options={widthSrcOptions}
+                onValueChange={(v: string) => updateParam("width", v)}
+              />
+              <VerticalSpace space="extraSmall" />
+            </Fragment>
+          )}
+          {!widthIsPreset && (
+            <TextboxWithSuggestions
+              value={widthVal}
+              onValueInput={(v: string) => updateParam("width", v)}
+              placeholder="Leave empty to keep original"
+              suggestions={suggestions}
+            />
+          )}
           <VerticalSpace space="small" />
           <Text style={{ fontSize: 11 }}>Height</Text>
           <VerticalSpace space="extraSmall" />
-          <TextboxWithSuggestions
-            value={String(step.params.height ?? "")}
-            onValueInput={(v: string) => updateParam("height", v)}
-            placeholder="Leave empty to keep original. Supports {$var}, {#snap.height}"
-            suggestions={suggestions}
-          />
+          {heightSrcOptions.length > 1 && (
+            <Fragment>
+              <Dropdown
+                value={heightIsPreset ? heightVal : ""}
+                options={heightSrcOptions}
+                onValueChange={(v: string) => updateParam("height", v)}
+              />
+              <VerticalSpace space="extraSmall" />
+            </Fragment>
+          )}
+          {!heightIsPreset && (
+            <TextboxWithSuggestions
+              value={heightVal}
+              onValueInput={(v: string) => updateParam("height", v)}
+              placeholder="Leave empty to keep original"
+              suggestions={suggestions}
+            />
+          )}
         </Fragment>
       )
+    }
+
+    case "setPosition": {
+      const xSrcOptions = buildValueSourceOptions(allSteps, stepIndex, "x")
+      const ySrcOptions = buildValueSourceOptions(allSteps, stepIndex, "y")
+      const xVal = String(step.params.x ?? "")
+      const yVal = String(step.params.y ?? "")
+      const xIsPreset = xSrcOptions.some((o) => o.value !== "" && o.value === xVal)
+      const yIsPreset = ySrcOptions.some((o) => o.value !== "" && o.value === yVal)
+      return (
+        <Fragment>
+          {inputCtxTokens}
+          <Text style={{ fontSize: 11 }}>X</Text>
+          <VerticalSpace space="extraSmall" />
+          {xSrcOptions.length > 1 && (
+            <Fragment>
+              <Dropdown
+                value={xIsPreset ? xVal : ""}
+                options={xSrcOptions}
+                onValueChange={(v: string) => updateParam("x", v)}
+              />
+              <VerticalSpace space="extraSmall" />
+            </Fragment>
+          )}
+          {!xIsPreset && (
+            <TextboxWithSuggestions
+              value={xVal}
+              onValueInput={(v: string) => updateParam("x", v)}
+              placeholder="Leave empty to keep original"
+              suggestions={suggestions}
+            />
+          )}
+          <VerticalSpace space="small" />
+          <Text style={{ fontSize: 11 }}>Y</Text>
+          <VerticalSpace space="extraSmall" />
+          {ySrcOptions.length > 1 && (
+            <Fragment>
+              <Dropdown
+                value={yIsPreset ? yVal : ""}
+                options={ySrcOptions}
+                onValueChange={(v: string) => updateParam("y", v)}
+              />
+              <VerticalSpace space="extraSmall" />
+            </Fragment>
+          )}
+          {!yIsPreset && (
+            <TextboxWithSuggestions
+              value={yVal}
+              onValueInput={(v: string) => updateParam("y", v)}
+              placeholder="Leave empty to keep original"
+              suggestions={suggestions}
+            />
+          )}
+        </Fragment>
+      )
+    }
 
     case "wrapInFrame":
       return (
         <Fragment>
+          {inputCtx}
           <Text style={{ fontSize: 11 }}>Auto layout (optional)</Text>
           <VerticalSpace space="extraSmall" />
           <Dropdown
@@ -2024,6 +2272,7 @@ function renderStepParams(
     case "addAutoLayout":
       return (
         <Fragment>
+          {inputCtx}
           <Text style={{ fontSize: 11 }}>Direction</Text>
           <VerticalSpace space="extraSmall" />
           <Dropdown
@@ -2048,6 +2297,7 @@ function renderStepParams(
     case "editAutoLayout":
       return (
         <Fragment>
+          {inputCtx}
           <Text style={{ fontSize: 10, color: "var(--figma-color-text-tertiary)", marginBottom: 8 }}>
             Only affects nodes that already have auto layout. Leave fields empty to keep current values.
           </Text>
@@ -2100,9 +2350,12 @@ function renderStepParams(
 
     case "removeAutoLayout":
       return (
-        <Text style={{ fontSize: 11, color: "var(--figma-color-text-secondary)" }}>
-          No parameters. Removes auto layout from all frames and components in the working set.
-        </Text>
+        <Fragment>
+          {inputCtx}
+          <Text style={{ fontSize: 11, color: "var(--figma-color-text-secondary)" }}>
+            No parameters. Removes auto layout from all frames and components in the working set.
+          </Text>
+        </Fragment>
       )
 
     case "askForInput":
@@ -2254,6 +2507,7 @@ function renderStepParams(
     case "log":
       return (
         <Fragment>
+          {inputCtxTokens}
           <Text style={{ fontSize: 11 }}>Message</Text>
           <VerticalSpace space="extraSmall" />
           <TextboxWithSuggestions
@@ -2266,26 +2520,9 @@ function renderStepParams(
       )
 
     case "count": {
-      const countInputDesc = stepIndex > 0
-        ? (() => {
-          const prev = allSteps[stepIndex - 1]
-          if (!prev) return null
-          const prevDef = ACTION_DEFINITIONS.find((d) => d.type === prev.actionType)
-          return prevDef?.label ?? prev.actionType
-        })()
-        : null
       return (
         <Fragment>
-          {countInputDesc && (
-            <Fragment>
-              <Text style={{ fontSize: 11 }}>Input</Text>
-              <VerticalSpace space="extraSmall" />
-              <Text style={{ fontSize: 10, color: "var(--figma-color-text-tertiary)" }}>
-                Counts nodes from previous step: <b>{countInputDesc}</b>
-              </Text>
-              <VerticalSpace space="small" />
-            </Fragment>
-          )}
+          {renderInputContext(allSteps, stepIndex, parentStep, { nodesLabel: "Counting" })}
           <Text style={{ fontSize: 11 }}>Label</Text>
           <VerticalSpace space="extraSmall" />
           <Textbox
@@ -2300,6 +2537,7 @@ function renderStepParams(
     case "selectResults":
       return (
         <Fragment>
+          {renderInputContext(allSteps, stepIndex, parentStep, { nodesLabel: "Selecting" })}
           <Checkbox
             value={step.params.scrollTo !== false}
             onValueChange={(v: boolean) => updateParam("scrollTo", v)}
@@ -2312,6 +2550,7 @@ function renderStepParams(
     case "setPipelineVariable":
       return (
         <Fragment>
+          {inputCtxTokens}
           <Text style={{ fontSize: 11 }}>Variable name</Text>
           <VerticalSpace space="extraSmall" />
           <Textbox
@@ -2334,6 +2573,7 @@ function renderStepParams(
     case "setPipelineVariableFromProperty":
       return (
         <Fragment>
+          {inputCtx}
           <Text style={{ fontSize: 11 }}>Variable name</Text>
           <VerticalSpace space="extraSmall" />
           <Textbox

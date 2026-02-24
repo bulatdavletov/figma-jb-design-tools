@@ -24,6 +24,7 @@ export type ActionType =
   | "setPipelineVariable"
   | "setPipelineVariableFromProperty"
   | "splitText"
+  | "setPosition"
   | "askForInput"
   | "repeatWithEach"
 
@@ -36,6 +37,7 @@ export interface AutomationStep {
   enabled: boolean
   outputName?: string
   children?: AutomationStep[]
+  target?: string
 }
 
 export interface Automation {
@@ -52,6 +54,7 @@ export interface AutomationExportStepFormat {
   enabled: boolean
   outputName?: string
   children?: AutomationExportStepFormat[]
+  target?: string
 }
 
 export interface AutomationExportFormat {
@@ -215,6 +218,13 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     description: "Turn off auto layout on frames/components",
     category: "transform",
     defaultParams: {},
+  },
+  {
+    type: "setPosition",
+    label: "Set position",
+    description: "Set X and/or Y position on nodes. Leave blank to keep original",
+    category: "transform",
+    defaultParams: { x: "", y: "" },
   },
 
   // Input

@@ -57,6 +57,7 @@ function stepToExportStep(s: AutomationStep): AutomationExportStepFormat {
     enabled: s.enabled,
   }
   if (s.outputName) out.outputName = s.outputName
+  if (s.target) out.target = s.target
   if (s.children && s.children.length > 0) {
     out.children = s.children.map(stepToExportStep)
   }
@@ -113,6 +114,9 @@ function importStep(s: any): AutomationStep {
   }
   if (typeof s.outputName === "string" && s.outputName) {
     step.outputName = s.outputName
+  }
+  if (typeof s.target === "string" && s.target) {
+    step.target = s.target
   }
   if (Array.isArray(s.children) && s.children.length > 0) {
     step.children = s.children

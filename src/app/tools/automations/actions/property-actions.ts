@@ -405,6 +405,40 @@ export const removeAutoLayout: ActionHandler = async (context, _params) => {
   return context
 }
 
+export const setPositionAction: ActionHandler = async (context, params) => {
+  const rawX = params.x
+  const rawY = params.y
+
+  let applied = 0
+  for (let i = 0; i < context.nodes.length; i++) {
+    const node = context.nodes[i]
+
+    const scope: TokenScope = { node, index: i, context }
+
+    const xStr = typeof rawX === "string" ? resolveTokens(rawX, scope) : String(rawX ?? "")
+    const yStr = typeof rawY === "string" ? resolveTokens(rawY, scope) : String(rawY ?? "")
+
+    const xVal = xStr ? Number(xStr) : NaN
+    const yVal = yStr ? Number(yStr) : NaN
+
+    let changed = false
+    if (!isNaN(xVal)) { node.x = xVal; changed = true }
+    if (!isNaN(yVal)) { node.y = yVal; changed = true }
+    if (changed) applied++
+  }
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Set position",
+    message: `Set position on ${applied} node(s)`,
+    itemsIn: context.nodes.length,
+    itemsOut: context.nodes.length,
+    status: "success",
+  })
+
+  return context
+}
+
 export const notifyAction: ActionHandler = async (context, params) => {
   const rawMessage = String(params.message ?? "").trim()
   if (!rawMessage) {

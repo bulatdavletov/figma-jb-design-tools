@@ -1062,6 +1062,7 @@ export type AutomationStepPayload = {
   enabled: boolean
   outputName?: string
   children?: AutomationStepPayload[]
+  target?: string
 }
 
 export type AutomationPayload = {
