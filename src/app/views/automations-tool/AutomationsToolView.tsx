@@ -45,10 +45,15 @@ import {
   type ActionDefinition,
   type ActionCategory,
   type AutomationStep,
+  type FilterCondition,
+  type FilterField,
+  type FilterLogic,
   VALID_NODE_TYPES,
   MATCH_MODES,
   FIND_SCOPES,
+  FILTER_FIELDS,
   getActionsByCategory,
+  getOperatorsForField,
   generateDefaultOutputName,
   collectOutputNames,
 } from "../../tools/automations/types"
@@ -60,6 +65,7 @@ import {
   parseImportJson,
 } from "../../tools/automations/storage"
 import { ButtonWithIcon } from "../../components/ButtonWithIcon"
+import { TokenHighlighter } from "../../components/TokenHighlighter"
 
 type Screen = "list" | "builder" | "runOutput"
 
@@ -1412,7 +1418,7 @@ function StepRow(props: {
               marginTop: 1,
             }}
           >
-            {paramSummary}
+            <TokenHighlighter text={paramSummary} />
           </div>
         )}
         {(props.step.target || props.step.outputName) && (
@@ -1538,24 +1544,52 @@ function getParamSummary(step: AutomationStepPayload): string {
   switch (step.actionType) {
     case "sourceFromSelection":
     case "sourceFromPage":
+    case "sourceFromAllPages":
       return ""
-    case "filterByType": {
-      const scope = p.scope ? String(p.scope) : ""
-      const scopeLabel = scope === "page" ? "on page" : scope === "all_pages" ? "in all pages" : ""
-      return `${p.nodeType ?? "TEXT"}${scopeLabel ? ` ${scopeLabel}` : ""}`
+    case "sourceFromPageByName":
+      return String(p.pageName ?? "")
+    case "filter":
+    case "filterByType":
+    case "filterByName": {
+      const conditions = (p.conditions ?? []) as { field: string; operator: string; value: unknown }[]
+      if (conditions.length === 0) {
+        if (p.nodeType) return `type = ${p.nodeType}`
+        if (p.pattern) return `name ~ "${p.pattern}"`
+        return ""
+      }
+      const logic = String(p.logic ?? "and").toUpperCase()
+      const parts = conditions.map((c) => {
+        const opSymbol = c.operator === "contains" ? "~" : c.operator === "startsWith" ? "^" : c.operator === "endsWith" ? "$" : c.operator === "regex" ? "≈" : c.operator === "greaterThan" ? ">" : c.operator === "lessThan" ? "<" : c.operator === "is" || c.operator === "equals" ? "=" : c.operator === "isNot" || c.operator === "notEquals" ? "≠" : c.operator
+        return `${c.field} ${opSymbol} ${String(c.value)}`
+      })
+      return conditions.length > 1 ? `${logic}: ${parts.join(", ")}` : parts[0]
     }
-    case "filterByName":
-      return `${p.matchMode ?? "contains"}: "${p.pattern ?? ""}"`
     case "expandToChildren":
       return ""
     case "renameLayers":
       return `"${p.find ?? ""}" → "${p.replace ?? ""}"`
+    case "setName":
+      return String(p.name ?? "")
     case "setFillColor":
+    case "setStrokeColor":
       return String(p.hex ?? "")
     case "setFillVariable":
       return String(p.variableName ?? "")
+    case "removeFills":
+    case "removeStrokes":
+      return ""
     case "setOpacity":
       return `${p.opacity ?? 100}%`
+    case "setVisibility":
+      return p.visible === false ? "hidden" : "visible"
+    case "setLocked":
+      return p.locked === false ? "unlocked" : "locked"
+    case "setRotation":
+      return `${p.degrees ?? "0"}°`
+    case "removeNode":
+      return ""
+    case "cloneNode":
+      return ""
     case "notify":
     case "log":
       return String(p.message ?? "")
@@ -1574,6 +1608,21 @@ function getParamSummary(step: AutomationStepPayload): string {
       return p.snapshotName ? `from #${p.snapshotName}` : ""
     case "setCharacters":
       return String(p.characters ?? "")
+    case "setFontSize":
+      return `${p.size ?? "16"}px`
+    case "setFont":
+      return `${p.family ?? "Inter"} ${p.style ?? "Regular"}`
+    case "setTextAlignment":
+      return String(p.align ?? "LEFT")
+    case "setTextCase":
+      return String(p.textCase ?? "ORIGINAL")
+    case "setTextDecoration":
+      return String(p.decoration ?? "NONE")
+    case "setLineHeight": {
+      const u = String(p.unit ?? "AUTO")
+      if (u === "AUTO") return "AUTO"
+      return `${p.value ?? ""}${u === "PERCENT" ? "%" : "px"}`
+    }
     case "resize": {
       const parts: string[] = []
       if (p.width) parts.push(`W: ${p.width}`)
@@ -1604,6 +1653,10 @@ function getParamSummary(step: AutomationStepPayload): string {
     }
     case "removeAutoLayout":
       return ""
+    case "detachInstance":
+      return ""
+    case "swapComponent":
+      return String(p.componentName ?? "")
     case "askForInput":
       return String(p.label ?? "Enter text")
     case "splitText":
@@ -2046,56 +2099,144 @@ function renderStepParams(
         </Text>
       )
 
-    case "filterByType":
+    case "sourceFromAllPages":
+      return (
+        <Text style={{ fontSize: 11, color: "var(--figma-color-text-secondary)" }}>
+          No parameters. Loads all nodes from all pages in the document (deep traversal).
+        </Text>
+      )
+
+    case "sourceFromPageByName":
       return (
         <Fragment>
-          {renderInputContext(allSteps, stepIndex, parentStep, { nodesLabel: "Filtering" })}
-          <Text style={{ fontSize: 11 }}>Node type</Text>
+          <Text style={{ fontSize: 11 }}>Page name</Text>
           <VerticalSpace space="extraSmall" />
-          <Dropdown
-            value={String(step.params.nodeType ?? "TEXT")}
-            options={VALID_NODE_TYPES.map((t) => ({ value: t }))}
-            onValueChange={(v: string) => updateParam("nodeType", v)}
+          <Textbox
+            value={String(step.params.pageName ?? "")}
+            onValueInput={(v: string) => updateParam("pageName", v)}
+            placeholder="Exact page name..."
           />
-          {step.params.scope && (
-            <Fragment>
-              <VerticalSpace space="small" />
-              <Text style={{ fontSize: 11 }}>Scope (legacy)</Text>
-              <VerticalSpace space="extraSmall" />
-              <Dropdown
-                value={String(step.params.scope ?? "selection")}
-                options={FIND_SCOPES.map((s) => ({
-                  value: s,
-                  text: s === "selection" ? "Working set" : s === "page" ? "Current page" : "All pages",
-                }))}
-                onValueChange={(v: string) => updateParam("scope", v)}
-              />
-            </Fragment>
-          )}
         </Fragment>
       )
 
-    case "filterByName":
+    case "filter":
+    case "filterByType":
+    case "filterByName": {
+      const logic = String(step.params.logic ?? "and") as FilterLogic
+      const conditions = (step.params.conditions ?? []) as FilterCondition[]
+
+      const updateCondition = (idx: number, field: string, value: unknown) => {
+        const newConds = [...conditions]
+        newConds[idx] = { ...newConds[idx], [field]: value }
+        if (field === "field") {
+          const fieldDef = FILTER_FIELDS.find((f) => f.key === value)
+          const ops = getOperatorsForField(value as FilterField)
+          newConds[idx].operator = ops[0].value
+          if (fieldDef?.valueType === "boolean") newConds[idx].value = true
+          else if (fieldDef?.valueType === "enum") newConds[idx].value = "TEXT"
+          else if (fieldDef?.valueType === "number") newConds[idx].value = 0
+          else newConds[idx].value = ""
+        }
+        updateParam("conditions", newConds)
+      }
+      const addCondition = () => {
+        updateParam("conditions", [...conditions, { field: "name", operator: "contains", value: "" }])
+      }
+      const removeCondition = (idx: number) => {
+        updateParam("conditions", conditions.filter((_: unknown, i: number) => i !== idx))
+      }
+
       return (
         <Fragment>
           {renderInputContext(allSteps, stepIndex, parentStep, { nodesLabel: "Filtering" })}
-          <Text style={{ fontSize: 11 }}>Match mode</Text>
-          <VerticalSpace space="extraSmall" />
-          <Dropdown
-            value={String(step.params.matchMode ?? "contains")}
-            options={MATCH_MODES.map((m) => ({ value: m }))}
-            onValueChange={(v: string) => updateParam("matchMode", v)}
-          />
-          <VerticalSpace space="small" />
-          <Text style={{ fontSize: 11 }}>Pattern</Text>
-          <VerticalSpace space="extraSmall" />
-          <Textbox
-            value={String(step.params.pattern ?? "")}
-            onValueInput={(v: string) => updateParam("pattern", v)}
-            placeholder="Enter pattern..."
-          />
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+            <Text style={{ fontSize: 11, fontWeight: 600 }}>Match</Text>
+            <Dropdown
+              value={logic}
+              options={[
+                { value: "and", text: "ALL conditions (AND)" },
+                { value: "or", text: "ANY condition (OR)" },
+              ]}
+              onValueChange={(v: string) => updateParam("logic", v)}
+              style={{ flex: 1 }}
+            />
+          </div>
+          {conditions.map((cond: FilterCondition, idx: number) => {
+            const fieldDef = FILTER_FIELDS.find((f) => f.key === cond.field)
+            const operators = getOperatorsForField(cond.field)
+            return (
+              <div key={idx} style={{
+                display: "flex", gap: 4, alignItems: "flex-start", marginBottom: 4,
+                padding: "4px 6px", background: "var(--figma-color-bg-secondary)", borderRadius: 4,
+              }}>
+                <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 4 }}>
+                  <div style={{ display: "flex", gap: 4 }}>
+                    <Dropdown
+                      value={cond.field}
+                      options={FILTER_FIELDS.map((f) => ({ value: f.key, text: f.label }))}
+                      onValueChange={(v: string) => updateCondition(idx, "field", v)}
+                      style={{ flex: 1 }}
+                    />
+                    <Dropdown
+                      value={cond.operator}
+                      options={operators}
+                      onValueChange={(v: string) => updateCondition(idx, "operator", v)}
+                      style={{ flex: 1 }}
+                    />
+                  </div>
+                  {fieldDef?.valueType === "enum" && cond.field === "type" ? (
+                    <Dropdown
+                      value={String(cond.value ?? "TEXT")}
+                      options={VALID_NODE_TYPES.map((t) => ({ value: t }))}
+                      onValueChange={(v: string) => updateCondition(idx, "value", v)}
+                    />
+                  ) : fieldDef?.valueType === "boolean" ? (
+                    <Dropdown
+                      value={String(cond.value ?? "true")}
+                      options={[{ value: "true", text: "true" }, { value: "false", text: "false" }]}
+                      onValueChange={(v: string) => updateCondition(idx, "value", v === "true")}
+                    />
+                  ) : (
+                    <Textbox
+                      value={String(cond.value ?? "")}
+                      onValueInput={(v: string) => {
+                        if (fieldDef?.valueType === "number") {
+                          const n = Number(v)
+                          updateCondition(idx, "value", isNaN(n) ? v : n)
+                        } else {
+                          updateCondition(idx, "value", v)
+                        }
+                      }}
+                      placeholder={fieldDef?.valueType === "color" ? "#FF0000" : fieldDef?.valueType === "number" ? "0" : "Value..."}
+                    />
+                  )}
+                </div>
+                <button
+                  onClick={() => removeCondition(idx)}
+                  style={{
+                    background: "none", border: "none", cursor: "pointer", padding: "2px 4px",
+                    color: "var(--figma-color-text-tertiary)", fontSize: 14, lineHeight: 1,
+                  }}
+                  title="Remove condition"
+                >
+                  ×
+                </button>
+              </div>
+            )
+          })}
+          <button
+            onClick={addCondition}
+            style={{
+              background: "none", border: "1px dashed var(--figma-color-border)",
+              borderRadius: 4, padding: "4px 8px", cursor: "pointer", width: "100%",
+              color: "var(--figma-color-text-secondary)", fontSize: 11, marginTop: 4,
+            }}
+          >
+            + Add condition
+          </button>
         </Fragment>
       )
+    }
 
     case "expandToChildren":
       return (
@@ -2205,6 +2346,40 @@ function renderStepParams(
         </Fragment>
       )
 
+    case "setStrokeColor":
+      return (
+        <Fragment>
+          {inputCtx}
+          <Text style={{ fontSize: 11 }}>Hex color</Text>
+          <VerticalSpace space="extraSmall" />
+          <Textbox
+            value={String(step.params.hex ?? "#000000")}
+            onValueInput={(v: string) => updateParam("hex", v)}
+            placeholder="#000000"
+          />
+        </Fragment>
+      )
+
+    case "removeFills":
+      return (
+        <Fragment>
+          {inputCtx}
+          <Text style={{ fontSize: 11, color: "var(--figma-color-text-secondary)" }}>
+            No parameters. Clears all fills from nodes in the working set.
+          </Text>
+        </Fragment>
+      )
+
+    case "removeStrokes":
+      return (
+        <Fragment>
+          {inputCtx}
+          <Text style={{ fontSize: 11, color: "var(--figma-color-text-secondary)" }}>
+            No parameters. Clears all strokes from nodes in the working set.
+          </Text>
+        </Fragment>
+      )
+
     case "setOpacity":
       return (
         <Fragment>
@@ -2219,6 +2394,89 @@ function renderStepParams(
             }}
             placeholder="0–100"
           />
+        </Fragment>
+      )
+
+    case "setVisibility":
+      return (
+        <Fragment>
+          {inputCtx}
+          <Dropdown
+            value={step.params.visible === false ? "false" : "true"}
+            options={[
+              { value: "true", text: "Visible" },
+              { value: "false", text: "Hidden" },
+            ]}
+            onValueChange={(v: string) => updateParam("visible", v === "true")}
+          />
+        </Fragment>
+      )
+
+    case "setLocked":
+      return (
+        <Fragment>
+          {inputCtx}
+          <Dropdown
+            value={step.params.locked === false ? "false" : "true"}
+            options={[
+              { value: "true", text: "Locked" },
+              { value: "false", text: "Unlocked" },
+            ]}
+            onValueChange={(v: string) => updateParam("locked", v === "true")}
+          />
+        </Fragment>
+      )
+
+    case "setName":
+      return (
+        <Fragment>
+          {inputCtxTokens}
+          <Text style={{ fontSize: 11 }}>Name template</Text>
+          <VerticalSpace space="extraSmall" />
+          <TextboxWithSuggestions
+            value={String(step.params.name ?? "")}
+            onValueInput={(v: string) => updateParam("name", v)}
+            placeholder="e.g. {type}/{name} or Item {index}"
+            suggestions={suggestions}
+          />
+        </Fragment>
+      )
+
+    case "setRotation":
+      return (
+        <Fragment>
+          {inputCtxTokens}
+          <Text style={{ fontSize: 11 }}>Degrees</Text>
+          <VerticalSpace space="extraSmall" />
+          <TextboxWithSuggestions
+            value={String(step.params.degrees ?? "0")}
+            onValueInput={(v: string) => updateParam("degrees", v)}
+            placeholder="Rotation in degrees..."
+            suggestions={suggestions}
+          />
+        </Fragment>
+      )
+
+    case "removeNode":
+      return (
+        <Fragment>
+          {inputCtx}
+          <div style={{
+            padding: "6px 8px", background: "#fff1f2", border: "1px solid #fecdd3",
+            borderRadius: 4, color: "#9f1239", fontSize: 11,
+          }}>
+            Destructive action. Deleted nodes cannot be recovered within the automation. Use Figma's Undo (Ctrl+Z) if needed.
+          </div>
+        </Fragment>
+      )
+
+    case "cloneNode":
+      return (
+        <Fragment>
+          {inputCtx}
+          <Text style={{ fontSize: 11, color: "var(--figma-color-text-secondary)" }}>
+            No parameters. Duplicates each node. Working set becomes the new clones.
+          </Text>
         </Fragment>
       )
 
@@ -2239,6 +2497,129 @@ function renderStepParams(
         </Fragment>
       )
     }
+
+    case "setFontSize":
+      return (
+        <Fragment>
+          {inputCtxTokens}
+          <Text style={{ fontSize: 11 }}>Size (px)</Text>
+          <VerticalSpace space="extraSmall" />
+          <TextboxWithSuggestions
+            value={String(step.params.size ?? "16")}
+            onValueInput={(v: string) => updateParam("size", v)}
+            placeholder="Font size in pixels..."
+            suggestions={suggestions}
+          />
+        </Fragment>
+      )
+
+    case "setFont":
+      return (
+        <Fragment>
+          {inputCtx}
+          <Text style={{ fontSize: 11 }}>Font family</Text>
+          <VerticalSpace space="extraSmall" />
+          <Textbox
+            value={String(step.params.family ?? "Inter")}
+            onValueInput={(v: string) => updateParam("family", v)}
+            placeholder="Inter"
+          />
+          <VerticalSpace space="small" />
+          <Text style={{ fontSize: 11 }}>Font style</Text>
+          <VerticalSpace space="extraSmall" />
+          <Textbox
+            value={String(step.params.style ?? "Regular")}
+            onValueInput={(v: string) => updateParam("style", v)}
+            placeholder="Regular"
+          />
+        </Fragment>
+      )
+
+    case "setTextAlignment":
+      return (
+        <Fragment>
+          {inputCtx}
+          <Text style={{ fontSize: 11 }}>Alignment</Text>
+          <VerticalSpace space="extraSmall" />
+          <Dropdown
+            value={String(step.params.align ?? "LEFT")}
+            options={[
+              { value: "LEFT", text: "Left" },
+              { value: "CENTER", text: "Center" },
+              { value: "RIGHT", text: "Right" },
+              { value: "JUSTIFIED", text: "Justified" },
+            ]}
+            onValueChange={(v: string) => updateParam("align", v)}
+          />
+        </Fragment>
+      )
+
+    case "setTextCase":
+      return (
+        <Fragment>
+          {inputCtx}
+          <Text style={{ fontSize: 11 }}>Text case</Text>
+          <VerticalSpace space="extraSmall" />
+          <Dropdown
+            value={String(step.params.textCase ?? "ORIGINAL")}
+            options={[
+              { value: "ORIGINAL", text: "As typed" },
+              { value: "UPPER", text: "UPPERCASE" },
+              { value: "LOWER", text: "lowercase" },
+              { value: "TITLE", text: "Title Case" },
+            ]}
+            onValueChange={(v: string) => updateParam("textCase", v)}
+          />
+        </Fragment>
+      )
+
+    case "setTextDecoration":
+      return (
+        <Fragment>
+          {inputCtx}
+          <Text style={{ fontSize: 11 }}>Decoration</Text>
+          <VerticalSpace space="extraSmall" />
+          <Dropdown
+            value={String(step.params.decoration ?? "NONE")}
+            options={[
+              { value: "NONE", text: "None" },
+              { value: "UNDERLINE", text: "Underline" },
+              { value: "STRIKETHROUGH", text: "Strikethrough" },
+            ]}
+            onValueChange={(v: string) => updateParam("decoration", v)}
+          />
+        </Fragment>
+      )
+
+    case "setLineHeight":
+      return (
+        <Fragment>
+          {inputCtx}
+          <Text style={{ fontSize: 11 }}>Unit</Text>
+          <VerticalSpace space="extraSmall" />
+          <Dropdown
+            value={String(step.params.unit ?? "AUTO")}
+            options={[
+              { value: "AUTO", text: "Auto" },
+              { value: "PIXELS", text: "Pixels" },
+              { value: "PERCENT", text: "Percent" },
+            ]}
+            onValueChange={(v: string) => updateParam("unit", v)}
+          />
+          {String(step.params.unit ?? "AUTO") !== "AUTO" && (
+            <Fragment>
+              <VerticalSpace space="small" />
+              <Text style={{ fontSize: 11 }}>Value</Text>
+              <VerticalSpace space="extraSmall" />
+              <Textbox
+                value={String(step.params.value ?? "")}
+                onValueInput={(v: string) => updateParam("value", v)}
+                placeholder={String(step.params.unit ?? "") === "PERCENT" ? "e.g. 150" : "e.g. 24"}
+              />
+            </Fragment>
+          )}
+        </Fragment>
+      )
 
     case "resize": {
       const widthSrcOptions = buildValueSourceOptions(allSteps, stepIndex, "width")
@@ -2458,6 +2839,30 @@ function renderStepParams(
           <Text style={{ fontSize: 11, color: "var(--figma-color-text-secondary)" }}>
             No parameters. Removes auto layout from all frames and components in the working set.
           </Text>
+        </Fragment>
+      )
+
+    case "detachInstance":
+      return (
+        <Fragment>
+          {inputCtx}
+          <Text style={{ fontSize: 11, color: "var(--figma-color-text-secondary)" }}>
+            No parameters. Converts instances to frames, detaching from their main component.
+          </Text>
+        </Fragment>
+      )
+
+    case "swapComponent":
+      return (
+        <Fragment>
+          {inputCtx}
+          <Text style={{ fontSize: 11 }}>Component name</Text>
+          <VerticalSpace space="extraSmall" />
+          <Textbox
+            value={String(step.params.componentName ?? "")}
+            onValueInput={(v: string) => updateParam("componentName", v)}
+            placeholder="Target component name..."
+          />
         </Fragment>
       )
 
