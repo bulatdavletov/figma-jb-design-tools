@@ -60,6 +60,8 @@
 - Design QA automations, migration helpers, consistency checks
 - Shareable "recipe" automations via export/import
 
+## Phase 2
+
 ### 2026-02-23: Phase 2 design — data primitives, loops, action outputs
 
 **Designed Phase 2 by analyzing three example automations from spec:**
@@ -282,3 +284,40 @@ What we should consider **aligning** (future phases):
 - Auto-save uses `useRef` for timer and last-saved JSON to avoid stale closure issues in useEffect
 - Run clears any pending auto-save timer and sends save+run messages sequentially (main thread processes in order)
 - `screenRef` (useRef) used instead of state in the message handler to avoid stale closure from the `useEffect([], [])` pattern
+
+### 2026-02-24: Input context hints for all action config forms
+
+**Task:** Many action config panels didn't show what data flows in from previous steps. Users couldn't discover `{#snapshot.property}` syntax for referencing saved node sets (e.g., getting parent's width for resize).
+
+**What was done:**
+- Created `renderInputContext()` helper: generates an "Input" section showing (1) which previous step provides nodes, (2) available `$variables` and `#snapshots` for token-enabled fields, (3) repeat context when inside `repeatWithEach`
+- Added input hints to 20+ action configs across all categories:
+  - **Navigate**: `goToParent`, `expandToChildren`, `flattenDescendants` — "Nodes from: {prev step}"
+  - **Filter**: `filterByType`, `filterByName` — "Filtering: {prev step}"
+  - **Transform with tokens**: `resize`, `setCharacters`, `renameLayers` — nodes + available vars/snapshots
+  - **Transform simple**: `setFillColor`, `setFillVariable`, `setOpacity`, `wrapInFrame`, `addAutoLayout`, `editAutoLayout`, `removeAutoLayout` — "Nodes from: {prev step}"
+  - **Output**: `notify`/`log`, `count`, `selectResults` — context-appropriate labels
+  - **Variables**: `setPipelineVariable`, `setPipelineVariableFromProperty` — tokens/nodes context
+- Replaced custom inline hints in `setCharacters` and `count` with the generic helper for consistency
+
+### 2026-02-24: Explicit step references — Apple Shortcuts-style
+
+**Task:** Eliminate `restoreNodes` workaround by adding explicit target/input references. Add `setPosition` action. Fix autocomplete for snapshot properties. Add value-source dropdowns.
+
+**What was done:**
+- **`target` field on AutomationStep**: Optional field that specifies which saved node set to load before running the action. Executor swaps `context.nodes` to the referenced snapshot before calling the handler. Backward compatible — omitted `target` keeps the previous working-set flow. Eliminates `restoreNodes` for most use cases.
+- **Target dropdown in config panel**: All filter/navigate/transform actions show a "Target nodes" dropdown when previous steps have node-set outputs. Options: "Previous step (default)" + all `#snapshot` outputs from earlier steps.
+- **Auto-generated output names**: All new steps (except `repeatWithEach`) auto-get an `outputName` via `generateDefaultOutputName()`. Output name shown on step rows as `→ #outputName` or `→ $outputName`, plus target shown as `#target →` when set.
+- **Autocomplete for `#snapshot.property`**: `buildSuggestions` now generates property-level suggestions for every node-set output (e.g., `#parent.width`, `#parent.height`, `#selection.name`), using the full `PROPERTY_REGISTRY`.
+- **Value-source dropdowns for resize and setPosition**: Width/Height (and X/Y) fields now show a dropdown with "Custom value" + all `step.property` combinations from previous node-set steps. Selecting a preset inserts `{#step.property}` as the param value; selecting "Custom value" shows the textbox for freeform input.
+- **`setPosition` action** (category: transform): Sets `node.x` and/or `node.y` on working set nodes. Supports tokens. Leave blank to keep original. Same config pattern as resize with value-source dropdowns.
+- **Storage**: Export/import handles `target` field on steps.
+- **Messages**: `AutomationStepPayload` includes `target` field.
+
+**Files changed:**
+- `types.ts` — `target?: string` on `AutomationStep` + `AutomationExportStepFormat`, `"setPosition"` in ActionType union + ACTION_DEFINITIONS
+- `executor.ts` — `target` swap before handler call, registered `setPositionAction`
+- `property-actions.ts` — `setPositionAction` handler
+- `storage.ts` — `target` in export/import
+- `messages.ts` — `target` in `AutomationStepPayload`
+- `AutomationsToolView.tsx` — `buildSuggestions` expanded, `buildValueSourceOptions` helper, target dropdown in `StepConfigPanel`, resize/setPosition config forms with value-source dropdowns, `getParamSummary` case for setPosition, step row shows target

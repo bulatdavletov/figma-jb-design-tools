@@ -63,6 +63,7 @@ Left side for steps. Right side is dynamic: if nothing selected - for available 
 When plugin finishes - there should be way to show output inside plugin window.
 
 ---
+## Example Automations
 
 Idea: where to get ideas for actions for Automations plugin:
 Try to replace some plugins with automations.
