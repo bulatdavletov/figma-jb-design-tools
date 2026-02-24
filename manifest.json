@@ -51,6 +51,18 @@
     {
       "name": "Variables Replace Usages",
       "command": "src/variables-replace-usages-tool/main.ts--default"
+    },
+    {
+      "name": "Run Automation",
+      "command": "src/run-automation/main.ts--default",
+      "parameters": [
+        {
+          "key": "automation",
+          "name": "Automation",
+          "description": "Choose a saved automation"
+        }
+      ],
+      "parameterOnly": false
     }
   ],
   "networkAccess": {
