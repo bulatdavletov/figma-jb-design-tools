@@ -15,8 +15,8 @@ figma.parameters.on("input", async ({ query, key, result }: ParameterInputEvent)
   }
 })
 
-export default async function (event?: RunEvent) {
-  const automationId = event?.parameters?.automation as string | undefined
+async function handleRun(parameters?: ParameterValues) {
+  const automationId = parameters?.automation as string | undefined
 
   if (automationId) {
     const automation = await getAutomation(automationId)
@@ -53,4 +53,10 @@ export default async function (event?: RunEvent) {
   } else {
     run("automations-tool")
   }
+}
+
+export default function () {
+  figma.on("run", ({ parameters }: RunEvent) => {
+    handleRun(parameters)
+  })
 }

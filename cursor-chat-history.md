@@ -254,3 +254,13 @@ What we should consider **aligning** (future phases):
 - `onActivate` checks for `pendingAutoRunId` — if set, immediately runs the automation after UI boots
 - Refactored `runAutomationById()` helper extracted from inline AUTOMATIONS_RUN handler to avoid duplication
 - Flow: Quick Actions → set pending ID → open UI → UI boots → auto-run → input dialog appears → user submits → execution completes → run output shown
+
+### 2026-02-24: Fix Quick Actions "Cannot show UI in queryMode" crash
+
+**Bug:** Running ANY automation via Quick Actions (Cmd+/ → "Run Automation") crashed with `Cannot show UI in queryMode`. The "Add auto-layout to each" automation (no askForInput) triggered it too.
+
+**Root cause:** `build-figma-plugin` calls `modules[commandId]()` (the default export) immediately during plugin initialization. For Quick Actions commands with `parameters`, Figma is in "query mode" at that point (for parameter autocomplete). The default export received no arguments (`event` = undefined), fell to `else { run("automations-tool") }` → `showUI()` → crash because `showUI()` is forbidden in query mode.
+
+**Fix:** Restructured `run-automation/main.ts` so the default export only registers `figma.on("run", handler)` instead of executing directly. The actual logic moved to `handleRun()` called from the "run" event handler, which fires AFTER Figma exits query mode:
+- From Quick Actions: query mode → parameter collection → "run" event fires with `parameters` → `handleRun(parameters)` runs in normal mode
+- From Plugins menu: no query mode → "run" event fires without parameters → `handleRun(undefined)` → opens full Automations UI
