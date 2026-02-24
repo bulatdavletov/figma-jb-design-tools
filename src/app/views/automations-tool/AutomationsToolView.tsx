@@ -1277,6 +1277,10 @@ function getParamSummary(step: AutomationStepPayload): string {
       if (p.height) parts.push(`H: ${p.height}`)
       return parts.join(", ")
     }
+    case "wrapInFrame": {
+      const al = String(p.autoLayout ?? "")
+      return al ? `+ auto layout (${al})` : ""
+    }
     case "addAutoLayout": {
       const dir = String(p.direction ?? "VERTICAL")
       const sp = p.itemSpacing ? `, spacing: ${p.itemSpacing}` : ""
@@ -1635,6 +1639,27 @@ function renderStepParams(
             placeholder="Leave empty to keep original. Supports {$var}, {#snap.height}"
             suggestions={suggestions}
           />
+        </Fragment>
+      )
+
+    case "wrapInFrame":
+      return (
+        <Fragment>
+          <Text style={{ fontSize: 11 }}>Auto layout (optional)</Text>
+          <VerticalSpace space="extraSmall" />
+          <Dropdown
+            value={String(step.params.autoLayout ?? "")}
+            options={[
+              { value: "", text: "No auto layout" },
+              { value: "VERTICAL", text: "Vertical" },
+              { value: "HORIZONTAL", text: "Horizontal" },
+            ]}
+            onValueChange={(v: string) => updateParam("autoLayout", v)}
+          />
+          <VerticalSpace space="small" />
+          <Text style={{ fontSize: 10, color: "var(--figma-color-text-tertiary)" }}>
+            Wraps each node in the working set into its own frame. The working set is replaced with the new frames.
+          </Text>
         </Fragment>
       )
 

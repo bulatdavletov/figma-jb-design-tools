@@ -235,6 +235,66 @@ export const resizeAction: ActionHandler = async (context, params) => {
   return context
 }
 
+export const wrapInFrame: ActionHandler = async (context, params) => {
+  const autoLayout = String(params.autoLayout ?? "")
+  const validAutoLayouts = ["HORIZONTAL", "VERTICAL", ""]
+
+  if (!validAutoLayouts.includes(autoLayout)) {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Wrap in frame",
+      message: `Invalid auto layout value "${autoLayout}"`,
+      itemsIn: context.nodes.length,
+      itemsOut: context.nodes.length,
+      status: "error",
+      error: `Invalid auto layout value "${autoLayout}"`,
+    })
+    return context
+  }
+
+  const newFrames: SceneNode[] = []
+
+  for (const node of context.nodes) {
+    const parent = node.parent
+    if (!parent || parent.type === "DOCUMENT") continue
+
+    const frame = figma.createFrame()
+    frame.name = node.name
+    frame.x = node.x
+    frame.y = node.y
+    frame.resize(node.width, node.height)
+    frame.fills = []
+
+    const parentWithChildren = parent as ChildrenMixin
+    const index = Array.from(parentWithChildren.children).indexOf(node)
+    parentWithChildren.insertChild(index, frame)
+
+    frame.appendChild(node)
+    node.x = 0
+    node.y = 0
+
+    if (autoLayout === "HORIZONTAL" || autoLayout === "VERTICAL") {
+      frame.layoutMode = autoLayout
+    }
+
+    newFrames.push(frame)
+  }
+
+  context.nodes = newFrames
+
+  const alLabel = autoLayout ? ` with auto layout (${autoLayout})` : ""
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Wrap in frame",
+    message: `Wrapped ${newFrames.length} node(s) in frame${alLabel}`,
+    itemsIn: newFrames.length,
+    itemsOut: newFrames.length,
+    status: "success",
+  })
+
+  return context
+}
+
 function supportsAutoLayout(node: SceneNode): node is FrameNode {
   return node.type === "FRAME" || node.type === "COMPONENT" || node.type === "COMPONENT_SET"
 }
