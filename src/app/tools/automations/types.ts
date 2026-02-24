@@ -13,6 +13,7 @@ export type ActionType =
   | "setOpacity"
   | "setCharacters"
   | "resize"
+  | "wrapInFrame"
   | "addAutoLayout"
   | "editAutoLayout"
   | "removeAutoLayout"
@@ -187,6 +188,13 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     description: "Set width and/or height on nodes. Leave blank to keep original",
     category: "transform",
     defaultParams: { width: "", height: "" },
+  },
+  {
+    type: "wrapInFrame",
+    label: "Wrap in frame",
+    description: "Wrap each node in an individual frame. Optionally enable auto layout on the wrapper",
+    category: "transform",
+    defaultParams: { autoLayout: "" },
   },
   {
     type: "addAutoLayout",

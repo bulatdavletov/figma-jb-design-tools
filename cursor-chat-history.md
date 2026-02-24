@@ -183,3 +183,13 @@ What we should consider **aligning** (future phases):
 - UI: Dedicated config forms for each — Add has direction dropdown + spacing, Edit has direction + spacing + 4-field padding grid, Remove has no params
 
 **Why:** The original `setLayoutMode` conflated three distinct operations into one dropdown. Splitting matches Figma's own "Add auto layout" / "Remove auto layout" UI pattern and the Figma-First design principle. Edit is a natural complement for changing existing layouts without toggling them on/off.
+
+### 2026-02-24: Add wrapInFrame action
+
+**Task:** Auto layout only works on FRAME/COMPONENT nodes. Need a way to wrap non-frame nodes into frames first.
+
+**What was done:**
+- **wrapInFrame** action (category: transform): Wraps each node in the working set into its own frame. Creates frame at node's position/size, reparents node into it, clears fills to make it transparent. Optionally enables auto layout on the wrapper frame (HORIZONTAL/VERTICAL).
+- Working set is updated to contain the new wrapper frames (not the original nodes), so subsequent `addAutoLayout` or `editAutoLayout` works.
+- Config form: dropdown for optional auto layout direction (None/Vertical/Horizontal)
+- Typical workflow: `sourceFromSelection` → `wrapInFrame(autoLayout: VERTICAL)` → done, or `wrapInFrame()` → `addAutoLayout` → `editAutoLayout`
