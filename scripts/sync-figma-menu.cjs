@@ -8,6 +8,23 @@ const registryPath = path.join(root, 'src', 'app', 'tools-registry-data.json')
 const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'))
 const tools = JSON.parse(fs.readFileSync(registryPath, 'utf8'))
 
+const QUICK_ACTIONS = [
+  {
+    name: 'Run Automation',
+    main: 'src/run-automation/main.ts',
+    ui: 'src/app/ui.tsx',
+    parameterOnly: false,
+    parameters: [
+      {
+        name: 'Automation',
+        key: 'automation',
+        description: 'Choose a saved automation',
+        allowFreeform: false,
+      },
+    ],
+  },
+]
+
 const menu = [
   {
     name: 'All Tools',
@@ -19,6 +36,7 @@ const menu = [
     main: tool.main,
     ui: 'src/app/ui.tsx',
   })),
+  ...QUICK_ACTIONS,
 ]
 
 pkg['figma-plugin'] = pkg['figma-plugin'] || {}

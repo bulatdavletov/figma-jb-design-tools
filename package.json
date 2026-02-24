@@ -98,6 +98,20 @@
         "name": "Variables Replace Usages",
         "main": "src/variables-replace-usages-tool/main.ts",
         "ui": "src/app/ui.tsx"
+      },
+      {
+        "name": "Run Automation",
+        "main": "src/run-automation/main.ts",
+        "ui": "src/app/ui.tsx",
+        "parameterOnly": false,
+        "parameters": [
+          {
+            "name": "Automation",
+            "key": "automation",
+            "description": "Choose a saved automation",
+            "allowFreeform": false
+          }
+        ]
       }
     ]
   }
