@@ -261,6 +261,8 @@ What we should consider **aligning** (future phases):
 
 **Root cause:** `build-figma-plugin` calls `modules[commandId]()` (the default export) immediately during plugin initialization. For Quick Actions commands with `parameters`, Figma is in "query mode" at that point (for parameter autocomplete). The default export received no arguments (`event` = undefined), fell to `else { run("automations-tool") }` → `showUI()` → crash because `showUI()` is forbidden in query mode.
 
-**Fix:** Restructured `run-automation/main.ts` so the default export only registers `figma.on("run", handler)` instead of executing directly. The actual logic moved to `handleRun()` called from the "run" event handler, which fires AFTER Figma exits query mode:
-- From Quick Actions: query mode → parameter collection → "run" event fires with `parameters` → `handleRun(parameters)` runs in normal mode
-- From Plugins menu: no query mode → "run" event fires without parameters → `handleRun(undefined)` → opens full Automations UI
+**Fix (two parts):**
+1. Restructured `run-automation/main.ts` so the default export only registers `figma.on("run", handler)` instead of executing directly. The actual logic moved to `handleRun()` called from the "run" event handler, which fires AFTER Figma exits query mode:
+   - From Quick Actions: query mode → parameter collection → "run" event fires with `parameters` → `handleRun(parameters)` runs in normal mode
+   - From Plugins menu: no query mode → "run" event fires without parameters → `handleRun(undefined)` → opens full Automations UI
+2. Wrapped `figma.ui.postMessage()` in `executor.ts` with try/catch — the progress update call crashed when running headlessly via Quick Actions (no UI to post to)

@@ -98,16 +98,20 @@ async function executeSteps(
     const stepName = definition?.label ?? step.actionType
     const stepIndex = baseIndex + i
 
-    figma.ui.postMessage({
-      type: MAIN_TO_UI.AUTOMATIONS_RUN_PROGRESS,
-      progress: {
-        automationName,
-        currentStep: stepIndex + 1,
-        totalSteps: steps.length + baseIndex,
-        stepName,
-        status: "running" as const,
-      },
-    })
+    try {
+      figma.ui.postMessage({
+        type: MAIN_TO_UI.AUTOMATIONS_RUN_PROGRESS,
+        progress: {
+          automationName,
+          currentStep: stepIndex + 1,
+          totalSteps: steps.length + baseIndex,
+          stepName,
+          status: "running" as const,
+        },
+      })
+    } catch {
+      // No UI available (e.g. running headlessly via Quick Actions)
+    }
 
     await new Promise((resolve) => setTimeout(resolve, 0))
 
