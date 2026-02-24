@@ -161,6 +161,7 @@ function payloadStepToStep(s: AutomationStepPayload): AutomationStep {
     enabled: s.enabled,
   }
   if (s.outputName) step.outputName = s.outputName
+  if (s.target) step.target = s.target
   if (s.children && s.children.length > 0) {
     step.children = s.children.map(payloadStepToStep)
   }
@@ -185,6 +186,7 @@ function stepToPayloadStep(s: AutomationStep): AutomationStepPayload {
     enabled: s.enabled,
   }
   if (s.outputName) payload.outputName = s.outputName
+  if (s.target) payload.target = s.target
   if (s.children && s.children.length > 0) {
     payload.children = s.children.map(stepToPayloadStep)
   }
