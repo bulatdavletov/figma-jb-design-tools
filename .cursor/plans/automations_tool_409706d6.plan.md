@@ -88,10 +88,10 @@ todos:
     status: completed
   - id: phase2-ui-autocomplete
     content: "Phase 2Q: TextboxWithSuggestions component for token/variable autocomplete in step config forms"
-    status: pending
+    status: completed
   - id: phase2-quick-actions
     content: "Phase 2R: 'Run Automation' Quick Actions entry with figma.parameters autocomplete for saved automations"
-    status: pending
+    status: completed
   - id: phase3-tool-wrappers
     content: "Phase 3: High-level tool wrapper actions -- mockup markup, library swap, replace usages, print/update colors"
     status: pending

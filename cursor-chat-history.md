@@ -140,3 +140,33 @@
 - In list mode, repeatList iterates nodeCount times (list cycles); skipExtra iterates min(list, nodes)
 - Input bridge uses promise pattern — requestInput posts message and returns promise, resolveInput completes it
 - StepPath = `{ index: number; childIndex?: number }` for clean nested selection tracking
+
+### 2026-02-24: Phase 2 completion (2Q–2R) and Apple Shortcuts audit
+
+**What was done:**
+- **TextboxWithSuggestions** (2Q): Reusable autocomplete component. Triggers on `{` character, shows dropdown with property tokens, pipeline vars, saved snapshots, loop vars. Keyboard navigation (arrows, Enter/Tab, Escape), click-outside dismiss. Used for rename replace, setCharacters, resize, notify/log, setPipelineVariable value fields.
+- **Quick Actions** (2R): "Run Automation" menu command with `figma.parameters` autocomplete. Separate entry point (`src/run-automation/main.ts`). Shows saved automations list in Cmd+/, runs selected automation directly without UI. Falls back to full UI for automations with `askForInput` steps. `sync-figma-menu.cjs` extended with QUICK_ACTIONS array.
+- **buildSuggestions** helper: Computes available tokens from context tokens (count, index), property registry (15 properties), previous steps' outputName ($data or #nodes), and enclosing repeatWithEach loop variables ($item, $repeatIndex).
+
+**Phase 2 audit vs Apple Shortcuts:**
+
+What we do **differently** (and why):
+1. **Explicit output naming** — Apple auto-names every output ("Output of Ask for Input"). We require explicit `outputName`. Reason: text-based `{$var}` tokens are more compact than Apple's tap-to-insert model, and explicit naming makes JSON exports more readable.
+2. **Two output types** (data vs nodes) — Apple has one output type per action. We distinguish `$data` (pipelineVars) from `#nodes` (savedNodeSets). Reason: Figma operates on two fundamentally different things — live node references and data values.
+3. **Template tokens** `{curly braces}` — Apple uses visual variable chips (tap to insert). We use text `{token}` syntax. Reason: plugin text input can't support drag-and-drop chips. TextboxWithSuggestions bridges the gap with autocomplete.
+4. **Two-column builder** — Apple uses single-column inline editing. We use two columns (steps left, config right). Reason: narrow plugin window can't fit Apple's wide inline cards. Two columns separate concerns well for complex automations.
+5. **Quick Actions** — Apple has Siri, widgets, home screen, share sheet. We have Figma's Cmd+/ Quick Actions. Both let users trigger automations without opening the full UI.
+
+What we do **better** for our domain:
+1. **Node-centric design** — Purpose-built for Figma's node tree. Source → Filter → Navigate → Transform pipeline maps directly to how designers think about batch operations.
+2. **Saved node snapshots** (#snap) — No equivalent in Apple Shortcuts. Lets you save a working set, navigate elsewhere, then reference the saved nodes' properties. Critical for "resize to parent" type workflows.
+3. **`{#snap.property}` tokens** — Read properties from saved snapshots inline. Apple would need separate "Get Details" actions.
+4. **onMismatch handling** in repeatWithEach — error/repeatList/skipExtra for list-node pairing. Apple Shortcuts doesn't have this concept since it doesn't pair external data with visual elements.
+5. **JSON export/import** — Shareable automation recipes as plain JSON files. More portable than Apple's iCloud-linked shortcuts for team workflows.
+
+What we should consider **aligning** (future phases):
+1. **Conditions** (Phase 4) — Apple has If/Otherwise/End If. Essential for smart automations. Already planned.
+2. **Action search** — Apple's full-text search across all actions is very useful. Our picker only has category browsing. Consider adding a search field to the action picker.
+3. **Auto-generated output names** — Could default to `actionType_stepIndex` if user doesn't set outputName, making outputs always referenceable. Trade-off: adds noise when output isn't needed.
+4. **Choose from Menu/List** — Apple's "Choose from Menu" and "Choose from List" are useful input patterns beyond text. Could add as input actions.
+5. **Step notes/descriptions** — Apple lets you add notes to steps for documentation. Could add an optional `description` field to AutomationStep.
