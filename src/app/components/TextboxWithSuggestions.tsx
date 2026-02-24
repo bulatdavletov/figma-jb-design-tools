@@ -1,6 +1,7 @@
 import { h } from "preact"
 import { useState, useRef, useCallback, useEffect } from "preact/hooks"
 import { Textbox, Text } from "@create-figma-plugin/ui"
+import { TokenHighlighter } from "./TokenHighlighter"
 
 export type Suggestion = {
   token: string
@@ -189,15 +190,9 @@ function SuggestionDropdown(props: {
                 gap: 6,
               }}
             >
-              <Text
-                style={{
-                  fontSize: 11,
-                  color: "var(--figma-color-text)",
-                  fontFamily: "monospace",
-                }}
-              >
-                {`{${s.token}}`}
-              </Text>
+              <span style={{ fontSize: 11 }}>
+                <TokenHighlighter text={`{${s.token}}`} />
+              </span>
               <Text
                 style={{
                   fontSize: 10,

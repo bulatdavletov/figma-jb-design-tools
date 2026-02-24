@@ -26,11 +26,14 @@ todos:
   - id: register-all-actions
     content: Register all new actions in executor.ts ACTION_HANDLERS and add config forms + param summaries in AutomationsToolView.tsx
     status: pending
-  - id: token-highlighter
-    content: Create TokenHighlighter component with colored background pills for {token} expressions, using different colors for property/pipeline/snapshot tokens
+  - id: token-display
+    content: "Create TokenDisplay component: renders token expressions as styled pills with NO visible {, }, #, $ syntax. Different colors per token type (property=blue, pipeline var=green, snapshot ref=orange)"
     status: pending
-  - id: integrate-token-highlighter
-    content: Replace plain text token rendering with TokenHighlighter in param summaries, config panels, and run output
+  - id: token-input
+    content: "Create TokenInput component: token-aware text input with 'Insert token' button and popover listing available tokens from previous steps. Displays inserted tokens as inline pills"
+    status: pending
+  - id: integrate-token-components
+    content: "Replace all raw token syntax rendering: use TokenDisplay in param summaries, config panels, run output; use TokenInput in all editable fields that support tokens"
     status: pending
   - id: update-spec
     content: Update Automations Tool.md spec with new actions in Current Implementation section
@@ -242,33 +245,61 @@ Each new action needs:
 
 ---
 
-## Part 3: Token Highlighting UI
+## Part 3: Token Display — Hide Internal Syntax
 
-Currently `{token}` expressions appear as plain text everywhere. Create a visual treatment similar to the [InlineTextDiff](src/app/components/InlineTextDiff.tsx) component's colored background approach.
+The `{`, `}`, `#`, `$` characters in token expressions like `{#parent.width}` or `{$myVar}` are **internal implementation details**. Users should **never** see them — not in inputs, not in summaries, not anywhere.
 
-### TokenHighlighter component
+### Design principle
 
-New file: `src/app/components/TokenHighlighter.tsx`
+The raw string `"Resize to {#parent.width}x{height}"` is stored internally but displayed as:
 
-- **Input:** A string like `"Hello {name}, your {type} is ready"`
-- **Output:** JSX with regular text spans and highlighted token spans
-- **Token style:** Indigo/blue colored background pill:
-  - `background: "var(--figma-color-bg-brand-tertiary)"` (or fallback `#eef2ff`)
-  - `border: 1px solid` with matching border color
-  - `borderRadius: 4px`, `padding: 0 3px`
+```
+Resize to [parent › width] x [height]
+```
+
+where `[...]` represents a styled pill/chip. The curly braces, `#`, and `$` are stripped; the content is shown as a clean label.
+
+### TokenDisplay component
+
+New file: `src/app/components/TokenDisplay.tsx`
+
+- **Input:** A string like `"Hello {name}, your {#snap.type} costs {$price}"`
+- **Output:** JSX with regular text spans and **token pills** (no `{`, `}`, `#`, `$` visible)
+- **Pill rendering by token type:**
+  - Property tokens `{name}`, `{width}` → pill label: `name`, `width` — **blue/indigo** background
+  - Pipeline vars `{$var}` → pill label: `var` — **green** background
+  - Snapshot refs `{#snap.prop}` → pill label: `snap › prop` — **orange/amber** background (use `›` separator instead of `.`)
+- **Pill style:**
+  - `borderRadius: 4px`, `padding: 0 4px`
   - `fontFamily: monospace`, `fontSize: 0.9em`
-- Detects `{...}` patterns, including `{$var}`, `{#snap.prop}`, `{name}`
-- Different colors for different token types:
-  - Property tokens `{name}`, `{width}`: blue/indigo
-  - Pipeline vars `{$var}`: green
-  - Snapshot refs `{#snap.prop}`: orange/amber
+  - `display: inline-flex`, `alignItems: center`, `gap: 2px`
+  - Subtle background + matching border per token type
+  - `verticalAlign: baseline` for inline flow with text
+- **Parsing:** Regex `\{([^}]+)\}` to find tokens; classify by `$` prefix (pipeline var), `#` prefix (snapshot ref), or plain (property)
+
+### TokenInput component (for editable fields)
+
+New file: `src/app/components/TokenInput.tsx`
+
+Users should never type raw `{#parent.width}`. Instead, provide a token-aware text input:
+
+- **Base:** Wraps a standard textbox with a "Insert token" button (or `+` icon)
+- **Token insertion:** Clicking the button opens a small popover/dropdown listing available tokens from previous steps:
+  - **Properties:** `name`, `type`, `width`, `height`, `x`, `y`, `opacity`, `characters`, `fills`, `visible`, `id`
+  - **Snapshot refs:** Listed from earlier steps that have `outputName` (shown as `stepName › property`)
+  - **Pipeline vars:** Listed from `setPipelineVariable` steps
+- **Display in input:** Inserted tokens render as inline pills (same style as TokenDisplay). Internally the textbox value stores the raw `{token}` syntax, but the rendered view shows pills
+- **Editing:** Backspace on a pill removes the whole token. Users can type plain text around pills
+- **Fallback:** If complex rich input is too difficult for Figma plugin environment, use a simpler approach:
+  - Standard textbox for typing
+  - "Insert token" button that appends the token at cursor/end
+  - Show a TokenDisplay preview below the input so users see how it will look
 
 ### Usage locations
 
-- `getParamSummary()` return values (step row descriptions)
-- `StepConfigPanel` display labels
-- Run output log messages
-- Anywhere token expressions are shown read-only (NOT in editable textboxes)
+- **Read-only displays:** `getParamSummary()` return values, step row descriptions, run output log messages, config panel labels — use `TokenDisplay`
+- **Editable fields:** All param textboxes that support tokens (renameLayers pattern, setCharacters text, setName name, etc.) — use `TokenInput`
+- **Nowhere** should raw `{`, `}`, `#`, `$` syntax be visible to the user
 
 ---
 

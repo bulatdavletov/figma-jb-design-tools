@@ -26,7 +26,7 @@ export const setPipelineVariable: ActionHandler = async (context, params) => {
   context.log.push({
     stepIndex: -1,
     stepName: "Set variable",
-    message: `$${varName} = ${String(stored)}`,
+    message: `{$${varName}} = ${String(stored)}`,
     itemsIn: context.nodes.length,
     itemsOut: context.nodes.length,
     status: "success",
@@ -71,7 +71,7 @@ export const setPipelineVariableFromProperty: ActionHandler = async (context, pa
     context.log.push({
       stepIndex: -1,
       stepName: "Set variable from property",
-      message: `$${varName} = ${String(value)} (${property} of "${node.name}")`,
+      message: `{$${varName}} = ${String(value)} (${property} of "${node.name}")`,
       itemsIn: context.nodes.length,
       itemsOut: context.nodes.length,
       status: "success",
@@ -115,11 +115,11 @@ export const splitText: ActionHandler = async (context, params): Promise<ActionR
     context.log.push({
       stepIndex: -1,
       stepName: "Split text",
-      message: `Variable "$${sourceVar}" not found`,
+      message: `Variable {$${sourceVar}} not found`,
       itemsIn: context.nodes.length,
       itemsOut: context.nodes.length,
       status: "error",
-      error: `Variable "$${sourceVar}" not found`,
+      error: `Variable {$${sourceVar}} not found`,
     })
     return { context }
   }
@@ -133,7 +133,7 @@ export const splitText: ActionHandler = async (context, params): Promise<ActionR
   context.log.push({
     stepIndex: -1,
     stepName: "Split text",
-    message: `Split $${sourceVar} → ${parts.length} item(s)`,
+    message: `Split {$${sourceVar}} → ${parts.length} item(s)`,
     itemsIn: context.nodes.length,
     itemsOut: context.nodes.length,
     status: "success",

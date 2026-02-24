@@ -330,7 +330,7 @@ async function executeRepeatListMode(
     context.log.push({
       stepIndex,
       stepName: "Repeat with each",
-      message: `Variable "$${source}" is not a list`,
+      message: `Variable {$${source}} is not a list`,
       itemsIn: context.nodes.length,
       itemsOut: context.nodes.length,
       status: "error",
@@ -375,7 +375,7 @@ async function executeRepeatListMode(
   context.log.push({
     stepIndex,
     stepName: "Repeat with each",
-    message: `Iterating ${iterationCount} time(s) with $${source} (${listCount} item(s), ${nodeCount} node(s))`,
+      message: `Iterating ${iterationCount} time(s) with {$${source}} (${listCount} item(s), ${nodeCount} node(s))`,
     itemsIn: nodeCount,
     itemsOut: nodeCount,
     status: "success",
@@ -396,7 +396,7 @@ async function executeRepeatListMode(
     context.log.push({
       stepIndex,
       stepName: "Repeat with each",
-      message: `Repeat ${i + 1}/${iterationCount}: $${itemVar} = "${String(listItem)}"`,
+      message: `Repeat ${i + 1}/${iterationCount}: {$${itemVar}} = "${String(listItem)}"`,
       itemsIn: 1,
       itemsOut: 1,
       status: "success",

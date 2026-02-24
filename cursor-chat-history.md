@@ -360,11 +360,12 @@ What we should consider **aligning** (future phases):
    - **Transform — Text (6):** `setFontSize`, `setFont`, `setTextAlignment`, `setTextCase`, `setTextDecoration`, `setLineHeight`
    - **Transform — Components (2):** `detachInstance`, `swapComponent`
 
-4. **TokenHighlighter component**: Renders `{token}` expressions with colored background pills:
-   - Blue/indigo for property tokens (`{name}`, `{width}`)
-   - Green for pipeline variables (`{$var}`)
-   - Orange/amber for snapshot references (`{#snap.prop}`)
-   - Used in step row param summaries
+4. **TokenHighlighter component**: Renders token expressions as styled pills with **hidden internal syntax** — `{`, `}`, `#`, `$` are never visible to users:
+   - Blue/indigo pills for property tokens (e.g., `width`, `name`)
+   - Green pills for pipeline variables (e.g., `myVar`)
+   - Orange/amber pills for snapshot references (e.g., `parent › width`)
+   - Used in step rows, param summaries, input context hints, run output log, repeat help text
+   - `stripTokenSyntax()` helper for plain-text contexts (clipboard log copy)
 
 5. **Storage migration**: Auto-converts on load:
    - `filterByType`/`filterByName` → `filter` with conditions array
@@ -383,3 +384,46 @@ What we should consider **aligning** (future phases):
 - `components/TokenHighlighter.tsx` — new file, colored pill rendering for `{token}` expressions
 - `AutomationsToolView.tsx` — imports, `getParamSummary()` for all new actions, `renderStepParams()` with unified filter query-builder UI and 19 new config forms, `TokenHighlighter` integration in step rows
 - `Specs/tools/Automations Tool.md` — updated Current Implementation section with all 47 actions
+
+### 2026-02-24: Hide internal token syntax from users
+
+**Task:** Token syntax characters (`{`, `}`, `#`, `$`) are internal implementation details — users should never see them anywhere in the UI.
+
+**What was done:**
+- **TokenHighlighter** updated: `classifyToken()` strips prefix characters and formats clean labels. `$myVar` → `myVar` (green pill), `#parent.width` → `parent › width` (orange pill), `name` → `name` (blue pill). Added `stripTokenSyntax()` for plain-text contexts.
+- **TextboxWithSuggestions** dropdown: Uses TokenHighlighter pills instead of raw `{token}` text.
+- **Step row badges**: Target and output name badges use TokenHighlighter pills instead of raw `#target →` / `→ $output`.
+- **getParamSummary()**: Variable references now wrapped with `{...}` so TokenHighlighter processes them (e.g., `setPipelineVariable` shows pill instead of `$varName`).
+- **renderInputContext()**: Available tokens listed as TokenHighlighter pills instead of raw `{$var}`, `{#snap.*}` text.
+- **Dropdown labels**: `buildInputSourceOptions` and `buildValueSourceOptions` no longer show `#`/`$` prefixes.
+- **Placeholders**: Rephrased from "Supports {$var}, {name} tokens..." to "Supports tokens from previous steps".
+- **Output name hint**: Simplified from "($name)" / "(#name)" to just "data variable" / "node snapshot".
+- **repeatWithEach help text**: Uses TokenHighlighter pills instead of raw `{$item}`, `{$repeatIndex}` syntax.
+- **StepLogRow**: Renders messages through TokenHighlighter.
+- **Executor + action log messages**: Wrapped `$var` references with `{...}` for TokenHighlighter processing.
+- **Clipboard log copy**: Uses `stripTokenSyntax()` for clean plain-text output.
+- **Plan updated**: Part 3 redesigned as "Token Display — Hide Internal Syntax" with TokenDisplay + TokenInput components spec.
+
+**Files changed:**
+- `TokenHighlighter.tsx` — `classifyToken()`, `stripTokenSyntax()`, `TokenStyle` type
+- `TextboxWithSuggestions.tsx` — import + use TokenHighlighter in dropdown
+- `AutomationsToolView.tsx` — all display points cleaned
+- `executor.ts` — log messages wrapped for TokenHighlighter
+- `variable-actions.ts` — log messages wrapped for TokenHighlighter
+
+### 2026-02-24: Fix Dropdown crash + migration gap for bare output name references
+
+**Bug:** Clicking "Split text" step in builder crashed with `Invalid value: askForInput`. The `Dropdown` component from `@create-figma-plugin/ui` throws when `value` doesn't match any `option`. The `sourceVar` param still held the old output name `"askForInput"` (pre-migration) while the actual output name was migrated to `"input"`.
+
+**Root cause:** `migrateTokenReferences()` only handled `{#name.prop}` and `{$name}` token patterns in string params. Bare name references (`sourceVar`, `source`, `snapshotName`) that directly store an output name without `{...}` wrapping were not migrated.
+
+**Second bug:** Back button "squished" the screen — window resized to 360px (list size) but builder screen stayed visible. Caused by Preact's render tree being in an error state from the Dropdown crash, preventing `setScreen("list")` from taking effect.
+
+**Fixes:**
+1. **Storage migration**: Added `BARE_REF_PARAMS` set (`sourceVar`, `source`, `snapshotName`). `migrateTokenReferences()` now checks bare string params against the nameMap for direct output name references.
+2. **Defensive `safeDropdownValue()` helper**: Falls back to first option if value doesn't match any option. Applied to all reference dropdowns (splitText input, repeatWithEach source, restoreNodes snapshot, target nodes).
+3. **restoreNodes filter fix**: The `#` prefix filter `o.text.startsWith("#")` broke after removing `#` from option text. Replaced with proper `producesData !== true` filter.
+
+**Files changed:**
+- `storage.ts` — `BARE_REF_PARAMS`, updated `migrateTokenReferences()`
+- `AutomationsToolView.tsx` — `safeDropdownValue()`, applied to 4 dropdowns, fixed restoreNodes filter

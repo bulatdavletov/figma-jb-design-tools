@@ -65,7 +65,7 @@ import {
   parseImportJson,
 } from "../../tools/automations/storage"
 import { ButtonWithIcon } from "../../components/ButtonWithIcon"
-import { TokenHighlighter } from "../../components/TokenHighlighter"
+import { TokenHighlighter, stripTokenSyntax } from "../../components/TokenHighlighter"
 
 type Screen = "list" | "builder" | "runOutput"
 
@@ -76,6 +76,10 @@ const LIST_HEIGHT = 500
 
 function postMessage(msg: object) {
   parent.postMessage({ pluginMessage: msg }, "*")
+}
+
+function safeDropdownValue(value: string, options: { value: string }[]): string {
+  return options.some((o) => o.value === value) ? value : options[0]?.value ?? ""
 }
 
 function downloadTextFile(filename: string, text: string) {
@@ -155,7 +159,7 @@ function buildSuggestions(
         suggestions.push({
           token: `#${step.outputName}.${prop.key}`,
           label: `${prop.label} from "${step.outputName}"`,
-          category: `#${step.outputName}`,
+          category: step.outputName,
         })
       }
     }
@@ -794,7 +798,7 @@ function formatLogAsText(result: AutomationsRunResult): string {
     for (const entry of result.log) {
       const status = entry.status === "success" ? "OK" : entry.status === "error" ? "ERR" : "SKIP"
       lines.push(`[${status}] ${entry.stepIndex + 1}. ${entry.stepName}  (${entry.itemsIn} → ${entry.itemsOut})`)
-      if (entry.message) lines.push(`     ${entry.message}`)
+      if (entry.message) lines.push(`     ${stripTokenSyntax(entry.message)}`)
     }
   }
   if (result.errors.length > 0) {
@@ -922,7 +926,7 @@ function StepLogRow(props: { entry: AutomationsStepLog }) {
           paddingLeft: 12,
         }}
       >
-        {entry.message}
+        {entry.message && <TokenHighlighter text={entry.message} />}
       </div>
     </div>
   )
@@ -1431,8 +1435,8 @@ function StepRow(props: {
               gap: 4,
             }}
           >
-            {props.step.target && <span>#{props.step.target} →</span>}
-            {props.step.outputName && <span>→ {def?.producesData ? "$" : "#"}{props.step.outputName}</span>}
+            {props.step.target && <span><TokenHighlighter text={`{#${props.step.target}}`} /> →</span>}
+            {props.step.outputName && <span>→ <TokenHighlighter text={`{${def?.producesData ? "$" : "#"}${props.step.outputName}}`} /></span>}
           </div>
         )}
       </div>
@@ -1598,14 +1602,14 @@ function getParamSummary(step: AutomationStepPayload): string {
     case "selectResults":
       return ""
     case "setPipelineVariable":
-      return p.variableName ? `$${p.variableName} = ${p.value ?? ""}` : ""
+      return p.variableName ? `{$${p.variableName}} = ${p.value ?? ""}` : ""
     case "setPipelineVariableFromProperty":
-      return p.variableName ? `$${p.variableName} ← ${p.property ?? "name"}` : ""
+      return p.variableName ? `{$${p.variableName}} ← ${p.property ?? "name"}` : ""
     case "goToParent":
     case "flattenDescendants":
       return ""
     case "restoreNodes":
-      return p.snapshotName ? `from #${p.snapshotName}` : ""
+      return p.snapshotName ? `from {#${p.snapshotName}}` : ""
     case "setCharacters":
       return String(p.characters ?? "")
     case "setFontSize":
@@ -1660,11 +1664,11 @@ function getParamSummary(step: AutomationStepPayload): string {
     case "askForInput":
       return String(p.label ?? "Enter text")
     case "splitText":
-      return p.sourceVar ? `$${p.sourceVar}` : ""
+      return p.sourceVar ? `{$${p.sourceVar}}` : ""
     case "repeatWithEach": {
       const src = String(p.source ?? "nodes")
       if (src === "nodes") return "nodes"
-      return `$${src} → $${p.itemVar ?? "item"}`
+      return `{$${src}} → {$${p.itemVar ?? "item"}}`
     }
     default:
       return ""
@@ -1924,21 +1928,21 @@ function StepConfigPanel(props: {
           <VerticalSpace space="medium" />
         </Fragment>
       )}
-      {showTargetDropdown && targetOptions.length > 0 && (
-        <Fragment>
-          <Text style={{ fontSize: 11 }}>Target nodes</Text>
-          <VerticalSpace space="extraSmall" />
-          <Dropdown
-            value={step.target ?? ""}
-            onValueChange={onUpdateTarget}
-            options={[
-              { value: "", text: "Previous step (default)" },
-              ...targetOptions,
-            ]}
-          />
-          <VerticalSpace space="medium" />
-        </Fragment>
-      )}
+      {showTargetDropdown && targetOptions.length > 0 && (() => {
+        const targetAllOptions = [{ value: "", text: "Previous step (default)" }, ...targetOptions]
+        return (
+          <Fragment>
+            <Text style={{ fontSize: 11 }}>Target nodes</Text>
+            <VerticalSpace space="extraSmall" />
+            <Dropdown
+              value={safeDropdownValue(step.target ?? "", targetAllOptions)}
+              onValueChange={onUpdateTarget}
+              options={targetAllOptions}
+            />
+            <VerticalSpace space="medium" />
+          </Fragment>
+        )
+      })()}
       {renderStepParams(step, onUpdateParam, suggestions, allSteps, stepIndex, parentStep)}
 
       {step.actionType !== "repeatWithEach" && (
@@ -1955,8 +1959,8 @@ function StepConfigPanel(props: {
           />
           <Text style={{ fontSize: 10, color: "var(--figma-color-text-tertiary)", marginTop: 4 }}>
             {def?.producesData
-              ? "Saves the result as a pipeline variable ($name)"
-              : "Saves the current working set as a node snapshot (#name)"}
+              ? "Saves the result as a data variable"
+              : "Saves the current working set as a node snapshot"}
           </Text>
         </Fragment>
       )}
@@ -1976,10 +1980,9 @@ function buildInputSourceOptions(
     const def = ACTION_DEFINITIONS.find((d) => d.type === s.actionType)
     const isData = def?.producesData === true
     if (dataOnly && !isData) continue
-    const prefix = isData ? "$" : "#"
     options.push({
       value: s.outputName,
-      text: `${prefix}${s.outputName} (${def?.label ?? s.actionType})`,
+      text: `${s.outputName} (${def?.label ?? s.actionType})`,
     })
   }
   return options
@@ -2003,7 +2006,7 @@ function buildValueSourceOptions(
     if (def?.producesData) continue
     options.push({
       value: `{#${s.outputName}.${propertyKey}}`,
-      text: `${prop.label} from #${s.outputName}`,
+      text: `${prop.label} from ${s.outputName}`,
     })
   }
   return options
@@ -2036,27 +2039,32 @@ function renderInputContext(
       <div key="repeat">
         Inside <b>Repeat with each</b>
         {src !== "nodes" && (
-          <Fragment> — use <b>{`{$${itemVar}}`}</b> for current item</Fragment>
+          <Fragment> — use <TokenHighlighter text={`{$${itemVar}}`} /> for current item</Fragment>
         )}
       </div>,
     )
   }
 
   if (showTokens) {
-    const tokens: string[] = []
+    const tokenElements: h.JSX.Element[] = []
     for (let i = 0; i < stepIndex; i++) {
       const s = allSteps[i]
       if (!s.outputName) continue
       const def = ACTION_DEFINITIONS.find((d) => d.type === s.actionType)
-      if (def?.producesData) tokens.push(`{$${s.outputName}}`)
-      else tokens.push(`{#${s.outputName}.*}`)
+      const raw = def?.producesData ? `{$${s.outputName}}` : `{#${s.outputName}}`
+      tokenElements.push(<TokenHighlighter key={`t-${i}`} text={raw} />)
     }
     if (isInRepeat) {
       const itemVar = String(parentStep!.params.itemVar ?? "item")
-      tokens.push(`{$${itemVar}}`, "{$repeatIndex}")
+      tokenElements.push(<TokenHighlighter key="t-item" text={`{$${itemVar}}`} />)
+      tokenElements.push(<TokenHighlighter key="t-idx" text="{$repeatIndex}" />)
     }
-    if (tokens.length > 0) {
-      lines.push(<div key="tokens">Available: {tokens.join(", ")}</div>)
+    if (tokenElements.length > 0) {
+      lines.push(
+        <div key="tokens" style={{ display: "flex", flexWrap: "wrap", gap: 4, alignItems: "center" }}>
+          Available: {tokenElements.reduce<(h.JSX.Element | string)[]>((acc, el, idx) => idx === 0 ? [el] : [...acc, " ", el], [])}
+        </div>,
+      )
     }
   }
 
@@ -2270,27 +2278,35 @@ function renderStepParams(
 
     case "restoreNodes": {
       const snapshotOptions = buildInputSourceOptions(allSteps, stepIndex, false)
-        .filter((o) => o.text.startsWith("#"))
+        .filter((o) => {
+          const s = allSteps.find((st) => st.outputName === o.value)
+          if (!s) return false
+          const d = ACTION_DEFINITIONS.find((ad) => ad.type === s.actionType)
+          return d?.producesData !== true
+        })
       return (
         <Fragment>
           <Text style={{ fontSize: 11 }}>Input (node snapshot)</Text>
           <VerticalSpace space="extraSmall" />
-          {snapshotOptions.length > 0 ? (
-            <Dropdown
-              value={String(step.params.snapshotName ?? "")}
-              options={[
-                { value: "", text: "Select snapshot..." },
-                ...snapshotOptions,
-              ]}
-              onValueChange={(v: string) => updateParam("snapshotName", v)}
-            />
-          ) : (
-            <Textbox
-              value={String(step.params.snapshotName ?? "")}
-              onValueInput={(v: string) => updateParam("snapshotName", v)}
-              placeholder="Name of saved node set (without #)"
-            />
-          )}
+          {(() => {
+            if (snapshotOptions.length > 0) {
+              const snapAllOptions = [{ value: "", text: "Select snapshot..." }, ...snapshotOptions]
+              return (
+                <Dropdown
+                  value={safeDropdownValue(String(step.params.snapshotName ?? ""), snapAllOptions)}
+                  options={snapAllOptions}
+                  onValueChange={(v: string) => updateParam("snapshotName", v)}
+                />
+              )
+            }
+            return (
+              <Textbox
+                value={String(step.params.snapshotName ?? "")}
+                onValueInput={(v: string) => updateParam("snapshotName", v)}
+                placeholder="Name of saved node set"
+              />
+            )
+          })()}
         </Fragment>
       )
     }
@@ -2491,7 +2507,7 @@ function renderStepParams(
           <TextboxWithSuggestions
             value={String(step.params.characters ?? "")}
             onValueInput={(v: string) => updateParam("characters", v)}
-            placeholder={isInRepeat ? `Use {$${repeatItemVar}} for current item` : "Supports {$var}, {name}, {index} tokens..."}
+            placeholder={isInRepeat ? "Use current item token" : "Supports tokens from previous steps"}
             suggestions={suggestions}
           />
         </Fragment>
@@ -2900,17 +2916,15 @@ function renderStepParams(
 
     case "splitText": {
       const splitInputOptions = buildInputSourceOptions(allSteps, stepIndex, true)
+      const splitAllOptions = [{ value: "", text: "Select input..." }, ...splitInputOptions]
       return (
         <Fragment>
           <Text style={{ fontSize: 11 }}>Input</Text>
           <VerticalSpace space="extraSmall" />
           {splitInputOptions.length > 0 ? (
             <Dropdown
-              value={String(step.params.sourceVar ?? "")}
-              options={[
-                { value: "", text: "Select input..." },
-                ...splitInputOptions,
-              ]}
+              value={safeDropdownValue(String(step.params.sourceVar ?? ""), splitAllOptions)}
+              options={splitAllOptions}
               onValueChange={(v: string) => updateParam("sourceVar", v)}
             />
           ) : (
@@ -2939,7 +2953,8 @@ function renderStepParams(
 
     case "repeatWithEach": {
       const repeatInputOptions = buildInputSourceOptions(allSteps, stepIndex, true)
-      const source = String(step.params.source ?? "nodes")
+      const repeatAllOptions = [{ value: "nodes", text: "Current nodes" }, ...repeatInputOptions]
+      const source = safeDropdownValue(String(step.params.source ?? "nodes"), repeatAllOptions)
       const itemVar = String(step.params.itemVar ?? "item")
       const isListMode = source !== "nodes"
       return (
@@ -2948,10 +2963,7 @@ function renderStepParams(
           <VerticalSpace space="extraSmall" />
           <Dropdown
             value={source}
-            options={[
-              { value: "nodes", text: "Current nodes" },
-              ...repeatInputOptions,
-            ]}
+            options={repeatAllOptions}
             onValueChange={(v: string) => updateParam("source", v)}
           />
           <VerticalSpace space="small" />
@@ -2984,13 +2996,13 @@ function renderStepParams(
           <Text style={{ fontSize: 10, color: "var(--figma-color-text-tertiary)" }}>
             {isListMode ? (
               <Fragment>
-                <b>List mode:</b> Pairs ${source} list items with working set nodes.
-                Each iteration sets <b>${itemVar}</b> to current list item and the
+                <b>List mode:</b> Pairs <TokenHighlighter text={`{$${source}}`} /> list items with working set nodes.
+                Each iteration sets <TokenHighlighter text={`{$${itemVar}}`} /> to current list item and the
                 working set to the paired node.
                 <br /><br />
-                Use <b>{"{"}${itemVar}{"}"}</b> in child steps to access the current item value.
+                Use <TokenHighlighter text={`{$${itemVar}}`} /> in child steps to access the current item value.
                 <br />
-                Use <b>{"{"}$repeatIndex{"}"}</b> for the current iteration index.
+                Use <TokenHighlighter text="{$repeatIndex}" /> for the current iteration index.
                 <br /><br />
                 <b>On mismatch</b> controls what happens when list size ≠ node count:
                 <br />• Error — stops execution
@@ -3001,9 +3013,9 @@ function renderStepParams(
               <Fragment>
                 <b>Nodes mode:</b> Iterates each node in the working set one at a time.
                 <br /><br />
-                Use <b>{"{"}$repeatIndex{"}"}</b> for the current iteration index.
+                Use <TokenHighlighter text="{$repeatIndex}" /> for the current iteration index.
                 <br />
-                Use <b>{"{"}name{"}"}</b>, <b>{"{"}type{"}"}</b> etc. in child steps to access current node properties.
+                Use <TokenHighlighter text="{name}" />, <TokenHighlighter text="{type}" /> etc. in child steps to access current node properties.
               </Fragment>
             )}
           </Text>
@@ -3021,7 +3033,7 @@ function renderStepParams(
           <TextboxWithSuggestions
             value={String(step.params.message ?? "")}
             onValueInput={(v: string) => updateParam("message", v)}
-            placeholder="Supports {count}, {$var} tokens..."
+            placeholder="Supports tokens from previous steps"
             suggestions={suggestions}
           />
         </Fragment>
@@ -3072,7 +3084,7 @@ function renderStepParams(
           <TextboxWithSuggestions
             value={String(step.params.value ?? "")}
             onValueInput={(v: string) => updateParam("value", v)}
-            placeholder="Supports {count}, {name} tokens..."
+            placeholder="Supports tokens from previous steps"
             suggestions={suggestions}
           />
         </Fragment>

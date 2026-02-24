@@ -239,6 +239,8 @@ function migrateStep(step: AutomationStep): AutomationStep {
   return migrated
 }
 
+const BARE_REF_PARAMS = new Set(["sourceVar", "source", "snapshotName"])
+
 function migrateTokenReferences(step: AutomationStep, nameMap: Map<string, string>): AutomationStep {
   if (nameMap.size === 0) return step
 
@@ -248,6 +250,11 @@ function migrateTokenReferences(step: AutomationStep, nameMap: Map<string, strin
   for (const [key, value] of Object.entries(step.params)) {
     if (typeof value === "string") {
       let replaced = value
+
+      if (BARE_REF_PARAMS.has(key) && nameMap.has(replaced)) {
+        replaced = nameMap.get(replaced)!
+      }
+
       nameMap.forEach((newName, oldName) => {
         replaced = replaced.split(`{#${oldName}.`).join(`{#${newName}.`)
         replaced = replaced.split(`{$${oldName}}`).join(`{$${newName}}`)
