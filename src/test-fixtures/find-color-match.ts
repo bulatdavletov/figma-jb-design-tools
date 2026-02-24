@@ -148,4 +148,9 @@ export const scenarios: Scenario[] = [
       },
     ],
   },
+  {
+    id: "error",
+    label: "Error",
+    messages: [COLLECTIONS, GROUPS, CACHE_READY, { type: "ERROR", message: "Failed to match colors for current selection" }],
+  },
 ]

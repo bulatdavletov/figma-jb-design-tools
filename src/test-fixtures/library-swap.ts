@@ -75,4 +75,12 @@ export const scenarios: Scenario[] = [
       },
     ],
   },
+  {
+    id: "error",
+    label: "Error",
+    messages: [
+      { type: "LIBRARY_SWAP_SELECTION", selectionSize: 12 },
+      { type: "ERROR", message: "Failed to analyze selection for library swap" },
+    ],
+  },
 ]

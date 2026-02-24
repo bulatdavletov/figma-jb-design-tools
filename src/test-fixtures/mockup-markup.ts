@@ -38,4 +38,12 @@ export const scenarios: Scenario[] = [
       COLOR_PREVIEWS,
     ],
   },
+  {
+    id: "error",
+    label: "Error",
+    messages: [
+      { type: "MOCKUP_MARKUP_STATUS", status: { status: "idle" } },
+      { type: "ERROR", message: "Failed to apply typography preset" },
+    ],
+  },
 ]

@@ -73,4 +73,12 @@ export const scenarios: Scenario[] = [
       },
     ],
   },
+  {
+    id: "error",
+    label: "Error",
+    messages: [
+      COLLECTIONS,
+      { type: "ERROR", message: "Failed to create linked colors from selection" },
+    ],
+  },
 ]

@@ -304,7 +304,11 @@ function StateShowcase() {
   return (
     <ShowcaseSection title="State" description="Empty/loading/error surface for each tool.">
       <div style={{ border: "1px solid var(--figma-color-border)", borderRadius: 8 }}>
-        <State icon={<IconStub16 />} title="Nothing here yet" description="This is a preview state." />
+        <State icon={<IconStub16 />} title="Nothing here yet" description="This is an empty preview state." />
+      </div>
+      <VerticalSpace space="small" />
+      <div style={{ border: "1px solid var(--figma-color-border)", borderRadius: 8 }}>
+        <State tone="default" title="Unable to load data" description="This is an error preview state." />
       </div>
     </ShowcaseSection>
   )

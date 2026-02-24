@@ -119,4 +119,12 @@ export const scenarios: Scenario[] = [
     ],
     props: { initialTab: "Update" },
   },
+  {
+    id: "error",
+    label: "Error",
+    messages: [
+      { type: "PRINT_COLOR_USAGES_STATUS", status: { status: "idle" } },
+      { type: "ERROR", message: "Failed to fetch color usages from selection" },
+    ],
+  },
 ]

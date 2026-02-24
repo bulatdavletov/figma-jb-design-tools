@@ -80,4 +80,12 @@ export const scenarios: Scenario[] = [
       },
     ],
   },
+  {
+    id: "error",
+    label: "Error",
+    messages: [
+      { type: "REPLACE_USAGES_SELECTION", payload: { variables: [], selectionSize: 5, colors: [] } },
+      { type: "ERROR", message: "Failed to replace usages for one or more variables" },
+    ],
+  },
 ]
