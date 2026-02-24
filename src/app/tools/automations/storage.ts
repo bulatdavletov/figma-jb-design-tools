@@ -128,24 +128,35 @@ const ACTION_TYPE_MIGRATIONS: Record<string, ActionType> = {
   selectByName: "filterByName",
 }
 
+function migrateStep(step: AutomationStep): AutomationStep {
+  const simpleRename = ACTION_TYPE_MIGRATIONS[step.actionType]
+  if (simpleRename) {
+    return { ...step, actionType: simpleRename, params: migrateParams(simpleRename, step.params) }
+  }
+
+  if (step.actionType === ("setLayoutMode" as ActionType)) {
+    const mode = String(step.params.layoutMode ?? "VERTICAL")
+    if (mode === "NONE") {
+      return { ...step, actionType: "removeAutoLayout" as ActionType, params: {} }
+    }
+    return { ...step, actionType: "addAutoLayout" as ActionType, params: { direction: mode } }
+  }
+
+  return step
+}
+
 function migrateAutomation(automation: Automation): Automation {
   let changed = false
   const steps = automation.steps.map((step) => {
-    const newType = ACTION_TYPE_MIGRATIONS[step.actionType]
-    if (newType) {
-      changed = true
-      return {
-        ...step,
-        actionType: newType,
-        params: migrateParams(newType, step.params),
-      }
-    }
-    return step
+    const migrated = migrateStep(step)
+    if (migrated !== step) changed = true
+    return migrated
   })
   return changed ? { ...automation, steps } : automation
 }
 
 function migrateActionType(actionType: string): ActionType {
+  if (actionType === "setLayoutMode") return "addAutoLayout"
   return (ACTION_TYPE_MIGRATIONS[actionType] ?? actionType) as ActionType
 }
 

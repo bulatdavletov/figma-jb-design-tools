@@ -170,3 +170,16 @@ What we should consider **aligning** (future phases):
 3. **Auto-generated output names** — Could default to `actionType_stepIndex` if user doesn't set outputName, making outputs always referenceable. Trade-off: adds noise when output isn't needed.
 4. **Choose from Menu/List** — Apple's "Choose from Menu" and "Choose from List" are useful input patterns beyond text. Could add as input actions.
 5. **Step notes/descriptions** — Apple lets you add notes to steps for documentation. Could add an optional `description` field to AutomationStep.
+
+### 2026-02-24: Split setLayoutMode into three auto layout actions
+
+**Task:** Replace the single `setLayoutMode` action with three semantically distinct actions matching Figma's own UI model.
+
+**What was done:**
+- **addAutoLayout**: Enables auto layout on frames/components with direction (HORIZONTAL/VERTICAL) and optional initial item spacing
+- **editAutoLayout**: Changes properties on nodes that already have auto layout — direction, item spacing, padding (top/right/bottom/left). Only affects nodes with `layoutMode != "NONE"`. Empty fields preserve current values.
+- **removeAutoLayout**: Turns off auto layout (`layoutMode = "NONE"`)
+- Storage migration: `setLayoutMode` with `layoutMode: "NONE"` → `removeAutoLayout`, otherwise → `addAutoLayout`
+- UI: Dedicated config forms for each — Add has direction dropdown + spacing, Edit has direction + spacing + 4-field padding grid, Remove has no params
+
+**Why:** The original `setLayoutMode` conflated three distinct operations into one dropdown. Splitting matches Figma's own "Add auto layout" / "Remove auto layout" UI pattern and the Figma-First design principle. Edit is a natural complement for changing existing layouts without toggling them on/off.
