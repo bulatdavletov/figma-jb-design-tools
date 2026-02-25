@@ -49,7 +49,7 @@ export const scenarios: Scenario[] = [
   },
   {
     id: "no-unbound",
-    label: "No Unbound Colors",
+    label: "No Colors",
     messages: [
       COLLECTIONS,
       GROUPS,
@@ -84,6 +84,8 @@ export const scenarios: Scenario[] = [
                 nodeName: "Button bg",
                 colorType: "FILL",
                 paintIndex: 0,
+                sourceType: "VARIABLE",
+                sourceName: "button/primary/background",
               },
               bestMatch: {
                 variableId: "VariableID:abc/1",
@@ -115,6 +117,8 @@ export const scenarios: Scenario[] = [
                 nodeName: "Warning icon",
                 colorType: "FILL",
                 paintIndex: 0,
+                sourceType: "RAW",
+                sourceName: null,
               },
               bestMatch: {
                 variableId: "VariableID:abc/30",

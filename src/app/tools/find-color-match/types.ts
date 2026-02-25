@@ -19,6 +19,8 @@ export type FoundColor = {
   nodeName: string
   colorType: ColorType
   paintIndex: number
+  sourceType: "VARIABLE" | "STYLE" | "RAW"
+  sourceName: string | null
 }
 
 export type VariableCandidate = ResolvedColorVariable

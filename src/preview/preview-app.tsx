@@ -24,6 +24,7 @@ import { Tree, type TreeNode } from "../app/components/Tree"
 import { ToolCard } from "../app/components/ToolCard"
 import { ToolTabs } from "../app/components/ToolTabs"
 import { ToolPreview } from "./ToolPreview"
+import { LibraryCacheStatusBar } from "../app/components/LibraryCacheStatusBar"
 import { tools } from "./tool-registry"
 
 type Theme = "figma-light" | "figma-dark"
@@ -37,7 +38,7 @@ function setTheme(theme: Theme) {
 }
 
 const PLUGIN_WIDTH = 360
-const PLUGIN_HEIGHT = 500
+const PLUGIN_HEIGHT = 550
 
 // ---------------------------------------------------------------------------
 // Sidebar
@@ -166,8 +167,6 @@ function ShowcaseSection(props: {
       <VerticalSpace space="small" />
       {props.children}
       <VerticalSpace space="medium" />
-      <Divider />
-      <VerticalSpace space="medium" />
     </Fragment>
   )
 }
@@ -187,14 +186,86 @@ function ToolCardShowcase() {
   )
 }
 
-function ActionsShowcase() {
+function ButtonsWithIconsShowcase() {
   return (
-    <ShowcaseSection title="Actions" description="Primary action styles with icons and labels." options="Components: ButtonWithIcon, Button">
-      <Button onClick={() => alert("ButtonWithIcon clicked")}>
-        Apply selected changes
-      </Button>
+    <ShowcaseSection 
+      title="Buttons with Icons" 
+      description="Primary and secondary buttons with icons and labels, in all available states: default, disabled, loading, danger, secondary." 
+      options="Components: ButtonWithIcon. States: default, disabled, loading, danger, secondary, fullWidth.">
+      
+      {/* Primary buttons */}
+      <ButtonWithIcon icon={<IconStub16 />}>
+        Primary button with icon
+      </ButtonWithIcon>
+
       <VerticalSpace space="extraSmall" />
-      <Button disabled>Disabled action</Button>
+
+      <ButtonWithIcon loading icon={<IconStub16 />}>
+        Loading primary button
+      </ButtonWithIcon>
+
+      <VerticalSpace space="extraSmall" />
+
+      <ButtonWithIcon danger icon={<IconStub16 />}>
+        Danger primary button
+      </ButtonWithIcon>
+
+      <VerticalSpace space="extraSmall" />
+
+      <ButtonWithIcon disabled icon={<IconStub16 />}>
+        Disabled primary button
+      </ButtonWithIcon>
+
+      <VerticalSpace space="large" />
+
+      {/* Secondary buttons */}
+      <ButtonWithIcon secondary icon={<IconStub16 />}>
+        Secondary button with icon
+      </ButtonWithIcon>
+
+      <VerticalSpace space="extraSmall" />
+
+      <ButtonWithIcon secondary loading icon={<IconStub16 />}>
+        Loading secondary button
+      </ButtonWithIcon>
+
+      <VerticalSpace space="extraSmall" />
+
+      <ButtonWithIcon secondary danger icon={<IconStub16 />}>
+        Danger secondary button
+      </ButtonWithIcon>
+
+      <VerticalSpace space="extraSmall" />
+
+      <ButtonWithIcon secondary disabled icon={<IconStub16 />}>
+        Disabled secondary button
+      </ButtonWithIcon>
+
+      <VerticalSpace space="large" />
+
+      {/* Full width buttons */}
+      <ButtonWithIcon fullWidth icon={<IconStub16 />}>
+        Full width primary button
+      </ButtonWithIcon>
+
+      <VerticalSpace space="extraSmall" />
+
+      <ButtonWithIcon fullWidth loading icon={<IconStub16 />}>
+        Loading full width secondary button
+      </ButtonWithIcon>
+
+      <VerticalSpace space="extraSmall" />
+
+      <ButtonWithIcon fullWidth danger icon={<IconStub16 />}>
+        Danger full width primary button
+      </ButtonWithIcon>
+
+      <VerticalSpace space="extraSmall" />
+    
+      <ButtonWithIcon fullWidth secondary icon={<IconStub16 />}>
+        Full width secondary button
+      </ButtonWithIcon>
+
     </ShowcaseSection>
   )
 }
@@ -302,10 +373,29 @@ function ColorRowShowcase() {
 
 function StateShowcase() {
   return (
-    <ShowcaseSection title="State" description="Empty/loading/error surface for each tool.">
-      <div style={{ border: "1px solid var(--figma-color-border)", borderRadius: 8 }}>
+    <ShowcaseSection 
+      title="State"
+      description="Empty/loading/error surface for each tool."
+    >
+      <div style={{ 
+        border: "1px solid var(--figma-color-border)",
+        borderRadius: 8 }}>
         <State icon={<IconStub16 />} title="Nothing here yet" description="This is a preview state." />
       </div>
+    </ShowcaseSection>
+  )
+}
+
+function LibraryCacheStatusBarShowcase() {
+  return (
+    <ShowcaseSection
+      title="LibraryCacheStatusBar"
+      description="Bottom progress status used during library cache checks and updates."
+    >
+        <LibraryCacheStatusBar status={{ state: "checking" }} />
+        <VerticalSpace space="small" />
+        <LibraryCacheStatusBar status={{ state: "updating", current: 10, total: 100, message: "Updating library…" }} />
+
     </ShowcaseSection>
   )
 }
@@ -316,7 +406,7 @@ function StateShowcase() {
 
 const componentShowcases = [
   { id: "toolcard", label: "ToolCard", Component: ToolCardShowcase },
-  { id: "actions", label: "Actions", Component: ActionsShowcase },
+  { id: "buttonswithicons", label: "Buttons with Icons", Component: ButtonsWithIconsShowcase },
   { id: "tooltabs", label: "ToolTabs", Component: ToolTabsShowcase },
   { id: "scopecontrol", label: "ScopeControl", Component: ScopeControlShowcase },
   { id: "tree", label: "Tree", Component: TreeShowcase },
@@ -324,6 +414,7 @@ const componentShowcases = [
   { id: "datatable", label: "DataTable", Component: DataTableShowcase },
   { id: "colorrow", label: "ColorRow + Swatch", Component: ColorRowShowcase },
   { id: "state", label: "State", Component: StateShowcase },
+  { id: "librarycachestatusbar", label: "LibraryCacheStatusBar", Component: LibraryCacheStatusBarShowcase },
 ]
 
 // ---------------------------------------------------------------------------

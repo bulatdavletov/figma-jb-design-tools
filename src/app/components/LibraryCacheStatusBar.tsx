@@ -22,18 +22,18 @@ export function LibraryCacheStatusBar({ status }: Props) {
   return (
     <div
       style={{
-        position: "fixed",
-        bottom: 0,
-        left: 0,
-        right: 0,
+        // position: "fixed",
+        // bottom: 0,
+        // left: 0,
+        // right: 0,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         gap: 6,
         padding: "6px 12px",
         background: "var(--figma-color-bg)",
-        borderTop: "1px solid var(--figma-color-border)",
-        zIndex: 100,
+        //borderTop: "1px solid var(--figma-color-border)",
+        //zIndex: 100,
       }}
     >
       <div style={{ flexShrink: 0, width: 16, height: 16 }}>

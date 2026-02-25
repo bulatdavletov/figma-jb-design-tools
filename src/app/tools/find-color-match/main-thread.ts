@@ -27,6 +27,7 @@ export function registerFindColorMatchTool(getActiveTool: () => ActiveTool) {
   let activeModeId: string | null = null
   let activeGroupPrefix: string | null = null
   let backgroundCheckPromise: Promise<void> | null = null
+  let activationLoadPromise: Promise<void> | null = null
   const groupsPerCollection: Record<string, string[]> = {}
 
   const sendError = (message: string) => {
@@ -102,23 +103,6 @@ export function registerFindColorMatchTool(getActiveTool: () => ActiveTool) {
     })
   }
 
-  const discoverAllGroups = async () => {
-    for (const source of collectionSources) {
-      if (groupsPerCollection[source.key]) continue
-      const modeId = source.modes[0]?.modeId ?? null
-      let candidates = getCachedVariablesSync(source.key, modeId)
-      if (!candidates || candidates.length === 0) {
-        try {
-          candidates = await getVariables(source.key, modeId, sendCacheStatus)
-        } catch {
-          continue
-        }
-      }
-      groupsPerCollection[source.key] = extractGroups(candidates)
-    }
-    sendAllGroups()
-  }
-
   const getFilteredCandidates = (candidates: VariableCandidate[]): VariableCandidate[] => {
     if (!activeGroupPrefix) return candidates
     const prefix = activeGroupPrefix + "/"
@@ -129,19 +113,18 @@ export function registerFindColorMatchTool(getActiveTool: () => ActiveTool) {
    * Loads candidates via the shared cache (fingerprint-checked).
    * Sends groups to UI when the data set is new.
    */
-  const loadCandidates = async (): Promise<VariableCandidate[]> => {
-    if (!activeCollectionKey) return []
+  const loadCandidates = async (
+    collectionKey = activeCollectionKey,
+    modeId = activeModeId
+  ): Promise<VariableCandidate[]> => {
+    if (!collectionKey) return []
 
-    const candidates = await getVariables(
-      activeCollectionKey,
-      activeModeId,
-      sendCacheStatus,
-    )
+    const candidates = await getVariables(collectionKey, modeId, sendCacheStatus)
 
     const newGroups = extractGroups(candidates)
-    const prev = groupsPerCollection[activeCollectionKey]
+    const prev = groupsPerCollection[collectionKey]
     if (!prev || prev.length !== newGroups.length || prev.some((g, i) => g !== newGroups[i])) {
-      groupsPerCollection[activeCollectionKey] = newGroups
+      groupsPerCollection[collectionKey] = newGroups
       sendAllGroups()
     }
 
@@ -166,6 +149,8 @@ export function registerFindColorMatchTool(getActiveTool: () => ActiveTool) {
         nodeName: m.found.nodeName,
         colorType: m.found.colorType,
         paintIndex: m.found.paintIndex,
+        sourceType: m.found.sourceType,
+        sourceName: m.found.sourceName,
       },
       bestMatch: m.bestMatch
         ? {
@@ -195,15 +180,25 @@ export function registerFindColorMatchTool(getActiveTool: () => ActiveTool) {
     })
   }
 
+  const sendSelectionEmpty = () => {
+    figma.ui.postMessage({ type: MAIN_TO_UI.SELECTION_EMPTY })
+  }
+
   /**
    * Core scan: match selection colors against candidate variables.
    * Uses cached data if available, otherwise loads via the shared cache.
    */
   const runScan = async () => {
     if (getActiveTool() !== "find-color-match-tool") return
+    const scanCollectionKey = activeCollectionKey
+    const scanModeId = activeModeId
+    if (!scanCollectionKey) {
+      sendEmptyResult()
+      return
+    }
 
     if (figma.currentPage.selection.length === 0) {
-      sendEmptyResult()
+      sendSelectionEmpty()
       return
     }
 
@@ -213,12 +208,19 @@ export function registerFindColorMatchTool(getActiveTool: () => ActiveTool) {
       return
     }
 
-    const allCandidates = await loadCandidates()
+    const allCandidates = await loadCandidates(scanCollectionKey, scanModeId)
+    if (
+      getActiveTool() !== "find-color-match-tool" ||
+      scanCollectionKey !== activeCollectionKey ||
+      scanModeId !== activeModeId
+    ) {
+      return
+    }
     const entries = buildEntries(foundColors, allCandidates)
 
     figma.ui.postMessage({
       type: MAIN_TO_UI.FIND_COLOR_MATCH_RESULT,
-      payload: { entries, collectionKey: activeCollectionKey ?? "", modeId: activeModeId },
+      payload: { entries, collectionKey: scanCollectionKey, modeId: scanModeId },
     })
   }
 
@@ -227,19 +229,21 @@ export function registerFindColorMatchTool(getActiveTool: () => ActiveTool) {
    * Returns false if no cached data was available.
    */
   const runScanFromCacheSync = async (): Promise<boolean> => {
-    if (!activeCollectionKey) return false
-    const cached = getCachedVariablesSync(activeCollectionKey, activeModeId)
+    const scanCollectionKey = activeCollectionKey
+    const scanModeId = activeModeId
+    if (!scanCollectionKey) return false
+    const cached = getCachedVariablesSync(scanCollectionKey, scanModeId)
     if (!cached || cached.length === 0) return false
 
     const newGroups = extractGroups(cached)
-    const prev = groupsPerCollection[activeCollectionKey]
+    const prev = groupsPerCollection[scanCollectionKey]
     if (!prev || prev.length !== newGroups.length || prev.some((g, i) => g !== newGroups[i])) {
-      groupsPerCollection[activeCollectionKey] = newGroups
+      groupsPerCollection[scanCollectionKey] = newGroups
       sendAllGroups()
     }
 
     if (figma.currentPage.selection.length === 0) {
-      sendEmptyResult()
+      sendSelectionEmpty()
       return true
     }
 
@@ -252,7 +256,7 @@ export function registerFindColorMatchTool(getActiveTool: () => ActiveTool) {
     const entries = buildEntries(foundColors, cached)
     figma.ui.postMessage({
       type: MAIN_TO_UI.FIND_COLOR_MATCH_RESULT,
-      payload: { entries, collectionKey: activeCollectionKey ?? "", modeId: activeModeId },
+      payload: { entries, collectionKey: scanCollectionKey, modeId: scanModeId },
     })
     return true
   }
@@ -263,12 +267,21 @@ export function registerFindColorMatchTool(getActiveTool: () => ActiveTool) {
    */
   const backgroundCacheCheck = () => {
     if (backgroundCheckPromise) return
+    const checkCollectionKey = activeCollectionKey
+    const checkModeId = activeModeId
+    if (!checkCollectionKey) return
     backgroundCheckPromise = (async () => {
       try {
-        const previousCached = getCachedVariablesSync(activeCollectionKey!, activeModeId)
-        const fresh = await loadCandidates()
+        const previousCached = getCachedVariablesSync(checkCollectionKey, checkModeId)
+        const fresh = await loadCandidates(checkCollectionKey, checkModeId)
 
-        if (previousCached && fresh !== previousCached && fresh.length > 0) {
+        if (
+          previousCached &&
+          fresh !== previousCached &&
+          fresh.length > 0 &&
+          checkCollectionKey === activeCollectionKey &&
+          checkModeId === activeModeId
+        ) {
           console.log("[Find Color Match] Library data updated, re-scanning…")
           await runScan()
         }
@@ -282,7 +295,18 @@ export function registerFindColorMatchTool(getActiveTool: () => ActiveTool) {
   }
 
   const runHexLookup = async (hex: string) => {
-    const allCandidates = await loadCandidates()
+    const lookupCollectionKey = activeCollectionKey
+    const lookupModeId = activeModeId
+    if (!lookupCollectionKey) return
+
+    const allCandidates = await loadCandidates(lookupCollectionKey, lookupModeId)
+    if (
+      getActiveTool() !== "find-color-match-tool" ||
+      lookupCollectionKey !== activeCollectionKey ||
+      lookupModeId !== activeModeId
+    ) {
+      return
+    }
     const candidates = getFilteredCandidates(allCandidates)
     if (candidates.length === 0) return
 
@@ -413,14 +437,20 @@ export function registerFindColorMatchTool(getActiveTool: () => ActiveTool) {
   return {
     onActivate: async () => {
       await sendCollections()
-      await discoverAllGroups()
 
       const servedFromCache = await runScanFromCacheSync()
 
       if (servedFromCache) {
         backgroundCacheCheck()
       } else {
-        await runScan()
+        if (!activationLoadPromise) {
+          activationLoadPromise = runScan()
+            .catch((e) => sendError(e instanceof Error ? e.message : String(e)))
+            .finally(() => {
+              activationLoadPromise = null
+              sendCacheStatus({ state: "idle" })
+            })
+        }
       }
     },
     onMessage,

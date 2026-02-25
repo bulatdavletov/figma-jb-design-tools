@@ -72,10 +72,9 @@ export function FindColorMatchToolView({ onBack, initialSelectionEmpty }: Props)
       }
 
       if (msg.type === MAIN_TO_UI.FIND_COLOR_MATCH_RESULT) {
-        const hasEntries = msg.payload.entries.length > 0
         setEntries(msg.payload.entries)
         setIsLoading(false)
-        setSelectionEmpty(!hasEntries)
+        setSelectionEmpty(false)
         setAppliedKeys(new Set())
         setOverrides({})
       }
@@ -279,7 +278,7 @@ export function FindColorMatchToolView({ onBack, initialSelectionEmpty }: Props)
   )
 
   const showEmptySelection = !isLoading && selectionEmpty && entries.length === 0
-  const showNoUnbound = !isLoading && !selectionEmpty && entries.length === 0 && visibleEntries.length === 0
+  const showNoColors = !isLoading && !selectionEmpty && entries.length === 0 && visibleEntries.length === 0
 
   const hexSelectedMatch = hexMatches.length > 0 ? hexMatches[hexSelectedIdx] ?? hexMatches[0] : null
   const hexTop2 = hexMatches.slice(0, 2)
@@ -419,10 +418,10 @@ export function FindColorMatchToolView({ onBack, initialSelectionEmpty }: Props)
         </ToolBody>
       )}
 
-      {/* Empty: no unbound colors */}
-      {showNoUnbound && (
+      {/* Empty: no colors */}
+      {showNoColors && (
         <ToolBody mode="state">
-          <State title="No unbound colors found in selection" />
+          <State title="No colors found in selection" />
         </ToolBody>
       )}
 
@@ -430,7 +429,7 @@ export function FindColorMatchToolView({ onBack, initialSelectionEmpty }: Props)
       {visibleEntries.length > 0 && (
         <ToolBody mode="content">
           <Text style={{ color: "var(--figma-color-text-secondary)" }}>
-            {visibleEntries.length} unbound color{visibleEntries.length !== 1 ? "s" : ""} found
+            {visibleEntries.length} color{visibleEntries.length !== 1 ? "s" : ""} found
           </Text>
           <VerticalSpace space="small" />
 
@@ -466,10 +465,10 @@ export function FindColorMatchToolView({ onBack, initialSelectionEmpty }: Props)
                         onClick={() => handleFocusNode(entry.found.nodeId)}
                         title={`Click to focus: ${entry.found.nodeName}`}
                       >
-                        {entry.found.nodeName}
+                        {entry.found.sourceName ?? entry.found.nodeName}
                       </div>
                       <div style={{ fontSize: 10, color: "var(--figma-color-text-secondary)" }}>
-                        {entry.found.hex} · {entry.found.colorType.toLowerCase()}
+                        {entry.found.nodeName} · {entry.found.hex} · {entry.found.colorType.toLowerCase()}
                         {entry.found.opacity < 100 ? ` · ${entry.found.opacity}%` : ""}
                       </div>
                     </div>

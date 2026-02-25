@@ -969,6 +969,8 @@ export type FindColorMatchFoundColorEntry = {
   nodeName: string
   colorType: "FILL" | "STROKE" | "TEXT"
   paintIndex: number
+  sourceType: "VARIABLE" | "STYLE" | "RAW"
+  sourceName: string | null
 }
 
 export type FindColorMatchVariableEntry = {
