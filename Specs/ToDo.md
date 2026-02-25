@@ -1,3 +1,31 @@
+## General
+
+- [x] UI elements showcase page with custom components, example data, options, and descriptions (for future Figma library + Code Connect prep).
+
+UI: Loader not aligned with text
+
+Need md file with available Figma colors,  Figma API actions.
+
+- [x]Push this repo to github
+new repo name: figma-jb-design-tools
+
+- [ ]Bug report: slack message to me. In header of tool? Bottom of home view?
+
+- [ ]Foldable instructions inside tools
+
+Need to design Table view - started
+Is it possible to make window wider?
+Cases, requirements.
+
+~~Bug: No visible vertical spacing between primary and secondary text inside DataList/DataRow items.~~
+✓ Fixed: Replaced `Text` component with plain `<div>` elements in DataRow and Print preview. The library's `Text` uses `::before { margin-top: -9px }` + `transform: translateY(4px)` which compressed layout heights (20px→12px, 16px→8px) and made text fill edge-to-edge, hiding the gap.
+
+Idea: new component located in right and bottom part of ui, that allows to resize the window.
+It should have delay, before hover, and then show the resize handle.
+
+Specs: product one, and dev one - most important parts for AI to have a all required context and spend less time on research.
+Current ones are product one. Dev should be called: "TOOL NAME. Dev Spec".
+
 ## Markup Tool:
 Add Sticky Note
 Convert text to sticky note and vise versa.
@@ -24,30 +52,6 @@ Manual match as separate Tab.
 ## Inspector (new idea)
 print anything by Variable ID or component key, maybe?.
 
-## General
-
-- [x] UI elements showcase page with custom components, example data, options, and descriptions (for future Figma library + Code Connect prep).
-
-UI: Loader not aligned with text
-
-Need md file with available Figma colors,  Figma API actions.
-
-- [x]Push this repo to github
-new repo name: figma-jb-design-tools
-
-- [ ]Bug report: slack message to me. In header of tool? Bottom of home view?
-
-- [ ]Foldable instructions inside tools
-
-Need to design Table view - started
-Is it possible to make window wider?
-Cases, requirements.
-
-~~Bug: No visible vertical spacing between primary and secondary text inside DataList/DataRow items.~~
-✓ Fixed: Replaced `Text` component with plain `<div>` elements in DataRow and Print preview. The library's `Text` uses `::before { margin-top: -9px }` + `transform: translateY(4px)` which compressed layout heights (20px→12px, 16px→8px) and made text fill edge-to-edge, hiding the gap.
-
-Idea: new component located in right and bottom part of ui, that allows to resize the window.
-It should have delay, before hover, and then show the resize handle.
 
 ## Print tool:
 
