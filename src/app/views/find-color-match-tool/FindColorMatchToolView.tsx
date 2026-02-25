@@ -294,13 +294,20 @@ export function FindColorMatchToolView({ onBack, initialSelectionEmpty }: Props)
         }
       />
 
-      {/* Filters: collection, mode, and hex input — horizontal */}
+      {/* Filters: dropdowns on first row, color input on second row */}
       <div>
         <Container space="small">
           <VerticalSpace space="small" />
-          <div style={{ display: "flex", gap: 6, alignItems: "stretch" }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+              columnGap: 8,
+              rowGap: 8,
+            }}
+          >
             {combinedCollectionOptions.length > 0 && (
-              <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ minWidth: 0 }}>
                 <Dropdown
                   options={combinedCollectionOptions}
                   value={combinedCollectionValue}
@@ -309,7 +316,7 @@ export function FindColorMatchToolView({ onBack, initialSelectionEmpty }: Props)
               </div>
             )}
             {modeOptions.length > 0 && (
-              <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ minWidth: 0 }}>
                 <Dropdown
                   options={modeOptions}
                   value={selectedModeId ?? null}
@@ -317,16 +324,16 @@ export function FindColorMatchToolView({ onBack, initialSelectionEmpty }: Props)
                 />
               </div>
             )}
-          </div>
-          <VerticalSpace space="small" />
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <TextboxColor
-              hexColor={hexInput}
-              hexColorPlaceholder="Paste hex"
-              opacity={hexOpacity}
-              onHexColorValueInput={handleHexInput}
-              onOpacityValueInput={setHexOpacity}
-            />
+            <div style={{ minWidth: 0, gridColumn: "1 / 2" }}>
+              <TextboxColor
+                fullWidth
+                hexColor={hexInput}
+                hexColorPlaceholder="Paste hex"
+                opacity={hexOpacity}
+                onHexColorValueInput={handleHexInput}
+                onOpacityValueInput={setHexOpacity}
+              />
+            </div>
           </div>
           <VerticalSpace space="small" />
         </Container>
@@ -450,9 +457,15 @@ export function FindColorMatchToolView({ onBack, initialSelectionEmpty }: Props)
                   }}
                 >
                   {/* Found color info */}
-                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <div style={{ display: "flex", alignItems: "start", gap: 8 }}>
                     <ColorSwatch hex={entry.found.hex} opacityPercent={entry.found.opacity} />
                     <div style={{ flex: 1, minWidth: 0 }}>
+                      {/*Main text*/}
+                      <div style={{ 
+                        display: "flex", 
+                        alignItems: "center", 
+                        gap: 6 }}
+                      >
                       <div
                         style={{
                           fontSize: 11,
@@ -465,11 +478,16 @@ export function FindColorMatchToolView({ onBack, initialSelectionEmpty }: Props)
                         onClick={() => handleFocusNode(entry.found.nodeId)}
                         title={`Click to focus: ${entry.found.nodeName}`}
                       >
-                        {entry.found.sourceName ?? entry.found.nodeName}
+                        {entry.found.sourceName ?? `${entry.found.hex} ${entry.found.opacity < 100 ? ` ${entry.found.opacity}%` : ""}`}
                       </div>
+                      <div>
+                      {entry.found.sourceName ? `${entry.found.hex} ${entry.found.opacity < 100 ? ` ${entry.found.opacity}%` : ""}` : ""}
+                      </div>
+                      </div>
+
+                      {/*Secondary text*/}
                       <div style={{ fontSize: 10, color: "var(--figma-color-text-secondary)" }}>
-                        {entry.found.nodeName} · {entry.found.hex} · {entry.found.colorType.toLowerCase()}
-                        {entry.found.opacity < 100 ? ` · ${entry.found.opacity}%` : ""}
+                        {entry.found.nodeName} · {entry.found.colorType.toLowerCase()}
                       </div>
                     </div>
                   </div>
@@ -486,16 +504,19 @@ export function FindColorMatchToolView({ onBack, initialSelectionEmpty }: Props)
                             gap: 6,
                             marginBottom: 4,
                             cursor: "pointer",
-                            padding: "2px 4px",
+                            padding: "4px 4px",
+                            marginLeft: 14+8,
                             borderRadius: 4,
                             background: m.variableId === selectedVarId ? "var(--figma-color-bg-hover)" : "transparent",
                           }}
                           onClick={() => handleOverrideVariable(key, m.variableId)}
                         >
                           <ColorSwatch hex={m.hex} opacityPercent={m.opacityPercent} />
+                          {/*Main text*/}
                           <div style={{ flex: 1, minWidth: 0, fontSize: 11, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                             {m.variableName}
                           </div>
+                          {/*Percentage*/}
                           <div style={{ fontSize: 10, color: "var(--figma-color-text-secondary)", flexShrink: 0 }}>
                             {m.matchPercent}%
                           </div>
@@ -503,21 +524,23 @@ export function FindColorMatchToolView({ onBack, initialSelectionEmpty }: Props)
                       ))}
 
                       {entry.allMatches.length > 2 && (
-                        <Dropdown
-                          options={entry.allMatches.slice(2).map((m) => ({
-                            value: m.variableId,
-                            text: `${m.variableName} (${m.matchPercent}%)`,
-                          }))}
-                          value={overrideVarId && !top2.find((m) => m.variableId === overrideVarId) ? overrideVarId : null}
-                          onChange={(e: any) => handleOverrideVariable(key, e.currentTarget.value)}
-                          placeholder="More matches…"
-                          style={{ marginBottom: 4 }}
-                        />
+                        <div style={{ marginLeft: 14+8+2 }}>
+                          <Dropdown
+                            options={entry.allMatches.slice(2).map((m) => ({
+                              value: m.variableId,
+                              text: `${m.variableName} (${m.matchPercent}%)`,
+                            }))}
+                            value={overrideVarId && !top2.find((m) => m.variableId === overrideVarId) ? overrideVarId : null}
+                            onChange={(e: any) => handleOverrideVariable(key, e.currentTarget.value)}
+                            placeholder="More matches…"
+                            style={{ marginBottom: 8 }}
+                          />
+                          <Button onClick={() => handleApply(entry)} style={{ width: "100%" }}>
+                            Apply
+                          </Button>
+                        </div>
                       )}
 
-                      <Button onClick={() => handleApply(entry)} secondary style={{ width: "100%" }}>
-                        Apply
-                      </Button>
                     </div>
                   )}
 

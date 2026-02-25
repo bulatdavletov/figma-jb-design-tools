@@ -33,6 +33,7 @@ type CacheEntry = {
   variables: ResolvedColorVariable[]
   fingerprint: string
   timestamp: number
+  isComplete: boolean
 }
 
 // ---------------------------------------------------------------------------
@@ -41,6 +42,7 @@ type CacheEntry = {
 
 let collectionsCache: LibraryCollectionInfo[] | null = null
 const variableCache = new Map<string, CacheEntry>()
+const inflightLoads = new Map<string, Promise<ResolvedColorVariable[]>>()
 
 function cacheKey(collectionKey: string, modeId: string | null): string {
   return `${collectionKey}:${modeId ?? "default"}`
@@ -106,12 +108,13 @@ export async function getVariables(
   collectionKey: string,
   modeId: string | null,
   onStatus?: (status: LibraryCacheStatus) => void,
-  onProgress?: (progress: LoadProgress) => void
+  onProgress?: (progress: LoadProgress) => void,
+  onPartial?: (variables: ResolvedColorVariable[], progress: LoadProgress) => void
 ): Promise<ResolvedColorVariable[]> {
   const key = cacheKey(collectionKey, modeId)
   const existing = variableCache.get(key)
 
-  if (existing) {
+  if (existing && existing.isComplete) {
     onStatus?.({ state: "checking" })
     try {
       const fp = await computeFingerprint(collectionKey)
@@ -128,29 +131,53 @@ export async function getVariables(
     }
   }
 
-  onStatus?.({ state: "updating", current: 0, total: 0, message: "Loading library…" })
-
-  const variables = await loadAndResolveLibraryColorVariables(
-    collectionKey,
-    modeId,
-    (p) => {
-      onStatus?.({ state: "updating", current: p.current, total: p.total, message: p.message })
-      onProgress?.(p)
-    }
-  )
-
-  let fingerprint = ""
-  try {
-    fingerprint = await computeFingerprint(collectionKey)
-  } catch {
-    // non-critical — next access will just reload
+  const running = inflightLoads.get(key)
+  if (running) {
+    onStatus?.({ state: "updating", current: 0, total: 0, message: "Loading library…" })
+    return running
   }
 
-  variableCache.set(key, { variables, fingerprint, timestamp: Date.now() })
-  console.log(`[LibCache] Cached ${variables.length} variables for ${key}`)
+  onStatus?.({ state: "updating", current: 0, total: 0, message: "Loading library…" })
 
-  onStatus?.({ state: "ready" })
-  return variables
+  const loaderPromise = (async () => {
+    const variables = await loadAndResolveLibraryColorVariables(
+      collectionKey,
+      modeId,
+      (p) => {
+        onStatus?.({ state: "updating", current: p.current, total: p.total, message: p.message })
+        onProgress?.(p)
+      },
+      (partialVars, p) => {
+        variableCache.set(key, {
+          variables: partialVars,
+          fingerprint: "",
+          timestamp: Date.now(),
+          isComplete: false,
+        })
+        onPartial?.(partialVars, p)
+      }
+    )
+
+    let fingerprint = ""
+    try {
+      fingerprint = await computeFingerprint(collectionKey)
+    } catch {
+      // non-critical — next access will just reload
+    }
+
+    variableCache.set(key, { variables, fingerprint, timestamp: Date.now(), isComplete: true })
+    console.log(`[LibCache] Cached ${variables.length} variables for ${key}`)
+
+    onStatus?.({ state: "ready" })
+    return variables
+  })()
+
+  inflightLoads.set(key, loaderPromise)
+  try {
+    return await loaderPromise
+  } finally {
+    inflightLoads.delete(key)
+  }
 }
 
 /**

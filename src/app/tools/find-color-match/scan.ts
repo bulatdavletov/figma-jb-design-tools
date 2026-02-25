@@ -1,5 +1,6 @@
 import { colorToRgbHex, colorToOpacityPercent } from "../../variable-chain"
 import type { FoundColor, ColorType } from "./types"
+import { getComponentDisplayName } from "../../utils/component-name"
 
 function isBooleanOperationChild(node: SceneNode): boolean {
   const parent = node.parent
@@ -107,6 +108,17 @@ async function extractSolidPaints(
   return results
 }
 
+function resolveNodeDisplayName(node: SceneNode): string {
+  if (node.type === "COMPONENT") {
+    return getComponentDisplayName(node)
+  }
+  if (node.type === "INSTANCE") {
+    const main = node.mainComponent
+    if (main) return getComponentDisplayName(main)
+  }
+  return node.name
+}
+
 export async function scanSelectionForColors(): Promise<FoundColor[]> {
   const selection = figma.currentPage.selection
   if (selection.length === 0) return []
@@ -123,15 +135,22 @@ export async function scanSelectionForColors(): Promise<FoundColor[]> {
     if (isBooleanOperationChild(node)) continue
 
     const any = node as any
+    const nodeDisplayName = resolveNodeDisplayName(node)
 
     if (node.type === "TEXT") {
-      results.push(...(await extractSolidPaints(any.fills, node, "TEXT", variableNameCache, styleNameCache)))
+      const paints = await extractSolidPaints(any.fills, node, "TEXT", variableNameCache, styleNameCache)
+      for (const p of paints) p.nodeName = nodeDisplayName
+      results.push(...paints)
     } else if ("fills" in any) {
-      results.push(...(await extractSolidPaints(any.fills, node, "FILL", variableNameCache, styleNameCache)))
+      const paints = await extractSolidPaints(any.fills, node, "FILL", variableNameCache, styleNameCache)
+      for (const p of paints) p.nodeName = nodeDisplayName
+      results.push(...paints)
     }
 
     if ("strokes" in any) {
-      results.push(...(await extractSolidPaints(any.strokes, node, "STROKE", variableNameCache, styleNameCache)))
+      const paints = await extractSolidPaints(any.strokes, node, "STROKE", variableNameCache, styleNameCache)
+      for (const p of paints) p.nodeName = nodeDisplayName
+      results.push(...paints)
     }
 
     if ("children" in node) {

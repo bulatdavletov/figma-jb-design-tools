@@ -145,7 +145,8 @@ export async function loadLibraryCollectionModes(collectionKey: string): Promise
 export async function loadAndResolveLibraryColorVariables(
   collectionKey: string,
   modeId: string | null,
-  onProgress?: (progress: LoadProgress) => void
+  onProgress?: (progress: LoadProgress) => void,
+  onPartial?: (variables: ResolvedColorVariable[], progress: LoadProgress) => void
 ): Promise<ResolvedColorVariable[]> {
   const libraryVars = await figma.teamLibrary.getVariablesInLibraryCollectionAsync(collectionKey)
   const colorVars = libraryVars.filter((v) => v.resolvedType === "COLOR")
@@ -154,11 +155,12 @@ export async function loadAndResolveLibraryColorVariables(
 
   const results: ResolvedColorVariable[] = []
   const total = colorVars.length
+  const progressStep = 2
 
   for (let i = 0; i < colorVars.length; i++) {
     const lv = colorVars[i]
 
-    if (onProgress && i % 10 === 0) {
+    if (onProgress && i % progressStep === 0) {
       onProgress({ current: i, total, message: `Loading variables… ${i}/${total}` })
       await new Promise((r) => setTimeout(r, 0))
     }
@@ -190,6 +192,13 @@ export async function loadAndResolveLibraryColorVariables(
         b: rgb.b,
         opacityPercent: resolved.finalOpacityPercent ?? 100,
       })
+
+      if (
+        onPartial &&
+        (results.length === 1 || results.length % progressStep === 0 || i === colorVars.length - 1)
+      ) {
+        onPartial(results.slice(), { current: i + 1, total, message: `Loading variables… ${i + 1}/${total}` })
+      }
     } catch {
       // Skip variables that fail to import/resolve
     }

@@ -28,6 +28,7 @@ export function registerFindColorMatchTool(getActiveTool: () => ActiveTool) {
   let activeGroupPrefix: string | null = null
   let backgroundCheckPromise: Promise<void> | null = null
   let activationLoadPromise: Promise<void> | null = null
+  let scanVersion = 0
   const groupsPerCollection: Record<string, string[]> = {}
 
   const sendError = (message: string) => {
@@ -115,11 +116,30 @@ export function registerFindColorMatchTool(getActiveTool: () => ActiveTool) {
    */
   const loadCandidates = async (
     collectionKey = activeCollectionKey,
-    modeId = activeModeId
+    modeId = activeModeId,
+    onPartial?: (candidates: VariableCandidate[]) => void
   ): Promise<VariableCandidate[]> => {
     if (!collectionKey) return []
 
-    const candidates = await getVariables(collectionKey, modeId, sendCacheStatus)
+    const candidates = await getVariables(
+      collectionKey,
+      modeId,
+      sendCacheStatus,
+      undefined,
+      (partialCandidates) => {
+        const partialGroups = extractGroups(partialCandidates)
+        const prevGroups = groupsPerCollection[collectionKey]
+        if (
+          !prevGroups ||
+          prevGroups.length !== partialGroups.length ||
+          prevGroups.some((g, i) => g !== partialGroups[i])
+        ) {
+          groupsPerCollection[collectionKey] = partialGroups
+          sendAllGroups()
+        }
+        onPartial?.(partialCandidates)
+      }
+    )
 
     const newGroups = extractGroups(candidates)
     const prev = groupsPerCollection[collectionKey]
@@ -190,6 +210,7 @@ export function registerFindColorMatchTool(getActiveTool: () => ActiveTool) {
    */
   const runScan = async () => {
     if (getActiveTool() !== "find-color-match-tool") return
+    const runVersion = ++scanVersion
     const scanCollectionKey = activeCollectionKey
     const scanModeId = activeModeId
     if (!scanCollectionKey) {
@@ -208,9 +229,44 @@ export function registerFindColorMatchTool(getActiveTool: () => ActiveTool) {
       return
     }
 
-    const allCandidates = await loadCandidates(scanCollectionKey, scanModeId)
+    // Show immediate rows from whatever is already cached, then improve progressively.
+    const cachedCandidates = getCachedVariablesSync(scanCollectionKey, scanModeId) ?? []
+    figma.ui.postMessage({
+      type: MAIN_TO_UI.FIND_COLOR_MATCH_RESULT,
+      payload: {
+        entries: buildEntries(foundColors, cachedCandidates),
+        collectionKey: scanCollectionKey,
+        modeId: scanModeId,
+      },
+    })
+
+    let lastPartialSentAt = 0
+    const allCandidates = await loadCandidates(scanCollectionKey, scanModeId, (partialCandidates) => {
+      if (
+        getActiveTool() !== "find-color-match-tool" ||
+        runVersion !== scanVersion ||
+        scanCollectionKey !== activeCollectionKey ||
+        scanModeId !== activeModeId
+      ) {
+        return
+      }
+
+      const now = Date.now()
+      if (now - lastPartialSentAt < 120) return
+      lastPartialSentAt = now
+
+      figma.ui.postMessage({
+        type: MAIN_TO_UI.FIND_COLOR_MATCH_RESULT,
+        payload: {
+          entries: buildEntries(foundColors, partialCandidates),
+          collectionKey: scanCollectionKey,
+          modeId: scanModeId,
+        },
+      })
+    })
     if (
       getActiveTool() !== "find-color-match-tool" ||
+      runVersion !== scanVersion ||
       scanCollectionKey !== activeCollectionKey ||
       scanModeId !== activeModeId
     ) {

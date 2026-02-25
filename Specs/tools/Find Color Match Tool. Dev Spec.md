@@ -26,7 +26,7 @@ Match any selection solid colors (raw, style-bound, or variable-bound) to the cl
 1. Tool activates (`registerFindColorMatchTool`).
 2. Collections are discovered and posted to UI.
 3. Fast path: if candidate variables for active collection+mode exist in memory cache, scan runs from cache and results are shown instantly.
-4. Cold path: scan starts in background; cache status is posted while loading; results are posted when ready.
+4. Cold path: scan starts in background; cache status is posted while loading; rows are shown immediately from current cache (or empty matches), then progressively improved as candidates stream in.
 5. Selection changes trigger debounced re-scan.
 6. Hex lookup uses the same candidate pool and returns top matches.
 7. Apply action binds selected variable to node paint and returns per-row apply result.
@@ -37,6 +37,7 @@ Match any selection solid colors (raw, style-bound, or variable-bound) to the cl
 - Invalidation strategy: fingerprint check (`sorted COLOR variable keys`) before trusting cached variables.
 - On cache hit + unchanged fingerprint: return cached variables immediately.
 - On fingerprint mismatch or empty cache: reload variables through `loadAndResolveLibraryColorVariables`.
+- During reload, cache receives partial candidate snapshots so UI can improve results incrementally.
 - Activation does **not** eagerly preload all collections anymore; variables are loaded lazily for active collection/mode.
 
 ### Why performance was bad before

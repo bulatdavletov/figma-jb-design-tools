@@ -82,3 +82,13 @@ ToolBody spacing: too much vertical space before/after content in compact views 
 ## Migrate to New UI Kit
 
 - [ ] Manual pairs - make it as separate Tab
+
+## Find Color Match in Islands tool:
+
+Idea: hardcode isnalnds colors and collections, for faster loading.
+Check if library updated, and suggest to update hardcoded file.
+I think Export tool should be used to export the hardcoded file.
+
+How to check colors with opacity
+
+How to show component

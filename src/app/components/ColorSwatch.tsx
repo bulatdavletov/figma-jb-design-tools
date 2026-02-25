@@ -36,7 +36,7 @@ export function ColorSwatch(props: {
   borderRadius?: number
 }) {
   // Defaults match `TextboxColor` `.chit` exactly (see `textbox-color.module.css`).
-  const size = typeof props.size === "number" ? props.size : 14
+  const size = typeof props.size === "number" ? props.size : 16
   const borderRadius = typeof props.borderRadius === "number" ? props.borderRadius : 3
 
   const opacityPercent = typeof props.opacityPercent === "number" ? props.opacityPercent : null
