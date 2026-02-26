@@ -20,6 +20,8 @@ import { DataTable } from "../app/components/DataTable"
 import { IconStub16 } from "../../custom-icons/generated"
 import { ScopeControl, type ScopeValue } from "../app/components/ScopeControl"
 import { State } from "../app/components/State"
+import { TokenInput, type Suggestion } from "../app/components/TokenInput"
+import { TokenPill } from "../app/components/TokenPill"
 import { Tree, type TreeNode } from "../app/components/Tree"
 import { ToolCard } from "../app/components/ToolCard"
 import { ToolTabs } from "../app/components/ToolTabs"
@@ -310,6 +312,63 @@ function StateShowcase() {
   )
 }
 
+function TokenPillShowcase() {
+  return (
+    <ShowcaseSection
+      title="TokenPill"
+      description="Pill used inside TokenInput for expression tokens. Default and selected (caret touching) states."
+      options="Props: label, selected"
+    >
+      <div style={{ display: "flex", flexDirection: "column", gap: 8, alignItems: "flex-start" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+          <TokenPill label="item" />
+          <TokenPill label="repeatIndex" />
+          <TokenPill label="name" />
+        </div>
+        <Text style={{ fontSize: 10, color: "var(--figma-color-text-tertiary)" }}>Selected (caret touching):</Text>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+          <TokenPill label="item" selected />
+          <TokenPill label="repeatIndex" selected />
+        </div>
+      </div>
+    </ShowcaseSection>
+  )
+}
+
+const tokenInputSuggestions: Suggestion[] = [
+  { token: "$item", label: "Current item (list iteration)", category: "Pipeline" },
+  { token: "$repeatIndex", label: "Current iteration index", category: "Pipeline" },
+  { token: "name", label: "Node name", category: "Property" },
+  { token: "type", label: "Node type", category: "Property" },
+  { token: "count", label: "Working set size", category: "Context" },
+]
+
+function TokenInputShowcase() {
+  const [value, setValue] = useState("{$repeatIndex}. {$item}")
+  return (
+    <ShowcaseSection
+      title="TokenInput"
+      description="Input that shows expression tokens as pills. Type { to open suggestions; Backspace before a token removes it; caret next to a token selects it."
+      options="Props: value, onValueInput, placeholder?, suggestions?"
+    >
+      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+        <div>
+          <Text style={{ fontSize: 11, color: "var(--figma-color-text-secondary)", marginBottom: 4, display: "block" }}>Text content</Text>
+          <TokenInput
+            value={value}
+            onValueInput={setValue}
+            placeholder="Type { for token suggestions..."
+            suggestions={tokenInputSuggestions}
+          />
+        </div>
+        <Text style={{ fontSize: 10, color: "var(--figma-color-text-tertiary)" }}>
+          Value: {value || "(empty)"}
+        </Text>
+      </div>
+    </ShowcaseSection>
+  )
+}
+
 // ---------------------------------------------------------------------------
 // Component registry
 // ---------------------------------------------------------------------------
@@ -324,6 +383,8 @@ const componentShowcases = [
   { id: "datatable", label: "DataTable", Component: DataTableShowcase },
   { id: "colorrow", label: "ColorRow + Swatch", Component: ColorRowShowcase },
   { id: "state", label: "State", Component: StateShowcase },
+  { id: "tokenpill", label: "TokenPill", Component: TokenPillShowcase },
+  { id: "tokeninput", label: "TokenInput", Component: TokenInputShowcase },
 ]
 
 // ---------------------------------------------------------------------------
