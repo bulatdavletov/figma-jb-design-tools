@@ -7,7 +7,6 @@
     "cardTitle": "Mockup Markup Quick Apply",
     "description": "Apply text styles and colors",
     "category": "General",
-    "order": 1,
     "icon": "IconShapeText16",
     "needsSelection": false
   },
@@ -19,7 +18,6 @@
     "cardTitle": "View Colors Chain",
     "description": "Inspect selection to see full variable alias chains",
     "category": "General",
-    "order": 2,
     "icon": "IconVariableColor16",
     "needsSelection": true
   },
@@ -31,7 +29,6 @@
     "cardTitle": "Find Color Match in Islands",
     "description": "Find the closest variable for unbound colors",
     "category": "General",
-    "order": 3,
     "icon": "IconTarget16",
     "needsSelection": true
   },
@@ -43,7 +40,6 @@
     "cardTitle": "Migrate to New UI Kit",
     "description": "Replace old library components and icons with their new equivalents",
     "category": "General",
-    "order": 4,
     "icon": "IconLibrary16",
     "needsSelection": true
   },
@@ -55,7 +51,6 @@
     "cardTitle": "Automations",
     "description": "Automate your workflow",
     "category": "General",
-    "order": 5,
     "icon": "IconPrototype16",
     "needsSelection": true
   },
@@ -67,7 +62,6 @@
     "cardTitle": "Print Color Usages",
     "description": "Print unique colors as text labels near selection",
     "category": "Variables Management",
-    "order": 1,
     "icon": "IconText16",
     "needsSelection": false
   },
@@ -79,7 +73,6 @@
     "cardTitle": "Export / Import",
     "description": "Export variable collections to JSON, import from backup",
     "category": "Variables Management",
-    "order": 2,
     "icon": "IconFolder16",
     "needsSelection": false
   },
@@ -91,7 +84,6 @@
     "cardTitle": "Rename via JSON",
     "description": "Rename multiple variables using a JSON file",
     "category": "Variables Management",
-    "order": 3,
     "icon": "IconVariable16",
     "needsSelection": false
   },
@@ -103,7 +95,6 @@
     "cardTitle": "Create Linked Colors",
     "description": "Create new color variables or rename existing ones",
     "category": "Variables Management",
-    "order": 4,
     "icon": "IconLink16",
     "needsSelection": false
   },
@@ -115,7 +106,6 @@
     "cardTitle": "Replace Usages",
     "description": "Replace variable bindings in selection with different variables",
     "category": "Variables Management",
-    "order": 5,
     "icon": "IconAdjust16",
     "needsSelection": true
   }

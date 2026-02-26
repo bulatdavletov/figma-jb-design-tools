@@ -21,9 +21,9 @@ export function HomeView(props: { goTo: (route: ActiveTool) => void }) {
       <Container space="small">
         <VerticalSpace space="large" />
         {CATEGORY_ORDER.map((category) => {
-          const categoryTools = TOOLS_REGISTRY
-            .filter((tool) => tool.category === category)
-            .sort((a, b) => a.order - b.order)
+          const categoryTools = TOOLS_REGISTRY.filter(
+            (tool) => tool.category === category
+          )
 
           return (
             <div key={category}>

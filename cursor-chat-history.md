@@ -1,5 +1,11 @@
 # Cursor Chat History
 
+## Tools registry — order from JSON array
+
+### 2026-02-26
+- Removed explicit `order` field from tools registry: display order is now the order of entries in `tools-registry-data.json`.
+- Changes: removed `order` from `ToolRegistryEntry` type and from JSON; `HomeView` now uses filtered array as-is (no sort). Build and lint OK.
+
 ## Find Color Match Tool — Performance and Caching
 
 ### 2026-02-25
