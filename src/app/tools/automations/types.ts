@@ -32,11 +32,13 @@ export type ActionType =
   | "setLineHeight"
   | "resize"
   | "wrapInFrame"
+  | "wrapAllInFrame"
   | "addAutoLayout"
   | "editAutoLayout"
   | "removeAutoLayout"
   | "detachInstance"
   | "swapComponent"
+  | "pasteComponentById"
   | "notify"
   | "selectResults"
   | "log"
@@ -363,6 +365,14 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     defaultOutputName: "frames",
   },
   {
+    type: "wrapAllInFrame",
+    label: "Wrap all in frame",
+    description: "Wrap all current nodes into one frame. Optionally enable auto layout on the wrapper",
+    category: "transform",
+    defaultParams: { frameName: "Group", autoLayout: "VERTICAL", itemSpacing: "" },
+    defaultOutputName: "frame",
+  },
+  {
     type: "addAutoLayout",
     label: "Add auto layout",
     description: "Enable auto layout on frames/components. Sets direction and optional initial spacing",
@@ -401,6 +411,14 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "transform",
     defaultParams: { componentName: "" },
     defaultOutputName: "swapped",
+  },
+  {
+    type: "pasteComponentById",
+    label: "Paste component by ID",
+    description: "Create a component instance from a component node id or library key",
+    category: "transform",
+    defaultParams: { componentId: "", x: "", y: "" },
+    defaultOutputName: "instances",
   },
   {
     type: "setPosition",
@@ -455,7 +473,7 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     label: "Repeat with each",
     description: "Loop over a list variable or working set nodes, running child steps for each item",
     category: "flow",
-    defaultParams: { source: "nodes", itemVar: "item", onMismatch: "error" },
+    defaultParams: { source: "nodes", itemVar: "item", onMismatch: "error", resultMode: "originalNodes" },
   },
 
   // Output

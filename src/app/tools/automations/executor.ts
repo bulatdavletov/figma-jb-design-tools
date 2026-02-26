@@ -6,6 +6,7 @@ import { expandToChildren, goToParent, flattenDescendants } from "./actions/sele
 import {
   renameLayers, setFillColor, setFillVariable, setOpacity, setCharacters,
   resizeAction, setPositionAction, wrapInFrame, addAutoLayout, editAutoLayout, removeAutoLayout,
+  wrapAllInFrame,
   notifyAction, setStrokeColor, removeFills, removeStrokes,
   setVisibility, setLocked, setNameAction, setRotation,
   removeNodeAction, cloneNodeAction,
@@ -17,7 +18,7 @@ import { setPipelineVariable, setPipelineVariableFromProperty, splitText } from 
 import { restoreNodes } from "./actions/navigate-actions"
 import { askForInput } from "./actions/input-actions"
 import { setFontSize, setFont, setTextAlignment, setTextCase, setTextDecoration, setLineHeight } from "./actions/text-actions"
-import { detachInstance, swapComponent } from "./actions/component-actions"
+import { detachInstance, swapComponent, pasteComponentById } from "./actions/component-actions"
 import { InputCancelledError } from "./input-bridge"
 import { MAIN_TO_UI } from "../../messages"
 
@@ -56,11 +57,13 @@ const ACTION_HANDLERS: Partial<Record<ActionType, ActionHandler>> = {
   resize: resizeAction,
   setPosition: setPositionAction,
   wrapInFrame,
+  wrapAllInFrame,
   addAutoLayout,
   editAutoLayout,
   removeAutoLayout,
   detachInstance,
   swapComponent,
+  pasteComponentById,
   notify: notifyAction,
   selectResults,
   log: logAction,
@@ -242,6 +245,7 @@ async function executeRepeatWithEach(
   const source = String(step.params.source ?? "nodes")
   const itemVar = String(step.params.itemVar ?? "item")
   const onMismatch = String(step.params.onMismatch ?? "error") as "error" | "repeatList" | "skipExtra"
+  const resultMode = String(step.params.resultMode ?? "originalNodes") as "originalNodes" | "iterationResults"
   const children = (step.children ?? []).filter((c) => c.enabled)
 
   if (children.length === 0) {
@@ -259,12 +263,14 @@ async function executeRepeatWithEach(
   const savedNodes = [...context.nodes]
 
   if (source === "nodes") {
-    await executeRepeatNodesMode(context, children, savedNodes, itemVar, automationName, stepIndex)
+    await executeRepeatNodesMode(context, children, savedNodes, itemVar, automationName, stepIndex, resultMode)
   } else {
-    await executeRepeatListMode(context, children, savedNodes, source, itemVar, onMismatch, automationName, stepIndex)
+    await executeRepeatListMode(context, children, savedNodes, source, itemVar, onMismatch, automationName, stepIndex, resultMode)
   }
 
-  context.nodes = savedNodes
+  if (resultMode !== "iterationResults") {
+    context.nodes = savedNodes
+  }
 }
 
 async function executeRepeatNodesMode(
@@ -274,6 +280,7 @@ async function executeRepeatNodesMode(
   itemVar: string,
   automationName: string,
   stepIndex: number,
+  resultMode: "originalNodes" | "iterationResults",
 ): Promise<void> {
   if (savedNodes.length === 0) {
     context.log.push({
@@ -296,6 +303,8 @@ async function executeRepeatNodesMode(
     status: "success",
   })
 
+  const iterationResults: SceneNode[] = []
+
   for (let i = 0; i < savedNodes.length; i++) {
     if (stopRequested) break
 
@@ -312,6 +321,14 @@ async function executeRepeatNodesMode(
     })
 
     await executeSteps(children, context, automationName, stepIndex + 1)
+
+    if (resultMode === "iterationResults") {
+      iterationResults.push(...context.nodes)
+    }
+  }
+
+  if (resultMode === "iterationResults") {
+    context.nodes = dedupeNodes(iterationResults)
   }
 }
 
@@ -324,6 +341,7 @@ async function executeRepeatListMode(
   onMismatch: "error" | "repeatList" | "skipExtra",
   automationName: string,
   stepIndex: number,
+  resultMode: "originalNodes" | "iterationResults",
 ): Promise<void> {
   const listValue = context.pipelineVars[source]
   if (!Array.isArray(listValue)) {
@@ -368,9 +386,11 @@ async function executeRepeatListMode(
     return
   }
 
-  const iterationCount = onMismatch === "skipExtra"
-    ? Math.min(listCount, nodeCount)
-    : nodeCount
+  const iterationCount = nodeCount === 0
+    ? listCount
+    : onMismatch === "skipExtra"
+      ? Math.min(listCount, nodeCount)
+      : nodeCount
 
   context.log.push({
     stepIndex,
@@ -381,17 +401,23 @@ async function executeRepeatListMode(
     status: "success",
   })
 
+  const iterationResults: SceneNode[] = []
+
   for (let i = 0; i < iterationCount; i++) {
     if (stopRequested) break
 
     const listItem = onMismatch === "repeatList"
       ? list[i % listCount]
       : list[i]
-    const nodeItem = i < nodeCount ? savedNodes[i] : savedNodes[nodeCount - 1]
+    const nodeItem = nodeCount > 0
+      ? i < nodeCount
+        ? savedNodes[i]
+        : savedNodes[nodeCount - 1]
+      : null
 
     context.pipelineVars[itemVar] = listItem !== undefined ? listItem : ""
     context.pipelineVars["repeatIndex"] = i
-    context.nodes = [nodeItem]
+    context.nodes = nodeItem ? [nodeItem] : []
 
     context.log.push({
       stepIndex,
@@ -403,5 +429,24 @@ async function executeRepeatListMode(
     })
 
     await executeSteps(children, context, automationName, stepIndex + 1)
+
+    if (resultMode === "iterationResults") {
+      iterationResults.push(...context.nodes)
+    }
   }
+
+  if (resultMode === "iterationResults") {
+    context.nodes = dedupeNodes(iterationResults)
+  }
+}
+
+function dedupeNodes(nodes: SceneNode[]): SceneNode[] {
+  const seen = new Set<string>()
+  const result: SceneNode[] = []
+  for (const node of nodes) {
+    if (seen.has(node.id)) continue
+    seen.add(node.id)
+    result.push(node)
+  }
+  return result
 }

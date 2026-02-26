@@ -1643,6 +1643,11 @@ function getParamSummary(step: AutomationStepPayload): string {
       const al = String(p.autoLayout ?? "")
       return al ? `+ auto layout (${al})` : ""
     }
+    case "wrapAllInFrame": {
+      const al = String(p.autoLayout ?? "")
+      const name = String(p.frameName ?? "Group")
+      return al ? `${name}, auto layout (${al})` : name
+    }
     case "addAutoLayout": {
       const dir = String(p.direction ?? "VERTICAL")
       const sp = p.itemSpacing ? `, spacing: ${p.itemSpacing}` : ""
@@ -1661,6 +1666,8 @@ function getParamSummary(step: AutomationStepPayload): string {
       return ""
     case "swapComponent":
       return String(p.componentName ?? "")
+    case "pasteComponentById":
+      return String(p.componentId ?? "")
     case "askForInput":
       return String(p.label ?? "Enter text")
     case "splitText":
@@ -2769,6 +2776,40 @@ function renderStepParams(
         </Fragment>
       )
 
+    case "wrapAllInFrame":
+      return (
+        <Fragment>
+          {inputCtx}
+          <Text style={{ fontSize: 11 }}>Frame name</Text>
+          <VerticalSpace space="extraSmall" />
+          <Textbox
+            value={String(step.params.frameName ?? "Group")}
+            onValueInput={(v: string) => updateParam("frameName", v)}
+            placeholder="Group"
+          />
+          <VerticalSpace space="small" />
+          <Text style={{ fontSize: 11 }}>Auto layout</Text>
+          <VerticalSpace space="extraSmall" />
+          <Dropdown
+            value={String(step.params.autoLayout ?? "VERTICAL")}
+            options={[
+              { value: "VERTICAL", text: "Vertical" },
+              { value: "HORIZONTAL", text: "Horizontal" },
+              { value: "", text: "None" },
+            ]}
+            onValueChange={(v: string) => updateParam("autoLayout", v)}
+          />
+          <VerticalSpace space="small" />
+          <Text style={{ fontSize: 11 }}>Item spacing</Text>
+          <VerticalSpace space="extraSmall" />
+          <Textbox
+            value={String(step.params.itemSpacing ?? "")}
+            onValueInput={(v: string) => updateParam("itemSpacing", v)}
+            placeholder="Leave empty for default"
+          />
+        </Fragment>
+      )
+
     case "addAutoLayout":
       return (
         <Fragment>
@@ -2882,6 +2923,35 @@ function renderStepParams(
         </Fragment>
       )
 
+    case "pasteComponentById":
+      return (
+        <Fragment>
+          {inputCtx}
+          <Text style={{ fontSize: 11 }}>Component ID / key</Text>
+          <VerticalSpace space="extraSmall" />
+          <Textbox
+            value={String(step.params.componentId ?? "")}
+            onValueInput={(v: string) => updateParam("componentId", v)}
+            placeholder="1:2 or library key, supports {$item}"
+          />
+          <VerticalSpace space="small" />
+          <Text style={{ fontSize: 11 }}>Position (optional)</Text>
+          <VerticalSpace space="extraSmall" />
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 4 }}>
+            <Textbox
+              value={String(step.params.x ?? "")}
+              onValueInput={(v: string) => updateParam("x", v)}
+              placeholder="X"
+            />
+            <Textbox
+              value={String(step.params.y ?? "")}
+              onValueInput={(v: string) => updateParam("y", v)}
+              placeholder="Y"
+            />
+          </div>
+        </Fragment>
+      )
+
     case "askForInput":
       return (
         <Fragment>
@@ -2990,6 +3060,17 @@ function renderStepParams(
               />
             </Fragment>
           )}
+          <VerticalSpace space="small" />
+          <Text style={{ fontSize: 11 }}>Result after loop</Text>
+          <VerticalSpace space="extraSmall" />
+          <Dropdown
+            value={String(step.params.resultMode ?? "originalNodes")}
+            options={[
+              { value: "originalNodes", text: "Keep original working set" },
+              { value: "iterationResults", text: "Use iteration results" },
+            ]}
+            onValueChange={(v: string) => updateParam("resultMode", v)}
+          />
           <VerticalSpace space="medium" />
           <Divider />
           <VerticalSpace space="small" />

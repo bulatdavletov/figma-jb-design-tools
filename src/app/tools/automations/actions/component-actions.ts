@@ -1,4 +1,5 @@
 import type { ActionHandler } from "../context"
+import { resolveTokens } from "../tokens"
 
 export const detachInstance: ActionHandler = async (context, _params) => {
   const detached: SceneNode[] = []
@@ -88,4 +89,74 @@ export const swapComponent: ActionHandler = async (context, params) => {
   })
 
   return context
+}
+
+export const pasteComponentById: ActionHandler = async (context, params) => {
+  const componentIdTemplate = String(params.componentId ?? "").trim()
+  if (!componentIdTemplate) {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Paste component by ID",
+      message: "No component ID specified — skipped",
+      itemsIn: context.nodes.length,
+      itemsOut: context.nodes.length,
+      status: "skipped",
+    })
+    return context
+  }
+
+  const componentId = resolveTokens(componentIdTemplate, { context }).trim()
+  const xRaw = resolveTokens(String(params.x ?? ""), { context })
+  const yRaw = resolveTokens(String(params.y ?? ""), { context })
+
+  const created: SceneNode[] = []
+  const target = await resolveComponentById(componentId)
+
+  if (!target) {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Paste component by ID",
+      message: `Component not found for ID "${componentId}"`,
+      itemsIn: context.nodes.length,
+      itemsOut: context.nodes.length,
+      status: "error",
+      error: `Component "${componentId}" not found`,
+    })
+    return context
+  }
+
+  const instance = target.createInstance()
+  const hasX = xRaw !== "" && !Number.isNaN(Number(xRaw))
+  const hasY = yRaw !== "" && !Number.isNaN(Number(yRaw))
+
+  if (hasX) instance.x = Number(xRaw)
+  if (hasY) instance.y = Number(yRaw)
+  if (!hasX || !hasY) {
+    figma.currentPage.appendChild(instance)
+  }
+
+  created.push(instance)
+  context.nodes = created
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Paste component by ID",
+    message: `Pasted 1 instance from "${componentId}"`,
+    itemsIn: 0,
+    itemsOut: 1,
+    status: "success",
+  })
+
+  return context
+}
+
+async function resolveComponentById(componentId: string): Promise<ComponentNode | null> {
+  const localNode = figma.getNodeById(componentId)
+  if (localNode?.type === "COMPONENT") return localNode as ComponentNode
+
+  try {
+    return await figma.importComponentByKeyAsync(componentId)
+  } catch {
+    return null
+  }
 }

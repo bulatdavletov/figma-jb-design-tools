@@ -299,6 +299,92 @@ function supportsAutoLayout(node: SceneNode): node is FrameNode {
   return node.type === "FRAME" || node.type === "COMPONENT" || node.type === "COMPONENT_SET"
 }
 
+
+export const wrapAllInFrame: ActionHandler = async (context, params) => {
+  if (context.nodes.length === 0) {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Wrap all in frame",
+      message: "Working set is empty — skipped",
+      itemsIn: 0,
+      itemsOut: 0,
+      status: "skipped",
+    })
+    return context
+  }
+
+  const frameName = String(params.frameName ?? "Group").trim() || "Group"
+  const autoLayout = String(params.autoLayout ?? "VERTICAL")
+  const rawSpacing = String(params.itemSpacing ?? "")
+  const itemSpacing = rawSpacing === "" ? NaN : Number(rawSpacing)
+
+  if (!["", "HORIZONTAL", "VERTICAL"].includes(autoLayout)) {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Wrap all in frame",
+      message: `Invalid auto layout value "${autoLayout}"`,
+      itemsIn: context.nodes.length,
+      itemsOut: context.nodes.length,
+      status: "error",
+      error: `Invalid auto layout value "${autoLayout}"`,
+    })
+    return context
+  }
+
+  const parent = context.nodes[0].parent
+  if (!parent || parent.type === "DOCUMENT" || !("children" in parent)) {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Wrap all in frame",
+      message: "Cannot wrap nodes at document root",
+      itemsIn: context.nodes.length,
+      itemsOut: context.nodes.length,
+      status: "error",
+      error: "Cannot wrap nodes at document root",
+    })
+    return context
+  }
+
+  const parentChildren = Array.from((parent as ChildrenMixin).children)
+  const firstIndex = Math.min(...context.nodes.map((n) => parentChildren.indexOf(n)).filter((i) => i >= 0))
+
+  const frame = figma.createFrame()
+  frame.name = frameName
+  frame.fills = []
+  frame.x = Math.min(...context.nodes.map((n) => n.x))
+  frame.y = Math.min(...context.nodes.map((n) => n.y))
+
+  ;(parent as ChildrenMixin).insertChild(firstIndex >= 0 ? firstIndex : (parent as ChildrenMixin).children.length, frame)
+
+  const sortedNodes = [...context.nodes].sort((a, b) => {
+    if (Math.abs(a.y - b.y) > 0.1) return a.y - b.y
+    return a.x - b.x
+  })
+
+  for (const node of sortedNodes) {
+    frame.appendChild(node)
+  }
+
+  if (autoLayout === "HORIZONTAL" || autoLayout === "VERTICAL") {
+    frame.layoutMode = autoLayout
+    if (!Number.isNaN(itemSpacing)) frame.itemSpacing = itemSpacing
+  }
+
+  context.nodes = [frame]
+
+  const alLabel = autoLayout ? ` with auto layout (${autoLayout})` : ""
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Wrap all in frame",
+    message: `Wrapped ${sortedNodes.length} node(s) into one frame${alLabel}`,
+    itemsIn: sortedNodes.length,
+    itemsOut: 1,
+    status: "success",
+  })
+
+  return context
+}
+
 export const addAutoLayout: ActionHandler = async (context, params) => {
   const direction = String(params.direction ?? "VERTICAL") as "HORIZONTAL" | "VERTICAL"
   if (direction !== "HORIZONTAL" && direction !== "VERTICAL") {

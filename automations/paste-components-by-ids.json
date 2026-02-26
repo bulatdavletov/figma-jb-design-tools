@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "automation": {
+    "name": "Paste components by IDs and wrap",
+    "steps": [
+      {
+        "actionType": "askForInput",
+        "params": {
+          "label": "Paste component IDs (one per line)",
+          "placeholder": "id_or_key_1\nid_or_key_2\nid_or_key_3",
+          "inputType": "textarea"
+        },
+        "enabled": true,
+        "outputName": "componentIdsInput"
+      },
+      {
+        "actionType": "splitText",
+        "params": {
+          "sourceVar": "componentIdsInput",
+          "delimiter": "\\n"
+        },
+        "enabled": true,
+        "outputName": "componentIds"
+      },
+      {
+        "actionType": "repeatWithEach",
+        "params": {
+          "source": "componentIds",
+          "itemVar": "item",
+          "onMismatch": "skipExtra",
+          "resultMode": "iterationResults"
+        },
+        "enabled": true,
+        "children": [
+          {
+            "actionType": "pasteComponentById",
+            "params": {
+              "componentId": "{$item}",
+              "x": "",
+              "y": ""
+            },
+            "enabled": true
+          }
+        ]
+      },
+      {
+        "actionType": "wrapAllInFrame",
+        "params": {
+          "frameName": "Pasted components",
+          "autoLayout": "VERTICAL",
+          "itemSpacing": "16"
+        },
+        "enabled": true
+      },
+      {
+        "actionType": "selectResults",
+        "params": {
+          "scrollTo": true
+        },
+        "enabled": true
+      }
+    ]
+  }
+}
