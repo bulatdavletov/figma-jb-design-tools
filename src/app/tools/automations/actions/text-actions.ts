@@ -3,6 +3,7 @@ import { resolveTokens, type TokenScope } from "../tokens"
 import { plural } from "../../../utils/pluralize"
 
 async function loadFontForNode(textNode: TextNode): Promise<boolean> {
+  if (textNode.characters.length === 0) return false
   try {
     await figma.loadFontAsync(textNode.getRangeFontName(0, 1) as FontName)
     return true

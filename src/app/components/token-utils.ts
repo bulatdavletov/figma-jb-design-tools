@@ -11,67 +11,21 @@ export type TokenSegment =
   | { type: "text"; raw: string }
   | { type: "token"; raw: string; inner: string; category: TokenCategory; label: string }
 
-export type TokenStyle = {
-  background: string
-  border?: string
-  color: string
-  borderRadius: number
-  padding: string
-  fontFamily: string
-  fontSize: string
-  whiteSpace: string
-}
-
-const propertyTokenStyle: TokenStyle = {
-  background: "#eef2ff",
-  color: "#4338ca",
-  borderRadius: 4,
-  padding: "0 3px",
-  fontFamily: "monospace",
-  fontSize: "0.9em",
-  whiteSpace: "nowrap",
-}
-
-const pipelineVarStyle: TokenStyle = {
-  background: "#ecfdf3",
-  color: "#067647",
-  borderRadius: 4,
-  padding: "0 3px",
-  fontFamily: "monospace",
-  fontSize: "0.9em",
-  whiteSpace: "nowrap",
-}
-
-const snapshotRefStyle: TokenStyle = {
-  background: "#fff7ed",
-  color: "#9a3412",
-  borderRadius: 4,
-  padding: "0 3px",
-  fontFamily: "monospace",
-  fontSize: "0.9em",
-  whiteSpace: "nowrap",
-}
-
-export function classifyToken(inner: string): {
-  style: TokenStyle
-  label: string
-  category: TokenCategory
-} {
+export function classifyToken(inner: string): { label: string; category: TokenCategory } {
   if (inner.startsWith("$")) {
-    return { style: pipelineVarStyle, label: inner.slice(1), category: "pipeline" }
+    return { label: inner.slice(1), category: "pipeline" }
   }
   if (inner.startsWith("#")) {
     const dotIdx = inner.indexOf(".")
     if (dotIdx > 0) {
       return {
-        style: snapshotRefStyle,
         label: `${inner.slice(1, dotIdx)} › ${inner.slice(dotIdx + 1)}`,
         category: "snapshot",
       }
     }
-    return { style: snapshotRefStyle, label: inner.slice(1), category: "snapshot" }
+    return { label: inner.slice(1), category: "snapshot" }
   }
-  return { style: propertyTokenStyle, label: inner, category: "property" }
+  return { label: inner, category: "property" }
 }
 
 /**
@@ -100,5 +54,5 @@ export function parseTokenSegments(value: string): TokenSegment[] {
  * use their raw value; token segments use segment.raw.
  */
 export function segmentsToValue(segments: TokenSegment[]): string {
-  return segments.map((s) => (s.type === "text" ? s.raw : s.raw)).join("")
+  return segments.map((s) => s.raw).join("")
 }

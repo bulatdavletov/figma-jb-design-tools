@@ -6,7 +6,7 @@ import { TOKEN_REGEX, parseTokenSegments, classifyToken } from "./token-utils"
 export const neutralTokenStyle: JSX.CSSProperties = {
   display: "inline-flex",
   alignItems: "center",
-  verticalAlign: "baseline",
+  verticalAlign: "middle",
   padding: "0 4px",
   borderRadius: "4px",
   fontSize: "11px",
@@ -15,7 +15,6 @@ export const neutralTokenStyle: JSX.CSSProperties = {
   backgroundColor: "var(--figma-color-bg-primary)",
   color: "var(--figma-color-text)",
   border: "1px solid var(--figma-color-border)",
-  marginTop: "2px",
 }
 
 /** Selected token: caret is touching this token — same pill, distinct blue border. */

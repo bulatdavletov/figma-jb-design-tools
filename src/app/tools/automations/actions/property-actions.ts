@@ -2,6 +2,16 @@ import type { AutomationContext, ActionHandler } from "../context"
 import { resolveTokens, type TokenScope } from "../tokens"
 import { plural } from "../../../utils/pluralize"
 
+function parseHexColor(raw: string): { r: number; g: number; b: number } | null {
+  const hex = String(raw ?? "#000000").replace(/^#/, "")
+  if (hex.length < 6) return null
+  const r = parseInt(hex.slice(0, 2), 16) / 255
+  const g = parseInt(hex.slice(2, 4), 16) / 255
+  const b = parseInt(hex.slice(4, 6), 16) / 255
+  if (isNaN(r) || isNaN(g) || isNaN(b)) return null
+  return { r, g, b }
+}
+
 export const renameLayers: ActionHandler = async (context, params) => {
   const find = String(params.find ?? "")
   const replace = String(params.replace ?? "")
@@ -42,11 +52,8 @@ export const renameLayers: ActionHandler = async (context, params) => {
 
 export const setFillColor: ActionHandler = async (context, params) => {
   const hex = String(params.hex ?? "#000000").replace(/^#/, "")
-  const r = parseInt(hex.slice(0, 2), 16) / 255
-  const g = parseInt(hex.slice(2, 4), 16) / 255
-  const b = parseInt(hex.slice(4, 6), 16) / 255
-
-  if (isNaN(r) || isNaN(g) || isNaN(b)) {
+  const rgb = parseHexColor(hex)
+  if (!rgb) {
     context.log.push({
       stepIndex: -1,
       stepName: "Set fill color",
@@ -58,6 +65,7 @@ export const setFillColor: ActionHandler = async (context, params) => {
     })
     return context
   }
+  const { r, g, b } = rgb
 
   let applied = 0
   for (const node of context.nodes) {
@@ -528,11 +536,8 @@ export const setPositionAction: ActionHandler = async (context, params) => {
 
 export const setStrokeColor: ActionHandler = async (context, params) => {
   const hex = String(params.hex ?? "#000000").replace(/^#/, "")
-  const r = parseInt(hex.slice(0, 2), 16) / 255
-  const g = parseInt(hex.slice(2, 4), 16) / 255
-  const b = parseInt(hex.slice(4, 6), 16) / 255
-
-  if (isNaN(r) || isNaN(g) || isNaN(b)) {
+  const rgb = parseHexColor(hex)
+  if (!rgb) {
     context.log.push({
       stepIndex: -1,
       stepName: "Set stroke color",
@@ -544,6 +549,7 @@ export const setStrokeColor: ActionHandler = async (context, params) => {
     })
     return context
   }
+  const { r, g, b } = rgb
 
   let applied = 0
   for (const node of context.nodes) {

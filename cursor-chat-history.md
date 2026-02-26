@@ -507,3 +507,18 @@ What we should consider **aligning** (future phases):
 6. **Dropdown styling** — Updated SuggestionDropdown: 28px row height, `bg-hover` for highlight (not `bg-selected`), `borderRadius: 6` on container, `borderRadius: 4` on items, hover tracking, `padding: "4px 0"` container padding, category headers restyled. Added second TokenInput instance in preview showcase to demonstrate suggestions.
 
 **Files:** `src/app/components/TokenInput.tsx`, `src/app/views/automations-tool/AutomationsToolView.tsx`, `src/preview/preview-app.tsx`.
+
+### 2026-02-26: Branch review — TokenInput flex wrapper, bug fixes, helpers extract, merge into automations-tool
+
+**Task:** Review Codex branch, fix TokenInput height/growth, apply bug fixes and cleanup, then rebase onto automations-tool and delete the feature branch.
+
+**What was done:**
+1. **TokenInput** — Restructured to match Figma native pattern: styling moved to a flex wrapper (`display: flex`, `align-items: center`, `height: 24px`, `padding: 0 7px`); contentEditable is a plain flex child (`flex: 1 1 auto`, `whiteSpace: nowrap`, `overflow: hidden`). Fixes input growing when pills are present.
+2. **TokenPill** — Removed `marginTop: 2px`, set `verticalAlign: middle` for centering in the flex line.
+3. **property-actions** — Extracted `parseHexColor()` helper; used in `setFillColor` and `setStrokeColor` (validates hex length).
+4. **text-actions** — Guard `loadFontForNode`: return false for empty text nodes before `getRangeFontName(0, 1)`.
+5. **Dead code** — Deleted `TextboxWithSuggestions.tsx` (unused). Cleaned `token-utils.ts`: removed unused `TokenStyle` and color objects, simplified `segmentsToValue`.
+6. **AutomationsToolView** — Extracted helpers to `helpers.tsx`: `getCategoryBadge`, `getParamSummary`, `buildSuggestions`, `formatLogAsText`, `buildInputSourceOptions`, `buildValueSourceOptions`, `renderInputContext`.
+7. **Git** — Merged `codex/create-automation-for-component-placement` into `automations-tool` (fast-forward), deleted the feature branch. Current branch: `automations-tool` (ahead of origin by 13 commits).
+
+**Deferred:** Part 4B (extract leaf components) and 4C (extract step-params-renderer) — can be done in a follow-up to avoid risk in one session.

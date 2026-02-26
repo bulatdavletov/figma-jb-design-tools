@@ -12,29 +12,42 @@ export type Suggestion = {
 
 const TOKEN_NODE_DATA_ATTR = "data-token"
 
-const containerStyle: h.JSX.CSSProperties = {
+/** Styled box (Figma-like): flex container, fixed height, border, background. */
+const wrapperStyle: h.JSX.CSSProperties = {
   position: "relative",
-  display: "block",
+  display: "flex",
+  alignItems: "center",
   width: "100%",
-  minHeight: 24,
-  padding: "4px 7px",
+  height: 24,
+  padding: "0 7px",
   borderRadius: 4,
   border: "1px solid transparent",
   backgroundColor: "var(--figma-color-bg-secondary)",
   color: "var(--figma-color-text)",
+  cursor: "text",
+}
+
+/** Content area: plain flex child, no border/padding; editing happens here. */
+const editableStyle: h.JSX.CSSProperties = {
+  flex: "1 1 auto",
+  minWidth: 0,
+  outline: "none",
+  whiteSpace: "nowrap",
+  overflow: "hidden",
   font: "inherit",
   fontSize: 11,
-  outline: "none",
-  overflow: "auto",
-  whiteSpace: "pre-wrap",
-  wordBreak: "break-word",
+  lineHeight: "16px",
+  cursor: "text",
+  userSelect: "text",
 }
 
 const placeholderStyle: h.JSX.CSSProperties = {
   position: "absolute",
-  top: 4,
-  left: 7,
-  right: 7,
+  top: 0,
+  left: 8,
+  right: 8,
+  height: 24,
+  lineHeight: "24px",
   fontSize: 11,
   color: "var(--figma-color-text-tertiary)",
   pointerEvents: "none",
@@ -253,6 +266,13 @@ function SuggestionDropdown(props: {
   onSelect: (s: Suggestion) => void
 }) {
   const [hoveredIndex, setHoveredIndex] = useState(-1)
+  const itemRefs = useRef<(HTMLDivElement | null)[]>([])
+
+  useEffect(() => {
+    const el = itemRefs.current[props.selectedIndex]
+    if (el) el.scrollIntoView({ block: "nearest" })
+  }, [props.selectedIndex])
+
   let lastCategory = ""
   return (
     <div
@@ -293,6 +313,7 @@ function SuggestionDropdown(props: {
               </div>
             )}
             <div
+              ref={(el) => { itemRefs.current[i] = el }}
               onMouseDown={(e) => {
                 e.preventDefault()
                 props.onSelect(s)
@@ -568,10 +589,15 @@ export function TokenInput(props: TokenInputProps) {
     : isHovered
       ? "var(--figma-color-border)"
       : "transparent"
-  const containerStyles = { ...containerStyle, borderColor }
+  const wrapperStyles = { ...wrapperStyle, borderColor }
 
   return (
-    <div style={{ position: "relative" }} ref={wrapperRef}>
+    <div
+      style={wrapperStyles}
+      ref={wrapperRef}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       {!value && placeholder && (
         <div style={placeholderStyle} aria-hidden>
           {placeholder}
@@ -582,14 +608,12 @@ export function TokenInput(props: TokenInputProps) {
         contentEditable
         role="textbox"
         aria-placeholder={placeholder}
-        style={containerStyles}
+        style={editableStyle}
         onInput={handleInput}
         onPaste={handlePaste}
         onKeyDown={handleKeyDown}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
       />
       {showSuggestions && filteredSuggestions.length > 0 && (
         <SuggestionDropdown
