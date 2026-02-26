@@ -9,6 +9,8 @@ export const neutralTokenStyle: JSX.CSSProperties = {
   verticalAlign: "baseline",
   padding: "0 4px",
   borderRadius: "4px",
+  fontSize: "11px",
+  lineHeight: "16px",
   whiteSpace: "nowrap",
   backgroundColor: "var(--figma-color-bg-primary)",
   color: "var(--figma-color-text)",

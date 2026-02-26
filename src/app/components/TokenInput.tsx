@@ -17,8 +17,9 @@ const containerStyle: h.JSX.CSSProperties = {
   display: "block",
   width: "100%",
   minHeight: 24,
-  padding: "0 7px",
+  padding: "4px 7px",
   borderRadius: 4,
+  border: "1px solid transparent",
   backgroundColor: "var(--figma-color-bg-secondary)",
   color: "var(--figma-color-text)",
   font: "inherit",
@@ -29,20 +30,11 @@ const containerStyle: h.JSX.CSSProperties = {
   wordBreak: "break-word",
 }
 
-const containerHoverStyle: h.JSX.CSSProperties = {
-  border: "1px solid var(--figma-color-border)",
-}
-
-const containerFocusStyle: h.JSX.CSSProperties = {
-  borderColor: "var(--figma-color-border-selected)",
-}
-
 const placeholderStyle: h.JSX.CSSProperties = {
   position: "absolute",
-  top: 0,
+  top: 4,
   left: 7,
   right: 7,
-  lineHeight: "24px",
   fontSize: 11,
   color: "var(--figma-color-text-tertiary)",
   pointerEvents: "none",
@@ -189,6 +181,52 @@ function buildDomFromValue(container: HTMLDivElement, value: string) {
 }
 
 /**
+ * Place the caret at a given character offset within the container's serialized value.
+ */
+function placeCaretAtOffset(container: HTMLDivElement, targetOffset: number) {
+  let remaining = targetOffset
+  function walk(node: Node): boolean {
+    if (node.nodeType === Node.TEXT_NODE) {
+      const len = (node.textContent ?? "").length
+      if (remaining <= len) {
+        const range = document.createRange()
+        range.setStart(node, remaining)
+        range.collapse(true)
+        const sel = window.getSelection()
+        sel?.removeAllRanges()
+        sel?.addRange(range)
+        return true
+      }
+      remaining -= len
+      return false
+    }
+    if (node.nodeType !== Node.ELEMENT_NODE) return false
+    const el = node as HTMLElement
+    const token = el.getAttribute(TOKEN_NODE_DATA_ATTR)
+    if (token !== null) {
+      if (remaining <= token.length) {
+        const range = document.createRange()
+        const parent = node.parentNode!
+        const idx = Array.from(parent.childNodes).indexOf(node as ChildNode)
+        range.setStart(parent, idx + 1)
+        range.collapse(true)
+        const sel = window.getSelection()
+        sel?.removeAllRanges()
+        sel?.addRange(range)
+        return true
+      }
+      remaining -= token.length
+      return false
+    }
+    for (let i = 0; i < node.childNodes.length; i++) {
+      if (walk(node.childNodes[i])) return true
+    }
+    return false
+  }
+  walk(container)
+}
+
+/**
  * Insert a token pill node at the current selection and return the new value.
  */
 function insertTokenAtSelection(container: HTMLDivElement, tokenRaw: string): string {
@@ -214,6 +252,7 @@ function SuggestionDropdown(props: {
   selectedIndex: number
   onSelect: (s: Suggestion) => void
 }) {
+  const [hoveredIndex, setHoveredIndex] = useState(-1)
   let lastCategory = ""
   return (
     <div
@@ -221,31 +260,33 @@ function SuggestionDropdown(props: {
         position: "absolute",
         top: "100%",
         left: 0,
-        right: 0,
+        minWidth: "100%",
+        width: "max-content",
         zIndex: 100,
         maxHeight: 200,
         overflowY: "auto",
         background: "var(--figma-color-bg)",
         border: "1px solid var(--figma-color-border)",
-        borderRadius: 4,
-        boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+        borderRadius: 6,
+        boxShadow: "var(--shadow-floating-window)",
         marginTop: 2,
+        padding: "4px 0",
       }}
     >
       {props.suggestions.map((s, i) => {
         const showCategory = s.category && s.category !== lastCategory
         if (s.category) lastCategory = s.category
+        const isActive = i === props.selectedIndex || i === hoveredIndex
         return (
           <div key={s.token}>
             {showCategory && (
               <div
                 style={{
-                  padding: "4px 8px 2px 8px",
-                  fontSize: 9,
+                  padding: "6px 8px 2px 8px",
+                  fontSize: 10,
                   fontWeight: 600,
                   color: "var(--figma-color-text-tertiary)",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.5px",
+                  letterSpacing: "0.3px",
                 }}
               >
                 {s.category}
@@ -256,29 +297,37 @@ function SuggestionDropdown(props: {
                 e.preventDefault()
                 props.onSelect(s)
               }}
+              onMouseEnter={() => setHoveredIndex(i)}
+              onMouseLeave={() => setHoveredIndex(-1)}
               style={{
-                padding: "4px 8px",
-                cursor: "pointer",
-                background:
-                  i === props.selectedIndex
-                    ? "var(--figma-color-bg-selected)"
-                    : "transparent",
-                display: "flex",
-                alignItems: "center",
-                gap: 6,
+                padding: "0 4px",
               }}
             >
-              <span style={{ fontSize: 11 }}>
-                <TokenText text={`{${s.token}}`} />
-              </span>
-              <Text
+              <div
                 style={{
-                  fontSize: 10,
-                  color: "var(--figma-color-text-secondary)",
+                  height: 28,
+                  padding: "0 8px",
+                  cursor: "pointer",
+                  background: isActive ? "var(--figma-color-bg-hover)" : "transparent",
+                  borderRadius: 4,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 6,
                 }}
               >
-                {s.label}
-              </Text>
+                <span style={{ fontSize: 11, flexShrink: 0 }}>
+                  <TokenText text={`{${s.token}}`} />
+                </span>
+                <Text
+                  style={{
+                    fontSize: 11,
+                    color: "var(--figma-color-text-secondary)",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {s.label}
+                </Text>
+              </div>
             </div>
           </div>
         )
@@ -319,7 +368,13 @@ export function TokenInput(props: TokenInputProps) {
       setTriggerStart(lastOpen)
       const filtered = suggestions.filter((s) => {
         const full = s.token.toLowerCase()
-        return full.startsWith(partial) || s.label.toLowerCase().includes(partial)
+        const stripped = full.replace(/^[$#]/, "")
+        return (
+          full.startsWith(partial) ||
+          stripped.startsWith(partial) ||
+          full.includes(partial) ||
+          s.label.toLowerCase().includes(partial)
+        )
       })
       if (filtered.length === 0) {
         setShowSuggestions(false)
@@ -360,12 +415,18 @@ export function TokenInput(props: TokenInputProps) {
       const el = containerRef.current
       if (!el) return
       const tokenRaw = `{${suggestion.token}}`
-      const newValue = insertTokenAtSelection(el, tokenRaw)
+      const currentValue = serializeDomToValue(el)
+      const cursorPos = getCaretCharacterOffset(el)
+      const start = triggerStart >= 0 ? triggerStart : cursorPos
+      const newValue = currentValue.slice(0, start) + tokenRaw + currentValue.slice(cursorPos)
+      buildDomFromValue(el, newValue)
+      const caretTarget = start + tokenRaw.length
+      placeCaretAtOffset(el, caretTarget)
       lastEmittedValueRef.current = newValue
       onValueInput(newValue)
       setShowSuggestions(false)
     },
-    [onValueInput],
+    [onValueInput, triggerStart],
   )
 
   const handleInput = useCallback(() => {
@@ -490,6 +551,7 @@ export function TokenInput(props: TokenInputProps) {
             if (idx !== -1) {
               const newValue = full.slice(0, idx) + full.slice(idx + token.length)
               buildDomFromValue(el, newValue)
+              placeCaretAtOffset(el, idx)
               lastEmittedValueRef.current = newValue
               onValueInput(newValue)
               e.preventDefault()
@@ -501,11 +563,12 @@ export function TokenInput(props: TokenInputProps) {
     [onValueInput, showSuggestions, filteredSuggestions, selectedIndex, insertSuggestion],
   )
 
-  const containerStyles = {
-    ...containerStyle,
-    ...(isHovered ? containerHoverStyle : {}),
-    ...(isFocused ? containerFocusStyle : {}),
-  }
+  const borderColor = isFocused
+    ? "var(--figma-color-border-selected)"
+    : isHovered
+      ? "var(--figma-color-border)"
+      : "transparent"
+  const containerStyles = { ...containerStyle, borderColor }
 
   return (
     <div style={{ position: "relative" }} ref={wrapperRef}>
