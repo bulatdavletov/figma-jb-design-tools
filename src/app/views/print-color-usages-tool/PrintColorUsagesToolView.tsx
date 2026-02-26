@@ -12,7 +12,7 @@ import {
   UI_TO_MAIN,
 } from "../../messages"
 import { Page } from "../../components/Page"
-import { type ScopeValue } from "../../components/ScopeControl"
+import { useScope } from "../../components/ScopeControl"
 import { ToolBody } from "../../components/ToolBody"
 import { ToolHeader } from "../../components/ToolHeader"
 import { ToolTabs } from "../../components/ToolTabs"
@@ -44,8 +44,13 @@ export function PrintColorUsagesToolView(props: { onBack: () => void; initialTab
   const [activeTab, setActiveTab] = useState<TabValue>(toTabValue(props.initialTab))
   const [loaded, setLoaded] = useState(false)
   const [status, setStatus] = useState<PrintColorUsagesStatus>({ status: "idle" })
-  const [selectionSize, setSelectionSize] = useState<number>(0)
-  const [scope, setScope] = useState<ScopeValue>("page")
+  const {
+    scope,
+    setScope,
+    selectionSize,
+    hasSelection,
+    updateSelectionSize,
+  } = useScope(true)
   const [preview, setPreview] = useState<PrintColorUsagesUpdatePreviewPayload | null>(null)
   const [selectedPreviewNodeIds, setSelectedPreviewNodeIds] = useState<string[]>([])
   const [printPreview, setPrintPreview] = useState<PrintColorUsagesPrintPreviewPayload | null>(null)
@@ -56,7 +61,7 @@ export function PrintColorUsagesToolView(props: { onBack: () => void; initialTab
       if (!msg) return
 
       if (msg.type === MAIN_TO_UI.BOOTSTRAPPED) {
-        setSelectionSize(msg.selectionSize)
+        updateSelectionSize(msg.selectionSize)
         return
       }
 
@@ -67,7 +72,7 @@ export function PrintColorUsagesToolView(props: { onBack: () => void; initialTab
       }
 
       if (msg.type === MAIN_TO_UI.PRINT_COLOR_USAGES_SELECTION) {
-        setSelectionSize(msg.selectionSize)
+        updateSelectionSize(msg.selectionSize)
         return
       }
 
@@ -115,16 +120,6 @@ export function PrintColorUsagesToolView(props: { onBack: () => void; initialTab
 
   const isWorking = status.status === "working"
   const hasPreviewChanges = selectedPreviewNodeIds.length > 0
-  const hasSelection = selectionSize > 0
-
-  useEffect(() => {
-    if (hasSelection) {
-      setScope("selection")
-    } else if (scope === "selection") {
-      setScope("page")
-    }
-  }, [hasSelection])
-
   const printTabShowsState = !hasSelection || !printPreview || printPreview.entries.length === 0
   const toolBodyMode = activeTab === "Print" && printTabShowsState ? "state" : "content"
 
