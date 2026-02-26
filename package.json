@@ -50,8 +50,8 @@
         "ui": "src/app/ui.tsx"
       },
       {
-        "name": "Mockup Markup Quick Apply",
-        "main": "src/mockup-markup-tool/main.ts",
+        "name": "Migrate to New UI Kit",
+        "main": "src/library-swap-tool/main.ts",
         "ui": "src/app/ui.tsx"
       },
       {
@@ -65,8 +65,8 @@
         "ui": "src/app/ui.tsx"
       },
       {
-        "name": "Migrate to New UI Kit",
-        "main": "src/library-swap-tool/main.ts",
+        "name": "Mockup Markup Quick Apply",
+        "main": "src/mockup-markup-tool/main.ts",
         "ui": "src/app/ui.tsx"
       },
       {

@@ -1,14 +1,14 @@
 [
   {
-    "id": "mockup-markup-tool",
-    "title": "Mockup Markup Quick Apply",
-    "menuLabel": "Mockup Markup Quick Apply",
-    "main": "src/mockup-markup-tool/main.ts",
-    "cardTitle": "Mockup Markup Quick Apply",
-    "description": "Apply text styles and colors",
+    "id": "library-swap-tool",
+    "title": "Migrate to New UI Kit",
+    "menuLabel": "Migrate to New UI Kit",
+    "main": "src/library-swap-tool/main.ts",
+    "cardTitle": "Migrate to New UI Kit",
+    "description": "Replace old library components and icons with their new equivalents",
     "category": "General",
-    "icon": "IconShapeText16",
-    "needsSelection": false
+    "icon": "IconLibrary16",
+    "needsSelection": true
   },
   {
     "id": "color-chain-tool",
@@ -33,15 +33,15 @@
     "needsSelection": true
   },
   {
-    "id": "library-swap-tool",
-    "title": "Migrate to New UI Kit",
-    "menuLabel": "Migrate to New UI Kit",
-    "main": "src/library-swap-tool/main.ts",
-    "cardTitle": "Migrate to New UI Kit",
-    "description": "Replace old library components and icons with their new equivalents",
+    "id": "mockup-markup-tool",
+    "title": "Mockup Markup Quick Apply",
+    "menuLabel": "Mockup Markup Quick Apply",
+    "main": "src/mockup-markup-tool/main.ts",
+    "cardTitle": "Mockup Markup Quick Apply",
+    "description": "Apply text styles and colors",
     "category": "General",
-    "icon": "IconLibrary16",
-    "needsSelection": true
+    "icon": "IconShapeText16",
+    "needsSelection": false
   },
   {
     "id": "automations-tool",
