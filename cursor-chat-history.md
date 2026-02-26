@@ -1,5 +1,10 @@
 # Cursor Chat History
 
+## Library Swap Tool — Manual pairs tab
+
+### 2026-02-26
+- Moved **Manual pairs** into a separate tab (like Print Color Usages: Print / Update / Settings). Library Swap now has **Main** and **Manual pairs** tabs via `ToolTabs`. Created `ManualPairsTab.tsx` with capture slots, pairs table, export target, and Export button. Footer (Analyze / Apply) shows only on Main tab. Build OK.
+
 ## Tools registry — order from JSON array
 
 ### 2026-02-26

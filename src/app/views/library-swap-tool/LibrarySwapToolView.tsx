@@ -4,7 +4,6 @@ import {
   Divider,
   FileUploadButton,
   IconButton,
-  IconClose16,
   IconHome16,
   Inline,
   LoadingIndicator,
@@ -28,12 +27,15 @@ import {
 import { DataTable, type DataTableColumn } from "../../components/DataTable"
 import { NodeTypeIcon } from "../../components/NodeTypeIcon"
 import { Page } from "../../components/Page"
-import { SegmentedControlWithWidth } from "../../components/SegmentedControlWithWidth"
 import { ScopeControl, useScope } from "../../components/ScopeControl"
+import { ToolTabs } from "../../components/ToolTabs"
 import { State } from "../../components/State"
 import { ToolBody } from "../../components/ToolBody"
 import { ToolFooter } from "../../components/ToolFooter"
 import { ToolHeader } from "../../components/ToolHeader"
+import { ManualPairsTab } from "./ManualPairsTab"
+
+type TabValue = "Migrate" | "Pair"
 
 type Props = {
   onBack: () => void
@@ -68,6 +70,9 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
 
   // Scan Legacy
   const [scanLegacyResult, setScanLegacyResult] = useState<LibrarySwapScanLegacyResultPayload | null>(null)
+
+  // Tabs
+  const [activeTab, setActiveTab] = useState<TabValue>("Migrate")
 
   // Manual pairs
   const [capturedOldName, setCapturedOldName] = useState<string | null>(null)
@@ -316,12 +321,6 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
     { label: "", width: "35%" },
   ]
 
-  const pairsColumns: DataTableColumn[] = [
-    { label: "Old component", width: "42%" },
-    { label: "New component", width: "42%" },
-    { label: "", width: "16%" },
-  ]
-
   const cellStyle: h.JSX.CSSProperties = {
     padding: "6px 8px",
     fontSize: 11,
@@ -384,7 +383,18 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
         }
       />
 
-      <ToolBody mode="content">
+      <div style={{ flex: 1, minHeight: 0, display: "flex", flexDirection: "column" }}>
+        <ToolTabs
+          value={activeTab}
+          onValueChange={(value) => setActiveTab(value as TabValue)}
+          options={[
+            { value: "Migrate" },
+            { value: "Pair" },
+          ]}
+        />
+
+        <ToolBody mode="content">
+          {activeTab === "Migrate" ? (
         <Stack space="medium">
 
           {/* -- Scope ----------------------------------------------------- */}
@@ -606,85 +616,26 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
             </FileUploadButton>
             */}
           </Stack>
-          {/* -- Manual pairs ---------------------------------------------- */}
-          <Divider />
-          <Stack space="small">
-            <Text style={{ fontWeight: 600 }}>Manual pairs</Text>
-
-            {/* Pending capture slots */}
-            <div style={{ display: "flex", gap: 12, fontSize: 11 }}>
-              <Text style={{ fontSize: 11, color: capturedOldName ? "var(--figma-color-text)" : "var(--figma-color-text-tertiary)" }}>
-                Old: {capturedOldName ?? "—"}
-              </Text>
-              <Text style={{ fontSize: 11, color: capturedNewName ? "var(--figma-color-text)" : "var(--figma-color-text-tertiary)" }}>
-                New: {capturedNewName ?? "—"}
-              </Text>
-            </div>
-
-            <Inline space="extraSmall">
-              <Button
-                secondary
-                onClick={handleCaptureOld}
-                disabled={selectionSize === 0 || isBusy}
-              >
-                Capture Old
-              </Button>
-              <Button
-                secondary
-                onClick={handleCaptureNew}
-                disabled={selectionSize === 0 || isBusy}
-              >
-                Capture New
-              </Button>
-            </Inline>
-
-            {/* Pairs table or empty state */}
-            {manualPairs.length > 0 ? (
-              <DataTable
-                header="Recorded pairs"
-                summary={`${manualPairs.length} pair${manualPairs.length !== 1 ? "s" : ""}`}
-                columns={pairsColumns}
-              >
-                {manualPairs.map((pair) => (
-                  <tr key={pair.oldKey}>
-                    <td style={cellStyle}>{pair.oldName}</td>
-                    <td style={cellStyle}>{pair.newName}</td>
-                    <td style={{ ...cellStyle, textAlign: "center" }}>
-                      <IconButton onClick={() => handleRemovePair(pair.oldKey)} title="Remove pair">
-                        <IconClose16 />
-                      </IconButton>
-                    </td>
-                  </tr>
-                ))}
-              </DataTable>
-            ) : (
-              <Text style={{ fontSize: 11, color: "var(--figma-color-text-tertiary)" }}>
-                No pairs recorded yet
-              </Text>
-            )}
-
-            {/* Export target + button */}
-            <SegmentedControlWithWidth
-              value={manualPairsExportTarget}
-              fullWidth={false}
-              onValueChange={(v) => setManualPairsExportTarget(v as "uikit" | "icons")}
-              options={[
-                { value: "uikit", children: "UI Kit" },
-                { value: "icons", children: "Icons" },
-              ]}
-            />
-            <Button
-              secondary
-              onClick={handleExportMapping}
-              disabled={manualPairs.length === 0}
-            >
-              Export mapping
-            </Button>
-          </Stack>
         </Stack>
-      </ToolBody>
+          ) : (
+            <ManualPairsTab
+              capturedOldName={capturedOldName}
+              capturedNewName={capturedNewName}
+              manualPairs={manualPairs}
+              manualPairsExportTarget={manualPairsExportTarget}
+              onExportTargetChange={setManualPairsExportTarget}
+              selectionSize={selectionSize}
+              isBusy={isBusy}
+              onCaptureOld={handleCaptureOld}
+              onCaptureNew={handleCaptureNew}
+              onRemovePair={handleRemovePair}
+              onExportMapping={handleExportMapping}
+            />
+          )}
+        </ToolBody>
 
-      {/* -- Footer (sticky) ----------------------------------------------- */}
+      {activeTab === "Migrate" && (
+      <>
       <ToolFooter direction="column">
         {isBusy && (
           <Inline space="extraSmall">
@@ -722,6 +673,9 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
           </div>
         </div>
       </ToolFooter>
+      </>
+      )}
+      </div>
     </Page>
   )
 }

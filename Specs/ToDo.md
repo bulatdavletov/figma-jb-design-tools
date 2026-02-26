@@ -105,3 +105,13 @@ New: Use ToolCard for Automations list, and emojis for icons.
 
 New actions: Choose from Menu / Choose from List input actions
 Example: Full width/height automation: height, width, or both
+
+**Split text automation:**
+I have one text with multi line text. I want to split it into several text layers by new lines.
+
+Get selection
+Split selection.text by new lines
+Repeat with each (split text parts)
+    create text layer with the same style as the original text (have no idea how to do that)
+    set createdText.text = {$item}
+Wrap all created text layers in a frame with vertical auto layout
