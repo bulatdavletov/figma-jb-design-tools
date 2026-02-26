@@ -134,7 +134,7 @@ A tool where users build named automations by adding steps from a menu of action
 
 Follows the existing tool pattern:
 
-- Entry: `src/automations-tool/main.ts`
+- Entry: `src/automations-tool/run-automation.ts`
 - Main thread: `src/app/tools/automations/main-thread.ts`
 - UI view: `src/app/views/automations-tool/AutomationsToolView.tsx`
 - Registered via `run.ts`, routed via `ui.tsx`, messages in `messages.ts`
@@ -464,7 +464,7 @@ With `parameterOnly: false`:
 **Implementation:**
 
 ```typescript
-// In automations-tool/main.ts:
+// In automations-tool/run-automation.ts:
 figma.parameters.on('input', async ({ query, key, result }) => {
   if (key === 'automation') {
     const automations = await loadAutomations()

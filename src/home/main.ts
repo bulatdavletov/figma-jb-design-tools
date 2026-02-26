@@ -1,4 +1,4 @@
-import { run } from "../app/run"
+import { run } from "./run"
 
 export default function () {
   run("home")

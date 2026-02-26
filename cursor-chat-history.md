@@ -257,7 +257,7 @@
 
 **What was done:**
 - **TextboxWithSuggestions** (2Q): Reusable autocomplete component. Triggers on `{` character, shows dropdown with property tokens, pipeline vars, saved snapshots, loop vars. Keyboard navigation (arrows, Enter/Tab, Escape), click-outside dismiss. Used for rename replace, setCharacters, resize, notify/log, setPipelineVariable value fields.
-- **Quick Actions** (2R): "Run Automation" menu command with `figma.parameters` autocomplete. Separate entry point (`src/run-automation/main.ts`). Shows saved automations list in Cmd+/, runs selected automation directly without UI. Falls back to full UI for automations with `askForInput` steps. `sync-figma-menu.cjs` extended with QUICK_ACTIONS array.
+- **Quick Actions** (2R): "Run Automation" menu command with `figma.parameters` autocomplete. Separate entry point (`src/run-automation/run-automation.ts`). Shows saved automations list in Cmd+/, runs selected automation directly without UI. Falls back to full UI for automations with `askForInput` steps. `sync-figma-menu.cjs` extended with QUICK_ACTIONS array.
 - **buildSuggestions** helper: Computes available tokens from context tokens (count, index), property registry (15 properties), previous steps' outputName ($data or #nodes), and enclosing repeatWithEach loop variables ($item, $repeatIndex).
 
 **Phase 2 audit vs Apple Shortcuts:**
@@ -400,7 +400,7 @@ What we should consider **aligning** (future phases):
 
 **Fix:** Added auto-run mechanism:
 - `setAutoRunAutomation(id)` in `main-thread.ts` stores a pending automation ID
-- `run-automation/main.ts` calls `setAutoRunAutomation(automationId)` before `run("automations-tool")` for askForInput automations
+- `run-automation/run-automation.ts` calls `setAutoRunAutomation(automationId)` before `run("automations-tool")` for askForInput automations
 - `onActivate` checks for `pendingAutoRunId` — if set, immediately runs the automation after UI boots
 - Refactored `runAutomationById()` helper extracted from inline AUTOMATIONS_RUN handler to avoid duplication
 - Flow: Quick Actions → set pending ID → open UI → UI boots → auto-run → input dialog appears → user submits → execution completes → run output shown
@@ -412,7 +412,7 @@ What we should consider **aligning** (future phases):
 **Root cause:** `build-figma-plugin` calls `modules[commandId]()` (the default export) immediately during plugin initialization. For Quick Actions commands with `parameters`, Figma is in "query mode" at that point (for parameter autocomplete). The default export received no arguments (`event` = undefined), fell to `else { run("automations-tool") }` → `showUI()` → crash because `showUI()` is forbidden in query mode.
 
 **Fix (two parts):**
-1. Restructured `run-automation/main.ts` so the default export only registers `figma.on("run", handler)` instead of executing directly. The actual logic moved to `handleRun()` called from the "run" event handler, which fires AFTER Figma exits query mode:
+1. Restructured `run-automation/run-automation.ts` so the default export only registers `figma.on("run", handler)` instead of executing directly. The actual logic moved to `handleRun()` called from the "run" event handler, which fires AFTER Figma exits query mode:
    - From Quick Actions: query mode → parameter collection → "run" event fires with `parameters` → `handleRun(parameters)` runs in normal mode
    - From Plugins menu: no query mode → "run" event fires without parameters → `handleRun(undefined)` → opens full Automations UI
 2. Wrapped `figma.ui.postMessage()` in `executor.ts` with try/catch — the progress update call crashed when running headlessly via Quick Actions (no UI to post to)
@@ -632,3 +632,37 @@ What we should consider **aligning** (future phases):
 7. **Git** — Merged `codex/create-automation-for-component-placement` into `automations-tool` (fast-forward), deleted the feature branch. Current branch: `automations-tool` (ahead of origin by 13 commits).
 
 **Deferred:** Part 4B (extract leaf components) and 4C (extract step-params-renderer) — can be done in a follow-up to avoid risk in one session.
+
+## Mega Folders Restructurization
+
+### 2026-02-26: Major folder restructuring + build fixes
+
+**Task:** Reorganized the entire `src/` folder structure to consolidate tools and simplify the codebase.
+
+**Structure changes (documented in `specs/Folders structure New.md`):**
+1. **Flattened `src/app/` structure** — moved components, utils, and registry to top-level folders
+2. **Consolidated all tools under `src/tools/`** — each tool now has its logic, views, and entry point together
+3. **Moved shared utilities** to `src/utils/` (variables-shared, int-ui-kit-library, mockup-markup-library)
+4. **Removed separate tool entry point folders** — entry points now inside each tool folder
+5. **Renamed tools:**
+   - `library-swap-tool` → `migrate-to-islands-uikit-tool`
+   - `variables-batch-rename-tool` → `variables-rename-tool`
+6. **Renamed `src/preview/`** → `src/ui-showcase/`
+
+**Build issues fixed:**
+
+1. **CSS resolution error** (`Could not resolve "!../css/base.css"`):
+   - **Root cause:** `scripts/sync-figma-menu.cjs` had `main: 'src/home/ui.tsx'` for "All Tools" entry instead of `main: 'src/home/main.ts'`
+   - **Why it matters:** The `main` property must point to a main thread file (`.ts`), not a UI file. The main bundle doesn't include the CSS modules plugin that handles `@create-figma-plugin/ui` imports with `!` prefix
+   - **Fix:** Changed to `main: 'src/home/main.ts'`
+
+2. **Runtime TypeError** (`not a function at map`):
+   - **Root cause:** Tool IDs in `tools-registry-data.json` were renamed but not updated across all files
+   - **Mismatch:** JSON had `migrate-to-islands-uikit-tool` and `variables-rename-tool`, but code still referenced `library-swap-tool` and `variables-batch-rename-tool`
+   - **Files updated:**
+     - `src/tools-registry/tools-registry.ts` (TOOL_IDS array)
+     - `src/home/run.ts` (REGISTER_TOOL_CONTROLLER)
+     - `src/home/ui.tsx` (TOOL_VIEW_BY_ID)
+     - `src/tools/migrate-to-islands-uikit-tool/main.ts` & `main-thread.ts`
+     - `src/tools/variables-rename-tool/main.ts` & `main-thread.ts`
+     - `src/ui-showcase/tool-registry.ts`

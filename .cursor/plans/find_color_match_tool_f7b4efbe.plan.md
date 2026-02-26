@@ -36,7 +36,7 @@ status: completed
 content: Create src/app/tools/find-color-match/main-thread.ts — registerFindColorMatchTool with scan, match, apply handlers + selection change listener
 status: completed
 - id: create-entry
-content: Create src/find-color-match-tool/main.ts entry point
+content: Create src/find-color-match-tool/run-automation.ts entry point
 status: completed
 - id: create-view
 content: Create src/app/views/find-color-match-tool/FindColorMatchToolView.tsx — UI with collection/mode dropdowns, results list with per-row Apply
@@ -67,7 +67,7 @@ Follows the established tool pattern:
 
 ```mermaid
 flowchart TD
-    Entry["src/find-color-match-tool/main.ts"] --> Run["src/app/run.ts (router)"]
+    Entry["src/find-color-match-tool/run-automation.ts"] --> Run["src/app/run.ts (router)"]
     Run --> MainThread["src/app/tools/find-color-match/main-thread.ts"]
     MainThread --> Scan["scan.ts - extract unbound colors"]
     MainThread --> Match["match.ts - RGB distance matching"]
@@ -170,7 +170,7 @@ Auto-refresh on selection change (debounced), per design principles for small ut
 
 | File                                                               | Purpose                                                                        |
 | ------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
-| [`src/find-color-match-tool/main.ts`]                              | Tool entry point (same pattern as other tools)                                 |
+| [`src/find-color-match-tool/run-automation.ts`]                              | Tool entry point (same pattern as other tools)                                 |
 | [`src/app/tools/find-color-match/main-thread.ts`]                  | Main thread: scan, match, apply, selection change handler                      |
 | [`src/app/tools/find-color-match/scan.ts`]                         | Extract unbound SOLID colors from selection recursively                        |
 | [`src/app/tools/find-color-match/match.ts`]                        | RGB distance calculation + best-match sorting                                  |
