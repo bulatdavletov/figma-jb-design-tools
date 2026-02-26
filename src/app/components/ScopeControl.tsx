@@ -1,5 +1,5 @@
-import { SegmentedControl } from "@create-figma-plugin/ui"
 import { h } from "preact"
+import { SegmentedControlWithWidth } from "./SegmentedControlWithWidth"
 import { useCallback, useState } from "preact/hooks"
 
 export type ScopeValue = "selection" | "page" | "all_pages"
@@ -61,36 +61,34 @@ export function ScopeControl({
   disabled = false,
 }: Props) {
   return (
-    <div class="scope-control-stretch">
-      <style>{`.scope-control-stretch > div { width: 100%; } .scope-control-stretch > div > label { flex: 1; text-align: center; }`}</style>
-      <SegmentedControl
-        value={value}
-        disabled={disabled}
-        onValueChange={(next) => {
-          if (!onValueChange) return
-          const nextScope = next as ScopeValue
-          // Prevent selecting "selection" when nothing is selected
-          if (nextScope === "selection" && !hasSelection) return
-          onValueChange(nextScope)
-        }}
-        options={[
-          {
-            value: "selection",
-            disabled: disabled || !hasSelection,
-            children: "Selection",
-          },
-          {
-            value: "page",
-            disabled,
-            children: "Current page",
-          },
-          {
-            value: "all_pages",
-            disabled,
-            children: "All pages",
-          },
-        ]}
-      />
-    </div>
+    <SegmentedControlWithWidth
+      value={value}
+      fullWidth
+      disabled={disabled}
+      onValueChange={(next) => {
+        if (!onValueChange) return
+        const nextScope = next as ScopeValue
+        // Prevent selecting "selection" when nothing is selected
+        if (nextScope === "selection" && !hasSelection) return
+        onValueChange(nextScope)
+      }}
+      options={[
+        {
+          value: "selection",
+          disabled: disabled || !hasSelection,
+          children: "Selection",
+        },
+        {
+          value: "page",
+          disabled,
+          children: "Current page",
+        },
+        {
+          value: "all_pages",
+          disabled,
+          children: "All pages",
+        },
+      ]}
+    />
   )
 }

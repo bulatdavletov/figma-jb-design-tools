@@ -8,7 +8,6 @@ import {
   IconHome16,
   Inline,
   LoadingIndicator,
-  SegmentedControl,
   Stack,
   Text,
   VerticalSpace,
@@ -29,6 +28,7 @@ import {
 import { DataTable, type DataTableColumn } from "../../components/DataTable"
 import { NodeTypeIcon } from "../../components/NodeTypeIcon"
 import { Page } from "../../components/Page"
+import { SegmentedControlWithWidth } from "../../components/SegmentedControlWithWidth"
 import { ScopeControl, useScope } from "../../components/ScopeControl"
 import { State } from "../../components/State"
 import { ToolBody } from "../../components/ToolBody"
@@ -664,8 +664,9 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
             )}
 
             {/* Export target + button */}
-            <SegmentedControl
+            <SegmentedControlWithWidth
               value={manualPairsExportTarget}
+              fullWidth={false}
               onValueChange={(v) => setManualPairsExportTarget(v as "uikit" | "icons")}
               options={[
                 { value: "uikit", children: "UI Kit" },
