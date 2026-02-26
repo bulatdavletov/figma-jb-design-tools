@@ -120,6 +120,9 @@ export function registerVariablesExportImportTool(getActiveTool: () => ActiveToo
 
     const files: { filename: string; jsonText: string }[] = []
     const nameCounts = new Map<string, number>()
+    const safeProjectName = figma.root.name
+      .replace(/[/\\:*?"<>|]+/g, " ")
+      .trim()
 
     for (const collection of scopedCollections) {
       const variablesInCollection = allVars.filter((v) => v.variableCollectionId === collection.id)
@@ -222,10 +225,11 @@ export function registerVariablesExportImportTool(getActiveTool: () => ActiveToo
         ],
       }
 
-      const baseFilename = `${collection.name}.json`
+      const baseFilename = `${safeProjectName}. ${collection.name}.json`
       const prev = nameCounts.get(baseFilename) ?? 0
       nameCounts.set(baseFilename, prev + 1)
-      const filename = prev === 0 ? baseFilename : `${collection.name}-${prev + 1}.json`
+      const filename =
+        prev === 0 ? baseFilename : `${safeProjectName}. ${collection.name}-${prev + 1}.json`
 
       files.push({ filename, jsonText: JSON.stringify(doc, null, 4) })
     }
