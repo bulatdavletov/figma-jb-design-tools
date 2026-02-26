@@ -46,6 +46,7 @@ export type ActionType =
   | "setPipelineVariable"
   | "setPipelineVariableFromProperty"
   | "splitText"
+  | "math"
   | "setPosition"
   | "askForInput"
   | "repeatWithEach"
@@ -435,7 +436,7 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     label: "Ask for input",
     description: "Pause and ask the user to enter text. Output saved as pipeline variable",
     category: "input",
-    defaultParams: { label: "Enter text", placeholder: "", inputType: "text" },
+    defaultParams: { label: "Enter text", placeholder: "", inputType: "text", defaultValue: "" },
     producesData: true,
     defaultOutputName: "input",
   },
@@ -465,6 +466,15 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     defaultParams: { sourceVar: "", delimiter: "\\n" },
     producesData: true,
     defaultOutputName: "parts",
+  },
+  {
+    type: "math",
+    label: "Math",
+    description: "Perform arithmetic: add, subtract, multiply, or divide two values. Supports tokens",
+    category: "variables",
+    defaultParams: { x: "", operation: "add", y: "" },
+    producesData: true,
+    defaultOutputName: "result",
   },
 
   // Flow

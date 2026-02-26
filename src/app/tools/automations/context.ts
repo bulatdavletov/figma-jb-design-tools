@@ -18,6 +18,10 @@ export interface AutomationContext {
   log: StepLogEntry[]
   pipelineVars: Record<string, PipelineValue | PipelineListValue>
   savedNodeSets: Record<string, SceneNode[]>
+  /** Inside repeat: variable name (e.g. "item") for {$item.property} token resolution. */
+  repeatItemVar?: string
+  /** Inside repeat nodes mode: reference to the current iteration's node. */
+  repeatItemNode?: SceneNode
 }
 
 export type ActionResult = {
@@ -63,5 +67,7 @@ export function cloneContext(ctx: AutomationContext): AutomationContext {
     log: [...ctx.log],
     pipelineVars: clonedVars,
     savedNodeSets: clonedSets,
+    repeatItemVar: ctx.repeatItemVar,
+    repeatItemNode: ctx.repeatItemNode,
   }
 }

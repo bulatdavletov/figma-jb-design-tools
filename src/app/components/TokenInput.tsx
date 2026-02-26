@@ -2,8 +2,7 @@ import { h } from "preact"
 import { useRef, useEffect, useCallback, useState } from "preact/hooks"
 import { Text } from "@create-figma-plugin/ui"
 import { parseTokenSegments, classifyToken } from "./token-utils"
-import { TokenHighlighter } from "./TokenHighlighter"
-import { neutralTokenCssText, selectedTokenCssText } from "./TokenPill"
+import { TokenText, neutralTokenCssText, selectedTokenCssText } from "./TokenPill"
 
 export type Suggestion = {
   token: string
@@ -19,7 +18,6 @@ const containerStyle: h.JSX.CSSProperties = {
   width: "100%",
   minHeight: 24,
   padding: "0 7px",
-  border: "1px solid var(--figma-color-border)",
   borderRadius: 4,
   backgroundColor: "var(--figma-color-bg-secondary)",
   color: "var(--figma-color-text)",
@@ -32,7 +30,7 @@ const containerStyle: h.JSX.CSSProperties = {
 }
 
 const containerHoverStyle: h.JSX.CSSProperties = {
-  borderColor: "var(--figma-color-border)",
+  border: "1px solid var(--figma-color-border)",
 }
 
 const containerFocusStyle: h.JSX.CSSProperties = {
@@ -271,7 +269,7 @@ function SuggestionDropdown(props: {
               }}
             >
               <span style={{ fontSize: 11 }}>
-                <TokenHighlighter text={`{${s.token}}`} />
+                <TokenText text={`{${s.token}}`} />
               </span>
               <Text
                 style={{

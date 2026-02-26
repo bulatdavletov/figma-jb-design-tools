@@ -19,10 +19,25 @@ export interface TokenScope {
  *   {index}  — position in working set
  *   {name}, {type}, {width}, {opacity}, ... — node properties from the registry
  */
+/** Property alias for $item.text (user-friendly name for text content). */
+const ITEM_PROP_ALIASES: Record<string, string> = { text: "characters" }
+
 export function resolveTokens(template: string, scope: TokenScope): string {
   return template.replace(/\{([^}]+)\}/g, (_match, token: string) => {
     if (token.startsWith("$")) {
-      const varName = token.slice(1)
+      const rest = token.slice(1)
+      const dotIndex = rest.indexOf(".")
+      // {$item.text}: resolve property from repeat's current node (stored on context, not scope)
+      if (dotIndex > 0) {
+        const varName = rest.slice(0, dotIndex)
+        if (varName === scope.context.repeatItemVar && scope.context.repeatItemNode) {
+          const propKey = rest.slice(dotIndex + 1)
+          const registryKey = ITEM_PROP_ALIASES[propKey] ?? propKey
+          const value = getNodeProperty(scope.context.repeatItemNode, registryKey)
+          return value != null ? String(value) : ""
+        }
+      }
+      const varName = rest
       const value = scope.context.pipelineVars[varName]
       if (value === undefined) return ""
       if (Array.isArray(value)) return value.join(", ")

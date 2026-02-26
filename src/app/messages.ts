@@ -1114,4 +1114,5 @@ export type AutomationsInputRequest = {
   label: string
   placeholder: string
   inputType: "text" | "textarea"
+  defaultValue: string
 }

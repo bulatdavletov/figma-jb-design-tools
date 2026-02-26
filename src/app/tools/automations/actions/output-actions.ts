@@ -1,5 +1,6 @@
 import type { ActionHandler, ActionResult } from "../context"
 import { resolveTokens } from "../tokens"
+import { plural } from "../../../utils/pluralize"
 
 export const selectResults: ActionHandler = async (context, params) => {
   figma.currentPage.selection = context.nodes
@@ -12,7 +13,7 @@ export const selectResults: ActionHandler = async (context, params) => {
   context.log.push({
     stepIndex: -1,
     stepName: "Select results",
-    message: `Selected ${context.nodes.length} node(s)`,
+    message: `Selected ${plural(context.nodes.length, "node")}`,
     itemsIn: context.nodes.length,
     itemsOut: context.nodes.length,
     status: "success",
@@ -28,7 +29,7 @@ export const logAction: ActionHandler = async (context, params) => {
   context.log.push({
     stepIndex: -1,
     stepName: "Log",
-    message: resolvedMessage || `Working set: ${context.nodes.length} node(s)`,
+    message: resolvedMessage || `Working set: ${plural(context.nodes.length, "node")}`,
     itemsIn: context.nodes.length,
     itemsOut: context.nodes.length,
     status: "success",
@@ -44,7 +45,7 @@ export const countAction: ActionHandler = async (context, params): Promise<Actio
   context.log.push({
     stepIndex: -1,
     stepName: label,
-    message: `${label}: ${count} node(s)`,
+    message: `${label}: ${plural(count, "node")}`,
     itemsIn: count,
     itemsOut: count,
     status: "success",

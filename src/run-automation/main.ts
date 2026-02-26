@@ -1,6 +1,7 @@
 import { loadAutomations, getAutomation } from "../app/tools/automations/storage"
 import { executeAutomation } from "../app/tools/automations/executor"
 import { setAutoRunAutomation } from "../app/tools/automations/main-thread"
+import { plural } from "../app/utils/pluralize"
 import { run } from "../app/run"
 
 figma.parameters.on("input", async ({ query, key, result }: ParameterInputEvent) => {
@@ -43,7 +44,7 @@ async function handleRun(parameters?: ParameterValues) {
         figma.notify(`${automation.name}: ${errors[0].message}`, { error: true })
       } else {
         const completed = context.log.filter((e) => e.status === "success").length
-        figma.notify(`${automation.name}: Completed ${completed} step(s)`)
+        figma.notify(`${automation.name}: Completed ${plural(completed, "step")}`)
       }
     } catch (e) {
       figma.notify(e instanceof Error ? e.message : String(e), { error: true })

@@ -250,7 +250,27 @@ What we should consider **aligning** (future phases):
 
 **Issue:** Automation "Add Numeration to Text" (repeat with each node → setCharacters "{$repeatIndex}. {$item}") produced "1. ", "2. ", "3. " because in nodes mode the executor never set the item variable, so {$item} was empty.
 
-**Fix:** In `executeRepeatNodesMode`, set `context.pipelineVars[itemVar]` each iteration to the current node's useful value: `characters` (text content) for TEXT nodes, else `name`, via `getNodeProperty`. So {$item} now resolves to the current node's text or name, and "{$repeatIndex}. {$item}" gives "1. 123", "2. 123", "3. 123".
+**Fixes:**
+- `{$item}` (plain): executor sets `pipelineVars[itemVar]` to node's text content or name each iteration.
+- `{$item.text}` / `{$item.name}` / `{$item.<prop>}`: added `repeatItemNode` on context — the actual SceneNode reference for the current iteration. Token resolver checks `context.repeatItemVar` + `context.repeatItemNode` (NOT `scope.node`) so it works in any action (log, notify, etc.), not just actions that happen to set scope.node. Alias: `text` → `characters`.
+- `repeatItemNode` is set alongside `repeatItemVar` in `executeRepeatNodesMode` and cleaned up after the loop.
+
+### 2026-02-26: Math action
+
+**Task:** Add arithmetic operations (add, subtract, multiply, divide) so users can compute values like `repeatIndex + startWith`.
+
+**What was done:**
+- **`math` action** (category: variables): params `x`, `y` (token-aware), `operation` (add/subtract/multiply/divide). Produces data output. Handles division by zero.
+- **UI**: Config form with X (TextboxWithSuggestions), Operation (dropdown: Plus/Minus/Multiply/Divide), Y (TextboxWithSuggestions). Param summary shows `X + Y` style.
+- **Use case**: `askForInput` (startWith=5) → repeat → `math` (x: `{$repeatIndex}`, op: add, y: `{$startWith}`, out: lineNumber) → `setCharacters` (`{$lineNumber}. {$item.text}`) → results: 5. text, 6. text, 7. text.
+
+### 2026-02-26: Autocomplete fixes + askForInput default value
+
+**Issues:** (1) Inside repeat, `$item` and `$item.text` etc. didn't appear in autocomplete suggestions. (2) Child steps inside repeat couldn't see sibling child step outputs (e.g., math output). (3) askForInput had no default/initial value.
+
+**Fixes:**
+- **`buildSuggestions`**: Now accepts `childIndex` param. When inside a repeat, adds `$item.text`, `$item.name`, and all `$item.<property>` suggestions under "Loop item properties" category. Also scans sibling children `[0..childIndex-1]` for their outputs so later children can reference earlier ones.
+- **`askForInput` default value**: Added `defaultValue` param through the full stack — `ActionDefinition.defaultParams`, `input-bridge.ts` (`requestInput` signature), `input-actions.ts`, `AutomationsInputRequest` message type, `InputDialog` (initializes state with `defaultValue`), config form (new "Default value" field between label and placeholder).
 
 ### 2026-02-24: Fix Cancel button in Ask for Input dialog
 

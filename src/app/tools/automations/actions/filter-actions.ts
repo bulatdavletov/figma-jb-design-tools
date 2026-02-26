@@ -1,5 +1,6 @@
 import type { AutomationContext, ActionHandler } from "../context"
 import type { FilterCondition, FilterLogic, FilterOperator } from "../types"
+import { plural } from "../../../utils/pluralize"
 
 export const filterAction: ActionHandler = async (context, params) => {
   const logic = (params.logic ?? "and") as FilterLogic
@@ -37,7 +38,7 @@ export const filterAction: ActionHandler = async (context, params) => {
   context.log.push({
     stepIndex: -1,
     stepName: "Filter",
-    message: `Kept ${filtered.length} of ${before} node(s) (${condSummary})`,
+    message: `Kept ${filtered.length} of ${plural(before, "node")} (${condSummary})`,
     itemsIn: before,
     itemsOut: filtered.length,
     status: "success",

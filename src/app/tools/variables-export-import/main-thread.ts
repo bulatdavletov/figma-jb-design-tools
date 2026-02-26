@@ -7,6 +7,7 @@ import type {
   ExportImportApplyResultPayload,
   VariableResolvedDataType,
 } from "../../messages"
+import { plural } from "../../utils/pluralize"
 import { MAIN_TO_UI, UI_TO_MAIN } from "../../messages"
 import {
   getVariable,
@@ -562,7 +563,7 @@ export function registerVariablesExportImportTool(getActiveTool: () => ActiveToo
           } else if (payload.files.length === 1) {
             figma.notify(`Exported: ${payload.files[0].filename}`)
           } else {
-            figma.notify(`Snapshot ready: ${payload.files.length} file(s)`)
+            figma.notify(`Snapshot ready: ${plural(payload.files.length, "file")}`)
           }
         } catch (e) {
           figma.notify(e instanceof Error ? e.message : "Export failed")

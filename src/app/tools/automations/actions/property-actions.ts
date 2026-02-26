@@ -1,5 +1,6 @@
 import type { AutomationContext, ActionHandler } from "../context"
 import { resolveTokens, type TokenScope } from "../tokens"
+import { plural } from "../../../utils/pluralize"
 
 export const renameLayers: ActionHandler = async (context, params) => {
   const find = String(params.find ?? "")
@@ -30,7 +31,7 @@ export const renameLayers: ActionHandler = async (context, params) => {
   context.log.push({
     stepIndex: -1,
     stepName: "Rename layers",
-    message: `Renamed ${renamed} of ${context.nodes.length} layer(s)`,
+    message: `Renamed ${renamed} of ${plural(context.nodes.length, "layer")}`,
     itemsIn: context.nodes.length,
     itemsOut: context.nodes.length,
     status: "success",
@@ -70,7 +71,7 @@ export const setFillColor: ActionHandler = async (context, params) => {
   context.log.push({
     stepIndex: -1,
     stepName: "Set fill color",
-    message: `Applied fill #${hex.toUpperCase()} to ${applied} node(s)`,
+    message: `Applied fill #${hex.toUpperCase()} to ${plural(applied, "node")}`,
     itemsIn: context.nodes.length,
     itemsOut: context.nodes.length,
     status: "success",
@@ -122,7 +123,7 @@ export const setFillVariable: ActionHandler = async (context, params) => {
   context.log.push({
     stepIndex: -1,
     stepName: "Set fill variable",
-    message: `Bound variable "${variableName}" on ${applied} node(s)`,
+    message: `Bound variable "${variableName}" on ${plural(applied, "node")}`,
     itemsIn: context.nodes.length,
     itemsOut: context.nodes.length,
     status: "success",
@@ -145,7 +146,7 @@ export const setOpacity: ActionHandler = async (context, params) => {
   context.log.push({
     stepIndex: -1,
     stepName: "Set opacity",
-    message: `Set opacity ${opacity}% on ${applied} node(s)`,
+    message: `Set opacity ${opacity}% on ${plural(applied, "node")}`,
     itemsIn: context.nodes.length,
     itemsOut: context.nodes.length,
     status: "success",
@@ -188,7 +189,7 @@ export const setCharacters: ActionHandler = async (context, params) => {
   context.log.push({
     stepIndex: -1,
     stepName: "Set text content",
-    message: `Set text content on ${applied} node(s)`,
+    message: `Set text content on ${plural(applied, "node")}`,
     itemsIn: context.nodes.length,
     itemsOut: context.nodes.length,
     status: "success",
@@ -226,7 +227,7 @@ export const resizeAction: ActionHandler = async (context, params) => {
   context.log.push({
     stepIndex: -1,
     stepName: "Resize",
-    message: `Resized ${applied} node(s)`,
+    message: `Resized ${plural(applied, "node")}`,
     itemsIn: context.nodes.length,
     itemsOut: context.nodes.length,
     status: "success",
@@ -286,7 +287,7 @@ export const wrapInFrame: ActionHandler = async (context, params) => {
   context.log.push({
     stepIndex: -1,
     stepName: "Wrap in frame",
-    message: `Wrapped ${newFrames.length} node(s) in frame${alLabel}`,
+    message: `Wrapped ${plural(newFrames.length, "node")} in frame${alLabel}`,
     itemsIn: newFrames.length,
     itemsOut: newFrames.length,
     status: "success",
@@ -376,7 +377,7 @@ export const wrapAllInFrame: ActionHandler = async (context, params) => {
   context.log.push({
     stepIndex: -1,
     stepName: "Wrap all in frame",
-    message: `Wrapped ${sortedNodes.length} node(s) into one frame${alLabel}`,
+    message: `Wrapped ${plural(sortedNodes.length, "node")} into one frame${alLabel}`,
     itemsIn: sortedNodes.length,
     itemsOut: 1,
     status: "success",
@@ -415,7 +416,7 @@ export const addAutoLayout: ActionHandler = async (context, params) => {
   context.log.push({
     stepIndex: -1,
     stepName: "Add auto layout",
-    message: `Added auto layout (${direction}) on ${applied} node(s)`,
+    message: `Added auto layout (${direction}) on ${plural(applied, "node")}`,
     itemsIn: context.nodes.length,
     itemsOut: context.nodes.length,
     status: "success",
@@ -461,7 +462,7 @@ export const editAutoLayout: ActionHandler = async (context, params) => {
   context.log.push({
     stepIndex: -1,
     stepName: "Edit auto layout",
-    message: `Edited auto layout on ${applied} node(s)`,
+    message: `Edited auto layout on ${plural(applied, "node")}`,
     itemsIn: context.nodes.length,
     itemsOut: context.nodes.length,
     status: "success",
@@ -482,7 +483,7 @@ export const removeAutoLayout: ActionHandler = async (context, _params) => {
   context.log.push({
     stepIndex: -1,
     stepName: "Remove auto layout",
-    message: `Removed auto layout from ${applied} node(s)`,
+    message: `Removed auto layout from ${plural(applied, "node")}`,
     itemsIn: context.nodes.length,
     itemsOut: context.nodes.length,
     status: "success",
@@ -516,7 +517,7 @@ export const setPositionAction: ActionHandler = async (context, params) => {
   context.log.push({
     stepIndex: -1,
     stepName: "Set position",
-    message: `Set position on ${applied} node(s)`,
+    message: `Set position on ${plural(applied, "node")}`,
     itemsIn: context.nodes.length,
     itemsOut: context.nodes.length,
     status: "success",
@@ -556,7 +557,7 @@ export const setStrokeColor: ActionHandler = async (context, params) => {
   context.log.push({
     stepIndex: -1,
     stepName: "Set stroke color",
-    message: `Applied stroke #${hex.toUpperCase()} to ${applied} node(s)`,
+    message: `Applied stroke #${hex.toUpperCase()} to ${plural(applied, "node")}`,
     itemsIn: context.nodes.length,
     itemsOut: context.nodes.length,
     status: "success",
@@ -577,7 +578,7 @@ export const removeFills: ActionHandler = async (context, _params) => {
   context.log.push({
     stepIndex: -1,
     stepName: "Remove fills",
-    message: `Removed fills from ${applied} node(s)`,
+    message: `Removed fills from ${plural(applied, "node")}`,
     itemsIn: context.nodes.length,
     itemsOut: context.nodes.length,
     status: "success",
@@ -598,7 +599,7 @@ export const removeStrokes: ActionHandler = async (context, _params) => {
   context.log.push({
     stepIndex: -1,
     stepName: "Remove strokes",
-    message: `Removed strokes from ${applied} node(s)`,
+    message: `Removed strokes from ${plural(applied, "node")}`,
     itemsIn: context.nodes.length,
     itemsOut: context.nodes.length,
     status: "success",
@@ -619,7 +620,7 @@ export const setVisibility: ActionHandler = async (context, params) => {
   context.log.push({
     stepIndex: -1,
     stepName: "Set visibility",
-    message: `Set ${visible ? "visible" : "hidden"} on ${applied} node(s)`,
+    message: `Set ${visible ? "visible" : "hidden"} on ${plural(applied, "node")}`,
     itemsIn: context.nodes.length,
     itemsOut: context.nodes.length,
     status: "success",
@@ -640,7 +641,7 @@ export const setLocked: ActionHandler = async (context, params) => {
   context.log.push({
     stepIndex: -1,
     stepName: "Set locked",
-    message: `Set ${locked ? "locked" : "unlocked"} on ${applied} node(s)`,
+    message: `Set ${locked ? "locked" : "unlocked"} on ${plural(applied, "node")}`,
     itemsIn: context.nodes.length,
     itemsOut: context.nodes.length,
     status: "success",
@@ -674,7 +675,7 @@ export const setNameAction: ActionHandler = async (context, params) => {
   context.log.push({
     stepIndex: -1,
     stepName: "Set name",
-    message: `Named ${applied} node(s)`,
+    message: `Named ${plural(applied, "node")}`,
     itemsIn: context.nodes.length,
     itemsOut: context.nodes.length,
     status: "success",
@@ -703,7 +704,7 @@ export const setRotation: ActionHandler = async (context, params) => {
   context.log.push({
     stepIndex: -1,
     stepName: "Set rotation",
-    message: `Set rotation on ${applied} node(s)`,
+    message: `Set rotation on ${plural(applied, "node")}`,
     itemsIn: context.nodes.length,
     itemsOut: context.nodes.length,
     status: "success",
@@ -723,7 +724,7 @@ export const removeNodeAction: ActionHandler = async (context, _params) => {
   context.log.push({
     stepIndex: -1,
     stepName: "Remove node",
-    message: `Removed ${count} node(s)`,
+    message: `Removed ${plural(count, "node")}`,
     itemsIn: count,
     itemsOut: 0,
     status: "success",
@@ -742,7 +743,7 @@ export const cloneNodeAction: ActionHandler = async (context, _params) => {
   context.log.push({
     stepIndex: -1,
     stepName: "Clone node",
-    message: `Cloned ${clones.length} node(s)`,
+    message: `Cloned ${plural(clones.length, "node")}`,
     itemsIn: context.nodes.length,
     itemsOut: clones.length,
     status: "success",

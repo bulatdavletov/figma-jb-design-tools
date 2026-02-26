@@ -1,5 +1,6 @@
 import { h } from "preact"
 import type { JSX } from "preact"
+import { TOKEN_REGEX, parseTokenSegments, classifyToken } from "./token-utils"
 
 /** Single neutral token style for all token types (theme-aware, no color coding). */
 export const neutralTokenStyle: JSX.CSSProperties = {
@@ -19,6 +20,7 @@ export const neutralTokenStyle: JSX.CSSProperties = {
 export const selectedTokenStyle: JSX.CSSProperties = {
   ...neutralTokenStyle,
   border: "1px solid var(--figma-color-border-selected)",
+  backgroundColor: "var(--figma-color-bg-selected)",
 }
 
 /**
@@ -49,4 +51,36 @@ export function TokenPill(props: TokenPillProps) {
   const { label, selected = false } = props
   const style = selected ? selectedTokenStyle : neutralTokenStyle
   return <span style={style}>{label}</span>
+}
+
+/**
+ * Parse a string and render tokens as TokenPills inline with plain text.
+ * Drop-in replacement for TokenHighlighter.
+ */
+export function TokenText(props: { text: string }) {
+  const { text } = props
+  if (!text) return null
+
+  const segments = parseTokenSegments(text)
+  if (segments.length === 0) return null
+  if (segments.length === 1 && segments[0].type === "text") {
+    return <span>{segments[0].raw}</span>
+  }
+
+  return (
+    <span style={{ wordBreak: "break-word" }}>
+      {segments.map((seg, i) =>
+        seg.type === "token"
+          ? <TokenPill key={i} label={seg.label} />
+          : seg.raw ? <span key={i}>{seg.raw}</span> : null
+      )}
+    </span>
+  )
+}
+
+export function stripTokenSyntax(text: string): string {
+  return text.replace(TOKEN_REGEX, (match) => {
+    const inner = match.slice(1, -1)
+    return classifyToken(inner).label
+  })
 }

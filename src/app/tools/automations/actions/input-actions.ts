@@ -6,8 +6,9 @@ export const askForInput: ActionHandler = async (context, params): Promise<Actio
   const label = String(params.label ?? "Enter text")
   const placeholder = String(params.placeholder ?? "")
   const inputType = (params.inputType ?? "text") as "text" | "textarea"
+  const defaultValue = String(params.defaultValue ?? "")
 
-  const value = await requestInput(label, placeholder, inputType)
+  const value = await requestInput(label, placeholder, inputType, defaultValue)
 
   const preview = value.length > 50 ? value.slice(0, 50) + "..." : value
 

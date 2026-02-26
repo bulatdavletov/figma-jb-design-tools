@@ -94,7 +94,7 @@ if (toProcess.length === 0) {
 }
 
 console.log(`Inbox: ${inboxPath}`)
-console.log(`Processing ${toProcess.length} file(s):\n`)
+console.log(`Processing ${plural(toProcess.length, "file")}:\n`)
 
 let merged = 0
 for (const { path: filePath, target } of toProcess) {
@@ -105,7 +105,7 @@ for (const { path: filePath, target } of toProcess) {
   }
 }
 
-console.log(`\nDone. Merged ${merged} file(s).`)
+console.log(`\nDone. Merged ${plural(merged, "file")}.`)
 if (merged > 0) {
   console.log('Run "npm run build" to rebuild the plugin.')
 }

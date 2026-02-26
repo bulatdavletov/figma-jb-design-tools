@@ -1,5 +1,6 @@
 import type { ActionHandler } from "../context"
 import { resolveTokens, type TokenScope } from "../tokens"
+import { plural } from "../../../utils/pluralize"
 
 async function loadFontForNode(textNode: TextNode): Promise<boolean> {
   try {
@@ -32,7 +33,7 @@ export const setFontSize: ActionHandler = async (context, params) => {
   context.log.push({
     stepIndex: -1,
     stepName: "Set font size",
-    message: `Set font size on ${applied} text node(s)`,
+    message: `Set font size on ${plural(applied, "text node")}`,
     itemsIn: context.nodes.length,
     itemsOut: context.nodes.length,
     status: "success",
@@ -62,7 +63,7 @@ export const setFont: ActionHandler = async (context, params) => {
   context.log.push({
     stepIndex: -1,
     stepName: "Set font",
-    message: `Set font ${family} ${style} on ${applied} text node(s)`,
+    message: `Set font ${family} ${style} on ${plural(applied, "text node")}`,
     itemsIn: context.nodes.length,
     itemsOut: context.nodes.length,
     status: "success",
@@ -97,7 +98,7 @@ export const setTextAlignment: ActionHandler = async (context, params) => {
   context.log.push({
     stepIndex: -1,
     stepName: "Set text alignment",
-    message: `Set alignment ${align} on ${applied} text node(s)`,
+    message: `Set alignment ${align} on ${plural(applied, "text node")}`,
     itemsIn: context.nodes.length,
     itemsOut: context.nodes.length,
     status: "success",
@@ -134,7 +135,7 @@ export const setTextCase: ActionHandler = async (context, params) => {
   context.log.push({
     stepIndex: -1,
     stepName: "Set text case",
-    message: `Set text case ${textCase} on ${applied} text node(s)`,
+    message: `Set text case ${textCase} on ${plural(applied, "text node")}`,
     itemsIn: context.nodes.length,
     itemsOut: context.nodes.length,
     status: "success",
@@ -171,7 +172,7 @@ export const setTextDecoration: ActionHandler = async (context, params) => {
   context.log.push({
     stepIndex: -1,
     stepName: "Set text decoration",
-    message: `Set decoration ${decoration} on ${applied} text node(s)`,
+    message: `Set decoration ${decoration} on ${plural(applied, "text node")}`,
     itemsIn: context.nodes.length,
     itemsOut: context.nodes.length,
     status: "success",
@@ -205,7 +206,7 @@ export const setLineHeight: ActionHandler = async (context, params) => {
   context.log.push({
     stepIndex: -1,
     stepName: "Set line height",
-    message: `Set line height ${desc} on ${applied} text node(s)`,
+    message: `Set line height ${desc} on ${plural(applied, "text node")}`,
     itemsIn: context.nodes.length,
     itemsOut: context.nodes.length,
     status: "success",

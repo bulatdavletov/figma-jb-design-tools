@@ -3,6 +3,7 @@ import { loadAutomations, saveAutomation, deleteAutomation, duplicateAutomation,
 import { executeAutomation, requestStop } from "./executor"
 import { resolveInput, cancelInput } from "./input-bridge"
 import type { Automation, AutomationStep, ActionType } from "./types"
+import { plural } from "../../utils/pluralize"
 
 let pendingAutoRunId: string | null = null
 
@@ -54,8 +55,8 @@ export function registerAutomationsTool(getActiveTool: () => ActiveTool) {
       result: {
         success,
         message: success
-          ? `Completed ${stepsCompleted} step(s) successfully`
-          : `Completed with ${errors.length} error(s)`,
+          ? `Completed ${plural(stepsCompleted, "step")} successfully`
+          : `Completed with ${plural(errors.length, "error")}`,
         stepsCompleted,
         totalSteps: enabledSteps.length,
         errors,
@@ -64,7 +65,7 @@ export function registerAutomationsTool(getActiveTool: () => ActiveTool) {
     })
 
     if (success) {
-      figma.notify(`${automation.name}: Completed ${stepsCompleted} step(s)`)
+      figma.notify(`${automation.name}: Completed ${plural(stepsCompleted, "step")}`)
     } else if (errors.length > 0) {
       figma.notify(`${automation.name}: ${errors[0]}`, { error: true })
     }

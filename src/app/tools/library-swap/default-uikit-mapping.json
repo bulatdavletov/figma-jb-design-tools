@@ -640,7 +640,14 @@
     "96bdcaedc645659f0b7566bb40bf20f990ba7572": "65fa0a46f6f049068c4b421e814e09daffbd8bc5",
     "911346ae160652adad39f9040f32d12658e969f8": "3977bc194044832c1e652f1e3c5ee7d78547e8c3",
     "792de419c0b204efc80d855c6fbc093a7c1329cf": "4b5ae55368852903d5dd31c2838f2705f7e2ebec",
-    "13cabef8da4fb49fd9393caa5d0c49e24aae9511": "4b5ae55368852903d5dd31c2838f2705f7e2ebec"
+    "13cabef8da4fb49fd9393caa5d0c49e24aae9511": "4b5ae55368852903d5dd31c2838f2705f7e2ebec",
+    "00f3ac75b5d2f838061d47fb252568ba0eb204d7": "cbb48562e2677b766213ba9ba74bf91230ffe4dd",
+    "00ab9d4ab4643d64557043166b0a97f8e765dc51": "c147f905b09408c7376d04e24750b9453ae53587",
+    "02ae287396bc0b2222ad01c838e30828473003b7": "1772420d9aafcda6755fb18a1e01f3a497533360",
+    "02d885ab56a358380a2baca2e6c439b1c2e53bbe": "5c337e73737a57d36208447f1756d9663373d9f3",
+    "0568c005c3900a0e5ee820a677beec71518e2593": "b55fef1ed3d7e4c257acb601d8e3d8f35cfb9a8c",
+    "08a71c28686d7ca706ac687e286389cf995e9bbe": "1772420d9aafcda6755fb18a1e01f3a497533360",
+    "0a2eb1fc780bf5641331894efd61e2da08631749": "23226f6f815c0ab68144bf2209351b37eb3d21e7"
   },
   "matchMeta": {
     "adb3d32220ea462bd3c30e1c0e50930bd6e8cde2": {
@@ -3308,6 +3315,34 @@
     "13cabef8da4fb49fd9393caa5d0c49e24aae9511": {
       "oldFullName": "Banner",
       "newFullName": "Banner"
+    },
+    "00f3ac75b5d2f838061d47fb252568ba0eb204d7": {
+      "oldFullName": "Labelled Input",
+      "newFullName": "Labelled Input"
+    },
+    "00ab9d4ab4643d64557043166b0a97f8e765dc51": {
+      "oldFullName": "Project Icon",
+      "newFullName": "Project Icon/Light/Grass/Off/Project"
+    },
+    "02ae287396bc0b2222ad01c838e30828473003b7": {
+      "oldFullName": "Toggle",
+      "newFullName": "Toggle"
+    },
+    "02d885ab56a358380a2baca2e6c439b1c2e53bbe": {
+      "oldFullName": "Slim Button",
+      "newFullName": "Slim Button"
+    },
+    "0568c005c3900a0e5ee820a677beec71518e2593": {
+      "oldFullName": "Editor / Tab",
+      "newFullName": "Tab"
+    },
+    "08a71c28686d7ca706ac687e286389cf995e9bbe": {
+      "oldFullName": "Toggle",
+      "newFullName": "Toggle"
+    },
+    "0a2eb1fc780bf5641331894efd61e2da08631749": {
+      "oldFullName": "Tool window / Header",
+      "newFullName": "Tool Window / Header"
     }
   }
 }

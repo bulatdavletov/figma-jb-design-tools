@@ -26,6 +26,8 @@ import { ToolBody } from "../../components/ToolBody"
 import { State } from "../../components/State"
 import { DataList } from "../../components/DataList"
 import { ToolFooter } from "../../components/ToolFooter"
+import { copyTextToClipboard } from "../../utils/clipboard"
+import { plural } from "../../utils/pluralize"
 import {
   MAIN_TO_UI,
   UI_TO_MAIN,
@@ -66,7 +68,7 @@ import {
   parseImportJson,
 } from "../../tools/automations/storage"
 import { ButtonWithIcon } from "../../components/ButtonWithIcon"
-import { TokenHighlighter, stripTokenSyntax } from "../../components/TokenHighlighter"
+import { TokenText, stripTokenSyntax } from "../../components/TokenPill"
 
 type Screen = "list" | "builder" | "runOutput"
 
@@ -129,6 +131,7 @@ function buildSuggestions(
   steps: AutomationStepPayload[],
   currentStepIndex: number,
   parentStep?: AutomationStepPayload,
+  childIndex?: number,
 ): Suggestion[] {
   const suggestions: Suggestion[] = []
 
@@ -172,6 +175,29 @@ function buildSuggestions(
       { token: `$${itemVar}`, label: "Current loop item", category: "Loop" },
       { token: "$repeatIndex", label: "Current iteration index", category: "Loop" },
     )
+    for (const prop of PROPERTY_REGISTRY) {
+      suggestions.push({
+        token: `$${itemVar}.${prop.key}`,
+        label: `${prop.label} of current item`,
+        category: "Loop item properties",
+      })
+    }
+
+    // Sibling child step outputs (earlier children within the same repeat)
+    const children = parentStep.children ?? []
+    if (childIndex !== undefined) {
+      for (let i = 0; i < childIndex && i < children.length; i++) {
+        const child = children[i]
+        if (!child.outputName) continue
+        const def = ACTION_DEFINITIONS.find((d) => d.type === child.actionType)
+        const isData = def?.producesData === true
+        suggestions.push({
+          token: isData ? `$${child.outputName}` : `#${child.outputName}`,
+          label: `${def?.label ?? child.actionType} output`,
+          category: "Step outputs",
+        })
+      }
+    }
   }
 
   return suggestions
@@ -441,7 +467,7 @@ function InputDialog(props: {
   onSubmit: (value: string) => void
   onCancel: () => void
 }) {
-  const [value, setValue] = useState("")
+  const [value, setValue] = useState(props.request.defaultValue ?? "")
 
   const handleSubmit = () => {
     props.onSubmit(value)
@@ -589,7 +615,7 @@ function ListScreen(props: {
               <VerticalSpace space="small" />
             </Fragment>
           )}
-          <DataList header={`${props.automations.length} automation(s)`}>
+          <DataList header={plural(props.automations.length, "automation")}>
             {props.automations.map((a) => (
               <AutomationRow
                 key={a.id}
@@ -694,94 +720,93 @@ function AutomationRow(props: {
         >
           {a.name}
         </div>
-        <div
-          style={{
-            fontSize: 10,
-            color: "var(--figma-color-text-secondary)",
-            marginTop: 1,
-          }}
-        >
-          {a.stepCount} step(s)
-        </div>
       </div>
-      {hovered && (
-        <div style={{ display: "flex", gap: 4, flexShrink: 0, alignItems: "center" }} onClick={(e) => e.stopPropagation()}>
-          <Button
-            onClick={props.onRun}
-            style={{ fontSize: 10, padding: "2px 8px", minHeight: 0 }}
+      <div
+        style={{
+          display: "flex",
+          gap: 4,
+          flexShrink: 0,
+          alignItems: "center",
+          opacity: hovered ? 1 : 0,
+          pointerEvents: hovered ? "auto" : "none",
+        }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <Button
+          onClick={props.onRun}
+          style={{ fontSize: 10, padding: "2px 8px", minHeight: 0 }}
+        >
+          <Text>Run</Text>
+        </Button>
+        <div ref={triggerRef}>
+          <div
+            onClick={toggleMenu}
+            style={{
+              width: 24,
+              height: 24,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: 4,
+              cursor: "pointer",
+              background: menuOpen ? "var(--figma-color-bg-pressed)" : "transparent",
+              color: "var(--figma-color-text-secondary)",
+              fontSize: 14,
+              fontWeight: "bold",
+              letterSpacing: 1,
+            }}
           >
-            <Text>Run</Text>
-          </Button>
-          <div ref={triggerRef}>
+            ···
+          </div>
+        </div>
+        {menuOpen && menuPos && (
+          <div
+            ref={menuRef}
+            style={{
+              position: "fixed",
+              left: menuPos.x,
+              top: menuPos.y,
+              transform: "translateX(-100%)",
+              background: "var(--figma-color-bg)",
+              border: "1px solid var(--figma-color-border)",
+              borderRadius: 6,
+              boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+              zIndex: 9999,
+              minWidth: 120,
+              overflow: "hidden",
+            }}
+          >
             <div
-              onClick={toggleMenu}
+              onClick={() => { setMenuPos(null); props.onDuplicate() }}
               style={{
-                width: 24,
-                height: 24,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: 4,
+                padding: "6px 12px",
+                fontSize: 11,
                 cursor: "pointer",
-                background: menuOpen ? "var(--figma-color-bg-pressed)" : "transparent",
-                color: "var(--figma-color-text-secondary)",
-                fontSize: 14,
-                fontWeight: "bold",
-                letterSpacing: 1,
+                color: "var(--figma-color-text)",
+                background: "transparent",
               }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--figma-color-bg-hover)" }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "transparent" }}
             >
-              ···
+              Duplicate
+            </div>
+            <div
+              onClick={() => { setMenuPos(null); props.onDelete() }}
+              style={{
+                padding: "6px 12px",
+                fontSize: 11,
+                cursor: "pointer",
+                color: "var(--figma-color-text-danger)",
+                background: "transparent",
+              }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--figma-color-bg-hover)" }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "transparent" }}
+            >
+              Delete
             </div>
           </div>
-          {menuOpen && menuPos && (
-            <div
-              ref={menuRef}
-              style={{
-                position: "fixed",
-                left: menuPos.x,
-                top: menuPos.y,
-                transform: "translateX(-100%)",
-                background: "var(--figma-color-bg)",
-                border: "1px solid var(--figma-color-border)",
-                borderRadius: 6,
-                boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
-                zIndex: 9999,
-                minWidth: 120,
-                overflow: "hidden",
-              }}
-            >
-              <div
-                onClick={() => { setMenuPos(null); props.onDuplicate() }}
-                style={{
-                  padding: "6px 12px",
-                  fontSize: 11,
-                  cursor: "pointer",
-                  color: "var(--figma-color-text)",
-                  background: "transparent",
-                }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--figma-color-bg-hover)" }}
-                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "transparent" }}
-              >
-                Duplicate
-              </div>
-              <div
-                onClick={() => { setMenuPos(null); props.onDelete() }}
-                style={{
-                  padding: "6px 12px",
-                  fontSize: 11,
-                  cursor: "pointer",
-                  color: "var(--figma-color-text-danger)",
-                  background: "transparent",
-                }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--figma-color-bg-hover)" }}
-                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "transparent" }}
-              >
-                Delete
-              </div>
-            </div>
-          )}
-        </div>
-      )}
+        )}
+      </div>
     </div>
   )
 }
@@ -793,7 +818,7 @@ function AutomationRow(props: {
 function formatLogAsText(result: AutomationsRunResult): string {
   const lines: string[] = []
   lines.push(result.success ? "Completed successfully" : "Completed with errors")
-  lines.push(`${result.stepsCompleted} of ${result.totalSteps} step(s) completed`)
+  lines.push(`${result.stepsCompleted} of ${plural(result.totalSteps, "step")} completed`)
   lines.push("")
   if (result.log) {
     for (const entry of result.log) {
@@ -817,12 +842,13 @@ function RunOutputScreen(props: {
   const { result } = props
   const [copied, setCopied] = useState(false)
 
-  const handleCopyLog = useCallback(() => {
+  const handleCopyLog = useCallback(async () => {
     const text = formatLogAsText(result)
-    navigator.clipboard.writeText(text).then(() => {
+    const ok = await copyTextToClipboard(text)
+    if (ok) {
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
-    })
+    }
   }, [result])
 
   return (
@@ -855,7 +881,7 @@ function RunOutputScreen(props: {
             marginBottom: 8,
           }}
         >
-          {result.stepsCompleted} of {result.totalSteps} step(s) completed
+          {result.stepsCompleted} of {plural(result.totalSteps, "step")} completed
         </div>
 
         {result.log && result.log.length > 0 && (
@@ -927,7 +953,7 @@ function StepLogRow(props: { entry: AutomationsStepLog }) {
           paddingLeft: 12,
         }}
       >
-        {entry.message && <TokenHighlighter text={entry.message} />}
+        {entry.message && <TokenText text={entry.message} />}
       </div>
     </div>
   )
@@ -1291,6 +1317,7 @@ function BuilderScreen(props: {
                   automation.steps,
                   selectedPath.index,
                   parentStep,
+                  selectedPath.childIndex,
                 )}
               />
             )
@@ -1423,7 +1450,7 @@ function StepRow(props: {
               marginTop: 1,
             }}
           >
-            <TokenHighlighter text={paramSummary} />
+            <TokenText text={paramSummary} />
           </div>
         )}
         {(props.step.target || props.step.outputName) && (
@@ -1436,8 +1463,8 @@ function StepRow(props: {
               gap: 4,
             }}
           >
-            {props.step.target && <span><TokenHighlighter text={`{#${props.step.target}}`} /> →</span>}
-            {props.step.outputName && <span>→ <TokenHighlighter text={`{${def?.producesData ? "$" : "#"}${props.step.outputName}}`} /></span>}
+            {props.step.target && <span><TokenText text={`{#${props.step.target}}`} /> →</span>}
+            {props.step.outputName && <span>→ <TokenText text={`{${def?.producesData ? "$" : "#"}${props.step.outputName}}`} /></span>}
           </div>
         )}
       </div>
@@ -1673,6 +1700,11 @@ function getParamSummary(step: AutomationStepPayload): string {
       return String(p.label ?? "Enter text")
     case "splitText":
       return p.sourceVar ? `{$${p.sourceVar}}` : ""
+    case "math": {
+      const sym: Record<string, string> = { add: "+", subtract: "−", multiply: "×", divide: "÷" }
+      const op = String(p.operation ?? "add")
+      return `${p.x ?? "?"} ${sym[op] ?? "?"} ${p.y ?? "?"}`
+    }
     case "repeatWithEach": {
       const src = String(p.source ?? "nodes")
       if (src === "nodes") return "nodes"
@@ -1739,6 +1771,24 @@ function RunOutputPanel(props: {
   }
 
   return (
+    <RunOutputPanelWithResult result={result} />
+  )
+}
+
+function RunOutputPanelWithResult(props: { result: AutomationsRunResult }) {
+  const { result } = props
+  const [copied, setCopied] = useState(false)
+
+  const handleCopyLog = useCallback(async () => {
+    const text = formatLogAsText(result)
+    const ok = await copyTextToClipboard(text)
+    if (ok) {
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    }
+  }, [result])
+
+  return (
     <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
       <div
         style={{
@@ -1769,7 +1819,7 @@ function RunOutputPanel(props: {
             marginBottom: 8,
           }}
         >
-          {result.stepsCompleted} of {result.totalSteps} step(s) completed
+          {result.stepsCompleted} of {plural(result.totalSteps, "step")} completed
         </div>
         {result.log && result.log.length > 0 && (
           <div>
@@ -1794,6 +1844,17 @@ function RunOutputPanel(props: {
             ))}
           </div>
         )}
+      </div>
+      <div
+        style={{
+          borderTop: "1px solid var(--figma-color-border)",
+          padding: "8px",
+          flexShrink: 0,
+        }}
+      >
+        <Button fullWidth secondary onClick={handleCopyLog}>
+          {copied ? "Copied!" : "Copy log"}
+        </Button>
       </div>
     </div>
   )
@@ -2047,7 +2108,7 @@ function renderInputContext(
       <div key="repeat">
         Inside <b>Repeat with each</b>
         {src !== "nodes" && (
-          <Fragment> — use <TokenHighlighter text={`{$${itemVar}}`} /> for current item</Fragment>
+          <Fragment> — use <TokenText text={`{$${itemVar}}`} /> for current item</Fragment>
         )}
       </div>,
     )
@@ -2060,12 +2121,12 @@ function renderInputContext(
       if (!s.outputName) continue
       const def = ACTION_DEFINITIONS.find((d) => d.type === s.actionType)
       const raw = def?.producesData ? `{$${s.outputName}}` : `{#${s.outputName}}`
-      tokenElements.push(<TokenHighlighter key={`t-${i}`} text={raw} />)
+      tokenElements.push(<TokenText key={`t-${i}`} text={raw} />)
     }
     if (isInRepeat) {
       const itemVar = String(parentStep!.params.itemVar ?? "item")
-      tokenElements.push(<TokenHighlighter key="t-item" text={`{$${itemVar}}`} />)
-      tokenElements.push(<TokenHighlighter key="t-idx" text="{$repeatIndex}" />)
+      tokenElements.push(<TokenText key="t-item" text={`{$${itemVar}}`} />)
+      tokenElements.push(<TokenText key="t-idx" text="{$repeatIndex}" />)
     }
     if (tokenElements.length > 0) {
       lines.push(
@@ -2953,7 +3014,8 @@ function renderStepParams(
         </Fragment>
       )
 
-    case "askForInput":
+    case "askForInput": {
+      const isMultiline = String(step.params.inputType ?? "text") === "textarea"
       return (
         <Fragment>
           <Text style={{ fontSize: 11 }}>Prompt label</Text>
@@ -2964,13 +3026,39 @@ function renderStepParams(
             placeholder="Label shown to user"
           />
           <VerticalSpace space="small" />
+          <Text style={{ fontSize: 11 }}>Default value</Text>
+          <VerticalSpace space="extraSmall" />
+          {isMultiline ? (
+            <TextboxMultiline
+              value={String(step.params.defaultValue ?? "")}
+              onValueInput={(v: string) => updateParam("defaultValue", v)}
+              placeholder="Pre-filled value (optional)"
+              rows={3}
+            />
+          ) : (
+            <Textbox
+              value={String(step.params.defaultValue ?? "")}
+              onValueInput={(v: string) => updateParam("defaultValue", v)}
+              placeholder="Pre-filled value (optional)"
+            />
+          )}
+          <VerticalSpace space="small" />
           <Text style={{ fontSize: 11 }}>Placeholder</Text>
           <VerticalSpace space="extraSmall" />
-          <Textbox
-            value={String(step.params.placeholder ?? "")}
-            onValueInput={(v: string) => updateParam("placeholder", v)}
-            placeholder="Placeholder text..."
-          />
+          {isMultiline ? (
+            <TextboxMultiline
+              value={String(step.params.placeholder ?? "")}
+              onValueInput={(v: string) => updateParam("placeholder", v)}
+              placeholder="Placeholder text..."
+              rows={3}
+            />
+          ) : (
+            <Textbox
+              value={String(step.params.placeholder ?? "")}
+              onValueInput={(v: string) => updateParam("placeholder", v)}
+              placeholder="Placeholder text..."
+            />
+          )}
           <VerticalSpace space="small" />
           <Text style={{ fontSize: 11 }}>Input type</Text>
           <VerticalSpace space="extraSmall" />
@@ -2984,6 +3072,7 @@ function renderStepParams(
           />
         </Fragment>
       )
+    }
 
     case "splitText": {
       const splitInputOptions = buildInputSourceOptions(allSteps, stepIndex, true)
@@ -3021,6 +3110,43 @@ function renderStepParams(
         </Fragment>
       )
     }
+
+    case "math":
+      return (
+        <Fragment>
+          {inputCtxTokens}
+          <Text style={{ fontSize: 11 }}>X</Text>
+          <VerticalSpace space="extraSmall" />
+          <TextboxWithSuggestions
+            value={String(step.params.x ?? "")}
+            onValueInput={(v: string) => updateParam("x", v)}
+            placeholder="Number or token"
+            suggestions={suggestions}
+          />
+          <VerticalSpace space="small" />
+          <Text style={{ fontSize: 11 }}>Operation</Text>
+          <VerticalSpace space="extraSmall" />
+          <Dropdown
+            value={String(step.params.operation ?? "add")}
+            options={[
+              { value: "add", text: "Plus (+)" },
+              { value: "subtract", text: "Minus (−)" },
+              { value: "multiply", text: "Multiply (×)" },
+              { value: "divide", text: "Divide (÷)" },
+            ]}
+            onValueChange={(v: string) => updateParam("operation", v)}
+          />
+          <VerticalSpace space="small" />
+          <Text style={{ fontSize: 11 }}>Y</Text>
+          <VerticalSpace space="extraSmall" />
+          <TextboxWithSuggestions
+            value={String(step.params.y ?? "")}
+            onValueInput={(v: string) => updateParam("y", v)}
+            placeholder="Number or token"
+            suggestions={suggestions}
+          />
+        </Fragment>
+      )
 
     case "repeatWithEach": {
       const repeatInputOptions = buildInputSourceOptions(allSteps, stepIndex, true)
@@ -3078,13 +3204,13 @@ function renderStepParams(
           <Text style={{ fontSize: 10, color: "var(--figma-color-text-tertiary)" }}>
             {isListMode ? (
               <Fragment>
-                <b>List mode:</b> Pairs <TokenHighlighter text={`{$${source}}`} /> list items with working set nodes.
-                Each iteration sets <TokenHighlighter text={`{$${itemVar}}`} /> to current list item and the
+                <b>List mode:</b> Pairs <TokenText text={`{$${source}}`} /> list items with working set nodes.
+                Each iteration sets <TokenText text={`{$${itemVar}}`} /> to current list item and the
                 working set to the paired node.
                 <br /><br />
-                Use <TokenHighlighter text={`{$${itemVar}}`} /> in child steps to access the current item value.
+                Use <TokenText text={`{$${itemVar}}`} /> in child steps to access the current item value.
                 <br />
-                Use <TokenHighlighter text="{$repeatIndex}" /> for the current iteration index.
+                Use <TokenText text="{$repeatIndex}" /> for the current iteration index.
                 <br /><br />
                 <b>On mismatch</b> controls what happens when list size ≠ node count:
                 <br />• Error — stops execution
@@ -3095,9 +3221,9 @@ function renderStepParams(
               <Fragment>
                 <b>Nodes mode:</b> Iterates each node in the working set one at a time.
                 <br /><br />
-                Use <TokenHighlighter text="{$repeatIndex}" /> for the current iteration index.
+                Use <TokenText text="{$repeatIndex}" /> for the current iteration index.
                 <br />
-                Use <TokenHighlighter text="{name}" />, <TokenHighlighter text="{type}" /> etc. in child steps to access current node properties.
+                Use <TokenText text="{name}" />, <TokenText text="{type}" /> etc. in child steps to access current node properties.
               </Fragment>
             )}
           </Text>

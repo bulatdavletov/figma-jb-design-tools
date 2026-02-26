@@ -1,5 +1,6 @@
 import type { ActionHandler } from "../context"
 import { resolveTokens } from "../tokens"
+import { plural } from "../../../utils/pluralize"
 
 export const detachInstance: ActionHandler = async (context, _params) => {
   const detached: SceneNode[] = []
@@ -22,7 +23,7 @@ export const detachInstance: ActionHandler = async (context, _params) => {
   context.log.push({
     stepIndex: -1,
     stepName: "Detach instance",
-    message: `Detached ${applied} instance(s)`,
+    message: `Detached ${plural(applied, "instance")}`,
     itemsIn: context.nodes.length,
     itemsOut: context.nodes.length,
     status: "success",
@@ -82,7 +83,7 @@ export const swapComponent: ActionHandler = async (context, params) => {
   context.log.push({
     stepIndex: -1,
     stepName: "Swap component",
-    message: `Swapped ${applied} instance(s) to "${componentName}"`,
+    message: `Swapped ${plural(applied, "instance")} to "${componentName}"`,
     itemsIn: context.nodes.length,
     itemsOut: context.nodes.length,
     status: "success",
@@ -151,7 +152,7 @@ export const pasteComponentById: ActionHandler = async (context, params) => {
 }
 
 async function resolveComponentById(componentId: string): Promise<ComponentNode | null> {
-  const localNode = figma.getNodeById(componentId)
+  const localNode = await figma.getNodeByIdAsync(componentId)
   if (localNode?.type === "COMPONENT") return localNode as ComponentNode
 
   try {

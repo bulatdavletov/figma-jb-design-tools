@@ -1,5 +1,6 @@
 import type { AutomationContext, ActionHandler } from "../context"
 import type { FindScope, MatchMode, SelectableNodeType } from "../types"
+import { plural } from "../../../utils/pluralize"
 
 export const filterByType: ActionHandler = async (context, params) => {
   const nodeType = String(params.nodeType ?? "TEXT")
@@ -25,7 +26,7 @@ export const filterByType: ActionHandler = async (context, params) => {
   context.log.push({
     stepIndex: -1,
     stepName: "Filter by type",
-    message: `Kept ${filtered.length} of ${before} ${nodeType} node(s) ${scopeLabel}`,
+    message: `Kept ${filtered.length} of ${before} ${nodeType} ${before === 1 ? "node" : "nodes"} ${scopeLabel}`,
     itemsIn: before,
     itemsOut: filtered.length,
     status: "success",
@@ -57,7 +58,7 @@ export const filterByName: ActionHandler = async (context, params) => {
   context.log.push({
     stepIndex: -1,
     stepName: "Filter by name",
-    message: `Kept ${filtered.length} of ${before} node(s) matching "${pattern}"`,
+    message: `Kept ${filtered.length} of ${plural(before, "node")} matching "${pattern}"`,
     itemsIn: before,
     itemsOut: filtered.length,
     status: "success",
@@ -81,7 +82,7 @@ export const expandToChildren: ActionHandler = async (context, _params) => {
   context.log.push({
     stepIndex: -1,
     stepName: "Expand to children",
-    message: `Expanded ${before} node(s) → ${children.length} children`,
+    message: `Expanded ${plural(before, "node")} → ${children.length} children`,
     itemsIn: before,
     itemsOut: children.length,
     status: "success",
@@ -108,7 +109,7 @@ export const goToParent: ActionHandler = async (context, _params) => {
   context.log.push({
     stepIndex: -1,
     stepName: "Go to parent",
-    message: `Navigated to ${parents.length} parent(s) from ${before} node(s)`,
+    message: `Navigated to ${plural(parents.length, "parent")} from ${plural(before, "node")}`,
     itemsIn: before,
     itemsOut: parents.length,
     status: "success",
@@ -130,7 +131,7 @@ export const flattenDescendants: ActionHandler = async (context, _params) => {
   context.log.push({
     stepIndex: -1,
     stepName: "Flatten descendants",
-    message: `Flattened to ${descendants.length} descendant(s) from ${before} node(s)`,
+    message: `Flattened to ${plural(descendants.length, "descendant")} from ${plural(before, "node")}`,
     itemsIn: before,
     itemsOut: descendants.length,
     status: "success",

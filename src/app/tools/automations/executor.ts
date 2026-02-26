@@ -14,12 +14,14 @@ import {
 import { sourceFromSelection, sourceFromPage, sourceFromAllPages, sourceFromPageByName } from "./actions/source-actions"
 import { filterAction } from "./actions/filter-actions"
 import { selectResults, logAction, countAction } from "./actions/output-actions"
-import { setPipelineVariable, setPipelineVariableFromProperty, splitText } from "./actions/variable-actions"
+import { setPipelineVariable, setPipelineVariableFromProperty, splitText, mathAction } from "./actions/variable-actions"
 import { restoreNodes } from "./actions/navigate-actions"
 import { askForInput } from "./actions/input-actions"
 import { setFontSize, setFont, setTextAlignment, setTextCase, setTextDecoration, setLineHeight } from "./actions/text-actions"
 import { detachInstance, swapComponent, pasteComponentById } from "./actions/component-actions"
 import { InputCancelledError } from "./input-bridge"
+import { getNodeProperty } from "./properties"
+import { plural } from "../../utils/pluralize"
 import { MAIN_TO_UI } from "../../messages"
 
 const ACTION_HANDLERS: Partial<Record<ActionType, ActionHandler>> = {
@@ -71,6 +73,7 @@ const ACTION_HANDLERS: Partial<Record<ActionType, ActionHandler>> = {
   setPipelineVariable,
   setPipelineVariableFromProperty,
   splitText,
+  math: mathAction,
   askForInput,
 }
 
@@ -297,7 +300,7 @@ async function executeRepeatNodesMode(
   context.log.push({
     stepIndex,
     stepName: "Repeat with each",
-    message: `Iterating ${savedNodes.length} node(s)`,
+    message: `Iterating ${plural(savedNodes.length, "node")}`,
     itemsIn: savedNodes.length,
     itemsOut: savedNodes.length,
     status: "success",
@@ -308,13 +311,19 @@ async function executeRepeatNodesMode(
   for (let i = 0; i < savedNodes.length; i++) {
     if (stopRequested) break
 
-    context.nodes = [savedNodes[i]]
+    const currentNode = savedNodes[i]
+    context.nodes = [currentNode]
     context.pipelineVars["repeatIndex"] = i
+    // In nodes mode, set itemVar to current node's text content (TEXT) or name so {$item} is useful
+    const itemValue = getNodeProperty(currentNode, "characters") ?? getNodeProperty(currentNode, "name")
+    context.pipelineVars[itemVar] = itemValue != null ? String(itemValue) : ""
+    context.repeatItemVar = itemVar
+    context.repeatItemNode = currentNode
 
     context.log.push({
       stepIndex,
       stepName: "Repeat with each",
-      message: `Repeat ${i + 1}/${savedNodes.length}: node "${savedNodes[i].name}"`,
+      message: `Repeat ${i + 1}/${savedNodes.length}: node "${currentNode.name}"`,
       itemsIn: 1,
       itemsOut: 1,
       status: "success",
@@ -330,6 +339,8 @@ async function executeRepeatNodesMode(
   if (resultMode === "iterationResults") {
     context.nodes = dedupeNodes(iterationResults)
   }
+  delete context.repeatItemVar
+  delete context.repeatItemNode
 }
 
 async function executeRepeatListMode(
@@ -377,7 +388,7 @@ async function executeRepeatListMode(
     context.log.push({
       stepIndex,
       stepName: "Repeat with each",
-      message: `List has ${listCount} item(s) but working set has ${nodeCount} node(s) (onMismatch: error)`,
+      message: `List has ${plural(listCount, "item")} but working set has ${plural(nodeCount, "node")} (onMismatch: error)`,
       itemsIn: nodeCount,
       itemsOut: nodeCount,
       status: "error",
@@ -395,7 +406,7 @@ async function executeRepeatListMode(
   context.log.push({
     stepIndex,
     stepName: "Repeat with each",
-      message: `Iterating ${iterationCount} time(s) with {$${source}} (${listCount} item(s), ${nodeCount} node(s))`,
+      message: `Iterating ${plural(iterationCount, "time")} with {$${source}} (${plural(listCount, "item")}, ${plural(nodeCount, "node")})`,
     itemsIn: nodeCount,
     itemsOut: nodeCount,
     status: "success",

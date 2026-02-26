@@ -66,6 +66,12 @@
 - For No selection state specifically, reuse the same centered `State` pattern (same icon family, tone, and concise guidance text) across tools.
 - Keep wording and interaction patterns consistent (same terms for same actions).
 
+## Preventing Jumping on Hover/Reveal
+- Prevent items in lists, tables, or rows from "jumping" or shifting when hovered or when context/hint/action items appear.
+- If additional interactive (e.g. IconButton) or informative elements become visible on hover, reserve their space when rendering the default (non-hovered) state. 
+- Avoid layouts where row or card heights "hug" their content and then expand on hover to reveal hidden elements, as this creates an unstable/jarring UI. Instead, maintain a consistent height between normal and hover states—use opacity, visibility, or similar approaches instead of toggling height or presence in the layout.
+- Whenever hover reveals more actions (such as quick actions in a row), ensure the non-hover state has an invisible placeholder that matches the size of the revealed item(s). This way, items remain fixed and users are not distracted by content shifting up/down.
+
 ## Progress & Yielding in Figma Plugins
 - For operations that may take more than ~1 second, show incremental progress text in the plugin UI via `figma.ui.postMessage` (e.g., "Checking… 15/200 layers").
 - Always yield (`await new Promise(resolve => setTimeout(resolve, 0))`) after posting status/progress messages -- Figma batches `postMessage` calls and only delivers them when the main thread yields. Without yielding, the UI never sees intermediate states.

@@ -1,5 +1,5 @@
 /**
- * Shared token parsing for TokenHighlighter and TokenInput.
+ * Shared token parsing for TokenPill, TokenText, and TokenInput.
  * Tokens are {...} with optional prefix: $ (pipeline), # (snapshot), else property.
  */
 

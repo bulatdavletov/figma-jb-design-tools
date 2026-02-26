@@ -1,6 +1,7 @@
 import type { ActionHandler, ActionResult } from "../context"
 import { resolveTokens } from "../tokens"
 import { getNodeProperty } from "../properties"
+import { plural } from "../../../utils/pluralize"
 
 export const setPipelineVariable: ActionHandler = async (context, params) => {
   const varName = String(params.variableName ?? "").trim()
@@ -91,6 +92,84 @@ export const setPipelineVariableFromProperty: ActionHandler = async (context, pa
   return context
 }
 
+const MATH_OPS: Record<string, (a: number, b: number) => number> = {
+  add: (a, b) => a + b,
+  subtract: (a, b) => a - b,
+  multiply: (a, b) => a * b,
+  divide: (a, b) => a / b,
+}
+
+const MATH_SYMBOLS: Record<string, string> = {
+  add: "+",
+  subtract: "−",
+  multiply: "×",
+  divide: "÷",
+}
+
+export const mathAction: ActionHandler = async (context, params): Promise<ActionResult> => {
+  const rawX = String(params.x ?? "")
+  const rawY = String(params.y ?? "")
+  const operation = String(params.operation ?? "add")
+
+  const xResolved = resolveTokens(rawX, { context })
+  const yResolved = resolveTokens(rawY, { context })
+  const x = Number(xResolved)
+  const y = Number(yResolved)
+
+  if (isNaN(x) || isNaN(y)) {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Math",
+      message: `Cannot compute: "${xResolved}" ${MATH_SYMBOLS[operation] ?? "?"} "${yResolved}" — not valid numbers`,
+      itemsIn: context.nodes.length,
+      itemsOut: context.nodes.length,
+      status: "error",
+      error: "Non-numeric input",
+    })
+    return { context }
+  }
+
+  if (operation === "divide" && y === 0) {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Math",
+      message: "Division by zero",
+      itemsIn: context.nodes.length,
+      itemsOut: context.nodes.length,
+      status: "error",
+      error: "Division by zero",
+    })
+    return { context }
+  }
+
+  const fn = MATH_OPS[operation]
+  if (!fn) {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Math",
+      message: `Unknown operation "${operation}"`,
+      itemsIn: context.nodes.length,
+      itemsOut: context.nodes.length,
+      status: "error",
+      error: `Unknown operation "${operation}"`,
+    })
+    return { context }
+  }
+
+  const result = fn(x, y)
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Math",
+    message: `${x} ${MATH_SYMBOLS[operation]} ${y} = ${result}`,
+    itemsIn: context.nodes.length,
+    itemsOut: context.nodes.length,
+    status: "success",
+  })
+
+  return { context, output: result }
+}
+
 export const splitText: ActionHandler = async (context, params): Promise<ActionResult> => {
   const sourceVar = String(params.sourceVar ?? "").trim()
   let delimiter = String(params.delimiter ?? "\\n")
@@ -133,7 +212,7 @@ export const splitText: ActionHandler = async (context, params): Promise<ActionR
   context.log.push({
     stepIndex: -1,
     stepName: "Split text",
-    message: `Split {$${sourceVar}} → ${parts.length} item(s)`,
+    message: `Split {$${sourceVar}} → ${plural(parts.length, "item")}`,
     itemsIn: context.nodes.length,
     itemsOut: context.nodes.length,
     status: "success",

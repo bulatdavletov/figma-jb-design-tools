@@ -1,4 +1,5 @@
 import type { ActionHandler } from "../context"
+import { plural } from "../../../utils/pluralize"
 
 export const restoreNodes: ActionHandler = async (context, params) => {
   const snapshotName = String(params.snapshotName ?? "").trim()
@@ -35,7 +36,7 @@ export const restoreNodes: ActionHandler = async (context, params) => {
   context.log.push({
     stepIndex: -1,
     stepName: "Restore nodes",
-    message: `Restored ${saved.length} node(s) from "${snapshotName}"`,
+    message: `Restored ${plural(saved.length, "node")} from "${snapshotName}"`,
     itemsIn: before,
     itemsOut: saved.length,
     status: "success",

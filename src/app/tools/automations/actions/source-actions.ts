@@ -1,4 +1,5 @@
 import type { ActionHandler } from "../context"
+import { plural } from "../../../utils/pluralize"
 
 export const sourceFromSelection: ActionHandler = async (context, _params) => {
   const nodes = [...figma.currentPage.selection]
@@ -7,7 +8,7 @@ export const sourceFromSelection: ActionHandler = async (context, _params) => {
   context.log.push({
     stepIndex: -1,
     stepName: "Source: selection",
-    message: `Loaded ${nodes.length} node(s) from current selection`,
+    message: `Loaded ${plural(nodes.length, "node")} from current selection`,
     itemsIn: 0,
     itemsOut: nodes.length,
     status: "success",
@@ -24,7 +25,7 @@ export const sourceFromPage: ActionHandler = async (context, _params) => {
   context.log.push({
     stepIndex: -1,
     stepName: "Source: current page",
-    message: `Loaded ${out.length} node(s) from current page`,
+    message: `Loaded ${plural(out.length, "node")} from current page`,
     itemsIn: 0,
     itemsOut: out.length,
     status: "success",
@@ -46,7 +47,7 @@ export const sourceFromAllPages: ActionHandler = async (context, _params) => {
   context.log.push({
     stepIndex: -1,
     stepName: "Source: all pages",
-    message: `Loaded ${out.length} node(s) from ${figma.root.children.length} page(s)`,
+    message: `Loaded ${plural(out.length, "node")} from ${plural(figma.root.children.length, "page")}`,
     itemsIn: 0,
     itemsOut: out.length,
     status: "success",
@@ -94,7 +95,7 @@ export const sourceFromPageByName: ActionHandler = async (context, params) => {
   context.log.push({
     stepIndex: -1,
     stepName: "Source: page by name",
-    message: `Loaded ${out.length} node(s) from page "${page.name}"`,
+    message: `Loaded ${plural(out.length, "node")} from page "${page.name}"`,
     itemsIn: 0,
     itemsOut: out.length,
     status: "success",

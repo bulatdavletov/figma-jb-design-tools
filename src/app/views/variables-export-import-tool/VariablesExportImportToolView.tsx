@@ -28,6 +28,7 @@ import {
   type ExportImportApplyResultPayload,
 } from "../../messages"
 import { DataTable, type DataTableColumn } from "../../components/DataTable"
+import { plural } from "../../utils/pluralize"
 import { Page } from "../../components/Page"
 import { ToolBody } from "../../components/ToolBody"
 import { ToolHeader } from "../../components/ToolHeader"
@@ -126,7 +127,7 @@ export function VariablesExportImportToolView({ onBack }: Props) {
         }
 
         setSnapshotStatus(
-          `Snapshot ready: ${files.length} file(s). Use Download buttons below.`
+          `Snapshot ready: ${plural(files.length, "file")}. Use Download buttons below.`
         )
         setSuccessMessage(`Snapshot ready (${files.length} files)`)
       }
