@@ -1,80 +1,111 @@
 #!/usr/bin/env node
 
 /**
- * Merge an exported mapping JSON into a built-in default mapping file.
+ * Merge exported mapping JSONs from the mapping inbox into built-in default mappings.
  *
  * Usage:
- *   node scripts/merge-mapping.cjs <exported.json> <icons|uikit>
+ *   node scripts/merge-mapping.cjs
  *
- * The exported file should be a v2 schema mapping with `matches` and optional
- * `matchMeta`. It will be merged into the corresponding default mapping:
- *   - icons  → src/app/tools/library-swap/default-icon-mapping.json
- *   - uikit  → src/app/tools/library-swap/default-uikit-mapping.json
+ * Reads the fixed inbox folder, finds all JSON files whose names indicate target:
+ *   - uikit-mapping-*.json  → merge into default-uikit-mapping.json
+ *   - icons-mapping-*.json  → merge into default-icon-mapping.json
+ * Other JSON files in the folder are skipped.
  *
- * Existing keys are overridden by the exported file.
- * After merging, run `npm run build` to rebuild the plugin.
+ * Each exported file must be v2 schema with `matches` and optional `matchMeta`.
+ * After a successful merge, the exported file is deleted.
+ * Then run `npm run build` to rebuild the plugin.
  */
 
 const fs = require("fs")
 const path = require("path")
 
-const [, , exportedPath, target] = process.argv
-
-if (!exportedPath || !target) {
-  console.error("Usage: node scripts/merge-mapping.cjs <exported.json> <icons|uikit>")
-  process.exit(1)
-}
+const MAPPING_INBOX = "/Users/Bulat.Davletov/Cursor Projects/Figma JSONs/mapping inbox"
 
 const defaultFiles = {
   icons: path.resolve(__dirname, "../src/app/tools/library-swap/default-icon-mapping.json"),
   uikit: path.resolve(__dirname, "../src/app/tools/library-swap/default-uikit-mapping.json"),
 }
 
-if (!defaultFiles[target]) {
-  console.error(`Unknown target "${target}". Use "icons" or "uikit".`)
+function getTargetFromFilename(name) {
+  if (name.startsWith("uikit-mapping-") && name.endsWith(".json")) return "uikit"
+  if (name.startsWith("icons-mapping-") && name.endsWith(".json")) return "icons"
+  return null
+}
+
+function mergeOne(exportedFilePath, target) {
+  const defaultFilePath = defaultFiles[target]
+  const exported = JSON.parse(fs.readFileSync(exportedFilePath, "utf-8"))
+  const defaultMapping = JSON.parse(fs.readFileSync(defaultFilePath, "utf-8"))
+
+  if (!exported.matches || typeof exported.matches !== "object") {
+    console.error(`  Skipped (no "matches" object): ${path.basename(exportedFilePath)}`)
+    return false
+  }
+
+  const mergedMatches = { ...(defaultMapping.matches || {}), ...exported.matches }
+  const mergedMeta = { ...(defaultMapping.matchMeta || {}) }
+  if (exported.matchMeta) {
+    Object.assign(mergedMeta, exported.matchMeta)
+  }
+
+  const beforeCount = Object.keys(defaultMapping.matches || {}).length
+  const exportedCount = Object.keys(exported.matches).length
+  const afterCount = Object.keys(mergedMatches).length
+  const newEntries = afterCount - beforeCount
+  const overridden = exportedCount - newEntries
+
+  const result = {
+    ...defaultMapping,
+    matches: mergedMatches,
+    matchMeta: Object.keys(mergedMeta).length > 0 ? mergedMeta : undefined,
+  }
+
+  fs.writeFileSync(defaultFilePath, JSON.stringify(result, null, 2) + "\n", "utf-8")
+  fs.unlinkSync(exportedFilePath)
+
+  console.log(`  Merged ${path.basename(exportedFilePath)} → ${target}:`)
+  console.log(`    Before: ${beforeCount} → After: ${afterCount} (${newEntries} new, ${overridden} overridden)`)
+  console.log(`    Deleted: ${exportedFilePath}`)
+  return true
+}
+
+// --- main ---
+const inboxPath = path.resolve(MAPPING_INBOX)
+if (!fs.existsSync(inboxPath)) {
+  console.error(`Inbox folder does not exist: ${inboxPath}`)
   process.exit(1)
 }
 
-const defaultFilePath = defaultFiles[target]
+const entries = fs.readdirSync(inboxPath, { withFileTypes: true })
+const jsonFiles = entries
+  .filter((e) => e.isFile() && e.name.endsWith(".json"))
+  .map((e) => ({ name: e.name, path: path.join(inboxPath, e.name) }))
 
-// Read files
-const exported = JSON.parse(fs.readFileSync(path.resolve(exportedPath), "utf-8"))
-const defaultMapping = JSON.parse(fs.readFileSync(defaultFilePath, "utf-8"))
-
-// Validate exported file
-if (!exported.matches || typeof exported.matches !== "object") {
-  console.error("Exported file must have a 'matches' object.")
-  process.exit(1)
+const toProcess = []
+for (const f of jsonFiles) {
+  const target = getTargetFromFilename(f.name)
+  if (target) toProcess.push({ ...f, target })
+  else console.log(`  Skipped (unknown prefix): ${f.name}`)
 }
 
-// Merge matches
-const mergedMatches = { ...(defaultMapping.matches || {}), ...exported.matches }
-
-// Merge matchMeta if present
-const mergedMeta = { ...(defaultMapping.matchMeta || {}) }
-if (exported.matchMeta) {
-  Object.assign(mergedMeta, exported.matchMeta)
+if (toProcess.length === 0) {
+  console.log("No uikit-mapping-*.json or icons-mapping-*.json files in inbox. Nothing to do.")
+  process.exit(0)
 }
 
-// Count changes
-const beforeCount = Object.keys(defaultMapping.matches || {}).length
-const exportedCount = Object.keys(exported.matches).length
-const afterCount = Object.keys(mergedMatches).length
-const newEntries = afterCount - beforeCount
-const overridden = exportedCount - newEntries
+console.log(`Inbox: ${inboxPath}`)
+console.log(`Processing ${toProcess.length} file(s):\n`)
 
-// Write back
-const result = {
-  ...defaultMapping,
-  matches: mergedMatches,
-  matchMeta: Object.keys(mergedMeta).length > 0 ? mergedMeta : undefined,
+let merged = 0
+for (const { path: filePath, target } of toProcess) {
+  try {
+    if (mergeOne(filePath, target)) merged++
+  } catch (err) {
+    console.error(`  Error processing ${path.basename(filePath)}:`, err.message)
+  }
 }
 
-fs.writeFileSync(defaultFilePath, JSON.stringify(result, null, 2) + "\n", "utf-8")
-
-console.log(`Merged into ${target} mapping:`)
-console.log(`  Before: ${beforeCount} entries`)
-console.log(`  Exported: ${exportedCount} entries`)
-console.log(`  After: ${afterCount} entries (${newEntries} new, ${overridden} overridden)`)
-console.log(`  Written to: ${defaultFilePath}`)
-console.log(`\nRun "npm run build" to rebuild the plugin.`)
+console.log(`\nDone. Merged ${merged} file(s).`)
+if (merged > 0) {
+  console.log('Run "npm run build" to rebuild the plugin.')
+}
