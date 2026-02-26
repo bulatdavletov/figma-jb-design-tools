@@ -345,6 +345,7 @@ const tokenInputSuggestions: Suggestion[] = [
 
 function TokenInputShowcase() {
   const [value, setValue] = useState("{$repeatIndex}. {$item}")
+  const [dropdownValue, setDropdownValue] = useState("{")
   return (
     <ShowcaseSection
       title="TokenInput"
@@ -364,6 +365,15 @@ function TokenInputShowcase() {
         <Text style={{ fontSize: 10, color: "var(--figma-color-text-tertiary)" }}>
           Value: {value || "(empty)"}
         </Text>
+        <div>
+          <Text style={{ fontSize: 11, color: "var(--figma-color-text-secondary)", marginBottom: 4, display: "block" }}>With suggestions (type {"{"} to trigger)</Text>
+          <TokenInput
+            value={dropdownValue}
+            onValueInput={setDropdownValue}
+            placeholder="Type { to see suggestions..."
+            suggestions={tokenInputSuggestions}
+          />
+        </div>
       </div>
     </ShowcaseSection>
   )

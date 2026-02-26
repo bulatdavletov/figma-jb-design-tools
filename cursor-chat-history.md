@@ -495,3 +495,15 @@ What we should consider **aligning** (future phases):
 3. **Automations "Text content"** — Replaced `TextboxWithSuggestions` with `TokenInput` for setCharacters step param so the field shows e.g. `{$repeatIndex}. {$item}` as token pills instead of plain text.
 
 **Files:** `src/app/components/token-utils.ts`, `TokenHighlighter.tsx`, `TokenInput.tsx`; `AutomationsToolView.tsx` (setCharacters uses TokenInput). Fixed pre-existing ScopeControl.tsx (added `import { h } from "preact"`) so build passes.
+
+### 2026-02-26: TokenInput — fix 6 issues (border jump, duplicate insert, prefix search, item.text alias, replace all TextboxWithSuggestions, dropdown styling)
+
+**Issues fixed:**
+1. **Border jump on hover** — Container had no border by default; hover added `1px solid` causing layout shift. Fix: always `border: 1px solid transparent`, only change `borderColor` on hover/focus.
+2. **Duplicate text on suggestion insert** — Partial text `{ma` stayed in DOM when inserting suggestion pill. Fix: `insertSuggestion` now uses value-based replacement (slice old value at `triggerStart`, insert token, rebuild DOM), plus new `placeCaretAtOffset` helper for cursor positioning.
+3. **Prefix search not matching** — Typing `item` didn't match `$item` because filter only did `startsWith`. Fix: also strips `$`/`#` prefix and checks `includes()`.
+4. **`{$item.text}` not in suggestions** — Runtime resolver supports `text` → `characters` alias, but suggestion list only iterated PROPERTY_REGISTRY (key=`characters`). Fix: explicitly add `$item.text` alias suggestion after the registry loop.
+5. **Replace all TextboxWithSuggestions** — All 13 remaining `TextboxWithSuggestions` in AutomationsToolView replaced with `TokenInput`. Import updated to get `Suggestion` type from TokenInput.
+6. **Dropdown styling** — Updated SuggestionDropdown: 28px row height, `bg-hover` for highlight (not `bg-selected`), `borderRadius: 6` on container, `borderRadius: 4` on items, hover tracking, `padding: "4px 0"` container padding, category headers restyled. Added second TokenInput instance in preview showcase to demonstrate suggestions.
+
+**Files:** `src/app/components/TokenInput.tsx`, `src/app/views/automations-tool/AutomationsToolView.tsx`, `src/preview/preview-app.tsx`.
