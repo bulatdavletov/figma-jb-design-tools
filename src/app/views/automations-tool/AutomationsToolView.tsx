@@ -59,6 +59,7 @@ import {
 } from "../../tools/automations/types"
 import { PROPERTY_REGISTRY } from "../../tools/automations/properties"
 import { TextboxWithSuggestions, type Suggestion } from "../../components/TextboxWithSuggestions"
+import { TokenInput } from "../../components/TokenInput"
 import {
   createNewAutomation,
   automationToExportJson,
@@ -2511,7 +2512,7 @@ function renderStepParams(
           {inputCtxTokens}
           <Text style={{ fontSize: 11 }}>Text content</Text>
           <VerticalSpace space="extraSmall" />
-          <TextboxWithSuggestions
+          <TokenInput
             value={String(step.params.characters ?? "")}
             onValueInput={(v: string) => updateParam("characters", v)}
             placeholder={isInRepeat ? "Use current item token" : "Supports tokens from previous steps"}
