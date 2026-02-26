@@ -85,9 +85,7 @@ ToolBody spacing: too much vertical space before/after content in compact views 
 
 ## Find Color Match in Islands tool:
 
-Idea: hardcode isnalnds colors and collections, for faster loading.
-Check if library updated, and suggest to update hardcoded file.
-I think Export tool should be used to export the hardcoded file.
+Done (2026-02-26): hardcoded Color palette + Semantic colors JSON; tool tries hardcoded first (instant), then Figma. Update JSON files manually when you rename or add variables (e.g. re-export from Export tool). Optional later: check if library updated and suggest to update hardcoded file.
 
 How to check colors with opacity
 
@@ -104,3 +102,6 @@ Some issues with @src/app/components/TokenInput.tsx and @src/app/components/Toke
 8. When i focus empty input field, caret placed not at vertical center of the field, but should be, as if there would be text inside
 
 New: Use ToolCard for Automations list, and emojis for icons.
+
+New actions: Choose from Menu / Choose from List input actions
+Example: Full width/height automation: height, width, or both

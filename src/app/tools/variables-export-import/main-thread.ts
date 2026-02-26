@@ -103,7 +103,8 @@ export function registerVariablesExportImportTool(getActiveTool: () => ActiveToo
   }
 
   const exportVariablesSnapshot = async (
-    collectionIds: string[] | null
+    collectionIds: string[] | null,
+    includeKey = false
   ): Promise<ExportImportSnapshotReadyPayload> => {
     const collections = await figma.variables.getLocalVariableCollectionsAsync()
     const wantedIds =
@@ -204,12 +205,15 @@ export function registerVariablesExportImportTool(getActiveTool: () => ActiveToo
         const scopesRaw = Array.isArray(variable.scopes) ? (variable.scopes as unknown[]) : []
         const scopes = scopesRaw.filter(isString)
 
-        const entry = {
+        const entry: Record<string, unknown> = {
           id: variable.id,
           type,
           values,
           description,
           scopes: scopes.length ? scopes : undefined,
+        }
+        if (includeKey && "key" in variable && typeof (variable as { key?: string }).key === "string") {
+          entry.key = (variable as { key: string }).key
         }
         const path = [...groupPath, leafKey]
         setNestedObject(variablesTree, path, entry)
@@ -556,7 +560,10 @@ export function registerVariablesExportImportTool(getActiveTool: () => ActiveToo
 
       if (msg.type === UI_TO_MAIN.EXPORT_IMPORT_EXPORT_SNAPSHOT) {
         try {
-          const payload = await exportVariablesSnapshot(msg.request.collectionIds ?? null)
+          const payload = await exportVariablesSnapshot(
+            msg.request.collectionIds ?? null,
+            msg.request.includeKey === true
+          )
           figma.ui.postMessage({
             type: MAIN_TO_UI.EXPORT_IMPORT_SNAPSHOT_READY,
             payload,

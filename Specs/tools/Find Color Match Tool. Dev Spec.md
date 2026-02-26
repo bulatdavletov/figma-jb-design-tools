@@ -11,7 +11,9 @@ Match any selection solid colors (raw, style-bound, or variable-bound) to the cl
 - `src/app/tools/find-color-match/apply.ts`
 - `src/app/tools/find-color-match/variables.ts`
 - `src/app/tools/find-color-match/types.ts`
-- `src/app/tools/int-ui-kit-library/cache.ts`
+- `src/app/tools/find-color-match/hardcoded-data.ts` — loads from bundled JSON for instant matching
+- `src/app/tools/find-color-match/Int UI Kit  Islands. Color palette.json` — hardcoded palette (update manually when library changes)
+- `src/app/tools/find-color-match/Int UI Kit  Islands. Semantic colors.json` — hardcoded semantic (update manually when library changes)
 - `src/app/tools/int-ui-kit-library/resolve.ts`
 - `src/app/tools/int-ui-kit-library/constants.ts`
 - `src/app/components/LibraryCacheStatusBar.tsx`
@@ -24,31 +26,17 @@ Match any selection solid colors (raw, style-bound, or variable-bound) to the cl
 
 ### Runtime flow
 1. Tool activates (`registerFindColorMatchTool`).
-2. Collections are discovered and posted to UI.
-3. Fast path: if candidate variables for active collection+mode exist in memory cache, scan runs from cache and results are shown instantly.
-4. Cold path: scan starts in background; cache status is posted while loading; rows are shown immediately from current cache (or empty matches), then progressively improved as candidates stream in.
-5. Selection changes trigger debounced re-scan.
-6. Hex lookup uses the same candidate pool and returns top matches.
-7. Apply action binds selected variable to node paint and returns per-row apply result.
+2. Collections are discovered via Figma team library API and posted to UI.
+3. Scan runs: if we already have variables in memory for this collection+mode (session-only), results show immediately. Otherwise we try **hardcoded JSON** first (instant); if available for that collection+mode we use it. If not, we load from Figma via `loadAndResolveLibraryColorVariables`, show found colors with empty matches first, then progressive results as variables stream in.
+4. Selection changes trigger debounced re-scan (reuses session-loaded candidates when same collection+mode).
+5. Hex lookup loads variables for active collection+mode when needed, returns top matches.
+6. Apply action binds selected variable to node paint and returns per-row apply result.
 
-### Caching and loading strategy
-- Shared cache module: `int-ui-kit-library/cache.ts`.
-- Cache key: `collectionKey + modeId`.
-- Invalidation strategy: fingerprint check (`sorted COLOR variable keys`) before trusting cached variables.
-- On cache hit + unchanged fingerprint: return cached variables immediately.
-- On fingerprint mismatch or empty cache: reload variables through `loadAndResolveLibraryColorVariables`.
-- During reload, cache receives partial candidate snapshots so UI can improve results incrementally.
-- Activation does **not** eagerly preload all collections anymore; variables are loaded lazily for active collection/mode.
-
-### Why performance was bad before
-- Activation used to load variable groups for all whitelisted collections.
-- Each variable load includes import + collection lookup + alias-chain resolution.
-- Result: first open in a new project could block interaction for a long time.
-
-### Current performance behavior
-- Tool opens quickly and remains responsive sooner.
-- Heavy loading is deferred to active collection/mode and done when actually needed.
-- Background cache check still verifies freshness and can trigger re-scan if data changed.
+### Loading strategy
+- **Hardcoded first**: Two JSON files (Color palette, Semantic colors) are bundled and parsed at load. For the whitelisted Int UI Kit collections, `getHardcodedVariables(collectionName, modeName)` returns resolved color variables instantly. Semantic aliases (e.g. `$alias: "Color palette:gray-130"`) are resolved against the palette. When you rename or add variables in the library, update these JSON files manually (e.g. re-export from the Export tool).
+- **Fallback**: If no hardcoded data for the selected collection+mode, variables are loaded from Figma via `int-ui-kit-library/resolve.ts`.
+- Session-only in-memory store: last loaded candidates (from hardcoded or Figma) are kept so re-scans don’t re-fetch; switching collection/mode loads again (hardcoded then Figma).
+- Progress is shown via `LIBRARY_CACHE_STATUS` (updating/ready) and optional progressive result updates via `onPartial` when loading from Figma.
 
 ### Message contract (high level)
 - UI -> Main:
@@ -73,6 +61,7 @@ Match any selection solid colors (raw, style-bound, or variable-bound) to the cl
 - Avoid loading data for non-active collections unless user actually switches to them.
 - Guard async result posting against stale collection/mode context where possible.
 - Scan payload includes source metadata per color: `sourceType` (`VARIABLE` | `STYLE` | `RAW`) and optional `sourceName`. UI uses `sourceName` for row title when available.
+- **Apply**: Library variables are not in the document until imported. Apply uses `getVariableByIdAsync` first; if not found, uses `importVariableByKeyAsync(variableKey)`. So `variableKey` (library variable key from team library) must be sent with the apply request. When loading from Figma we have it; for hardcoded JSON, include optional `"key"` on each variable so Apply can import. Without `key`, Apply will try id as key and may fail.
 
 ### Testing checklist
 - Open Find Color Match in a fresh project with large library:

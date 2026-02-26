@@ -556,6 +556,8 @@ export type VariableResolvedDataType = "BOOLEAN" | "COLOR" | "FLOAT" | "STRING"
 
 export type ExportImportExportRequest = {
   collectionIds?: string[] | null
+  /** When true, include each variable's key in the JSON (for use in hardcoded Find Color Match data). */
+  includeKey?: boolean
 }
 
 export type ExportImportSnapshotReadyPayload = {
@@ -1039,6 +1041,8 @@ export type FindColorMatchProgressPayload = {
 export type FindColorMatchApplyRequest = {
   nodeId: string
   variableId: string
+  /** Library variable key for import when variable is not yet in document. Required for Apply with hardcoded/team library variables. */
+  variableKey?: string | null
   colorType: "FILL" | "STROKE" | "TEXT"
   paintIndex: number
 }

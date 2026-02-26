@@ -1,17 +1,37 @@
 import type { ColorType } from "./types"
 
+/**
+ * Resolves a variable by id (if already in document) or by importing from team library by key.
+ * Library variables must be imported via importVariableByKeyAsync before they can be bound.
+ */
+async function resolveVariable(
+  variableId: string,
+  variableKey?: string | null
+): Promise<Variable | null> {
+  let variable = await figma.variables.getVariableByIdAsync(variableId)
+  if (variable) return variable
+  const keyToTry = variableKey ?? variableId
+  try {
+    variable = await figma.variables.importVariableByKeyAsync(keyToTry)
+    return variable
+  } catch {
+    return null
+  }
+}
+
 export async function applyVariableToNode(
   nodeId: string,
   variableId: string,
   colorType: ColorType,
-  paintIndex: number
+  paintIndex: number,
+  variableKey?: string | null
 ): Promise<{ ok: boolean; reason?: string }> {
   const node = await figma.getNodeByIdAsync(nodeId)
   if (!node || !("id" in node)) {
     return { ok: false, reason: "Node not found" }
   }
 
-  const variable = await figma.variables.getVariableByIdAsync(variableId)
+  const variable = await resolveVariable(variableId, variableKey)
   if (!variable) {
     return { ok: false, reason: "Variable not found" }
   }

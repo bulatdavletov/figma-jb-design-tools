@@ -8,6 +8,14 @@
 
 ## Find Color Match Tool — Performance and Caching
 
+### 2026-02-26 (hardcoded lists)
+- Find Color Match now uses **hardcoded JSON** first for Int UI Kit Islands: `Int UI Kit  Islands. Color palette.json` and `Int UI Kit  Islands. Semantic colors.json` are bundled and parsed in `hardcoded-data.ts`. Semantic aliases (`$alias: "Color palette:…"`) are resolved against the palette. Load path: try `getHardcodedVariables(collectionName, modeName)` → if present use it (instant); else load from Figma. When you rename or add variables, update the JSON files manually (e.g. re-export from Export tool). Dev spec updated.
+
+### 2026-02-26
+- Dropped persistent cache: Find Color Match now uses **Figma directly** (no `int-ui-kit-library/cache.ts`). Original plugin used **local** variables only (no team library), so it was fast; our slowness was from the Islands library path. Decision: remove fingerprint/cache layer, call `loadAndResolveLibraryColorVariables` from resolve when needed; keep session-only in-memory store so re-scans (same collection+mode) don’t re-fetch.
+- Removed: `cache.ts`, `runScanFromCacheSync`, `backgroundCacheCheck`. Main-thread uses `discoverCollectionSources` / `loadLibraryCollectionModes` / `loadAndResolveLibraryColorVariables` directly. Progressive results and status bar (updating/ready) unchanged.
+- Dev spec updated: no cache; loading strategy describes direct Figma + session-only reuse.
+
 ### 2026-02-25
 - User reported severe startup slowness in Find Color Match when opening in new projects.
 - Main decision: keep caching, but make loading non-blocking and load only active collection first.

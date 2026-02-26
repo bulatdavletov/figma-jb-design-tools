@@ -13,7 +13,7 @@
       "command": "src/home/main.ts--default"
     },
     {
-      "name": "Migrate to New UI Kit",
+      "name": "Migrate to Islands UI Kit",
       "command": "src/library-swap-tool/main.ts--default"
     },
     {
@@ -21,7 +21,7 @@
       "command": "src/color-chain-tool/main.ts--default"
     },
     {
-      "name": "Find Color Match in Islands",
+      "name": "Find Color Match in Islands UI Kit",
       "command": "src/find-color-match-tool/main.ts--default"
     },
     {

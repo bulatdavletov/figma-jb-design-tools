@@ -245,6 +245,12 @@ export function FindColorMatchToolView({ onBack, initialSelectionEmpty }: Props)
     const variableId = overrideVarId ?? entry.bestMatch?.variableId
     if (!variableId) return
 
+    const selectedMatch =
+      overrideVarId != null
+        ? entry.allMatches.find((m) => m.variableId === overrideVarId)
+        : entry.bestMatch
+    const variableKey = selectedMatch?.variableKey ?? undefined
+
     parent.postMessage(
       {
         pluginMessage: {
@@ -252,6 +258,7 @@ export function FindColorMatchToolView({ onBack, initialSelectionEmpty }: Props)
           request: {
             nodeId: entry.found.nodeId,
             variableId,
+            variableKey: variableKey ?? undefined,
             colorType: entry.found.colorType,
             paintIndex: entry.found.paintIndex,
           },

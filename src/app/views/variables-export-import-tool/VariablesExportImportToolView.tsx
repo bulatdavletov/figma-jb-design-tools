@@ -79,6 +79,7 @@ export function VariablesExportImportToolView({ onBack }: Props) {
 
   // Export state
   const [exportSelectedCollectionIds, setExportSelectedCollectionIds] = useState<string[]>([])
+  const [exportIncludeKey, setExportIncludeKey] = useState(false)
   const [didInitExportSelection, setDidInitExportSelection] = useState(false)
   const [snapshotFiles, setSnapshotFiles] = useState<
     Array<{ filename: string; jsonText: string }>
@@ -241,6 +242,7 @@ export function VariablesExportImportToolView({ onBack }: Props) {
           type: UI_TO_MAIN.EXPORT_IMPORT_EXPORT_SNAPSHOT,
           request: {
             collectionIds: selectedCollectionIdsInOptions,
+            includeKey: exportIncludeKey,
           },
         },
       },
@@ -351,6 +353,16 @@ export function VariablesExportImportToolView({ onBack }: Props) {
 
           <Stack space="small">
             <Text>Collections</Text>
+            <Checkbox
+              value={exportIncludeKey}
+              disabled={exportBusy}
+              onValueChange={setExportIncludeKey}
+            >
+              <Text>Include key</Text>
+            </Checkbox>
+            <Text style={{ fontSize: 10, color: "var(--figma-color-text-secondary)", marginLeft: 20 }}>
+              Add variable key to JSON (for hardcoded Find Color Match; needed for Apply to work with library variables).
+            </Text>
             <div>
               {exportCollectionsOptions.length === 0 ? (
                 <Text style={{ color: "var(--figma-color-text-secondary)" }}>
