@@ -234,6 +234,24 @@ What we should consider **aligning** (future phases):
 - **Count input hint**: `count` config now shows "Input" section indicating what nodes are being counted (label of previous step).
 - **Copy run log**: Run Output screen footer now has "Done" + "Copy log" buttons side by side. `formatLogAsText()` formats the log as plain text with status indicators (`[OK]`, `[ERR]`, `[SKIP]`), step names, item counts, messages, and errors. "Copy log" button shows "Copied!" feedback for 2 seconds.
 
+### 2026-02-26: Copy log on Edit page run output
+
+- **Run output in builder**: The Run Output right panel (when running from Edit page) now has a "Copy log" button after the run, matching the full Run Output screen. Extracted `RunOutputPanelWithResult` to hold result UI + copy state and button; reuses `formatLogAsText()` and same "Copied!" feedback.
+
+### 2026-02-26: Paste component by ID + Copy log fixes
+
+**Issues:** (1) Automation "Paste components by IDs and wrap" failed with: `getNodeById: Cannot call with documentAccess: dynamic-page. Use figma.getNodeByIdAsync instead`. (2) Copy log buttons (full Run Output screen and Edit page panel) did not copy anything in plugin UI.
+
+**Fixes:**
+- **component-actions.ts**: In `resolveComponentById()`, replaced synchronous `figma.getNodeById(componentId)` with `await figma.getNodeByIdAsync(componentId)` so it works with `documentAccess: "dynamic-page"`.
+- **Copy log**: Both RunOutputScreen and RunOutputPanelWithResult now use `copyTextToClipboard()` from `../../utils/clipboard`, which uses Clipboard API with fallback to `document.execCommand("copy")` via a temporary textarea, so copy works in the Figma plugin iframe. Only show "Copied!" when copy succeeds.
+
+### 2026-02-26: Repeat nodes mode — $item for current node
+
+**Issue:** Automation "Add Numeration to Text" (repeat with each node → setCharacters "{$repeatIndex}. {$item}") produced "1. ", "2. ", "3. " because in nodes mode the executor never set the item variable, so {$item} was empty.
+
+**Fix:** In `executeRepeatNodesMode`, set `context.pipelineVars[itemVar]` each iteration to the current node's useful value: `characters` (text content) for TEXT nodes, else `name`, via `getNodeProperty`. So {$item} now resolves to the current node's text or name, and "{$repeatIndex}. {$item}" gives "1. 123", "2. 123", "3. 123".
+
 ### 2026-02-24: Fix Cancel button in Ask for Input dialog
 
 **Bug:** Pressing Cancel in the input dialog submitted an empty string and continued the automation instead of stopping it.
@@ -427,3 +445,33 @@ What we should consider **aligning** (future phases):
 **Files changed:**
 - `storage.ts` — `BARE_REF_PARAMS`, updated `migrateTokenReferences()`
 - `AutomationsToolView.tsx` — `safeDropdownValue()`, applied to 4 dropdowns, fixed restoreNodes filter
+
+## Library Swap / merge-mapping script
+
+### 2026-02-26: How to run merge-mapping and merge two inbox files
+
+**Task:** Run `scripts/merge-mapping.cjs` to merge two manual mapping JSONs from "Figma JSONs/mapping inbox" into the plugin default, then delete the source files.
+
+**How the script works:**
+- Merges **one** exported mapping JSON into the plugin’s built-in mapping.
+- Usage: `node scripts/merge-mapping.cjs <path-to-exported.json> <icons|uikit>`
+- Run from the **plugin repo** (`figma-jb-variables-utilities`). JSON path can be absolute (e.g. another project folder).
+- Target: `uikit` for UI components (Labelled Input, Toggle, Slim Button, etc.); `icons` for icon-only mappings.
+- Result is written to `src/app/tools/library-swap/default-uikit-mapping.json` (or `default-icon-mapping.json`). Then run `npm run build` to rebuild the plugin.
+
+**To merge two files:** Run the script twice (one file per run); both merge into the same default. Then delete the source files manually or via delete_file.
+
+**Done:** Merged `manual-mapping-26.02.2026-12-01.json` (1 entry) and `manual-mapping-26.02.20026-12-56.json` (3 entries) into uikit default (636 → 640 entries). Deleted both source files from mapping inbox.
+
+## Token-aware input (Automations)
+
+### 2026-02-26: TokenInput component — tokens as pill UI in "Text content" field
+
+**Task:** Input fields could not parse tokens as UI elements; only TokenHighlighter was used elsewhere. Implement a token-aware input that shows `{...}` tokens as pill/chip UI inside the field.
+
+**What was done:**
+1. **token-utils.ts** — Shared token parsing: `TOKEN_REGEX`, `parseTokenSegments()`, `classifyToken()`, `segmentsToValue()`. Token categories: pipeline ($), snapshot (#), property. TokenHighlighter refactored to use token-utils.
+2. **TokenInput.tsx** — New component: contenteditable div with token pills (non-editable spans with remove ×). Value stays a single string; DOM sync on input/paste/keydown/remove. Token pills use same classification colors; optional suggestion dropdown (trigger on `{`, filter, Enter/Tab to insert). Backspace before a token removes the whole token. Paste normalizes pasted text so tokens become pills.
+3. **Automations "Text content"** — Replaced `TextboxWithSuggestions` with `TokenInput` for setCharacters step param so the field shows e.g. `{$repeatIndex}. {$item}` as token pills instead of plain text.
+
+**Files:** `src/app/components/token-utils.ts`, `TokenHighlighter.tsx`, `TokenInput.tsx`; `AutomationsToolView.tsx` (setCharacters uses TokenInput). Fixed pre-existing ScopeControl.tsx (added `import { h } from "preact"`) so build passes.
