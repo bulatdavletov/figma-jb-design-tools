@@ -28,6 +28,7 @@ import {
 import { DataTable, type DataTableColumn } from "../../components/DataTable"
 import { NodeTypeIcon } from "../../components/NodeTypeIcon"
 import { Page } from "../../components/Page"
+import { SegmentedControlWithWidth } from "../../components/SegmentedControlWithWidth"
 import { ScopeControl, useScope } from "../../components/ScopeControl"
 import { State } from "../../components/State"
 import { ToolBody } from "../../components/ToolBody"
@@ -72,6 +73,7 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
   const [capturedOldName, setCapturedOldName] = useState<string | null>(null)
   const [capturedNewName, setCapturedNewName] = useState<string | null>(null)
   const [manualPairs, setManualPairs] = useState<ManualPair[]>([])
+  const [manualPairsExportTarget, setManualPairsExportTarget] = useState<"uikit" | "icons">("uikit")
 
   // -----------------------------------------------------------------------
   // Derived
@@ -263,10 +265,21 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
       matchMeta,
     }
     const blob = new Blob([JSON.stringify(exported, null, 2)], { type: "application/json" })
+    // --- Begin filename logic for dynamic date and time ---
+    const now = new Date()
+    // Get UTC date/time components
+    const day = String(now.getUTCDate()).padStart(2, "0")
+    const month = String(now.getUTCMonth() + 1).padStart(2, "0")
+    const year = String(now.getUTCFullYear())
+    const hours = String(now.getUTCHours()).padStart(2, "0")
+    const minutes = String(now.getUTCMinutes()).padStart(2, "0")
+    const dateTime = `${day}.${month}.${year}-${hours}-${minutes}`
+    const fileName = `${manualPairsExportTarget}-mapping-${dateTime}.json`
+    // --- End filename logic ---
     const url = URL.createObjectURL(blob)
     const a = document.createElement("a")
     a.href = url
-    a.download = "manual-mapping-export.json"
+    a.download = fileName
     a.click()
     URL.revokeObjectURL(url)
   }
@@ -650,7 +663,16 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
               </Text>
             )}
 
-            {/* Export button */}
+            {/* Export target + button */}
+            <SegmentedControlWithWidth
+              value={manualPairsExportTarget}
+              fullWidth={false}
+              onValueChange={(v) => setManualPairsExportTarget(v as "uikit" | "icons")}
+              options={[
+                { value: "uikit", children: "UI Kit" },
+                { value: "icons", children: "Icons" },
+              ]}
+            />
             <Button
               secondary
               onClick={handleExportMapping}
@@ -663,7 +685,7 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
       </ToolBody>
 
       {/* -- Footer (sticky) ----------------------------------------------- */}
-      <ToolFooter>
+      <ToolFooter direction="column">
         {isBusy && (
           <Inline space="extraSmall">
             <LoadingIndicator />

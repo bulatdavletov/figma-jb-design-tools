@@ -48,6 +48,18 @@
     "needsSelection": true
   },
   {
+    "id": "automations-tool",
+    "title": "Automations",
+    "menuLabel": "Automations",
+    "main": "src/automations-tool/main.ts",
+    "cardTitle": "Automations",
+    "description": "Automate your workflow",
+    "category": "General",
+    "order": 5,
+    "icon": "IconPrototype16",
+    "needsSelection": true
+  },
+  {
     "id": "print-color-usages-tool",
     "title": "Print Color Usages",
     "menuLabel": "Print Color Usages",

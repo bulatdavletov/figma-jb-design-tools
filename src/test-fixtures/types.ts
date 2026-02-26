@@ -10,4 +10,6 @@ export type Scenario = {
     initialSelectionEmpty?: boolean
     initialTab?: string
   }
+  /** Override iframe size for tools that resize (e.g. Automations builder). */
+  size?: { width: number; height: number }
 }

@@ -92,3 +92,15 @@ I think Export tool should be used to export the hardcoded file.
 How to check colors with opacity
 
 How to show component
+## Automations Tool:
+Some issues with @src/app/components/TokenInput.tsx and @src/app/components/TokenPill.tsx :
+1. When i hover input field, items inside jump to 1 px because of border. It doesn't happen in original input.
+2. Typing "{ma" and pressing Enter gives "{ma" AND full token pill {mathResult}
+3. Typing "{startWith" doesn't suggest {$startWith}, weird. It should suggest everything starting with "startWith"
+4. @src/app/components/TokenInput.tsx is not used in every action input, where token might be expected.
+5. Add @src/app/components/TokenInput.tsx complete dropdown ti Showcase, It looks ugly and not native, would be nice to fix it.
+6. Typing "{$ite.text" doesn't suggest {$item.text}
+7. When I delete any token, caret jumps to the beginning of the field.
+8. When i focus empty input field, caret placed not at vertical center of the field, but should be, as if there would be text inside
+
+New: Use ToolCard for Automations list, and emojis for icons.

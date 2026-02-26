@@ -52,6 +52,17 @@ export const UI_TO_MAIN = {
   FIND_COLOR_MATCH_FOCUS_NODE: "FIND_COLOR_MATCH_FOCUS_NODE",
   FIND_COLOR_MATCH_HEX_LOOKUP: "FIND_COLOR_MATCH_HEX_LOOKUP",
   FIND_COLOR_MATCH_SET_GROUP: "FIND_COLOR_MATCH_SET_GROUP",
+  // Window
+  RESIZE_WINDOW: "RESIZE_WINDOW",
+  // Automations
+  AUTOMATIONS_LOAD: "AUTOMATIONS_LOAD",
+  AUTOMATIONS_GET: "AUTOMATIONS_GET",
+  AUTOMATIONS_SAVE: "AUTOMATIONS_SAVE",
+  AUTOMATIONS_DELETE: "AUTOMATIONS_DELETE",
+  AUTOMATIONS_DUPLICATE: "AUTOMATIONS_DUPLICATE",
+  AUTOMATIONS_RUN: "AUTOMATIONS_RUN",
+  AUTOMATIONS_STOP: "AUTOMATIONS_STOP",
+  AUTOMATIONS_INPUT_RESPONSE: "AUTOMATIONS_INPUT_RESPONSE",
 } as const
 
 export const MAIN_TO_UI = {
@@ -109,6 +120,13 @@ export const MAIN_TO_UI = {
   FIND_COLOR_MATCH_GROUPS: "FIND_COLOR_MATCH_GROUPS",
   // Library cache
   LIBRARY_CACHE_STATUS: "LIBRARY_CACHE_STATUS",
+  // Automations
+  AUTOMATIONS_LIST: "AUTOMATIONS_LIST",
+  AUTOMATIONS_FULL: "AUTOMATIONS_FULL",
+  AUTOMATIONS_SAVED: "AUTOMATIONS_SAVED",
+  AUTOMATIONS_RUN_PROGRESS: "AUTOMATIONS_RUN_PROGRESS",
+  AUTOMATIONS_RUN_RESULT: "AUTOMATIONS_RUN_RESULT",
+  AUTOMATIONS_INPUT_REQUEST: "AUTOMATIONS_INPUT_REQUEST",
 } as const
 
 export type UiToMainMessage =
@@ -162,6 +180,17 @@ export type UiToMainMessage =
   | { type: typeof UI_TO_MAIN.FIND_COLOR_MATCH_FOCUS_NODE; nodeId: string }
   | { type: typeof UI_TO_MAIN.FIND_COLOR_MATCH_HEX_LOOKUP; hex: string }
   | { type: typeof UI_TO_MAIN.FIND_COLOR_MATCH_SET_GROUP; group: string | null }
+  // Window
+  | { type: typeof UI_TO_MAIN.RESIZE_WINDOW; width: number; height: number }
+  // Automations
+  | { type: typeof UI_TO_MAIN.AUTOMATIONS_LOAD }
+  | { type: typeof UI_TO_MAIN.AUTOMATIONS_GET; automationId: string }
+  | { type: typeof UI_TO_MAIN.AUTOMATIONS_SAVE; automation: AutomationPayload }
+  | { type: typeof UI_TO_MAIN.AUTOMATIONS_DELETE; automationId: string }
+  | { type: typeof UI_TO_MAIN.AUTOMATIONS_DUPLICATE; automationId: string }
+  | { type: typeof UI_TO_MAIN.AUTOMATIONS_RUN; automationId: string }
+  | { type: typeof UI_TO_MAIN.AUTOMATIONS_STOP }
+  | { type: typeof UI_TO_MAIN.AUTOMATIONS_INPUT_RESPONSE; value: string; cancelled?: boolean }
 
 
 export type PrintColorUsagesUiSettings = {
@@ -375,6 +404,13 @@ export type MainToUiMessage =
   | { type: typeof MAIN_TO_UI.FIND_COLOR_MATCH_GROUPS; groupsByCollection: Record<string, string[]> }
   // Library cache
   | { type: typeof MAIN_TO_UI.LIBRARY_CACHE_STATUS; status: LibraryCacheStatusPayload }
+  // Automations
+  | { type: typeof MAIN_TO_UI.AUTOMATIONS_LIST; automations: AutomationListItem[] }
+  | { type: typeof MAIN_TO_UI.AUTOMATIONS_FULL; automation: AutomationPayload | null }
+  | { type: typeof MAIN_TO_UI.AUTOMATIONS_SAVED; automation: AutomationPayload }
+  | { type: typeof MAIN_TO_UI.AUTOMATIONS_RUN_PROGRESS; progress: AutomationsRunProgress }
+  | { type: typeof MAIN_TO_UI.AUTOMATIONS_RUN_RESULT; result: AutomationsRunResult }
+  | { type: typeof MAIN_TO_UI.AUTOMATIONS_INPUT_REQUEST; request: AutomationsInputRequest }
 
 // ============================================================================
 // Variables Batch Rename Types
@@ -1017,4 +1053,68 @@ export type FindColorMatchApplyResultPayload = {
 export type FindColorMatchHexResultPayload = {
   hex: string
   allMatches: FindColorMatchVariableEntry[]
+}
+
+// ============================================================================
+// Automations Types
+// ============================================================================
+
+export type AutomationStepPayload = {
+  id: string
+  actionType: string
+  params: Record<string, unknown>
+  enabled: boolean
+  outputName?: string
+  children?: AutomationStepPayload[]
+  target?: string
+}
+
+export type AutomationPayload = {
+  id: string
+  name: string
+  steps: AutomationStepPayload[]
+  createdAt: number
+  updatedAt: number
+}
+
+export type AutomationListItem = {
+  id: string
+  name: string
+  stepCount: number
+  createdAt: number
+  updatedAt: number
+}
+
+export type AutomationsRunProgress = {
+  automationName: string
+  currentStep: number
+  totalSteps: number
+  stepName: string
+  status: "running" | "done" | "error"
+}
+
+export type AutomationsStepLog = {
+  stepIndex: number
+  stepName: string
+  message: string
+  itemsIn: number
+  itemsOut: number
+  status: "success" | "skipped" | "error"
+  error?: string
+}
+
+export type AutomationsRunResult = {
+  success: boolean
+  message: string
+  stepsCompleted: number
+  totalSteps: number
+  errors: string[]
+  log: AutomationsStepLog[]
+}
+
+export type AutomationsInputRequest = {
+  label: string
+  placeholder: string
+  inputType: "text" | "textarea"
+  defaultValue: string
 }

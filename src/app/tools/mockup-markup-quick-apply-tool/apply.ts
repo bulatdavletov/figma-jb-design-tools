@@ -3,6 +3,7 @@
  */
 
 import type { MockupMarkupApplyRequest } from "../../messages"
+import { plural } from "../../utils/pluralize"
 import {
   resolveTextStyleIdForPreset,
   loadFontForTextStyle,
@@ -171,7 +172,7 @@ function showResultNotification(result: ApplyResult): void {
   const parts: string[] = []
 
   if (result.applied > 0) {
-    parts.push(`Applied markup to ${result.applied} text layer(s)`)
+    parts.push(`Applied markup to ${plural(result.applied, "text layer")}`)
 
     if (!result.typographyAvailable) {
       parts.push("(typography unavailable)")

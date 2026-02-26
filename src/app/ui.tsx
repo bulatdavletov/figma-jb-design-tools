@@ -13,6 +13,7 @@ import { VariablesBatchRenameToolView } from "./views/variables-batch-rename-too
 import { VariablesCreateLinkedColorsToolView } from "./views/variables-create-linked-colors-tool/VariablesCreateLinkedColorsToolView"
 import { VariablesReplaceUsagesToolView } from "./views/variables-replace-usages-tool/VariablesReplaceUsagesToolView"
 import { FindColorMatchToolView } from "./views/find-color-match-tool/FindColorMatchToolView"
+import { AutomationsToolView } from "./views/automations-tool/AutomationsToolView"
 import { isToolId, TOOLS_REGISTRY, type ActiveTool, type ToolId } from "./tools-registry"
 
 type ToolViewProps = {
@@ -40,6 +41,7 @@ const TOOL_VIEW_BY_ID: Record<ToolId, (props: ToolViewProps) => preact.Component
   "find-color-match-tool": ({ onBack, initialSelectionEmpty }) => (
     <FindColorMatchToolView onBack={onBack} initialSelectionEmpty={initialSelectionEmpty} />
   ),
+  "automations-tool": ({ onBack }) => <AutomationsToolView onBack={onBack} />,
 }
 
 export function App() {

@@ -11,6 +11,7 @@ import { registerVariablesBatchRenameTool } from "./tools/variables-batch-rename
 import { registerVariablesCreateLinkedColorsTool } from "./tools/variables-create-linked-colors/main-thread"
 import { registerVariablesReplaceUsagesTool } from "./tools/variables-replace-usages/main-thread"
 import { registerFindColorMatchTool } from "./tools/find-color-match/main-thread"
+import { registerAutomationsTool } from "./tools/automations/main-thread"
 
 type ToolController = {
   onActivate: () => void | Promise<void>
@@ -30,17 +31,21 @@ const REGISTER_TOOL_CONTROLLER: Record<
   "variables-create-linked-colors-tool": registerVariablesCreateLinkedColorsTool,
   "variables-replace-usages-tool": registerVariablesReplaceUsagesTool,
   "find-color-match-tool": registerFindColorMatchTool,
+  "automations-tool": registerAutomationsTool,
 }
 
 function getToolTitle(command: string): string {
   return isToolId(command) ? getToolById(command).title : "Int UI Design Tools"
 }
 
+const DEFAULT_WIDTH = 360
+const DEFAULT_HEIGHT = 570
+
 export function run(command: string) {
   showUI(
     {
-      width: 360,
-      height: 500,
+      width: DEFAULT_WIDTH,
+      height: DEFAULT_HEIGHT,
       title: getToolTitle(command),
     },
     { command }
@@ -73,6 +78,11 @@ export function run(command: string) {
 
       if (msg.type === UI_TO_MAIN.SET_ACTIVE_TOOL) {
         await activate(msg.tool)
+        return
+      }
+
+      if (msg.type === UI_TO_MAIN.RESIZE_WINDOW) {
+        figma.ui.resize(msg.width, msg.height)
         return
       }
 

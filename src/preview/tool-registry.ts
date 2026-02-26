@@ -10,6 +10,7 @@ import { scenarios as variablesExportImportScenarios } from "../test-fixtures/va
 import { scenarios as variablesBatchRenameScenarios } from "../test-fixtures/variables-batch-rename"
 import { scenarios as variablesCreateLinkedColorsScenarios } from "../test-fixtures/variables-create-linked-colors"
 import { scenarios as variablesReplaceUsagesScenarios } from "../test-fixtures/variables-replace-usages"
+import { scenarios as automationsScenarios } from "../test-fixtures/automations"
 
 export type ToolViewProps = {
   onBack: () => void
@@ -114,6 +115,16 @@ export const tools: ToolEntry[] = [
     loadView: () =>
       import("../app/views/variables-replace-usages-tool/VariablesReplaceUsagesToolView").then((m) => ({
         default: m.VariablesReplaceUsagesToolView as ComponentType<ToolViewProps>,
+      })),
+  },
+  {
+    id: "automations-tool",
+    label: "Automations",
+    section: "general",
+    scenarios: automationsScenarios,
+    loadView: () =>
+      import("../app/views/automations-tool/AutomationsToolView").then((m) => ({
+        default: m.AutomationsToolView as ComponentType<ToolViewProps>,
       })),
   },
 ]

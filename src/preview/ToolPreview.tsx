@@ -3,6 +3,7 @@ import { h } from "preact"
 import { useEffect, useRef } from "preact/hooks"
 
 import type { ToolEntry } from "./tool-registry"
+import type { Scenario } from "../test-fixtures/types"
 
 const PLUGIN_WIDTH = 360
 const PLUGIN_HEIGHT = 500
@@ -11,29 +12,29 @@ type Theme = "figma-light" | "figma-dark"
 
 function ScenarioFrame(props: {
   toolId: string
-  scenarioId: string
-  label: string
+  scenario: Scenario
   theme: Theme
 }) {
   const iframeRef = useRef<HTMLIFrameElement>(null)
+  const width = props.scenario.size?.width ?? PLUGIN_WIDTH
+  const height = props.scenario.size?.height ?? PLUGIN_HEIGHT
 
-  // Sync theme to iframe when it changes
   useEffect(() => {
     const iframe = iframeRef.current
     if (!iframe?.contentWindow) return
     iframe.contentWindow.postMessage({ __preview_theme: props.theme }, "*")
   }, [props.theme])
 
-  const src = `/?isolated=1&tool=${props.toolId}&scenario=${props.scenarioId}&theme=${props.theme}`
+  const src = `/?isolated=1&tool=${props.toolId}&scenario=${props.scenario.id}&theme=${props.theme}`
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 6, flexShrink: 0 }}>
-      <Text style={{ fontWeight: 600, fontSize: 11 }}>{props.label}</Text>
+      <Text style={{ fontWeight: 600, fontSize: 11 }}>{props.scenario.label}</Text>
       <iframe
         ref={iframeRef}
         src={src}
-        width={PLUGIN_WIDTH}
-        height={PLUGIN_HEIGHT}
+        width={width}
+        height={height}
         style={{
           border: "1px solid var(--figma-color-border)",
           borderRadius: 8,
@@ -65,8 +66,7 @@ export function ToolPreview(props: { tool: ToolEntry; theme: Theme }) {
           <ScenarioFrame
             key={scenario.id}
             toolId={props.tool.id}
-            scenarioId={scenario.id}
-            label={scenario.label}
+            scenario={scenario}
             theme={props.theme}
           />
         ))}

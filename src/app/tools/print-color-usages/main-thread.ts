@@ -1,4 +1,5 @@
 import { MAIN_TO_UI, UI_TO_MAIN, type ActiveTool, type PrintColorUsagesUiSettings, type PrintColorUsagesPrintPreviewEntry, type UiToMainMessage } from "../../messages"
+import { plural } from "../../utils/pluralize"
 import { loadPrintColorUsagesSettings, savePrintColorUsagesSettings } from "./settings"
 import { printColorUsagesFromSelection } from "./print"
 import { previewUpdateSelectedTextNodesByVariableId, updateSelectedTextNodesByVariableId } from "./update"
@@ -210,7 +211,7 @@ export function registerPrintColorUsagesTool(getActiveTool: () => ActiveTool) {
             // ignore individual failures
           }
         }
-        figma.notify(resetCount > 0 ? `Reset ${resetCount} layer name(s)` : "No layers were reset")
+        figma.notify(resetCount > 0 ? `Reset ${plural(resetCount, "layer name")}` : "No layers were reset")
         return true
       }
     } catch (e) {

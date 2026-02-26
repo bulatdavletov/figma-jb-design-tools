@@ -11,6 +11,7 @@
  */
 
 import { resolveChainForMode } from "../../variable-chain"
+import { plural } from "../../utils/pluralize"
 import { INT_UI_KIT_LIBRARY_NAME } from "./constants"
 
 // ---------------------------------------------------------------------------
@@ -91,7 +92,7 @@ export async function discoverIntUiKitCollections(): Promise<LibraryCollectionIn
       )
     } else {
       console.log(
-        `[Int UI Kit] Matched ${matched.length} collection(s):`,
+        `[Int UI Kit] Matched ${plural(matched.length, "collection")}:`,
         matched.map((c) => ({ key: c.key, name: c.name }))
       )
       for (const c of matched) {

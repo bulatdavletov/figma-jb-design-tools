@@ -5,6 +5,99 @@ Create automations like Apple Shortcuts, but for Figma. Chain actions together, 
 [Implementation Plan](../.cursor/plans/automations_tool_409706d6.plan.md)
 
 ---
+## Principles
+
+### Figma-First Design
+Align with Figma Data Structure.
+Primitive actions should map directly to Figma API operations using Figma's property names as param keys. 
+Action labels use human-friendly terms. 
+Compound actions combine primitives for convenience and are clearly distinguished. 
+The goal: never invent an abstraction when Figma already has the concept.
+
+
+---
+New things:
+
+I want to be able to Run automation from Edit view.
+
+I want to have complex filters and conditions:
+- Filter where node.count > 5 and node.value contains "test"
+
+I want to have objects, and has properties. Properties have types. For example:
+- node.count is a number, and there should be actions, available for numbers, like math operations.
+- node.value is a string, and there should be actions, available for strings, like find/replace.
+- node.count > 5 is a boolean, node.value contains "test" is a boolean
+- node.count > 5 and node.value contains "test" is a boolean
+
+I think of seeing result of any step in right side panel.
+Let's say first step is "Get selection", I want to see what selection content in right side panel.
+Or to do actions step by step. First, find layers, see them as list, table, whatever. Then decide, What i want to do with them, add second step, and it should continue from where it stopped.
+Maybe i should be able even to select manually what i need from output of previous step, and then use it for next step. I think such approach used in database nobebook software.
+
+---
+
+I want to create Automation tool, where I can create automations, like Apple Shortcuts, but for Figma.
+
+The thing is: I don't want to search for plugin every time.
+I want to create my own automations.
+
+Let's think how to do it. What i need for that.
+
+List of actions from Figma API
+
+List of Object types
+
+List of actions in Automations tool
+
+Automations should be exportable/importable as JSON files (for sharing between team members or across devices).
+
+[Plan](../.cursor/plans/automations_tool_409706d6.plan.md)
+
+UI:
+This tool requires lot's of space, but our plugin is quite narrow.
+We need to come up with the way to resize plugin window, to increase it.
+
+Several columns, Like apple shortcuts:
+Left side for steps. Right side is dynamic: if nothing selected - for available actions. If step selected - for parameters.
+
+When plugin finishes - there should be way to show output inside plugin window.
+
+---
+## Example Automations
+
+Idea: where to get ideas for actions for Automations plugin:
+Try to replace some plugins with automations.
+
+Many paster:
+- Ask for text
+- Choose what to do if amount of lines ends faster than amount of selected texts. Repeat list or not?
+- Split text into lines
+- Repeat with each line
+  - selected text content [N] = line [N]
+  - if repeat list = true
+    somehow start list of line from index 0
+
+Resize to parents width, height, or both
+- Choose: width, height, or both
+- Find parent node
+- Check it's size
+- Set size of selected node to parent's size
+
+Add autolayout to each:
+- Get selection nodes
+- For each node
+  - Add autolayout
+
+Print color usages
+- Find all unique colors used in selection
+  - Find all layers
+  - Extract all colors used in layers
+  - Dedupliacte list of colors
+- For every color
+  - Create a text layer with color as content
+  - Place near selected node
+
+---
 
 ## Core Idea
 
@@ -495,26 +588,428 @@ For safety (aligning with Design Principles — preview before apply):
 
 ---
 
+## Expressions and Pipeline Variables
+
+### The problem
+
+Currently, action parameters are static — you type a fixed string, a fixed number. But real workflows need dynamic values:
+
+- **Append text to a layer name** — not find/replace, but "take current name and add ' (deprecated)' to the end"
+- **Read a property from one node and set it on another** — "copy this frame's width and set it as that frame's width"
+- **Use a node's property in a notification** — "Processed layer: {name}, opacity was {opacity}"
+- **Math** — "set opacity to current opacity × 0.5"
+
+Without this, automations are limited to hardcoded values. With it, automations become truly programmable.
+
+### Expression tokens
+
+Any text parameter can contain `{token}` expressions that resolve at runtime against the current node being processed.
+
+**Node property tokens:**
+
+| Token | Resolves to | Example |
+|-------|------------|---------|
+| `{name}` | Current node's name | `Button`, `Frame 42` |
+| `{type}` | Node type string | `TEXT`, `FRAME`, `INSTANCE` |
+| `{index}` | Position in the current working set (0-based) | `0`, `1`, `2` |
+| `{count}` | Total items in working set | `15` |
+| `{width}` | Node width | `200` |
+| `{height}` | Node height | `100` |
+| `{opacity}` | Node opacity (0–1) | `0.5` |
+| `{x}` | X position | `120` |
+| `{y}` | Y position | `340` |
+| `{fillHex}` | First fill's hex color | `#FF0000` |
+| `{componentName}` | Main component name (instances) | `Button/Primary` |
+| `{pageName}` | Containing page's name | `Dashboard` |
+| `{id}` | Node ID | `123:456` |
+
+**Usage examples:**
+
+| Action | Parameter | Expression | Result |
+|--------|-----------|-----------|--------|
+| Set name | name | `{name} (old)` | `Button (old)` |
+| Set name | name | `{type}/{name}` | `TEXT/Label` |
+| Set name | name | `Item {index}` | `Item 0`, `Item 1`, ... |
+| Notify | message | `Done: {count} layers` | `Done: 15 layers` |
+| Log | message | `{name}: {fillHex}` | `Card: #FFFFFF` |
+
+### Pipeline variables (store and reuse values across steps)
+
+For cross-step data flow, introduce **pipeline variables** — named values that steps can write and later steps can read. Prefix: `$`.
+
+**New actions:**
+
+| Action | Category | Description | Parameters |
+|--------|----------|-------------|-----------|
+| **Set variable** | Transform | Store a value for later use | `variableName`: string, `value`: expression |
+| **Set variable from property** | Transform | Read a property from current node(s) and store it | `variableName`: string, `property`: name / type / width / height / opacity / fillHex / ... |
+
+**Reading pipeline variables in expressions:** `{$myVar}`
+
+**Example: Copy width from one frame to another**
+
+```
+Step 1: Source — From selection
+Step 2: Filter by name — "Source Frame"
+Step 3: Set variable from property — $sourceWidth = {width}
+Step 4: Source — From selection (resets working set)
+Step 5: Filter by name — "Target Frame"
+Step 6: Resize — width: {$sourceWidth}
+Step 7: Notify — "Set width to {$sourceWidth}"
+```
+
+**Example: Append text to all layer names**
+
+```
+Step 1: Source — From selection
+Step 2: Set name — "{name} - Copy"
+Step 3: Notify — "Renamed {count} layers"
+```
+
+**Example: Tag layers with their type**
+
+```
+Step 1: Source — From current page
+Step 2: Flatten descendants
+Step 3: Set name — "[{type}] {name}"
+Step 4: Notify — "Tagged {count} layers"
+```
+
+### String operations (future)
+
+For more complex transformations, consider built-in string functions:
+
+| Function | Example | Result |
+|----------|---------|--------|
+| `{name\|upper}` | `button` → `BUTTON` |
+| `{name\|lower}` | `MyFrame` → `myframe` |
+| `{name\|trim}` | `" hello "` → `"hello"` |
+| `{name\|replace:old:new}` | `old-button` → `new-button` |
+| `{name\|slice:0:5}` | `ButtonPrimary` → `Butto` |
+| `{width\|round}` | `199.7` → `200` |
+
+### Implementation notes
+
+- Expression resolution happens in the executor, not in individual actions. Each action receives already-resolved parameter values.
+- Pipeline variables live in the `AutomationContext` alongside `nodes`, `variables`, `styles`, `log`:
+  ```
+  Context {
+    nodes: SceneNode[]
+    variables: Variable[]
+    styles: BaseStyle[]
+    log: string[]
+    pipelineVars: Record<string, string | number | boolean>
+  }
+  ```
+- Token resolution iterates over `{...}` patterns in string params. Unknown tokens resolve to empty string with a warning in the log.
+- For actions that operate on multiple nodes (like "Set name"), tokens resolve per-node — each node gets its own `{name}`, `{index}`, etc.
+- Pipeline variables (`$`) resolve once from `context.pipelineVars` (same value for all nodes in that step).
+
+---
+
+## Current Implementation (as of 2026-02-24)
+
+### Architecture
+
+- **Context-based execution**: Each step receives `AutomationContext` and returns modified context
+- **Two output types**: Pipeline variables (`$name`) for data, node snapshots (`#name`) for saved node sets
+- **Noun-based output names**: Every new step gets a default output name as a noun representing its content (e.g., `selection`, `filtered`, `parent`, `input`, `parts`)
+- **Expression tokens**: `{name}`, `{type}`, `{index}`, `{count}`, `{$var}`, `{#snap.prop}` — resolved per-node or per-context
+- **Token highlighting**: `{token}` expressions are rendered with colored background pills: blue for property tokens, green for `$pipeline` vars, orange for `#snapshot` refs
+- **Two-column builder**: Steps on left, config/picker on right. Action picker has search and category grouping
+- **Unified filter**: One `filter` action with a conditions builder (AND/OR logic, 12 filter fields) replaces separate filterByType/filterByName
+- **Quick Actions**: Run automations from Figma's Cmd+/ menu without opening the UI
+
+### AutomationContext
+
+```typescript
+{
+  nodes: SceneNode[]                                      // Current working set
+  variables: Variable[]                                   // Available variables
+  styles: BaseStyle[]                                     // Available styles  
+  log: StepLogEntry[]                                     // Execution log
+  pipelineVars: Record<string, string | number | boolean | (string|number|boolean)[]>
+  savedNodeSets: Record<string, SceneNode[]>              // Named node snapshots
+}
+```
+
+### Step Structure
+
+```typescript
+{
+  id: string                      // Auto-generated unique ID
+  actionType: ActionType          // Action identifier
+  params: Record<string, unknown> // Action-specific parameters
+  enabled: boolean                // Can be toggled off
+  outputName?: string             // Auto-generated, user can rename
+  children?: AutomationStep[]     // For repeatWithEach child steps
+}
+```
+
+### Output System
+
+Every step can have an `outputName`. What gets saved depends on the action:
+
+| Action type | `producesData` | Saves to | Access via |
+|-------------|---------------|----------|------------|
+| `askForInput` | yes | `pipelineVars` | `{$name}` |
+| `splitText` | yes | `pipelineVars` (as list) | `{$name}` |
+| `count` | yes | `pipelineVars` (as number) | `{$name}` |
+| All other actions | no | `savedNodeSets` | `{#name.property}` |
+
+### Implemented Actions (47 total)
+
+#### Source (category: `source`) — default output names are nouns
+
+| `actionType` | Label | Params | Default output |
+|--------------|-------|--------|----------------|
+| `sourceFromSelection` | From selection | — | `selection` |
+| `sourceFromPage` | From current page | — | `page` |
+| `sourceFromAllPages` | From all pages | — | `allPages` |
+| `sourceFromPageByName` | From page by name | `pageName`: string | `namedPage` |
+
+#### Filter (category: `filter`) — unified conditions builder
+
+| `actionType` | Label | Params | Default output |
+|--------------|-------|--------|----------------|
+| `filter` | Filter | `logic`: and/or, `conditions[]`: field+operator+value | `filtered` |
+
+**Unified filter** replaces separate `filterByType`/`filterByName`. One action with multiple conditions combined via AND/OR logic.
+
+**Available filter fields (12):**
+
+| Field | Type | Operators |
+|-------|------|-----------|
+| `type` | enum | equals, notEquals |
+| `name` | string | equals, notEquals, contains, startsWith, endsWith, regex |
+| `visible` | boolean | is, isNot |
+| `component` | string | equals, notEquals, contains, startsWith, endsWith, regex |
+| `fillColor` | color | equals, notEquals |
+| `fillVariable` | string | equals, notEquals, contains, startsWith, endsWith, regex |
+| `hasFills` | boolean | is, isNot |
+| `hasStrokes` | boolean | is, isNot |
+| `hasVariable` | boolean | is, isNot |
+| `opacity` | number | =, ≠, >, < |
+| `width` | number | =, ≠, >, < |
+| `height` | number | =, ≠, >, < |
+
+#### Navigate (category: `navigate`)
+
+| `actionType` | Label | Params | Default output |
+|--------------|-------|--------|----------------|
+| `expandToChildren` | Expand to children | — | `children` |
+| `goToParent` | Go to parent | — | `parent` |
+| `flattenDescendants` | Flatten descendants | — | `descendants` |
+| `restoreNodes` | Restore nodes | `snapshotName`: string | `restored` |
+
+#### Transform — Properties (category: `transform`)
+
+| `actionType` | Label | Params | Default output |
+|--------------|-------|--------|----------------|
+| `renameLayers` | Rename layers | `find`, `replace` (supports tokens) | `renamed` |
+| `setName` | Set name | `name`: string (supports tokens) | `named` |
+| `setFillColor` | Set fill color | `hex`: color value | `filled` |
+| `setFillVariable` | Set fill variable | `variableName`: string | `filled` |
+| `setStrokeColor` | Set stroke color | `hex`: color value | `stroked` |
+| `removeFills` | Remove fills | — | `nodes` |
+| `removeStrokes` | Remove strokes | — | `nodes` |
+| `setOpacity` | Set opacity | `opacity`: 0–100 | `nodes` |
+| `setVisibility` | Set visibility | `visible`: boolean | `nodes` |
+| `setLocked` | Set locked | `locked`: boolean | `nodes` |
+| `setRotation` | Set rotation | `degrees`: string (supports tokens) | `rotated` |
+| `removeNode` | Remove node | — (destructive) | `removed` |
+| `cloneNode` | Clone node | — | `clones` |
+| `resize` | Resize | `width?`, `height?` (supports tokens) | `resized` |
+| `setPosition` | Set position | `x?`, `y?` (supports tokens) | `positioned` |
+| `wrapInFrame` | Wrap in frame | `autoLayout?` | `frames` |
+| `addAutoLayout` | Add auto layout | `direction`, `itemSpacing?` | `layouts` |
+| `editAutoLayout` | Edit auto layout | `direction?`, `itemSpacing?`, padding | `layouts` |
+| `removeAutoLayout` | Remove auto layout | — | `nodes` |
+
+#### Transform — Text (category: `transform`)
+
+| `actionType` | Label | Params | Default output |
+|--------------|-------|--------|----------------|
+| `setCharacters` | Set text content | `characters`: string (supports tokens) | `texts` |
+| `setFontSize` | Set font size | `size`: string (supports tokens) | `texts` |
+| `setFont` | Set font | `family`: string, `style`: string | `texts` |
+| `setTextAlignment` | Set text alignment | `align`: LEFT / CENTER / RIGHT / JUSTIFIED | `texts` |
+| `setTextCase` | Set text case | `textCase`: ORIGINAL / UPPER / LOWER / TITLE | `texts` |
+| `setTextDecoration` | Set text decoration | `decoration`: NONE / UNDERLINE / STRIKETHROUGH | `texts` |
+| `setLineHeight` | Set line height | `value`: string, `unit`: PIXELS / PERCENT / AUTO | `texts` |
+
+#### Transform — Components (category: `transform`)
+
+| `actionType` | Label | Params | Default output |
+|--------------|-------|--------|----------------|
+| `detachInstance` | Detach instance | — | `detached` |
+| `swapComponent` | Swap component | `componentName`: string | `swapped` |
+
+#### Input (category: `input`)
+
+| `actionType` | Label | Params | Default output |
+|--------------|-------|--------|----------------|
+| `askForInput` | Ask for input | `label`, `placeholder?`, `inputType` | `input` |
+
+#### Pipeline Variables (category: `variables`)
+
+| `actionType` | Label | Params | Default output |
+|--------------|-------|--------|----------------|
+| `setPipelineVariable` | Set variable | `variableName`, `value` (supports tokens) | `variable` |
+| `setPipelineVariableFromProperty` | Set variable from property | `variableName`, `property` | `property` |
+| `splitText` | Split text | `sourceVar`, `delimiter` | `parts` |
+
+#### Flow (category: `flow`)
+
+| `actionType` | Label | Params | Default output |
+|--------------|-------|--------|----------------|
+| `repeatWithEach` | Repeat with each | `source`, `itemVar`, `onMismatch`, `children[]` | — |
+
+**`repeatWithEach` details:**
+
+Two modes depending on `source` value:
+
+**Nodes mode** (`source: "nodes"`):
+- Iterates each node in the working set one at a time
+- Sets working set to `[currentNode]` per iteration
+- Sets `$repeatIndex` to current index
+- Child steps can use `{name}`, `{type}`, etc. to access current node
+
+**List mode** (`source: "<variableName>"`):
+- Reads a list variable from `pipelineVars[source]`
+- Pairs list items with working set nodes
+- Sets `$<itemVar>` to current list item per iteration
+- Sets `$repeatIndex` to current index
+- Sets working set to `[pairedNode]` per iteration
+- Child steps use `{$<itemVar>}` to access current list item
+
+`onMismatch` (list mode only):
+- `"error"` — stops if list length ≠ node count
+- `"repeatList"` — cycles list items from start (iterates nodeCount times)
+- `"skipExtra"` — iterates min(listCount, nodeCount) times
+
+#### Output (category: `output`)
+
+| `actionType` | Label | Params | Default output |
+|--------------|-------|--------|----------------|
+| `notify` | Notify | `message` (supports tokens) | `notification` |
+| `selectResults` | Select results | `scrollTo?`: boolean | `selected` |
+| `log` | Log message | `message` (supports tokens) | `log` |
+| `count` | Count items | `label?`: string | `count` |
+
+### Expression Tokens
+
+Tokens can be used in any text parameter that supports them (marked "supports tokens" above).
+
+| Token | Resolves to | Scope |
+|-------|------------|-------|
+| `{name}` | Current node's name | per-node |
+| `{type}` | Node type (TEXT, FRAME, etc.) | per-node |
+| `{index}` | Position in working set (0-based) | per-node |
+| `{count}` | Total items in working set | per-context |
+| `{width}` | Node width | per-node |
+| `{height}` | Node height | per-node |
+| `{opacity}` | Node opacity (0–1) | per-node |
+| `{x}`, `{y}` | Node position | per-node |
+| `{fillHex}` | First fill's hex color | per-node |
+| `{componentName}` | Main component name (instances) | per-node |
+| `{pageName}` | Containing page's name | per-node |
+| `{id}` | Node ID | per-node |
+| `{$varName}` | Pipeline variable value | per-context |
+| `{#snapName.prop}` | Property from saved node snapshot | per-context |
+
+### JSON Export Format
+
+```json
+{
+  "version": 1,
+  "automation": {
+    "name": "Many Paster",
+    "steps": [
+      {
+        "actionType": "askForInput",
+        "params": { "label": "Enter multi-line text", "inputType": "textarea" },
+        "enabled": true,
+        "outputName": "input"
+      },
+      {
+        "actionType": "splitText",
+        "params": { "sourceVar": "input", "delimiter": "\\n" },
+        "enabled": true,
+        "outputName": "parts"
+      },
+      {
+        "actionType": "sourceFromSelection",
+        "params": {},
+        "enabled": true,
+        "outputName": "selection"
+      },
+      {
+        "actionType": "repeatWithEach",
+        "params": { "source": "parts", "itemVar": "item", "onMismatch": "skipExtra" },
+        "enabled": true,
+        "children": [
+          {
+            "actionType": "setCharacters",
+            "params": { "characters": "{$item}" },
+            "enabled": true
+          }
+        ]
+      },
+      {
+        "actionType": "count",
+        "params": { "label": "Count" },
+        "enabled": true,
+        "outputName": "count"
+      },
+      {
+        "actionType": "notify",
+        "params": { "message": "{$count} items pasted!" },
+        "enabled": true
+      }
+    ]
+  }
+}
+```
+
+### Key conventions
+
+- `outputName` is auto-generated as a noun based on what the action produces (e.g., `selection`, `filtered`, `input`, `parts`). User can rename. Second occurrences append `-2`, `-3`, etc.
+- `sourceVar` / `source` reference output names without `$` prefix (the system adds `$` for display)
+- `children` array is only used by `repeatWithEach`
+- `enabled: false` skips the step during execution
+- Token expressions use `{curly braces}`. Builder has autocomplete triggered by `{`. Tokens are rendered with colored background pills in the UI.
+- Data-producing actions (`producesData: true`) save to `pipelineVars`, all others save to `savedNodeSets`
+- Storage migration auto-converts old action types (`filterByType`/`filterByName` → `filter`) and old output names on load
+
+---
+
 ## Implementation Phases
 
-### Phase 1 — Core pipeline + basic actions
-- Pipeline engine with context passing
-- Source actions: selection, current page
-- Filter actions: by type, by name
-- Navigate: expand to children, flatten descendants
-- Transform: rename, set fill color, set opacity, set visibility
-- Output: notify, select results, count
-- JSON export/import
-- Basic two-column UI
+### Phase 1 — Skeleton (2026-02-19, done)
+Basic CRUD, 8 actions, flat execution, single-column UI.
 
-### Phase 2 — Extended actions + tool wrappers
-- All remaining filter actions (by variable, by style, by component, by color)
-- All remaining transform actions (text, components, variables, styles, layout)
-- Tool wrapper actions (Print Colors, Library Swap, Replace Usages, etc.)
+### Phase 1.5 — Architecture refactor (2026-02-23, done)
+Context model, expression tokens, property registry, action categories, two-column builder, plugin window resize, run output screen, storage migration.
+
+### Phase 2 — Data primitives, loops, action outputs (2026-02-23, done)
+`askForInput`, `splitText`, `setCharacters`, `repeatWithEach`, `goToParent`, `flattenDescendants`, `restoreNodes`, `resize`, auto layout actions, `wrapInFrame`. ActionResult return type, input bridge, output naming, nested step rendering, TextboxWithSuggestions, Quick Actions.
+
+### Phase 2.5 — UX improvements (2026-02-24, done)
+Auto-generated output names, Input dropdowns with autocomplete, action picker search, `repeatWithEach` syntax help.
+
+### Phase 3 — Extended actions, unified filter, token UI (2026-02-24, done)
+- **Output name audit**: All default output names changed to nouns (e.g., `selection`, `filtered`, `parent`, `input`)
+- **Unified filter**: Replaced `filterByType`/`filterByName` with single `filter` action supporting 12 fields, AND/OR logic, query-builder UI
+- **19 new actions**: `sourceFromAllPages`, `sourceFromPageByName`, `setName`, `setStrokeColor`, `removeFills`, `removeStrokes`, `setVisibility`, `setLocked`, `setRotation`, `removeNode`, `cloneNode`, `setFontSize`, `setFont`, `setTextAlignment`, `setTextCase`, `setTextDecoration`, `setLineHeight`, `detachInstance`, `swapComponent`
+- **Token highlighting**: `{token}` expressions rendered with colored background pills (blue for properties, green for `$vars`, orange for `#snapshots`)
+- **Storage migration**: Auto-converts old filter actions and output names
+
+### Phase 4 — Advanced flow control (planned)
+- Conditions (if/otherwise/end if)
+- Choose from Menu / Choose from List input actions
+- Step notes/descriptions
+- Math expressions, compound actions
+- Tool wrapper actions (Print Colors, Library Swap, Replace Usages)
+- Object-action compatibility checks in builder UI
 - Dry run / preview mode
-
-### Phase 3 — Advanced flow control
-- Conditions (skip step if condition not met)
-- Loops (for-each over current nodes)
-- Keyboard shortcuts / menu commands for saved automations
-- Automation templates (pre-built common workflows)

@@ -40,6 +40,7 @@
 ## Actions and Buttons
 - Prefer one clear primary action per section.
 - Button labels should reflect result count when possible (example: `Export N files`).
+- Never use simple pluralization like "N automation(s)". You have the capability to dynamically add or remove an "s" at the end of a noun based on the number (e.g. "1 automation" vs. "2 automations"). Design your button or message logic to produce correct grammar automatically depending on the count.
 - Disable actions when required input/selection is missing.
 - Keep status and errors visible near the related action.
 
@@ -64,6 +65,12 @@
 - Reuse the shared `State` empty-state component for no-selection/nothing-found states.
 - For No selection state specifically, reuse the same centered `State` pattern (same icon family, tone, and concise guidance text) across tools.
 - Keep wording and interaction patterns consistent (same terms for same actions).
+
+## Preventing Jumping on Hover/Reveal
+- Prevent items in lists, tables, or rows from "jumping" or shifting when hovered or when context/hint/action items appear.
+- If additional interactive (e.g. IconButton) or informative elements become visible on hover, reserve their space when rendering the default (non-hovered) state. 
+- Avoid layouts where row or card heights "hug" their content and then expand on hover to reveal hidden elements, as this creates an unstable/jarring UI. Instead, maintain a consistent height between normal and hover states—use opacity, visibility, or similar approaches instead of toggling height or presence in the layout.
+- Whenever hover reveals more actions (such as quick actions in a row), ensure the non-hover state has an invisible placeholder that matches the size of the revealed item(s). This way, items remain fixed and users are not distracted by content shifting up/down.
 
 ## Progress & Yielding in Figma Plugins
 - For operations that may take more than ~1 second, show incremental progress text in the plugin UI via `figma.ui.postMessage` (e.g., "Checking… 15/200 layers").

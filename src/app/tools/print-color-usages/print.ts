@@ -1,4 +1,5 @@
 import type { PrintColorUsagesUiSettings } from "../../messages"
+import { plural } from "../../utils/pluralize"
 import { applyTypographyToLabel, getThemeColors, loadFontsForLabelTextStyle, resolveMarkupDescriptionTextStyle, resolveMarkupTextFills, verifyFillBinding } from "./markup-kit"
 import { analyzeNodeColors, calculateTextPositionFromRect } from "./analyze"
 import type { ColorUsage } from "./shared"
@@ -180,8 +181,8 @@ export async function printColorUsagesFromSelection(settings: PrintColorUsagesUi
     } catch {
       // ignore
     }
-    const suffix = groupsWithNoColors > 0 ? `; no colors found in ${groupsWithNoColors} selection group(s)` : ""
-    figma.notify(`Created ${textNodes.length} color usage text node(s)${suffix}`)
+    const suffix = groupsWithNoColors > 0 ? `; no colors found in ${plural(groupsWithNoColors, "selection group")}` : ""
+    figma.notify(`Created ${plural(textNodes.length, "color usage text node")}${suffix}`)
   } else {
     figma.notify("No visible solid colors found in selection")
   }

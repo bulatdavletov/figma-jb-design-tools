@@ -10,6 +10,7 @@ import {
   stripTrailingModeSuffix,
 } from "./shared"
 import { savePrintColorUsagesSettings } from "./settings"
+import { plural } from "../../utils/pluralize"
 
 function collectTextNodesRecursivelyFromSelection(selection: readonly SceneNode[]): TextNode[] {
   const result: TextNode[] = []
@@ -441,7 +442,7 @@ export async function updateSelectedTextNodesByVariableId(
 
   const summaryMessage =
     updated > 0
-      ? `Updated ${updated} text layer(s)${unchanged ? `, unchanged ${unchanged}` : ""}${skipped ? `, skipped ${skipped}` : ""}${
+      ? `Updated ${plural(updated, "text layer")}${unchanged ? `, unchanged ${unchanged}` : ""}${skipped ? `, skipped ${skipped}` : ""}${
           hasExplicitTargets ? " (preview selection)" : hasSelection ? "" : " (page scan)"
         }`
       : `No layers were updated${unchanged ? ` (${unchanged} unchanged)` : ""}${skipped ? `, skipped ${skipped}` : ""}${

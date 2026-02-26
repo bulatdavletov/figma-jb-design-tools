@@ -1,0 +1,789 @@
+import type { AutomationContext, ActionHandler } from "../context"
+import { resolveTokens, type TokenScope } from "../tokens"
+import { plural } from "../../../utils/pluralize"
+
+function parseHexColor(raw: string): { r: number; g: number; b: number } | null {
+  const hex = String(raw ?? "#000000").replace(/^#/, "")
+  if (hex.length < 6) return null
+  const r = parseInt(hex.slice(0, 2), 16) / 255
+  const g = parseInt(hex.slice(2, 4), 16) / 255
+  const b = parseInt(hex.slice(4, 6), 16) / 255
+  if (isNaN(r) || isNaN(g) || isNaN(b)) return null
+  return { r, g, b }
+}
+
+export const renameLayers: ActionHandler = async (context, params) => {
+  const find = String(params.find ?? "")
+  const replace = String(params.replace ?? "")
+  if (!find) {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Rename layers",
+      message: "No find pattern specified — skipped",
+      itemsIn: context.nodes.length,
+      itemsOut: context.nodes.length,
+      status: "skipped",
+    })
+    return context
+  }
+
+  let renamed = 0
+  for (let i = 0; i < context.nodes.length; i++) {
+    const node = context.nodes[i]
+    const scope: TokenScope = { node, index: i, context }
+    const resolvedReplace = resolveTokens(replace, scope)
+    if (node.name.includes(find)) {
+      node.name = node.name.split(find).join(resolvedReplace)
+      renamed++
+    }
+  }
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Rename layers",
+    message: `Renamed ${renamed} of ${plural(context.nodes.length, "layer")}`,
+    itemsIn: context.nodes.length,
+    itemsOut: context.nodes.length,
+    status: "success",
+  })
+
+  return context
+}
+
+export const setFillColor: ActionHandler = async (context, params) => {
+  const hex = String(params.hex ?? "#000000").replace(/^#/, "")
+  const rgb = parseHexColor(hex)
+  if (!rgb) {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Set fill color",
+      message: "Invalid hex color",
+      itemsIn: context.nodes.length,
+      itemsOut: context.nodes.length,
+      status: "error",
+      error: "Invalid hex color",
+    })
+    return context
+  }
+  const { r, g, b } = rgb
+
+  let applied = 0
+  for (const node of context.nodes) {
+    if ("fills" in node) {
+      const fillsNode = node as GeometryMixin
+      fillsNode.fills = [{ type: "SOLID", color: { r, g, b } }]
+      applied++
+    }
+  }
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Set fill color",
+    message: `Applied fill #${hex.toUpperCase()} to ${plural(applied, "node")}`,
+    itemsIn: context.nodes.length,
+    itemsOut: context.nodes.length,
+    status: "success",
+  })
+
+  return context
+}
+
+export const setFillVariable: ActionHandler = async (context, params) => {
+  const variableName = String(params.variableName ?? "").trim()
+  if (!variableName) {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Set fill variable",
+      message: "No variable name specified — skipped",
+      itemsIn: context.nodes.length,
+      itemsOut: context.nodes.length,
+      status: "skipped",
+    })
+    return context
+  }
+
+  const variables = await figma.variables.getLocalVariablesAsync("COLOR")
+  const variable = variables.find((v) => v.name === variableName)
+  if (!variable) {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Set fill variable",
+      message: `Variable "${variableName}" not found`,
+      itemsIn: context.nodes.length,
+      itemsOut: context.nodes.length,
+      status: "error",
+      error: `Variable "${variableName}" not found`,
+    })
+    return context
+  }
+
+  let applied = 0
+  for (const node of context.nodes) {
+    if ("fills" in node) {
+      const fillsNode = node as GeometryMixin
+      const solidFill: SolidPaint = { type: "SOLID", color: { r: 0, g: 0, b: 0 } }
+      const fill = figma.variables.setBoundVariableForPaint(solidFill, "color", variable)
+      fillsNode.fills = [fill]
+      applied++
+    }
+  }
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Set fill variable",
+    message: `Bound variable "${variableName}" on ${plural(applied, "node")}`,
+    itemsIn: context.nodes.length,
+    itemsOut: context.nodes.length,
+    status: "success",
+  })
+
+  return context
+}
+
+export const setOpacity: ActionHandler = async (context, params) => {
+  const opacity = Math.max(0, Math.min(100, Number(params.opacity ?? 100)))
+
+  let applied = 0
+  for (const node of context.nodes) {
+    if ("opacity" in node) {
+      ;(node as BlendMixin).opacity = opacity / 100
+      applied++
+    }
+  }
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Set opacity",
+    message: `Set opacity ${opacity}% on ${plural(applied, "node")}`,
+    itemsIn: context.nodes.length,
+    itemsOut: context.nodes.length,
+    status: "success",
+  })
+
+  return context
+}
+
+export const setCharacters: ActionHandler = async (context, params) => {
+  const template = String(params.characters ?? "")
+  if (!template) {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Set text content",
+      message: "No text template specified — skipped",
+      itemsIn: context.nodes.length,
+      itemsOut: context.nodes.length,
+      status: "skipped",
+    })
+    return context
+  }
+
+  let applied = 0
+  for (let i = 0; i < context.nodes.length; i++) {
+    const node = context.nodes[i]
+    if (node.type !== "TEXT") continue
+    const textNode = node as TextNode
+    const scope: TokenScope = { node, index: i, context }
+    const resolved = resolveTokens(template, scope)
+
+    try {
+      await figma.loadFontAsync(textNode.getRangeFontName(0, 1) as FontName)
+      textNode.characters = resolved
+      applied++
+    } catch {
+      // Font load failed — skip this node silently
+    }
+  }
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Set text content",
+    message: `Set text content on ${plural(applied, "node")}`,
+    itemsIn: context.nodes.length,
+    itemsOut: context.nodes.length,
+    status: "success",
+  })
+
+  return context
+}
+
+export const resizeAction: ActionHandler = async (context, params) => {
+  const rawWidth = params.width
+  const rawHeight = params.height
+
+  let applied = 0
+  for (let i = 0; i < context.nodes.length; i++) {
+    const node = context.nodes[i]
+    if (!("resize" in node)) continue
+
+    const scope: TokenScope = { node, index: i, context }
+
+    const widthStr = typeof rawWidth === "string" ? resolveTokens(rawWidth, scope) : String(rawWidth ?? "")
+    const heightStr = typeof rawHeight === "string" ? resolveTokens(rawHeight, scope) : String(rawHeight ?? "")
+
+    const w = widthStr ? Number(widthStr) : NaN
+    const h = heightStr ? Number(heightStr) : NaN
+
+    const finalW = isNaN(w) ? node.width : w
+    const finalH = isNaN(h) ? node.height : h
+
+    if (finalW > 0 && finalH > 0) {
+      ;(node as LayoutMixin).resize(finalW, finalH)
+      applied++
+    }
+  }
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Resize",
+    message: `Resized ${plural(applied, "node")}`,
+    itemsIn: context.nodes.length,
+    itemsOut: context.nodes.length,
+    status: "success",
+  })
+
+  return context
+}
+
+export const wrapInFrame: ActionHandler = async (context, params) => {
+  const autoLayout = String(params.autoLayout ?? "")
+  const validAutoLayouts = ["HORIZONTAL", "VERTICAL", ""]
+
+  if (!validAutoLayouts.includes(autoLayout)) {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Wrap in frame",
+      message: `Invalid auto layout value "${autoLayout}"`,
+      itemsIn: context.nodes.length,
+      itemsOut: context.nodes.length,
+      status: "error",
+      error: `Invalid auto layout value "${autoLayout}"`,
+    })
+    return context
+  }
+
+  const newFrames: SceneNode[] = []
+
+  for (const node of context.nodes) {
+    const parent = node.parent
+    if (!parent || parent.type === "DOCUMENT") continue
+
+    const frame = figma.createFrame()
+    frame.name = node.name
+    frame.x = node.x
+    frame.y = node.y
+    frame.resize(node.width, node.height)
+    frame.fills = []
+
+    const parentWithChildren = parent as ChildrenMixin
+    const index = Array.from(parentWithChildren.children).indexOf(node)
+    parentWithChildren.insertChild(index, frame)
+
+    frame.appendChild(node)
+    node.x = 0
+    node.y = 0
+
+    if (autoLayout === "HORIZONTAL" || autoLayout === "VERTICAL") {
+      frame.layoutMode = autoLayout
+    }
+
+    newFrames.push(frame)
+  }
+
+  context.nodes = newFrames
+
+  const alLabel = autoLayout ? ` with auto layout (${autoLayout})` : ""
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Wrap in frame",
+    message: `Wrapped ${plural(newFrames.length, "node")} in frame${alLabel}`,
+    itemsIn: newFrames.length,
+    itemsOut: newFrames.length,
+    status: "success",
+  })
+
+  return context
+}
+
+function supportsAutoLayout(node: SceneNode): node is FrameNode {
+  return node.type === "FRAME" || node.type === "COMPONENT" || node.type === "COMPONENT_SET"
+}
+
+
+export const wrapAllInFrame: ActionHandler = async (context, params) => {
+  if (context.nodes.length === 0) {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Wrap all in frame",
+      message: "Working set is empty — skipped",
+      itemsIn: 0,
+      itemsOut: 0,
+      status: "skipped",
+    })
+    return context
+  }
+
+  const frameName = String(params.frameName ?? "Group").trim() || "Group"
+  const autoLayout = String(params.autoLayout ?? "VERTICAL")
+  const rawSpacing = String(params.itemSpacing ?? "")
+  const itemSpacing = rawSpacing === "" ? NaN : Number(rawSpacing)
+
+  if (!["", "HORIZONTAL", "VERTICAL"].includes(autoLayout)) {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Wrap all in frame",
+      message: `Invalid auto layout value "${autoLayout}"`,
+      itemsIn: context.nodes.length,
+      itemsOut: context.nodes.length,
+      status: "error",
+      error: `Invalid auto layout value "${autoLayout}"`,
+    })
+    return context
+  }
+
+  const parent = context.nodes[0].parent
+  if (!parent || parent.type === "DOCUMENT" || !("children" in parent)) {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Wrap all in frame",
+      message: "Cannot wrap nodes at document root",
+      itemsIn: context.nodes.length,
+      itemsOut: context.nodes.length,
+      status: "error",
+      error: "Cannot wrap nodes at document root",
+    })
+    return context
+  }
+
+  const parentChildren = Array.from((parent as ChildrenMixin).children)
+  const firstIndex = Math.min(...context.nodes.map((n) => parentChildren.indexOf(n)).filter((i) => i >= 0))
+
+  const frame = figma.createFrame()
+  frame.name = frameName
+  frame.fills = []
+  frame.x = Math.min(...context.nodes.map((n) => n.x))
+  frame.y = Math.min(...context.nodes.map((n) => n.y))
+
+  ;(parent as ChildrenMixin).insertChild(firstIndex >= 0 ? firstIndex : (parent as ChildrenMixin).children.length, frame)
+
+  const sortedNodes = [...context.nodes].sort((a, b) => {
+    if (Math.abs(a.y - b.y) > 0.1) return a.y - b.y
+    return a.x - b.x
+  })
+
+  for (const node of sortedNodes) {
+    frame.appendChild(node)
+  }
+
+  if (autoLayout === "HORIZONTAL" || autoLayout === "VERTICAL") {
+    frame.layoutMode = autoLayout
+    if (!Number.isNaN(itemSpacing)) frame.itemSpacing = itemSpacing
+  }
+
+  context.nodes = [frame]
+
+  const alLabel = autoLayout ? ` with auto layout (${autoLayout})` : ""
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Wrap all in frame",
+    message: `Wrapped ${plural(sortedNodes.length, "node")} into one frame${alLabel}`,
+    itemsIn: sortedNodes.length,
+    itemsOut: 1,
+    status: "success",
+  })
+
+  return context
+}
+
+export const addAutoLayout: ActionHandler = async (context, params) => {
+  const direction = String(params.direction ?? "VERTICAL") as "HORIZONTAL" | "VERTICAL"
+  if (direction !== "HORIZONTAL" && direction !== "VERTICAL") {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Add auto layout",
+      message: `Invalid direction "${direction}"`,
+      itemsIn: context.nodes.length,
+      itemsOut: context.nodes.length,
+      status: "error",
+      error: `Invalid direction "${direction}"`,
+    })
+    return context
+  }
+
+  const rawSpacing = String(params.itemSpacing ?? "")
+  const spacing = rawSpacing ? Number(rawSpacing) : NaN
+
+  let applied = 0
+  for (const node of context.nodes) {
+    if (supportsAutoLayout(node)) {
+      ;(node as FrameNode).layoutMode = direction
+      if (!isNaN(spacing)) (node as FrameNode).itemSpacing = spacing
+      applied++
+    }
+  }
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Add auto layout",
+    message: `Added auto layout (${direction}) on ${plural(applied, "node")}`,
+    itemsIn: context.nodes.length,
+    itemsOut: context.nodes.length,
+    status: "success",
+  })
+
+  return context
+}
+
+export const editAutoLayout: ActionHandler = async (context, params) => {
+  let applied = 0
+
+  for (const node of context.nodes) {
+    if (!supportsAutoLayout(node)) continue
+    const frame = node as FrameNode
+    if (frame.layoutMode === "NONE") continue
+
+    const dir = String(params.direction ?? "")
+    if (dir === "HORIZONTAL" || dir === "VERTICAL") {
+      frame.layoutMode = dir
+    }
+
+    const spacing = String(params.itemSpacing ?? "")
+    if (spacing !== "") {
+      const n = Number(spacing)
+      if (!isNaN(n)) frame.itemSpacing = n
+    }
+
+    const pTop = String(params.paddingTop ?? "")
+    if (pTop !== "") { const n = Number(pTop); if (!isNaN(n)) frame.paddingTop = n }
+
+    const pRight = String(params.paddingRight ?? "")
+    if (pRight !== "") { const n = Number(pRight); if (!isNaN(n)) frame.paddingRight = n }
+
+    const pBottom = String(params.paddingBottom ?? "")
+    if (pBottom !== "") { const n = Number(pBottom); if (!isNaN(n)) frame.paddingBottom = n }
+
+    const pLeft = String(params.paddingLeft ?? "")
+    if (pLeft !== "") { const n = Number(pLeft); if (!isNaN(n)) frame.paddingLeft = n }
+
+    applied++
+  }
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Edit auto layout",
+    message: `Edited auto layout on ${plural(applied, "node")}`,
+    itemsIn: context.nodes.length,
+    itemsOut: context.nodes.length,
+    status: "success",
+  })
+
+  return context
+}
+
+export const removeAutoLayout: ActionHandler = async (context, _params) => {
+  let applied = 0
+  for (const node of context.nodes) {
+    if (supportsAutoLayout(node)) {
+      ;(node as FrameNode).layoutMode = "NONE"
+      applied++
+    }
+  }
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Remove auto layout",
+    message: `Removed auto layout from ${plural(applied, "node")}`,
+    itemsIn: context.nodes.length,
+    itemsOut: context.nodes.length,
+    status: "success",
+  })
+
+  return context
+}
+
+export const setPositionAction: ActionHandler = async (context, params) => {
+  const rawX = params.x
+  const rawY = params.y
+
+  let applied = 0
+  for (let i = 0; i < context.nodes.length; i++) {
+    const node = context.nodes[i]
+
+    const scope: TokenScope = { node, index: i, context }
+
+    const xStr = typeof rawX === "string" ? resolveTokens(rawX, scope) : String(rawX ?? "")
+    const yStr = typeof rawY === "string" ? resolveTokens(rawY, scope) : String(rawY ?? "")
+
+    const xVal = xStr ? Number(xStr) : NaN
+    const yVal = yStr ? Number(yStr) : NaN
+
+    let changed = false
+    if (!isNaN(xVal)) { node.x = xVal; changed = true }
+    if (!isNaN(yVal)) { node.y = yVal; changed = true }
+    if (changed) applied++
+  }
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Set position",
+    message: `Set position on ${plural(applied, "node")}`,
+    itemsIn: context.nodes.length,
+    itemsOut: context.nodes.length,
+    status: "success",
+  })
+
+  return context
+}
+
+export const setStrokeColor: ActionHandler = async (context, params) => {
+  const hex = String(params.hex ?? "#000000").replace(/^#/, "")
+  const rgb = parseHexColor(hex)
+  if (!rgb) {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Set stroke color",
+      message: "Invalid hex color",
+      itemsIn: context.nodes.length,
+      itemsOut: context.nodes.length,
+      status: "error",
+      error: "Invalid hex color",
+    })
+    return context
+  }
+  const { r, g, b } = rgb
+
+  let applied = 0
+  for (const node of context.nodes) {
+    if ("strokes" in node) {
+      const strokeNode = node as GeometryMixin
+      strokeNode.strokes = [{ type: "SOLID", color: { r, g, b } }]
+      applied++
+    }
+  }
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Set stroke color",
+    message: `Applied stroke #${hex.toUpperCase()} to ${plural(applied, "node")}`,
+    itemsIn: context.nodes.length,
+    itemsOut: context.nodes.length,
+    status: "success",
+  })
+
+  return context
+}
+
+export const removeFills: ActionHandler = async (context, _params) => {
+  let applied = 0
+  for (const node of context.nodes) {
+    if ("fills" in node) {
+      ;(node as GeometryMixin).fills = []
+      applied++
+    }
+  }
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Remove fills",
+    message: `Removed fills from ${plural(applied, "node")}`,
+    itemsIn: context.nodes.length,
+    itemsOut: context.nodes.length,
+    status: "success",
+  })
+
+  return context
+}
+
+export const removeStrokes: ActionHandler = async (context, _params) => {
+  let applied = 0
+  for (const node of context.nodes) {
+    if ("strokes" in node) {
+      ;(node as GeometryMixin).strokes = []
+      applied++
+    }
+  }
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Remove strokes",
+    message: `Removed strokes from ${plural(applied, "node")}`,
+    itemsIn: context.nodes.length,
+    itemsOut: context.nodes.length,
+    status: "success",
+  })
+
+  return context
+}
+
+export const setVisibility: ActionHandler = async (context, params) => {
+  const visible = params.visible !== false
+
+  let applied = 0
+  for (const node of context.nodes) {
+    node.visible = visible
+    applied++
+  }
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Set visibility",
+    message: `Set ${visible ? "visible" : "hidden"} on ${plural(applied, "node")}`,
+    itemsIn: context.nodes.length,
+    itemsOut: context.nodes.length,
+    status: "success",
+  })
+
+  return context
+}
+
+export const setLocked: ActionHandler = async (context, params) => {
+  const locked = params.locked !== false
+
+  let applied = 0
+  for (const node of context.nodes) {
+    node.locked = locked
+    applied++
+  }
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Set locked",
+    message: `Set ${locked ? "locked" : "unlocked"} on ${plural(applied, "node")}`,
+    itemsIn: context.nodes.length,
+    itemsOut: context.nodes.length,
+    status: "success",
+  })
+
+  return context
+}
+
+export const setNameAction: ActionHandler = async (context, params) => {
+  const template = String(params.name ?? "")
+  if (!template) {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Set name",
+      message: "No name template specified — skipped",
+      itemsIn: context.nodes.length,
+      itemsOut: context.nodes.length,
+      status: "skipped",
+    })
+    return context
+  }
+
+  let applied = 0
+  for (let i = 0; i < context.nodes.length; i++) {
+    const node = context.nodes[i]
+    const scope: TokenScope = { node, index: i, context }
+    node.name = resolveTokens(template, scope)
+    applied++
+  }
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Set name",
+    message: `Named ${plural(applied, "node")}`,
+    itemsIn: context.nodes.length,
+    itemsOut: context.nodes.length,
+    status: "success",
+  })
+
+  return context
+}
+
+export const setRotation: ActionHandler = async (context, params) => {
+  const rawDegrees = params.degrees
+
+  let applied = 0
+  for (let i = 0; i < context.nodes.length; i++) {
+    const node = context.nodes[i]
+    if (!("rotation" in node)) continue
+
+    const scope: TokenScope = { node, index: i, context }
+    const degStr = typeof rawDegrees === "string" ? resolveTokens(rawDegrees, scope) : String(rawDegrees ?? "0")
+    const deg = Number(degStr)
+    if (isNaN(deg)) continue
+
+    ;(node as LayoutMixin).rotation = deg
+    applied++
+  }
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Set rotation",
+    message: `Set rotation on ${plural(applied, "node")}`,
+    itemsIn: context.nodes.length,
+    itemsOut: context.nodes.length,
+    status: "success",
+  })
+
+  return context
+}
+
+export const removeNodeAction: ActionHandler = async (context, _params) => {
+  const count = context.nodes.length
+  for (const node of context.nodes) {
+    try { node.remove() } catch { /* already removed */ }
+  }
+
+  context.nodes = []
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Remove node",
+    message: `Removed ${plural(count, "node")}`,
+    itemsIn: count,
+    itemsOut: 0,
+    status: "success",
+  })
+
+  return context
+}
+
+export const cloneNodeAction: ActionHandler = async (context, _params) => {
+  const clones: SceneNode[] = []
+  for (const node of context.nodes) {
+    const clone = node.clone()
+    clones.push(clone)
+  }
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Clone node",
+    message: `Cloned ${plural(clones.length, "node")}`,
+    itemsIn: context.nodes.length,
+    itemsOut: clones.length,
+    status: "success",
+  })
+
+  context.nodes = clones
+  return context
+}
+
+export const notifyAction: ActionHandler = async (context, params) => {
+  const rawMessage = String(params.message ?? "").trim()
+  if (!rawMessage) {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Notify",
+      message: "No message specified — skipped",
+      itemsIn: context.nodes.length,
+      itemsOut: context.nodes.length,
+      status: "skipped",
+    })
+    return context
+  }
+
+  const resolvedMessage = resolveTokens(rawMessage, { context })
+  figma.notify(resolvedMessage)
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Notify",
+    message: `Notification: "${resolvedMessage}"`,
+    itemsIn: context.nodes.length,
+    itemsOut: context.nodes.length,
+    status: "success",
+  })
+
+  return context
+}
