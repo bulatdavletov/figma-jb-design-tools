@@ -60,8 +60,7 @@ import {
   collectOutputNames,
 } from "../../tools/automations/types"
 import { PROPERTY_REGISTRY } from "../../tools/automations/properties"
-import { TextboxWithSuggestions, type Suggestion } from "../../components/TextboxWithSuggestions"
-import { TokenInput } from "../../components/TokenInput"
+import { TokenInput, type Suggestion } from "../../components/TokenInput"
 import {
   createNewAutomation,
   automationToExportJson,
@@ -182,6 +181,11 @@ function buildSuggestions(
         category: "Loop item properties",
       })
     }
+    suggestions.push({
+      token: `$${itemVar}.text`,
+      label: "Text content (alias for characters)",
+      category: "Loop item properties",
+    })
 
     // Sibling child step outputs (earlier children within the same repeat)
     const children = parentStep.children ?? []
@@ -615,7 +619,7 @@ function ListScreen(props: {
               <VerticalSpace space="small" />
             </Fragment>
           )}
-          <DataList header={plural(props.automations.length, "automation")}>
+          <DataList>
             {props.automations.map((a) => (
               <AutomationRow
                 key={a.id}
@@ -2394,7 +2398,7 @@ function renderStepParams(
           <VerticalSpace space="small" />
           <Text style={{ fontSize: 11 }}>Replace with</Text>
           <VerticalSpace space="extraSmall" />
-          <TextboxWithSuggestions
+          <TokenInput
             value={String(step.params.replace ?? "")}
             onValueInput={(v: string) => updateParam("replace", v)}
             placeholder="Replacement text... supports {name}, {index}"
@@ -2518,7 +2522,7 @@ function renderStepParams(
           {inputCtxTokens}
           <Text style={{ fontSize: 11 }}>Name template</Text>
           <VerticalSpace space="extraSmall" />
-          <TextboxWithSuggestions
+          <TokenInput
             value={String(step.params.name ?? "")}
             onValueInput={(v: string) => updateParam("name", v)}
             placeholder="e.g. {type}/{name} or Item {index}"
@@ -2533,7 +2537,7 @@ function renderStepParams(
           {inputCtxTokens}
           <Text style={{ fontSize: 11 }}>Degrees</Text>
           <VerticalSpace space="extraSmall" />
-          <TextboxWithSuggestions
+          <TokenInput
             value={String(step.params.degrees ?? "0")}
             onValueInput={(v: string) => updateParam("degrees", v)}
             placeholder="Rotation in degrees..."
@@ -2589,7 +2593,7 @@ function renderStepParams(
           {inputCtxTokens}
           <Text style={{ fontSize: 11 }}>Size (px)</Text>
           <VerticalSpace space="extraSmall" />
-          <TextboxWithSuggestions
+          <TokenInput
             value={String(step.params.size ?? "16")}
             onValueInput={(v: string) => updateParam("size", v)}
             placeholder="Font size in pixels..."
@@ -2729,7 +2733,7 @@ function renderStepParams(
             </Fragment>
           )}
           {!widthIsPreset && (
-            <TextboxWithSuggestions
+            <TokenInput
               value={widthVal}
               onValueInput={(v: string) => updateParam("width", v)}
               placeholder="Leave empty to keep original"
@@ -2750,7 +2754,7 @@ function renderStepParams(
             </Fragment>
           )}
           {!heightIsPreset && (
-            <TextboxWithSuggestions
+            <TokenInput
               value={heightVal}
               onValueInput={(v: string) => updateParam("height", v)}
               placeholder="Leave empty to keep original"
@@ -2784,7 +2788,7 @@ function renderStepParams(
             </Fragment>
           )}
           {!xIsPreset && (
-            <TextboxWithSuggestions
+            <TokenInput
               value={xVal}
               onValueInput={(v: string) => updateParam("x", v)}
               placeholder="Leave empty to keep original"
@@ -2805,7 +2809,7 @@ function renderStepParams(
             </Fragment>
           )}
           {!yIsPreset && (
-            <TextboxWithSuggestions
+            <TokenInput
               value={yVal}
               onValueInput={(v: string) => updateParam("y", v)}
               placeholder="Leave empty to keep original"
@@ -3117,7 +3121,7 @@ function renderStepParams(
           {inputCtxTokens}
           <Text style={{ fontSize: 11 }}>X</Text>
           <VerticalSpace space="extraSmall" />
-          <TextboxWithSuggestions
+          <TokenInput
             value={String(step.params.x ?? "")}
             onValueInput={(v: string) => updateParam("x", v)}
             placeholder="Number or token"
@@ -3139,7 +3143,7 @@ function renderStepParams(
           <VerticalSpace space="small" />
           <Text style={{ fontSize: 11 }}>Y</Text>
           <VerticalSpace space="extraSmall" />
-          <TextboxWithSuggestions
+          <TokenInput
             value={String(step.params.y ?? "")}
             onValueInput={(v: string) => updateParam("y", v)}
             placeholder="Number or token"
@@ -3238,7 +3242,7 @@ function renderStepParams(
           {inputCtxTokens}
           <Text style={{ fontSize: 11 }}>Message</Text>
           <VerticalSpace space="extraSmall" />
-          <TextboxWithSuggestions
+          <TokenInput
             value={String(step.params.message ?? "")}
             onValueInput={(v: string) => updateParam("message", v)}
             placeholder="Supports tokens from previous steps"
@@ -3289,7 +3293,7 @@ function renderStepParams(
           <VerticalSpace space="small" />
           <Text style={{ fontSize: 11 }}>Value</Text>
           <VerticalSpace space="extraSmall" />
-          <TextboxWithSuggestions
+          <TokenInput
             value={String(step.params.value ?? "")}
             onValueInput={(v: string) => updateParam("value", v)}
             placeholder="Supports tokens from previous steps"
