@@ -92,6 +92,15 @@
 - Prefer concise row content over badges/tags -- let the data speak through diffs and structure, not decorative labels.
 - When there is no data to show in a table, do not render an empty table. Instead, display a clear message or empty state in place of the table content (for example: "No items found" or relevant guidance text), using the same patterns as for other empty or no-selection states.
 
+## Colors
+- Never use hardcoded hex colors for UI styling (backgrounds, borders, text colors). Always use Figma's CSS variable tokens (`var(--figma-color-*)`).
+- For semantic states use the matching token family: `--figma-color-text-danger` / `--figma-color-bg-danger-tertiary` / `--figma-color-border-danger` for errors, `--figma-color-text-warning` / `--figma-color-bg-warning-tertiary` / `--figma-color-border-warning` for warnings, `--figma-color-text-success` for success.
+- For brand/accent colors use `--figma-color-text-brand` and `--figma-color-bg-brand-tertiary`.
+- For component-related highlights use `--figma-color-text-component` and `--figma-color-bg-component-tertiary`.
+- When a token might not exist in older Figma versions, provide a fallback: `var(--figma-color-bg-danger-tertiary, var(--figma-color-bg-secondary))`.
+- Hardcoded hex values are only acceptable as user-facing data (e.g. a color picker default `#000000`), never as UI chrome.
+- This ensures the plugin respects Figma's light/dark theme automatically and stays visually consistent with the host app.
+
 ## Quality Gate
 - After UI changes, always run `npm run build`.
 - Fix lint/type issues before finalizing.
