@@ -49,7 +49,7 @@
     "menuLabel": "Automations",
     "cardTitle": "Automations",
     "main": "src/automations-tool/main.ts",
-    "description": "Automate your workflow",
+    "description": "Build and run step-based automations",
     "category": "General",
     "icon": "IconPrototype16",
     "needsSelection": true

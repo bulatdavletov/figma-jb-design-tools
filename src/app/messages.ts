@@ -188,7 +188,7 @@ export type UiToMainMessage =
   | { type: typeof UI_TO_MAIN.AUTOMATIONS_SAVE; automation: AutomationPayload }
   | { type: typeof UI_TO_MAIN.AUTOMATIONS_DELETE; automationId: string }
   | { type: typeof UI_TO_MAIN.AUTOMATIONS_DUPLICATE; automationId: string }
-  | { type: typeof UI_TO_MAIN.AUTOMATIONS_RUN; automationId: string }
+  | { type: typeof UI_TO_MAIN.AUTOMATIONS_RUN; automationId: string; runToStepIndex?: number }
   | { type: typeof UI_TO_MAIN.AUTOMATIONS_STOP }
   | { type: typeof UI_TO_MAIN.AUTOMATIONS_INPUT_RESPONSE; value: string; cancelled?: boolean }
 
@@ -1107,6 +1107,20 @@ export type AutomationsStepLog = {
   error?: string
 }
 
+export type StepOutputPreviewPayload = {
+  stepId: string
+  stepIndex: number
+  status: "success" | "error" | "skipped"
+  nodesAfter: number
+  nodeSample: { id: string; name: string; type: string }[]
+  dataOutput?: string | number | boolean | (string | number | boolean)[]
+  pipelineVarsSnapshot: Record<string, string>
+  savedNodeSetsCount: Record<string, number>
+  durationMs: number
+  message?: string
+  error?: string
+}
+
 export type AutomationsRunResult = {
   success: boolean
   message: string
@@ -1114,6 +1128,7 @@ export type AutomationsRunResult = {
   totalSteps: number
   errors: string[]
   log: AutomationsStepLog[]
+  stepOutputs?: StepOutputPreviewPayload[]
 }
 
 export type AutomationsInputRequest = {

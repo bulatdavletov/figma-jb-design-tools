@@ -88,6 +88,8 @@ export interface AutomationExportFormat {
   }
 }
 
+export type ValueKind = "nodes" | "text" | "number" | "boolean" | "list"
+
 export interface ActionDefinition {
   type: ActionType
   label: string
@@ -96,6 +98,8 @@ export interface ActionDefinition {
   defaultParams: Record<string, unknown>
   producesData?: boolean
   defaultOutputName?: string
+  outputType?: ValueKind
+  inputType?: ValueKind
 }
 
 export const ACTION_CATEGORIES: { key: ActionCategory; label: string }[] = [
@@ -104,7 +108,7 @@ export const ACTION_CATEGORIES: { key: ActionCategory; label: string }[] = [
   { key: "navigate", label: "Navigate" },
   { key: "transform", label: "Transform" },
   { key: "input", label: "Input" },
-  { key: "variables", label: "Pipeline Variables" },
+  { key: "variables", label: "Variables" },
   { key: "flow", label: "Flow" },
   { key: "output", label: "Output" },
 ]
@@ -118,6 +122,7 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "source",
     defaultParams: {},
     defaultOutputName: "selection",
+    outputType: "nodes",
   },
   {
     type: "sourceFromPage",
@@ -126,6 +131,7 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "source",
     defaultParams: {},
     defaultOutputName: "page",
+    outputType: "nodes",
   },
   {
     type: "sourceFromAllPages",
@@ -134,6 +140,7 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "source",
     defaultParams: {},
     defaultOutputName: "allPages",
+    outputType: "nodes",
   },
   {
     type: "sourceFromPageByName",
@@ -142,6 +149,7 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "source",
     defaultParams: { pageName: "" },
     defaultOutputName: "namedPage",
+    outputType: "nodes",
   },
 
   // Filter
@@ -152,6 +160,8 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "filter",
     defaultParams: { logic: "and", conditions: [{ field: "type", operator: "equals", value: "TEXT" }] },
     defaultOutputName: "filtered",
+    inputType: "nodes",
+    outputType: "nodes",
   },
 
   // Navigate
@@ -162,6 +172,8 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "navigate",
     defaultParams: {},
     defaultOutputName: "children",
+    inputType: "nodes",
+    outputType: "nodes",
   },
   {
     type: "goToParent",
@@ -170,6 +182,8 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "navigate",
     defaultParams: {},
     defaultOutputName: "parent",
+    inputType: "nodes",
+    outputType: "nodes",
   },
   {
     type: "flattenDescendants",
@@ -178,6 +192,8 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "navigate",
     defaultParams: {},
     defaultOutputName: "descendants",
+    inputType: "nodes",
+    outputType: "nodes",
   },
   {
     type: "restoreNodes",
@@ -186,6 +202,7 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "navigate",
     defaultParams: { snapshotName: "" },
     defaultOutputName: "restored",
+    outputType: "nodes",
   },
 
   // Transform — Properties
@@ -196,6 +213,8 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "transform",
     defaultParams: { find: "", replace: "" },
     defaultOutputName: "renamed",
+    inputType: "nodes",
+    outputType: "nodes",
   },
   {
     type: "setName",
@@ -204,6 +223,8 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "transform",
     defaultParams: { name: "" },
     defaultOutputName: "named",
+    inputType: "nodes",
+    outputType: "nodes",
   },
   {
     type: "setFillColor",
@@ -212,6 +233,8 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "transform",
     defaultParams: { hex: "#000000" },
     defaultOutputName: "filled",
+    inputType: "nodes",
+    outputType: "nodes",
   },
   {
     type: "setFillVariable",
@@ -220,6 +243,8 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "transform",
     defaultParams: { variableName: "" },
     defaultOutputName: "filled",
+    inputType: "nodes",
+    outputType: "nodes",
   },
   {
     type: "setStrokeColor",
@@ -228,6 +253,8 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "transform",
     defaultParams: { hex: "#000000" },
     defaultOutputName: "stroked",
+    inputType: "nodes",
+    outputType: "nodes",
   },
   {
     type: "removeFills",
@@ -236,6 +263,8 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "transform",
     defaultParams: {},
     defaultOutputName: "nodes",
+    inputType: "nodes",
+    outputType: "nodes",
   },
   {
     type: "removeStrokes",
@@ -244,6 +273,8 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "transform",
     defaultParams: {},
     defaultOutputName: "nodes",
+    inputType: "nodes",
+    outputType: "nodes",
   },
   {
     type: "setOpacity",
@@ -252,6 +283,8 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "transform",
     defaultParams: { opacity: 100 },
     defaultOutputName: "nodes",
+    inputType: "nodes",
+    outputType: "nodes",
   },
   {
     type: "setVisibility",
@@ -260,6 +293,8 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "transform",
     defaultParams: { visible: true },
     defaultOutputName: "nodes",
+    inputType: "nodes",
+    outputType: "nodes",
   },
   {
     type: "setLocked",
@@ -268,6 +303,8 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "transform",
     defaultParams: { locked: true },
     defaultOutputName: "nodes",
+    inputType: "nodes",
+    outputType: "nodes",
   },
   {
     type: "setRotation",
@@ -276,6 +313,8 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "transform",
     defaultParams: { degrees: "0" },
     defaultOutputName: "rotated",
+    inputType: "nodes",
+    outputType: "nodes",
   },
   {
     type: "removeNode",
@@ -284,6 +323,8 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "transform",
     defaultParams: {},
     defaultOutputName: "removed",
+    inputType: "nodes",
+    outputType: "nodes",
   },
   {
     type: "cloneNode",
@@ -292,6 +333,8 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "transform",
     defaultParams: {},
     defaultOutputName: "clones",
+    inputType: "nodes",
+    outputType: "nodes",
   },
   {
     type: "setCharacters",
@@ -300,6 +343,8 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "transform",
     defaultParams: { characters: "" },
     defaultOutputName: "texts",
+    inputType: "nodes",
+    outputType: "nodes",
   },
   {
     type: "setFontSize",
@@ -308,6 +353,8 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "transform",
     defaultParams: { size: "16" },
     defaultOutputName: "texts",
+    inputType: "nodes",
+    outputType: "nodes",
   },
   {
     type: "setFont",
@@ -316,6 +363,8 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "transform",
     defaultParams: { family: "Inter", style: "Regular" },
     defaultOutputName: "texts",
+    inputType: "nodes",
+    outputType: "nodes",
   },
   {
     type: "setTextAlignment",
@@ -324,6 +373,8 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "transform",
     defaultParams: { align: "LEFT" },
     defaultOutputName: "texts",
+    inputType: "nodes",
+    outputType: "nodes",
   },
   {
     type: "setTextCase",
@@ -332,6 +383,8 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "transform",
     defaultParams: { textCase: "ORIGINAL" },
     defaultOutputName: "texts",
+    inputType: "nodes",
+    outputType: "nodes",
   },
   {
     type: "setTextDecoration",
@@ -340,6 +393,8 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "transform",
     defaultParams: { decoration: "NONE" },
     defaultOutputName: "texts",
+    inputType: "nodes",
+    outputType: "nodes",
   },
   {
     type: "setLineHeight",
@@ -348,6 +403,8 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "transform",
     defaultParams: { value: "", unit: "AUTO" },
     defaultOutputName: "texts",
+    inputType: "nodes",
+    outputType: "nodes",
   },
   {
     type: "resize",
@@ -356,6 +413,8 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "transform",
     defaultParams: { width: "", height: "" },
     defaultOutputName: "resized",
+    inputType: "nodes",
+    outputType: "nodes",
   },
   {
     type: "wrapInFrame",
@@ -364,6 +423,8 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "transform",
     defaultParams: { autoLayout: "" },
     defaultOutputName: "frames",
+    inputType: "nodes",
+    outputType: "nodes",
   },
   {
     type: "wrapAllInFrame",
@@ -372,6 +433,8 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "transform",
     defaultParams: { frameName: "Group", autoLayout: "VERTICAL", itemSpacing: "" },
     defaultOutputName: "frame",
+    inputType: "nodes",
+    outputType: "nodes",
   },
   {
     type: "addAutoLayout",
@@ -380,6 +443,8 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "transform",
     defaultParams: { direction: "VERTICAL", itemSpacing: "" },
     defaultOutputName: "layouts",
+    inputType: "nodes",
+    outputType: "nodes",
   },
   {
     type: "editAutoLayout",
@@ -388,6 +453,8 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "transform",
     defaultParams: { direction: "", itemSpacing: "", paddingTop: "", paddingRight: "", paddingBottom: "", paddingLeft: "" },
     defaultOutputName: "layouts",
+    inputType: "nodes",
+    outputType: "nodes",
   },
   {
     type: "removeAutoLayout",
@@ -396,6 +463,8 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "transform",
     defaultParams: {},
     defaultOutputName: "nodes",
+    inputType: "nodes",
+    outputType: "nodes",
   },
   {
     type: "detachInstance",
@@ -404,6 +473,8 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "transform",
     defaultParams: {},
     defaultOutputName: "detached",
+    inputType: "nodes",
+    outputType: "nodes",
   },
   {
     type: "swapComponent",
@@ -412,6 +483,8 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "transform",
     defaultParams: { componentName: "" },
     defaultOutputName: "swapped",
+    inputType: "nodes",
+    outputType: "nodes",
   },
   {
     type: "pasteComponentById",
@@ -420,6 +493,8 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "transform",
     defaultParams: { componentId: "", x: "", y: "" },
     defaultOutputName: "instances",
+    inputType: "nodes",
+    outputType: "nodes",
   },
   {
     type: "setPosition",
@@ -428,20 +503,23 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "transform",
     defaultParams: { x: "", y: "" },
     defaultOutputName: "positioned",
+    inputType: "nodes",
+    outputType: "nodes",
   },
 
   // Input
   {
     type: "askForInput",
     label: "Ask for input",
-    description: "Pause and ask the user to enter text. Output saved as pipeline variable",
+    description: "Pause and ask the user to enter text. Output saved as a variable",
     category: "input",
     defaultParams: { label: "Enter text", placeholder: "", inputType: "text", defaultValue: "" },
     producesData: true,
     defaultOutputName: "input",
+    outputType: "text",
   },
 
-  // Pipeline Variables
+  // Variables
   {
     type: "setPipelineVariable",
     label: "Set variable",
@@ -449,6 +527,7 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "variables",
     defaultParams: { variableName: "", value: "" },
     defaultOutputName: "variable",
+    outputType: "text",
   },
   {
     type: "setPipelineVariableFromProperty",
@@ -457,15 +536,19 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "variables",
     defaultParams: { variableName: "", property: "name" },
     defaultOutputName: "property",
+    inputType: "nodes",
+    outputType: "text",
   },
   {
     type: "splitText",
     label: "Split text",
-    description: "Split a pipeline variable string by delimiter into a list",
+    description: "Split a variable string by delimiter into a list",
     category: "variables",
     defaultParams: { sourceVar: "", delimiter: "\\n" },
     producesData: true,
     defaultOutputName: "parts",
+    inputType: "text",
+    outputType: "list",
   },
   {
     type: "math",
@@ -475,6 +558,7 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     defaultParams: { x: "", operation: "add", y: "" },
     producesData: true,
     defaultOutputName: "result",
+    outputType: "number",
   },
 
   // Flow
@@ -484,6 +568,7 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     description: "Loop over a list variable or working set nodes, running child steps for each item",
     category: "flow",
     defaultParams: { source: "nodes", itemVar: "item", onMismatch: "error", resultMode: "originalNodes" },
+    outputType: "nodes",
   },
 
   // Output
@@ -494,6 +579,7 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "output",
     defaultParams: { message: "" },
     defaultOutputName: "notification",
+    inputType: "nodes",
   },
   {
     type: "selectResults",
@@ -502,6 +588,8 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "output",
     defaultParams: { scrollTo: true },
     defaultOutputName: "selected",
+    inputType: "nodes",
+    outputType: "nodes",
   },
   {
     type: "log",
@@ -510,6 +598,7 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "output",
     defaultParams: { message: "" },
     defaultOutputName: "log",
+    inputType: "nodes",
   },
   {
     type: "count",
@@ -519,6 +608,8 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     defaultParams: { label: "Count" },
     producesData: true,
     defaultOutputName: "count",
+    inputType: "nodes",
+    outputType: "number",
   },
 ]
 
@@ -530,6 +621,36 @@ export function getActionDefinition(type: ActionType): ActionDefinition | undefi
 
 export function getActionsByCategory(category: ActionCategory): ActionDefinition[] {
   return ACTION_DEFINITIONS.filter((d) => d.category === category)
+}
+
+export function getValueKindLabel(kind: ValueKind): string {
+  switch (kind) {
+    case "nodes": return "Nodes"
+    case "text": return "Text"
+    case "number": return "Number"
+    case "boolean": return "Boolean"
+    case "list": return "List"
+  }
+}
+
+export function getValueKindColor(kind: ValueKind): string {
+  switch (kind) {
+    case "nodes": return "var(--figma-color-text-component)"
+    case "text": return "var(--figma-color-text-brand)"
+    case "number": return "var(--figma-color-text-warning)"
+    case "boolean": return "var(--figma-color-text-success)"
+    case "list": return "var(--figma-color-text-brand-secondary, var(--figma-color-text-brand))"
+  }
+}
+
+export function getValueKindBgColor(kind: ValueKind): string {
+  switch (kind) {
+    case "nodes": return "var(--figma-color-bg-component-tertiary, var(--figma-color-bg-secondary))"
+    case "text": return "var(--figma-color-bg-brand-tertiary, var(--figma-color-bg-secondary))"
+    case "number": return "var(--figma-color-bg-warning-tertiary, var(--figma-color-bg-secondary))"
+    case "boolean": return "var(--figma-color-bg-success-tertiary, var(--figma-color-bg-secondary))"
+    case "list": return "var(--figma-color-bg-brand-tertiary, var(--figma-color-bg-secondary))"
+  }
 }
 
 export function actionProducesData(actionType: ActionType): boolean {
@@ -568,6 +689,68 @@ export function generateStepId(): string {
 
 export function generateAutomationId(): string {
   return `auto_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`
+}
+
+export interface StepValidation {
+  type: "warning" | "error"
+  message: string
+}
+
+export function validateStep(
+  step: { actionType: string; params: Record<string, unknown>; target?: string },
+  stepIndex: number,
+  allSteps: { actionType: string; params: Record<string, unknown>; outputName?: string; target?: string }[],
+): StepValidation[] {
+  const issues: StepValidation[] = []
+  const def = getActionDefinition(step.actionType as ActionType)
+  if (!def) return issues
+
+  if (def.inputType === "nodes" && stepIndex > 0 && !step.target) {
+    const prevStep = allSteps[stepIndex - 1]
+    if (prevStep) {
+      const prevDef = getActionDefinition(prevStep.actionType as ActionType)
+      if (prevDef?.outputType && prevDef.outputType !== "nodes") {
+        issues.push({
+          type: "warning",
+          message: `Expects nodes but previous step outputs ${getValueKindLabel(prevDef.outputType).toLowerCase()}`,
+        })
+      }
+    }
+  }
+
+  if (step.actionType === "splitText") {
+    const sourceVar = String(step.params.sourceVar ?? "")
+    if (sourceVar) {
+      const sourceStep = allSteps.find((s) => s.outputName === sourceVar)
+      if (sourceStep) {
+        const sourceDef = getActionDefinition(sourceStep.actionType as ActionType)
+        if (sourceDef?.outputType && sourceDef.outputType !== "text" && sourceDef.outputType !== "number") {
+          issues.push({
+            type: "warning",
+            message: `Split text expects a text variable, but "${sourceVar}" is ${getValueKindLabel(sourceDef.outputType).toLowerCase()}`,
+          })
+        }
+      }
+    }
+  }
+
+  if (step.actionType === "repeatWithEach") {
+    const source = String(step.params.source ?? "nodes")
+    if (source !== "nodes") {
+      const sourceStep = allSteps.find((s) => s.outputName === source)
+      if (sourceStep) {
+        const sourceDef = getActionDefinition(sourceStep.actionType as ActionType)
+        if (sourceDef?.outputType && sourceDef.outputType !== "list") {
+          issues.push({
+            type: "warning",
+            message: `Repeat expects a list, but "${source}" is ${getValueKindLabel(sourceDef.outputType).toLowerCase()}`,
+          })
+        }
+      }
+    }
+  }
+
+  return issues
 }
 
 // ============================================================================

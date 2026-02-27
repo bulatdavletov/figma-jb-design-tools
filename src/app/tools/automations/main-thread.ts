@@ -27,7 +27,7 @@ export function registerAutomationsTool(getActiveTool: () => ActiveTool) {
     })
   }
 
-  const runAutomationById = async (automationId: string) => {
+  const runAutomationById = async (automationId: string, runToStepIndex?: number) => {
     const automation = await getAutomation(automationId)
     if (!automation) {
       figma.ui.postMessage({
@@ -37,15 +37,19 @@ export function registerAutomationsTool(getActiveTool: () => ActiveTool) {
           message: "Automation not found",
           stepsCompleted: 0,
           totalSteps: 0,
-          errors: ["Automation not found"],
+          errors: ["Workflow not found"],
           log: [],
         },
       })
       return
     }
 
-    const context = await executeAutomation(automation)
+    const options = runToStepIndex !== undefined ? { maxStepIndex: runToStepIndex } : undefined
+    const context = await executeAutomation(automation, options)
     const enabledSteps = automation.steps.filter((s) => s.enabled)
+    const totalSteps = runToStepIndex !== undefined
+      ? Math.min(runToStepIndex + 1, enabledSteps.length)
+      : enabledSteps.length
     const errors = context.log.filter((e) => e.status === "error").map((e) => e.message)
     const stepsCompleted = context.log.filter((e) => e.status === "success").length
     const success = errors.length === 0
@@ -58,9 +62,22 @@ export function registerAutomationsTool(getActiveTool: () => ActiveTool) {
           ? `Completed ${plural(stepsCompleted, "step")} successfully`
           : `Completed with ${plural(errors.length, "error")}`,
         stepsCompleted,
-        totalSteps: enabledSteps.length,
+        totalSteps,
         errors,
         log: context.log,
+        stepOutputs: context.stepOutputs.map((so) => ({
+          stepId: so.stepId,
+          stepIndex: so.stepIndex,
+          status: so.status,
+          nodesAfter: so.nodesAfter,
+          nodeSample: so.nodeSample,
+          dataOutput: so.dataOutput,
+          pipelineVarsSnapshot: so.pipelineVarsSnapshot,
+          savedNodeSetsCount: so.savedNodeSetsCount,
+          durationMs: so.durationMs,
+          message: so.message,
+          error: so.error,
+        })),
       },
     })
 
@@ -111,7 +128,7 @@ export function registerAutomationsTool(getActiveTool: () => ActiveTool) {
       }
 
       if (msg.type === UI_TO_MAIN.AUTOMATIONS_RUN) {
-        await runAutomationById(msg.automationId)
+        await runAutomationById(msg.automationId, msg.runToStepIndex)
         return true
       }
 
