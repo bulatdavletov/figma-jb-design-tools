@@ -19,6 +19,7 @@ import { ToolTabs } from "../../components/ToolTabs"
 import { PrintTab } from "./PrintTab"
 import { SettingsTab } from "./SettingsTab"
 import { UpdateTab } from "./UpdateTab"
+import { plural } from "../../utils/pluralize"
 
 const DEFAULT_SETTINGS: PrintColorUsagesUiSettings = {
   textPosition: "right",
@@ -124,11 +125,18 @@ export function PrintColorUsagesToolView(props: { onBack: () => void; initialTab
   const toolBodyMode = activeTab === "Print" && printTabShowsState ? "state" : "content"
 
   const applyLabel = useMemo(() => {
+    const selectedCount = selectedPreviewNodeIds.length
+    const targetLabel = plural(selectedCount, "change")
     const s = preview?.scope ?? scope
-    if (s === "selection") return "Apply in Selection"
-    if (s === "all_pages") return "Apply on All Pages"
-    return "Apply on Page"
-  }, [scope, preview])
+    if (s === "selection") return `Apply ${targetLabel} in Selection`
+    if (s === "all_pages") return `Apply ${targetLabel} on All Pages`
+    return `Apply ${targetLabel} on Page`
+  }, [scope, preview, selectedPreviewNodeIds])
+
+  const printLabel = useMemo(() => {
+    const colorCount = printPreview?.entries.length ?? 0
+    return `Print ${plural(colorCount, "color")}`
+  }, [printPreview])
 
   return (
     <Page>
@@ -192,7 +200,7 @@ export function PrintColorUsagesToolView(props: { onBack: () => void; initialTab
                     parent.postMessage({ pluginMessage: { type: UI_TO_MAIN.PRINT_COLOR_USAGES_PRINT, settings } }, "*")
                   }
                 >
-                  Print
+                  {printLabel}
                 </Button>
               ) : preview ? (
                 <Button
