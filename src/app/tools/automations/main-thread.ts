@@ -34,7 +34,7 @@ export function registerAutomationsTool(getActiveTool: () => ActiveTool) {
         type: MAIN_TO_UI.AUTOMATIONS_RUN_RESULT,
         result: {
           success: false,
-          message: "Workflow not found",
+          message: "Automation not found",
           stepsCompleted: 0,
           totalSteps: 0,
           errors: ["Workflow not found"],

@@ -45,11 +45,11 @@
   },
   {
     "id": "automations-tool",
-    "title": "Workflows",
-    "menuLabel": "Workflows",
-    "cardTitle": "Workflows",
+    "title": "Automations",
+    "menuLabel": "Automations",
+    "cardTitle": "Automations",
     "main": "src/automations-tool/main.ts",
-    "description": "Build and run step-based workflows",
+    "description": "Build and run step-based automations",
     "category": "General",
     "icon": "IconPrototype16",
     "needsSelection": true
