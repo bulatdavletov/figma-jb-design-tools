@@ -1,7 +1,7 @@
 import type { Automation, AutomationStep, ActionType } from "./types"
 import { getActionDefinition, actionProducesData } from "./types"
-import type { AutomationContext, ActionHandler, PipelineValue, PipelineListValue } from "./context"
-import { createInitialContext, isActionResult } from "./context"
+import type { AutomationContext, ActionHandler, PipelineValue, PipelineListValue, StepOutputPreview } from "./context"
+import { createInitialContext, isActionResult, captureNodeSample, serializePipelineVars, savedNodeSetsCounts } from "./context"
 import { expandToChildren, goToParent, flattenDescendants } from "./actions/selection-actions"
 import {
   renameLayers, setFillColor, setFillVariable, setOpacity, setCharacters,
@@ -83,13 +83,36 @@ export function requestStop() {
   stopRequested = true
 }
 
+export interface ExecuteOptions {
+  maxStepIndex?: number
+}
+
 export async function executeAutomation(
   automation: Automation,
+  options?: ExecuteOptions,
 ): Promise<AutomationContext> {
   stopRequested = false
   const context = createInitialContext()
 
-  const enabledSteps = automation.steps.filter((s) => s.enabled)
+  let enabledSteps = automation.steps.filter((s) => s.enabled)
+
+  if (options?.maxStepIndex !== undefined) {
+    const maxIdx = options.maxStepIndex
+    const allSteps = automation.steps
+    let enabledCount = 0
+    let cutoff = allSteps.length
+    for (let i = 0; i < allSteps.length; i++) {
+      if (allSteps[i].enabled) {
+        if (enabledCount > maxIdx) {
+          cutoff = i
+          break
+        }
+        enabledCount++
+      }
+    }
+    enabledSteps = allSteps.slice(0, cutoff).filter((s) => s.enabled)
+  }
+
   if (enabledSteps.length === 0) {
     context.log.push({
       stepIndex: 0,
@@ -151,8 +174,11 @@ async function executeSteps(
 
     await new Promise((resolve) => setTimeout(resolve, 0))
 
+    const stepStart = Date.now()
+
     if (step.actionType === "repeatWithEach") {
       await executeRepeatWithEach(step, context, automationName, stepIndex)
+      captureStepPreview(context, step, stepIndex, stepStart, undefined)
       continue
     }
 
@@ -167,6 +193,7 @@ async function executeSteps(
         status: "error",
         error: `Unknown action type "${step.actionType}"`,
       })
+      captureStepPreview(context, step, stepIndex, stepStart, undefined, `Unknown action type "${step.actionType}"`)
       continue
     }
 
@@ -194,6 +221,8 @@ async function executeSteps(
       if (step.outputName) {
         saveStepOutput(context, step, dataOutput)
       }
+
+      captureStepPreview(context, step, stepIndex, stepStart, dataOutput)
     } catch (e) {
       if (e instanceof InputCancelledError) {
         context.log.push({
@@ -204,6 +233,7 @@ async function executeSteps(
           itemsOut: context.nodes.length,
           status: "skipped",
         })
+        captureStepPreview(context, step, stepIndex, stepStart, undefined)
         stopRequested = true
         break
       }
@@ -217,10 +247,45 @@ async function executeSteps(
         status: "error",
         error: errorMsg,
       })
+      captureStepPreview(context, step, stepIndex, stepStart, undefined, errorMsg)
     }
 
     await new Promise((resolve) => setTimeout(resolve, 0))
   }
+}
+
+function captureStepPreview(
+  context: AutomationContext,
+  step: AutomationStep,
+  stepIndex: number,
+  startTime: number,
+  dataOutput?: PipelineValue | PipelineListValue,
+  error?: string,
+): void {
+  let lastLog: import("./context").StepLogEntry | undefined
+  for (let i = context.log.length - 1; i >= 0; i--) {
+    if (context.log[i].stepIndex === stepIndex) { lastLog = context.log[i]; break }
+  }
+  const status = error ? "error" : lastLog?.status ?? "success"
+
+  const preview: StepOutputPreview = {
+    stepId: step.id,
+    stepIndex,
+    status: status as "success" | "error" | "skipped",
+    nodesAfter: context.nodes.length,
+    nodeSample: captureNodeSample(context.nodes),
+    pipelineVarsSnapshot: serializePipelineVars(context.pipelineVars),
+    savedNodeSetsCount: savedNodeSetsCounts(context.savedNodeSets),
+    durationMs: Date.now() - startTime,
+    message: lastLog?.message,
+    error,
+  }
+
+  if (dataOutput !== undefined) {
+    preview.dataOutput = dataOutput
+  }
+
+  context.stepOutputs.push(preview)
 }
 
 function saveStepOutput(
