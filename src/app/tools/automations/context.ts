@@ -8,6 +8,26 @@ export interface StepLogEntry {
   error?: string
 }
 
+export interface NodePreview {
+  id: string
+  name: string
+  type: string
+}
+
+export interface StepOutputPreview {
+  stepId: string
+  stepIndex: number
+  status: "success" | "error" | "skipped"
+  nodesAfter: number
+  nodeSample: NodePreview[]
+  dataOutput?: PipelineValue | PipelineListValue
+  pipelineVarsSnapshot: Record<string, string>
+  savedNodeSetsCount: Record<string, number>
+  durationMs: number
+  message?: string
+  error?: string
+}
+
 export type PipelineValue = string | number | boolean
 export type PipelineListValue = PipelineValue[]
 
@@ -18,6 +38,7 @@ export interface AutomationContext {
   log: StepLogEntry[]
   pipelineVars: Record<string, PipelineValue | PipelineListValue>
   savedNodeSets: Record<string, SceneNode[]>
+  stepOutputs: StepOutputPreview[]
   /** Inside repeat: variable name (e.g. "item") for {$item.property} token resolution. */
   repeatItemVar?: string
   /** Inside repeat nodes mode: reference to the current iteration's node. */
@@ -46,7 +67,42 @@ export function createInitialContext(): AutomationContext {
     log: [],
     pipelineVars: {},
     savedNodeSets: {},
+    stepOutputs: [],
   }
+}
+
+const NODE_SAMPLE_LIMIT = 20
+
+export function captureNodeSample(nodes: SceneNode[]): NodePreview[] {
+  return nodes.slice(0, NODE_SAMPLE_LIMIT).map((n) => ({
+    id: n.id,
+    name: n.name,
+    type: n.type,
+  }))
+}
+
+export function serializePipelineVars(
+  vars: Record<string, PipelineValue | PipelineListValue>,
+): Record<string, string> {
+  const out: Record<string, string> = {}
+  for (const [key, value] of Object.entries(vars)) {
+    if (Array.isArray(value)) {
+      out[key] = `[${value.length} items]`
+    } else {
+      out[key] = String(value)
+    }
+  }
+  return out
+}
+
+export function savedNodeSetsCounts(
+  sets: Record<string, SceneNode[]>,
+): Record<string, number> {
+  const out: Record<string, number> = {}
+  for (const [key, nodes] of Object.entries(sets)) {
+    out[key] = nodes.length
+  }
+  return out
 }
 
 export function cloneContext(ctx: AutomationContext): AutomationContext {
@@ -67,6 +123,7 @@ export function cloneContext(ctx: AutomationContext): AutomationContext {
     log: [...ctx.log],
     pipelineVars: clonedVars,
     savedNodeSets: clonedSets,
+    stepOutputs: [...ctx.stepOutputs],
     repeatItemVar: ctx.repeatItemVar,
     repeatItemNode: ctx.repeatItemNode,
   }
