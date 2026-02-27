@@ -494,7 +494,7 @@ function ListScreen(props: {
   return (
     <Page>
       <ToolHeader
-        title="Automations"
+        title="Workflows"
         left={
           <IconButton onClick={props.onBack}>
             <IconHome16 />
@@ -504,7 +504,7 @@ function ListScreen(props: {
       {props.automations.length === 0 ? (
         <ToolBody mode="state">
           <State
-            title="No automations yet"
+            title="No workflows yet"
           />
         </ToolBody>
       ) : (
@@ -566,7 +566,7 @@ function ListScreen(props: {
           fullWidth
           onClick={props.onCreateNew}
         >
-          New automation
+          New workflow
         </Button>
         <FileUploadButton
           acceptedFileTypes={["application/json", ".json"]}
@@ -1115,7 +1115,7 @@ function BuilderScreen(props: {
   return (
     <Page>
       <ToolHeader
-        title="Edit Automation"
+        title="Edit Workflow"
         left={
           <IconButton onClick={props.onBack}>
             <IconChevronLeft16
@@ -1141,7 +1141,7 @@ function BuilderScreen(props: {
             <Textbox
               value={automation.name}
               onValueInput={(value: string) => onChange({ ...automation, name: value })}
-              placeholder="Automation name"
+              placeholder="Workflow name"
             />
           </div>
 

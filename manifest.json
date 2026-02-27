@@ -29,7 +29,7 @@
       "command": "src/mockup-markup-tool/main.ts--default"
     },
     {
-      "name": "Automations",
+      "name": "Workflows",
       "command": "src/automations-tool/main.ts--default"
     },
     {

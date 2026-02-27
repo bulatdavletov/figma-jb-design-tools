@@ -104,7 +104,7 @@ export const ACTION_CATEGORIES: { key: ActionCategory; label: string }[] = [
   { key: "navigate", label: "Navigate" },
   { key: "transform", label: "Transform" },
   { key: "input", label: "Input" },
-  { key: "variables", label: "Pipeline Variables" },
+  { key: "variables", label: "Variables" },
   { key: "flow", label: "Flow" },
   { key: "output", label: "Output" },
 ]
@@ -434,7 +434,7 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
   {
     type: "askForInput",
     label: "Ask for input",
-    description: "Pause and ask the user to enter text. Output saved as pipeline variable",
+    description: "Pause and ask the user to enter text. Output saved as a variable",
     category: "input",
     defaultParams: { label: "Enter text", placeholder: "", inputType: "text", defaultValue: "" },
     producesData: true,
@@ -461,7 +461,7 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
   {
     type: "splitText",
     label: "Split text",
-    description: "Split a pipeline variable string by delimiter into a list",
+    description: "Split a variable string by delimiter into a list",
     category: "variables",
     defaultParams: { sourceVar: "", delimiter: "\\n" },
     producesData: true,
