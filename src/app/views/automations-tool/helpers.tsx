@@ -1,5 +1,5 @@
 import { h, Fragment } from "preact"
-import { ACTION_DEFINITIONS, type ActionCategory } from "../../tools/automations/types"
+import { ACTION_DEFINITIONS } from "../../tools/automations/types"
 import { PROPERTY_REGISTRY } from "../../tools/automations/properties"
 import type { AutomationStepPayload } from "../../messages"
 import type { AutomationsRunResult } from "../../messages"
@@ -8,20 +8,6 @@ import { TokenText } from "../../components/TokenPill"
 import { stripTokenSyntax } from "../../components/TokenPill"
 import { Text, VerticalSpace } from "@create-figma-plugin/ui"
 import { plural } from "../../utils/pluralize"
-
-export function getCategoryBadge(category: ActionCategory): string {
-  switch (category) {
-    case "source": return "SRC"
-    case "filter": return "FLT"
-    case "navigate": return "NAV"
-    case "transform": return "TRN"
-    case "input": return "IN"
-    case "variables": return "VAR"
-    case "flow": return "FLW"
-    case "output": return "OUT"
-    default: return ""
-  }
-}
 
 export function getParamSummary(step: AutomationStepPayload): string {
   const p = step.params

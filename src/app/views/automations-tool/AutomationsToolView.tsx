@@ -75,7 +75,6 @@ import {
 import { ButtonWithIcon } from "../../components/ButtonWithIcon"
 import { TokenText } from "../../components/TokenPill"
 import {
-  getCategoryBadge,
   getParamSummary,
   buildSuggestions,
   formatLogAsText,
@@ -1348,7 +1347,6 @@ function StepRow(props: {
   const [hovered, setHovered] = useState(false)
   const def = ACTION_DEFINITIONS.find((d) => d.type === props.step.actionType)
   const label = def?.label ?? props.step.actionType
-  const categoryLabel = def ? getCategoryBadge(def.category) : ""
   const paramSummary = getParamSummary(props.step)
   const so = props.stepOutput
 
@@ -1403,19 +1401,6 @@ function StepRow(props: {
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 11, color: "var(--figma-color-text)" }}>
           <span>{props.labelPrefix ?? ""}{props.index + 1}. {label}</span>
-          {categoryLabel && (
-            <span
-              style={{
-                fontSize: 9,
-                color: "var(--figma-color-text-tertiary)",
-                background: "var(--figma-color-bg-secondary)",
-                padding: "1px 4px",
-                borderRadius: 3,
-              }}
-            >
-              {categoryLabel}
-            </span>
-          )}
           {def?.outputType && (
             <span
               style={{
