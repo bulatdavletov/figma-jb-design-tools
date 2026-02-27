@@ -27,7 +27,10 @@ export function registerAutomationsTool(getActiveTool: () => ActiveTool) {
     })
   }
 
-  const runAutomationById = async (automationId: string) => {
+  const runAutomationById = async (
+    automationId: string,
+    runToStepIndex?: number,
+  ) => {
     const automation = await getAutomation(automationId)
     if (!automation) {
       figma.ui.postMessage({
@@ -44,7 +47,14 @@ export function registerAutomationsTool(getActiveTool: () => ActiveTool) {
       return
     }
 
-    const context = await executeAutomation(automation)
+    const options =
+      runToStepIndex !== undefined
+        ? { runToStepIndex, collectStepOutputs: true }
+        : { collectStepOutputs: true }
+    const result = await executeAutomation(automation, options)
+    const context = "context" in result ? result.context : result
+    const stepOutputs = "stepOutputs" in result ? result.stepOutputs : undefined
+
     const enabledSteps = automation.steps.filter((s) => s.enabled)
     const errors = context.log.filter((e) => e.status === "error").map((e) => e.message)
     const stepsCompleted = context.log.filter((e) => e.status === "success").length
@@ -61,6 +71,7 @@ export function registerAutomationsTool(getActiveTool: () => ActiveTool) {
         totalSteps: enabledSteps.length,
         errors,
         log: context.log,
+        stepOutputs,
       },
     })
 
@@ -111,7 +122,7 @@ export function registerAutomationsTool(getActiveTool: () => ActiveTool) {
       }
 
       if (msg.type === UI_TO_MAIN.AUTOMATIONS_RUN) {
-        await runAutomationById(msg.automationId)
+        await runAutomationById(msg.automationId, msg.runToStepIndex)
         return true
       }
 

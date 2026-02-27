@@ -21,8 +21,15 @@ import { setFontSize, setFont, setTextAlignment, setTextCase, setTextDecoration,
 import { detachInstance, swapComponent, pasteComponentById } from "./actions/component-actions"
 import { InputCancelledError } from "./input-bridge"
 import { getNodeProperty } from "./properties"
+import { serializeStepOutput } from "./step-output-serializer"
 import { plural } from "../../utils/pluralize"
 import { MAIN_TO_UI } from "../../messages"
+import type { StepOutputPreview } from "../../messages"
+
+export interface ExecuteOptions {
+  runToStepIndex?: number
+  collectStepOutputs?: boolean
+}
 
 const ACTION_HANDLERS: Partial<Record<ActionType, ActionHandler>> = {
   sourceFromSelection,
@@ -83,11 +90,20 @@ export function requestStop() {
   stopRequested = true
 }
 
+export type ExecuteResult = {
+  context: AutomationContext
+  stepOutputs: StepOutputPreview[]
+}
+
 export async function executeAutomation(
   automation: Automation,
-): Promise<AutomationContext> {
+  options?: ExecuteOptions,
+): Promise<AutomationContext | ExecuteResult> {
   stopRequested = false
   const context = createInitialContext()
+  const collectOutputs = options?.collectStepOutputs ?? (options?.runToStepIndex !== undefined)
+  const runToStepIndex = options?.runToStepIndex
+  const stepOutputs: StepOutputPreview[] = []
 
   const enabledSteps = automation.steps.filter((s) => s.enabled)
   if (enabledSteps.length === 0) {
@@ -99,14 +115,24 @@ export async function executeAutomation(
       itemsOut: 0,
       status: "skipped",
     })
-    return context
+    return collectOutputs ? { context, stepOutputs } : context
   }
 
-  await executeSteps(enabledSteps, context, automation.name, 0)
+  await executeSteps(
+    enabledSteps,
+    context,
+    automation.name,
+    0,
+    runToStepIndex,
+    collectOutputs ? stepOutputs : undefined,
+  )
 
-  figma.currentPage.selection = context.nodes
+  if (runToStepIndex === undefined) {
+    figma.currentPage.selection = context.nodes
+  }
+  // When runToStepIndex is set, do not update selection (dry-ish run)
 
-  return context
+  return collectOutputs ? { context, stepOutputs } : context
 }
 
 async function executeSteps(
@@ -114,6 +140,8 @@ async function executeSteps(
   context: AutomationContext,
   automationName: string,
   baseIndex: number,
+  runToStepIndex?: number,
+  stepOutputs?: StepOutputPreview[],
 ): Promise<void> {
   for (let i = 0; i < steps.length; i++) {
     if (stopRequested) {
@@ -153,6 +181,10 @@ async function executeSteps(
 
     if (step.actionType === "repeatWithEach") {
       await executeRepeatWithEach(step, context, automationName, stepIndex)
+      if (stepOutputs) {
+        stepOutputs.push(serializeStepOutput(context.nodes, context.pipelineVars, stepIndex))
+      }
+      if (runToStepIndex !== undefined && stepIndex === runToStepIndex) break
       continue
     }
 
@@ -167,6 +199,7 @@ async function executeSteps(
         status: "error",
         error: `Unknown action type "${step.actionType}"`,
       })
+      if (runToStepIndex !== undefined && stepIndex === runToStepIndex) break
       continue
     }
 
@@ -194,6 +227,10 @@ async function executeSteps(
       if (step.outputName) {
         saveStepOutput(context, step, dataOutput)
       }
+      if (stepOutputs) {
+        stepOutputs.push(serializeStepOutput(context.nodes, context.pipelineVars, stepIndex))
+      }
+      if (runToStepIndex !== undefined && stepIndex === runToStepIndex) break
     } catch (e) {
       if (e instanceof InputCancelledError) {
         context.log.push({
@@ -217,6 +254,7 @@ async function executeSteps(
         status: "error",
         error: errorMsg,
       })
+      if (runToStepIndex !== undefined && stepIndex === runToStepIndex) break
     }
 
     await new Promise((resolve) => setTimeout(resolve, 0))

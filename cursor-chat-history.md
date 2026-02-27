@@ -1,5 +1,17 @@
 # Cursor Chat History
 
+## Automations Tool — Phase 0, 1 (Apple Shortcuts parity)
+
+### 2026-02-27
+- **Phase 0 — Direction lock**: Renamed "Pipeline Variables" → "Variables" in action picker. Added PRD addendum to `Automations Tool.md` with Apple Shortcuts parity target, acceptance criteria, v1 non-goals.
+- **Phase 1 — Step inspector + iterative authoring**:
+  - **Step Output Inspector**: When a step is selected, right panel shows "Step output" section with node list preview (name/type/id, capped at 20), data/variables preview, last-run metadata (items in→out, errors). "Run to this step" button.
+  - **Run to step**: New "Run to step" button in builder footer (when step selected) and in Step Output Inspector. Executes steps 1..N and stops; does not update Figma selection (dry-ish). Result includes per-step `stepOutputs` for inspector.
+  - Executor: `executeAutomation` now accepts `ExecuteOptions` (`runToStepIndex`, `collectStepOutputs`). Returns `ExecuteResult` with `stepOutputs` when collecting. `step-output-serializer.ts` serializes nodes (id, name, type) and pipeline vars for UI.
+  - Messages: `AUTOMATIONS_RUN` accepts optional `runToStepIndex`. `AutomationsRunResult` has `stepOutputs?: StepOutputPreview[]`.
+- **Phase 2** deferred (typed data flow, action compatibility) — can be done in follow-up.
+- Build OK.
+
 ## Library Swap Tool — Manual pairs tab
 
 ### 2026-02-26

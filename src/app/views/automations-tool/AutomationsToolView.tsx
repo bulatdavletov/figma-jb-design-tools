@@ -39,6 +39,7 @@ import {
   type AutomationsRunResult,
   type AutomationsStepLog,
   type AutomationsInputRequest,
+  type StepOutputPreview,
 } from "../../messages"
 import {
   ACTION_DEFINITIONS,
@@ -288,7 +289,7 @@ export function AutomationsToolView(props: { onBack: () => void }) {
     })
   }, [editingAutomation])
 
-  const handleBuilderRun = useCallback(() => {
+  const handleBuilderRun = useCallback((runToStepIndex?: number) => {
     if (!editingAutomation) return
     if (autoSaveTimerRef.current !== null) {
       clearTimeout(autoSaveTimerRef.current)
@@ -299,7 +300,11 @@ export function AutomationsToolView(props: { onBack: () => void }) {
     lastSavedRef.current = JSON.stringify(updated)
     setRunResult(null)
     setRunProgress(null)
-    postMessage({ type: UI_TO_MAIN.AUTOMATIONS_RUN, automationId: editingAutomation.id })
+    postMessage({
+      type: UI_TO_MAIN.AUTOMATIONS_RUN,
+      automationId: editingAutomation.id,
+      ...(runToStepIndex !== undefined && { runToStepIndex }),
+    })
   }, [editingAutomation])
 
   const handleBuilderExport = useCallback(() => {
@@ -349,7 +354,8 @@ export function AutomationsToolView(props: { onBack: () => void }) {
           automation={editingAutomation}
           onBack={goToList}
           onChange={setEditingAutomation}
-          onRun={handleBuilderRun}
+          onRun={() => handleBuilderRun()}
+          onRunToStep={handleBuilderRun}
           onExport={handleBuilderExport}
           runProgress={runProgress}
           runResult={runResult}
@@ -888,6 +894,7 @@ function BuilderScreen(props: {
   onBack: () => void
   onChange: (a: AutomationPayload) => void
   onRun: () => void
+  onRunToStep: (runToStepIndex?: number) => void
   onExport: () => void
   runProgress: AutomationsRunProgress | null
   runResult: AutomationsRunResult | null
@@ -1044,9 +1051,14 @@ function BuilderScreen(props: {
   }
 
   const handleRunClick = () => {
-    setSelectedPath(null)
     setRightPanel("runOutput")
     props.onRun()
+  }
+
+  const handleRunToStepClick = () => {
+    if (!selectedPath) return
+    setRightPanel("runOutput")
+    props.onRunToStep(selectedPath.index)
   }
 
   const updateStepParam = (key: string, value: unknown) => {
@@ -1216,15 +1228,21 @@ function BuilderScreen(props: {
             const parentStep = selectedPath.childIndex !== undefined
               ? automation.steps[selectedPath.index]
               : undefined
+            const stepOutput = props.runResult?.stepOutputs?.find(
+              (o) => o.stepIndex === selectedPath.index,
+            )
             return (
               <StepConfigPanel
                 step={selectedStep}
                 stepIndex={selectedPath.index}
                 allSteps={automation.steps}
                 parentStep={parentStep}
+                stepOutput={stepOutput}
+                runResult={props.runResult}
                 onUpdateParam={updateStepParam}
                 onUpdateOutputName={updateStepOutputName}
                 onUpdateTarget={updateStepTarget}
+                onRunToStep={handleRunToStepClick}
                 suggestions={buildSuggestions(
                   automation.steps,
                   selectedPath.index,
@@ -1276,6 +1294,11 @@ function BuilderScreen(props: {
         <Button style={{ flex: 1 }} onClick={handleRunClick}>
           ▶ Run
         </Button>
+        {selectedPath !== null && (
+          <Button secondary onClick={handleRunToStepClick}>
+            Run to step
+          </Button>
+        )}
         <Button style={{ flex: 1 }} secondary onClick={props.onExport}>
           Export JSON
         </Button>
@@ -1725,12 +1748,27 @@ function StepConfigPanel(props: {
   stepIndex: number
   allSteps: AutomationStepPayload[]
   parentStep?: AutomationStepPayload
+  stepOutput?: StepOutputPreview
+  runResult?: AutomationsRunResult | null
   onUpdateParam: (key: string, value: unknown) => void
   onUpdateOutputName: (value: string) => void
   onUpdateTarget: (value: string) => void
+  onRunToStep: () => void
   suggestions: Suggestion[]
 }) {
-  const { step, stepIndex, allSteps, parentStep, onUpdateParam, onUpdateOutputName, onUpdateTarget, suggestions } = props
+  const {
+    step,
+    stepIndex,
+    allSteps,
+    parentStep,
+    stepOutput,
+    runResult,
+    onUpdateParam,
+    onUpdateOutputName,
+    onUpdateTarget,
+    onRunToStep,
+    suggestions,
+  } = props
   const def = ACTION_DEFINITIONS.find((d) => d.type === step.actionType)
   const showTargetDropdown = def && !["source", "output", "variables", "flow", "input"].includes(def.category)
   const targetOptions = buildInputSourceOptions(allSteps, stepIndex, false)
@@ -1787,7 +1825,163 @@ function StepConfigPanel(props: {
           </Text>
         </Fragment>
       )}
+
+      <VerticalSpace space="medium" />
+      <Divider />
+      <VerticalSpace space="small" />
+      <StepOutputInspector
+        stepOutput={stepOutput}
+        runResult={runResult}
+        stepIndex={stepIndex}
+        onRunToStep={onRunToStep}
+      />
     </div>
+  )
+}
+
+// ============================================================================
+// Step Output Inspector (Phase 1)
+// ============================================================================
+
+function StepOutputInspector(props: {
+  stepOutput?: StepOutputPreview
+  runResult?: AutomationsRunResult | null
+  stepIndex: number
+  onRunToStep: () => void
+}) {
+  const { stepOutput, runResult, stepIndex, onRunToStep } = props
+
+  const logEntry = runResult?.log?.find((e) => e.stepIndex === stepIndex)
+
+  if (!runResult) {
+    return (
+      <Fragment>
+        <Text style={{ fontSize: 11, fontWeight: 600 }}>Step output</Text>
+        <VerticalSpace space="extraSmall" />
+        <Text style={{ fontSize: 10, color: "var(--figma-color-text-tertiary)" }}>
+          Run the automation to see this step's output
+        </Text>
+        <VerticalSpace space="small" />
+        <Button secondary onClick={onRunToStep} style={{ fontSize: 10 }}>
+          Run to this step
+        </Button>
+      </Fragment>
+    )
+  }
+
+  if (!stepOutput && !logEntry) {
+    return (
+      <Fragment>
+        <Text style={{ fontSize: 11, fontWeight: 600 }}>Step output</Text>
+        <VerticalSpace space="extraSmall" />
+        <Text style={{ fontSize: 10, color: "var(--figma-color-text-tertiary)" }}>
+          This step was not reached in the last run
+        </Text>
+      </Fragment>
+    )
+  }
+
+  return (
+    <Fragment>
+      <Text style={{ fontSize: 11, fontWeight: 600 }}>Step output</Text>
+      <VerticalSpace space="extraSmall" />
+      {logEntry && (
+        <div
+          style={{
+            fontSize: 10,
+            color: "var(--figma-color-text-secondary)",
+            marginBottom: 8,
+          }}
+        >
+          {logEntry.itemsIn} → {logEntry.itemsOut} items
+          {logEntry.status === "error" && (
+            <span style={{ color: "var(--figma-color-text-danger)", marginLeft: 4 }}>
+              • {logEntry.error}
+            </span>
+          )}
+        </div>
+      )}
+      {stepOutput && (
+        <Fragment>
+          {stepOutput.nodeCount > 0 && (
+            <Fragment>
+              <Text style={{ fontSize: 10, color: "var(--figma-color-text-tertiary)" }}>
+                Nodes ({stepOutput.nodeCount})
+                {stepOutput.nodeCount > stepOutput.nodePreview.length && `, showing first ${stepOutput.nodePreview.length}`}
+              </Text>
+              <VerticalSpace space="extraSmall" />
+              <DataList header="">
+                {stepOutput.nodePreview.map((n, i) => (
+                  <div
+                    key={n.id}
+                    style={{
+                      padding: "4px 8px",
+                      fontSize: 10,
+                      display: "flex",
+                      gap: 8,
+                      color: "var(--figma-color-text)",
+                    }}
+                  >
+                    <span style={{ width: 20, color: "var(--figma-color-text-tertiary)" }}>
+                      {i + 1}
+                    </span>
+                    <span style={{ flex: 1, overflow: "hidden", textOverflow: "ellipsis" }}>
+                      {n.name}
+                    </span>
+                    <span style={{ color: "var(--figma-color-text-tertiary)", flexShrink: 0 }}>
+                      {n.type}
+                    </span>
+                  </div>
+                ))}
+              </DataList>
+              <VerticalSpace space="small" />
+            </Fragment>
+          )}
+          {Object.keys(stepOutput.dataPreview).length > 0 && (
+            <Fragment>
+              <Text style={{ fontSize: 10, color: "var(--figma-color-text-tertiary)" }}>
+                Variables
+              </Text>
+              <VerticalSpace space="extraSmall" />
+              <DataList header="">
+                {Object.entries(stepOutput.dataPreview).map(([key, value]) => (
+                  <div
+                    key={key}
+                    style={{
+                      padding: "4px 8px",
+                      fontSize: 10,
+                      display: "flex",
+                      gap: 8,
+                      color: "var(--figma-color-text)",
+                    }}
+                  >
+                    <span style={{ color: "var(--figma-color-text-brand)", flexShrink: 0 }}>
+                      {key}
+                    </span>
+                    <span
+                      style={{
+                        flex: 1,
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        color: "var(--figma-color-text-secondary)",
+                      }}
+                    >
+                      {Array.isArray(value)
+                        ? `[${value.length} items] ${JSON.stringify(value).slice(0, 60)}…`
+                        : String(value)}
+                    </span>
+                  </div>
+                ))}
+              </DataList>
+            </Fragment>
+          )}
+        </Fragment>
+      )}
+      <VerticalSpace space="small" />
+      <Button secondary onClick={onRunToStep} style={{ fontSize: 10 }}>
+        Run to this step
+      </Button>
+    </Fragment>
   )
 }
 

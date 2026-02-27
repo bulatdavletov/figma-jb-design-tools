@@ -38,12 +38,14 @@ async function handleRun(parameters?: ParameterValues) {
     }
 
     try {
-      const context = await executeAutomation(automation)
-      const errors = context.log.filter((e) => e.status === "error")
+      const result = await executeAutomation(automation)
+      const context = "context" in result ? result.context : result
+      const errors = context.log.filter((e: { status: string }) => e.status === "error")
       if (errors.length > 0) {
-        figma.notify(`${automation.name}: ${errors[0].message}`, { error: true })
+        const err = errors[0] as { error?: string; message?: string }
+        figma.notify(`${automation.name}: ${err.error ?? err.message ?? "Error"}`, { error: true })
       } else {
-        const completed = context.log.filter((e) => e.status === "success").length
+        const completed = context.log.filter((e: { status: string }) => e.status === "success").length
         figma.notify(`${automation.name}: Completed ${plural(completed, "step")}`)
       }
     } catch (e) {
