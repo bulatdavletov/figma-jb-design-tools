@@ -70,7 +70,7 @@
         "ui": "src/app/ui.tsx"
       },
       {
-        "name": "Automations",
+        "name": "Workflows",
         "main": "src/automations-tool/main.ts",
         "ui": "src/app/ui.tsx"
       },
