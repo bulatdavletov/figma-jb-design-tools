@@ -1,6 +1,6 @@
 import { Button, Checkbox, Stack, Text } from "@create-figma-plugin/ui"
 import { h } from "preact"
-import { useEffect, useMemo, useState } from "preact/hooks"
+import { useMemo } from "preact/hooks"
 
 import {
   type PrintColorUsagesStatus,
