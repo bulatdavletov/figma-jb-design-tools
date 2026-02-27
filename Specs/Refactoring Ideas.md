@@ -545,7 +545,7 @@ It should **not change**. Users do the same actions; the plugin becomes faster a
 
 | Category | Files |
 |----------|-------|
-| Entry points | `src/home/main.ts`, `src/*-tool/main.ts` |
+| Entry points | `src/home/run-automation.ts`, `src/*-tool/run-automation.ts` |
 | Shared runner | `src/app/run.ts` |
 | Messages | `src/app/messages.ts` |
 | Components | `src/app/components/*.tsx` |

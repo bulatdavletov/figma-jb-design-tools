@@ -1,5 +1,5 @@
 import type { Scenario } from "./types"
-import type { MainToUiMessage } from "../app/messages"
+import type { MainToUiMessage } from "../home/messages"
 
 const COLLECTIONS: MainToUiMessage = {
   type: "LINKED_COLORS_COLLECTIONS_LIST",

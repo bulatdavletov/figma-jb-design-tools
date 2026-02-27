@@ -14,47 +14,47 @@
     },
     {
       "name": "Migrate to Islands UI Kit",
-      "command": "src/library-swap-tool/main.ts--default"
+      "command": "src/tools/migrate-to-islands-uikit-tool/main.ts--default"
     },
     {
       "name": "View Colors Chain",
-      "command": "src/color-chain-tool/main.ts--default"
+      "command": "src/tools/color-chain-tool/main.ts--default"
     },
     {
       "name": "Find Color Match in Islands UI Kit",
-      "command": "src/find-color-match-tool/main.ts--default"
+      "command": "src/tools/find-color-match-tool/main.ts--default"
     },
     {
       "name": "Mockup Markup Quick Apply",
-      "command": "src/mockup-markup-tool/main.ts--default"
+      "command": "src/tools/mockup-markup-quick-apply-tool/main.ts--default"
     },
     {
       "name": "Automations",
-      "command": "src/automations-tool/main.ts--default"
+      "command": "src/tools/automations-tool/main.ts--default"
     },
     {
       "name": "Print Color Usages",
-      "command": "src/print-color-usages-tool/main.ts--default"
+      "command": "src/tools/print-color-usages-tool/main.ts--default"
     },
     {
       "name": "Variables Export Import",
-      "command": "src/variables-export-import-tool/main.ts--default"
+      "command": "src/tools/variables-export-import-tool/main.ts--default"
     },
     {
       "name": "Rename Variables via JSON",
-      "command": "src/variables-batch-rename-tool/main.ts--default"
+      "command": "src/tools/variables-rename-tool/main.ts--default"
     },
     {
       "name": "Variables Create Linked Colors",
-      "command": "src/variables-create-linked-colors-tool/main.ts--default"
+      "command": "src/tools/variables-create-linked-colors-tool/main.ts--default"
     },
     {
       "name": "Variables Replace Usages",
-      "command": "src/variables-replace-usages-tool/main.ts--default"
+      "command": "src/tools/variables-replace-usages-tool/main.ts--default"
     },
     {
       "name": "Run Automation",
-      "command": "src/run-automation/main.ts--default",
+      "command": "src/tools/automations-tool/run-automation.ts--default",
       "parameters": [
         {
           "key": "automation",

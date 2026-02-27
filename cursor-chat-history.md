@@ -257,7 +257,7 @@
 
 **What was done:**
 - **TextboxWithSuggestions** (2Q): Reusable autocomplete component. Triggers on `{` character, shows dropdown with property tokens, pipeline vars, saved snapshots, loop vars. Keyboard navigation (arrows, Enter/Tab, Escape), click-outside dismiss. Used for rename replace, setCharacters, resize, notify/log, setPipelineVariable value fields.
-- **Quick Actions** (2R): "Run Automation" menu command with `figma.parameters` autocomplete. Separate entry point (`src/run-automation/main.ts`). Shows saved automations list in Cmd+/, runs selected automation directly without UI. Falls back to full UI for automations with `askForInput` steps. `sync-figma-menu.cjs` extended with QUICK_ACTIONS array.
+- **Quick Actions** (2R): "Run Automation" menu command with `figma.parameters` autocomplete. Separate entry point (`src/run-automation/run-automation.ts`). Shows saved automations list in Cmd+/, runs selected automation directly without UI. Falls back to full UI for automations with `askForInput` steps. `sync-figma-menu.cjs` extended with QUICK_ACTIONS array.
 - **buildSuggestions** helper: Computes available tokens from context tokens (count, index), property registry (15 properties), previous steps' outputName ($data or #nodes), and enclosing repeatWithEach loop variables ($item, $repeatIndex).
 
 **Phase 2 audit vs Apple Shortcuts:**
@@ -400,7 +400,7 @@ What we should consider **aligning** (future phases):
 
 **Fix:** Added auto-run mechanism:
 - `setAutoRunAutomation(id)` in `main-thread.ts` stores a pending automation ID
-- `run-automation/main.ts` calls `setAutoRunAutomation(automationId)` before `run("automations-tool")` for askForInput automations
+- `run-automation/run-automation.ts` calls `setAutoRunAutomation(automationId)` before `run("automations-tool")` for askForInput automations
 - `onActivate` checks for `pendingAutoRunId` — if set, immediately runs the automation after UI boots
 - Refactored `runAutomationById()` helper extracted from inline AUTOMATIONS_RUN handler to avoid duplication
 - Flow: Quick Actions → set pending ID → open UI → UI boots → auto-run → input dialog appears → user submits → execution completes → run output shown
@@ -412,7 +412,7 @@ What we should consider **aligning** (future phases):
 **Root cause:** `build-figma-plugin` calls `modules[commandId]()` (the default export) immediately during plugin initialization. For Quick Actions commands with `parameters`, Figma is in "query mode" at that point (for parameter autocomplete). The default export received no arguments (`event` = undefined), fell to `else { run("automations-tool") }` → `showUI()` → crash because `showUI()` is forbidden in query mode.
 
 **Fix (two parts):**
-1. Restructured `run-automation/main.ts` so the default export only registers `figma.on("run", handler)` instead of executing directly. The actual logic moved to `handleRun()` called from the "run" event handler, which fires AFTER Figma exits query mode:
+1. Restructured `run-automation/run-automation.ts` so the default export only registers `figma.on("run", handler)` instead of executing directly. The actual logic moved to `handleRun()` called from the "run" event handler, which fires AFTER Figma exits query mode:
    - From Quick Actions: query mode → parameter collection → "run" event fires with `parameters` → `handleRun(parameters)` runs in normal mode
    - From Plugins menu: no query mode → "run" event fires without parameters → `handleRun(undefined)` → opens full Automations UI
 2. Wrapped `figma.ui.postMessage()` in `executor.ts` with try/catch — the progress update call crashed when running headlessly via Quick Actions (no UI to post to)
@@ -633,80 +633,36 @@ What we should consider **aligning** (future phases):
 
 **Deferred:** Part 4B (extract leaf components) and 4C (extract step-params-renderer) — can be done in a follow-up to avoid risk in one session.
 
-## Automations Tool — Workflow Authoring (Phase 0–2)
+## Mega Folders Restructurization
 
-### 2026-02-27: Phase 0 — Rename user-facing language to "Workflows"
+### 2026-02-26: Major folder restructuring + build fixes
 
-**Task:** Align product language: user-facing term = "Workflow", internal engine remains pipeline/context.
+**Task:** Reorganized the entire `src/` folder structure to consolidate tools and simplify the codebase.
 
-**What was done:**
-- "Automations" → "Workflows" in menu labels, titles, buttons, placeholders, tools registry
-- "Pipeline Variables" category → "Variables"
-- "Run Automation" Quick Action → "Run Workflow"
-- Action descriptions: "pipeline variable" → "variable"
-- Default new workflow name: "New workflow"
-- Internal code (types, messages, file names) unchanged — only user-facing strings
+**Structure changes (documented in `specs/Folders structure New.md`):**
+1. **Flattened `src/app/` structure** — moved components, utils, and registry to top-level folders
+2. **Consolidated all tools under `src/tools/`** — each tool now has its logic, views, and entry point together
+3. **Moved shared utilities** to `src/utils/` (variables-shared, int-ui-kit-library, mockup-markup-library)
+4. **Removed separate tool entry point folders** — entry points now inside each tool folder
+5. **Renamed tools:**
+   - `library-swap-tool` → `migrate-to-islands-uikit-tool`
+   - `variables-batch-rename-tool` → `variables-rename-tool`
+6. **Renamed `src/preview/`** → `src/ui-showcase/`
 
-### 2026-02-27: Phase 1 — Step Output Inspector + iterative authoring
+**Build issues fixed:**
 
-**Task:** Make authoring feel interactive — show per-step results while editing, support "Run to here".
+1. **CSS resolution error** (`Could not resolve "!../css/base.css"`):
+   - **Root cause:** `scripts/sync-figma-menu.cjs` had `main: 'src/home/ui.tsx'` for "All Tools" entry instead of `main: 'src/home/main.ts'`
+   - **Why it matters:** The `main` property must point to a main thread file (`.ts`), not a UI file. The main bundle doesn't include the CSS modules plugin that handles `@create-figma-plugin/ui` imports with `!` prefix
+   - **Fix:** Changed to `main: 'src/home/main.ts'`
 
-**What was done:**
-
-1. **StepOutputPreview type** (`context.ts`): Captures per-step output after execution
-   - `NodePreview` (id, name, type) for serializable node previews
-   - `captureNodeSample()` — first 20 nodes as serialized previews
-   - `serializePipelineVars()`, `savedNodeSetsCounts()` helpers
-   - Added `stepOutputs: StepOutputPreview[]` to `AutomationContext`
-
-2. **Executor changes** (`executor.ts`):
-   - `ExecuteOptions.maxStepIndex` — stops execution after N steps ("Run to here")
-   - `captureStepPreview()` records node sample, data output, vars snapshot, duration after each step
-   - Captures previews for regular steps, repeat blocks, error/skip states
-
-3. **Messages** (`messages.ts`):
-   - `StepOutputPreviewPayload` type for UI serialization
-   - `AutomationsRunResult.stepOutputs` — optional array of step previews in result
-   - `AUTOMATIONS_RUN.runToStepIndex` — optional field for "Run to here"
-
-4. **Step Output Inspector** (`AutomationsToolView.tsx`):
-   - `StepOutputInspector` component shown below step config when output exists
-   - Status indicator (success/error/skipped dot + label + duration)
-   - Node list preview (type + name, capped at 20, "N more" overflow)
-   - Data output preview (string/number/boolean or list items)
-   - Variables snapshot table, saved node sets counts
-   - Collapsible with max 50% height, scrollable
-
-5. **Run to here** button in step config panel header
-   - Saves current state, then runs up to the selected step
-   - Uses `runToStepIndex` in message to main thread
-
-6. **Per-step status indicators** on step rows
-   - Green/red/gray dots after a run indicating success/error/skipped
-   - Node count badge from step output
-
-### 2026-02-27: Phase 2 — Typed data flow + action compatibility
-
-**Task:** Make value types first-class in the UI with inline validation.
-
-**What was done:**
-
-1. **Value type system** (`types.ts`):
-   - `ValueKind` type: `"nodes" | "text" | "number" | "boolean" | "list"`
-   - `outputType` and `inputType` fields on `ActionDefinition`
-   - All 47 actions annotated with their input/output types
-   - `getValueKindLabel()`, `getValueKindColor()` for consistent type display
-   - Color scheme: nodes=purple, text=blue, number=amber, boolean=green, list=cyan
-
-2. **Validation** (`types.ts`):
-   - `validateStep()` checks type compatibility between consecutive steps
-   - Warns when a nodes-expecting action follows a data-producing action
-   - Validates `splitText` source is text/number, `repeatWithEach` source is list
-
-3. **UI type indicators** (`AutomationsToolView.tsx`):
-   - Step rows: colored output type badge (pill) next to category badge
-   - Step config header: type badge next to action label
-   - Validation warnings shown as colored banners before step params
-   - Action picker: input→output type flow indicators per action row
-
-**Files changed:** `types.ts`, `context.ts`, `executor.ts`, `main-thread.ts`, `messages.ts`, `AutomationsToolView.tsx`, `manifest.json`, `tools-registry-data.json`, `run-automation/main.ts`, `automations.ts` (fixtures)
+2. **Runtime TypeError** (`not a function at map`):
+   - **Root cause:** Tool IDs in `tools-registry-data.json` were renamed but not updated across all files
+   - **Mismatch:** JSON had `migrate-to-islands-uikit-tool` and `variables-rename-tool`, but code still referenced `library-swap-tool` and `variables-batch-rename-tool`
+   - **Files updated:**
+     - `src/tools-registry/tools-registry.ts` (TOOL_IDS array)
+     - `src/home/run.ts` (REGISTER_TOOL_CONTROLLER)
+     - `src/home/ui.tsx` (TOOL_VIEW_BY_ID)
+     - `src/tools/migrate-to-islands-uikit-tool/main.ts` & `main-thread.ts`
+     - `src/tools/variables-rename-tool/main.ts` & `main-thread.ts`
+     - `src/ui-showcase/tool-registry.ts`
