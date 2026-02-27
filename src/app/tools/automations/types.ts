@@ -104,7 +104,7 @@ export const ACTION_CATEGORIES: { key: ActionCategory; label: string }[] = [
   { key: "navigate", label: "Navigate" },
   { key: "transform", label: "Transform" },
   { key: "input", label: "Input" },
-  { key: "variables", label: "Pipeline Variables" },
+  { key: "variables", label: "Variables" },
   { key: "flow", label: "Flow" },
   { key: "output", label: "Output" },
 ]

@@ -1013,3 +1013,24 @@ Auto-generated output names, Input dropdowns with autocomplete, action picker se
 - Tool wrapper actions (Print Colors, Library Swap, Replace Usages)
 - Object-action compatibility checks in builder UI
 - Dry run / preview mode
+
+---
+
+## PRD Addendum — Apple Shortcuts Parity (Phase 0–2)
+
+**Product language:** User-facing term = **Workflow**; internal engine remains pipeline/context. Do not use "pipeline" in UI copy.
+
+**Apple Shortcuts parity target:**
+1. **Visual step outputs** — Per-step result preview in right panel when step is selected
+2. **Typed values** — Data types (nodes, text, number, boolean, list) surfaced in UI
+3. **Richer control flow** — If/else, choose, map, reduce (Phase 3+)
+
+**V1 non-goals (frozen):**
+- No full visual graph editor
+- No per-step breakpoints beyond "Run to step"
+
+**Acceptance criteria:**
+- P0: "Variables" (not "Pipeline Variables") in action picker category
+- P1: Step Output Inspector shows node list preview, data preview, last-run metadata for selected step
+- P1: "Run to step" and "Run selected step only" actions available in builder
+- P2: Type-aware input compatibility and validation visible in config
