@@ -39,6 +39,7 @@ import {
   type AutomationsRunResult,
   type AutomationsStepLog,
   type AutomationsInputRequest,
+  type StepOutputPreviewPayload,
 } from "../../home/messages"
 import {
   ACTION_DEFINITIONS,
@@ -58,6 +59,11 @@ import {
   getOperatorsForField,
   generateDefaultOutputName,
   collectOutputNames,
+  getValueKindLabel,
+  getValueKindColor,
+  getValueKindBgColor,
+  validateStep,
+  type ValueKind,
 } from "./types"
 import { PROPERTY_REGISTRY } from "./properties"
 import { TokenInput, type Suggestion } from "../../components/TokenInput"
@@ -141,6 +147,7 @@ export function AutomationsToolView(props: { onBack: () => void }) {
   const [runProgress, setRunProgress] = useState<AutomationsRunProgress | null>(null)
   const [runResult, setRunResult] = useState<AutomationsRunResult | null>(null)
   const [inputRequest, setInputRequest] = useState<AutomationsInputRequest | null>(null)
+  const [stepOutputs, setStepOutputs] = useState<StepOutputPreviewPayload[]>([])
 
   const autoSaveTimerRef = useRef<number | null>(null)
   const lastSavedRef = useRef<string>("")
@@ -174,6 +181,9 @@ export function AutomationsToolView(props: { onBack: () => void }) {
         setRunResult(msg.result)
         setRunProgress(null)
         setInputRequest(null)
+        if (msg.result.stepOutputs) {
+          setStepOutputs(msg.result.stepOutputs)
+        }
         if (screenRef.current !== "builder" && msg.result.log && msg.result.log.length > 0) {
           setScreen("runOutput")
           postMessage({ type: UI_TO_MAIN.RESIZE_WINDOW, width: BUILDER_WIDTH, height: BUILDER_HEIGHT })
@@ -215,6 +225,7 @@ export function AutomationsToolView(props: { onBack: () => void }) {
   const handleCreateNew = useCallback(() => {
     setRunResult(null)
     setRunProgress(null)
+    setStepOutputs([])
     const auto = createNewAutomation()
     const payload: AutomationPayload = {
       id: auto.id,
@@ -231,6 +242,7 @@ export function AutomationsToolView(props: { onBack: () => void }) {
   const handleEdit = useCallback((id: string) => {
     setRunResult(null)
     setRunProgress(null)
+    setStepOutputs([])
     postMessage({ type: UI_TO_MAIN.AUTOMATIONS_GET, automationId: id })
   }, [])
 
@@ -301,6 +313,24 @@ export function AutomationsToolView(props: { onBack: () => void }) {
     postMessage({ type: UI_TO_MAIN.AUTOMATIONS_RUN, automationId: editingAutomation.id })
   }, [editingAutomation])
 
+  const handleBuilderRunToStep = useCallback((stepIndex: number) => {
+    if (!editingAutomation) return
+    if (autoSaveTimerRef.current !== null) {
+      clearTimeout(autoSaveTimerRef.current)
+      autoSaveTimerRef.current = null
+    }
+    const updated = { ...editingAutomation, updatedAt: Date.now() }
+    postMessage({ type: UI_TO_MAIN.AUTOMATIONS_SAVE, automation: updated })
+    lastSavedRef.current = JSON.stringify(updated)
+    setRunResult(null)
+    setRunProgress(null)
+    postMessage({
+      type: UI_TO_MAIN.AUTOMATIONS_RUN,
+      automationId: editingAutomation.id,
+      runToStepIndex: stepIndex,
+    })
+  }, [editingAutomation])
+
   const handleBuilderExport = useCallback(() => {
     if (!editingAutomation) return
     const automation = {
@@ -349,9 +379,11 @@ export function AutomationsToolView(props: { onBack: () => void }) {
           onBack={goToList}
           onChange={setEditingAutomation}
           onRun={handleBuilderRun}
+          onRunToStep={handleBuilderRunToStep}
           onExport={handleBuilderExport}
           runProgress={runProgress}
           runResult={runResult}
+          stepOutputs={stepOutputs}
         />
         {inputRequest && (
           <InputDialog
@@ -917,11 +949,13 @@ function BuilderScreen(props: {
   onBack: () => void
   onChange: (a: AutomationPayload) => void
   onRun: () => void
+  onRunToStep: (stepIndex: number) => void
   onExport: () => void
   runProgress: AutomationsRunProgress | null
   runResult: AutomationsRunResult | null
+  stepOutputs: StepOutputPreviewPayload[]
 }) {
-  const { automation, onChange } = props
+  const { automation, onChange, stepOutputs } = props
   const [selectedPath, setSelectedPath] = useState<StepPath | null>(null)
   const [rightPanel, setRightPanel] = useState<RightPanel>("empty")
   const [pickerParentIndex, setPickerParentIndex] = useState<number | null>(null)
@@ -1096,6 +1130,11 @@ function BuilderScreen(props: {
     props.onRun()
   }
 
+  const handleRunToStep = (stepIndex: number) => {
+    setRightPanel("runOutput")
+    props.onRunToStep(stepIndex)
+  }
+
   const updateStepParam = (key: string, value: unknown) => {
     if (!selectedPath || !selectedStep) return
     const steps = [...automation.steps]
@@ -1214,6 +1253,7 @@ function BuilderScreen(props: {
                       index={idx}
                       total={automation.steps.length}
                       selected={stepsPathEqual(selectedPath, { index: idx })}
+                      stepOutput={stepOutputs.find((so) => so.stepId === step.id)}
                       onSelect={() => selectStep({ index: idx })}
                       onToggle={() => toggleStep({ index: idx })}
                       onRemove={() => removeStep({ index: idx })}
@@ -1299,6 +1339,7 @@ function BuilderScreen(props: {
             const parentStep = selectedPath.childIndex !== undefined
               ? automation.steps[selectedPath.index]
               : undefined
+            const stepOutput = stepOutputs.find((so) => so.stepId === selectedStep.id)
             return (
               <StepConfigPanel
                 step={selectedStep}
@@ -1308,6 +1349,8 @@ function BuilderScreen(props: {
                 onUpdateParam={updateStepParam}
                 onUpdateOutputName={updateStepOutputName}
                 onUpdateTarget={updateStepTarget}
+                onRunToStep={() => handleRunToStep(selectedPath.index)}
+                stepOutput={stepOutput}
                 suggestions={buildSuggestions(
                   automation.steps,
                   selectedPath.index,
@@ -1377,6 +1420,7 @@ function StepRow(props: {
   index: number
   total: number
   selected: boolean
+  stepOutput?: StepOutputPreviewPayload
   onSelect: () => void
   onToggle: () => void
   onRemove: () => void
@@ -1388,6 +1432,15 @@ function StepRow(props: {
   const def = ACTION_DEFINITIONS.find((d) => d.type === props.step.actionType)
   const label = def?.label ?? props.step.actionType
   const paramSummary = getParamSummary(props.step)
+  const so = props.stepOutput
+
+  const statusColor = so?.status === "success"
+    ? "var(--figma-color-text-success)"
+    : so?.status === "error"
+      ? "var(--figma-color-text-danger)"
+      : so?.status === "skipped"
+        ? "var(--figma-color-text-secondary)"
+        : undefined
 
   return (
     <div
@@ -1417,9 +1470,40 @@ function StepRow(props: {
           <Text>{" "}</Text>
         </Checkbox>
       </div>
+      {statusColor && (
+        <div
+          style={{
+            width: 6,
+            height: 6,
+            borderRadius: "50%",
+            background: statusColor,
+            flexShrink: 0,
+          }}
+          title={so ? `${so.status} — ${so.nodesAfter} nodes, ${so.durationMs}ms` : ""}
+        />
+      )}
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 11, color: "var(--figma-color-text)" }}>
           <span>{props.labelPrefix ?? ""}{props.index + 1}. {label}</span>
+          {def?.outputType && (
+            <span
+              style={{
+                fontSize: 8,
+                color: getValueKindColor(def.outputType),
+                background: getValueKindBgColor(def.outputType),
+                padding: "1px 3px",
+                borderRadius: 3,
+                fontWeight: 500,
+              }}
+            >
+              {getValueKindLabel(def.outputType)}
+            </span>
+          )}
+          {so && (
+            <span style={{ fontSize: 9, color: "var(--figma-color-text-tertiary)" }}>
+              {so.nodesAfter} {so.nodesAfter === 1 ? "node" : "nodes"}
+            </span>
+          )}
         </div>
         {paramSummary && (
           <div
@@ -1703,6 +1787,207 @@ function RunOutputPanelWithResult(props: { result: AutomationsRunResult }) {
 }
 
 // ============================================================================
+// Step Output Inspector (bottom of config panel)
+// ============================================================================
+
+function StepOutputInspector(props: { output: StepOutputPreviewPayload }) {
+  const { output } = props
+  const statusLabel =
+    output.status === "success" ? "Success" :
+    output.status === "error" ? "Error" :
+    "Skipped"
+  const statusColor =
+    output.status === "success" ? "var(--figma-color-text-success)" :
+    output.status === "error" ? "var(--figma-color-text-danger)" :
+    "var(--figma-color-text-secondary)"
+
+  const varEntries = Object.entries(output.pipelineVarsSnapshot)
+  const setEntries = Object.entries(output.savedNodeSetsCount)
+
+  return (
+    <div
+      style={{
+        borderTop: "1px solid var(--figma-color-border)",
+        flexShrink: 0,
+        maxHeight: "50%",
+        overflowY: "auto",
+      }}
+    >
+      <div
+        style={{
+          padding: "6px 12px",
+          background: "var(--figma-color-bg-secondary)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <Text style={{ fontWeight: 600, fontSize: 11 }}>Last run output</Text>
+        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+          <div
+            style={{
+              width: 6, height: 6, borderRadius: "50%",
+              background: statusColor,
+            }}
+          />
+          <Text style={{ fontSize: 10, color: statusColor }}>{statusLabel}</Text>
+          <Text style={{ fontSize: 10, color: "var(--figma-color-text-tertiary)" }}>
+            {output.durationMs}ms
+          </Text>
+        </div>
+      </div>
+      <div style={{ padding: "8px 12px" }}>
+        {output.error && (
+          <div style={{ fontSize: 10, color: "var(--figma-color-text-danger)", marginBottom: 6 }}>
+            {output.error}
+          </div>
+        )}
+
+        {output.message && !output.error && (
+          <div style={{ fontSize: 10, color: "var(--figma-color-text-secondary)", marginBottom: 6 }}>
+            <TokenText text={output.message} />
+          </div>
+        )}
+
+        <div style={{ fontSize: 10, color: "var(--figma-color-text-secondary)", marginBottom: 4 }}>
+          <b>{plural(output.nodesAfter, "node")}</b> in working set after this step
+        </div>
+
+        {output.nodeSample.length > 0 && (
+          <div style={{
+            background: "var(--figma-color-bg-secondary)",
+            borderRadius: 4,
+            padding: "4px 0",
+            marginBottom: 6,
+            maxHeight: 120,
+            overflowY: "auto",
+          }}>
+            {output.nodeSample.map((node, i) => (
+              <div
+                key={node.id}
+                style={{
+                  padding: "2px 8px",
+                  fontSize: 10,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 6,
+                }}
+              >
+                <span style={{
+                  color: "var(--figma-color-text-tertiary)",
+                  fontSize: 9,
+                  fontFamily: "monospace",
+                  flexShrink: 0,
+                }}>
+                  {node.type}
+                </span>
+                <span style={{
+                  color: "var(--figma-color-text)",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}>
+                  {node.name}
+                </span>
+              </div>
+            ))}
+            {output.nodesAfter > output.nodeSample.length && (
+              <div style={{
+                padding: "2px 8px",
+                fontSize: 10,
+                color: "var(--figma-color-text-tertiary)",
+                fontStyle: "italic",
+              }}>
+                + {output.nodesAfter - output.nodeSample.length} more
+              </div>
+            )}
+          </div>
+        )}
+
+        {output.dataOutput !== undefined && (
+          <Fragment>
+            <div style={{ fontSize: 10, color: "var(--figma-color-text-secondary)", marginBottom: 2 }}>
+              <b>Data output</b>
+            </div>
+            <div style={{
+              background: "var(--figma-color-bg-secondary)",
+              borderRadius: 4,
+              padding: "4px 8px",
+              marginBottom: 6,
+              fontSize: 10,
+              fontFamily: "monospace",
+              wordBreak: "break-all",
+              maxHeight: 80,
+              overflowY: "auto",
+              color: "var(--figma-color-text)",
+            }}>
+              {Array.isArray(output.dataOutput)
+                ? output.dataOutput.map((v, i) => (
+                    <div key={i}>{String(v)}</div>
+                  ))
+                : String(output.dataOutput)}
+            </div>
+          </Fragment>
+        )}
+
+        {varEntries.length > 0 && (
+          <Fragment>
+            <div style={{ fontSize: 10, color: "var(--figma-color-text-secondary)", marginBottom: 2 }}>
+              <b>Variables</b>
+            </div>
+            <div style={{
+              background: "var(--figma-color-bg-secondary)",
+              borderRadius: 4,
+              padding: "4px 8px",
+              marginBottom: 6,
+              fontSize: 10,
+              maxHeight: 80,
+              overflowY: "auto",
+            }}>
+              {varEntries.map(([key, val]) => (
+                <div key={key} style={{ display: "flex", gap: 4 }}>
+                  <span style={{ color: "var(--figma-color-text-brand)", flexShrink: 0 }}>
+                    {key}
+                  </span>
+                  <span style={{
+                    color: "var(--figma-color-text-tertiary)",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}>
+                    = {val}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </Fragment>
+        )}
+
+        {setEntries.length > 0 && (
+          <Fragment>
+            <div style={{ fontSize: 10, color: "var(--figma-color-text-secondary)", marginBottom: 2 }}>
+              <b>Snapshots</b>
+            </div>
+            <div style={{
+              background: "var(--figma-color-bg-secondary)",
+              borderRadius: 4,
+              padding: "4px 8px",
+              fontSize: 10,
+            }}>
+              {setEntries.map(([key, count]) => (
+                <div key={key}>
+                  {key}: {plural(count, "node")}
+                </div>
+              ))}
+            </div>
+          </Fragment>
+        )}
+      </div>
+    </div>
+  )
+}
+
+// ============================================================================
 // Action Picker Panel (right column) — organized by category
 // ============================================================================
 
@@ -1790,7 +2075,29 @@ function ActionPickerRow(props: { def: ActionDefinition; onSelect: () => void })
         background: hovered ? "var(--figma-color-bg-hover)" : "transparent",
       }}
     >
-      <div style={{ fontSize: 11, color: "var(--figma-color-text)" }}>{props.def.label}</div>
+      <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+        <span style={{ fontSize: 11, color: "var(--figma-color-text)" }}>{props.def.label}</span>
+        {props.def.inputType && (
+          <span style={{
+            fontSize: 8,
+            color: getValueKindColor(props.def.inputType),
+            opacity: 0.7,
+          }}>
+            {getValueKindLabel(props.def.inputType)} →
+          </span>
+        )}
+        {props.def.outputType && (
+          <span style={{
+            fontSize: 8,
+            color: getValueKindColor(props.def.outputType),
+            background: getValueKindBgColor(props.def.outputType),
+            padding: "0px 3px",
+            borderRadius: 2,
+          }}>
+            {getValueKindLabel(props.def.outputType)}
+          </span>
+        )}
+      </div>
       <div
         style={{
           fontSize: 10,
@@ -1816,9 +2123,11 @@ function StepConfigPanel(props: {
   onUpdateParam: (key: string, value: unknown) => void
   onUpdateOutputName: (value: string) => void
   onUpdateTarget: (value: string) => void
+  onRunToStep: () => void
+  stepOutput?: StepOutputPreviewPayload
   suggestions: Suggestion[]
 }) {
-  const { step, stepIndex, allSteps, parentStep, onUpdateParam, onUpdateOutputName, onUpdateTarget, suggestions } = props
+  const { step, stepIndex, allSteps, parentStep, onUpdateParam, onUpdateOutputName, onUpdateTarget, onRunToStep, stepOutput, suggestions } = props
   const def = ACTION_DEFINITIONS.find((d) => d.type === step.actionType)
   const showTargetDropdown = def && !["source", "output", "variables", "flow", "input"].includes(def.category)
   const targetOptions = buildInputSourceOptions(allSteps, stepIndex, false)
@@ -1827,15 +2136,79 @@ function StepConfigPanel(props: {
       return sDef?.producesData !== true
     })
 
+  const validationIssues = validateStep(step, stepIndex, allSteps)
+
   return (
-    <div style={{ padding: 12 }}>
+    <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+    <div style={{ flex: 1, overflowY: "auto", padding: 12 }}>
       {def && (
         <Fragment>
-          <Text style={{ fontWeight: 600, fontSize: 12 }}>{def.label}</Text>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <Text style={{ fontWeight: 600, fontSize: 12 }}>{def.label}</Text>
+              {def.outputType && (
+                <span
+                  style={{
+                    fontSize: 9,
+                    color: getValueKindColor(def.outputType),
+                    background: getValueKindBgColor(def.outputType),
+                    padding: "1px 5px",
+                    borderRadius: 3,
+                    fontWeight: 500,
+                  }}
+                >
+                  {getValueKindLabel(def.outputType)}
+                </span>
+              )}
+            </div>
+            <button
+              onClick={onRunToStep}
+              style={{
+                background: "none",
+                border: "1px solid var(--figma-color-border)",
+                borderRadius: 4,
+                padding: "2px 8px",
+                cursor: "pointer",
+                fontSize: 10,
+                color: "var(--figma-color-text-secondary)",
+                whiteSpace: "nowrap",
+              }}
+              title={`Run steps 1–${stepIndex + 1}`}
+            >
+              ▶ Run to here
+            </button>
+          </div>
           <VerticalSpace space="extraSmall" />
           <Text style={{ fontSize: 11, color: "var(--figma-color-text-secondary)" }}>
             {def.description}
           </Text>
+          {validationIssues.length > 0 && (
+            <Fragment>
+              <VerticalSpace space="small" />
+              {validationIssues.map((issue, i) => (
+                <div
+                  key={i}
+                  style={{
+                    padding: "4px 8px",
+                    borderRadius: 4,
+                    fontSize: 10,
+                    marginBottom: 4,
+                    background: issue.type === "error"
+                      ? "var(--figma-color-bg-danger-tertiary, var(--figma-color-bg-secondary))"
+                      : "var(--figma-color-bg-warning-tertiary, var(--figma-color-bg-secondary))",
+                    border: `1px solid ${issue.type === "error"
+                      ? "var(--figma-color-border-danger, var(--figma-color-border))"
+                      : "var(--figma-color-border-warning, var(--figma-color-border))"}`,
+                    color: issue.type === "error"
+                      ? "var(--figma-color-text-danger)"
+                      : "var(--figma-color-text-warning)",
+                  }}
+                >
+                  {issue.message}
+                </div>
+              ))}
+            </Fragment>
+          )}
           <VerticalSpace space="medium" />
         </Fragment>
       )}
@@ -1875,6 +2248,10 @@ function StepConfigPanel(props: {
           </Text>
         </Fragment>
       )}
+    </div>
+    {stepOutput && (
+      <StepOutputInspector output={stepOutput} />
+    )}
     </div>
   )
 }
@@ -2276,8 +2653,12 @@ function renderStepParams(
         <Fragment>
           {inputCtx}
           <div style={{
-            padding: "6px 8px", background: "#fff1f2", border: "1px solid #fecdd3",
-            borderRadius: 4, color: "#9f1239", fontSize: 11,
+            padding: "6px 8px",
+            background: "var(--figma-color-bg-danger-tertiary, var(--figma-color-bg-secondary))",
+            border: "1px solid var(--figma-color-border-danger, var(--figma-color-border))",
+            borderRadius: 4,
+            color: "var(--figma-color-text-danger)",
+            fontSize: 11,
           }}>
             Destructive action. Deleted nodes cannot be recovered within the automation. Use Figma's Undo (Ctrl+Z) if needed.
           </div>
