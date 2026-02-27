@@ -22,7 +22,7 @@ async function handleRun(parameters?: ParameterValues) {
   if (automationId) {
     const automation = await getAutomation(automationId)
     if (!automation) {
-      figma.notify("Workflow not found", { error: true })
+      figma.notify("Automation not found", { error: true })
       figma.closePlugin()
       return
     }

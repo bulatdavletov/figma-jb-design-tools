@@ -58,7 +58,7 @@ export function createNewAutomation(name?: string): Automation {
   const now = Date.now()
   return {
     id: generateAutomationId(),
-    name: name ?? "New workflow",
+    name: name ?? "New automation",
     steps: [],
     createdAt: now,
     updatedAt: now,
