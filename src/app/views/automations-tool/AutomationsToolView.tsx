@@ -59,6 +59,10 @@ import {
   getOperatorsForField,
   generateDefaultOutputName,
   collectOutputNames,
+  getValueKindLabel,
+  getValueKindColor,
+  validateStep,
+  type ValueKind,
 } from "../../tools/automations/types"
 import { PROPERTY_REGISTRY } from "../../tools/automations/properties"
 import { TokenInput, type Suggestion } from "../../components/TokenInput"
@@ -1411,6 +1415,20 @@ function StepRow(props: {
               {categoryLabel}
             </span>
           )}
+          {def?.outputType && (
+            <span
+              style={{
+                fontSize: 8,
+                color: getValueKindColor(def.outputType),
+                background: `${getValueKindColor(def.outputType)}18`,
+                padding: "1px 3px",
+                borderRadius: 3,
+                fontWeight: 500,
+              }}
+            >
+              {getValueKindLabel(def.outputType)}
+            </span>
+          )}
           {so && (
             <span style={{ fontSize: 9, color: "var(--figma-color-text-tertiary)" }}>
               {so.nodesAfter} {so.nodesAfter === 1 ? "node" : "nodes"}
@@ -1971,7 +1989,29 @@ function ActionPickerRow(props: { def: ActionDefinition; onSelect: () => void })
         background: hovered ? "var(--figma-color-bg-hover)" : "transparent",
       }}
     >
-      <div style={{ fontSize: 11, color: "var(--figma-color-text)" }}>{props.def.label}</div>
+      <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+        <span style={{ fontSize: 11, color: "var(--figma-color-text)" }}>{props.def.label}</span>
+        {props.def.inputType && (
+          <span style={{
+            fontSize: 8,
+            color: getValueKindColor(props.def.inputType),
+            opacity: 0.7,
+          }}>
+            {getValueKindLabel(props.def.inputType)} →
+          </span>
+        )}
+        {props.def.outputType && (
+          <span style={{
+            fontSize: 8,
+            color: getValueKindColor(props.def.outputType),
+            background: `${getValueKindColor(props.def.outputType)}15`,
+            padding: "0px 3px",
+            borderRadius: 2,
+          }}>
+            {getValueKindLabel(props.def.outputType)}
+          </span>
+        )}
+      </div>
       <div
         style={{
           fontSize: 10,
@@ -2010,13 +2050,31 @@ function StepConfigPanel(props: {
       return sDef?.producesData !== true
     })
 
+  const validationIssues = validateStep(step, stepIndex, allSteps)
+
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
     <div style={{ flex: 1, overflowY: "auto", padding: 12 }}>
       {def && (
         <Fragment>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <Text style={{ fontWeight: 600, fontSize: 12 }}>{def.label}</Text>
+            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <Text style={{ fontWeight: 600, fontSize: 12 }}>{def.label}</Text>
+              {def.outputType && (
+                <span
+                  style={{
+                    fontSize: 9,
+                    color: getValueKindColor(def.outputType),
+                    background: `${getValueKindColor(def.outputType)}18`,
+                    padding: "1px 5px",
+                    borderRadius: 3,
+                    fontWeight: 500,
+                  }}
+                >
+                  {getValueKindLabel(def.outputType)}
+                </span>
+              )}
+            </div>
             <button
               onClick={onRunToStep}
               style={{
@@ -2038,6 +2096,27 @@ function StepConfigPanel(props: {
           <Text style={{ fontSize: 11, color: "var(--figma-color-text-secondary)" }}>
             {def.description}
           </Text>
+          {validationIssues.length > 0 && (
+            <Fragment>
+              <VerticalSpace space="small" />
+              {validationIssues.map((issue, i) => (
+                <div
+                  key={i}
+                  style={{
+                    padding: "4px 8px",
+                    borderRadius: 4,
+                    fontSize: 10,
+                    marginBottom: 4,
+                    background: issue.type === "error" ? "#fef2f2" : "#fffbeb",
+                    border: `1px solid ${issue.type === "error" ? "#fecaca" : "#fde68a"}`,
+                    color: issue.type === "error" ? "#991b1b" : "#92400e",
+                  }}
+                >
+                  {issue.message}
+                </div>
+              ))}
+            </Fragment>
+          )}
           <VerticalSpace space="medium" />
         </Fragment>
       )}
