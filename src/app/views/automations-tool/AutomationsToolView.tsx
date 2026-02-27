@@ -61,6 +61,7 @@ import {
   collectOutputNames,
   getValueKindLabel,
   getValueKindColor,
+  getValueKindBgColor,
   validateStep,
   type ValueKind,
 } from "../../tools/automations/types"
@@ -1420,7 +1421,7 @@ function StepRow(props: {
               style={{
                 fontSize: 8,
                 color: getValueKindColor(def.outputType),
-                background: `${getValueKindColor(def.outputType)}18`,
+                background: getValueKindBgColor(def.outputType),
                 padding: "1px 3px",
                 borderRadius: 3,
                 fontWeight: 500,
@@ -2004,7 +2005,7 @@ function ActionPickerRow(props: { def: ActionDefinition; onSelect: () => void })
           <span style={{
             fontSize: 8,
             color: getValueKindColor(props.def.outputType),
-            background: `${getValueKindColor(props.def.outputType)}15`,
+            background: getValueKindBgColor(props.def.outputType),
             padding: "0px 3px",
             borderRadius: 2,
           }}>
@@ -2065,7 +2066,7 @@ function StepConfigPanel(props: {
                   style={{
                     fontSize: 9,
                     color: getValueKindColor(def.outputType),
-                    background: `${getValueKindColor(def.outputType)}18`,
+                    background: getValueKindBgColor(def.outputType),
                     padding: "1px 5px",
                     borderRadius: 3,
                     fontWeight: 500,
@@ -2107,9 +2108,15 @@ function StepConfigPanel(props: {
                     borderRadius: 4,
                     fontSize: 10,
                     marginBottom: 4,
-                    background: issue.type === "error" ? "#fef2f2" : "#fffbeb",
-                    border: `1px solid ${issue.type === "error" ? "#fecaca" : "#fde68a"}`,
-                    color: issue.type === "error" ? "#991b1b" : "#92400e",
+                    background: issue.type === "error"
+                      ? "var(--figma-color-bg-danger-tertiary, var(--figma-color-bg-secondary))"
+                      : "var(--figma-color-bg-warning-tertiary, var(--figma-color-bg-secondary))",
+                    border: `1px solid ${issue.type === "error"
+                      ? "var(--figma-color-border-danger, var(--figma-color-border))"
+                      : "var(--figma-color-border-warning, var(--figma-color-border))"}`,
+                    color: issue.type === "error"
+                      ? "var(--figma-color-text-danger)"
+                      : "var(--figma-color-text-warning)",
                   }}
                 >
                   {issue.message}
@@ -2561,8 +2568,12 @@ function renderStepParams(
         <Fragment>
           {inputCtx}
           <div style={{
-            padding: "6px 8px", background: "#fff1f2", border: "1px solid #fecdd3",
-            borderRadius: 4, color: "#9f1239", fontSize: 11,
+            padding: "6px 8px",
+            background: "var(--figma-color-bg-danger-tertiary, var(--figma-color-bg-secondary))",
+            border: "1px solid var(--figma-color-border-danger, var(--figma-color-border))",
+            borderRadius: 4,
+            color: "var(--figma-color-text-danger)",
+            fontSize: 11,
           }}>
             Destructive action. Deleted nodes cannot be recovered within the automation. Use Figma's Undo (Ctrl+Z) if needed.
           </div>

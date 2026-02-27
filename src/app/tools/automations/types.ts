@@ -635,11 +635,21 @@ export function getValueKindLabel(kind: ValueKind): string {
 
 export function getValueKindColor(kind: ValueKind): string {
   switch (kind) {
-    case "nodes": return "#7c3aed"
-    case "text": return "#2563eb"
-    case "number": return "#d97706"
-    case "boolean": return "#059669"
-    case "list": return "#0891b2"
+    case "nodes": return "var(--figma-color-text-component)"
+    case "text": return "var(--figma-color-text-brand)"
+    case "number": return "var(--figma-color-text-warning)"
+    case "boolean": return "var(--figma-color-text-success)"
+    case "list": return "var(--figma-color-text-brand-secondary, var(--figma-color-text-brand))"
+  }
+}
+
+export function getValueKindBgColor(kind: ValueKind): string {
+  switch (kind) {
+    case "nodes": return "var(--figma-color-bg-component-tertiary, var(--figma-color-bg-secondary))"
+    case "text": return "var(--figma-color-bg-brand-tertiary, var(--figma-color-bg-secondary))"
+    case "number": return "var(--figma-color-bg-warning-tertiary, var(--figma-color-bg-secondary))"
+    case "boolean": return "var(--figma-color-bg-success-tertiary, var(--figma-color-bg-secondary))"
+    case "list": return "var(--figma-color-bg-brand-tertiary, var(--figma-color-bg-secondary))"
   }
 }
 
