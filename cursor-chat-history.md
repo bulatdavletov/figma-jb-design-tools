@@ -632,3 +632,81 @@ What we should consider **aligning** (future phases):
 7. **Git** — Merged `codex/create-automation-for-component-placement` into `automations-tool` (fast-forward), deleted the feature branch. Current branch: `automations-tool` (ahead of origin by 13 commits).
 
 **Deferred:** Part 4B (extract leaf components) and 4C (extract step-params-renderer) — can be done in a follow-up to avoid risk in one session.
+
+## Automations Tool — Workflow Authoring (Phase 0–2)
+
+### 2026-02-27: Phase 0 — Rename user-facing language to "Workflows"
+
+**Task:** Align product language: user-facing term = "Workflow", internal engine remains pipeline/context.
+
+**What was done:**
+- "Automations" → "Workflows" in menu labels, titles, buttons, placeholders, tools registry
+- "Pipeline Variables" category → "Variables"
+- "Run Automation" Quick Action → "Run Workflow"
+- Action descriptions: "pipeline variable" → "variable"
+- Default new workflow name: "New workflow"
+- Internal code (types, messages, file names) unchanged — only user-facing strings
+
+### 2026-02-27: Phase 1 — Step Output Inspector + iterative authoring
+
+**Task:** Make authoring feel interactive — show per-step results while editing, support "Run to here".
+
+**What was done:**
+
+1. **StepOutputPreview type** (`context.ts`): Captures per-step output after execution
+   - `NodePreview` (id, name, type) for serializable node previews
+   - `captureNodeSample()` — first 20 nodes as serialized previews
+   - `serializePipelineVars()`, `savedNodeSetsCounts()` helpers
+   - Added `stepOutputs: StepOutputPreview[]` to `AutomationContext`
+
+2. **Executor changes** (`executor.ts`):
+   - `ExecuteOptions.maxStepIndex` — stops execution after N steps ("Run to here")
+   - `captureStepPreview()` records node sample, data output, vars snapshot, duration after each step
+   - Captures previews for regular steps, repeat blocks, error/skip states
+
+3. **Messages** (`messages.ts`):
+   - `StepOutputPreviewPayload` type for UI serialization
+   - `AutomationsRunResult.stepOutputs` — optional array of step previews in result
+   - `AUTOMATIONS_RUN.runToStepIndex` — optional field for "Run to here"
+
+4. **Step Output Inspector** (`AutomationsToolView.tsx`):
+   - `StepOutputInspector` component shown below step config when output exists
+   - Status indicator (success/error/skipped dot + label + duration)
+   - Node list preview (type + name, capped at 20, "N more" overflow)
+   - Data output preview (string/number/boolean or list items)
+   - Variables snapshot table, saved node sets counts
+   - Collapsible with max 50% height, scrollable
+
+5. **Run to here** button in step config panel header
+   - Saves current state, then runs up to the selected step
+   - Uses `runToStepIndex` in message to main thread
+
+6. **Per-step status indicators** on step rows
+   - Green/red/gray dots after a run indicating success/error/skipped
+   - Node count badge from step output
+
+### 2026-02-27: Phase 2 — Typed data flow + action compatibility
+
+**Task:** Make value types first-class in the UI with inline validation.
+
+**What was done:**
+
+1. **Value type system** (`types.ts`):
+   - `ValueKind` type: `"nodes" | "text" | "number" | "boolean" | "list"`
+   - `outputType` and `inputType` fields on `ActionDefinition`
+   - All 47 actions annotated with their input/output types
+   - `getValueKindLabel()`, `getValueKindColor()` for consistent type display
+   - Color scheme: nodes=purple, text=blue, number=amber, boolean=green, list=cyan
+
+2. **Validation** (`types.ts`):
+   - `validateStep()` checks type compatibility between consecutive steps
+   - Warns when a nodes-expecting action follows a data-producing action
+   - Validates `splitText` source is text/number, `repeatWithEach` source is list
+
+3. **UI type indicators** (`AutomationsToolView.tsx`):
+   - Step rows: colored output type badge (pill) next to category badge
+   - Step config header: type badge next to action label
+   - Validation warnings shown as colored banners before step params
+   - Action picker: input→output type flow indicators per action row
+
+**Files changed:** `types.ts`, `context.ts`, `executor.ts`, `main-thread.ts`, `messages.ts`, `AutomationsToolView.tsx`, `manifest.json`, `tools-registry-data.json`, `run-automation/main.ts`, `automations.ts` (fixtures)
