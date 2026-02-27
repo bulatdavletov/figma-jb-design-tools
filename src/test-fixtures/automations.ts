@@ -5,7 +5,7 @@ import type {
   AutomationPayload,
   AutomationsRunProgress,
   AutomationsRunResult,
-} from "../home/messages"
+} from "../app/messages"
 
 const BUILDER_SIZE = { width: 680, height: 520 }
 

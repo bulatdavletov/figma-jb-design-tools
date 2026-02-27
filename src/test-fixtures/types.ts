@@ -1,4 +1,4 @@
-import type { MainToUiMessage } from "../home/messages"
+import type { MainToUiMessage } from "../app/messages"
 
 export type Scenario = {
   id: string

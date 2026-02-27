@@ -1,5 +1,5 @@
 import type { Scenario } from "./types"
-import type { MainToUiMessage, PrintColorUsagesUiSettings } from "../home/messages"
+import type { MainToUiMessage, PrintColorUsagesUiSettings } from "../app/messages"
 
 const DEFAULT_SETTINGS: PrintColorUsagesUiSettings = {
   textPosition: "right",

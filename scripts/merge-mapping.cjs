@@ -21,18 +21,9 @@ const path = require("path")
 
 const MAPPING_INBOX = "/Users/Bulat.Davletov/Cursor Projects/Figma JSONs/mapping inbox"
 
-/**
- * Returns `"1 node"` or `"5 nodes"` — picks singular/plural form based on count.
- * For irregular plurals pass the plural form explicitly: `plural(1, "child", "children")`.
- */
-function plural(count, singular, pluralForm) {
-  const word = count === 1 ? singular : (pluralForm ?? `${singular}s`)
-  return `${count} ${word}`
-}
-
 const defaultFiles = {
-  icons: path.resolve(__dirname, "../src/tools/migrate-to-islands-uikit-tool/default-icon-mapping.json"),
-  uikit: path.resolve(__dirname, "../src/tools/migrate-to-islands-uikit-tool/default-uikit-mapping.json"),
+  icons: path.resolve(__dirname, "../src/app/tools/library-swap/default-icon-mapping.json"),
+  uikit: path.resolve(__dirname, "../src/app/tools/library-swap/default-uikit-mapping.json"),
 }
 
 function getTargetFromFilename(name) {

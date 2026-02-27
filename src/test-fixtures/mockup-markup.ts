@@ -1,5 +1,5 @@
 import type { Scenario } from "./types"
-import type { MainToUiMessage } from "../home/messages"
+import type { MainToUiMessage } from "../app/messages"
 
 const COLOR_PREVIEWS: MainToUiMessage = {
   type: "MOCKUP_MARKUP_COLOR_PREVIEWS",

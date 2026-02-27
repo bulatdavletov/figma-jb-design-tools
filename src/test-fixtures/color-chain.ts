@@ -1,5 +1,5 @@
 import type { Scenario } from "./types"
-import type { MainToUiMessage } from "../home/messages"
+import type { MainToUiMessage } from "../app/messages"
 
 const RESULT_V2: MainToUiMessage = {
   type: "VARIABLE_CHAINS_RESULT_V2",
