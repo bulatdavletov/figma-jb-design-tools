@@ -9,9 +9,11 @@ Need md file with available Figma colors,  Figma API actions.
 - [x]Push this repo to github
 new repo name: figma-jb-design-tools
 
-- [ ]Bug report: slack message to me. In header of tool? Bottom of home view?
+- [x]Bug report: slack message to me. In header of tool? Bottom of home view?
+✓ Implemented: Added a "Report bug" button to the ToolHeader for all tool views. Clicking it opens Slack and copies a bug report template to clipboard.
 
-- [ ]Foldable instructions inside tools
+- [x]Foldable instructions inside tools
+✓ Implemented: Added a reusable foldable "Instructions" block in ToolHeader. Each tool now has concise when-to-use, steps, output, and notes guidance from a shared config.
 
 Need to design Table view - started
 Is it possible to make window wider?
