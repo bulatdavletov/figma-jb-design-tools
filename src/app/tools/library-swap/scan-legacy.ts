@@ -202,7 +202,7 @@ async function ensureAllPagesLoaded(): Promise<void> {
   }
 }
 
-function collectNodesInSelection(): SceneNode[] {
+function collectNodesInSelection(includeHidden: boolean): SceneNode[] {
   const sel = figma.currentPage.selection
   const out: SceneNode[] = []
 
@@ -214,18 +214,30 @@ function collectNodesInSelection(): SceneNode[] {
       for (const d of descendants) out.push(d)
     }
   }
-  return out
+  return includeHidden ? out : out.filter((node) => isVisibleInCanvas(node))
 }
 
-async function getNodesForScope(scope: LibrarySwapScope): Promise<SceneNode[]> {
+
+function isVisibleInCanvas(node: BaseNode): boolean {
+  let current: BaseNode | null = node
+  while (current) {
+    if ("visible" in current && current.visible === false) return false
+    current = current.parent
+  }
+  return true
+}
+
+async function getNodesForScope(scope: LibrarySwapScope, includeHidden: boolean): Promise<SceneNode[]> {
   if (scope === "all_pages") {
     await ensureAllPagesLoaded()
-    return figma.root.findAll() as SceneNode[]
+    const nodes = figma.root.findAll() as SceneNode[]
+    return includeHidden ? nodes : nodes.filter((node) => isVisibleInCanvas(node))
   }
   if (scope === "selection") {
-    return collectNodesInSelection()
+    return collectNodesInSelection(includeHidden)
   }
-  return figma.currentPage.findAll() as SceneNode[]
+  const nodes = figma.currentPage.findAll() as SceneNode[]
+  return includeHidden ? nodes : nodes.filter((node) => isVisibleInCanvas(node))
 }
 
 // ---------------------------------------------------------------------------
@@ -234,10 +246,11 @@ async function getNodesForScope(scope: LibrarySwapScope): Promise<SceneNode[]> {
 
 async function scanStyles(
   scope: LibrarySwapScope,
+  includeHidden: boolean,
   onProgress?: (done: number, total: number) => void
 ): Promise<{ items: LegacyStyleItem[]; nodesScanned: number }> {
   overridesCache.clear()
-  const allNodes = await getNodesForScope(scope)
+  const allNodes = await getNodesForScope(scope, includeHidden)
   const items: LegacyStyleItem[] = []
   const styleCache = new Map<string, PaintStyle | null>()
 
@@ -289,10 +302,11 @@ async function scanStyles(
 
 async function scanComponents(
   scope: LibrarySwapScope,
+  includeHidden: boolean,
   richMatches: Record<string, MergedMatchEntry>,
   onProgress?: (done: number, total: number) => void
 ): Promise<LegacyComponentItem[]> {
-  const instances = await getInstancesForScope(scope)
+  const instances = await getInstancesForScope(scope, includeHidden)
   const items: LegacyComponentItem[] = []
   const allMappedKeys = new Set(Object.keys(richMatches))
 
@@ -368,16 +382,17 @@ async function scanComponents(
 
 export async function scanForLegacyItems(
   scope: LibrarySwapScope,
+  includeHidden: boolean,
   richMatches: Record<string, MergedMatchEntry>,
   onProgress?: (message: string, done: number, total: number) => void
 ): Promise<ScanLegacyResult> {
   onProgress?.("Scanning styles...", 0, 0)
-  const { items: styles, nodesScanned } = await scanStyles(scope, (done, total) => {
+  const { items: styles, nodesScanned } = await scanStyles(scope, includeHidden, (done, total) => {
     onProgress?.(`Scanning styles... ${done} / ${total}`, done, total)
   })
 
   onProgress?.("Scanning components...", 0, 0)
-  const components = await scanComponents(scope, richMatches, (done, total) => {
+  const components = await scanComponents(scope, includeHidden, richMatches, (done, total) => {
     onProgress?.(`Scanning components... ${done} / ${total}`, done, total)
   })
 

@@ -52,6 +52,7 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
   // Mappings
   const [useBuiltInIcons, setUseBuiltInIcons] = useState(true)
   const [useBuiltInUikit, setUseBuiltInUikit] = useState(true)
+  const [includeHidden, setIncludeHidden] = useState(true)
   const [customFilename, setCustomFilename] = useState<string | null>(null)
   const [customJsonText, setCustomJsonText] = useState<string | null>(null)
 
@@ -171,6 +172,7 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
   function buildRequest() {
     return {
       scope,
+      includeHidden,
       useBuiltInIcons,
       useBuiltInUikit,
       customMappingJsonText: customJsonText ?? undefined,
@@ -406,6 +408,13 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
               onValueChange={setScope}
               disabled={isBusy}
             />
+            <Checkbox
+              value={includeHidden}
+              onValueChange={setIncludeHidden}
+              disabled={isBusy}
+            >
+              <Text>Check Hidden Layers</Text>
+            </Checkbox>
           </Stack>
 
           {/* -- Preview (only after analyze) ------------------------------ */}
@@ -496,50 +505,6 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
           {/* -- Scan Legacy results --------------------------------------- */}
           {scanLegacyResult && !isBusy && (
             <Fragment>
-              {scanLegacyResult.components.length > 0 && (
-                <Fragment>
-                  <VerticalSpace space="small" />
-                  <DataTable
-                    header="Legacy components"
-                    summary={`${scanLegacyResult.components.length} component usage${scanLegacyResult.components.length !== 1 ? "s" : ""} found`}
-                    columns={[
-                      { label: "Layer", width: "25%" },
-                      { label: "Old component", width: "25%" },
-                      { label: "Status", width: "50%" },
-                    ]}
-                  >
-                    {scanLegacyResult.components.map((item, idx) => (
-                      <tr
-                        key={`${item.nodeId}-${idx}`}
-                        style={{ cursor: "pointer" }}
-                        onClick={() => handleFocusNode(item.nodeId)}
-                        title={`${item.pageName} — click to focus`}
-                      >
-                        <td style={cellStyle}>{item.nodeName}</td>
-                        <td style={cellStyle}>{item.oldComponentName}</td>
-                        <td style={cellStyle}>
-                          {item.category === "mapped" && (
-                            <Text style={{ fontSize: 11, color: "#067647" }}>
-                              → {item.newComponentName}
-                            </Text>
-                          )}
-                          {item.category === "text_only" && (
-                            <Text style={{ fontSize: 11, color: "#b45309" }}>
-                              {item.description}
-                            </Text>
-                          )}
-                          {item.category === "unmapped" && (
-                            <Text style={{ fontSize: 11, color: "#9f1239" }}>
-                              No replacement
-                            </Text>
-                          )}
-                        </td>
-                      </tr>
-                    ))}
-                  </DataTable>
-                </Fragment>
-              )}
-
               {scanLegacyResult.styles.length > 0 && (
                 <Fragment>
                   <VerticalSpace space="small" />
@@ -583,7 +548,7 @@ export function LibrarySwapToolView({ onBack, initialSelectionEmpty }: Props) {
                 </Fragment>
               )}
 
-              {scanLegacyResult.styles.length === 0 && scanLegacyResult.components.length === 0 && (
+              {scanLegacyResult.styles.length === 0 && (
                 <div style={{ padding: 8, background: "#ecfdf3", borderRadius: 4 }}>
                   <Text style={{ color: "#067647" }}>No legacy items found — clean!</Text>
                 </div>
