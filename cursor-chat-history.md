@@ -801,3 +801,12 @@ What we should consider **aligning** (future phases):
      - `src/tools/migrate-to-islands-uikit-tool/main.ts` & `main-thread.ts`
      - `src/tools/variables-rename-tool/main.ts` & `main-thread.ts`
      - `src/ui-showcase/tool-registry.ts`
+
+### 2026-02-27: Reapply restructure — verification and rebase to main
+- Verified the re-applied folder restructuring builds and tests pass on this branch:
+  - `npm ci` OK
+  - `npm test` OK (6 files, 151 tests)
+  - `npm run build` OK (typecheck + build)
+- Rebased `codex/find-process-to-reapply-reverted-commit` onto latest `main` (no conflicts; already up to date).
+- Pushed branch to origin (no changes after rebase). PR is open and mergeable.
+- Next step after merge: delete the feature branch (remote auto-delete or manual).
