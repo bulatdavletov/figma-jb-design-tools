@@ -1,7 +1,8 @@
-import { Checkbox, IconSpacingHorizontalSmall24, RadioButtons, Stack, Text, TextboxNumeric } from "@create-figma-plugin/ui"
+import { Checkbox, IconSpacingHorizontalSmall24, Stack, Text, TextboxNumeric } from "@create-figma-plugin/ui"
 import { h } from "preact"
 
 import type { PrintColorUsagesUiSettings } from "../../messages"
+import { SegmentedControlWithWidth } from "../../components/SegmentedControlWithWidth"
 
 export function SettingsTab(props: {
   settings: PrintColorUsagesUiSettings
@@ -11,33 +12,28 @@ export function SettingsTab(props: {
 
   return (
     <Stack space="small">
-
-      {/* Position */}
       <Stack space="extraSmall">
         <Text>Position</Text>
-        <div style={{ height: 24, display: "flex", alignItems: "center" }}>
-          <RadioButtons
-            direction="horizontal"
-            value={settings.textPosition}
-            onValueChange={(value) =>
-              setSettings((s) => ({
-                ...s,
-                textPosition: value === "left" || value === "right" ? value : "right",
-              }))
-            }
-            options={[
-              { value: "left", children: <Text>Left</Text> },
-              { value: "right", children: <Text>Right</Text> },
-            ]}
-          />
-        </div>
+        <SegmentedControlWithWidth
+          value={settings.textPosition}
+          onValueChange={(value) =>
+            setSettings((s) => ({
+              ...s,
+              textPosition: value === "left" || value === "right" ? value : "right",
+            }))
+          }
+          options={[
+            { value: "left", children: "Left" },
+            { value: "right", children: "Right" },
+          ]}
+        />
       </Stack>
 
-      {/* Distance */}
       <Stack space="extraSmall" style={{ marginBottom: 20 }}>
         <Text>Distance</Text>
         <div style={{ width: 80 }}>
-          <TextboxNumeric icon={<IconSpacingHorizontalSmall24 />}
+          <TextboxNumeric
+            icon={<IconSpacingHorizontalSmall24 />}
             value={String(settings.printDistance)}
             onNumericValueInput={(value) =>
               setSettings((s) => ({ ...s, printDistance: value ?? 16 }))
@@ -49,9 +45,7 @@ export function SettingsTab(props: {
         </div>
       </Stack>
 
-      {/* Checkboxes */}
       <Stack space="small">
-
         <Checkbox
           value={settings.showLinkedColors}
           onValueChange={(value) => setSettings((s) => ({ ...s, showLinkedColors: value }))}
@@ -86,9 +80,7 @@ export function SettingsTab(props: {
         >
           <Text>Apply text style from Mockup Markup</Text>
         </Checkbox>
-
       </Stack>
-
     </Stack>
   )
 }
