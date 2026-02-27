@@ -47,62 +47,62 @@
       {
         "name": "All Tools",
         "main": "src/home/main.ts",
-        "ui": "src/app/ui.tsx"
+        "ui": "src/home/ui.tsx"
       },
       {
         "name": "Migrate to Islands UI Kit",
-        "main": "src/library-swap-tool/main.ts",
-        "ui": "src/app/ui.tsx"
+        "main": "src/tools/migrate-to-islands-uikit-tool/main.ts",
+        "ui": "src/home/ui.tsx"
       },
       {
         "name": "View Colors Chain",
-        "main": "src/color-chain-tool/main.ts",
-        "ui": "src/app/ui.tsx"
+        "main": "src/tools/color-chain-tool/main.ts",
+        "ui": "src/home/ui.tsx"
       },
       {
         "name": "Find Color Match in Islands UI Kit",
-        "main": "src/find-color-match-tool/main.ts",
-        "ui": "src/app/ui.tsx"
+        "main": "src/tools/find-color-match-tool/main.ts",
+        "ui": "src/home/ui.tsx"
       },
       {
         "name": "Mockup Markup Quick Apply",
-        "main": "src/mockup-markup-tool/main.ts",
-        "ui": "src/app/ui.tsx"
+        "main": "src/tools/mockup-markup-quick-apply-tool/main.ts",
+        "ui": "src/home/ui.tsx"
       },
       {
         "name": "Automations",
-        "main": "src/automations-tool/main.ts",
-        "ui": "src/app/ui.tsx"
+        "main": "src/tools/automations-tool/main.ts",
+        "ui": "src/home/ui.tsx"
       },
       {
         "name": "Print Color Usages",
-        "main": "src/print-color-usages-tool/main.ts",
-        "ui": "src/app/ui.tsx"
+        "main": "src/tools/print-color-usages-tool/main.ts",
+        "ui": "src/home/ui.tsx"
       },
       {
         "name": "Variables Export Import",
-        "main": "src/variables-export-import-tool/main.ts",
-        "ui": "src/app/ui.tsx"
+        "main": "src/tools/variables-export-import-tool/main.ts",
+        "ui": "src/home/ui.tsx"
       },
       {
         "name": "Rename Variables via JSON",
-        "main": "src/variables-batch-rename-tool/main.ts",
-        "ui": "src/app/ui.tsx"
+        "main": "src/tools/variables-rename-tool/main.ts",
+        "ui": "src/home/ui.tsx"
       },
       {
         "name": "Variables Create Linked Colors",
-        "main": "src/variables-create-linked-colors-tool/main.ts",
-        "ui": "src/app/ui.tsx"
+        "main": "src/tools/variables-create-linked-colors-tool/main.ts",
+        "ui": "src/home/ui.tsx"
       },
       {
         "name": "Variables Replace Usages",
-        "main": "src/variables-replace-usages-tool/main.ts",
-        "ui": "src/app/ui.tsx"
+        "main": "src/tools/variables-replace-usages-tool/main.ts",
+        "ui": "src/home/ui.tsx"
       },
       {
         "name": "Run Automation",
-        "main": "src/run-automation/main.ts",
-        "ui": "src/app/ui.tsx",
+        "main": "src/tools/automations-tool/run-automation.ts",
+        "ui": "src/home/ui.tsx",
         "parameterOnly": false,
         "parameters": [
           {
