@@ -101,7 +101,7 @@ export const scenarios: Scenario[] = [
   },
   {
     id: "list-with-items",
-    label: "List (3 automations)",
+    label: "List (3 workflows)",
     messages: [LIST],
   },
   {
