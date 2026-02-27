@@ -881,6 +881,7 @@ export type LibrarySwapScope = "selection" | "page" | "all_pages"
 
 export type LibrarySwapAnalyzeRequest = {
   scope: LibrarySwapScope
+  includeHidden: boolean
   useBuiltInIcons: boolean
   useBuiltInUikit: boolean
   customMappingJsonText?: string
@@ -888,6 +889,7 @@ export type LibrarySwapAnalyzeRequest = {
 
 export type LibrarySwapPreviewRequest = {
   scope: LibrarySwapScope
+  includeHidden: boolean
   useBuiltInIcons: boolean
   useBuiltInUikit: boolean
   customMappingJsonText?: string
@@ -896,6 +898,7 @@ export type LibrarySwapPreviewRequest = {
 
 export type LibrarySwapApplyRequest = {
   scope: LibrarySwapScope
+  includeHidden: boolean
   useBuiltInIcons: boolean
   useBuiltInUikit: boolean
   customMappingJsonText?: string

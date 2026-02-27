@@ -212,7 +212,7 @@ export function registerLibrarySwapTool(getActiveTool: () => ActiveTool) {
       // -- Analyze (includes Scan Legacy) ------------------------------------
       if (msg.type === UI_TO_MAIN.LIBRARY_SWAP_ANALYZE) {
         try {
-          const { scope, useBuiltInIcons, useBuiltInUikit, customMappingJsonText } = msg.request
+          const { scope, includeHidden = true, useBuiltInIcons, useBuiltInUikit, customMappingJsonText } = msg.request
           const sources = collectSources(useBuiltInIcons, useBuiltInUikit, customMappingJsonText)
           const merged = mergeMappingMatches(sources)
           const meta = mergeMappingMeta(sources)
@@ -232,7 +232,7 @@ export function registerLibrarySwapTool(getActiveTool: () => ActiveTool) {
           })
           await new Promise((r) => setTimeout(r, 0))
 
-          const result = await analyzeSwap(merged, scope as LibrarySwapScope, meta, (done, total) => {
+          const result = await analyzeSwap(merged, scope as LibrarySwapScope, includeHidden, meta, (done, total) => {
             figma.ui.postMessage({
               type: MAIN_TO_UI.LIBRARY_SWAP_PROGRESS,
               progress: { current: done, total, message: `Analyzing... ${done} / ${total}` },
@@ -253,6 +253,7 @@ export function registerLibrarySwapTool(getActiveTool: () => ActiveTool) {
 
           const legacyResult = await scanForLegacyItems(
             scope as LibrarySwapScope,
+            includeHidden,
             richMatches,
             (message, done, total) => {
               figma.ui.postMessage({
@@ -279,7 +280,7 @@ export function registerLibrarySwapTool(getActiveTool: () => ActiveTool) {
       // -- Preview -----------------------------------------------------------
       if (msg.type === UI_TO_MAIN.LIBRARY_SWAP_PREVIEW) {
         try {
-          const { scope, useBuiltInIcons, useBuiltInUikit, customMappingJsonText, sampleSize } = msg.request
+          const { scope, includeHidden = true, useBuiltInIcons, useBuiltInUikit, customMappingJsonText, sampleSize } = msg.request
           const merged = buildMergedMatches(useBuiltInIcons, useBuiltInUikit, customMappingJsonText)
 
           figma.ui.postMessage({
@@ -288,7 +289,7 @@ export function registerLibrarySwapTool(getActiveTool: () => ActiveTool) {
           })
           await new Promise((r) => setTimeout(r, 0))
 
-          const result = await previewSwap(merged, scope as LibrarySwapScope, sampleSize ?? 12)
+          const result = await previewSwap(merged, scope as LibrarySwapScope, includeHidden, sampleSize ?? 12)
           figma.ui.postMessage({
             type: MAIN_TO_UI.LIBRARY_SWAP_PREVIEW_RESULT,
             previewed: result.previewed,
@@ -307,7 +308,7 @@ export function registerLibrarySwapTool(getActiveTool: () => ActiveTool) {
       // -- Apply -------------------------------------------------------------
       if (msg.type === UI_TO_MAIN.LIBRARY_SWAP_APPLY) {
         try {
-          const { scope, useBuiltInIcons, useBuiltInUikit, customMappingJsonText } = msg.request
+          const { scope, includeHidden = true, useBuiltInIcons, useBuiltInUikit, customMappingJsonText } = msg.request
           const merged = buildMergedMatches(useBuiltInIcons, useBuiltInUikit, customMappingJsonText)
 
           if (Object.keys(merged).length === 0) {
@@ -324,7 +325,7 @@ export function registerLibrarySwapTool(getActiveTool: () => ActiveTool) {
           })
           await new Promise((r) => setTimeout(r, 0))
 
-          const result = await swapInstances(merged, scope as LibrarySwapScope, (done, total) => {
+          const result = await swapInstances(merged, scope as LibrarySwapScope, includeHidden, (done, total) => {
             figma.ui.postMessage({
               type: MAIN_TO_UI.LIBRARY_SWAP_PROGRESS,
               progress: {

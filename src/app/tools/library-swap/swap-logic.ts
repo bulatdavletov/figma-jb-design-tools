@@ -16,6 +16,15 @@ async function ensureAllPagesLoaded(): Promise<void> {
   }
 }
 
+function isVisibleInCanvas(node: BaseNode): boolean {
+  let current: BaseNode | null = node
+  while (current) {
+    if ("visible" in current && current.visible === false) return false
+    current = current.parent
+  }
+  return true
+}
+
 function collectInstancesInSelection(): InstanceNode[] {
   const sel = figma.currentPage.selection
   const seen = new Set<string>()
@@ -40,17 +49,23 @@ function collectInstancesInSelection(): InstanceNode[] {
 }
 
 export async function getInstancesForScope(
-  scope: LibrarySwapScope
+  scope: LibrarySwapScope,
+  includeHidden: boolean
 ): Promise<InstanceNode[]> {
+  const filterByVisibility = (instances: InstanceNode[]) => {
+    if (includeHidden) return instances
+    return instances.filter((instance) => isVisibleInCanvas(instance))
+  }
+
   if (scope === "all_pages") {
     await ensureAllPagesLoaded()
-    return figma.root.findAllWithCriteria({ types: ["INSTANCE"] }) as InstanceNode[]
+    return filterByVisibility(figma.root.findAllWithCriteria({ types: ["INSTANCE"] }) as InstanceNode[])
   }
   if (scope === "selection") {
-    return collectInstancesInSelection()
+    return filterByVisibility(collectInstancesInSelection())
   }
   // "page"
-  return figma.currentPage.findAllWithCriteria({ types: ["INSTANCE"] }) as InstanceNode[]
+  return filterByVisibility(figma.currentPage.findAllWithCriteria({ types: ["INSTANCE"] }) as InstanceNode[])
 }
 
 // ---------------------------------------------------------------------------
@@ -92,10 +107,11 @@ const ANALYZE_ITEMS_CAP = 200
 export async function analyzeSwap(
   mergedMatches: Record<string, string>,
   scope: LibrarySwapScope,
+  includeHidden: boolean,
   meta: Record<string, MergedMeta>,
   onProgress?: (done: number, total: number) => void
 ): Promise<AnalyzeResult> {
-  const instances = await getInstancesForScope(scope)
+  const instances = await getInstancesForScope(scope, includeHidden)
   const total = instances.length
   let mappable = 0
   const uniqueKeys = new Set<string>()
@@ -160,6 +176,7 @@ export type SwapResult = {
 export async function swapInstances(
   mergedMatches: Record<string, string>,
   scope: LibrarySwapScope,
+  includeHidden: boolean,
   onProgress?: (done: number, total: number) => void
 ): Promise<SwapResult> {
   const cache = new Map<string, ComponentNode>()
@@ -174,7 +191,7 @@ export async function swapInstances(
 
   while (pass < MAX_PASSES) {
     pass++
-    const instances = await getInstancesForScope(scope)
+    const instances = await getInstancesForScope(scope, includeHidden)
     let swappedThisPass = 0
 
     for (let i = 0; i < instances.length; i++) {
@@ -300,11 +317,12 @@ function createSeparator(): RectangleNode {
 export async function previewSwap(
   mergedMatches: Record<string, string>,
   scope: LibrarySwapScope,
+  includeHidden: boolean,
   sampleSize: number = 12
 ): Promise<{ previewed: number }> {
   // Gather mappable instances, deduped by old component key.
   // Stop scanning once we have enough unique keys (cap total scanned to avoid timeout).
-  const instances = await getInstancesForScope(scope)
+  const instances = await getInstancesForScope(scope, includeHidden)
   // Deduplicate by newKey so Light/Dark variants mapping to the same new component show as one row
   const seenNewKeys = new Set<string>()
   const mappable: Array<{ inst: InstanceNode; oldKey: string; oldName: string }> = []
