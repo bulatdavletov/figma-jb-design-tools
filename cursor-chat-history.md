@@ -710,3 +710,60 @@ What we should consider **aligning** (future phases):
    - Action picker: input→output type flow indicators per action row
 
 **Files changed:** `types.ts`, `context.ts`, `executor.ts`, `main-thread.ts`, `messages.ts`, `AutomationsToolView.tsx`, `manifest.json`, `tools-registry-data.json`, `run-automation/main.ts`, `automations.ts` (fixtures)
+
+### 2026-02-28: Phase 3 — Control-flow expansion
+
+**Task:** Close functional gap with Apple Shortcuts by adding richer control-flow primitives beyond repeat.
+
+**What was done:**
+
+1. **5 new action types** (`types.ts`):
+   - `ifCondition` (flow): Conditional branching with then/else children blocks
+   - `chooseFromList` (input): Selection dialog from list variable or static comma-separated options
+   - `mapList` (flow): Iterate list running child steps, collect last data output into new list
+   - `reduceList` (flow): Iterate list with accumulator pattern (initial value + accumulator variable)
+   - `stopAndOutput` (flow): Immediate workflow stop with optional message
+
+2. **`elseChildren` field** on `AutomationStep`:
+   - Supports if/else branching — `children` = then-block, `elseChildren` = else-block
+   - Added to `AutomationStep`, `AutomationExportStepFormat`, `AutomationStepPayload`
+   - Handled in storage export/import, main-thread payload conversion, migration
+
+3. **Flow action handlers** (`actions/flow-actions.ts`):
+   - `evaluateCondition()`: 10 operators (equals, notEquals, greaterThan, lessThan, greaterOrEqual, lessOrEqual, contains, notContains, isEmpty, isNotEmpty)
+   - `StopExecutionError`: Caught by executor to cleanly stop without error status
+   - `chooseFromListAction`: Uses input bridge with `inputType: "select"` and options array
+   - `stopAndOutputAction`: Resolves tokens in message, throws StopExecutionError
+
+4. **Executor changes** (`executor.ts`):
+   - `executeIfCondition()`: Evaluates condition via token resolution + evaluateCondition, routes to then/else children
+   - `executeMapList()`: Iterates list variable, runs children per item, collects last child's data output into result list
+   - `executeReduceList()`: Iterates with accumulator variable, children update accumulator via math/setPipelineVariable
+   - StopExecutionError catch alongside InputCancelledError
+
+5. **UI changes** (`AutomationsToolView.tsx`):
+   - `ChildrenBlock` component (replaces `RepeatChildrenBlock`): supports `branch` (then/else) and optional `label` props
+   - `StepPath` extended with `childBranch?: "then" | "else"` for if/else selection
+   - All step operations (remove, move, toggle, update param/output/target) handle childBranch
+   - `pickerParentBranch` state tracks which branch to add child steps to
+   - Config forms for all 5 new actions with dropdowns, token inputs, help text
+   - `InputDialog` extended with select mode: clickable list items with highlight
+   - `ifCondition` shows two children blocks: "Then" and "Otherwise"
+   - `mapList`/`reduceList` show single children block like repeatWithEach
+
+6. **Helpers** (`helpers.tsx`):
+   - `getParamSummary` cases for all 5 new actions
+   - `buildSuggestions` handles mapList/reduceList parent types (itemVar, accumulatorVar, repeatIndex)
+   - `renderInputContext` shows context for map/reduce/if parent blocks
+
+7. **Quick Actions** (`run-automation/main.ts`):
+   - `stepNeedsUI()` recursive check includes chooseFromList and elseChildren
+
+**Architecture decisions:**
+- ifCondition, mapList, reduceList handled directly in executor (like repeatWithEach) since they need recursive executeSteps
+- chooseFromList and stopAndOutput are regular ACTION_HANDLERS (no children execution needed)
+- elseChildren is a separate field rather than a second children array, keeping backward compatibility
+- evaluateCondition does string comparison by default, numeric comparison for relational operators
+- mapList collects from last data-producing child step's output, falls back to item variable value
+
+**Files changed:** `types.ts`, `executor.ts`, `context.ts` (unchanged), `main-thread.ts`, `messages.ts`, `input-bridge.ts`, `storage.ts`, `actions/flow-actions.ts` (new), `AutomationsToolView.tsx`, `helpers.tsx`, `run-automation/main.ts`

@@ -742,7 +742,8 @@ For more complex transformations, consider built-in string functions:
   params: Record<string, unknown> // Action-specific parameters
   enabled: boolean                // Can be toggled off
   outputName?: string             // Auto-generated, user can rename
-  children?: AutomationStep[]     // For repeatWithEach child steps
+  children?: AutomationStep[]     // For flow actions with child steps (repeat, if, map, reduce)
+  elseChildren?: AutomationStep[] // For ifCondition else-branch
 }
 ```
 
@@ -850,6 +851,13 @@ Every step can have an `outputName`. What gets saved depends on the action:
 | `actionType` | Label | Params | Default output |
 |--------------|-------|--------|----------------|
 | `askForInput` | Ask for input | `label`, `placeholder?`, `inputType` | `input` |
+| `chooseFromList` | Choose from list | `sourceVar?`, `options?`, `label` | `choice` |
+
+**`chooseFromList` details:**
+- Shows a selection dialog (select mode in InputDialog)
+- Takes options from a list variable (`sourceVar`) or static comma-separated values (`options`)
+- If both specified, `sourceVar` takes priority
+- Returns chosen item as data output
 
 #### Pipeline Variables (category: `variables`)
 
@@ -864,6 +872,10 @@ Every step can have an `outputName`. What gets saved depends on the action:
 | `actionType` | Label | Params | Default output |
 |--------------|-------|--------|----------------|
 | `repeatWithEach` | Repeat with each | `source`, `itemVar`, `onMismatch`, `children[]` | — |
+| `ifCondition` | If | `left`, `operator`, `right`, `children[]`, `elseChildren[]` | — |
+| `mapList` | Map list | `source`, `itemVar`, `children[]` | `mapped` (list) |
+| `reduceList` | Reduce list | `source`, `itemVar`, `accumulatorVar`, `initialValue`, `children[]` | `reduced` (text) |
+| `stopAndOutput` | Stop | `message` | — |
 
 **`repeatWithEach` details:**
 
@@ -887,6 +899,32 @@ Two modes depending on `source` value:
 - `"error"` — stops if list length ≠ node count
 - `"repeatList"` — cycles list items from start (iterates nodeCount times)
 - `"skipExtra"` — iterates min(listCount, nodeCount) times
+
+**`ifCondition` details:**
+- Evaluates condition: `left` operator `right` (both token-aware)
+- Operators: `equals`, `notEquals`, `greaterThan`, `lessThan`, `greaterOrEqual`, `lessOrEqual`, `contains`, `notContains`, `isEmpty`, `isNotEmpty`
+- For `isEmpty`/`isNotEmpty`, only `left` value is used
+- If condition is true → executes `children[]` (then block)
+- If condition is false → executes `elseChildren[]` (otherwise block, optional)
+- `elseChildren` is a new field on `AutomationStep` (only used by `ifCondition`)
+
+**`mapList` details:**
+- Takes a list variable (`source`) and iterates it
+- Sets `$<itemVar>` and `$repeatIndex` per iteration
+- Runs child steps for each item
+- Collects last data-producing child step's output into a new result list
+- Returns the result list as `ActionResult` (saved as list variable)
+
+**`reduceList` details:**
+- Takes a list variable (`source`) and an initial accumulator value
+- Sets `$<itemVar>`, `$<accumulatorVar>`, and `$repeatIndex` per iteration
+- Child steps should update `$<accumulatorVar>` (e.g. via Math or Set variable)
+- Returns final accumulator value as output
+
+**`stopAndOutput` details:**
+- Stops workflow execution immediately
+- Resolves tokens in message before stopping
+- Useful inside If blocks for conditional early exit
 
 #### Output (category: `output`)
 
@@ -976,7 +1014,8 @@ Tokens can be used in any text parameter that supports them (marked "supports to
 
 - `outputName` is auto-generated as a noun based on what the action produces (e.g., `selection`, `filtered`, `input`, `parts`). User can rename. Second occurrences append `-2`, `-3`, etc.
 - `sourceVar` / `source` reference output names without `$` prefix (the system adds `$` for display)
-- `children` array is only used by `repeatWithEach`
+- `children` array is used by flow actions: `repeatWithEach`, `ifCondition`, `mapList`, `reduceList`
+- `elseChildren` array is only used by `ifCondition`
 - `enabled: false` skips the step during execution
 - Token expressions use `{curly braces}`. Builder has autocomplete triggered by `{`. Tokens are rendered with colored background pills in the UI.
 - Data-producing actions (`producesData: true`) save to `pipelineVars`, all others save to `savedNodeSets`
@@ -1005,11 +1044,22 @@ Auto-generated output names, Input dropdowns with autocomplete, action picker se
 - **Token highlighting**: `{token}` expressions rendered with colored background pills (blue for properties, green for `$vars`, orange for `#snapshots`)
 - **Storage migration**: Auto-converts old filter actions and output names
 
-### Phase 4 — Advanced flow control (planned)
-- Conditions (if/otherwise/end if)
-- Choose from Menu / Choose from List input actions
+### Phase 3.5 — Workflow authoring (2026-02-27, done)
+- **Phase 0**: User-facing "Automations" → "Workflows" rename
+- **Phase 1**: Step Output Inspector (per-step result preview in right panel, Run to here, step status indicators)
+- **Phase 2**: Typed data flow (ValueKind, outputType/inputType annotations, inline validation warnings, type badges)
+
+### Phase 3.6 — Control-flow expansion (2026-02-28, done)
+- **5 new flow/input actions**: `ifCondition` (conditional branching with then/else children), `chooseFromList` (selection dialog from list/static options), `mapList` (list→list transformation), `reduceList` (list→value accumulation), `stopAndOutput` (early exit)
+- **`elseChildren` field**: Added to AutomationStep for if/else branching
+- **10 condition operators**: equals, notEquals, greaterThan, lessThan, greaterOrEqual, lessOrEqual, contains, notContains, isEmpty, isNotEmpty
+- **Generalized ChildrenBlock**: Supports branch labels (Then/Otherwise), replaces RepeatChildrenBlock
+- **InputDialog select mode**: Clickable option list for chooseFromList
+
+### Phase 4 — Productization (planned)
+- Starter workflows gallery (Many Paster, Resize to parent, Add autolayout per node)
 - Step notes/descriptions
-- Math expressions, compound actions
 - Tool wrapper actions (Print Colors, Library Swap, Replace Usages)
-- Object-action compatibility checks in builder UI
+- Import/export version bump + compatibility tests
+- Release checklist + test matrix
 - Dry run / preview mode
