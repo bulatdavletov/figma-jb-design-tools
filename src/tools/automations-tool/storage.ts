@@ -76,7 +76,7 @@ function stepToExportStep(s: AutomationStep): AutomationExportStepFormat {
     enabled: s.enabled,
   }
   if (s.outputName) out.outputName = s.outputName
-  if (s.target) out.target = s.target
+  if (s.input) out.input = s.input
   if (s.children && s.children.length > 0) {
     out.children = s.children.map(stepToExportStep)
   }
@@ -139,8 +139,10 @@ function importStep(s: any): AutomationStep {
   if (typeof s.outputName === "string" && s.outputName) {
     step.outputName = s.outputName
   }
-  if (typeof s.target === "string" && s.target) {
-    step.target = s.target
+  if (typeof s.input === "string" && s.input) {
+    step.input = s.input
+  } else if (typeof s.target === "string" && s.target) {
+    step.input = s.target
   }
   if (Array.isArray(s.children) && s.children.length > 0) {
     step.children = s.children
@@ -161,6 +163,7 @@ const ACTION_TYPE_MIGRATIONS: Record<string, ActionType> = {
   selectByName: "filter",
   filterByType: "filter",
   filterByName: "filter",
+  restoreNodes: "sourceFromSelection",
 }
 
 const OUTPUT_NAME_MIGRATIONS: Record<string, string> = {
@@ -171,7 +174,6 @@ const OUTPUT_NAME_MIGRATIONS: Record<string, string> = {
   expandToChildren: "children",
   goToParent: "parent",
   flattenDescendants: "descendants",
-  restoreNodes: "restored",
   renameLayers: "renamed",
   setFillColor: "filled",
   setFillVariable: "filled",
@@ -260,7 +262,7 @@ function migrateStep(step: AutomationStep): AutomationStep {
   return migrated
 }
 
-const BARE_REF_PARAMS = new Set(["sourceVar", "source", "snapshotName"])
+const BARE_REF_PARAMS = new Set(["sourceVar", "source"])
 
 function migrateTokenReferences(step: AutomationStep, nameMap: Map<string, string>): AutomationStep {
   if (nameMap.size === 0) return step
@@ -287,15 +289,15 @@ function migrateTokenReferences(step: AutomationStep, nameMap: Map<string, strin
     }
   }
 
-  // Migrate target reference
-  let newTarget = step.target
-  if (step.target && nameMap.has(step.target)) {
-    newTarget = nameMap.get(step.target)
+  // Migrate input reference
+  let newInput = step.input
+  if (step.input && nameMap.has(step.input)) {
+    newInput = nameMap.get(step.input)
     changed = true
   }
 
   if (!changed) return step
-  return { ...step, params: newParams, target: newTarget }
+  return { ...step, params: newParams, input: newInput }
 }
 
 function migrateAutomation(automation: Automation): Automation {

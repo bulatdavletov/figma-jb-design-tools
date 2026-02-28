@@ -236,7 +236,7 @@ export function BuilderScreen(props: {
     onChange({ ...automation, steps })
   }
 
-  const updateStepTarget = (value: string) => {
+  const updateStepInput = (value: string) => {
     if (!selectedPath || !selectedStep) return
     const steps = [...automation.steps]
     if (selectedPath.childIndex !== undefined) {
@@ -245,13 +245,13 @@ export function BuilderScreen(props: {
       const children = [...getChildArray(parent, branch)]
       children[selectedPath.childIndex] = {
         ...children[selectedPath.childIndex],
-        target: value || undefined,
+        input: value || undefined,
       }
       steps[selectedPath.index] = setChildArray(parent, branch, children)
     } else {
       steps[selectedPath.index] = {
         ...steps[selectedPath.index],
-        target: value || undefined,
+        input: value || undefined,
       }
     }
     onChange({ ...automation, steps })
@@ -406,7 +406,7 @@ export function BuilderScreen(props: {
                 parentStep={parentStep}
                 onUpdateParam={updateStepParam}
                 onUpdateOutputName={updateStepOutputName}
-                onUpdateTarget={updateStepTarget}
+                onUpdateInput={updateStepInput}
                 onRunToStep={() => handleRunToStep(selectedPath.index)}
                 stepOutput={stepOutput}
                 suggestions={buildSuggestions(

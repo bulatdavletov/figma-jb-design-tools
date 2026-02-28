@@ -136,7 +136,7 @@ export function StepRow(props: {
           </div>
         )}
         {/* Target/output chips */}
-        {(props.step.target || props.step.outputName) && (
+        {(props.step.input || props.step.outputName) && (
           <div
             style={{
               fontSize: 9,
@@ -146,7 +146,7 @@ export function StepRow(props: {
               gap: 4,
             }}
           >
-            {props.step.target && <span><TokenText text={`{#${props.step.target}}`} /> →</span>}
+            {props.step.input && <span><TokenText text={`{#${props.step.input}}`} /> →</span>}
             {props.step.outputName && <span>→ <TokenText text={`{${def?.producesData ? "$" : "#"}${props.step.outputName}}`} /></span>}
           </div>
         )}

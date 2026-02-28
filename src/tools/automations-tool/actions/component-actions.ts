@@ -92,6 +92,145 @@ export const swapComponent: ActionHandler = async (context, params) => {
   return context
 }
 
+export const swapComponentByKey: ActionHandler = async (context, params) => {
+  const componentKey = String(params.componentKey ?? "").trim()
+  if (!componentKey) {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Swap component by key",
+      message: "No component key specified — skipped",
+      itemsIn: context.nodes.length,
+      itemsOut: context.nodes.length,
+      status: "skipped",
+    })
+    return context
+  }
+
+  let imported: ComponentNode
+  try {
+    imported = await figma.importComponentByKeyAsync(componentKey)
+  } catch {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Swap component by key",
+      message: `Component key "${componentKey}" could not be imported`,
+      itemsIn: context.nodes.length,
+      itemsOut: context.nodes.length,
+      status: "error",
+      error: `Component key "${componentKey}" could not be imported`,
+    })
+    return context
+  }
+
+  let applied = 0
+  for (const node of context.nodes) {
+    if (node.type !== "INSTANCE") continue
+    try {
+      ;(node as InstanceNode).swapComponent(imported)
+      applied++
+    } catch {
+      // swap failed
+    }
+  }
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Swap component by key",
+    message: `Swapped ${plural(applied, "instance")} using key "${componentKey}"`,
+    itemsIn: context.nodes.length,
+    itemsOut: context.nodes.length,
+    status: "success",
+  })
+
+  return context
+}
+
+export const setInstanceProperties: ActionHandler = async (context, params) => {
+  const raw = String(params.properties ?? "").trim()
+  if (!raw) {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Set instance properties",
+      message: "No properties specified — skipped",
+      itemsIn: context.nodes.length,
+      itemsOut: context.nodes.length,
+      status: "skipped",
+    })
+    return context
+  }
+
+  const parsed = Object.fromEntries(
+    raw
+      .split("\n")
+      .map((line) => line.trim())
+      .filter(Boolean)
+      .map((line) => {
+        const [k, ...rest] = line.split("=")
+        return [k?.trim() ?? "", rest.join("=").trim()]
+      })
+      .filter(([k, v]) => Boolean(k) && v !== ""),
+  )
+
+  const keys = Object.keys(parsed)
+  if (keys.length === 0) {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Set instance properties",
+      message: "No valid key=value properties found — skipped",
+      itemsIn: context.nodes.length,
+      itemsOut: context.nodes.length,
+      status: "skipped",
+    })
+    return context
+  }
+
+  let applied = 0
+  for (const node of context.nodes) {
+    if (node.type !== "INSTANCE") continue
+    try {
+      ;(node as InstanceNode).setProperties(parsed)
+      applied++
+    } catch {
+      // apply failed
+    }
+  }
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Set instance properties",
+    message: `Updated ${plural(applied, "instance")} (${keys.join(", ")})`,
+    itemsIn: context.nodes.length,
+    itemsOut: context.nodes.length,
+    status: "success",
+  })
+
+  return context
+}
+
+export const resetInstanceOverrides: ActionHandler = async (context, _params) => {
+  let applied = 0
+  for (const node of context.nodes) {
+    if (node.type !== "INSTANCE") continue
+    try {
+      ;(node as InstanceNode).resetOverrides()
+      applied++
+    } catch {
+      // unavailable in some files/api versions
+    }
+  }
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Reset instance overrides",
+    message: `Reset overrides on ${plural(applied, "instance")}`,
+    itemsIn: context.nodes.length,
+    itemsOut: context.nodes.length,
+    status: "success",
+  })
+
+  return context
+}
+
 export const pasteComponentById: ActionHandler = async (context, params) => {
   const componentIdTemplate = String(params.componentId ?? "").trim()
   if (!componentIdTemplate) {

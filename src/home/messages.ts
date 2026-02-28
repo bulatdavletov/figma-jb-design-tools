@@ -1074,7 +1074,7 @@ export type AutomationStepPayload = {
   outputName?: string
   children?: AutomationStepPayload[]
   elseChildren?: AutomationStepPayload[]
-  target?: string
+  input?: string
 }
 
 export type AutomationPayload = {
