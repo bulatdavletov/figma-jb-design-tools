@@ -1080,6 +1080,7 @@ export type AutomationStepPayload = {
 export type AutomationPayload = {
   id: string
   name: string
+  emoji?: string
   steps: AutomationStepPayload[]
   createdAt: number
   updatedAt: number
@@ -1088,6 +1089,7 @@ export type AutomationPayload = {
 export type AutomationListItem = {
   id: string
   name: string
+  emoji?: string
   stepCount: number
   createdAt: number
   updatedAt: number

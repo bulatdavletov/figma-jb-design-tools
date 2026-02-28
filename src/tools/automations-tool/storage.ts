@@ -1,5 +1,6 @@
 import type { Automation, AutomationStep, AutomationExportFormat, AutomationExportStepFormat, ActionType } from "./types"
 import { generateAutomationId, generateStepId } from "./types"
+import { AUTOMATION_EMOJIS } from "./emoji"
 
 const STORAGE_KEY = "automations_v1"
 
@@ -46,6 +47,7 @@ export async function duplicateAutomation(id: string): Promise<Automation | null
   const clone: Automation = {
     id: generateAutomationId(),
     name: `${source.name} (copy)`,
+    emoji: source.emoji,
     steps: JSON.parse(JSON.stringify(source.steps)),
     createdAt: now,
     updatedAt: now,
@@ -56,9 +58,11 @@ export async function duplicateAutomation(id: string): Promise<Automation | null
 
 export function createNewAutomation(name?: string): Automation {
   const now = Date.now()
+  const defaultEmoji = AUTOMATION_EMOJIS[0] ?? "🤖"
   return {
     id: generateAutomationId(),
     name: name ?? "New automation",
+    emoji: defaultEmoji,
     steps: [],
     createdAt: now,
     updatedAt: now,
@@ -87,6 +91,7 @@ export function automationToExportJson(automation: Automation): string {
     version: 1,
     automation: {
       name: automation.name,
+      ...(typeof automation.emoji === "string" ? { emoji: automation.emoji } : {}),
       steps: automation.steps.map(stepToExportStep),
     },
   }
@@ -99,13 +104,14 @@ export function parseImportJson(jsonText: string): Automation | null {
     if (!data || typeof data !== "object") return null
     if (data.version !== 1) return null
     if (!data.automation || typeof data.automation !== "object") return null
-    const { name, steps } = data.automation
+    const { name, steps, emoji } = data.automation
     if (typeof name !== "string" || !Array.isArray(steps)) return null
 
     const now = Date.now()
     return {
       id: generateAutomationId(),
       name,
+      ...(typeof emoji === "string" ? { emoji } : {}),
       steps: steps
         .filter(
           (s: any) =>
@@ -295,6 +301,12 @@ function migrateTokenReferences(step: AutomationStep, nameMap: Map<string, strin
 function migrateAutomation(automation: Automation): Automation {
   let changed = false
 
+  let emoji = automation.emoji
+  if (typeof emoji !== "string") {
+    emoji = AUTOMATION_EMOJIS[0] ?? "🤖"
+    changed = true
+  }
+
   // First pass: migrate step types and output names
   const steps = automation.steps.map((step) => {
     const migrated = migrateStep(step)
@@ -323,7 +335,7 @@ function migrateAutomation(automation: Automation): Automation {
     }
   }
 
-  return changed ? { ...automation, steps } : automation
+  return changed ? { ...automation, emoji, steps } : automation
 }
 
 function migrateActionType(actionType: string): ActionType {
@@ -356,6 +368,7 @@ function isValidAutomation(value: unknown): value is Automation {
   return (
     typeof obj.id === "string" &&
     typeof obj.name === "string" &&
+    (obj.emoji === undefined || typeof obj.emoji === "string") &&
     Array.isArray(obj.steps) &&
     typeof obj.createdAt === "number" &&
     typeof obj.updatedAt === "number"

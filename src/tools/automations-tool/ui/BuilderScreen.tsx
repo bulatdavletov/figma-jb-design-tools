@@ -274,7 +274,22 @@ export function BuilderScreen(props: {
   return (
     <Page>
       <ToolHeader
-        title="Edit Automation"
+        title={(
+          <div style={{ display: "flex", alignItems: "center", gap: 8, flex: 1, minWidth: 0 }}>
+            <Textbox
+              value={automation.emoji ?? ""}
+              onValueInput={(value: string) => onChange({ ...automation, emoji: value })}
+              placeholder="🤖"
+              style={{ width: 32, textAlign: "center" }}
+            />
+            <Textbox
+              value={automation.name}
+              onValueInput={(value: string) => onChange({ ...automation, name: value })}
+              placeholder="Automation name"
+              style={{ width: 250}}
+            />
+          </div>
+        )}
         left={
           <IconButton onClick={props.onBack}>
             <IconChevronLeft16
@@ -293,13 +308,7 @@ export function BuilderScreen(props: {
             flexDirection: "column",
           }}
         >
-          <div style={{ padding: "8px 12px 0 12px" }}>
-            <Textbox
-              value={automation.name}
-              onValueInput={(value: string) => onChange({ ...automation, name: value })}
-              placeholder="Automation name"
-            />
-          </div>
+          <div style={{ padding: "4px 12px 0 12px" }} />
 
           <div style={{ flex: 1, minHeight: 0, overflowY: "auto", padding: "8px 8px" }}>
             {automation.steps.length === 0 ? (

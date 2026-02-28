@@ -20,6 +20,7 @@ export function registerAutomationsTool(getActiveTool: () => ActiveTool) {
       automations: automations.map((a) => ({
         id: a.id,
         name: a.name,
+        emoji: a.emoji,
         stepCount: a.steps.length,
         createdAt: a.createdAt,
         updatedAt: a.updatedAt,
@@ -171,6 +172,7 @@ function payloadToAutomation(payload: AutomationPayload): Automation {
   return {
     id: payload.id,
     name: payload.name,
+    emoji: payload.emoji,
     steps: payload.steps.map(payloadStepToStep),
     createdAt: payload.createdAt,
     updatedAt: payload.updatedAt,
@@ -199,6 +201,7 @@ function automationToPayload(automation: Automation): AutomationPayload {
   return {
     id: automation.id,
     name: automation.name,
+    emoji: automation.emoji,
     steps: automation.steps.map(stepToPayloadStep),
     createdAt: automation.createdAt,
     updatedAt: automation.updatedAt,

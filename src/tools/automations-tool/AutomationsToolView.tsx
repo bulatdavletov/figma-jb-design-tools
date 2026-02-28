@@ -18,6 +18,7 @@ import { ListScreen } from "./ui/ListScreen"
 import { RunOutputScreen } from "./ui/RunOutputScreen"
 import { BUILDER_HEIGHT, BUILDER_WIDTH, LIST_HEIGHT, LIST_WIDTH, type Screen } from "./ui/types"
 import { downloadTextFile, payloadToStep, postMessage, stepToPayload } from "./ui/utils"
+import { AUTOMATION_EMOJIS, getAutomationEmojiByIndex, getNextAutomationEmojiIndex } from "./emoji"
 
 export function AutomationsToolView(props: { onBack: () => void }) {
   const [screen, setScreen] = useState<Screen>("list")
@@ -31,6 +32,7 @@ export function AutomationsToolView(props: { onBack: () => void }) {
   const autoSaveTimerRef = useRef<number | null>(null)
   const lastSavedRef = useRef<string>("")
   const screenRef = useRef<Screen>(screen)
+  const nextEmojiIndexRef = useRef<number>(0)
   useEffect(() => { screenRef.current = screen }, [screen])
 
   useEffect(() => {
@@ -40,6 +42,7 @@ export function AutomationsToolView(props: { onBack: () => void }) {
 
       if (msg.type === MAIN_TO_UI.AUTOMATIONS_LIST) {
         setAutomations(msg.automations)
+        nextEmojiIndexRef.current = getNextAutomationEmojiIndex(msg.automations)
       }
       if (msg.type === MAIN_TO_UI.AUTOMATIONS_FULL) {
         if (msg.automation) {
@@ -105,10 +108,15 @@ export function AutomationsToolView(props: { onBack: () => void }) {
     setRunResult(null)
     setRunProgress(null)
     setStepOutputs([])
+    const nextEmoji = getAutomationEmojiByIndex(nextEmojiIndexRef.current)
+    if (AUTOMATION_EMOJIS.length > 0) {
+      nextEmojiIndexRef.current = (nextEmojiIndexRef.current + 1) % AUTOMATION_EMOJIS.length
+    }
     const auto = createNewAutomation()
     const payload: AutomationPayload = {
       id: auto.id,
       name: auto.name,
+      emoji: nextEmoji,
       steps: [],
       createdAt: auto.createdAt,
       updatedAt: auto.updatedAt,
@@ -151,6 +159,7 @@ export function AutomationsToolView(props: { onBack: () => void }) {
       const payload: AutomationPayload = {
         id: automation.id,
         name: automation.name,
+        emoji: automation.emoji,
         steps: automation.steps.map(stepToPayload),
         createdAt: automation.createdAt,
         updatedAt: automation.updatedAt,
@@ -215,6 +224,7 @@ export function AutomationsToolView(props: { onBack: () => void }) {
     const automation = {
       id: editingAutomation.id,
       name: editingAutomation.name,
+      emoji: editingAutomation.emoji,
       steps: editingAutomation.steps.map(payloadToStep),
       createdAt: editingAutomation.createdAt,
       updatedAt: editingAutomation.updatedAt,

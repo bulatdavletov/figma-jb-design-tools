@@ -72,6 +72,7 @@ export interface AutomationStep {
 export interface Automation {
   id: string
   name: string
+  emoji?: string
   steps: AutomationStep[]
   createdAt: number
   updatedAt: number
@@ -91,6 +92,7 @@ export interface AutomationExportFormat {
   version: 1
   automation: {
     name: string
+    emoji?: string
     steps: AutomationExportStepFormat[]
   }
 }
