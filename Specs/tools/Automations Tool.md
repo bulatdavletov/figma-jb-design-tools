@@ -758,7 +758,15 @@ Every step can have an `outputName`. What gets saved depends on the action:
 | `count` | yes | `pipelineVars` (as number) | `{$name}` |
 | All other actions | no | `savedNodeSets` | `{#name.property}` |
 
-### Implemented Actions (47 total)
+### Input/Output clarity standard (Apple Shortcuts style)
+
+Use **Input** (not Target) in all user-facing wording.
+Every action must define:
+- clear input source (previous step or named snapshot)
+- clear params
+- clear output name/type
+
+### Implemented Actions (49 total)
 
 #### Source (category: `source`) — default output names are nouns
 
@@ -801,7 +809,6 @@ Every step can have an `outputName`. What gets saved depends on the action:
 | `expandToChildren` | Expand to children | — | `children` |
 | `goToParent` | Go to parent | — | `parent` |
 | `flattenDescendants` | Flatten descendants | — | `descendants` |
-| `restoreNodes` | Restore nodes | `snapshotName`: string | `restored` |
 
 #### Transform — Properties (category: `transform`)
 
@@ -845,6 +852,9 @@ Every step can have an `outputName`. What gets saved depends on the action:
 |--------------|-------|--------|----------------|
 | `detachInstance` | Detach instance | — | `detached` |
 | `swapComponent` | Swap component | `componentName`: string | `swapped` |
+| `swapComponentByKey` | Swap component by key | `componentKey`: string | `swapped` |
+| `setInstanceProperties` | Set instance properties | `properties`: multiline `key=value` pairs | `instances` |
+| `resetInstanceOverrides` | Reset instance overrides | — | `instances` |
 
 #### Input (category: `input`)
 
@@ -1032,7 +1042,7 @@ Basic CRUD, 8 actions, flat execution, single-column UI.
 Context model, expression tokens, property registry, action categories, two-column builder, plugin window resize, run output screen, storage migration.
 
 ### Phase 2 — Data primitives, loops, action outputs (2026-02-23, done)
-`askForInput`, `splitText`, `setCharacters`, `repeatWithEach`, `goToParent`, `flattenDescendants`, `restoreNodes`, `resize`, auto layout actions, `wrapInFrame`. ActionResult return type, input bridge, output naming, nested step rendering, TextboxWithSuggestions, Quick Actions.
+`askForInput`, `splitText`, `setCharacters`, `repeatWithEach`, `goToParent`, `flattenDescendants`, `resize`, auto layout actions, `wrapInFrame`. ActionResult return type, input bridge, output naming, nested step rendering, TextboxWithSuggestions, Quick Actions.
 
 ### Phase 2.5 — UX improvements (2026-02-24, done)
 Auto-generated output names, Input dropdowns with autocomplete, action picker search, `repeatWithEach` syntax help.

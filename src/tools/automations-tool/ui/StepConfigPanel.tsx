@@ -29,15 +29,15 @@ export function StepConfigPanel(props: {
   parentStep?: AutomationStepPayload
   onUpdateParam: (key: string, value: unknown) => void
   onUpdateOutputName: (value: string) => void
-  onUpdateTarget: (value: string) => void
+  onUpdateInput: (value: string) => void
   onRunToStep: () => void
   stepOutput?: StepOutputPreviewPayload
   suggestions: Suggestion[]
 }) {
-  const { step, stepIndex, allSteps, parentStep, onUpdateParam, onUpdateOutputName, onUpdateTarget, onRunToStep, stepOutput, suggestions } = props
+  const { step, stepIndex, allSteps, parentStep, onUpdateParam, onUpdateOutputName, onUpdateInput, onRunToStep, stepOutput, suggestions } = props
   const def = ACTION_DEFINITIONS.find((d) => d.type === step.actionType)
-  const showTargetDropdown = def && !["source", "output", "variables", "flow", "input"].includes(def.category)
-  const targetOptions = buildInputSourceOptions(allSteps, stepIndex, false)
+  const showInputDropdown = def && !["source", "output", "variables", "flow", "input"].includes(def.category)
+  const inputOptions = buildInputSourceOptions(allSteps, stepIndex, false)
     .filter((o) => {
       const sDef = ACTION_DEFINITIONS.find((d) => d.type === allSteps.find((s) => s.outputName === o.value)?.actionType)
       return sDef?.producesData !== true
@@ -119,16 +119,16 @@ export function StepConfigPanel(props: {
           <VerticalSpace space="medium" />
         </Fragment>
       )}
-      {showTargetDropdown && targetOptions.length > 0 && (() => {
-        const targetAllOptions = [{ value: "", text: "Previous step (default)" }, ...targetOptions]
+      {showInputDropdown && inputOptions.length > 0 && (() => {
+        const inputAllOptions = [{ value: "", text: "Previous step (default)" }, ...inputOptions]
         return (
           <Fragment>
-            <Text style={{ fontSize: 11 }}>Target nodes</Text>
+            <Text style={{ fontSize: 11 }}>Input nodes</Text>
             <VerticalSpace space="extraSmall" />
             <Dropdown
-              value={safeDropdownValue(step.target ?? "", targetAllOptions)}
-              onValueChange={onUpdateTarget}
-              options={targetAllOptions}
+              value={safeDropdownValue(step.input ?? "", inputAllOptions)}
+              onValueChange={onUpdateInput}
+              options={inputAllOptions}
             />
             <VerticalSpace space="medium" />
           </Fragment>
@@ -554,41 +554,6 @@ function renderStepParams(
           </Text>
         </Fragment>
       )
-
-    case "restoreNodes": {
-      const snapshotOptions = buildInputSourceOptions(allSteps, stepIndex, false)
-        .filter((o) => {
-          const s = allSteps.find((st) => st.outputName === o.value)
-          if (!s) return false
-          const d = ACTION_DEFINITIONS.find((ad) => ad.type === s.actionType)
-          return d?.producesData !== true
-        })
-      return (
-        <Fragment>
-          <Text style={{ fontSize: 11 }}>Input (node snapshot)</Text>
-          <VerticalSpace space="extraSmall" />
-          {(() => {
-            if (snapshotOptions.length > 0) {
-              const snapAllOptions = [{ value: "", text: "Select snapshot..." }, ...snapshotOptions]
-              return (
-                <Dropdown
-                  value={safeDropdownValue(String(step.params.snapshotName ?? ""), snapAllOptions)}
-                  options={snapAllOptions}
-                  onValueChange={(v: string) => updateParam("snapshotName", v)}
-                />
-              )
-            }
-            return (
-              <Textbox
-                value={String(step.params.snapshotName ?? "")}
-                onValueInput={(v: string) => updateParam("snapshotName", v)}
-                placeholder="Name of saved node set"
-              />
-            )
-          })()}
-        </Fragment>
-      )
-    }
 
     case "renameLayers":
       return (
@@ -1225,6 +1190,48 @@ function renderStepParams(
               placeholder="Y"
             />
           </div>
+        </Fragment>
+      )
+
+    case "swapComponentByKey":
+      return (
+        <Fragment>
+          {inputCtx}
+          <Text style={{ fontSize: 11 }}>Component key</Text>
+          <VerticalSpace space="extraSmall" />
+          <Textbox
+            value={String(step.params.componentKey ?? "")}
+            onValueInput={(v: string) => updateParam("componentKey", v)}
+            placeholder="Library component key..."
+          />
+        </Fragment>
+      )
+
+    case "setInstanceProperties":
+      return (
+        <Fragment>
+          {inputCtx}
+          <Text style={{ fontSize: 11 }}>Properties (one per line)</Text>
+          <VerticalSpace space="extraSmall" />
+          <TextboxMultiline
+            value={String(step.params.properties ?? "")}
+            onValueInput={(v: string) => updateParam("properties", v)}
+            placeholder={"Variant=Primary\nState=Default"}
+            rows={4}
+          />
+          <Text style={{ fontSize: 10, color: "var(--figma-color-text-tertiary)", marginTop: 4 }}>
+            Format: key=value. One property per line.
+          </Text>
+        </Fragment>
+      )
+
+    case "resetInstanceOverrides":
+      return (
+        <Fragment>
+          {inputCtx}
+          <Text style={{ fontSize: 11, color: "var(--figma-color-text-secondary)" }}>
+            No parameters. Resets all supported overrides on each instance in the working set.
+          </Text>
         </Fragment>
       )
 

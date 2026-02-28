@@ -9,7 +9,6 @@ export type ActionType =
   | "expandToChildren"
   | "goToParent"
   | "flattenDescendants"
-  | "restoreNodes"
   | "renameLayers"
   | "setFillColor"
   | "setFillVariable"
@@ -38,6 +37,9 @@ export type ActionType =
   | "removeAutoLayout"
   | "detachInstance"
   | "swapComponent"
+  | "swapComponentByKey"
+  | "setInstanceProperties"
+  | "resetInstanceOverrides"
   | "pasteComponentById"
   | "notify"
   | "selectResults"
@@ -66,7 +68,7 @@ export interface AutomationStep {
   outputName?: string
   children?: AutomationStep[]
   elseChildren?: AutomationStep[]
-  target?: string
+  input?: string
 }
 
 export interface Automation {
@@ -85,7 +87,7 @@ export interface AutomationExportStepFormat {
   outputName?: string
   children?: AutomationExportStepFormat[]
   elseChildren?: AutomationExportStepFormat[]
-  target?: string
+  input?: string
 }
 
 export interface AutomationExportFormat {
@@ -204,16 +206,6 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     inputType: "nodes",
     outputType: "nodes",
   },
-  {
-    type: "restoreNodes",
-    label: "Restore nodes",
-    description: "Restore a previously saved node snapshot to the working set",
-    category: "navigate",
-    defaultParams: { snapshotName: "" },
-    defaultOutputName: "restored",
-    outputType: "nodes",
-  },
-
   // Transform — Properties
   {
     type: "renameLayers",
@@ -488,10 +480,40 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
   {
     type: "swapComponent",
     label: "Swap component",
-    description: "Replace instance's component by name",
+    description: "Replace each instance with a local component matched by exact name",
     category: "transform",
     defaultParams: { componentName: "" },
     defaultOutputName: "swapped",
+    inputType: "nodes",
+    outputType: "nodes",
+  },
+  {
+    type: "swapComponentByKey",
+    label: "Swap component by key",
+    description: "Replace each instance with a component imported from a library key",
+    category: "transform",
+    defaultParams: { componentKey: "" },
+    defaultOutputName: "swapped",
+    inputType: "nodes",
+    outputType: "nodes",
+  },
+  {
+    type: "setInstanceProperties",
+    label: "Set instance properties",
+    description: "Set variant or boolean/text instance properties using key=value pairs",
+    category: "transform",
+    defaultParams: { properties: "" },
+    defaultOutputName: "instances",
+    inputType: "nodes",
+    outputType: "nodes",
+  },
+  {
+    type: "resetInstanceOverrides",
+    label: "Reset instance overrides",
+    description: "Reset all detachable overrides on instances back to component defaults",
+    category: "transform",
+    defaultParams: {},
+    defaultOutputName: "instances",
     inputType: "nodes",
     outputType: "nodes",
   },
@@ -758,15 +780,15 @@ export interface StepValidation {
 }
 
 export function validateStep(
-  step: { actionType: string; params: Record<string, unknown>; target?: string },
+  step: { actionType: string; params: Record<string, unknown>; input?: string },
   stepIndex: number,
-  allSteps: { actionType: string; params: Record<string, unknown>; outputName?: string; target?: string }[],
+  allSteps: { actionType: string; params: Record<string, unknown>; outputName?: string; input?: string }[],
 ): StepValidation[] {
   const issues: StepValidation[] = []
   const def = getActionDefinition(step.actionType as ActionType)
   if (!def) return issues
 
-  if (def.inputType === "nodes" && stepIndex > 0 && !step.target) {
+  if (def.inputType === "nodes" && stepIndex > 0 && !step.input) {
     const prevStep = allSteps[stepIndex - 1]
     if (prevStep) {
       const prevDef = getActionDefinition(prevStep.actionType as ActionType)

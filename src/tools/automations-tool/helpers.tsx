@@ -74,8 +74,6 @@ export function getParamSummary(step: AutomationStepPayload): string {
     case "goToParent":
     case "flattenDescendants":
       return ""
-    case "restoreNodes":
-      return p.snapshotName ? `from {#${p.snapshotName}}` : ""
     case "setCharacters":
       return String(p.characters ?? "")
     case "setFontSize":
@@ -132,6 +130,12 @@ export function getParamSummary(step: AutomationStepPayload): string {
       return ""
     case "swapComponent":
       return String(p.componentName ?? "")
+    case "swapComponentByKey":
+      return String(p.componentKey ?? "")
+    case "setInstanceProperties":
+      return String(p.properties ?? "").split("\n").filter(Boolean).length + " properties"
+    case "resetInstanceOverrides":
+      return ""
     case "pasteComponentById":
       return String(p.componentId ?? "")
     case "askForInput":

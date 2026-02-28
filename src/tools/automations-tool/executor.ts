@@ -15,10 +15,9 @@ import { sourceFromSelection, sourceFromPage, sourceFromAllPages, sourceFromPage
 import { filterAction } from "./actions/filter-actions"
 import { selectResults, logAction, countAction } from "./actions/output-actions"
 import { setPipelineVariable, setPipelineVariableFromProperty, splitText, mathAction } from "./actions/variable-actions"
-import { restoreNodes } from "./actions/navigate-actions"
 import { askForInput } from "./actions/input-actions"
 import { setFontSize, setFont, setTextAlignment, setTextCase, setTextDecoration, setLineHeight } from "./actions/text-actions"
-import { detachInstance, swapComponent, pasteComponentById } from "./actions/component-actions"
+import { detachInstance, swapComponent, swapComponentByKey, setInstanceProperties, resetInstanceOverrides, pasteComponentById } from "./actions/component-actions"
 import { chooseFromListAction, stopAndOutputAction, evaluateCondition, StopExecutionError } from "./actions/flow-actions"
 import { InputCancelledError } from "./input-bridge"
 import { getNodeProperty } from "./properties"
@@ -37,7 +36,6 @@ const ACTION_HANDLERS: Partial<Record<ActionType, ActionHandler>> = {
   expandToChildren,
   goToParent,
   flattenDescendants,
-  restoreNodes,
   renameLayers,
   setName: setNameAction,
   setFillColor,
@@ -67,6 +65,9 @@ const ACTION_HANDLERS: Partial<Record<ActionType, ActionHandler>> = {
   removeAutoLayout,
   detachInstance,
   swapComponent,
+  swapComponentByKey,
+  setInstanceProperties,
+  resetInstanceOverrides,
   pasteComponentById,
   notify: notifyAction,
   selectResults,
@@ -225,8 +226,8 @@ async function executeSteps(
       continue
     }
 
-    if (step.target && context.savedNodeSets[step.target]) {
-      context.nodes = [...context.savedNodeSets[step.target]]
+    if (step.input && context.savedNodeSets[step.input]) {
+      context.nodes = [...context.savedNodeSets[step.input]]
     }
 
     const itemsBefore = context.nodes.length
