@@ -189,6 +189,9 @@ function payloadStepToStep(s: AutomationStepPayload): AutomationStep {
   if (s.children && s.children.length > 0) {
     step.children = s.children.map(payloadStepToStep)
   }
+  if (s.elseChildren && s.elseChildren.length > 0) {
+    step.elseChildren = s.elseChildren.map(payloadStepToStep)
+  }
   return step
 }
 
@@ -213,6 +216,9 @@ function stepToPayloadStep(s: AutomationStep): AutomationStepPayload {
   if (s.target) payload.target = s.target
   if (s.children && s.children.length > 0) {
     payload.children = s.children.map(stepToPayloadStep)
+  }
+  if (s.elseChildren && s.elseChildren.length > 0) {
+    payload.elseChildren = s.elseChildren.map(stepToPayloadStep)
   }
   return payload
 }

@@ -148,6 +148,39 @@ export function getParamSummary(step: AutomationStepPayload): string {
       if (src === "nodes") return "nodes"
       return `{$${src}} → {$${p.itemVar ?? "item"}}`
     }
+    case "ifCondition": {
+      const left = String(p.left ?? "")
+      const op: Record<string, string> = {
+        equals: "=", notEquals: "≠", greaterThan: ">", lessThan: "<",
+        greaterOrEqual: "≥", lessOrEqual: "≤", contains: "~", notContains: "!~",
+        isEmpty: "is empty", isNotEmpty: "is not empty",
+      }
+      const operator = String(p.operator ?? "equals")
+      if (operator === "isEmpty" || operator === "isNotEmpty") {
+        return `${left} ${op[operator] ?? operator}`
+      }
+      return `${left} ${op[operator] ?? operator} ${p.right ?? ""}`
+    }
+    case "chooseFromList": {
+      const sv = String(p.sourceVar ?? "")
+      if (sv) return `from {$${sv}}`
+      const opts = String(p.options ?? "")
+      if (opts) {
+        const items = opts.split(",").map((s: string) => s.trim()).filter(Boolean)
+        return `${items.length} options`
+      }
+      return ""
+    }
+    case "mapList": {
+      const src = String(p.source ?? "")
+      return src ? `{$${src}} → {$${p.itemVar ?? "item"}}` : ""
+    }
+    case "reduceList": {
+      const src = String(p.source ?? "")
+      return src ? `{$${src}} → {$${p.accumulatorVar ?? "result"}}` : ""
+    }
+    case "stopAndOutput":
+      return String(p.message ?? "")
     default:
       return ""
   }
@@ -195,25 +228,58 @@ export function buildSuggestions(
     }
   }
 
-  if (parentStep?.actionType === "repeatWithEach") {
+  const hasLoop = parentStep?.actionType === "repeatWithEach"
+    || parentStep?.actionType === "mapList"
+    || parentStep?.actionType === "reduceList"
+
+  if (hasLoop && parentStep) {
     const itemVar = String(parentStep.params.itemVar ?? "item")
     suggestions.push(
       { token: `$${itemVar}`, label: "Current loop item", category: "Loop" },
       { token: "$repeatIndex", label: "Current iteration index", category: "Loop" },
     )
-    for (const prop of PROPERTY_REGISTRY) {
+
+    if (parentStep.actionType === "repeatWithEach") {
+      for (const prop of PROPERTY_REGISTRY) {
+        suggestions.push({
+          token: `$${itemVar}.${prop.key}`,
+          label: `${prop.label} of current item`,
+          category: "Loop item properties",
+        })
+      }
       suggestions.push({
-        token: `$${itemVar}.${prop.key}`,
-        label: `${prop.label} of current item`,
+        token: `$${itemVar}.text`,
+        label: "Text content (alias for characters)",
         category: "Loop item properties",
       })
     }
-    suggestions.push({
-      token: `$${itemVar}.text`,
-      label: "Text content (alias for characters)",
-      category: "Loop item properties",
-    })
 
+    if (parentStep.actionType === "reduceList") {
+      const accVar = String(parentStep.params.accumulatorVar ?? "result")
+      suggestions.push({
+        token: `$${accVar}`,
+        label: "Current accumulator value",
+        category: "Loop",
+      })
+    }
+
+    const children = parentStep.children ?? []
+    if (childIndex !== undefined) {
+      for (let i = 0; i < childIndex && i < children.length; i++) {
+        const child = children[i]
+        if (!child.outputName) continue
+        const def = ACTION_DEFINITIONS.find((d) => d.type === child.actionType)
+        const isData = def?.producesData === true
+        suggestions.push({
+          token: isData ? `$${child.outputName}` : `#${child.outputName}`,
+          label: `${def?.label ?? child.actionType} output`,
+          category: "Step outputs",
+        })
+      }
+    }
+  }
+
+  if (parentStep?.actionType === "ifCondition") {
     const children = parentStep.children ?? []
     if (childIndex !== undefined) {
       for (let i = 0; i < childIndex && i < children.length; i++) {
@@ -317,16 +383,30 @@ export function renderInputContext(
   }
 
   const isInRepeat = parentStep?.actionType === "repeatWithEach"
-  if (isInRepeat) {
-    const itemVar = String(parentStep!.params.itemVar ?? "item")
-    const src = String(parentStep!.params.source ?? "nodes")
+  const isInMap = parentStep?.actionType === "mapList"
+  const isInReduce = parentStep?.actionType === "reduceList"
+  const isInIf = parentStep?.actionType === "ifCondition"
+  const isInLoop = isInRepeat || isInMap || isInReduce
+
+  if (isInLoop && parentStep) {
+    const itemVar = String(parentStep.params.itemVar ?? "item")
+    const parentLabel = isInRepeat ? "Repeat with each" : isInMap ? "Map list" : "Reduce list"
     lines.push(
       <div key="repeat">
-        Inside <b>Repeat with each</b>
-        {src !== "nodes" && (
-          <Fragment> — use <TokenText text={`{$${itemVar}}`} /> for current item</Fragment>
+        Inside <b>{parentLabel}</b>
+        {" — use "}<TokenText text={`{$${itemVar}}`} />{" for current item"}
+        {isInReduce && (
+          <Fragment>
+            {", "}<TokenText text={`{$${String(parentStep.params.accumulatorVar ?? "result")}}`} />{" for accumulator"}
+          </Fragment>
         )}
       </div>,
+    )
+  }
+
+  if (isInIf) {
+    lines.push(
+      <div key="if">Inside <b>If</b> condition block</div>,
     )
   }
 
@@ -339,10 +419,14 @@ export function renderInputContext(
       const raw = def?.producesData ? `{$${s.outputName}}` : `{#${s.outputName}}`
       tokenElements.push(<TokenText key={`t-${i}`} text={raw} />)
     }
-    if (isInRepeat) {
-      const itemVar = String(parentStep!.params.itemVar ?? "item")
+    if (isInLoop && parentStep) {
+      const itemVar = String(parentStep.params.itemVar ?? "item")
       tokenElements.push(<TokenText key="t-item" text={`{$${itemVar}}`} />)
       tokenElements.push(<TokenText key="t-idx" text="{$repeatIndex}" />)
+      if (isInReduce) {
+        const accVar = String(parentStep.params.accumulatorVar ?? "result")
+        tokenElements.push(<TokenText key="t-acc" text={`{$${accVar}}`} />)
+      }
     }
     if (tokenElements.length > 0) {
       lines.push(

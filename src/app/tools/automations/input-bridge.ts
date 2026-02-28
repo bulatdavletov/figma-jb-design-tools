@@ -10,8 +10,9 @@ let pending: PendingInput | null = null
 export function requestInput(
   label: string,
   placeholder: string,
-  inputType: "text" | "textarea",
+  inputType: "text" | "textarea" | "select",
   defaultValue: string,
+  options?: string[],
 ): Promise<string> {
   if (pending) {
     pending.reject(new Error("New input request superseded previous one"))
@@ -20,7 +21,7 @@ export function requestInput(
 
   figma.ui.postMessage({
     type: MAIN_TO_UI.AUTOMATIONS_INPUT_REQUEST,
-    request: { label, placeholder, inputType, defaultValue },
+    request: { label, placeholder, inputType, defaultValue, options },
   })
 
   return new Promise<string>((resolve, reject) => {

@@ -19,8 +19,10 @@ import { restoreNodes } from "./actions/navigate-actions"
 import { askForInput } from "./actions/input-actions"
 import { setFontSize, setFont, setTextAlignment, setTextCase, setTextDecoration, setLineHeight } from "./actions/text-actions"
 import { detachInstance, swapComponent, pasteComponentById } from "./actions/component-actions"
+import { chooseFromListAction, stopAndOutputAction, evaluateCondition, StopExecutionError } from "./actions/flow-actions"
 import { InputCancelledError } from "./input-bridge"
 import { getNodeProperty } from "./properties"
+import { resolveTokens } from "./tokens"
 import { plural } from "../../utils/pluralize"
 import { MAIN_TO_UI } from "../../messages"
 
@@ -75,6 +77,8 @@ const ACTION_HANDLERS: Partial<Record<ActionType, ActionHandler>> = {
   splitText,
   math: mathAction,
   askForInput,
+  chooseFromList: chooseFromListAction,
+  stopAndOutput: stopAndOutputAction,
 }
 
 let stopRequested = false
@@ -182,6 +186,30 @@ async function executeSteps(
       continue
     }
 
+    if (step.actionType === "ifCondition") {
+      await executeIfCondition(step, context, automationName, stepIndex)
+      captureStepPreview(context, step, stepIndex, stepStart, undefined)
+      continue
+    }
+
+    if (step.actionType === "mapList") {
+      const mapResult = await executeMapList(step, context, automationName, stepIndex)
+      if (step.outputName && mapResult) {
+        context.pipelineVars[step.outputName] = mapResult
+      }
+      captureStepPreview(context, step, stepIndex, stepStart, mapResult)
+      continue
+    }
+
+    if (step.actionType === "reduceList") {
+      const reduceResult = await executeReduceList(step, context, automationName, stepIndex)
+      if (step.outputName && reduceResult !== undefined) {
+        context.pipelineVars[step.outputName] = reduceResult
+      }
+      captureStepPreview(context, step, stepIndex, stepStart, reduceResult)
+      continue
+    }
+
     const handler = ACTION_HANDLERS[step.actionType]
     if (!handler) {
       context.log.push({
@@ -233,6 +261,11 @@ async function executeSteps(
           itemsOut: context.nodes.length,
           status: "skipped",
         })
+        captureStepPreview(context, step, stepIndex, stepStart, undefined)
+        stopRequested = true
+        break
+      }
+      if (e instanceof StopExecutionError) {
         captureStepPreview(context, step, stepIndex, stepStart, undefined)
         stopRequested = true
         break
@@ -514,6 +547,218 @@ async function executeRepeatListMode(
   if (resultMode === "iterationResults") {
     context.nodes = dedupeNodes(iterationResults)
   }
+}
+
+async function executeIfCondition(
+  step: AutomationStep,
+  context: AutomationContext,
+  automationName: string,
+  stepIndex: number,
+): Promise<void> {
+  const left = resolveTokens(String(step.params.left ?? ""), { context })
+  const operator = String(step.params.operator ?? "equals")
+  const right = resolveTokens(String(step.params.right ?? ""), { context })
+
+  const conditionMet = evaluateCondition(left, operator, right)
+
+  const thenChildren = (step.children ?? []).filter((c) => c.enabled)
+  const elseChildren = (step.elseChildren ?? []).filter((c) => c.enabled)
+
+  const opLabel: Record<string, string> = {
+    equals: "=", notEquals: "≠", greaterThan: ">", lessThan: "<",
+    greaterOrEqual: "≥", lessOrEqual: "≤", contains: "~", notContains: "!~",
+    isEmpty: "is empty", isNotEmpty: "is not empty",
+  }
+  const conditionLabel = operator === "isEmpty" || operator === "isNotEmpty"
+    ? `"${left}" ${opLabel[operator] ?? operator}`
+    : `"${left}" ${opLabel[operator] ?? operator} "${right}"`
+
+  context.log.push({
+    stepIndex,
+    stepName: "If",
+    message: `${conditionLabel} → ${conditionMet ? "then" : "otherwise"}`,
+    itemsIn: context.nodes.length,
+    itemsOut: context.nodes.length,
+    status: "success",
+  })
+
+  if (conditionMet && thenChildren.length > 0) {
+    await executeSteps(thenChildren, context, automationName, stepIndex + 1)
+  } else if (!conditionMet && elseChildren.length > 0) {
+    await executeSteps(elseChildren, context, automationName, stepIndex + 1)
+  }
+}
+
+async function executeMapList(
+  step: AutomationStep,
+  context: AutomationContext,
+  automationName: string,
+  stepIndex: number,
+): Promise<PipelineListValue | undefined> {
+  const source = String(step.params.source ?? "")
+  const itemVar = String(step.params.itemVar ?? "item")
+  const children = (step.children ?? []).filter((c) => c.enabled)
+
+  if (!source) {
+    context.log.push({
+      stepIndex,
+      stepName: "Map list",
+      message: "No source list specified",
+      itemsIn: context.nodes.length,
+      itemsOut: context.nodes.length,
+      status: "error",
+      error: "No source list specified",
+    })
+    return undefined
+  }
+
+  const listValue = context.pipelineVars[source]
+  if (!Array.isArray(listValue)) {
+    context.log.push({
+      stepIndex,
+      stepName: "Map list",
+      message: `Variable {$${source}} is not a list`,
+      itemsIn: context.nodes.length,
+      itemsOut: context.nodes.length,
+      status: "error",
+      error: `Variable "$${source}" is not a list`,
+    })
+    return undefined
+  }
+
+  if (children.length === 0) {
+    context.log.push({
+      stepIndex,
+      stepName: "Map list",
+      message: "No child steps — skipped",
+      itemsIn: context.nodes.length,
+      itemsOut: context.nodes.length,
+      status: "skipped",
+    })
+    return undefined
+  }
+
+  const list = listValue as PipelineListValue
+  context.log.push({
+    stepIndex,
+    stepName: "Map list",
+    message: `Mapping ${plural(list.length, "item")} from {$${source}}`,
+    itemsIn: context.nodes.length,
+    itemsOut: context.nodes.length,
+    status: "success",
+  })
+
+  const results: PipelineListValue = []
+  const savedNodes = [...context.nodes]
+
+  for (let i = 0; i < list.length; i++) {
+    if (stopRequested) break
+
+    context.pipelineVars[itemVar] = list[i]
+    context.pipelineVars["repeatIndex"] = i
+
+    await executeSteps(children, context, automationName, stepIndex + 1)
+
+    const lastChild = children[children.length - 1]
+    if (lastChild?.outputName) {
+      const val = context.pipelineVars[lastChild.outputName]
+      if (val !== undefined && !Array.isArray(val)) {
+        results.push(val)
+      } else if (Array.isArray(val)) {
+        results.push(String(val.join(", ")))
+      } else {
+        results.push("")
+      }
+    } else {
+      results.push(String(context.pipelineVars[itemVar] ?? ""))
+    }
+  }
+
+  context.nodes = savedNodes
+  delete context.pipelineVars["repeatIndex"]
+
+  return results
+}
+
+async function executeReduceList(
+  step: AutomationStep,
+  context: AutomationContext,
+  automationName: string,
+  stepIndex: number,
+): Promise<PipelineValue | undefined> {
+  const source = String(step.params.source ?? "")
+  const itemVar = String(step.params.itemVar ?? "item")
+  const accVar = String(step.params.accumulatorVar ?? "result")
+  const initialValue = resolveTokens(String(step.params.initialValue ?? "0"), { context })
+  const children = (step.children ?? []).filter((c) => c.enabled)
+
+  if (!source) {
+    context.log.push({
+      stepIndex,
+      stepName: "Reduce list",
+      message: "No source list specified",
+      itemsIn: context.nodes.length,
+      itemsOut: context.nodes.length,
+      status: "error",
+      error: "No source list specified",
+    })
+    return undefined
+  }
+
+  const listValue = context.pipelineVars[source]
+  if (!Array.isArray(listValue)) {
+    context.log.push({
+      stepIndex,
+      stepName: "Reduce list",
+      message: `Variable {$${source}} is not a list`,
+      itemsIn: context.nodes.length,
+      itemsOut: context.nodes.length,
+      status: "error",
+      error: `Variable "$${source}" is not a list`,
+    })
+    return undefined
+  }
+
+  if (children.length === 0) {
+    context.log.push({
+      stepIndex,
+      stepName: "Reduce list",
+      message: "No child steps — skipped",
+      itemsIn: context.nodes.length,
+      itemsOut: context.nodes.length,
+      status: "skipped",
+    })
+    return undefined
+  }
+
+  const list = listValue as PipelineListValue
+  context.log.push({
+    stepIndex,
+    stepName: "Reduce list",
+    message: `Reducing ${plural(list.length, "item")} from {$${source}} (initial: ${initialValue})`,
+    itemsIn: context.nodes.length,
+    itemsOut: context.nodes.length,
+    status: "success",
+  })
+
+  const savedNodes = [...context.nodes]
+  const numInitial = Number(initialValue)
+  context.pipelineVars[accVar] = isNaN(numInitial) ? initialValue : numInitial
+
+  for (let i = 0; i < list.length; i++) {
+    if (stopRequested) break
+
+    context.pipelineVars[itemVar] = list[i]
+    context.pipelineVars["repeatIndex"] = i
+
+    await executeSteps(children, context, automationName, stepIndex + 1)
+  }
+
+  const finalValue = context.pipelineVars[accVar]
+  context.nodes = savedNodes
+  delete context.pipelineVars["repeatIndex"]
+
+  return finalValue !== undefined && !Array.isArray(finalValue) ? finalValue : String(finalValue ?? "")
 }
 
 function dedupeNodes(nodes: SceneNode[]): SceneNode[] {

@@ -437,7 +437,7 @@ function InputDialog(props: {
   }
 
   const handleKeyDown = (e: KeyboardEvent) => {
-    if (e.key === "Enter" && props.request.inputType === "text") {
+    if (e.key === "Enter" && props.request.inputType !== "textarea") {
       e.preventDefault()
       handleSubmit()
     }
@@ -446,6 +446,9 @@ function InputDialog(props: {
       props.onCancel()
     }
   }
+
+  const isSelect = props.request.inputType === "select"
+  const options = props.request.options ?? []
 
   return (
     <div
@@ -470,7 +473,31 @@ function InputDialog(props: {
       >
         <Text style={{ fontSize: 12, fontWeight: 600 }}>{props.request.label}</Text>
         <VerticalSpace space="small" />
-        {props.request.inputType === "textarea" ? (
+        {isSelect && options.length > 0 ? (
+          <div style={{ maxHeight: 200, overflowY: "auto" }}>
+            {options.map((opt, idx) => (
+              <div
+                key={idx}
+                onClick={() => setValue(opt)}
+                style={{
+                  padding: "6px 8px",
+                  fontSize: 12,
+                  cursor: "pointer",
+                  borderRadius: 4,
+                  background: value === opt
+                    ? "var(--figma-color-bg-brand)"
+                    : "transparent",
+                  color: value === opt
+                    ? "var(--figma-color-text-onbrand)"
+                    : "var(--figma-color-text)",
+                  marginBottom: 2,
+                }}
+              >
+                {opt}
+              </div>
+            ))}
+          </div>
+        ) : props.request.inputType === "textarea" ? (
           <TextboxMultiline
             value={value}
             onValueInput={setValue}
@@ -907,12 +934,15 @@ function StepLogRow(props: { entry: AutomationsStepLog }) {
 // ============================================================================
 
 type RightPanel = "empty" | "picker" | "config" | "runOutput"
-type StepPath = { index: number; childIndex?: number }
+type ChildBranch = "then" | "else"
+type StepPath = { index: number; childIndex?: number; childBranch?: ChildBranch }
 
 function stepsPathEqual(a: StepPath | null, b: StepPath | null): boolean {
   if (!a || !b) return a === b
-  return a.index === b.index && a.childIndex === b.childIndex
+  return a.index === b.index && a.childIndex === b.childIndex && (a.childBranch ?? "then") === (b.childBranch ?? "then")
 }
+
+const ACTIONS_WITH_CHILDREN: string[] = ["repeatWithEach", "ifCondition", "mapList", "reduceList"]
 
 function BuilderScreen(props: {
   automation: AutomationPayload
@@ -929,13 +959,23 @@ function BuilderScreen(props: {
   const [selectedPath, setSelectedPath] = useState<StepPath | null>(null)
   const [rightPanel, setRightPanel] = useState<RightPanel>("empty")
   const [pickerParentIndex, setPickerParentIndex] = useState<number | null>(null)
+  const [pickerParentBranch, setPickerParentBranch] = useState<ChildBranch>("then")
+
+  const getChildArray = (parent: AutomationStepPayload, branch: ChildBranch): AutomationStepPayload[] =>
+    branch === "else" ? (parent.elseChildren ?? []) : (parent.children ?? [])
+
+  const setChildArray = (parent: AutomationStepPayload, branch: ChildBranch, arr: AutomationStepPayload[]): AutomationStepPayload =>
+    branch === "else"
+      ? { ...parent, elseChildren: arr.length > 0 ? arr : undefined }
+      : { ...parent, children: arr.length > 0 ? arr : undefined }
 
   const getSelectedStep = (): AutomationStepPayload | null => {
     if (!selectedPath) return null
     const topStep = automation.steps[selectedPath.index]
     if (!topStep) return null
     if (selectedPath.childIndex !== undefined) {
-      return topStep.children?.[selectedPath.childIndex] ?? null
+      const arr = selectedPath.childBranch === "else" ? topStep.elseChildren : topStep.children
+      return arr?.[selectedPath.childIndex] ?? null
     }
     return topStep
   }
@@ -947,7 +987,8 @@ function BuilderScreen(props: {
     if (!def) return
 
     const existingNames = collectOutputNames(automation.steps)
-    const outputName = actionType === "repeatWithEach"
+    const noOutputActions: ActionType[] = ["repeatWithEach", "ifCondition", "stopAndOutput"]
+    const outputName = noOutputActions.includes(actionType)
       ? undefined
       : generateDefaultOutputName(actionType, existingNames)
 
@@ -967,11 +1008,17 @@ function BuilderScreen(props: {
       if (actionType === "repeatWithEach" && prevIsData) {
         params.source = prevStep.outputName
       }
+      if ((actionType === "mapList" || actionType === "reduceList") && prevIsData) {
+        params.source = prevStep.outputName
+      }
+      if (actionType === "chooseFromList" && prevIsData) {
+        params.sourceVar = prevStep.outputName
+      }
     }
 
     if (pickerParentIndex !== null) {
       const parentStep = automation.steps[pickerParentIndex]
-      if (parentStep?.actionType === "repeatWithEach") {
+      if (parentStep?.actionType === "repeatWithEach" || parentStep?.actionType === "mapList") {
         const itemVar = String(parentStep.params.itemVar ?? "item")
         if (actionType === "setCharacters") {
           params.characters = `{$${itemVar}}`
@@ -990,11 +1037,11 @@ function BuilderScreen(props: {
     if (pickerParentIndex !== null) {
       const steps = [...automation.steps]
       const parent = { ...steps[pickerParentIndex] }
-      const children = [...(parent.children ?? []), newStep]
-      parent.children = children
-      steps[pickerParentIndex] = parent
+      const branch = pickerParentBranch
+      const children = [...getChildArray(parent, branch), newStep]
+      steps[pickerParentIndex] = setChildArray(parent, branch, children)
       onChange({ ...automation, steps })
-      setSelectedPath({ index: pickerParentIndex, childIndex: children.length - 1 })
+      setSelectedPath({ index: pickerParentIndex, childIndex: children.length - 1, childBranch: branch })
     } else {
       const newSteps = [...automation.steps, newStep]
       onChange({ ...automation, steps: newSteps })
@@ -1007,11 +1054,11 @@ function BuilderScreen(props: {
   const removeStep = (path: StepPath) => {
     const steps = [...automation.steps]
     if (path.childIndex !== undefined) {
+      const branch = path.childBranch ?? "then"
       const parent = { ...steps[path.index] }
-      const children = [...(parent.children ?? [])]
+      const children = [...getChildArray(parent, branch)]
       children.splice(path.childIndex, 1)
-      parent.children = children.length > 0 ? children : undefined
-      steps[path.index] = parent
+      steps[path.index] = setChildArray(parent, branch, children)
     } else {
       steps.splice(path.index, 1)
     }
@@ -1025,18 +1072,18 @@ function BuilderScreen(props: {
   const moveStep = (path: StepPath, direction: -1 | 1) => {
     const steps = [...automation.steps]
     if (path.childIndex !== undefined) {
+      const branch = path.childBranch ?? "then"
       const parent = { ...steps[path.index] }
-      const children = [...(parent.children ?? [])]
+      const children = [...getChildArray(parent, branch)]
       const newIdx = path.childIndex + direction
       if (newIdx < 0 || newIdx >= children.length) return
       const temp = children[path.childIndex]
       children[path.childIndex] = children[newIdx]
       children[newIdx] = temp
-      parent.children = children
-      steps[path.index] = parent
+      steps[path.index] = setChildArray(parent, branch, children)
       onChange({ ...automation, steps })
       if (stepsPathEqual(selectedPath, path)) {
-        setSelectedPath({ index: path.index, childIndex: newIdx })
+        setSelectedPath({ index: path.index, childIndex: newIdx, childBranch: branch })
       }
     } else {
       const newIdx = path.index + direction
@@ -1054,11 +1101,11 @@ function BuilderScreen(props: {
   const toggleStep = (path: StepPath) => {
     const steps = [...automation.steps]
     if (path.childIndex !== undefined) {
+      const branch = path.childBranch ?? "then"
       const parent = { ...steps[path.index] }
-      const children = [...(parent.children ?? [])]
+      const children = [...getChildArray(parent, branch)]
       children[path.childIndex] = { ...children[path.childIndex], enabled: !children[path.childIndex].enabled }
-      parent.children = children
-      steps[path.index] = parent
+      steps[path.index] = setChildArray(parent, branch, children)
     } else {
       steps[path.index] = { ...steps[path.index], enabled: !steps[path.index].enabled }
     }
@@ -1070,9 +1117,10 @@ function BuilderScreen(props: {
     setRightPanel("config")
   }
 
-  const showPicker = (parentIndex?: number) => {
+  const showPicker = (parentIndex?: number, branch?: ChildBranch) => {
     setSelectedPath(null)
     setPickerParentIndex(parentIndex ?? null)
+    setPickerParentBranch(branch ?? "then")
     setRightPanel("picker")
   }
 
@@ -1091,14 +1139,14 @@ function BuilderScreen(props: {
     if (!selectedPath || !selectedStep) return
     const steps = [...automation.steps]
     if (selectedPath.childIndex !== undefined) {
+      const branch = selectedPath.childBranch ?? "then"
       const parent = { ...steps[selectedPath.index] }
-      const children = [...(parent.children ?? [])]
+      const children = [...getChildArray(parent, branch)]
       children[selectedPath.childIndex] = {
         ...children[selectedPath.childIndex],
         params: { ...children[selectedPath.childIndex].params, [key]: value },
       }
-      parent.children = children
-      steps[selectedPath.index] = parent
+      steps[selectedPath.index] = setChildArray(parent, branch, children)
     } else {
       steps[selectedPath.index] = {
         ...steps[selectedPath.index],
@@ -1112,14 +1160,14 @@ function BuilderScreen(props: {
     if (!selectedPath || !selectedStep) return
     const steps = [...automation.steps]
     if (selectedPath.childIndex !== undefined) {
+      const branch = selectedPath.childBranch ?? "then"
       const parent = { ...steps[selectedPath.index] }
-      const children = [...(parent.children ?? [])]
+      const children = [...getChildArray(parent, branch)]
       children[selectedPath.childIndex] = {
         ...children[selectedPath.childIndex],
         outputName: value || undefined,
       }
-      parent.children = children
-      steps[selectedPath.index] = parent
+      steps[selectedPath.index] = setChildArray(parent, branch, children)
     } else {
       steps[selectedPath.index] = {
         ...steps[selectedPath.index],
@@ -1133,14 +1181,14 @@ function BuilderScreen(props: {
     if (!selectedPath || !selectedStep) return
     const steps = [...automation.steps]
     if (selectedPath.childIndex !== undefined) {
+      const branch = selectedPath.childBranch ?? "then"
       const parent = { ...steps[selectedPath.index] }
-      const children = [...(parent.children ?? [])]
+      const children = [...getChildArray(parent, branch)]
       children[selectedPath.childIndex] = {
         ...children[selectedPath.childIndex],
         target: value || undefined,
       }
-      parent.children = children
-      steps[selectedPath.index] = parent
+      steps[selectedPath.index] = setChildArray(parent, branch, children)
     } else {
       steps[selectedPath.index] = {
         ...steps[selectedPath.index],
@@ -1212,18 +1260,53 @@ function BuilderScreen(props: {
                       onMoveUp={() => moveStep({ index: idx }, -1)}
                       onMoveDown={() => moveStep({ index: idx }, 1)}
                     />
-                    {step.actionType === "repeatWithEach" && (
-                      <RepeatChildrenBlock
-                        parentIndex={idx}
-                        children={step.children ?? []}
-                        selectedPath={selectedPath}
-                        stepOutputs={stepOutputs}
-                        onSelectChild={(childIdx) => selectStep({ index: idx, childIndex: childIdx })}
-                        onToggleChild={(childIdx) => toggleStep({ index: idx, childIndex: childIdx })}
-                        onRemoveChild={(childIdx) => removeStep({ index: idx, childIndex: childIdx })}
-                        onMoveChild={(childIdx, dir) => moveStep({ index: idx, childIndex: childIdx }, dir)}
-                        onAddChild={() => showPicker(idx)}
-                      />
+                    {ACTIONS_WITH_CHILDREN.includes(step.actionType) && (
+                      <Fragment>
+                        {step.actionType === "ifCondition" && (
+                          <Fragment>
+                            <ChildrenBlock
+                              parentIndex={idx}
+                              children={step.children ?? []}
+                              selectedPath={selectedPath}
+                              stepOutputs={stepOutputs}
+                              branch="then"
+                              label="Then"
+                              onSelectChild={(childIdx) => selectStep({ index: idx, childIndex: childIdx, childBranch: "then" })}
+                              onToggleChild={(childIdx) => toggleStep({ index: idx, childIndex: childIdx, childBranch: "then" })}
+                              onRemoveChild={(childIdx) => removeStep({ index: idx, childIndex: childIdx, childBranch: "then" })}
+                              onMoveChild={(childIdx, dir) => moveStep({ index: idx, childIndex: childIdx, childBranch: "then" }, dir)}
+                              onAddChild={() => showPicker(idx, "then")}
+                            />
+                            <ChildrenBlock
+                              parentIndex={idx}
+                              children={step.elseChildren ?? []}
+                              selectedPath={selectedPath}
+                              stepOutputs={stepOutputs}
+                              branch="else"
+                              label="Otherwise"
+                              onSelectChild={(childIdx) => selectStep({ index: idx, childIndex: childIdx, childBranch: "else" })}
+                              onToggleChild={(childIdx) => toggleStep({ index: idx, childIndex: childIdx, childBranch: "else" })}
+                              onRemoveChild={(childIdx) => removeStep({ index: idx, childIndex: childIdx, childBranch: "else" })}
+                              onMoveChild={(childIdx, dir) => moveStep({ index: idx, childIndex: childIdx, childBranch: "else" }, dir)}
+                              onAddChild={() => showPicker(idx, "else")}
+                            />
+                          </Fragment>
+                        )}
+                        {step.actionType !== "ifCondition" && (
+                          <ChildrenBlock
+                            parentIndex={idx}
+                            children={step.children ?? []}
+                            selectedPath={selectedPath}
+                            stepOutputs={stepOutputs}
+                            branch="then"
+                            onSelectChild={(childIdx) => selectStep({ index: idx, childIndex: childIdx })}
+                            onToggleChild={(childIdx) => toggleStep({ index: idx, childIndex: childIdx })}
+                            onRemoveChild={(childIdx) => removeStep({ index: idx, childIndex: childIdx })}
+                            onMoveChild={(childIdx, dir) => moveStep({ index: idx, childIndex: childIdx }, dir)}
+                            onAddChild={() => showPicker(idx)}
+                          />
+                        )}
+                      </Fragment>
                     )}
                   </Fragment>
                 ))}
@@ -1474,11 +1557,13 @@ function StepRow(props: {
   )
 }
 
-function RepeatChildrenBlock(props: {
+function ChildrenBlock(props: {
   parentIndex: number
   children: AutomationStepPayload[]
   selectedPath: StepPath | null
   stepOutputs: StepOutputPreviewPayload[]
+  branch: ChildBranch
+  label?: string
   onSelectChild: (childIdx: number) => void
   onToggleChild: (childIdx: number) => void
   onRemoveChild: (childIdx: number) => void
@@ -1495,6 +1580,20 @@ function RepeatChildrenBlock(props: {
         paddingBottom: 4,
       }}
     >
+      {props.label && (
+        <div
+          style={{
+            fontSize: 10,
+            fontWeight: 600,
+            color: "var(--figma-color-text-secondary)",
+            padding: "2px 4px 4px",
+            textTransform: "uppercase",
+            letterSpacing: "0.5px",
+          }}
+        >
+          {props.label}
+        </div>
+      )}
       {props.children.length === 0 ? (
         <div
           style={{
@@ -1513,7 +1612,7 @@ function RepeatChildrenBlock(props: {
               step={child}
               index={childIdx}
               total={props.children.length}
-              selected={stepsPathEqual(props.selectedPath, { index: props.parentIndex, childIndex: childIdx })}
+              selected={stepsPathEqual(props.selectedPath, { index: props.parentIndex, childIndex: childIdx, childBranch: props.branch })}
               stepOutput={props.stepOutputs.find((so) => so.stepId === child.id)}
               onSelect={() => props.onSelectChild(childIdx)}
               onToggle={() => props.onToggleChild(childIdx)}
@@ -2129,7 +2228,7 @@ function StepConfigPanel(props: {
       })()}
       {renderStepParams(step, onUpdateParam, suggestions, allSteps, stepIndex, parentStep)}
 
-      {step.actionType !== "repeatWithEach" && (
+      {!["repeatWithEach", "ifCondition", "stopAndOutput"].includes(step.actionType) && (
         <Fragment>
           <VerticalSpace space="medium" />
           <Divider />
@@ -3240,6 +3339,234 @@ function renderStepParams(
         </Fragment>
       )
     }
+
+    case "ifCondition": {
+      const conditionOperators = [
+        { value: "equals", text: "equals" },
+        { value: "notEquals", text: "not equals" },
+        { value: "greaterThan", text: "greater than" },
+        { value: "lessThan", text: "less than" },
+        { value: "greaterOrEqual", text: "greater or equal" },
+        { value: "lessOrEqual", text: "less or equal" },
+        { value: "contains", text: "contains" },
+        { value: "notContains", text: "not contains" },
+        { value: "isEmpty", text: "is empty" },
+        { value: "isNotEmpty", text: "is not empty" },
+      ]
+      const operator = String(step.params.operator ?? "equals")
+      const isUnary = operator === "isEmpty" || operator === "isNotEmpty"
+      return (
+        <Fragment>
+          {inputCtx}
+          <Text style={{ fontSize: 11 }}>Left value</Text>
+          <VerticalSpace space="extraSmall" />
+          <TokenInput
+            value={String(step.params.left ?? "")}
+            onValueInput={(v: string) => updateParam("left", v)}
+            placeholder="Value or token (e.g. {count})"
+            suggestions={suggestions}
+          />
+          <VerticalSpace space="small" />
+          <Text style={{ fontSize: 11 }}>Operator</Text>
+          <VerticalSpace space="extraSmall" />
+          <Dropdown
+            value={operator}
+            options={conditionOperators}
+            onValueChange={(v: string) => updateParam("operator", v)}
+          />
+          {!isUnary && (
+            <Fragment>
+              <VerticalSpace space="small" />
+              <Text style={{ fontSize: 11 }}>Right value</Text>
+              <VerticalSpace space="extraSmall" />
+              <TokenInput
+                value={String(step.params.right ?? "")}
+                onValueInput={(v: string) => updateParam("right", v)}
+                placeholder="Value or token"
+                suggestions={suggestions}
+              />
+            </Fragment>
+          )}
+          <VerticalSpace space="medium" />
+          <Divider />
+          <VerticalSpace space="small" />
+          <Text style={{ fontSize: 10, color: "var(--figma-color-text-tertiary)" }}>
+            Add child steps in the <b>Then</b> block (runs when condition is true)
+            and optionally in the <b>Otherwise</b> block (runs when false).
+            <br /><br />
+            Tip: Use <TokenText text="{count}" /> for working set size,{" "}
+            <TokenText text="{$variable}" /> for variables.
+          </Text>
+        </Fragment>
+      )
+    }
+
+    case "chooseFromList": {
+      const chooseInputOptions = buildInputSourceOptions(allSteps, stepIndex, true)
+      return (
+        <Fragment>
+          <Text style={{ fontSize: 11 }}>Prompt</Text>
+          <VerticalSpace space="extraSmall" />
+          <Textbox
+            value={String(step.params.label ?? "Choose an option")}
+            onValueInput={(v: string) => updateParam("label", v)}
+            placeholder="Choose an option"
+          />
+          <VerticalSpace space="small" />
+          <Text style={{ fontSize: 11 }}>Source list variable</Text>
+          <VerticalSpace space="extraSmall" />
+          {chooseInputOptions.length > 0 ? (
+            <Dropdown
+              value={safeDropdownValue(String(step.params.sourceVar ?? ""), [{ value: "", text: "None" }, ...chooseInputOptions])}
+              options={[{ value: "", text: "None" }, ...chooseInputOptions]}
+              onValueChange={(v: string) => updateParam("sourceVar", v)}
+            />
+          ) : (
+            <Textbox
+              value={String(step.params.sourceVar ?? "")}
+              onValueInput={(v: string) => updateParam("sourceVar", v)}
+              placeholder="Variable name"
+            />
+          )}
+          <VerticalSpace space="small" />
+          <Text style={{ fontSize: 11 }}>Static options (comma-separated)</Text>
+          <VerticalSpace space="extraSmall" />
+          <Textbox
+            value={String(step.params.options ?? "")}
+            onValueInput={(v: string) => updateParam("options", v)}
+            placeholder="Option A, Option B, Option C"
+          />
+          <VerticalSpace space="small" />
+          <Text style={{ fontSize: 10, color: "var(--figma-color-text-tertiary)" }}>
+            If a source list variable is set, its items are used as options.
+            Otherwise, static options are used.
+          </Text>
+        </Fragment>
+      )
+    }
+
+    case "mapList": {
+      const mapInputOptions = buildInputSourceOptions(allSteps, stepIndex, true)
+      const mapAllOptions = [...mapInputOptions]
+      const mapSource = safeDropdownValue(String(step.params.source ?? ""), mapAllOptions.length > 0 ? mapAllOptions : [{ value: "", text: "No lists available" }])
+      return (
+        <Fragment>
+          <Text style={{ fontSize: 11 }}>Source list</Text>
+          <VerticalSpace space="extraSmall" />
+          {mapAllOptions.length > 0 ? (
+            <Dropdown
+              value={mapSource}
+              options={mapAllOptions}
+              onValueChange={(v: string) => updateParam("source", v)}
+            />
+          ) : (
+            <Textbox
+              value={String(step.params.source ?? "")}
+              onValueInput={(v: string) => updateParam("source", v)}
+              placeholder="List variable name"
+            />
+          )}
+          <VerticalSpace space="small" />
+          <Text style={{ fontSize: 11 }}>Item variable name</Text>
+          <VerticalSpace space="extraSmall" />
+          <Textbox
+            value={String(step.params.itemVar ?? "item")}
+            onValueInput={(v: string) => updateParam("itemVar", v)}
+            placeholder="item"
+          />
+          <VerticalSpace space="medium" />
+          <Divider />
+          <VerticalSpace space="small" />
+          <Text style={{ fontSize: 10, color: "var(--figma-color-text-tertiary)" }}>
+            Runs child steps for each item in the list.
+            The last data-producing child step's output is collected into a new list.
+            <br /><br />
+            Use <TokenText text={`{$${String(step.params.itemVar ?? "item")}}`} /> for the current item,{" "}
+            <TokenText text="{$repeatIndex}" /> for the index.
+          </Text>
+        </Fragment>
+      )
+    }
+
+    case "reduceList": {
+      const reduceInputOptions = buildInputSourceOptions(allSteps, stepIndex, true)
+      const reduceAllOptions = [...reduceInputOptions]
+      const reduceSource = safeDropdownValue(String(step.params.source ?? ""), reduceAllOptions.length > 0 ? reduceAllOptions : [{ value: "", text: "No lists available" }])
+      return (
+        <Fragment>
+          <Text style={{ fontSize: 11 }}>Source list</Text>
+          <VerticalSpace space="extraSmall" />
+          {reduceAllOptions.length > 0 ? (
+            <Dropdown
+              value={reduceSource}
+              options={reduceAllOptions}
+              onValueChange={(v: string) => updateParam("source", v)}
+            />
+          ) : (
+            <Textbox
+              value={String(step.params.source ?? "")}
+              onValueInput={(v: string) => updateParam("source", v)}
+              placeholder="List variable name"
+            />
+          )}
+          <VerticalSpace space="small" />
+          <Text style={{ fontSize: 11 }}>Item variable name</Text>
+          <VerticalSpace space="extraSmall" />
+          <Textbox
+            value={String(step.params.itemVar ?? "item")}
+            onValueInput={(v: string) => updateParam("itemVar", v)}
+            placeholder="item"
+          />
+          <VerticalSpace space="small" />
+          <Text style={{ fontSize: 11 }}>Accumulator variable name</Text>
+          <VerticalSpace space="extraSmall" />
+          <Textbox
+            value={String(step.params.accumulatorVar ?? "result")}
+            onValueInput={(v: string) => updateParam("accumulatorVar", v)}
+            placeholder="result"
+          />
+          <VerticalSpace space="small" />
+          <Text style={{ fontSize: 11 }}>Initial value</Text>
+          <VerticalSpace space="extraSmall" />
+          <TokenInput
+            value={String(step.params.initialValue ?? "0")}
+            onValueInput={(v: string) => updateParam("initialValue", v)}
+            placeholder="0"
+            suggestions={suggestions}
+          />
+          <VerticalSpace space="medium" />
+          <Divider />
+          <VerticalSpace space="small" />
+          <Text style={{ fontSize: 10, color: "var(--figma-color-text-tertiary)" }}>
+            Iterates through the list, accumulating a single result.
+            Use child steps (e.g. Math, Set variable) to update the accumulator each iteration.
+            <br /><br />
+            Use <TokenText text={`{$${String(step.params.itemVar ?? "item")}}`} /> for the current item,{" "}
+            <TokenText text={`{$${String(step.params.accumulatorVar ?? "result")}}`} /> for the accumulator,{" "}
+            <TokenText text="{$repeatIndex}" /> for the index.
+          </Text>
+        </Fragment>
+      )
+    }
+
+    case "stopAndOutput":
+      return (
+        <Fragment>
+          {inputCtxTokens}
+          <Text style={{ fontSize: 11 }}>Message</Text>
+          <VerticalSpace space="extraSmall" />
+          <TokenInput
+            value={String(step.params.message ?? "")}
+            onValueInput={(v: string) => updateParam("message", v)}
+            placeholder="Optional stop message"
+            suggestions={suggestions}
+          />
+          <VerticalSpace space="small" />
+          <Text style={{ fontSize: 10, color: "var(--figma-color-text-tertiary)" }}>
+            Stops the workflow immediately. Useful inside If blocks for early exit.
+          </Text>
+        </Fragment>
+      )
 
     case "notify":
     case "log":

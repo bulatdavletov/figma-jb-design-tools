@@ -27,9 +27,14 @@ async function handleRun(parameters?: ParameterValues) {
       return
     }
 
-    const hasInput = automation.steps.some(
-      (s) => s.enabled && (s.actionType === "askForInput" || s.children?.some((c) => c.enabled && c.actionType === "askForInput")),
-    )
+    const inputActions = ["askForInput", "chooseFromList"]
+    const stepNeedsUI = (s: { enabled: boolean; actionType: string; children?: any[]; elseChildren?: any[] }): boolean =>
+      s.enabled && (
+        inputActions.includes(s.actionType) ||
+        s.children?.some((c: any) => stepNeedsUI(c)) ||
+        s.elseChildren?.some((c: any) => stepNeedsUI(c))
+      ) || false
+    const hasInput = automation.steps.some(stepNeedsUI)
 
     if (hasInput) {
       setAutoRunAutomation(automationId)

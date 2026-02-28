@@ -76,6 +76,9 @@ function stepToExportStep(s: AutomationStep): AutomationExportStepFormat {
   if (s.children && s.children.length > 0) {
     out.children = s.children.map(stepToExportStep)
   }
+  if (s.elseChildren && s.elseChildren.length > 0) {
+    out.elseChildren = s.elseChildren.map(stepToExportStep)
+  }
   return out
 }
 
@@ -135,6 +138,11 @@ function importStep(s: any): AutomationStep {
   }
   if (Array.isArray(s.children) && s.children.length > 0) {
     step.children = s.children
+      .filter((c: any) => c && typeof c === "object" && typeof c.actionType === "string")
+      .map((c: any) => importStep(c))
+  }
+  if (Array.isArray(s.elseChildren) && s.elseChildren.length > 0) {
+    step.elseChildren = s.elseChildren
       .filter((c: any) => c && typeof c === "object" && typeof c.actionType === "string")
       .map((c: any) => importStep(c))
   }
@@ -233,6 +241,13 @@ function migrateStep(step: AutomationStep): AutomationStep {
     const migratedChildren = migrated.children.map(migrateStep)
     if (migratedChildren.some((c, i) => c !== migrated.children![i])) {
       migrated = { ...migrated, children: migratedChildren }
+    }
+  }
+
+  if (migrated.elseChildren && migrated.elseChildren.length > 0) {
+    const migratedElse = migrated.elseChildren.map(migrateStep)
+    if (migratedElse.some((c, i) => c !== migrated.elseChildren![i])) {
+      migrated = { ...migrated, elseChildren: migratedElse }
     }
   }
 

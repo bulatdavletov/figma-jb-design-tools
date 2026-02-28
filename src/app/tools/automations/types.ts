@@ -50,6 +50,11 @@ export type ActionType =
   | "setPosition"
   | "askForInput"
   | "repeatWithEach"
+  | "ifCondition"
+  | "chooseFromList"
+  | "mapList"
+  | "reduceList"
+  | "stopAndOutput"
 
 export type ActionCategory = "source" | "filter" | "navigate" | "transform" | "output" | "variables" | "input" | "flow"
 
@@ -60,6 +65,7 @@ export interface AutomationStep {
   enabled: boolean
   outputName?: string
   children?: AutomationStep[]
+  elseChildren?: AutomationStep[]
   target?: string
 }
 
@@ -77,6 +83,7 @@ export interface AutomationExportStepFormat {
   enabled: boolean
   outputName?: string
   children?: AutomationExportStepFormat[]
+  elseChildren?: AutomationExportStepFormat[]
   target?: string
 }
 
@@ -518,6 +525,16 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     defaultOutputName: "input",
     outputType: "text",
   },
+  {
+    type: "chooseFromList",
+    label: "Choose from list",
+    description: "Pause and show a selection dialog. User picks from a list variable or static options",
+    category: "input",
+    defaultParams: { sourceVar: "", options: "", label: "Choose an option" },
+    producesData: true,
+    defaultOutputName: "choice",
+    outputType: "text",
+  },
 
   // Variables
   {
@@ -569,6 +586,43 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "flow",
     defaultParams: { source: "nodes", itemVar: "item", onMismatch: "error", resultMode: "originalNodes" },
     outputType: "nodes",
+  },
+  {
+    type: "ifCondition",
+    label: "If",
+    description: "Run child steps only when condition is met. Optionally run else-steps otherwise",
+    category: "flow",
+    defaultParams: { left: "{count}", operator: "greaterThan", right: "0" },
+    outputType: "nodes",
+  },
+  {
+    type: "mapList",
+    label: "Map list",
+    description: "Transform each item in a list by running child steps. Collects outputs into a new list",
+    category: "flow",
+    defaultParams: { source: "", itemVar: "item" },
+    producesData: true,
+    defaultOutputName: "mapped",
+    outputType: "list",
+    inputType: "list",
+  },
+  {
+    type: "reduceList",
+    label: "Reduce list",
+    description: "Accumulate a single value from a list by running child steps for each item",
+    category: "flow",
+    defaultParams: { source: "", itemVar: "item", accumulatorVar: "result", initialValue: "0" },
+    producesData: true,
+    defaultOutputName: "reduced",
+    outputType: "text",
+    inputType: "list",
+  },
+  {
+    type: "stopAndOutput",
+    label: "Stop",
+    description: "Stop the workflow immediately with an optional message",
+    category: "flow",
+    defaultParams: { message: "" },
   },
 
   // Output
@@ -670,12 +724,17 @@ export function generateDefaultOutputName(
   return `${base}-${counter}`
 }
 
-export function collectOutputNames(steps: { outputName?: string; children?: { outputName?: string }[] }[]): string[] {
+export function collectOutputNames(steps: { outputName?: string; children?: { outputName?: string }[]; elseChildren?: { outputName?: string }[] }[]): string[] {
   const names: string[] = []
   for (const s of steps) {
     if (s.outputName) names.push(s.outputName)
     if (s.children) {
       for (const c of s.children) {
+        if (c.outputName) names.push(c.outputName)
+      }
+    }
+    if (s.elseChildren) {
+      for (const c of s.elseChildren) {
         if (c.outputName) names.push(c.outputName)
       }
     }
@@ -744,6 +803,22 @@ export function validateStep(
           issues.push({
             type: "warning",
             message: `Repeat expects a list, but "${source}" is ${getValueKindLabel(sourceDef.outputType).toLowerCase()}`,
+          })
+        }
+      }
+    }
+  }
+
+  if (step.actionType === "mapList" || step.actionType === "reduceList") {
+    const source = String(step.params.source ?? "")
+    if (source) {
+      const sourceStep = allSteps.find((s) => s.outputName === source)
+      if (sourceStep) {
+        const sourceDef = getActionDefinition(sourceStep.actionType as ActionType)
+        if (sourceDef?.outputType && sourceDef.outputType !== "list") {
+          issues.push({
+            type: "warning",
+            message: `${step.actionType === "mapList" ? "Map" : "Reduce"} expects a list, but "${source}" is ${getValueKindLabel(sourceDef.outputType).toLowerCase()}`,
           })
         }
       }

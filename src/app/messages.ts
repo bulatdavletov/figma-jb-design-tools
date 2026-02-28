@@ -1073,6 +1073,7 @@ export type AutomationStepPayload = {
   enabled: boolean
   outputName?: string
   children?: AutomationStepPayload[]
+  elseChildren?: AutomationStepPayload[]
   target?: string
 }
 
@@ -1137,6 +1138,7 @@ export type AutomationsRunResult = {
 export type AutomationsInputRequest = {
   label: string
   placeholder: string
-  inputType: "text" | "textarea"
+  inputType: "text" | "textarea" | "select"
   defaultValue: string
+  options?: string[]
 }
