@@ -1,4 +1,16 @@
-import { Button, IconButton, IconClose16, IconPlus16, Stack, Text } from "@create-figma-plugin/ui"
+import {
+  Button,
+  IconButton,
+  IconCheck16,
+  IconClose16,
+  IconFrame16,
+  IconGroup16,
+  IconNumber16,
+  IconPlus16,
+  IconText16,
+  Stack,
+  Text,
+} from "@create-figma-plugin/ui"
 import { h } from "preact"
 import { useState } from "preact/hooks"
 
@@ -7,7 +19,7 @@ import { TokenText } from "../../../components/TokenPill"
 import type { StepOutputPreviewPayload } from "../../../home/messages"
 import type { AutomationStepPayload } from "../../../home/messages"
 import { getParamSummary } from "../helpers"
-import { ACTION_DEFINITIONS, getValueKindBgColor, getValueKindColor, getValueKindLabel } from "../types"
+/**/import { ACTION_DEFINITIONS, getValueKindBgColor, getValueKindColor, type ValueKind } from "../types"
 import type { StepPath, ChildBranch } from "./types"
 import { stepsPathEqual } from "./utils"
 
@@ -44,7 +56,7 @@ export function StepRow(props: {
       style={{
         display: "flex",
         alignItems: "center",
-        gap: 4,
+        gap: 8,
         padding: "4px 4px",
         borderRadius: 4,
         background: props.selected
@@ -56,6 +68,35 @@ export function StepRow(props: {
         cursor: "pointer",
       }}
     >
+      {/* Output type icon column */}
+      <div
+        style={{
+          width: 16,
+          flexShrink: 0,
+          alignSelf: "flex-start",
+          paddingTop: 1,
+        }}
+      >
+        {def?.outputType ? (
+          <span
+            style={{
+              width: 16,
+              height: 16,
+              color: getValueKindColor(def.outputType),
+              background: getValueKindBgColor(def.outputType),
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: 4,
+            }}
+          >
+            <ValueKindIcon kind={def.outputType} />
+          </span>
+        ) : (
+          <span style={{ width: 16, height: 16, display: "inline-block" }} />
+        )}
+      </div>
+      {/* Run status dot */}
       {statusColor && (
         <div
           style={{
@@ -68,29 +109,18 @@ export function StepRow(props: {
           title={so ? `${so.status} — ${so.nodesAfter} nodes, ${so.durationMs}ms` : ""}
         />
       )}
+      {/* Main content */}
       <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 11, color: "var(--figma-color-text)" }}>
+        {/* Title row */}
+        <div style={{ display: "flex", alignItems: "start", gap: 8, fontSize: 11, color: "var(--figma-color-text)" }}>
           <span>{label}</span>
-          {def?.outputType && (
-            <span
-              style={{
-                fontSize: 8,
-                color: getValueKindColor(def.outputType),
-                background: getValueKindBgColor(def.outputType),
-                padding: "1px 3px",
-                borderRadius: 3,
-                fontWeight: 500,
-              }}
-            >
-              {getValueKindLabel(def.outputType)}
-            </span>
-          )}
           {so && (
             <span style={{ fontSize: 9, color: "var(--figma-color-text-tertiary)" }}>
               {so.nodesAfter} {so.nodesAfter === 1 ? "node" : "nodes"}
             </span>
           )}
         </div>
+        {/* Param summary */}
         {paramSummary && (
           <div
             style={{
@@ -105,6 +135,7 @@ export function StepRow(props: {
             <TokenText text={paramSummary} />
           </div>
         )}
+        {/* Target/output chips */}
         {(props.step.target || props.step.outputName) && (
           <div
             style={{
@@ -120,6 +151,7 @@ export function StepRow(props: {
           </div>
         )}
       </div>
+      {/* Row actions */}
       {hovered && (
         <div
           style={{ display: "flex", gap: 2, flexShrink: 0 }}
@@ -142,6 +174,23 @@ export function StepRow(props: {
       )}
     </div>
   )
+}
+
+function ValueKindIcon(props: { kind: ValueKind }) {
+  switch (props.kind) {
+    case "nodes":
+      return <IconFrame16 />
+    case "text":
+      return <IconText16 />
+    case "number":
+      return <IconNumber16 />
+    case "boolean":
+      return <IconCheck16 />
+    case "list":
+      return <IconGroup16 />
+    default:
+      return null
+  }
 }
 
 export function ChildrenBlock(props: {

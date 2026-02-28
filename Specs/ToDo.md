@@ -115,3 +115,6 @@ Repeat with each (split text parts)
     create text layer with the same style as the original text (have no idea how to do that)
     set createdText.text = {$item}
 Wrap all created text layers in a frame with vertical auto layout
+
+Export all feature
+
