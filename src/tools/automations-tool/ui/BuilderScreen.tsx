@@ -171,20 +171,6 @@ export function BuilderScreen(props: {
     }
   }
 
-  const toggleStep = (path: StepPath) => {
-    const steps = [...automation.steps]
-    if (path.childIndex !== undefined) {
-      const branch = path.childBranch ?? "then"
-      const parent = { ...steps[path.index] }
-      const children = [...getChildArray(parent, branch)]
-      children[path.childIndex] = { ...children[path.childIndex], enabled: !children[path.childIndex].enabled }
-      steps[path.index] = setChildArray(parent, branch, children)
-    } else {
-      steps[path.index] = { ...steps[path.index], enabled: !steps[path.index].enabled }
-    }
-    onChange({ ...automation, steps })
-  }
-
   const selectStep = (path: StepPath) => {
     setSelectedPath(path)
     setRightPanel("config")
@@ -333,7 +319,6 @@ export function BuilderScreen(props: {
                       selected={stepsPathEqual(selectedPath, { index: idx })}
                       stepOutput={stepOutputs.find((so) => so.stepId === step.id)}
                       onSelect={() => selectStep({ index: idx })}
-                      onToggle={() => toggleStep({ index: idx })}
                       onRemove={() => removeStep({ index: idx })}
                       onMoveUp={() => moveStep({ index: idx }, -1)}
                       onMoveDown={() => moveStep({ index: idx }, 1)}
@@ -350,7 +335,6 @@ export function BuilderScreen(props: {
                               branch="then"
                               label="Then"
                               onSelectChild={(childIdx) => selectStep({ index: idx, childIndex: childIdx, childBranch: "then" })}
-                              onToggleChild={(childIdx) => toggleStep({ index: idx, childIndex: childIdx, childBranch: "then" })}
                               onRemoveChild={(childIdx) => removeStep({ index: idx, childIndex: childIdx, childBranch: "then" })}
                               onMoveChild={(childIdx, dir) => moveStep({ index: idx, childIndex: childIdx, childBranch: "then" }, dir)}
                               onAddChild={() => showPicker(idx, "then")}
@@ -363,7 +347,6 @@ export function BuilderScreen(props: {
                               branch="else"
                               label="Otherwise"
                               onSelectChild={(childIdx) => selectStep({ index: idx, childIndex: childIdx, childBranch: "else" })}
-                              onToggleChild={(childIdx) => toggleStep({ index: idx, childIndex: childIdx, childBranch: "else" })}
                               onRemoveChild={(childIdx) => removeStep({ index: idx, childIndex: childIdx, childBranch: "else" })}
                               onMoveChild={(childIdx, dir) => moveStep({ index: idx, childIndex: childIdx, childBranch: "else" }, dir)}
                               onAddChild={() => showPicker(idx, "else")}
@@ -378,7 +361,6 @@ export function BuilderScreen(props: {
                             stepOutputs={stepOutputs}
                             branch="then"
                             onSelectChild={(childIdx) => selectStep({ index: idx, childIndex: childIdx })}
-                            onToggleChild={(childIdx) => toggleStep({ index: idx, childIndex: childIdx })}
                             onRemoveChild={(childIdx) => removeStep({ index: idx, childIndex: childIdx })}
                             onMoveChild={(childIdx, dir) => moveStep({ index: idx, childIndex: childIdx }, dir)}
                             onAddChild={() => showPicker(idx)}

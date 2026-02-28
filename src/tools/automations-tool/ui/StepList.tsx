@@ -1,4 +1,4 @@
-import { Button, Checkbox, IconButton, IconClose16, IconPlus16, Stack, Text } from "@create-figma-plugin/ui"
+import { Button, IconButton, IconClose16, IconPlus16, Stack, Text } from "@create-figma-plugin/ui"
 import { h } from "preact"
 import { useState } from "preact/hooks"
 
@@ -18,11 +18,9 @@ export function StepRow(props: {
   selected: boolean
   stepOutput?: StepOutputPreviewPayload
   onSelect: () => void
-  onToggle: () => void
   onRemove: () => void
   onMoveUp: () => void
   onMoveDown: () => void
-  labelPrefix?: string
 }) {
   const [hovered, setHovered] = useState(false)
   const def = ACTION_DEFINITIONS.find((d) => d.type === props.step.actionType)
@@ -58,14 +56,6 @@ export function StepRow(props: {
         cursor: "pointer",
       }}
     >
-      <div onClick={(e) => e.stopPropagation()}>
-        <Checkbox
-          value={props.step.enabled}
-          onValueChange={props.onToggle}
-        >
-          <Text>{" "}</Text>
-        </Checkbox>
-      </div>
       {statusColor && (
         <div
           style={{
@@ -80,7 +70,7 @@ export function StepRow(props: {
       )}
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 11, color: "var(--figma-color-text)" }}>
-          <span>{props.labelPrefix ?? ""}{props.index + 1}. {label}</span>
+          <span>{label}</span>
           {def?.outputType && (
             <span
               style={{
@@ -162,7 +152,6 @@ export function ChildrenBlock(props: {
   branch: ChildBranch
   label?: string
   onSelectChild: (childIdx: number) => void
-  onToggleChild: (childIdx: number) => void
   onRemoveChild: (childIdx: number) => void
   onMoveChild: (childIdx: number, direction: -1 | 1) => void
   onAddChild: () => void
@@ -212,11 +201,9 @@ export function ChildrenBlock(props: {
               selected={stepsPathEqual(props.selectedPath, { index: props.parentIndex, childIndex: childIdx, childBranch: props.branch })}
               stepOutput={props.stepOutputs.find((so) => so.stepId === child.id)}
               onSelect={() => props.onSelectChild(childIdx)}
-              onToggle={() => props.onToggleChild(childIdx)}
               onRemove={() => props.onRemoveChild(childIdx)}
               onMoveUp={() => props.onMoveChild(childIdx, -1)}
               onMoveDown={() => props.onMoveChild(childIdx, 1)}
-              labelPrefix={`${props.parentIndex + 1}.`}
             />
           ))}
         </Stack>
