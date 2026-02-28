@@ -191,6 +191,7 @@ export function buildSuggestions(
   currentStepIndex: number,
   parentStep?: AutomationStepPayload,
   childIndex?: number,
+  childBranch?: "then" | "else",
 ): Suggestion[] {
   const suggestions: Suggestion[] = []
 
@@ -280,7 +281,7 @@ export function buildSuggestions(
   }
 
   if (parentStep?.actionType === "ifCondition") {
-    const children = parentStep.children ?? []
+    const children = childBranch === "else" ? (parentStep.elseChildren ?? []) : (parentStep.children ?? [])
     if (childIndex !== undefined) {
       for (let i = 0; i < childIndex && i < children.length; i++) {
         const child = children[i]

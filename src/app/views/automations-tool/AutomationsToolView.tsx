@@ -995,7 +995,7 @@ function BuilderScreen(props: {
     const params = { ...def.defaultParams }
 
     const prevStep = pickerParentIndex !== null
-      ? (automation.steps[pickerParentIndex].children ?? []).at(-1) ?? automation.steps[pickerParentIndex]
+      ? getChildArray(automation.steps[pickerParentIndex], pickerParentBranch).at(-1) ?? automation.steps[pickerParentIndex]
       : automation.steps.at(-1)
 
     if (prevStep?.outputName) {
@@ -1356,6 +1356,7 @@ function BuilderScreen(props: {
                   selectedPath.index,
                   parentStep,
                   selectedPath.childIndex,
+                  selectedPath.childBranch,
                 )}
               />
             )
