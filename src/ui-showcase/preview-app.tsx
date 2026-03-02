@@ -27,7 +27,7 @@ import { ToolCard } from "../components/ToolCard"
 import { ToolTabs } from "../components/ToolTabs"
 import { ToolPreview } from "./ToolPreview"
 import { LibraryCacheStatusBar } from "../components/LibraryCacheStatusBar"
-import { tools } from "./tool-registry"
+import { tools } from "./showcase-tool-registry"
 
 type Theme = "figma-light" | "figma-dark"
 type Page = "overview" | `component:${string}` | "home" | `tool:${string}`

@@ -59,7 +59,7 @@ export const tools: ToolEntry[] = [
   },
   {
     id: "migrate-to-islands-uikit-tool",
-    label: "Migrate to New UI Kit",
+    label: "Migrate to Islands UI Kit",
     section: "general",
     scenarios: librarySwapScenarios,
     loadView: () =>

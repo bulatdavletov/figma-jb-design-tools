@@ -2,7 +2,7 @@ import { Text } from "@create-figma-plugin/ui"
 import { h } from "preact"
 import { useEffect, useRef } from "preact/hooks"
 
-import type { ToolEntry } from "./tool-registry"
+import type { ToolEntry } from "./showcase-tool-registry"
 import type { Scenario } from "../test-fixtures/types"
 
 const PLUGIN_WIDTH = 360

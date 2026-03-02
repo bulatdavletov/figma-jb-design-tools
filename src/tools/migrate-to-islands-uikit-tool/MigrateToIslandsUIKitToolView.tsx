@@ -267,7 +267,7 @@ export function MigrateToIslandsUIKitToolView({ onBack, initialSelectionEmpty }:
     const exported = {
       schemaVersion: 2,
       createdAt: new Date().toISOString(),
-      meta: { note: "Manual pairs exported from Library Swap" },
+      meta: { note: "Manual pairs exported from Migrate to Islands UI Kit Plugin" },
       matches,
       matchMeta,
     }
@@ -344,7 +344,7 @@ export function MigrateToIslandsUIKitToolView({ onBack, initialSelectionEmpty }:
     return (
       <Page>
         <ToolHeader
-          title="Library Swap"
+          title="Migrate to Islands UI Kit"
           left={
             <IconButton onClick={onBack} title="Home">
               <IconHome16 />
@@ -377,7 +377,7 @@ export function MigrateToIslandsUIKitToolView({ onBack, initialSelectionEmpty }:
   return (
     <Page>
       <ToolHeader
-        title="Migrate to New UI Kit"
+        title="Migrate to Islands UI Kit"
         left={
           <IconButton onClick={onBack} title="Home">
             <IconHome16 />
