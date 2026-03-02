@@ -1,5 +1,13 @@
 # Cursor Chat History
 
+## Print Color Usages — Update tab button on selection change
+
+### 2026-03-02
+- **Bug:** On Update tab, after pressing "Check changes in selection", changing selection left the footer as disabled "Apply" instead of showing an enabled "Check again".
+- **Root cause:** Selection change only updated `selectionSize`; `preview` and `selectedPreviewNodeIds` were not cleared, so the UI stayed in "has preview" state with stale data.
+- **Fix:** On `PRINT_COLOR_USAGES_SELECTION`, clear `preview` and `selectedPreviewNodeIds` so the Update tab shows "Check again" (enabled). Button label set to "Check again" when there is no preview.
+- **Other tools:** Variables Replace Usages has the same pattern (scope-based preview); now clears `preview` on `REPLACE_USAGES_SELECTION` so user runs Preview again for the new selection. Migrate to Islands UIKit Apply uses current selection at apply time, so no change.
+
 ## Library Swap Tool — Manual pairs tab
 
 ### 2026-02-26

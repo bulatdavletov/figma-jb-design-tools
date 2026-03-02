@@ -74,6 +74,9 @@ export function PrintColorUsagesToolView(props: { onBack: () => void; initialTab
 
       if (msg.type === MAIN_TO_UI.PRINT_COLOR_USAGES_SELECTION) {
         updateSelectionSize(msg.selectionSize)
+        // Invalidate Update tab preview when selection changes so footer shows "Check again" instead of stale "Apply"
+        setPreview(null)
+        setSelectedPreviewNodeIds([])
         return
       }
 
