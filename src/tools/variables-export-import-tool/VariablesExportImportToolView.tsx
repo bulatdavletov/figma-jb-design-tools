@@ -1,7 +1,6 @@
 import {
   Button,
   Checkbox,
-  Container,
   Divider,
   FileUploadButton,
   IconButton,
@@ -32,6 +31,7 @@ import { plural } from "../../utils/pluralize"
 import { Page } from "../../components/Page"
 import { ToolBody } from "../../components/ToolBody"
 import { ToolHeader } from "../../components/ToolHeader"
+import { ToolTabs } from "../../components/ToolTabs"
 
 type Props = {
   onBack: () => void
@@ -72,7 +72,10 @@ const importPreviewColumns: DataTableColumn[] = [
   { label: "Note" },
 ]
 
+type TabValue = "Export" | "Import"
+
 export function VariablesExportImportToolView({ onBack }: Props) {
+  const [activeTab, setActiveTab] = useState<TabValue>("Export")
   const [collections, setCollections] = useState<VariableCollectionInfo[]>([])
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [successMessage, setSuccessMessage] = useState<string | null>(null)
@@ -327,241 +330,250 @@ export function VariablesExportImportToolView({ onBack }: Props) {
           </IconButton>
         }
       />
-      <ToolBody mode="content">
-        <Stack space="medium">
-          {errorMessage && (
-            <Fragment>
-              <div style={{ padding: 8, background: "#fff1f2", borderRadius: 4 }}>
-                <Text style={{ color: "#9f1239" }}>{errorMessage}</Text>
-              </div>
-            </Fragment>
-          )}
 
-          {successMessage && (
-            <Fragment>
-              <div style={{ padding: 8, background: "#ecfdf3", borderRadius: 4 }}>
-                <Text style={{ color: "#067647" }}>{successMessage}</Text>
-              </div>
-            </Fragment>
-          )}
+      <div style={{ flex: 1, minHeight: 0, display: "flex", flexDirection: "column" }}>
+        <ToolTabs
+          value={activeTab}
+          onValueChange={(value) => setActiveTab(value as TabValue)}
+          options={[{ value: "Export" }, { value: "Import" }]}
+        />
 
-          <Stack space="extraSmall">
-            <Text style={{ color: "var(--figma-color-text-secondary)" }}>
-              Export variables as separate JSON files
-            </Text>
-          </Stack>
+        <ToolBody mode="content">
+          <Stack space="medium">
+            {errorMessage && (
+              <Fragment>
+                <div style={{ padding: 8, background: "#fff1f2", borderRadius: 4 }}>
+                  <Text style={{ color: "#9f1239" }}>{errorMessage}</Text>
+                </div>
+              </Fragment>
+            )}
 
-          <Stack space="small">
-            <Text>Collections</Text>
-            <Checkbox
-              value={exportIncludeKey}
-              disabled={exportBusy}
-              onValueChange={setExportIncludeKey}
-            >
-              <Text>Include key</Text>
-            </Checkbox>
-            <Text style={{ fontSize: 10, color: "var(--figma-color-text-secondary)", marginLeft: 20 }}>
-              Add variable key to JSON (for hardcoded Find Color Match; needed for Apply to work with library variables).
-            </Text>
-            <div>
-              {exportCollectionsOptions.length === 0 ? (
-                <Text style={{ color: "var(--figma-color-text-secondary)" }}>
-                  No collections loaded yet.
-                </Text>
-              ) : null}
-              {exportCollectionsOptions.length > 0 ? (
-                <Checkbox
-                  value={hasSomeCollectionsSelected ? MIXED_BOOLEAN : areAllCollectionsSelected}
-                  disabled={exportBusy}
-                  onValueChange={(next) =>
-                    setExportSelectedCollectionIds(next ? allCollectionIds : [])
-                  }
-                >
+            {successMessage && (
+              <Fragment>
+                <div style={{ padding: 8, background: "#ecfdf3", borderRadius: 4 }}>
+                  <Text style={{ color: "#067647" }}>{successMessage}</Text>
+                </div>
+              </Fragment>
+            )}
+
+            {activeTab === "Export" && (
+              <Stack space="medium">
+                <Stack space="extraSmall">
+                  <Text style={{ color: "var(--figma-color-text-secondary)" }}>
+                    Export variables as separate JSON files
+                  </Text>
+                </Stack>
+
+                <Stack space="small">
                   <Text>Collections</Text>
-                </Checkbox>
-              ) : null}
-              <VerticalSpace space="extraSmall" />
-              <Stack space="extraSmall" style={{ marginLeft: 20 }}>
-                {exportCollectionsOptions.map((c) => {
-                  const checked = exportSelectedCollectionIds.includes(c.id)
-                  return (
-                    <Checkbox
-                      key={c.id}
-                      value={checked}
-                      disabled={exportBusy}
-                      onValueChange={(next) => {
-                        setExportSelectedCollectionIds((prev) => {
-                          if (next) {
-                            return prev.includes(c.id) ? prev : [...prev, c.id]
-                          }
-                          return prev.filter((id) => id !== c.id)
-                        })
-                      }}
-                    >
-                      <Text>{c.name} ({c.variableCount} vars, {c.modeCount} modes)</Text>
-                    </Checkbox>
-                  )
-                })}
-              </Stack>
-            </div>
-          </Stack>
-
-          <Button onClick={handleExport} disabled={exportBusy || exportSelectedFilesCount === 0}>
-            {exportBusy ? "Exporting..." : exportButtonLabel}
-          </Button>
-
-          {exportBusy && (
-            <Inline space="extraSmall">
-              <LoadingIndicator />
-              <Text>Generating snapshot files...</Text>
-            </Inline>
-          )}
-
-          {snapshotStatus && (
-            <Text style={{ color: "var(--figma-color-text-secondary)" }}>{snapshotStatus}</Text>
-          )}
-
-          {snapshotFiles.length > 1 && (
-            <Stack space="small">
-              <Text>Download individual files:</Text>
-              <div>
-                {snapshotFiles.map((f, i) => (
-                  <div key={i} style={{ marginBottom: 4 }}>
-                    <Button
-                      secondary
-                      onClick={() => downloadTextFile(f.filename, f.jsonText)}
-                    >
-                      {f.filename}
-                    </Button>
-                  </div>
-                ))}
-              </div>
-            </Stack>
-          )}
-        </Stack>
-
-        <VerticalSpace space="large" />
-        <Divider />
-        <VerticalSpace space="large" />
-
-        {/* Import Section */}
-        <Stack space="medium">
-          <Stack space="extraSmall">
-            <Text style={{ fontWeight: 600 }}>Import Variables Snapshot</Text>
-            <Text style={{ color: "var(--figma-color-text-secondary)" }}>
-              Import a snapshot JSON file. Variables will be created, updated, or renamed based
-              on the snapshot content.
-            </Text>
-          </Stack>
-
-          <Inline space="extraSmall">
-            <FileUploadButton
-              acceptedFileTypes={[".json", "application/json"]}
-              onSelectedFiles={handleImportFile}
-            >
-              Choose JSON file…
-            </FileUploadButton>
-            <Button
-              secondary
-              disabled={(!importFile && !importJsonText.trim()) || importBusy}
-              onClick={handlePreviewAgain}
-            >
-              Preview again
-            </Button>
-          </Inline>
-
-          {importBusy && (
-            <Inline space="extraSmall">
-              <LoadingIndicator />
-              <Text>Processing import...</Text>
-            </Inline>
-          )}
-
-          {importPreview && (
-            <Stack space="small">
-              {importFilename && (
-                <Text style={{ color: "var(--figma-color-text-secondary)" }}>
-                  Loaded file: {importFilename}
-                </Text>
-              )}
-
-              <Text>
-                Rows: {importPreview.totals.considered} · create {importPreview.totals.create} ·
-                update {importPreview.totals.update} · rename {importPreview.totals.rename} ·
-                conflicts {importPreview.totals.conflicts} · missing collections{" "}
-                {importPreview.totals.missingCollections} · invalid {importPreview.totals.invalid}
-              </Text>
-
-              <Button
-                loading={importBusy}
-                disabled={importBusy || !canApplyImport}
-                onClick={handleApplyImport}
-              >
-                Apply Import
-              </Button>
-
-              {!canApplyImport && importPreview.totals.conflicts > 0 && (
-                <Text style={{ color: "#9f1239" }}>
-                  Resolve conflicts before applying.
-                </Text>
-              )}
-
-              {importResult && (
-                <Text style={{ color: "#067647" }}>
-                  Created: {importResult.totals.created}, Updated: {importResult.totals.updated},
-                  Renamed: {importResult.totals.renamed}, Skipped: {importResult.totals.skipped},
-                  Failed: {importResult.totals.failed}
-                </Text>
-              )}
-
-              <Divider />
-
-              {/* Preview Table */}
-              <DataTable columns={importPreviewColumns}>
-                {importRows.map((entry: ExportImportPreviewEntry, i) => {
-                  const pillStyle = getStatusPillStyle(entry.status)
-                  return (
-                    <tr key={i}>
-                      <td style={{ padding: "4px 8px", verticalAlign: "top" }}>
-                        <span
-                          style={{
-                            display: "inline-block",
-                            padding: "2px 6px",
-                            borderRadius: 4,
-                            fontSize: 10,
-                            fontWeight: 600,
-                            background: pillStyle.background,
-                            border: `1px solid ${pillStyle.borderColor}`,
-                            color: pillStyle.color,
-                          }}
-                        >
-                          {entry.status}
-                        </span>
-                      </td>
-                      <td style={{ padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" }}>
-                        {entry.collectionName}
-                      </td>
-                      <td style={{ padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" }}>
-                        {entry.variableName}
-                      </td>
-                      <td
-                        style={{
-                          padding: "4px 8px",
-                          verticalAlign: "top",
-                          color: "var(--figma-color-text-tertiary)",
-                          wordBreak: "break-word",
-                        }}
+                  <Checkbox
+                    value={exportIncludeKey}
+                    disabled={exportBusy}
+                    onValueChange={setExportIncludeKey}
+                  >
+                    <Text>Include key</Text>
+                  </Checkbox>
+                  <Text style={{ fontSize: 10, color: "var(--figma-color-text-secondary)", marginLeft: 20 }}>
+                    Add variable key to JSON (for hardcoded Find Color Match; needed for Apply to work with library variables).
+                  </Text>
+                  <div>
+                    {exportCollectionsOptions.length === 0 ? (
+                      <Text style={{ color: "var(--figma-color-text-secondary)" }}>
+                        No collections loaded yet.
+                      </Text>
+                    ) : null}
+                    {exportCollectionsOptions.length > 0 ? (
+                      <Checkbox
+                        value={hasSomeCollectionsSelected ? MIXED_BOOLEAN : areAllCollectionsSelected}
+                        disabled={exportBusy}
+                        onValueChange={(next) =>
+                          setExportSelectedCollectionIds(next ? allCollectionIds : [])
+                        }
                       >
-                        {entry.reason || ""}
-                      </td>
-                    </tr>
-                  )
-                })}
-              </DataTable>
-            </Stack>
-          )}
-        </Stack>
-      </ToolBody>
+                        <Text>Collections</Text>
+                      </Checkbox>
+                    ) : null}
+                    <VerticalSpace space="extraSmall" />
+                    <Stack space="extraSmall" style={{ marginLeft: 20 }}>
+                      {exportCollectionsOptions.map((c) => {
+                        const checked = exportSelectedCollectionIds.includes(c.id)
+                        return (
+                          <Checkbox
+                            key={c.id}
+                            value={checked}
+                            disabled={exportBusy}
+                            onValueChange={(next) => {
+                              setExportSelectedCollectionIds((prev) => {
+                                if (next) {
+                                  return prev.includes(c.id) ? prev : [...prev, c.id]
+                                }
+                                return prev.filter((id) => id !== c.id)
+                              })
+                            }}
+                          >
+                            <Text>{c.name} ({c.variableCount} vars, {c.modeCount} modes)</Text>
+                          </Checkbox>
+                        )
+                      })}
+                    </Stack>
+                  </div>
+                </Stack>
+
+                <Button onClick={handleExport} disabled={exportBusy || exportSelectedFilesCount === 0}>
+                  {exportBusy ? "Exporting..." : exportButtonLabel}
+                </Button>
+
+                {exportBusy && (
+                  <Inline space="extraSmall">
+                    <LoadingIndicator />
+                    <Text>Generating snapshot files...</Text>
+                  </Inline>
+                )}
+
+                {snapshotStatus && (
+                  <Text style={{ color: "var(--figma-color-text-secondary)" }}>{snapshotStatus}</Text>
+                )}
+
+                {snapshotFiles.length > 1 && (
+                  <Stack space="small">
+                    <Text>Download individual files:</Text>
+                    <div>
+                      {snapshotFiles.map((f, i) => (
+                        <div key={i} style={{ marginBottom: 4 }}>
+                          <Button
+                            secondary
+                            onClick={() => downloadTextFile(f.filename, f.jsonText)}
+                          >
+                            {f.filename}
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                  </Stack>
+                )}
+              </Stack>
+            )}
+
+            {activeTab === "Import" && (
+              <Stack space="medium">
+                <Stack space="extraSmall">
+                  <Text style={{ fontWeight: 600 }}>Import Variables Snapshot</Text>
+                  <Text style={{ color: "var(--figma-color-text-secondary)" }}>
+                    Import a snapshot JSON file. Variables will be created, updated, or renamed based
+                    on the snapshot content.
+                  </Text>
+                </Stack>
+
+                <Inline space="extraSmall">
+                  <FileUploadButton
+                    acceptedFileTypes={[".json", "application/json"]}
+                    onSelectedFiles={handleImportFile}
+                  >
+                    Choose JSON file…
+                  </FileUploadButton>
+                  <Button
+                    secondary
+                    disabled={(!importFile && !importJsonText.trim()) || importBusy}
+                    onClick={handlePreviewAgain}
+                  >
+                    Preview again
+                  </Button>
+                </Inline>
+
+                {importBusy && (
+                  <Inline space="extraSmall">
+                    <LoadingIndicator />
+                    <Text>Processing import...</Text>
+                  </Inline>
+                )}
+
+                {importPreview && (
+                  <Stack space="small">
+                    {importFilename && (
+                      <Text style={{ color: "var(--figma-color-text-secondary)" }}>
+                        Loaded file: {importFilename}
+                      </Text>
+                    )}
+
+                    <Text>
+                      Rows: {importPreview.totals.considered} · create {importPreview.totals.create} ·
+                      update {importPreview.totals.update} · rename {importPreview.totals.rename} ·
+                      conflicts {importPreview.totals.conflicts} · missing collections{" "}
+                      {importPreview.totals.missingCollections} · invalid {importPreview.totals.invalid}
+                    </Text>
+
+                    <Button
+                      loading={importBusy}
+                      disabled={importBusy || !canApplyImport}
+                      onClick={handleApplyImport}
+                    >
+                      Apply Import
+                    </Button>
+
+                    {!canApplyImport && importPreview.totals.conflicts > 0 && (
+                      <Text style={{ color: "#9f1239" }}>
+                        Resolve conflicts before applying.
+                      </Text>
+                    )}
+
+                    {importResult && (
+                      <Text style={{ color: "#067647" }}>
+                        Created: {importResult.totals.created}, Updated: {importResult.totals.updated},
+                        Renamed: {importResult.totals.renamed}, Skipped: {importResult.totals.skipped},
+                        Failed: {importResult.totals.failed}
+                      </Text>
+                    )}
+
+                    <Divider />
+
+                    <DataTable columns={importPreviewColumns}>
+                      {importRows.map((entry: ExportImportPreviewEntry, i) => {
+                        const pillStyle = getStatusPillStyle(entry.status)
+                        return (
+                          <tr key={i}>
+                            <td style={{ padding: "4px 8px", verticalAlign: "top" }}>
+                              <span
+                                style={{
+                                  display: "inline-block",
+                                  padding: "2px 6px",
+                                  borderRadius: 4,
+                                  fontSize: 10,
+                                  fontWeight: 600,
+                                  background: pillStyle.background,
+                                  border: `1px solid ${pillStyle.borderColor}`,
+                                  color: pillStyle.color,
+                                }}
+                              >
+                                {entry.status}
+                              </span>
+                            </td>
+                            <td style={{ padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" }}>
+                              {entry.collectionName}
+                            </td>
+                            <td style={{ padding: "4px 8px", verticalAlign: "top", wordBreak: "break-word" }}>
+                              {entry.variableName}
+                            </td>
+                            <td
+                              style={{
+                                padding: "4px 8px",
+                                verticalAlign: "top",
+                                color: "var(--figma-color-text-tertiary)",
+                                wordBreak: "break-word",
+                              }}
+                            >
+                              {entry.reason || ""}
+                            </td>
+                          </tr>
+                        )
+                      })}
+                    </DataTable>
+                  </Stack>
+                )}
+              </Stack>
+            )}
+          </Stack>
+        </ToolBody>
+      </div>
     </Page>
   )
 }

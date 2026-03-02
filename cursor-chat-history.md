@@ -1,5 +1,11 @@
 # Cursor Chat History
 
+## Export Import tool — Separate into 2 tabs
+
+### 2026-03-02
+- **Task:** Separate Variables Export/Import tool into two tabs: **Export** and **Import**.
+- **Done:** Added `ToolTabs` with "Export" and "Import"; Export tab shows collection selection, Include key, Export button, snapshot status and download links; Import tab shows file upload, Preview again, Apply Import, and preview table. Error/success messages shown above tab content for both. Layout follows Migrate to Islands UIKit (flex wrapper + ToolTabs + ToolBody). Removed unused `Container` import. Build OK.
+
 ## Print Color Usages — Update tab button on selection change
 
 ### 2026-03-02
