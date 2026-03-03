@@ -5,6 +5,12 @@
 ### 2026-03-03
 - Replaced **Union children** action with **Union** action: unions the current working set (nodes must be siblings) into one boolean union. Removed `unionChildren` (per-parent children union with excluded name). Spec and automation JSON updated.
 - Removed all legacy compatibility: no action-type synonyms (e.g. unionChildren→union, filterByType→filter), no setLayoutMode migration, no output-name migrations, no token-reference migrations. Plugin is not a released product; storage loads steps as-is. Import still accepts `target` as alias for `input` in JSON.
+## Automations — Print local variables (name prefix "x") as color swatches
+
+### 2026-03-03
+- **Requested workflow:** Find all local variables that start with "x"; print them vertically: for each variable a row with a square filled with the variable color and the variable name on the right.
+- **Constraint:** Actions must stay composable (one job per action); no combining into one complex action.
+- **Gap analysis:** We do **not** have all necessary actions. Missing: (1) **Source: local variables** — get local (color) variables, optionally filter by name prefix, output as **list** (e.g. variable names) for `repeatWithEach`. (2) **Create rectangle** — create one rectangle (e.g. square) and add to working set / insert under parent. (3) **Create text** — create one text node with given characters, insert. (4) **Append to parent** (or equivalent) — append current working set nodes as children of a saved node set (e.g. a container frame), so we can accumulate rows into one vertical list. We **have**: setFillVariable (bind fill to variable by name), wrapInFrame / wrapAllInFrame, addAutoLayout, repeatWithEach (list mode), pipeline variables and list output from other steps.
 
 ## Export Import tool — Separate into 2 tabs
 

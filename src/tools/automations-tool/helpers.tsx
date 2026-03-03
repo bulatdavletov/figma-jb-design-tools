@@ -18,6 +18,11 @@ export function getParamSummary(step: AutomationStepPayload): string {
       return ""
     case "sourceFromPageByName":
       return String(p.pageName ?? "")
+    case "sourceFromLocalVariables": {
+      const prefix = String(p.namePrefix ?? "").trim()
+      const type = String(p.variableType ?? "COLOR")
+      return prefix ? `prefix "${prefix}", ${type}` : type
+    }
     case "filter":
     case "filterByType":
     case "filterByName": {
@@ -105,6 +110,13 @@ export function getParamSummary(step: AutomationStepPayload): string {
       if (p.y) posParts.push(`Y: ${p.y}`)
       return posParts.join(", ")
     }
+    case "createRectangle": {
+      const w = p.width != null ? Number(p.width) : 24
+      const h = p.height != null ? Number(p.height) : 24
+      return `${w}×${h}`
+    }
+    case "createText":
+      return String(p.characters ?? "")
     case "wrapInFrame": {
       const al = String(p.autoLayout ?? "")
       return al ? `+ auto layout (${al})` : ""

@@ -12,12 +12,13 @@ import {
   setVisibility, setLocked, setNameAction, setRotation,
   removeNodeAction, cloneNodeAction,
 } from "./actions/property-actions"
-import { sourceFromSelection, sourceFromPage, sourceFromAllPages, sourceFromPageByName } from "./actions/source-actions"
+import { sourceFromSelection, sourceFromPage, sourceFromAllPages, sourceFromPageByName, sourceFromLocalVariables } from "./actions/source-actions"
 import { filterAction } from "./actions/filter-actions"
 import { selectResults, logAction, countAction } from "./actions/output-actions"
 import { setPipelineVariable, setPipelineVariableFromProperty, splitText, mathAction } from "./actions/variable-actions"
 import { askForInput } from "./actions/input-actions"
 import { setFontSize, setFont, setTextAlignment, setTextCase, setTextDecoration, setLineHeight } from "./actions/text-actions"
+import { createRectangle, createText } from "./actions/create-actions"
 import { detachInstance, swapComponent, swapComponentByKey, setInstanceProperties, resetInstanceOverrides, pasteComponentById } from "./actions/component-actions"
 import { chooseFromListAction, stopAndOutputAction, evaluateCondition, StopExecutionError } from "./actions/flow-actions"
 import { InputCancelledError } from "./input-bridge"
@@ -31,6 +32,7 @@ const ACTION_HANDLERS: Partial<Record<ActionType, ActionHandler>> = {
   sourceFromPage,
   sourceFromAllPages,
   sourceFromPageByName,
+  sourceFromLocalVariables,
   filter: filterAction,
   filterByType: filterAction,
   filterByName: filterAction,
@@ -60,6 +62,8 @@ const ACTION_HANDLERS: Partial<Record<ActionType, ActionHandler>> = {
   setLineHeight,
   resize: resizeAction,
   setPosition: setPositionAction,
+  createRectangle,
+  createText,
   wrapInFrame,
   wrapAllInFrame,
   addAutoLayout,

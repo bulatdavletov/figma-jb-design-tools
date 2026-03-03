@@ -406,6 +406,27 @@ function renderStepParams(
         </Fragment>
       )
 
+    case "sourceFromLocalVariables":
+      return (
+        <Fragment>
+          <Text style={{ fontSize: 11 }}>Name prefix (optional)</Text>
+          <VerticalSpace space="extraSmall" />
+          <Textbox
+            value={String(step.params.namePrefix ?? "")}
+            onValueInput={(v: string) => updateParam("namePrefix", v)}
+            placeholder="e.g. x — only variables starting with this"
+          />
+          <VerticalSpace space="small" />
+          <Text style={{ fontSize: 11 }}>Variable type</Text>
+          <VerticalSpace space="extraSmall" />
+          <Dropdown
+            value={String(step.params.variableType ?? "COLOR")}
+            options={[{ value: "COLOR", text: "Color" }]}
+            onValueChange={(v: string) => updateParam("variableType", v)}
+          />
+        </Fragment>
+      )
+
     case "filter":
     case "filterByType":
     case "filterByName": {
@@ -1004,6 +1025,51 @@ function renderStepParams(
         </Fragment>
       )
     }
+
+    case "createRectangle":
+      return (
+        <Fragment>
+          {inputCtx}
+          <Text style={{ fontSize: 11 }}>Width</Text>
+          <VerticalSpace space="extraSmall" />
+          <Textbox
+            value={String(step.params.width ?? 24)}
+            onValueInput={(v: string) => updateParam("width", v === "" ? 24 : Number(v) || 24)}
+            placeholder="24"
+          />
+          <VerticalSpace space="small" />
+          <Text style={{ fontSize: 11 }}>Height</Text>
+          <VerticalSpace space="extraSmall" />
+          <Textbox
+            value={String(step.params.height ?? 24)}
+            onValueInput={(v: string) => updateParam("height", v === "" ? 24 : Number(v) || 24)}
+            placeholder="24"
+          />
+          <VerticalSpace space="small" />
+          <Text style={{ fontSize: 11 }}>Name (optional)</Text>
+          <VerticalSpace space="extraSmall" />
+          <Textbox
+            value={String(step.params.name ?? "")}
+            onValueInput={(v: string) => updateParam("name", v)}
+            placeholder="Layer name"
+          />
+        </Fragment>
+      )
+
+    case "createText":
+      return (
+        <Fragment>
+          {inputCtx}
+          <Text style={{ fontSize: 11 }}>Text content</Text>
+          <VerticalSpace space="extraSmall" />
+          <TokenInput
+            value={String(step.params.characters ?? "")}
+            onValueInput={(v: string) => updateParam("characters", v)}
+            placeholder="e.g. {$item} for variable name"
+            suggestions={suggestions}
+          />
+        </Fragment>
+      )
 
     case "wrapInFrame":
       return (

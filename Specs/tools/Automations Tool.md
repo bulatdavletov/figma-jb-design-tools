@@ -783,6 +783,7 @@ For example, creating a union and setting color/fill variable must remain two se
 | `sourceFromPage` | From current page | — | `page` |
 | `sourceFromAllPages` | From all pages | — | `allPages` |
 | `sourceFromPageByName` | From page by name | `pageName`: string | `namedPage` |
+| `sourceFromLocalVariables` | From local variables | `namePrefix?`: string, `variableType`: COLOR | `variableNames` (list) |
 
 #### Filter (category: `filter`) — unified conditions builder
 
@@ -837,6 +838,8 @@ For example, creating a union and setting color/fill variable must remain two se
 | `cloneNode` | Clone node | — | `clones` |
 | `resize` | Resize | `width?`, `height?` (supports tokens) | `resized` |
 | `setPosition` | Set position | `x?`, `y?` (supports tokens) | `positioned` |
+| `createRectangle` | Create rectangle | `width`, `height`, `name?` | `rectangle` |
+| `createText` | Create text | `characters` (supports tokens) | `text` |
 | `wrapInFrame` | Wrap in frame | `autoLayout?` | `frames` |
 | `addAutoLayout` | Add auto layout | `direction`, `itemSpacing?` | `layouts` |
 | `editAutoLayout` | Edit auto layout | `direction?`, `itemSpacing?`, padding | `layouts` |

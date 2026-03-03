@@ -3,6 +3,7 @@ export type ActionType =
   | "sourceFromPage"
   | "sourceFromAllPages"
   | "sourceFromPageByName"
+  | "sourceFromLocalVariables"
   | "filter"
   | "filterByType"
   | "filterByName"
@@ -51,6 +52,8 @@ export type ActionType =
   | "splitText"
   | "math"
   | "setPosition"
+  | "createRectangle"
+  | "createText"
   | "askForInput"
   | "repeatWithEach"
   | "ifCondition"
@@ -162,6 +165,16 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     defaultParams: { pageName: "" },
     defaultOutputName: "namedPage",
     outputType: "nodes",
+  },
+  {
+    type: "sourceFromLocalVariables",
+    label: "From local variables",
+    description: "Get local color variables as a list of names (optionally filter by name prefix)",
+    category: "source",
+    defaultParams: { namePrefix: "", variableType: "COLOR" },
+    defaultOutputName: "variableNames",
+    producesData: true,
+    outputType: "list",
   },
 
   // Filter
@@ -545,6 +558,26 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "transform",
     defaultParams: { x: "", y: "" },
     defaultOutputName: "positioned",
+    inputType: "nodes",
+    outputType: "nodes",
+  },
+  {
+    type: "createRectangle",
+    label: "Create rectangle",
+    description: "Create one rectangle and add it to the current page. Working set becomes the new node",
+    category: "transform",
+    defaultParams: { width: 24, height: 24, name: "" },
+    defaultOutputName: "rectangle",
+    inputType: "nodes",
+    outputType: "nodes",
+  },
+  {
+    type: "createText",
+    label: "Create text",
+    description: "Create one text node with given characters and append to working set. Positioned to the right of first node if any",
+    category: "transform",
+    defaultParams: { characters: "" },
+    defaultOutputName: "text",
     inputType: "nodes",
     outputType: "nodes",
   },

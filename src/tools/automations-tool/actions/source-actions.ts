@@ -1,4 +1,4 @@
-import type { ActionHandler } from "../context"
+import type { ActionHandler, ActionResult } from "../context"
 import { plural } from "../../../utils/pluralize"
 
 export const sourceFromSelection: ActionHandler = async (context, _params) => {
@@ -102,6 +102,30 @@ export const sourceFromPageByName: ActionHandler = async (context, params) => {
   })
 
   return context
+}
+
+export const sourceFromLocalVariables: ActionHandler = async (context, params): Promise<ActionResult> => {
+  const namePrefix = String(params.namePrefix ?? "").trim()
+  const variableType = String(params.variableType ?? "COLOR").toUpperCase()
+  const scope = variableType === "COLOR" ? "COLOR" : "COLOR" // only COLOR for now
+
+  const variables = await figma.variables.getLocalVariablesAsync(scope)
+  const names = namePrefix
+    ? variables.filter((v) => v.name.startsWith(namePrefix)).map((v) => v.name)
+    : variables.map((v) => v.name)
+
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Source: local variables",
+    message: namePrefix
+      ? `${plural(names.length, "variable")} starting with "${namePrefix}"`
+      : `${plural(names.length, "local variable")}`,
+    itemsIn: 0,
+    itemsOut: names.length,
+    status: "success",
+  })
+
+  return { context, output: names }
 }
 
 function collectAll(children: readonly SceneNode[], out: SceneNode[]): void {
