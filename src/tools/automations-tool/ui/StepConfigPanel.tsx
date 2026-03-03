@@ -606,17 +606,13 @@ function renderStepParams(
         </Fragment>
       )
 
-    case "unionChildren":
+    case "union":
       return (
         <Fragment>
           {inputCtx}
-          <Text style={{ fontSize: 11 }}>Skip child layer name</Text>
-          <VerticalSpace space="extraSmall" />
-          <Textbox
-            value={String(step.params.excludedName ?? "X")}
-            onValueInput={(v: string) => updateParam("excludedName", v)}
-            placeholder="X"
-          />
+          <Text style={{ fontSize: 11, color: "var(--figma-color-text-secondary)" }}>
+            Combines the current nodes into one boolean union. Nodes must be siblings (same parent).
+          </Text>
         </Fragment>
       )
 

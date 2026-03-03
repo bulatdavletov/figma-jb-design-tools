@@ -45,6 +45,8 @@ export function getParamSummary(step: AutomationStepPayload): string {
       return String(p.hex ?? "")
     case "setFillVariable":
       return String(p.variableName ?? "")
+    case "union":
+      return ""
     case "removeFills":
     case "removeStrokes":
       return ""

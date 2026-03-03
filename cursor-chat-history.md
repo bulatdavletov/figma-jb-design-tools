@@ -1,5 +1,11 @@
 # Cursor Chat History
 
+## Automations — Union (not Union children)
+
+### 2026-03-03
+- Replaced **Union children** action with **Union** action: unions the current working set (nodes must be siblings) into one boolean union. Removed `unionChildren` (per-parent children union with excluded name). Spec and automation JSON updated. Branch: `codex/add-automation-for-layer-combination`.
+- Removed all legacy compatibility: no action-type synonyms (e.g. unionChildren→union, filterByType→filter), no setLayoutMode migration, no output-name migrations, no token-reference migrations. Plugin is not a released product; storage loads steps as-is. Import still accepts `target` as alias for `input` in JSON.
+
 ## Library Swap Tool — Manual pairs tab
 
 ### 2026-02-26

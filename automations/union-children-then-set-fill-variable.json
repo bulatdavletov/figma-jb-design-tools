@@ -1,7 +1,7 @@
 {
   "version": 1,
   "automation": {
-    "name": "Union component children (skip X) + set fill variable",
+    "name": "Union selection + set fill variable",
     "steps": [
       {
         "actionType": "sourceFromSelection",
@@ -10,27 +10,10 @@
         "outputName": "selection"
       },
       {
-        "actionType": "filter",
-        "params": {
-          "logic": "and",
-          "conditions": [
-            {
-              "field": "type",
-              "operator": "equals",
-              "value": "COMPONENT"
-            }
-          ]
-        },
+        "actionType": "union",
+        "params": {},
         "enabled": true,
-        "outputName": "components"
-      },
-      {
-        "actionType": "unionChildren",
-        "params": {
-          "excludedName": "X"
-        },
-        "enabled": true,
-        "outputName": "unions"
+        "outputName": "union"
       },
       {
         "actionType": "setFillVariable",
