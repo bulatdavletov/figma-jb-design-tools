@@ -138,6 +138,8 @@ export function VariablesReplaceUsagesToolView({ onBack, initialSelectionEmpty }
 
       if (msg.type === MAIN_TO_UI.REPLACE_USAGES_SELECTION) {
         updateSelectionSize(msg.payload.selectionSize)
+        // Invalidate preview when selection changes so user runs Preview again for new selection
+        setPreview(null)
       }
 
       if (msg.type === MAIN_TO_UI.REPLACE_USAGES_APPLY_RESULT) {

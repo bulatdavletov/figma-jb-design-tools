@@ -3,7 +3,7 @@ import { useEffect, useState } from "preact/hooks"
 import type { ComponentType } from "preact"
 
 import { patchParentPostMessage, dispatchSequence } from "./mock-message-bus"
-import { tools, type ToolViewProps } from "./tool-registry"
+import { tools, type ToolViewProps } from "./showcase-tool-registry"
 import { HomeView } from "../home/HomeView"
 
 type Theme = "figma-light" | "figma-dark"

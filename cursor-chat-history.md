@@ -6,6 +6,20 @@
 - Replaced **Union children** action with **Union** action: unions the current working set (nodes must be siblings) into one boolean union. Removed `unionChildren` (per-parent children union with excluded name). Spec and automation JSON updated. Branch: `codex/add-automation-for-layer-combination`.
 - Removed all legacy compatibility: no action-type synonyms (e.g. unionChildren→union, filterByType→filter), no setLayoutMode migration, no output-name migrations, no token-reference migrations. Plugin is not a released product; storage loads steps as-is. Import still accepts `target` as alias for `input` in JSON.
 
+## Export Import tool — Separate into 2 tabs
+
+### 2026-03-02
+- **Task:** Separate Variables Export/Import tool into two tabs: **Export** and **Import**.
+- **Done:** Added `ToolTabs` with "Export" and "Import"; Export tab shows collection selection, Include key, Export button, snapshot status and download links; Import tab shows file upload, Preview again, Apply Import, and preview table. Error/success messages shown above tab content for both. Layout follows Migrate to Islands UIKit (flex wrapper + ToolTabs + ToolBody). Removed unused `Container` import. Build OK.
+
+## Print Color Usages — Update tab button on selection change
+
+### 2026-03-02
+- **Bug:** On Update tab, after pressing "Check changes in selection", changing selection left the footer as disabled "Apply" instead of showing an enabled "Check again".
+- **Root cause:** Selection change only updated `selectionSize`; `preview` and `selectedPreviewNodeIds` were not cleared, so the UI stayed in "has preview" state with stale data.
+- **Fix:** On `PRINT_COLOR_USAGES_SELECTION`, clear `preview` and `selectedPreviewNodeIds` so the Update tab shows "Check again" (enabled). Button label set to "Check again" when there is no preview.
+- **Other tools:** Variables Replace Usages has the same pattern (scope-based preview); now clears `preview` on `REPLACE_USAGES_SELECTION` so user runs Preview again for the new selection. Migrate to Islands UIKit Apply uses current selection at apply time, so no change.
+
 ## Library Swap Tool — Manual pairs tab
 
 ### 2026-02-26

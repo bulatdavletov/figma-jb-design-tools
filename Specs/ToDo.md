@@ -79,7 +79,7 @@ Refactor Print Color Usages tool, as it has separated Tabs, and too much code in
 
 ToolBody spacing: too much vertical space before/after content in compact views (e.g. Print Color Usages Settings disclosure). Root cause is ToolBody's `<VerticalSpace space="medium" />` top/bottom. Needs a proper solution (e.g. a `compact` prop or smaller default) without hacks like negative margins. Affects all tools using ToolBody.
 
-## Migrate to New UI Kit
+## Migrate to Islands UI Kit
 
 - [ ] Manual pairs - make it as separate Tab
 
