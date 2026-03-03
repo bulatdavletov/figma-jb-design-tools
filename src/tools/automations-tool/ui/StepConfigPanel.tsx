@@ -606,6 +606,20 @@ function renderStepParams(
         </Fragment>
       )
 
+    case "unionChildren":
+      return (
+        <Fragment>
+          {inputCtx}
+          <Text style={{ fontSize: 11 }}>Skip child layer name</Text>
+          <VerticalSpace space="extraSmall" />
+          <Textbox
+            value={String(step.params.excludedName ?? "X")}
+            onValueInput={(v: string) => updateParam("excludedName", v)}
+            placeholder="X"
+          />
+        </Fragment>
+      )
+
     case "setStrokeColor":
       return (
         <Fragment>

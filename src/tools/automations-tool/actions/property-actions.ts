@@ -140,6 +140,50 @@ export const setFillVariable: ActionHandler = async (context, params) => {
   return context
 }
 
+export const unionChildren: ActionHandler = async (context, params) => {
+  const inputCount = context.nodes.length
+  const excludedName = String(params.excludedName ?? "X")
+
+  const unions: SceneNode[] = []
+  let skipped = 0
+  let failed = 0
+
+  for (const node of context.nodes) {
+    if (!("children" in node)) {
+      skipped++
+      continue
+    }
+
+    const children = Array.from((node as ChildrenMixin).children)
+      .filter((child) => child.name !== excludedName)
+
+    if (children.length <= 1) {
+      skipped++
+      continue
+    }
+
+    try {
+      const union = figma.union(children, node as unknown as BaseNode & ChildrenMixin)
+      unions.push(union)
+    } catch {
+      failed++
+    }
+  }
+
+  context.nodes = unions
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Union children",
+    message: `Created ${plural(unions.length, "union")}; skipped ${skipped}; failed ${failed}`,
+    itemsIn: inputCount,
+    itemsOut: unions.length,
+    status: failed > 0 ? "error" : "success",
+    ...(failed > 0 ? { error: `${failed} union operations failed` } : {}),
+  })
+
+  return context
+}
+
 export const setOpacity: ActionHandler = async (context, params) => {
   const opacity = Math.max(0, Math.min(100, Number(params.opacity ?? 100)))
 

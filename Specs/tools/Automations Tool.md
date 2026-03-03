@@ -766,7 +766,14 @@ Every action must define:
 - clear params
 - clear output name/type
 
-### Implemented Actions (49 total)
+### Action granularity rule
+
+**NEVER COMBINE ACTIONS INTO ONE COMPLEX ACTION.**
+
+Automations must stay composable: each step does one clear job.
+For example, creating a union and setting color/fill variable must remain two separate actions so either can be used independently.
+
+### Implemented Actions (50 total)
 
 #### Source (category: `source`) — default output names are nouns
 
@@ -818,6 +825,7 @@ Every action must define:
 | `setName` | Set name | `name`: string (supports tokens) | `named` |
 | `setFillColor` | Set fill color | `hex`: color value | `filled` |
 | `setFillVariable` | Set fill variable | `variableName`: string | `filled` |
+| `unionChildren` | Union children | `excludedName`: string (default `X`) | `unions` |
 | `setStrokeColor` | Set stroke color | `hex`: color value | `stroked` |
 | `removeFills` | Remove fills | — | `nodes` |
 | `removeStrokes` | Remove strokes | — | `nodes` |

@@ -164,6 +164,7 @@ const ACTION_TYPE_MIGRATIONS: Record<string, ActionType> = {
   filterByType: "filter",
   filterByName: "filter",
   restoreNodes: "sourceFromSelection",
+  unionChildrenToFillVariable: "unionChildren",
 }
 
 const OUTPUT_NAME_MIGRATIONS: Record<string, string> = {
