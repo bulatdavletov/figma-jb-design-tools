@@ -36,7 +36,7 @@ export function StepConfigPanel(props: {
 }) {
   const { step, stepIndex, allSteps, parentStep, onUpdateParam, onUpdateOutputName, onUpdateInput, onRunToStep, stepOutput, suggestions } = props
   const def = ACTION_DEFINITIONS.find((d) => d.type === step.actionType)
-  const showInputDropdown = def && !["source", "output", "variables", "flow", "input"].includes(def.category)
+  const showInputDropdown = def && !["source", "variables", "flow", "input"].includes(def.category)
   const inputOptions = buildInputSourceOptions(allSteps, stepIndex, false)
     .filter((o) => {
       const sDef = ACTION_DEFINITIONS.find((d) => d.type === allSteps.find((s) => s.outputName === o.value)?.actionType)
@@ -368,8 +368,9 @@ function renderStepParams(
   stepIndex: number = 0,
   parentStep?: AutomationStepPayload,
 ) {
-  const inputCtx = renderInputContext(allSteps, stepIndex, parentStep)
-  const inputCtxTokens = renderInputContext(allSteps, stepIndex, parentStep, { showTokens: true })
+  const stepDef = ACTION_DEFINITIONS.find((d) => d.type === step.actionType)
+  const inputCtx = renderInputContext(allSteps, stepIndex, parentStep, { currentStepDef: stepDef })
+  const inputCtxTokens = renderInputContext(allSteps, stepIndex, parentStep, { showTokens: true, currentStepDef: stepDef })
 
   switch (step.actionType) {
     case "sourceFromSelection":
@@ -409,14 +410,6 @@ function renderStepParams(
     case "sourceFromLocalVariables":
       return (
         <Fragment>
-          <Text style={{ fontSize: 11 }}>Name prefix (optional)</Text>
-          <VerticalSpace space="extraSmall" />
-          <Textbox
-            value={String(step.params.namePrefix ?? "")}
-            onValueInput={(v: string) => updateParam("namePrefix", v)}
-            placeholder="e.g. x — only variables starting with this"
-          />
-          <VerticalSpace space="small" />
           <Text style={{ fontSize: 11 }}>Variable type</Text>
           <VerticalSpace space="extraSmall" />
           <Dropdown
@@ -456,7 +449,7 @@ function renderStepParams(
 
       return (
         <Fragment>
-          {renderInputContext(allSteps, stepIndex, parentStep, { nodesLabel: "Filtering" })}
+          {renderInputContext(allSteps, stepIndex, parentStep, { nodesLabel: "Filtering", currentStepDef: stepDef })}
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
             <Text style={{ fontSize: 11, fontWeight: 600 }}>Match</Text>
             <Dropdown
@@ -1730,7 +1723,7 @@ function renderStepParams(
     case "count": {
       return (
         <Fragment>
-          {renderInputContext(allSteps, stepIndex, parentStep, { nodesLabel: "Counting" })}
+          {renderInputContext(allSteps, stepIndex, parentStep, { nodesLabel: "Counting", currentStepDef: stepDef })}
           <Text style={{ fontSize: 11 }}>Label</Text>
           <VerticalSpace space="extraSmall" />
           <Textbox
@@ -1745,7 +1738,7 @@ function renderStepParams(
     case "selectResults":
       return (
         <Fragment>
-          {renderInputContext(allSteps, stepIndex, parentStep, { nodesLabel: "Selecting" })}
+          {renderInputContext(allSteps, stepIndex, parentStep, { nodesLabel: "Selecting", currentStepDef: stepDef })}
           <Checkbox
             value={step.params.scrollTo !== false}
             onValueChange={(v: boolean) => updateParam("scrollTo", v)}

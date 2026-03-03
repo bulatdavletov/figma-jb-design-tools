@@ -1,5 +1,5 @@
 import { h, Fragment } from "preact"
-import { ACTION_DEFINITIONS } from "./types"
+import { ACTION_DEFINITIONS, type ValueKind } from "./types"
 import { PROPERTY_REGISTRY } from "./properties"
 import type { AutomationStepPayload } from "../../home/messages"
 import type { AutomationsRunResult } from "../../home/messages"
@@ -20,11 +20,8 @@ export function getParamSummary(step: AutomationStepPayload): string {
       return ""
     case "sourceFromPageByName":
       return String(p.pageName ?? "")
-    case "sourceFromLocalVariables": {
-      const prefix = String(p.namePrefix ?? "").trim()
-      const type = String(p.variableType ?? "COLOR")
-      return prefix ? `prefix "${prefix}", ${type}` : type
-    }
+    case "sourceFromLocalVariables":
+      return String(p.variableType ?? "COLOR")
     case "filter":
     case "filterByType":
     case "filterByName": {
@@ -392,9 +389,9 @@ export function renderInputContext(
   allSteps: AutomationStepPayload[],
   stepIndex: number,
   parentStep?: AutomationStepPayload,
-  opts: { showTokens?: boolean; nodesLabel?: string } = {},
+  opts: { showTokens?: boolean; nodesLabel?: string; currentStepDef?: { inputType?: ValueKind } } = {},
 ): h.JSX.Element | null {
-  const { showTokens, nodesLabel = "Nodes from" } = opts
+  const { showTokens, nodesLabel = "Nodes from", currentStepDef } = opts
   const lines: h.JSX.Element[] = []
 
   if (stepIndex > 0) {
@@ -432,6 +429,12 @@ export function renderInputContext(
   if (isInIf) {
     lines.push(
       <div key="if">Inside <b>If</b> condition block</div>,
+    )
+  }
+
+  if (stepIndex === 0 && !isInLoop && !isInIf && currentStepDef?.inputType === "nodes") {
+    lines.push(
+      <div key="fallback">Working set at run time (from selection or previous steps).</div>,
     )
   }
 
