@@ -333,6 +333,7 @@ export function BuilderScreen(props: {
                 step={selectedStep}
                 stepIndex={pathRootIndex(selectedPath)}
                 allSteps={automation.steps}
+                selectedPath={selectedPath}
                 parentStep={parentStep}
                 onUpdateParam={updateStepParam}
                 onUpdateOutputName={updateStepOutputName}

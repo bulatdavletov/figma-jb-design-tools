@@ -132,6 +132,34 @@ export function getChildArray(step: AutomationStepPayload, branch: ChildBranch):
   return branch === "else" ? (step.elseChildren ?? []) : (step.children ?? [])
 }
 
+/** All steps in execution order (root steps, then each block's children depth-first). */
+export function getStepsInExecutionOrder(
+  rootSteps: AutomationStepPayload[],
+): { path: StepPath; step: AutomationStepPayload }[] {
+  const result: { path: StepPath; step: AutomationStepPayload }[] = []
+
+  function walk(
+    steps: AutomationStepPayload[],
+    parentPath: StepPath | null,
+    branch: ChildBranch,
+  ): void {
+    for (let i = 0; i < steps.length; i++) {
+      const step = steps[i]
+      const path: StepPath = parentPath === null ? pathRoot(i) : pathExtend(parentPath, i, branch)
+      result.push({ path, step })
+      if (step.children?.length) {
+        walk(step.children, path, "then")
+      }
+      if (step.elseChildren?.length) {
+        walk(step.elseChildren, path, "else")
+      }
+    }
+  }
+
+  walk(rootSteps, null, "then")
+  return result
+}
+
 function setStepAtPathInStep(
   step: AutomationStepPayload,
   pathTail: { childIndex: number; childBranch?: ChildBranch }[],

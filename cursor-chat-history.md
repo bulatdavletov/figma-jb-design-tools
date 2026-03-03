@@ -1,5 +1,11 @@
 # Cursor Chat History
 
+## Automations — Input nodes dropdown: nested steps and custom value
+
+### 2026-03-03
+- **Task:** "Input nodes" dropdown didn’t list actions inside Repeat with each; allow selecting or typing a custom value.
+- **Done:** (1) Execution-order traversal: added `getStepsInExecutionOrder(rootSteps)` in ui/utils.ts so we can collect all steps before the current one (including children of Repeat/If/Map/Reduce). (2) Path-aware options: added `buildInputSourceOptionsFromPath(rootSteps, currentPath, dataOnly, nodeOnly)` in helpers.tsx; when StepConfigPanel has `selectedPath`, Input nodes options are built from preceding steps in that order so node-output steps inside Repeat appear. (3) BuilderScreen passes `selectedPath` to StepConfigPanel. (4) Custom value: Input nodes section always shown when the action accepts input; dropdown has "Previous step (default)", preceding node outputs, and "Custom..."; choosing Custom shows a textbox for snapshot name; if `step.input` is not in the list it is treated as custom and the textbox is shown. Tests: two cases for getStepsInExecutionOrder (root-only order; nested step inside Repeat before next root).
+
 ## Automations — Delete and Move Up/Down step actions
 
 ### 2026-03-03

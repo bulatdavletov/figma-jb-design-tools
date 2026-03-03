@@ -6,6 +6,7 @@ import { expandToChildren, goToParent, flattenDescendants } from "./actions/sele
 import {
   renameLayers, setFillColor, setFillVariable, setOpacity, setCharacters,
   union,
+  ungroup,
   resizeAction, setPositionAction, wrapInFrame, addAutoLayout, editAutoLayout, removeAutoLayout,
   wrapAllInFrame,
   notifyAction, setStrokeColor, removeFills, removeStrokes,
@@ -44,6 +45,7 @@ const ACTION_HANDLERS: Partial<Record<ActionType, ActionHandler>> = {
   setFillColor,
   setFillVariable,
   union,
+  ungroup,
   setStrokeColor,
   removeFills,
   removeStrokes,

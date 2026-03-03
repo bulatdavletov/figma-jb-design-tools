@@ -14,6 +14,7 @@ export type ActionType =
   | "setFillColor"
   | "setFillVariable"
   | "union"
+  | "ungroup"
   | "setStrokeColor"
   | "removeFills"
   | "removeStrokes"
@@ -254,7 +255,7 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
   {
     type: "setFillVariable",
     label: "Set fill variable",
-    description: "Bind fill to a color variable by name",
+    description: "Bind fill to a color variable by name (local or from an enabled library)",
     category: "transform",
     defaultParams: { variableName: "" },
     defaultOutputName: "filled",
@@ -268,6 +269,16 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "transform",
     defaultParams: {},
     defaultOutputName: "union",
+    inputType: "nodes",
+    outputType: "nodes",
+  },
+  {
+    type: "ungroup",
+    label: "Ungroup",
+    description: "Ungroup each node; children move to parent, group node is removed",
+    category: "transform",
+    defaultParams: {},
+    defaultOutputName: "nodes",
     inputType: "nodes",
     outputType: "nodes",
   },

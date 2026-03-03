@@ -243,6 +243,54 @@ export const union: ActionHandler = async (context, params) => {
   return context
 }
 
+export const ungroup: ActionHandler = async (context, params) => {
+  const nodes = context.nodes
+  const inputCount = nodes.length
+
+  if (nodes.length === 0) {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Ungroup",
+      message: "No nodes to ungroup — skipped",
+      itemsIn: 0,
+      itemsOut: 0,
+      status: "skipped",
+    })
+    return context
+  }
+
+  const result: SceneNode[] = []
+  let ungroupedCount = 0
+
+  for (const node of nodes) {
+    if (!("children" in node) || node.children.length === 0) {
+      result.push(node)
+      continue
+    }
+    try {
+      const children = figma.ungroup(node as SceneNode & ChildrenMixin)
+      result.push(...children)
+      ungroupedCount++
+    } catch {
+      result.push(node)
+    }
+  }
+
+  context.nodes = result
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Ungroup",
+    message: ungroupedCount > 0
+      ? `Ungrouped ${plural(ungroupedCount, "node")} → ${plural(result.length, "node")} in working set`
+      : "No group-like nodes to ungroup",
+    itemsIn: inputCount,
+    itemsOut: result.length,
+    status: "success",
+  })
+
+  return context
+}
+
 export const setOpacity: ActionHandler = async (context, params) => {
   const opacity = Math.max(0, Math.min(100, Number(params.opacity ?? 100)))
 

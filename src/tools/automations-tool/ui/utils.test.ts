@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest"
 import type { AutomationStepPayload } from "../../../home/messages"
-import { pathRoot, pathExtend, removeStepAtPath, moveStepAtPath } from "./utils"
+import { pathRoot, pathExtend, removeStepAtPath, moveStepAtPath, getStepsInExecutionOrder } from "./utils"
 
 function step(id: string, actionType: string, children?: AutomationStepPayload[], elseChildren?: AutomationStepPayload[]): AutomationStepPayload {
   const s: AutomationStepPayload = { id, actionType, params: {}, enabled: true }
@@ -101,5 +101,28 @@ describe("moveStepAtPath", () => {
     const result = moveStepAtPath(steps, [], 1)
     expect(result).toBe(steps)
     expect(result).toHaveLength(1)
+  })
+})
+
+describe("getStepsInExecutionOrder", () => {
+  it("returns root steps in order", () => {
+    const steps = [step("a", "x"), step("b", "y")]
+    const result = getStepsInExecutionOrder(steps)
+    expect(result).toHaveLength(2)
+    expect(result[0].step.id).toBe("a")
+    expect(result[0].path).toEqual([{ rootIndex: 0 }])
+    expect(result[1].step.id).toBe("b")
+    expect(result[1].path).toEqual([{ rootIndex: 1 }])
+  })
+
+  it("includes steps inside Repeat before following root steps", () => {
+    const inner = step("inner", "setCharacters")
+    const root0 = step("r0", "sourceFromSelection")
+    const repeat = step("repeat", "repeatWithEach", [inner])
+    const root2 = step("r2", "notify")
+    const steps = [root0, repeat, root2]
+    const result = getStepsInExecutionOrder(steps)
+    expect(result.map((o) => o.step.id)).toEqual(["r0", "repeat", "inner", "r2"])
+    expect(result[2].path).toEqual([{ rootIndex: 1 }, { childIndex: 0, childBranch: "then" }])
   })
 })
