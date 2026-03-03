@@ -5,6 +5,7 @@ import { createInitialContext, isActionResult, captureNodeSample, serializePipel
 import { expandToChildren, goToParent, flattenDescendants } from "./actions/selection-actions"
 import {
   renameLayers, setFillColor, setFillVariable, setOpacity, setCharacters,
+  unionChildren,
   resizeAction, setPositionAction, wrapInFrame, addAutoLayout, editAutoLayout, removeAutoLayout,
   wrapAllInFrame,
   notifyAction, setStrokeColor, removeFills, removeStrokes,
@@ -40,6 +41,7 @@ const ACTION_HANDLERS: Partial<Record<ActionType, ActionHandler>> = {
   setName: setNameAction,
   setFillColor,
   setFillVariable,
+  unionChildren,
   setStrokeColor,
   removeFills,
   removeStrokes,

@@ -12,6 +12,7 @@ export type ActionType =
   | "renameLayers"
   | "setFillColor"
   | "setFillVariable"
+  | "unionChildren"
   | "setStrokeColor"
   | "removeFills"
   | "removeStrokes"
@@ -244,6 +245,16 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "transform",
     defaultParams: { variableName: "" },
     defaultOutputName: "filled",
+    inputType: "nodes",
+    outputType: "nodes",
+  },
+  {
+    type: "unionChildren",
+    label: "Union children",
+    description: "For each parent node, union direct children except children with the excluded name",
+    category: "transform",
+    defaultParams: { excludedName: "X" },
+    defaultOutputName: "unions",
     inputType: "nodes",
     outputType: "nodes",
   },

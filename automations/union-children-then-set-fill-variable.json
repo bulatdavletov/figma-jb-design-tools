@@ -1,0 +1,52 @@
+{
+  "version": 1,
+  "automation": {
+    "name": "Union component children (skip X) + set fill variable",
+    "steps": [
+      {
+        "actionType": "sourceFromSelection",
+        "params": {},
+        "enabled": true,
+        "outputName": "selection"
+      },
+      {
+        "actionType": "filter",
+        "params": {
+          "logic": "and",
+          "conditions": [
+            {
+              "field": "type",
+              "operator": "equals",
+              "value": "COMPONENT"
+            }
+          ]
+        },
+        "enabled": true,
+        "outputName": "components"
+      },
+      {
+        "actionType": "unionChildren",
+        "params": {
+          "excludedName": "X"
+        },
+        "enabled": true,
+        "outputName": "unions"
+      },
+      {
+        "actionType": "setFillVariable",
+        "params": {
+          "variableName": ""
+        },
+        "enabled": true,
+        "outputName": "filled"
+      },
+      {
+        "actionType": "selectResults",
+        "params": {
+          "scrollTo": true
+        },
+        "enabled": true
+      }
+    ]
+  }
+}
