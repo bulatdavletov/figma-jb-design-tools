@@ -140,46 +140,70 @@ export const setFillVariable: ActionHandler = async (context, params) => {
   return context
 }
 
-export const unionChildren: ActionHandler = async (context, params) => {
-  const inputCount = context.nodes.length
-  const excludedName = String(params.excludedName ?? "X")
+export const union: ActionHandler = async (context, params) => {
+  const nodes = context.nodes
+  const inputCount = nodes.length
 
-  const unions: SceneNode[] = []
-  let skipped = 0
-  let failed = 0
-
-  for (const node of context.nodes) {
-    if (!("children" in node)) {
-      skipped++
-      continue
-    }
-
-    const children = Array.from((node as ChildrenMixin).children)
-      .filter((child) => child.name !== excludedName)
-
-    if (children.length <= 1) {
-      skipped++
-      continue
-    }
-
-    try {
-      const union = figma.union(children, node as unknown as BaseNode & ChildrenMixin)
-      unions.push(union)
-    } catch {
-      failed++
-    }
+  if (nodes.length < 2) {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Union",
+      message: "Need at least 2 nodes to union — skipped",
+      itemsIn: inputCount,
+      itemsOut: nodes.length,
+      status: "skipped",
+    })
+    return context
   }
 
-  context.nodes = unions
-  context.log.push({
-    stepIndex: -1,
-    stepName: "Union children",
-    message: `Created ${plural(unions.length, "union")}; skipped ${skipped}; failed ${failed}`,
-    itemsIn: inputCount,
-    itemsOut: unions.length,
-    status: failed > 0 ? "error" : "success",
-    ...(failed > 0 ? { error: `${failed} union operations failed` } : {}),
-  })
+  const parent = nodes[0].parent
+  if (!parent || !("children" in parent)) {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Union",
+      message: "Nodes have no valid parent — skipped",
+      itemsIn: inputCount,
+      itemsOut: nodes.length,
+      status: "skipped",
+    })
+    return context
+  }
+
+  const sameParent = nodes.every((n) => n.parent === parent)
+  if (!sameParent) {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Union",
+      message: "All nodes must be siblings (same parent) — skipped",
+      itemsIn: inputCount,
+      itemsOut: nodes.length,
+      status: "skipped",
+    })
+    return context
+  }
+
+  try {
+    const result = figma.union(nodes, parent as BaseNode & ChildrenMixin)
+    context.nodes = [result]
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Union",
+      message: `Combined ${inputCount} nodes into one union`,
+      itemsIn: inputCount,
+      itemsOut: 1,
+      status: "success",
+    })
+  } catch (err) {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Union",
+      message: String(err ?? "Union failed"),
+      itemsIn: inputCount,
+      itemsOut: nodes.length,
+      status: "error",
+      error: String(err),
+    })
+  }
 
   return context
 }

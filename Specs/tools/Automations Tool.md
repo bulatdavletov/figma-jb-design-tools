@@ -825,7 +825,7 @@ For example, creating a union and setting color/fill variable must remain two se
 | `setName` | Set name | `name`: string (supports tokens) | `named` |
 | `setFillColor` | Set fill color | `hex`: color value | `filled` |
 | `setFillVariable` | Set fill variable | `variableName`: string | `filled` |
-| `unionChildren` | Union children | `excludedName`: string (default `X`) | `unions` |
+| `union` | Union | — | `union` |
 | `setStrokeColor` | Set stroke color | `hex`: color value | `stroked` |
 | `removeFills` | Remove fills | — | `nodes` |
 | `removeStrokes` | Remove strokes | — | `nodes` |

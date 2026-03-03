@@ -132,8 +132,8 @@ export function parseImportJson(jsonText: string): Automation | null {
 function importStep(s: any): AutomationStep {
   const step: AutomationStep = {
     id: generateStepId(),
-    actionType: migrateActionType(s.actionType),
-    params: migrateParams(migrateActionType(s.actionType), s.params ?? {}),
+    actionType: s.actionType as ActionType,
+    params: typeof s.params === "object" && s.params !== null ? s.params : {},
     enabled: s.enabled !== false,
   }
   if (typeof s.outputName === "string" && s.outputName) {
@@ -157,212 +157,36 @@ function importStep(s: any): AutomationStep {
   return step
 }
 
-const ACTION_TYPE_MIGRATIONS: Record<string, ActionType> = {
-  selectByType: "filter",
-  findByType: "filter",
-  selectByName: "filter",
-  filterByType: "filter",
-  filterByName: "filter",
-  restoreNodes: "sourceFromSelection",
-  unionChildrenToFillVariable: "unionChildren",
-}
-
-const OUTPUT_NAME_MIGRATIONS: Record<string, string> = {
-  sourceFromSelection: "selection",
-  sourceFromPage: "page",
-  filterByType: "filtered",
-  filterByName: "filtered",
-  expandToChildren: "children",
-  goToParent: "parent",
-  flattenDescendants: "descendants",
-  renameLayers: "renamed",
-  setFillColor: "filled",
-  setFillVariable: "filled",
-  setOpacity: "nodes",
-  setCharacters: "texts",
-  resize: "resized",
-  wrapInFrame: "frames",
-  addAutoLayout: "layouts",
-  editAutoLayout: "layouts",
-  removeAutoLayout: "nodes",
-  setPosition: "positioned",
-  askForInput: "input",
-  setPipelineVariable: "variable",
-  setPipelineVariableFromProperty: "property",
-  splitText: "parts",
-  notify: "notification",
-  selectResults: "selected",
-  log: "log",
-  count: "count",
-}
-
 function migrateStep(step: AutomationStep): AutomationStep {
   let migrated = step
-
-  // Phase 1 legacy: setLayoutMode
-  if (step.actionType === ("setLayoutMode" as ActionType)) {
-    const mode = String(step.params.layoutMode ?? "VERTICAL")
-    if (mode === "NONE") {
-      migrated = { ...step, actionType: "removeAutoLayout" as ActionType, params: {} }
-    } else {
-      migrated = { ...step, actionType: "addAutoLayout" as ActionType, params: { direction: mode } }
-    }
-  }
-
-  // Phase 3: convert filterByType/filterByName to unified filter
-  if (step.actionType === ("filterByType" as ActionType) || step.actionType === ("selectByType" as ActionType) || step.actionType === ("findByType" as ActionType)) {
-    migrated = {
-      ...migrated,
-      actionType: "filter",
-      params: {
-        logic: "and",
-        conditions: [{ field: "type", operator: "equals", value: String(step.params.nodeType ?? "TEXT") }],
-      },
-    }
-  }
-
-  if (step.actionType === ("filterByName" as ActionType) || step.actionType === ("selectByName" as ActionType)) {
-    const matchMode = String(step.params.matchMode ?? "contains")
-    migrated = {
-      ...migrated,
-      actionType: "filter",
-      params: {
-        logic: "and",
-        conditions: [{ field: "name", operator: matchMode, value: String(step.params.pattern ?? "") }],
-      },
-    }
-  }
-
-  // Phase 3: migrate output names from verb-style to noun-style
-  if (migrated.outputName) {
-    const baseMatch = migrated.outputName.match(/^([a-zA-Z]+?)(-\d+)?$/)
-    if (baseMatch) {
-      const baseName = baseMatch[1]
-      const suffix = baseMatch[2] ?? ""
-      if (OUTPUT_NAME_MIGRATIONS[baseName]) {
-        migrated = { ...migrated, outputName: OUTPUT_NAME_MIGRATIONS[baseName] + suffix }
-      }
-    }
-  }
-
-  // Migrate children recursively
   if (migrated.children && migrated.children.length > 0) {
     const migratedChildren = migrated.children.map(migrateStep)
     if (migratedChildren.some((c, i) => c !== migrated.children![i])) {
       migrated = { ...migrated, children: migratedChildren }
     }
   }
-
   if (migrated.elseChildren && migrated.elseChildren.length > 0) {
     const migratedElse = migrated.elseChildren.map(migrateStep)
     if (migratedElse.some((c, i) => c !== migrated.elseChildren![i])) {
       migrated = { ...migrated, elseChildren: migratedElse }
     }
   }
-
   return migrated
-}
-
-const BARE_REF_PARAMS = new Set(["sourceVar", "source"])
-
-function migrateTokenReferences(step: AutomationStep, nameMap: Map<string, string>): AutomationStep {
-  if (nameMap.size === 0) return step
-
-  let changed = false
-  const newParams: Record<string, unknown> = {}
-
-  for (const [key, value] of Object.entries(step.params)) {
-    if (typeof value === "string") {
-      let replaced = value
-
-      if (BARE_REF_PARAMS.has(key) && nameMap.has(replaced)) {
-        replaced = nameMap.get(replaced)!
-      }
-
-      nameMap.forEach((newName, oldName) => {
-        replaced = replaced.split(`{#${oldName}.`).join(`{#${newName}.`)
-        replaced = replaced.split(`{$${oldName}}`).join(`{$${newName}}`)
-      })
-      newParams[key] = replaced
-      if (replaced !== value) changed = true
-    } else {
-      newParams[key] = value
-    }
-  }
-
-  // Migrate input reference
-  let newInput = step.input
-  if (step.input && nameMap.has(step.input)) {
-    newInput = nameMap.get(step.input)
-    changed = true
-  }
-
-  if (!changed) return step
-  return { ...step, params: newParams, input: newInput }
 }
 
 function migrateAutomation(automation: Automation): Automation {
   let changed = false
-
   let emoji = automation.emoji
   if (typeof emoji !== "string") {
     emoji = AUTOMATION_EMOJIS[0] ?? "🤖"
     changed = true
   }
-
-  // First pass: migrate step types and output names
   const steps = automation.steps.map((step) => {
     const migrated = migrateStep(step)
     if (migrated !== step) changed = true
     return migrated
   })
-
-  // Build name mapping from old to new output names
-  const nameMap = new Map<string, string>()
-  for (let i = 0; i < automation.steps.length; i++) {
-    const oldName = automation.steps[i].outputName
-    const newName = steps[i].outputName
-    if (oldName && newName && oldName !== newName) {
-      nameMap.set(oldName, newName)
-    }
-  }
-
-  // Second pass: migrate token references
-  if (nameMap.size > 0) {
-    for (let i = 0; i < steps.length; i++) {
-      const migrated = migrateTokenReferences(steps[i], nameMap)
-      if (migrated !== steps[i]) {
-        steps[i] = migrated
-        changed = true
-      }
-    }
-  }
-
   return changed ? { ...automation, emoji, steps } : automation
-}
-
-function migrateActionType(actionType: string): ActionType {
-  if (actionType === "setLayoutMode") return "addAutoLayout"
-  return (ACTION_TYPE_MIGRATIONS[actionType] ?? actionType) as ActionType
-}
-
-function migrateParams(
-  actionType: ActionType,
-  params: Record<string, unknown>,
-): Record<string, unknown> {
-  if (actionType === "filter" && params.nodeType) {
-    return {
-      logic: "and",
-      conditions: [{ field: "type", operator: "equals", value: String(params.nodeType) }],
-    }
-  }
-  if (actionType === "filter" && params.pattern) {
-    return {
-      logic: "and",
-      conditions: [{ field: "name", operator: String(params.matchMode ?? "contains"), value: String(params.pattern) }],
-    }
-  }
-  return params
 }
 
 function isValidAutomation(value: unknown): value is Automation {
