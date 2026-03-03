@@ -215,7 +215,7 @@ All available automation actions, organized by category. Each action specifies:
 | **From current page** | Start with all nodes on the current page | — | `nodes` = all page children (flat or deep) |
 | **From all pages** | Start with all nodes in the document | — | `nodes` = all nodes across all pages |
 | **From page by name** | Start with nodes on a specific page | `pageName`: string pattern | `nodes` = matching page's children |
-| **From local variables** | Start with local variables | `type?`: COLOR / FLOAT / STRING / BOOLEAN, `collection?`: name pattern | `variables` = matching local variables |
+| **From local variables** | Start with local variables (output: list of names) | `type?`: COLOR / FLOAT / STRING / BOOLEAN | Use separate Filter to filter by name |
 | **From local styles** | Start with local styles | `kind`: paint / text / effect / grid | `styles` = matching local styles |
 
 ### Filter Actions (narrow the working set)
@@ -772,6 +772,7 @@ Every action must define:
 
 Automations must stay composable: each step does one clear job.
 For example, creating a union and setting color/fill variable must remain two separate actions so either can be used independently.
+Source "From local variables" only gets local variables (by type); filtering by name or pattern is done with a separate Filter step.
 
 ### Implemented Actions (50 total)
 
@@ -783,7 +784,7 @@ For example, creating a union and setting color/fill variable must remain two se
 | `sourceFromPage` | From current page | — | `page` |
 | `sourceFromAllPages` | From all pages | — | `allPages` |
 | `sourceFromPageByName` | From page by name | `pageName`: string | `namedPage` |
-| `sourceFromLocalVariables` | From local variables | `namePrefix?`: string, `variableType`: COLOR | `variableNames` (list) |
+| `sourceFromLocalVariables` | From local variables | `variableType`: COLOR | `variableNames` (list) |
 
 #### Filter (category: `filter`) — unified conditions builder
 

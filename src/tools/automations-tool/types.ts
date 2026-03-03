@@ -169,9 +169,9 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
   {
     type: "sourceFromLocalVariables",
     label: "From local variables",
-    description: "Get local color variables as a list of names (optionally filter by name prefix)",
+    description: "Get local color variables as a list of names. Use a separate Filter step to filter by name.",
     category: "source",
-    defaultParams: { namePrefix: "", variableType: "COLOR" },
+    defaultParams: { variableType: "COLOR" },
     defaultOutputName: "variableNames",
     producesData: true,
     outputType: "list",

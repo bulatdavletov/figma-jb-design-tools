@@ -1,5 +1,11 @@
 # Cursor Chat History
 
+## Automations — Source From local variables: no filter
+
+### 2026-03-03
+- **Task:** Remove filter (name prefix) from "Source: From local variables". Filtering by name is a separate Filter step (action granularity: one job per action).
+- **Done:** Removed `namePrefix` param from `sourceFromLocalVariables` in source-actions.ts, types (defaultParams, description), StepConfigPanel UI, and helpers getParamSummary. Spec updated: action table and granularity rule now state that Source gets variables by type only; use separate Filter for name/pattern. Existing automations with `namePrefix` in params will ignore it (backward compatible).
+
 ## Automations — Nested actions (If inside Repeat)
 
 ### 2026-03-03

@@ -15,3 +15,5 @@ Prefer to use existing UI items, such as components and icons from @create-figma
 Always try to think systematically, extract common logic and components into separate files, to other places can work more constently and efficiently. Refactor and simplify things if they are too complex or not efficient.
 
 Don't use getNodeByld if documentAccess: dynamic-page. Use figma.getNodeByldAsync instead.
+
+Read specs/tools/Automations Tool.md before doing anuthing related to Automations
