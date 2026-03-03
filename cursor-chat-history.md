@@ -1,5 +1,13 @@
 # Cursor Chat History
 
+## Automations — Delete and Move Up/Down step actions
+
+### 2026-03-03
+- **Task:** "Delete" and "Move Up/Down" on automation steps did nothing; add tests for these actions.
+- **Root cause:** In `removeStepAtPath` and `moveStepAtPath` (ui/utils.ts), the guard `if (!parentPath || path.length === 0) return steps` ran first. For root-level steps path is `[{ rootIndex: 0 }]`, so `pathParent(path)` returns `null` (path has length 1). That caused an early return before handling root segment.
+- **Fix:** Handle empty path, then check last segment. If it's a root segment, perform root remove/move; otherwise compute `parentPath` and handle child steps. Root-level Delete and Move Up/Down now work.
+- **Tests:** Added `src/tools/automations-tool/ui/utils.test.ts` with 11 tests: removeStepAtPath (root at 0/middle/last, child inside repeat, empty path); moveStepAtPath (root up/down, bounds, child within repeat, empty path).
+
 ## Automations — Source From local variables: no filter
 
 ### 2026-03-03

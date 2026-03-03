@@ -190,13 +190,14 @@ export function removeStepAtPath(
   steps: AutomationStepPayload[],
   path: StepPath,
 ): AutomationStepPayload[] {
-  const parentPath = pathParent(path)
-  if (!parentPath || path.length === 0) return steps
+  if (path.length === 0) return steps
   const last = path[path.length - 1]
   if (isRootSegment(last)) {
     const idx = last.rootIndex
     return steps.filter((_, i) => i !== idx)
   }
+  const parentPath = pathParent(path)
+  if (!parentPath) return steps
   const parent = getStepAtPath(steps, parentPath)
   if (!parent) return steps
   const branch: ChildBranch = last.childBranch ?? "then"
@@ -212,8 +213,7 @@ export function moveStepAtPath(
   path: StepPath,
   direction: -1 | 1,
 ): AutomationStepPayload[] {
-  const parentPath = pathParent(path)
-  if (!parentPath || path.length === 0) return steps
+  if (path.length === 0) return steps
   const last = path[path.length - 1]
   if (isRootSegment(last)) {
     const idx = last.rootIndex
@@ -225,6 +225,8 @@ export function moveStepAtPath(
     next[newIdx] = t
     return next
   }
+  const parentPath = pathParent(path)
+  if (!parentPath) return steps
   const parent = getStepAtPath(steps, parentPath)
   if (!parent) return steps
   const branch: ChildBranch = last.childBranch ?? "then"
