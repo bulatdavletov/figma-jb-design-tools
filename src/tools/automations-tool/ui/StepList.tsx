@@ -11,7 +11,7 @@ import {
   Stack,
   Text,
 } from "@create-figma-plugin/ui"
-import { h } from "preact"
+import { h, Fragment } from "preact"
 import { useState } from "preact/hooks"
 
 import { IconArrowDown16, IconArrowUp16 } from "../../../../custom-icons/generated"
@@ -21,7 +21,8 @@ import type { AutomationStepPayload } from "../../../home/messages"
 import { getParamSummary } from "../helpers"
 /**/import { ACTION_DEFINITIONS, getValueKindBgColor, getValueKindColor, type ValueKind } from "../types"
 import type { StepPath, ChildBranch } from "./types"
-import { stepsPathEqual } from "./utils"
+import { ACTIONS_WITH_CHILDREN } from "./types"
+import { stepsPathEqual, pathExtend } from "./utils"
 
 export function StepRow(props: {
   step: AutomationStepPayload
@@ -194,16 +195,16 @@ function ValueKindIcon(props: { kind: ValueKind }) {
 }
 
 export function ChildrenBlock(props: {
-  parentIndex: number
+  parentPath: StepPath
   children: AutomationStepPayload[]
   selectedPath: StepPath | null
   stepOutputs: StepOutputPreviewPayload[]
   branch: ChildBranch
   label?: string
-  onSelectChild: (childIdx: number) => void
-  onRemoveChild: (childIdx: number) => void
-  onMoveChild: (childIdx: number, direction: -1 | 1) => void
-  onAddChild: () => void
+  onSelectStep: (path: StepPath) => void
+  onRemoveStep: (path: StepPath) => void
+  onMoveStep: (path: StepPath, direction: -1 | 1) => void
+  onRequestAddChild: (parentPath: StepPath, branch: ChildBranch) => void
 }) {
   return (
     <div
@@ -241,26 +242,75 @@ export function ChildrenBlock(props: {
         </div>
       ) : (
         <Stack space="extraSmall">
-          {props.children.map((child, childIdx) => (
-            <StepRow
-              key={child.id}
-              step={child}
-              index={childIdx}
-              total={props.children.length}
-              selected={stepsPathEqual(props.selectedPath, { index: props.parentIndex, childIndex: childIdx, childBranch: props.branch })}
-              stepOutput={props.stepOutputs.find((so) => so.stepId === child.id)}
-              onSelect={() => props.onSelectChild(childIdx)}
-              onRemove={() => props.onRemoveChild(childIdx)}
-              onMoveUp={() => props.onMoveChild(childIdx, -1)}
-              onMoveDown={() => props.onMoveChild(childIdx, 1)}
-            />
-          ))}
+          {props.children.map((child, childIdx) => {
+            const childPath = pathExtend(props.parentPath, childIdx, props.branch)
+            return (
+              <Fragment key={child.id}>
+                <StepRow
+                  step={child}
+                  index={childIdx}
+                  total={props.children.length}
+                  selected={stepsPathEqual(props.selectedPath, childPath)}
+                  stepOutput={props.stepOutputs.find((so) => so.stepId === child.id)}
+                  onSelect={() => props.onSelectStep(childPath)}
+                  onRemove={() => props.onRemoveStep(childPath)}
+                  onMoveUp={() => props.onMoveStep(childPath, -1)}
+                  onMoveDown={() => props.onMoveStep(childPath, 1)}
+                />
+                {ACTIONS_WITH_CHILDREN.includes(child.actionType) && (
+                  <>
+                    {child.actionType === "ifCondition" && (
+                      <>
+                        <ChildrenBlock
+                          parentPath={childPath}
+                          children={child.children ?? []}
+                          selectedPath={props.selectedPath}
+                          stepOutputs={props.stepOutputs}
+                          branch="then"
+                          label="Then"
+                          onSelectStep={props.onSelectStep}
+                          onRemoveStep={props.onRemoveStep}
+                          onMoveStep={props.onMoveStep}
+                          onRequestAddChild={props.onRequestAddChild}
+                        />
+                        <ChildrenBlock
+                          parentPath={childPath}
+                          children={child.elseChildren ?? []}
+                          selectedPath={props.selectedPath}
+                          stepOutputs={props.stepOutputs}
+                          branch="else"
+                          label="Otherwise"
+                          onSelectStep={props.onSelectStep}
+                          onRemoveStep={props.onRemoveStep}
+                          onMoveStep={props.onMoveStep}
+                          onRequestAddChild={props.onRequestAddChild}
+                        />
+                      </>
+                    )}
+                    {child.actionType !== "ifCondition" && (
+                      <ChildrenBlock
+                        parentPath={childPath}
+                        children={child.children ?? []}
+                        selectedPath={props.selectedPath}
+                        stepOutputs={props.stepOutputs}
+                        branch="then"
+                        onSelectStep={props.onSelectStep}
+                        onRemoveStep={props.onRemoveStep}
+                        onMoveStep={props.onMoveStep}
+                        onRequestAddChild={props.onRequestAddChild}
+                      />
+                    )}
+                  </>
+                )}
+              </Fragment>
+            )
+          })}
         </Stack>
       )}
       <div style={{ paddingTop: 4 }}>
         <Button
           secondary
-          onClick={props.onAddChild}
+          onClick={() => props.onRequestAddChild(props.parentPath, props.branch)}
           style={{ fontSize: 10 }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: 4 }}>

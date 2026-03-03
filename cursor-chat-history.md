@@ -1,5 +1,11 @@
 # Cursor Chat History
 
+## Automations — Nested actions (If inside Repeat)
+
+### 2026-03-03
+- **Task:** Allow flow actions to be nested (e.g. If inside Repeat). Previously the UI only rendered one level of children, so If added inside Repeat had no Then/Otherwise blocks.
+- **Done:** Introduced multi-level path model: `StepPath` is now an array of segments (root index + optional child segments with childIndex/childBranch). Path helpers in `ui/utils.ts`: `getStepAtPath`, `getParentStepAtPath`, `pathExtend`, `pathParent`, `pathRoot`, `pathRootIndex`, `updateStepAtPath`, `insertChildAtPath`, `removeStepAtPath`, `moveStepAtPath`, `getChildArray`. `ChildrenBlock` in StepList is path-based and recursive: when a child step is Repeat/If/Map/Reduce it renders its Then/Otherwise or single child block with extended path; "Add child step" uses `onRequestAddChild(parentPath, branch)`. BuilderScreen uses path everywhere: picker state is `pickerParentPath: StepPath | null`; selection, add/remove/move and param updates go through path helpers. `buildSuggestions` in helpers takes `(steps, path)` and derives preceding outputs and parent for loop vars from path. Payload round-trip: `stepToPayload`/`payloadToStep` in ui/utils now recurse on `elseChildren`. Executor unchanged (already ran nested flow). Build OK.
+
 ## Automations — Union (not Union children)
 
 ### 2026-03-03

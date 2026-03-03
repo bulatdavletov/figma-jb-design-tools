@@ -1,7 +1,12 @@
 export type Screen = "list" | "builder" | "runOutput"
 export type RightPanel = "empty" | "picker" | "config" | "runOutput"
 export type ChildBranch = "then" | "else"
-export type StepPath = { index: number; childIndex?: number; childBranch?: ChildBranch }
+
+/** First segment addresses a top-level step; rest address nested children. */
+export type RootPathSegment = { rootIndex: number }
+export type ChildPathSegment = { childIndex: number; childBranch?: ChildBranch }
+export type StepPathSegment = RootPathSegment | ChildPathSegment
+export type StepPath = StepPathSegment[]
 
 export const BUILDER_WIDTH = 680
 export const BUILDER_HEIGHT = 520

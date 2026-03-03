@@ -8,6 +8,8 @@ import { TokenText } from "../../components/TokenPill"
 import { stripTokenSyntax } from "../../components/TokenPill"
 import { Text, VerticalSpace } from "@create-figma-plugin/ui"
 import { plural } from "../../utils/pluralize"
+import type { StepPath } from "./ui/types"
+import { getStepAtPath, getParentStepAtPath } from "./ui/utils"
 
 export function getParamSummary(step: AutomationStepPayload): string {
   const p = step.params
@@ -204,12 +206,45 @@ export function getParamSummary(step: AutomationStepPayload): string {
   }
 }
 
+/** Collect step outputs that appear before the step at path in DFS order. */
+function collectPrecedingOutputs(
+  steps: AutomationStepPayload[],
+  path: StepPath,
+): { step: AutomationStepPayload; isData: boolean }[] {
+  const out: { step: AutomationStepPayload; isData: boolean }[] = []
+  if (path.length === 0) return out
+  const first = path[0] as { rootIndex?: number; childIndex?: number; childBranch?: string }
+  if (!("rootIndex" in first) || first.rootIndex == null) return out
+  const rootIdx = first.rootIndex
+
+  for (let i = 0; i < rootIdx && i < steps.length; i++) {
+    const step = steps[i]
+    if (!step.outputName) continue
+    const def = ACTION_DEFINITIONS.find((d) => d.type === step.actionType)
+    out.push({ step, isData: def?.producesData === true })
+  }
+
+  if (path.length === 1) return out
+  let current: AutomationStepPayload | undefined = steps[rootIdx]
+  for (let segIdx = 1; segIdx < path.length; segIdx++) {
+    const seg = path[segIdx] as { childIndex?: number; childBranch?: string }
+    if (!current || !("childIndex" in seg)) break
+    const branch = (seg.childBranch ?? "then") as "then" | "else"
+    const arr: AutomationStepPayload[] = branch === "else" ? (current.elseChildren ?? []) : (current.children ?? [])
+    for (let j = 0; j < seg.childIndex! && j < arr.length; j++) {
+      const child = arr[j]
+      if (!child.outputName) continue
+      const def = ACTION_DEFINITIONS.find((d) => d.type === child.actionType)
+      out.push({ step: child, isData: def?.producesData === true })
+    }
+    current = arr[seg.childIndex!]
+  }
+  return out
+}
+
 export function buildSuggestions(
   steps: AutomationStepPayload[],
-  currentStepIndex: number,
-  parentStep?: AutomationStepPayload,
-  childIndex?: number,
-  childBranch?: "then" | "else",
+  path: StepPath | null,
 ): Suggestion[] {
   const suggestions: Suggestion[] = []
 
@@ -226,30 +261,33 @@ export function buildSuggestions(
     })
   }
 
-  for (let i = 0; i < currentStepIndex && i < steps.length; i++) {
-    const step = steps[i]
-    if (!step.outputName) continue
-    const def = ACTION_DEFINITIONS.find((d) => d.type === step.actionType)
-    const isData = def?.producesData === true
-    suggestions.push({
-      token: isData ? `$${step.outputName}` : `#${step.outputName}`,
-      label: `${def?.label ?? step.actionType} output`,
-      category: "Step outputs",
-    })
-    if (!isData) {
-      for (const prop of PROPERTY_REGISTRY) {
-        suggestions.push({
-          token: `#${step.outputName}.${prop.key}`,
-          label: `${prop.label} from "${step.outputName}"`,
-          category: step.outputName,
-        })
+  if (path && path.length > 0) {
+    const preceding = collectPrecedingOutputs(steps, path)
+    for (const { step, isData } of preceding) {
+      if (!step.outputName) continue
+      const def = ACTION_DEFINITIONS.find((d) => d.type === step.actionType)
+      suggestions.push({
+        token: isData ? `$${step.outputName}` : `#${step.outputName}`,
+        label: `${def?.label ?? step.actionType} output`,
+        category: "Step outputs",
+      })
+      if (!isData) {
+        for (const prop of PROPERTY_REGISTRY) {
+          suggestions.push({
+            token: `#${step.outputName}.${prop.key}`,
+            label: `${prop.label} from "${step.outputName}"`,
+            category: step.outputName,
+          })
+        }
       }
     }
   }
 
-  const hasLoop = parentStep?.actionType === "repeatWithEach"
-    || parentStep?.actionType === "mapList"
-    || parentStep?.actionType === "reduceList"
+  const parentStep = path && path.length > 0 ? getParentStepAtPath(steps, path) : undefined
+  const hasLoop =
+    parentStep?.actionType === "repeatWithEach" ||
+    parentStep?.actionType === "mapList" ||
+    parentStep?.actionType === "reduceList"
 
   if (hasLoop && parentStep) {
     const itemVar = String(parentStep.params.itemVar ?? "item")
@@ -280,38 +318,6 @@ export function buildSuggestions(
         label: "Current accumulator value",
         category: "Loop",
       })
-    }
-
-    const children = parentStep.children ?? []
-    if (childIndex !== undefined) {
-      for (let i = 0; i < childIndex && i < children.length; i++) {
-        const child = children[i]
-        if (!child.outputName) continue
-        const def = ACTION_DEFINITIONS.find((d) => d.type === child.actionType)
-        const isData = def?.producesData === true
-        suggestions.push({
-          token: isData ? `$${child.outputName}` : `#${child.outputName}`,
-          label: `${def?.label ?? child.actionType} output`,
-          category: "Step outputs",
-        })
-      }
-    }
-  }
-
-  if (parentStep?.actionType === "ifCondition") {
-    const children = childBranch === "else" ? (parentStep.elseChildren ?? []) : (parentStep.children ?? [])
-    if (childIndex !== undefined) {
-      for (let i = 0; i < childIndex && i < children.length; i++) {
-        const child = children[i]
-        if (!child.outputName) continue
-        const def = ACTION_DEFINITIONS.find((d) => d.type === child.actionType)
-        const isData = def?.producesData === true
-        suggestions.push({
-          token: isData ? `$${child.outputName}` : `#${child.outputName}`,
-          label: `${def?.label ?? child.actionType} output`,
-          category: "Step outputs",
-        })
-      }
     }
   }
 

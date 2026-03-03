@@ -838,8 +838,6 @@ For example, creating a union and setting color/fill variable must remain two se
 | `cloneNode` | Clone node | — | `clones` |
 | `resize` | Resize | `width?`, `height?` (supports tokens) | `resized` |
 | `setPosition` | Set position | `x?`, `y?` (supports tokens) | `positioned` |
-| `createRectangle` | Create rectangle | `width`, `height`, `name?` | `rectangle` |
-| `createText` | Create text | `characters` (supports tokens) | `text` |
 | `wrapInFrame` | Wrap in frame | `autoLayout?` | `frames` |
 | `addAutoLayout` | Add auto layout | `direction`, `itemSpacing?` | `layouts` |
 | `editAutoLayout` | Edit auto layout | `direction?`, `itemSpacing?`, padding | `layouts` |
