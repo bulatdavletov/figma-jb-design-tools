@@ -141,8 +141,11 @@ export function registerAutomationsTool(getActiveTool: () => ActiveTool) {
       if (msg.type === UI_TO_MAIN.AUTOMATIONS_EXPORT_ALL) {
         const automations = await loadAutomations()
         const jsonText = allAutomationsToExportJson(automations)
-        const date = new Date().toISOString().slice(0, 10)
-        const filename = `automations-${date}.json`
+        const now = new Date()
+        const dd = String(now.getDate()).padStart(2, "0")
+        const mm = String(now.getMonth() + 1).padStart(2, "0")
+        const yyyy = now.getFullYear()
+        const filename = `automations-${automations.length}-${dd}.${mm}.${yyyy}.json`
         figma.ui.postMessage({
           type: MAIN_TO_UI.AUTOMATIONS_EXPORT_ALL_READY,
           jsonText,
