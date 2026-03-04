@@ -1,5 +1,6 @@
 import { Checkbox, Divider, Dropdown, Text, Textbox, TextboxMultiline, VerticalSpace } from "@create-figma-plugin/ui"
 import { h, Fragment } from "preact"
+import { useState, useEffect } from "preact/hooks"
 
 import { TokenInput, type Suggestion } from "../../../components/TokenInput"
 import { TokenText } from "../../../components/TokenPill"
@@ -17,15 +18,19 @@ import {
   type FilterCondition,
   type FilterField,
   type FilterLogic,
+  type IfCondition,
+  IF_CONDITION_OPERATORS,
 } from "../types"
-import { buildInputSourceOptions, buildValueSourceOptions, renderInputContext } from "../helpers"
+import { buildInputSourceOptions, buildInputSourceOptionsFromPath, buildValueSourceOptions, renderInputContext } from "../helpers"
 import { safeDropdownValue } from "./utils"
 import { PROPERTY_REGISTRY } from "../properties"
+import type { StepPath } from "./types"
 
 export function StepConfigPanel(props: {
   step: AutomationStepPayload
   stepIndex: number
   allSteps: AutomationStepPayload[]
+  selectedPath?: StepPath | null
   parentStep?: AutomationStepPayload
   onUpdateParam: (key: string, value: unknown) => void
   onUpdateOutputName: (value: string) => void
@@ -34,14 +39,30 @@ export function StepConfigPanel(props: {
   stepOutput?: StepOutputPreviewPayload
   suggestions: Suggestion[]
 }) {
-  const { step, stepIndex, allSteps, parentStep, onUpdateParam, onUpdateOutputName, onUpdateInput, onRunToStep, stepOutput, suggestions } = props
+  const { step, stepIndex, allSteps, selectedPath, parentStep, onUpdateParam, onUpdateOutputName, onUpdateInput, onRunToStep, stepOutput, suggestions } = props
   const def = ACTION_DEFINITIONS.find((d) => d.type === step.actionType)
   const showInputDropdown = def && !["source", "variables", "flow", "input"].includes(def.category)
-  const inputOptions = buildInputSourceOptions(allSteps, stepIndex, false)
-    .filter((o) => {
-      const sDef = ACTION_DEFINITIONS.find((d) => d.type === allSteps.find((s) => s.outputName === o.value)?.actionType)
-      return sDef?.producesData !== true
-    })
+  const inputOptions = selectedPath != null
+    ? buildInputSourceOptionsFromPath(allSteps, selectedPath, false, true)
+    : buildInputSourceOptions(allSteps, stepIndex, false).filter((o) => {
+        const sDef = ACTION_DEFINITIONS.find((d) => d.type === allSteps.find((s) => s.outputName === o.value)?.actionType)
+        return sDef?.producesData !== true
+      })
+  const CUSTOM_INPUT_VALUE = "__custom__"
+  const inputValue = step.input ?? ""
+  const isCustomInput = inputValue !== "" && !inputOptions.some((o) => o.value === inputValue)
+  const [showCustomInput, setShowCustomInput] = useState(false)
+  const [repeatCustomSourceStepId, setRepeatCustomSourceStepId] = useState<string | null>(null)
+  useEffect(() => {
+    setShowCustomInput(false)
+    setRepeatCustomSourceStepId(null)
+  }, [step.id])
+  const dropdownValue = showCustomInput || isCustomInput ? CUSTOM_INPUT_VALUE : inputValue
+  const inputAllOptions = [
+    { value: "", text: "Previous step (default)" },
+    ...inputOptions,
+    { value: CUSTOM_INPUT_VALUE, text: "Custom..." },
+  ]
 
   const validationIssues = validateStep(step, stepIndex, allSteps)
 
@@ -119,22 +140,40 @@ export function StepConfigPanel(props: {
           <VerticalSpace space="medium" />
         </Fragment>
       )}
-      {showInputDropdown && inputOptions.length > 0 && (() => {
-        const inputAllOptions = [{ value: "", text: "Previous step (default)" }, ...inputOptions]
-        return (
-          <Fragment>
-            <Text style={{ fontSize: 11 }}>Input nodes</Text>
-            <VerticalSpace space="extraSmall" />
-            <Dropdown
-              value={safeDropdownValue(step.input ?? "", inputAllOptions)}
-              onValueChange={onUpdateInput}
-              options={inputAllOptions}
-            />
-            <VerticalSpace space="medium" />
-          </Fragment>
-        )
-      })()}
-      {renderStepParams(step, onUpdateParam, suggestions, allSteps, stepIndex, parentStep)}
+      {showInputDropdown && (
+        <Fragment>
+          <Text style={{ fontSize: 11 }}>Input nodes</Text>
+          <VerticalSpace space="extraSmall" />
+          <Dropdown
+            value={safeDropdownValue(dropdownValue, inputAllOptions)}
+            onValueChange={(v) => {
+              if (v === CUSTOM_INPUT_VALUE) {
+                setShowCustomInput(true)
+                return
+              }
+              setShowCustomInput(false)
+              onUpdateInput(v)
+            }}
+            options={inputAllOptions}
+          />
+          {dropdownValue === CUSTOM_INPUT_VALUE && (
+            <Fragment>
+              <VerticalSpace space="extraSmall" />
+              <TokenInput
+                value={inputValue}
+                onValueInput={(v) => {
+                  const match = v.match(/^\{(#?)([^}]+)\}$/)
+                  onUpdateInput(match ? match[2] : v)
+                }}
+                placeholder="Snapshot name or type { for suggestions"
+                suggestions={inputOptions.map((o) => ({ token: `#${o.value}`, label: o.text, category: "Snapshot" }))}
+              />
+            </Fragment>
+          )}
+          <VerticalSpace space="medium" />
+        </Fragment>
+      )}
+      {renderStepParams(step, onUpdateParam, suggestions, allSteps, stepIndex, parentStep, selectedPath, repeatCustomSourceStepId, setRepeatCustomSourceStepId)}
 
       {!["repeatWithEach", "ifCondition", "stopAndOutput"].includes(step.actionType) && (
         <Fragment>
@@ -367,6 +406,9 @@ function renderStepParams(
   allSteps: AutomationStepPayload[] = [],
   stepIndex: number = 0,
   parentStep?: AutomationStepPayload,
+  selectedPath?: StepPath | null,
+  repeatCustomSourceStepId?: string | null,
+  setRepeatCustomSourceStepId?: (id: string | null) => void,
 ) {
   const stepDef = ACTION_DEFINITIONS.find((d) => d.type === step.actionType)
   const inputCtx = renderInputContext(allSteps, stepIndex, parentStep, { currentStepDef: stepDef })
@@ -615,8 +657,11 @@ function renderStepParams(
           <Textbox
             value={String(step.params.variableName ?? "")}
             onValueInput={(v: string) => updateParam("variableName", v)}
-            placeholder="e.g. control-border-raised"
+            placeholder="e.g. control-border-raised or icon/icon-default-stroke (library)"
           />
+          <Text style={{ fontSize: 10, color: "var(--figma-color-text-tertiary)", marginTop: 4 }}>
+            Local variables and variables from enabled libraries (e.g. Union Icons) are resolved by name.
+          </Text>
         </Fragment>
       )
 
@@ -626,6 +671,16 @@ function renderStepParams(
           {inputCtx}
           <Text style={{ fontSize: 11, color: "var(--figma-color-text-secondary)" }}>
             Combines the current nodes into one boolean union. Nodes must be siblings (same parent).
+          </Text>
+        </Fragment>
+      )
+
+    case "ungroup":
+      return (
+        <Fragment>
+          {inputCtx}
+          <Text style={{ fontSize: 11, color: "var(--figma-color-text-secondary)" }}>
+            Ungroups each group-like node; its children move to the parent and the group is removed. Instances and components are left as-is.
           </Text>
         </Fragment>
       )
@@ -1394,20 +1449,55 @@ function renderStepParams(
       )
 
     case "repeatWithEach": {
-      const repeatInputOptions = buildInputSourceOptions(allSteps, stepIndex, true)
-      const repeatAllOptions = [{ value: "nodes", text: "Current nodes" }, ...repeatInputOptions]
-      const source = safeDropdownValue(String(step.params.source ?? "nodes"), repeatAllOptions)
+      const repeatInputOptions =
+        selectedPath != null
+          ? buildInputSourceOptionsFromPath(allSteps, selectedPath, true)
+          : buildInputSourceOptions(allSteps, stepIndex, true)
+      const REPEAT_CUSTOM_SOURCE = "__custom__"
+      const sourceValue = String(step.params.source ?? "nodes")
+      const isRepeatSourceCustom =
+        sourceValue !== "nodes" && sourceValue !== "" && !repeatInputOptions.some((o) => o.value === sourceValue)
+      const repeatDropdownValue =
+        setRepeatCustomSourceStepId && (isRepeatSourceCustom || repeatCustomSourceStepId === step.id)
+          ? REPEAT_CUSTOM_SOURCE
+          : sourceValue
+      const repeatAllOptions = [
+        { value: "nodes", text: "Current nodes" },
+        ...repeatInputOptions,
+        ...(setRepeatCustomSourceStepId ? [{ value: REPEAT_CUSTOM_SOURCE, text: "Custom..." as const }] : []),
+      ]
       const itemVar = String(step.params.itemVar ?? "item")
-      const isListMode = source !== "nodes"
+      const isListMode = sourceValue !== "nodes"
       return (
         <Fragment>
           <Text style={{ fontSize: 11 }}>Input</Text>
           <VerticalSpace space="extraSmall" />
           <Dropdown
-            value={source}
+            value={safeDropdownValue(repeatDropdownValue, repeatAllOptions)}
             options={repeatAllOptions}
-            onValueChange={(v: string) => updateParam("source", v)}
+            onValueChange={(v: string) => {
+              if (v === REPEAT_CUSTOM_SOURCE) {
+                setRepeatCustomSourceStepId?.(step.id)
+                return
+              }
+              setRepeatCustomSourceStepId?.(null)
+              updateParam("source", v)
+            }}
           />
+          {setRepeatCustomSourceStepId && repeatDropdownValue === REPEAT_CUSTOM_SOURCE && (
+            <Fragment>
+              <VerticalSpace space="extraSmall" />
+              <TokenInput
+                value={sourceValue}
+                onValueInput={(v: string) => {
+                  const match = v.match(/^\{\$?([^}]+)\}$/)
+                  updateParam("source", match ? match[1] : v)
+                }}
+                placeholder="Variable name or type { for suggestions"
+                suggestions={repeatInputOptions.map((o) => ({ token: `$${o.value}`, label: o.text, category: "Variable" }))}
+              />
+            </Fragment>
+          )}
           <VerticalSpace space="small" />
           <Text style={{ fontSize: 11 }}>Item variable name</Text>
           <VerticalSpace space="extraSmall" />
@@ -1449,7 +1539,7 @@ function renderStepParams(
           <Text style={{ fontSize: 10, color: "var(--figma-color-text-tertiary)" }}>
             {isListMode ? (
               <Fragment>
-                <b>List mode:</b> Pairs <TokenText text={`{$${source}}`} /> list items with working set nodes.
+                <b>List mode:</b> Pairs <TokenText text={`{$${sourceValue}}`} /> list items with working set nodes.
                 Each iteration sets <TokenText text={`{$${itemVar}}`} /> to current list item and the
                 working set to the paired node.
                 <br /><br />
@@ -1477,52 +1567,119 @@ function renderStepParams(
     }
 
     case "ifCondition": {
-      const conditionOperators = [
-        { value: "equals", text: "equals" },
-        { value: "notEquals", text: "not equals" },
-        { value: "greaterThan", text: "greater than" },
-        { value: "lessThan", text: "less than" },
-        { value: "greaterOrEqual", text: "greater or equal" },
-        { value: "lessOrEqual", text: "less or equal" },
-        { value: "contains", text: "contains" },
-        { value: "notContains", text: "not contains" },
-        { value: "isEmpty", text: "is empty" },
-        { value: "isNotEmpty", text: "is not empty" },
-      ]
-      const operator = String(step.params.operator ?? "equals")
-      const isUnary = operator === "isEmpty" || operator === "isNotEmpty"
+      const rawConditions = (step.params.conditions ?? []) as IfCondition[]
+      const hasLegacy = rawConditions.length === 0 && (step.params.left != null || step.params.operator != null)
+      const conditions: IfCondition[] = hasLegacy
+        ? [{
+            left: String(step.params.left ?? ""),
+            operator: String(step.params.operator ?? "equals"),
+            right: String(step.params.right ?? ""),
+          }]
+        : rawConditions.length > 0 ? rawConditions : [{ left: "{count}", operator: "greaterThan", right: "0" }]
+      const logic = String(step.params.logic ?? "and") as FilterLogic
+
+      const updateIfCondition = (idx: number, field: keyof IfCondition, value: string) => {
+        const next = [...conditions]
+        next[idx] = { ...next[idx], [field]: value }
+        updateParam("conditions", next)
+      }
+      const addIfCondition = () => {
+        updateParam("conditions", [...conditions, { left: "", operator: "equals", right: "" }])
+      }
+      const removeIfCondition = (idx: number) => {
+        updateParam("conditions", conditions.filter((_: IfCondition, i: number) => i !== idx))
+      }
+
       return (
         <Fragment>
           {inputCtx}
-          <Text style={{ fontSize: 11 }}>Left value</Text>
-          <VerticalSpace space="extraSmall" />
-          <TokenInput
-            value={String(step.params.left ?? "")}
-            onValueInput={(v: string) => updateParam("left", v)}
-            placeholder="Value or token (e.g. {count})"
-            suggestions={suggestions}
-          />
-          <VerticalSpace space="small" />
-          <Text style={{ fontSize: 11 }}>Operator</Text>
-          <VerticalSpace space="extraSmall" />
-          <Dropdown
-            value={operator}
-            options={conditionOperators}
-            onValueChange={(v: string) => updateParam("operator", v)}
-          />
-          {!isUnary && (
-            <Fragment>
-              <VerticalSpace space="small" />
-              <Text style={{ fontSize: 11 }}>Right value</Text>
-              <VerticalSpace space="extraSmall" />
-              <TokenInput
-                value={String(step.params.right ?? "")}
-                onValueInput={(v: string) => updateParam("right", v)}
-                placeholder="Value or token"
-                suggestions={suggestions}
-              />
-            </Fragment>
-          )}
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+            <Text style={{ fontSize: 11, fontWeight: 600 }}>Match</Text>
+            <Dropdown
+              value={logic}
+              options={[
+                { value: "and", text: "ALL conditions (AND)" },
+                { value: "or", text: "ANY condition (OR)" },
+              ]}
+              onValueChange={(v: string) => updateParam("logic", v)}
+              style={{ flex: 1 }}
+            />
+          </div>
+          {conditions.map((cond: IfCondition, idx: number) => {
+            const isUnary = cond.operator === "isEmpty" || cond.operator === "isNotEmpty"
+            return (
+              <div
+                key={idx}
+                style={{
+                  display: "flex",
+                  gap: 4,
+                  alignItems: "flex-start",
+                  marginBottom: 4,
+                  padding: "4px 6px",
+                  background: "var(--figma-color-bg-secondary)",
+                  borderRadius: 4,
+                }}
+              >
+                <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 4 }}>
+                  <Text style={{ fontSize: 10, color: "var(--figma-color-text-tertiary)" }}>Left</Text>
+                  <TokenInput
+                    value={String(cond.left ?? "")}
+                    onValueInput={(v: string) => updateIfCondition(idx, "left", v)}
+                    placeholder="Value or token (e.g. {count})"
+                    suggestions={suggestions}
+                  />
+                  <Text style={{ fontSize: 10, color: "var(--figma-color-text-tertiary)" }}>Operator</Text>
+                  <Dropdown
+                    value={String(cond.operator ?? "equals")}
+                    options={[...IF_CONDITION_OPERATORS]}
+                    onValueChange={(v: string) => updateIfCondition(idx, "operator", v)}
+                  />
+                  {!isUnary && (
+                    <Fragment>
+                      <Text style={{ fontSize: 10, color: "var(--figma-color-text-tertiary)" }}>Right</Text>
+                      <TokenInput
+                        value={String(cond.right ?? "")}
+                        onValueInput={(v: string) => updateIfCondition(idx, "right", v)}
+                        placeholder="Value or token"
+                        suggestions={suggestions}
+                      />
+                    </Fragment>
+                  )}
+                </div>
+                <button
+                  onClick={() => removeIfCondition(idx)}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    padding: "2px 4px",
+                    color: "var(--figma-color-text-tertiary)",
+                    fontSize: 14,
+                    lineHeight: 1,
+                  }}
+                  title="Remove condition"
+                >
+                  ×
+                </button>
+              </div>
+            )
+          })}
+          <button
+            onClick={addIfCondition}
+            style={{
+              background: "none",
+              border: "1px dashed var(--figma-color-border)",
+              borderRadius: 4,
+              padding: "4px 8px",
+              cursor: "pointer",
+              width: "100%",
+              color: "var(--figma-color-text-secondary)",
+              fontSize: 11,
+              marginTop: 4,
+            }}
+          >
+            + Add condition
+          </button>
           <VerticalSpace space="medium" />
           <Divider />
           <VerticalSpace space="small" />

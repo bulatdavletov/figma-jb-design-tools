@@ -88,6 +88,42 @@ export const setFillColor: ActionHandler = async (context, params) => {
   return context
 }
 
+/**
+ * Resolve a COLOR variable by name or key: local first, then by ID, then from library collections by name (import by key).
+ */
+async function resolveColorVariableForFill(nameOrKey: string): Promise<Variable | null> {
+  const trimmed = nameOrKey.trim()
+  if (!trimmed) return null
+
+  const locals = await figma.variables.getLocalVariablesAsync("COLOR")
+  const local = locals.find((v) => v.name === trimmed)
+  if (local) return local
+
+  const byId = await figma.variables.getVariableByIdAsync(trimmed)
+  if (byId && byId.resolvedType === "COLOR") return byId
+
+  try {
+    const collections = await figma.teamLibrary.getAvailableLibraryVariableCollectionsAsync()
+    for (const c of collections) {
+      try {
+        const vars = await figma.teamLibrary.getVariablesInLibraryCollectionAsync(c.key)
+        const match = vars.find(
+          (v) => (v.resolvedType as string) === "COLOR" && (v.name === trimmed || v.key === trimmed),
+        )
+        if (match?.key) {
+          return await figma.variables.importVariableByKeyAsync(match.key)
+        }
+      } catch {
+        // skip this collection
+      }
+    }
+  } catch {
+    // team library not available
+  }
+
+  return null
+}
+
 export const setFillVariable: ActionHandler = async (context, params) => {
   const variableName = String(params.variableName ?? "").trim()
   if (!variableName) {
@@ -102,13 +138,12 @@ export const setFillVariable: ActionHandler = async (context, params) => {
     return context
   }
 
-  const variables = await figma.variables.getLocalVariablesAsync("COLOR")
-  const variable = variables.find((v) => v.name === variableName)
+  const variable = await resolveColorVariableForFill(variableName)
   if (!variable) {
     context.log.push({
       stepIndex: -1,
       stepName: "Set fill variable",
-      message: `Variable "${variableName}" not found`,
+      message: `Variable "${variableName}" not found (check local and enabled libraries)`,
       itemsIn: context.nodes.length,
       itemsOut: context.nodes.length,
       status: "error",
@@ -131,7 +166,7 @@ export const setFillVariable: ActionHandler = async (context, params) => {
   context.log.push({
     stepIndex: -1,
     stepName: "Set fill variable",
-    message: `Bound variable "${variableName}" on ${plural(applied, "node")}`,
+    message: `Bound variable "${variable.name}" on ${plural(applied, "node")}`,
     itemsIn: context.nodes.length,
     itemsOut: context.nodes.length,
     status: "success",
@@ -144,13 +179,13 @@ export const union: ActionHandler = async (context, params) => {
   const nodes = context.nodes
   const inputCount = nodes.length
 
-  if (nodes.length < 2) {
+  if (nodes.length === 0) {
     context.log.push({
       stepIndex: -1,
       stepName: "Union",
-      message: "Need at least 2 nodes to union — skipped",
-      itemsIn: inputCount,
-      itemsOut: nodes.length,
+      message: "No nodes to union — skipped",
+      itemsIn: 0,
+      itemsOut: 0,
       status: "skipped",
     })
     return context
@@ -204,6 +239,54 @@ export const union: ActionHandler = async (context, params) => {
       error: String(err),
     })
   }
+
+  return context
+}
+
+export const ungroup: ActionHandler = async (context, params) => {
+  const nodes = context.nodes
+  const inputCount = nodes.length
+
+  if (nodes.length === 0) {
+    context.log.push({
+      stepIndex: -1,
+      stepName: "Ungroup",
+      message: "No nodes to ungroup — skipped",
+      itemsIn: 0,
+      itemsOut: 0,
+      status: "skipped",
+    })
+    return context
+  }
+
+  const result: SceneNode[] = []
+  let ungroupedCount = 0
+
+  for (const node of nodes) {
+    if (!("children" in node) || node.children.length === 0) {
+      result.push(node)
+      continue
+    }
+    try {
+      const children = figma.ungroup(node as SceneNode & ChildrenMixin)
+      result.push(...children)
+      ungroupedCount++
+    } catch {
+      result.push(node)
+    }
+  }
+
+  context.nodes = result
+  context.log.push({
+    stepIndex: -1,
+    stepName: "Ungroup",
+    message: ungroupedCount > 0
+      ? `Ungrouped ${plural(ungroupedCount, "node")} → ${plural(result.length, "node")} in working set`
+      : "No group-like nodes to ungroup",
+    itemsIn: inputCount,
+    itemsOut: result.length,
+    status: "success",
+  })
 
   return context
 }

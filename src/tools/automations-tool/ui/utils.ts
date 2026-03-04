@@ -132,6 +132,34 @@ export function getChildArray(step: AutomationStepPayload, branch: ChildBranch):
   return branch === "else" ? (step.elseChildren ?? []) : (step.children ?? [])
 }
 
+/** All steps in execution order (root steps, then each block's children depth-first). */
+export function getStepsInExecutionOrder(
+  rootSteps: AutomationStepPayload[],
+): { path: StepPath; step: AutomationStepPayload }[] {
+  const result: { path: StepPath; step: AutomationStepPayload }[] = []
+
+  function walk(
+    steps: AutomationStepPayload[],
+    parentPath: StepPath | null,
+    branch: ChildBranch,
+  ): void {
+    for (let i = 0; i < steps.length; i++) {
+      const step = steps[i]
+      const path: StepPath = parentPath === null ? pathRoot(i) : pathExtend(parentPath, i, branch)
+      result.push({ path, step })
+      if (step.children?.length) {
+        walk(step.children, path, "then")
+      }
+      if (step.elseChildren?.length) {
+        walk(step.elseChildren, path, "else")
+      }
+    }
+  }
+
+  walk(rootSteps, null, "then")
+  return result
+}
+
 function setStepAtPathInStep(
   step: AutomationStepPayload,
   pathTail: { childIndex: number; childBranch?: ChildBranch }[],
@@ -190,13 +218,14 @@ export function removeStepAtPath(
   steps: AutomationStepPayload[],
   path: StepPath,
 ): AutomationStepPayload[] {
-  const parentPath = pathParent(path)
-  if (!parentPath || path.length === 0) return steps
+  if (path.length === 0) return steps
   const last = path[path.length - 1]
   if (isRootSegment(last)) {
     const idx = last.rootIndex
     return steps.filter((_, i) => i !== idx)
   }
+  const parentPath = pathParent(path)
+  if (!parentPath) return steps
   const parent = getStepAtPath(steps, parentPath)
   if (!parent) return steps
   const branch: ChildBranch = last.childBranch ?? "then"
@@ -212,8 +241,7 @@ export function moveStepAtPath(
   path: StepPath,
   direction: -1 | 1,
 ): AutomationStepPayload[] {
-  const parentPath = pathParent(path)
-  if (!parentPath || path.length === 0) return steps
+  if (path.length === 0) return steps
   const last = path[path.length - 1]
   if (isRootSegment(last)) {
     const idx = last.rootIndex
@@ -225,6 +253,8 @@ export function moveStepAtPath(
     next[newIdx] = t
     return next
   }
+  const parentPath = pathParent(path)
+  if (!parentPath) return steps
   const parent = getStepAtPath(steps, parentPath)
   if (!parent) return steps
   const branch: ChildBranch = last.childBranch ?? "then"

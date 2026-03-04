@@ -6,6 +6,7 @@ import { expandToChildren, goToParent, flattenDescendants } from "./actions/sele
 import {
   renameLayers, setFillColor, setFillVariable, setOpacity, setCharacters,
   union,
+  ungroup,
   resizeAction, setPositionAction, wrapInFrame, addAutoLayout, editAutoLayout, removeAutoLayout,
   wrapAllInFrame,
   notifyAction, setStrokeColor, removeFills, removeStrokes,
@@ -44,6 +45,7 @@ const ACTION_HANDLERS: Partial<Record<ActionType, ActionHandler>> = {
   setFillColor,
   setFillVariable,
   union,
+  ungroup,
   setStrokeColor,
   removeFills,
   removeStrokes,
@@ -556,29 +558,57 @@ async function executeRepeatListMode(
   }
 }
 
+const IF_OP_LABEL: Record<string, string> = {
+  equals: "=", notEquals: "≠", greaterThan: ">", lessThan: "<",
+  greaterOrEqual: "≥", lessOrEqual: "≤", contains: "~", notContains: "!~",
+  isEmpty: "is empty", isNotEmpty: "is not empty",
+}
+
 async function executeIfCondition(
   step: AutomationStep,
   context: AutomationContext,
   automationName: string,
   stepIndex: number,
 ): Promise<void> {
-  const left = resolveTokens(String(step.params.left ?? ""), { context })
-  const operator = String(step.params.operator ?? "equals")
-  const right = resolveTokens(String(step.params.right ?? ""), { context })
-
-  const conditionMet = evaluateCondition(left, operator, right)
-
   const thenChildren = (step.children ?? []).filter((c) => c.enabled)
   const elseChildren = (step.elseChildren ?? []).filter((c) => c.enabled)
 
-  const opLabel: Record<string, string> = {
-    equals: "=", notEquals: "≠", greaterThan: ">", lessThan: "<",
-    greaterOrEqual: "≥", lessOrEqual: "≤", contains: "~", notContains: "!~",
-    isEmpty: "is empty", isNotEmpty: "is not empty",
+  const conditions = (step.params.conditions ?? []) as Array<{ left: string; operator: string; right: string }>
+  const logic = String(step.params.logic ?? "and") as "and" | "or"
+
+  let conditionMet: boolean
+  let conditionLabel: string
+
+  if (Array.isArray(conditions) && conditions.length === 0) {
+    conditionMet = false
+    conditionLabel = "(no conditions)"
+  } else if (Array.isArray(conditions) && conditions.length > 0) {
+    const results = conditions.map((c) => {
+      const left = resolveTokens(String(c.left ?? ""), { context })
+      const operator = String(c.operator ?? "equals")
+      const right = resolveTokens(String(c.right ?? ""), { context })
+      return evaluateCondition(left, operator, right)
+    })
+    conditionMet = logic === "and" ? results.every(Boolean) : results.some(Boolean)
+    const parts = conditions.map((c, i) => {
+      const left = resolveTokens(String(c.left ?? ""), { context })
+      const op = String(c.operator ?? "equals")
+      const right = resolveTokens(String(c.right ?? ""), { context })
+      if (op === "isEmpty" || op === "isNotEmpty") {
+        return `"${left}" ${IF_OP_LABEL[op] ?? op}`
+      }
+      return `"${left}" ${IF_OP_LABEL[op] ?? op} "${right}"`
+    })
+    conditionLabel = parts.join(` ${logic.toUpperCase()} `)
+  } else {
+    const left = resolveTokens(String(step.params.left ?? ""), { context })
+    const operator = String(step.params.operator ?? "equals")
+    const right = resolveTokens(String(step.params.right ?? ""), { context })
+    conditionMet = evaluateCondition(left, operator, right)
+    conditionLabel = operator === "isEmpty" || operator === "isNotEmpty"
+      ? `"${left}" ${IF_OP_LABEL[operator] ?? operator}`
+      : `"${left}" ${IF_OP_LABEL[operator] ?? operator} "${right}"`
   }
-  const conditionLabel = operator === "isEmpty" || operator === "isNotEmpty"
-    ? `"${left}" ${opLabel[operator] ?? operator}`
-    : `"${left}" ${opLabel[operator] ?? operator} "${right}"`
 
   context.log.push({
     stepIndex,

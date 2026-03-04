@@ -14,6 +14,7 @@ export type ActionType =
   | "setFillColor"
   | "setFillVariable"
   | "union"
+  | "ungroup"
   | "setStrokeColor"
   | "removeFills"
   | "removeStrokes"
@@ -263,7 +264,7 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
   {
     type: "setFillVariable",
     label: "Set fill variable",
-    description: "Bind fill to a color variable by name",
+    description: "Bind fill to a color variable by name (local or from an enabled library)",
     category: "transform",
     defaultParams: { variableName: "" },
     defaultOutputName: "filled",
@@ -277,6 +278,16 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     category: "transform",
     defaultParams: {},
     defaultOutputName: "union",
+    inputType: "nodes",
+    outputType: "nodes",
+  },
+  {
+    type: "ungroup",
+    label: "Ungroup",
+    description: "Ungroup each node; children move to parent, group node is removed",
+    category: "transform",
+    defaultParams: {},
+    defaultOutputName: "nodes",
     inputType: "nodes",
     outputType: "nodes",
   },
@@ -669,7 +680,10 @@ export const ACTION_DEFINITIONS: ActionDefinition[] = [
     label: "If",
     description: "Run child steps only when condition is met. Optionally run else-steps otherwise",
     category: "flow",
-    defaultParams: { left: "{count}", operator: "greaterThan", right: "0" },
+    defaultParams: {
+      conditions: [{ left: "{count}", operator: "greaterThan", right: "0" }],
+      logic: "and",
+    },
     outputType: "nodes",
   },
   {
@@ -927,6 +941,26 @@ export interface FilterCondition {
 }
 
 export type FilterLogic = "and" | "or"
+
+/** Single value comparison for If (left/right are token-resolved strings). */
+export interface IfCondition {
+  left: string
+  operator: string
+  right: string
+}
+
+export const IF_CONDITION_OPERATORS = [
+  { value: "equals", text: "equals" },
+  { value: "notEquals", text: "not equals" },
+  { value: "greaterThan", text: "greater than" },
+  { value: "lessThan", text: "less than" },
+  { value: "greaterOrEqual", text: "greater or equal" },
+  { value: "lessOrEqual", text: "less or equal" },
+  { value: "contains", text: "contains" },
+  { value: "notContains", text: "not contains" },
+  { value: "isEmpty", text: "is empty" },
+  { value: "isNotEmpty", text: "is not empty" },
+] as const
 
 export const FILTER_FIELDS: { key: FilterField; label: string; group: string; valueType: "string" | "enum" | "color" | "boolean" | "number" }[] = [
   { key: "type", label: "Type", group: "General", valueType: "enum" },

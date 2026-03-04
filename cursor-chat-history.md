@@ -14,6 +14,20 @@
   - Import now handles both single-automation and all-automations JSON formats
   - Build OK, 151 tests pass
 
+## Automations — Input nodes dropdown: nested steps and custom value
+
+### 2026-03-03
+- **Task:** "Input nodes" dropdown didn’t list actions inside Repeat with each; allow selecting or typing a custom value.
+- **Done:** (1) Execution-order traversal: added `getStepsInExecutionOrder(rootSteps)` in ui/utils.ts so we can collect all steps before the current one (including children of Repeat/If/Map/Reduce). (2) Path-aware options: added `buildInputSourceOptionsFromPath(rootSteps, currentPath, dataOnly, nodeOnly)` in helpers.tsx; when StepConfigPanel has `selectedPath`, Input nodes options are built from preceding steps in that order so node-output steps inside Repeat appear. (3) BuilderScreen passes `selectedPath` to StepConfigPanel. (4) Custom value: Input nodes section always shown when the action accepts input; dropdown has "Previous step (default)", preceding node outputs, and "Custom..."; choosing Custom shows a textbox for snapshot name; if `step.input` is not in the list it is treated as custom and the textbox is shown. Tests: two cases for getStepsInExecutionOrder (root-only order; nested step inside Repeat before next root).
+
+## Automations — Delete and Move Up/Down step actions
+
+### 2026-03-03
+- **Task:** "Delete" and "Move Up/Down" on automation steps did nothing; add tests for these actions.
+- **Root cause:** In `removeStepAtPath` and `moveStepAtPath` (ui/utils.ts), the guard `if (!parentPath || path.length === 0) return steps` ran first. For root-level steps path is `[{ rootIndex: 0 }]`, so `pathParent(path)` returns `null` (path has length 1). That caused an early return before handling root segment.
+- **Fix:** Handle empty path, then check last segment. If it's a root segment, perform root remove/move; otherwise compute `parentPath` and handle child steps. Root-level Delete and Move Up/Down now work.
+- **Tests:** Added `src/tools/automations-tool/ui/utils.test.ts` with 11 tests: removeStepAtPath (root at 0/middle/last, child inside repeat, empty path); moveStepAtPath (root up/down, bounds, child within repeat, empty path).
+
 ## Automations — Source From local variables: no filter
 
 ### 2026-03-03
