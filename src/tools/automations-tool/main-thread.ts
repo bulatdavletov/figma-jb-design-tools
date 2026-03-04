@@ -1,5 +1,5 @@
 import { MAIN_TO_UI, UI_TO_MAIN, type ActiveTool, type UiToMainMessage, type AutomationPayload, type AutomationStepPayload } from "../../home/messages"
-import { loadAutomations, saveAutomation, deleteAutomation, duplicateAutomation, getAutomation } from "./storage"
+import { loadAutomations, saveAutomation, deleteAutomation, duplicateAutomation, getAutomation, allAutomationsToExportJson } from "./storage"
 import { executeAutomation, requestStop } from "./executor"
 import { resolveInput, cancelInput } from "./input-bridge"
 import type { Automation, AutomationStep, ActionType } from "./types"
@@ -135,6 +135,19 @@ export function registerAutomationsTool(getActiveTool: () => ActiveTool) {
 
       if (msg.type === UI_TO_MAIN.AUTOMATIONS_STOP) {
         requestStop()
+        return true
+      }
+
+      if (msg.type === UI_TO_MAIN.AUTOMATIONS_EXPORT_ALL) {
+        const automations = await loadAutomations()
+        const jsonText = allAutomationsToExportJson(automations)
+        const date = new Date().toISOString().slice(0, 10)
+        const filename = `automations-${date}.json`
+        figma.ui.postMessage({
+          type: MAIN_TO_UI.AUTOMATIONS_EXPORT_ALL_READY,
+          jsonText,
+          filename,
+        })
         return true
       }
 
