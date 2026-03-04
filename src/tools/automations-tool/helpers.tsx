@@ -167,12 +167,22 @@ export function getParamSummary(step: AutomationStepPayload): string {
       return `{$${src}} → {$${p.itemVar ?? "item"}}`
     }
     case "ifCondition": {
-      const left = String(p.left ?? "")
       const op: Record<string, string> = {
         equals: "=", notEquals: "≠", greaterThan: ">", lessThan: "<",
         greaterOrEqual: "≥", lessOrEqual: "≤", contains: "~", notContains: "!~",
         isEmpty: "is empty", isNotEmpty: "is not empty",
       }
+      const conds = (p.conditions ?? []) as Array<{ left: string; operator: string; right: string }>
+      if (Array.isArray(conds) && conds.length > 0) {
+        const logic = String(p.logic ?? "and").toUpperCase()
+        const parts = conds.map((c) => {
+          const o = String(c.operator ?? "equals")
+          if (o === "isEmpty" || o === "isNotEmpty") return `${c.left ?? ""} ${op[o] ?? o}`
+          return `${c.left ?? ""} ${op[o] ?? o} ${c.right ?? ""}`
+        })
+        return parts.join(` ${logic} `)
+      }
+      const left = String(p.left ?? "")
       const operator = String(p.operator ?? "equals")
       if (operator === "isEmpty" || operator === "isNotEmpty") {
         return `${left} ${op[operator] ?? operator}`

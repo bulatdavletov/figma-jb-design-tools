@@ -18,6 +18,8 @@ import {
   type FilterCondition,
   type FilterField,
   type FilterLogic,
+  type IfCondition,
+  IF_CONDITION_OPERATORS,
 } from "../types"
 import { buildInputSourceOptions, buildInputSourceOptionsFromPath, buildValueSourceOptions, renderInputContext } from "../helpers"
 import { safeDropdownValue } from "./utils"
@@ -1565,52 +1567,119 @@ function renderStepParams(
     }
 
     case "ifCondition": {
-      const conditionOperators = [
-        { value: "equals", text: "equals" },
-        { value: "notEquals", text: "not equals" },
-        { value: "greaterThan", text: "greater than" },
-        { value: "lessThan", text: "less than" },
-        { value: "greaterOrEqual", text: "greater or equal" },
-        { value: "lessOrEqual", text: "less or equal" },
-        { value: "contains", text: "contains" },
-        { value: "notContains", text: "not contains" },
-        { value: "isEmpty", text: "is empty" },
-        { value: "isNotEmpty", text: "is not empty" },
-      ]
-      const operator = String(step.params.operator ?? "equals")
-      const isUnary = operator === "isEmpty" || operator === "isNotEmpty"
+      const rawConditions = (step.params.conditions ?? []) as IfCondition[]
+      const hasLegacy = rawConditions.length === 0 && (step.params.left != null || step.params.operator != null)
+      const conditions: IfCondition[] = hasLegacy
+        ? [{
+            left: String(step.params.left ?? ""),
+            operator: String(step.params.operator ?? "equals"),
+            right: String(step.params.right ?? ""),
+          }]
+        : rawConditions.length > 0 ? rawConditions : [{ left: "{count}", operator: "greaterThan", right: "0" }]
+      const logic = String(step.params.logic ?? "and") as FilterLogic
+
+      const updateIfCondition = (idx: number, field: keyof IfCondition, value: string) => {
+        const next = [...conditions]
+        next[idx] = { ...next[idx], [field]: value }
+        updateParam("conditions", next)
+      }
+      const addIfCondition = () => {
+        updateParam("conditions", [...conditions, { left: "", operator: "equals", right: "" }])
+      }
+      const removeIfCondition = (idx: number) => {
+        updateParam("conditions", conditions.filter((_: IfCondition, i: number) => i !== idx))
+      }
+
       return (
         <Fragment>
           {inputCtx}
-          <Text style={{ fontSize: 11 }}>Left value</Text>
-          <VerticalSpace space="extraSmall" />
-          <TokenInput
-            value={String(step.params.left ?? "")}
-            onValueInput={(v: string) => updateParam("left", v)}
-            placeholder="Value or token (e.g. {count})"
-            suggestions={suggestions}
-          />
-          <VerticalSpace space="small" />
-          <Text style={{ fontSize: 11 }}>Operator</Text>
-          <VerticalSpace space="extraSmall" />
-          <Dropdown
-            value={operator}
-            options={conditionOperators}
-            onValueChange={(v: string) => updateParam("operator", v)}
-          />
-          {!isUnary && (
-            <Fragment>
-              <VerticalSpace space="small" />
-              <Text style={{ fontSize: 11 }}>Right value</Text>
-              <VerticalSpace space="extraSmall" />
-              <TokenInput
-                value={String(step.params.right ?? "")}
-                onValueInput={(v: string) => updateParam("right", v)}
-                placeholder="Value or token"
-                suggestions={suggestions}
-              />
-            </Fragment>
-          )}
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+            <Text style={{ fontSize: 11, fontWeight: 600 }}>Match</Text>
+            <Dropdown
+              value={logic}
+              options={[
+                { value: "and", text: "ALL conditions (AND)" },
+                { value: "or", text: "ANY condition (OR)" },
+              ]}
+              onValueChange={(v: string) => updateParam("logic", v)}
+              style={{ flex: 1 }}
+            />
+          </div>
+          {conditions.map((cond: IfCondition, idx: number) => {
+            const isUnary = cond.operator === "isEmpty" || cond.operator === "isNotEmpty"
+            return (
+              <div
+                key={idx}
+                style={{
+                  display: "flex",
+                  gap: 4,
+                  alignItems: "flex-start",
+                  marginBottom: 4,
+                  padding: "4px 6px",
+                  background: "var(--figma-color-bg-secondary)",
+                  borderRadius: 4,
+                }}
+              >
+                <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 4 }}>
+                  <Text style={{ fontSize: 10, color: "var(--figma-color-text-tertiary)" }}>Left</Text>
+                  <TokenInput
+                    value={String(cond.left ?? "")}
+                    onValueInput={(v: string) => updateIfCondition(idx, "left", v)}
+                    placeholder="Value or token (e.g. {count})"
+                    suggestions={suggestions}
+                  />
+                  <Text style={{ fontSize: 10, color: "var(--figma-color-text-tertiary)" }}>Operator</Text>
+                  <Dropdown
+                    value={String(cond.operator ?? "equals")}
+                    options={[...IF_CONDITION_OPERATORS]}
+                    onValueChange={(v: string) => updateIfCondition(idx, "operator", v)}
+                  />
+                  {!isUnary && (
+                    <Fragment>
+                      <Text style={{ fontSize: 10, color: "var(--figma-color-text-tertiary)" }}>Right</Text>
+                      <TokenInput
+                        value={String(cond.right ?? "")}
+                        onValueInput={(v: string) => updateIfCondition(idx, "right", v)}
+                        placeholder="Value or token"
+                        suggestions={suggestions}
+                      />
+                    </Fragment>
+                  )}
+                </div>
+                <button
+                  onClick={() => removeIfCondition(idx)}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    padding: "2px 4px",
+                    color: "var(--figma-color-text-tertiary)",
+                    fontSize: 14,
+                    lineHeight: 1,
+                  }}
+                  title="Remove condition"
+                >
+                  ×
+                </button>
+              </div>
+            )
+          })}
+          <button
+            onClick={addIfCondition}
+            style={{
+              background: "none",
+              border: "1px dashed var(--figma-color-border)",
+              borderRadius: 4,
+              padding: "4px 8px",
+              cursor: "pointer",
+              width: "100%",
+              color: "var(--figma-color-text-secondary)",
+              fontSize: 11,
+              marginTop: 4,
+            }}
+          >
+            + Add condition
+          </button>
           <VerticalSpace space="medium" />
           <Divider />
           <VerticalSpace space="small" />
