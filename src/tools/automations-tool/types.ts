@@ -103,6 +103,15 @@ export interface AutomationExportFormat {
   }
 }
 
+export interface AutomationExportAllFormat {
+  version: 1
+  automations: Array<{
+    name: string
+    emoji?: string
+    steps: AutomationExportStepFormat[]
+  }>
+}
+
 export type ValueKind = "nodes" | "text" | "number" | "boolean" | "list"
 
 export interface ActionDefinition {

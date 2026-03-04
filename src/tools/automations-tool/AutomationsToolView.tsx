@@ -11,7 +11,7 @@ import type {
   StepOutputPreviewPayload,
 } from "../../home/messages"
 import { MAIN_TO_UI, UI_TO_MAIN } from "../../home/messages"
-import { createNewAutomation, automationToExportJson, parseImportJson } from "./storage"
+import { createNewAutomation, automationToExportJson, parseImportJson, parseImportAllJson } from "./storage"
 import { BuilderScreen } from "./ui/BuilderScreen"
 import { InputDialog } from "./ui/InputDialog"
 import { ListScreen } from "./ui/ListScreen"
@@ -73,6 +73,9 @@ export function AutomationsToolView(props: { onBack: () => void }) {
       }
       if (msg.type === MAIN_TO_UI.AUTOMATIONS_INPUT_REQUEST) {
         setInputRequest(msg.request)
+      }
+      if (msg.type === MAIN_TO_UI.AUTOMATIONS_EXPORT_ALL_READY) {
+        downloadTextFile(msg.filename, msg.jsonText)
       }
     }
     window.addEventListener("message", handleMessage)
@@ -152,10 +155,25 @@ export function AutomationsToolView(props: { onBack: () => void }) {
     const reader = new FileReader()
     reader.onload = () => {
       const text = reader.result as string
-      const automation = parseImportJson(text)
-      if (!automation) {
+
+      const allAutomations = parseImportAllJson(text)
+      if (allAutomations && allAutomations.length > 0) {
+        for (const automation of allAutomations) {
+          const payload: AutomationPayload = {
+            id: automation.id,
+            name: automation.name,
+            emoji: automation.emoji,
+            steps: automation.steps.map(stepToPayload),
+            createdAt: automation.createdAt,
+            updatedAt: automation.updatedAt,
+          }
+          postMessage({ type: UI_TO_MAIN.AUTOMATIONS_SAVE, automation: payload })
+        }
         return
       }
+
+      const automation = parseImportJson(text)
+      if (!automation) return
       const payload: AutomationPayload = {
         id: automation.id,
         name: automation.name,
@@ -167,6 +185,10 @@ export function AutomationsToolView(props: { onBack: () => void }) {
       postMessage({ type: UI_TO_MAIN.AUTOMATIONS_SAVE, automation: payload })
     }
     reader.readAsText(files[0])
+  }, [])
+
+  const handleExportAll = useCallback(() => {
+    postMessage({ type: UI_TO_MAIN.AUTOMATIONS_EXPORT_ALL })
   }, [])
 
   const handleInputSubmit = useCallback((value: string) => {
@@ -298,6 +320,7 @@ export function AutomationsToolView(props: { onBack: () => void }) {
         onDelete={handleDelete}
         onDuplicate={handleDuplicate}
         onImport={handleImport}
+        onExportAll={handleExportAll}
       />
       {inputRequest && (
         <InputDialog

@@ -1,4 +1,4 @@
-import type { Automation, AutomationStep, AutomationExportFormat, AutomationExportStepFormat, ActionType } from "./types"
+import type { Automation, AutomationStep, AutomationExportFormat, AutomationExportAllFormat, AutomationExportStepFormat, ActionType } from "./types"
 import { generateAutomationId, generateStepId } from "./types"
 import { AUTOMATION_EMOJIS } from "./emoji"
 
@@ -96,6 +96,45 @@ export function automationToExportJson(automation: Automation): string {
     },
   }
   return JSON.stringify(exportData, null, 2)
+}
+
+export function allAutomationsToExportJson(automations: Automation[]): string {
+  const exportData: AutomationExportAllFormat = {
+    version: 1,
+    automations: automations.map((a) => ({
+      name: a.name,
+      ...(typeof a.emoji === "string" ? { emoji: a.emoji } : {}),
+      steps: a.steps.map(stepToExportStep),
+    })),
+  }
+  return JSON.stringify(exportData, null, 2)
+}
+
+export function parseImportAllJson(jsonText: string): Automation[] | null {
+  try {
+    const data = JSON.parse(jsonText)
+    if (!data || typeof data !== "object") return null
+    if (data.version !== 1) return null
+    if (!Array.isArray(data.automations)) return null
+
+    return data.automations
+      .filter((a: any) => a && typeof a === "object" && typeof a.name === "string" && Array.isArray(a.steps))
+      .map((a: any) => {
+        const now = Date.now()
+        return {
+          id: generateAutomationId(),
+          name: a.name,
+          ...(typeof a.emoji === "string" ? { emoji: a.emoji } : {}),
+          steps: a.steps
+            .filter((s: any) => s && typeof s === "object" && typeof s.actionType === "string" && typeof s.params === "object")
+            .map((s: any) => importStep(s)),
+          createdAt: now,
+          updatedAt: now,
+        } as Automation
+      })
+  } catch {
+    return null
+  }
 }
 
 export function parseImportJson(jsonText: string): Automation | null {

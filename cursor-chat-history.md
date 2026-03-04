@@ -1,5 +1,19 @@
 # Cursor Chat History
 
+## Automations — Export All + More menu in footer
+
+### 2026-03-04
+- **Task:** Add "Export All" feature and reorganize automations list footer with a More icon menu containing Import and Export All.
+- **Done:**
+  - Added `AutomationExportAllFormat` type (version + automations array) to `types.ts`
+  - Added `allAutomationsToExportJson()` and `parseImportAllJson()` to `storage.ts`
+  - Added `AUTOMATIONS_EXPORT_ALL` (UI→main) and `AUTOMATIONS_EXPORT_ALL_READY` (main→UI) messages
+  - Main thread handler loads all automations, converts to JSON, sends back with dated filename
+  - Refactored ListScreen footer: "New automation" button + `···` More icon button (dropdown with Import and Export All)
+  - `MoreMenu` component: dropdown menu with click-outside dismiss, hidden file input for Import, disabled Export All when no automations
+  - Import now handles both single-automation and all-automations JSON formats
+  - Build OK, 151 tests pass
+
 ## Automations — Source From local variables: no filter
 
 ### 2026-03-03

@@ -63,6 +63,7 @@ export const UI_TO_MAIN = {
   AUTOMATIONS_RUN: "AUTOMATIONS_RUN",
   AUTOMATIONS_STOP: "AUTOMATIONS_STOP",
   AUTOMATIONS_INPUT_RESPONSE: "AUTOMATIONS_INPUT_RESPONSE",
+  AUTOMATIONS_EXPORT_ALL: "AUTOMATIONS_EXPORT_ALL",
 } as const
 
 export const MAIN_TO_UI = {
@@ -127,6 +128,7 @@ export const MAIN_TO_UI = {
   AUTOMATIONS_RUN_PROGRESS: "AUTOMATIONS_RUN_PROGRESS",
   AUTOMATIONS_RUN_RESULT: "AUTOMATIONS_RUN_RESULT",
   AUTOMATIONS_INPUT_REQUEST: "AUTOMATIONS_INPUT_REQUEST",
+  AUTOMATIONS_EXPORT_ALL_READY: "AUTOMATIONS_EXPORT_ALL_READY",
 } as const
 
 export type UiToMainMessage =
@@ -191,6 +193,7 @@ export type UiToMainMessage =
   | { type: typeof UI_TO_MAIN.AUTOMATIONS_RUN; automationId: string; runToStepIndex?: number }
   | { type: typeof UI_TO_MAIN.AUTOMATIONS_STOP }
   | { type: typeof UI_TO_MAIN.AUTOMATIONS_INPUT_RESPONSE; value: string; cancelled?: boolean }
+  | { type: typeof UI_TO_MAIN.AUTOMATIONS_EXPORT_ALL }
 
 
 export type PrintColorUsagesUiSettings = {
@@ -411,6 +414,7 @@ export type MainToUiMessage =
   | { type: typeof MAIN_TO_UI.AUTOMATIONS_RUN_PROGRESS; progress: AutomationsRunProgress }
   | { type: typeof MAIN_TO_UI.AUTOMATIONS_RUN_RESULT; result: AutomationsRunResult }
   | { type: typeof MAIN_TO_UI.AUTOMATIONS_INPUT_REQUEST; request: AutomationsInputRequest }
+  | { type: typeof MAIN_TO_UI.AUTOMATIONS_EXPORT_ALL_READY; jsonText: string; filename: string }
 
 // ============================================================================
 // Variables Batch Rename Types
