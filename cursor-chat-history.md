@@ -1,5 +1,21 @@
 # Cursor Chat History
 
+## Automation (cron) — Daily maintenance task choice
+
+### 2026-03-06
+- **Task:** Pick one maintenance action from the allowed list and execute it end-to-end.
+- **Decision:** Add missing unit-test coverage to a pure-logic area (safest option with no user-flow change).
+- **Progress:** Found untested pure helper file `src/tools/automations-tool/helpers.tsx` (existing tests cover `ui/utils.ts` only).
+- **Implemented:** Added `src/tools/automations-tool/helpers.test.ts` with coverage for `buildInputSourceOptionsFromPath`: first-step empty case, nested execution order including `then` before `else`, and `dataOnly`/`nodeOnly` filters.
+- **Validation note:** `npm test` initially failed because `vitest` was not installed in the environment (`sh: vitest: not found`).
+- **Adjustment:** Direct tests against `helpers.tsx` failed in Vitest due to CSS module imports from `@create-figma-plugin/ui` (`Unknown file extension ".css"`). Switched target to uncovered pure helpers in `src/tools/automations-tool/ui/utils.ts` instead.
+- **Implemented:** Replaced failing helper test with extra `src/tools/automations-tool/ui/utils.test.ts` coverage:
+  - `getStepsInExecutionOrder` now verifies `ifCondition` traversal order (`then` before `else`)
+  - `stepsPathEqual` now verifies omitted-branch equals `then` and `then` ≠ `else`
+- **Validation:** `npm test` passed (`167` tests), `npm run build` passed.
+- **Memory:** Recorded update in persistent memory (`specs-updates.md`) before commit.
+- **Next:** Commit and push.
+
 ## Automations — Export All + More menu in footer
 
 ### 2026-03-04

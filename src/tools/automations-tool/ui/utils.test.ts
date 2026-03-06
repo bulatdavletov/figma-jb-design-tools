@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest"
 import type { AutomationStepPayload } from "../../../home/messages"
-import { pathRoot, pathExtend, removeStepAtPath, moveStepAtPath, getStepsInExecutionOrder } from "./utils"
+import { pathRoot, pathExtend, removeStepAtPath, moveStepAtPath, getStepsInExecutionOrder, stepsPathEqual } from "./utils"
 
 function step(id: string, actionType: string, children?: AutomationStepPayload[], elseChildren?: AutomationStepPayload[]): AutomationStepPayload {
   const s: AutomationStepPayload = { id, actionType, params: {}, enabled: true }
@@ -124,5 +124,32 @@ describe("getStepsInExecutionOrder", () => {
     const result = getStepsInExecutionOrder(steps)
     expect(result.map((o) => o.step.id)).toEqual(["r0", "repeat", "inner", "r2"])
     expect(result[2].path).toEqual([{ rootIndex: 1 }, { childIndex: 0, childBranch: "then" }])
+  })
+
+  it("visits then-branch before else-branch for ifCondition", () => {
+    const thenChild = step("then0", "setName")
+    const elseChild = step("else0", "setOpacity")
+    const ifStep = step("if0", "ifCondition", [thenChild], [elseChild])
+    const tail = step("tail", "notify")
+    const steps = [ifStep, tail]
+
+    const result = getStepsInExecutionOrder(steps)
+    expect(result.map((o) => o.step.id)).toEqual(["if0", "then0", "else0", "tail"])
+    expect(result[1].path).toEqual([{ rootIndex: 0 }, { childIndex: 0, childBranch: "then" }])
+    expect(result[2].path).toEqual([{ rootIndex: 0 }, { childIndex: 0, childBranch: "else" }])
+  })
+})
+
+describe("stepsPathEqual", () => {
+  it("treats omitted childBranch as then", () => {
+    const a = pathExtend(pathRoot(0), 1)
+    const b = pathExtend(pathRoot(0), 1, "then")
+    expect(stepsPathEqual(a, b)).toBe(true)
+  })
+
+  it("distinguishes then and else branches", () => {
+    const thenPath = pathExtend(pathRoot(0), 0, "then")
+    const elsePath = pathExtend(pathRoot(0), 0, "else")
+    expect(stepsPathEqual(thenPath, elsePath)).toBe(false)
   })
 })
