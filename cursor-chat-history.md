@@ -1,5 +1,14 @@
 # Cursor Chat History
 
+## Daily Automation Tasks
+
+### 2026-03-06
+- **Task:** Update one outdated spec in `/specs` (actual repo path may differ by case) and log progress in this file.
+- **Progress:** Read existing chat history for context; initial check showed `/workspace/specs` does not exist, next step is to use the repo’s real specs directory and update one outdated spec.
+- **Progress:** Confirmed specs path is `/workspace/Specs` and reviewed related docs (`Folders structure Old/New`, `Commit rules`, `Design Principles`). Verified current source tree matches the new structure, so `Specs/Folders structure Old.md` is outdated and selected for update.
+- **Done:** Updated `Specs/Folders structure Old.md` by adding a clear deprecation header, a source-of-truth pointer to `Specs/Folders structure New.md`, and migration context explaining that current implementation uses `src/tools/*` + `src/ui-showcase/*`.
+- **Progress:** Checked MCP memory availability (`openmemory-local`) but no MCP resources are configured in this environment; recorded this task in persistent automation memory (`MEMORIES.md` + `specs-updates.md`) before commit.
+
 ## Automations — Export All + More menu in footer
 
 ### 2026-03-04

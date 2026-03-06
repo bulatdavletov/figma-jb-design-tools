@@ -1,3 +1,17 @@
+## Status
+
+- **Deprecated / archived spec.**
+- The structure below is a historical snapshot from before the major `src/` restructure.
+- **Do not use this file for current implementation work.**
+- Use `Specs/Folders structure New.md` as the source of truth.
+
+## Why this matters
+
+- The repository now uses the consolidated `src/tools/*` layout and `src/ui-showcase/*`.
+- Following this old layout for new changes can send edits to wrong paths and cause confusion.
+
+---
+
 src/
 ├── app
 │   ├── components
