@@ -8,6 +8,7 @@
 - **Progress:** Confirmed specs path is `/workspace/Specs` and reviewed related docs (`Folders structure Old/New`, `Commit rules`, `Design Principles`). Verified current source tree matches the new structure, so `Specs/Folders structure Old.md` is outdated and selected for update.
 - **Done:** Updated `Specs/Folders structure Old.md` by adding a clear deprecation header, a source-of-truth pointer to `Specs/Folders structure New.md`, and migration context explaining that current implementation uses `src/tools/*` + `src/ui-showcase/*`.
 - **Progress:** Checked MCP memory availability (`openmemory-local`) but no MCP resources are configured in this environment; recorded this task in persistent automation memory (`MEMORIES.md` + `specs-updates.md`) before commit.
+- **Done:** Committed and pushed changes to branch `cursor/outdated-spec-update-6c19` (`d650b1f`).
 
 ## Automations — Export All + More menu in footer
 
