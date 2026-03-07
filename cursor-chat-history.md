@@ -1,5 +1,19 @@
 # Cursor Chat History
 
+## Maintenance Tasks (Automation Cron)
+
+### 2026-03-07
+- **Task:** Daily maintenance request — complete one scoped action from the allowed list.
+- **Chosen action:** Update one outdated spec in `/Specs`.
+- **Focus:** `Specs/UI Showcase.md` still references old `src/preview/*` paths; current code uses `src/ui-showcase/*`.
+- **Done:** Updated `Specs/UI Showcase.md` to align with current implementation:
+  - `src/preview/*` → `src/ui-showcase/*`
+  - `tool-registry.ts` → `showcase-tool-registry.ts`
+  - `MainToUiMessage` source path updated to `src/home/messages.ts`
+  - Scenario type docs updated (`initialTab` and optional `size` override)
+  - Default frame/home size corrected from `360x500` to `360x550`
+  - Component extension instructions corrected to use `componentShowcases` registry flow
+
 ## Automations — Export All + More menu in footer
 
 ### 2026-03-04

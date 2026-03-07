@@ -18,15 +18,15 @@ This starts a Vite dev server (default `http://localhost:5173`). Open the URL in
 
 ## Navigation
 
-The showcase has a sidebar with three sections:
+The showcase has a sidebar with these sections:
 
 - **Components** — isolated demos of every reusable UI building block (ToolCard, Tree, ColorRow, etc.)
-- **Home Page** — the real plugin home screen rendered at 360x500 (exact Figma plugin size)
-- **Tools** — every tool view with multiple states shown side by side
+- **Home Page** — the real plugin home screen rendered at 360x550 (current plugin home size)
+- **Tool screens** — every tool view with multiple states shown side by side
 
 ### Tool Pages
 
-Each tool page renders the **real view component** in multiple states simultaneously. States are displayed as side-by-side 360x500 frames. Each frame is an independent iframe with its own message isolation, so different states (empty, results, error) don't interfere with each other.
+Each tool page renders the **real view component** in multiple states simultaneously. States are displayed as side-by-side frames (default `360x550`, with optional per-scenario size overrides). Each frame is an independent iframe with its own message isolation, so different states (empty, results, error) don't interfere with each other.
 
 Example states for View Colors Chain:
 - Empty Selection
@@ -46,11 +46,15 @@ type Scenario = {
   id: string
   label: string
   messages: MainToUiMessage[]
-  props?: { initialSelectionEmpty?: boolean }
+  props?: {
+    initialSelectionEmpty?: boolean
+    initialTab?: string
+  }
+  size?: { width: number; height: number }
 }
 ```
 
-These fixtures are typed against `MainToUiMessage` from `src/app/messages.ts`, so TypeScript catches drift if payload shapes change.
+These fixtures are typed against `MainToUiMessage` from `src/home/messages.ts`, so TypeScript catches drift if payload shapes change.
 
 **The same fixtures can be used for future automated tests** (Vitest), ensuring visual and logical testing share realistic data.
 
@@ -66,8 +70,8 @@ These fixtures are typed against `MainToUiMessage` from `src/app/messages.ts`, s
 
 ## How to Add a New Component
 
-1. Import your component at the top of `src/preview/preview-app.tsx`.
-2. Add a new `ShowcaseSection` in the `ComponentsPage` function.
+1. Import your component at the top of `src/ui-showcase/preview-app.tsx`.
+2. Add a showcase block/function and register it in the `componentShowcases` array.
 3. Save — the browser updates automatically.
 
 ---
@@ -75,12 +79,12 @@ These fixtures are typed against `MainToUiMessage` from `src/app/messages.ts`, s
 ## Architecture
 
 ```
-src/preview/
+src/ui-showcase/
   index.html            ← entry HTML loaded by Vite
   main.tsx              ← routes between PreviewApp (normal) and IsolatedToolView (iframe)
   preview-app.tsx       ← sidebar navigation + content pages
   mock-message-bus.ts   ← dispatches fake MainToUiMessage to window
-  tool-registry.ts      ← maps tool IDs to view components + scenarios
+  showcase-tool-registry.ts ← maps tool IDs to view components + scenarios
   ToolPreview.tsx        ← renders side-by-side iframe grid for a tool
   IsolatedToolView.tsx   ← standalone renderer for one tool+scenario (loaded in iframe)
 
