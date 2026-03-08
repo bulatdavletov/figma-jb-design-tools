@@ -1,5 +1,14 @@
 # Cursor Chat History
 
+## Maintenance Tasks (Automation)
+
+### 2026-03-08
+- **Task:** Run one maintenance action from the daily list; selected **Update one outdated spec in `/Specs`**.
+- **Current focus:** `Specs/UI Showcase.md` is outdated against current code.
+- **Confirmed drift:** spec still references `src/preview/*` and `tool-registry.ts`, while code now uses `src/ui-showcase/*` and `showcase-tool-registry.ts`; fixture `Scenario` type now also includes `initialTab` and optional `size`.
+- **More drift found:** spec says tool states are side-by-side by default, but current `ToolPreview` stacks scenario frames vertically; home preview size is 360x550 while tool scenario default is 360x500 (with per-scenario override).
+- **Done:** Updated `Specs/UI Showcase.md` to match implementation (paths, nav sections, frame sizing, `Scenario` type, and architecture file map).
+
 ## Automations — Export All + More menu in footer
 
 ### 2026-03-04

@@ -1,6 +1,6 @@
 # UI Showcase (Local Component Preview)
 
-A standalone Vite app that renders plugin UI components **outside of Figma**, so you can iterate on look-and-feel without loading the plugin every time.
+A standalone Vite app that renders plugin UI outside of Figma so you can iterate faster on components and screen states.
 
 ---
 
@@ -10,97 +10,102 @@ A standalone Vite app that renders plugin UI components **outside of Figma**, so
 npm run preview
 ```
 
-This starts a Vite dev server (default `http://localhost:5173`). Open the URL in your browser.
-
-> The dev server supports hot-reload — edits to components are reflected instantly.
+Starts Vite on `http://localhost:5173` (default) with hot reload.
 
 ---
 
 ## Navigation
 
-The showcase has a sidebar with three sections:
+The sidebar has two top-level sections:
 
-- **Components** — isolated demos of every reusable UI building block (ToolCard, Tree, ColorRow, etc.)
-- **Home Page** — the real plugin home screen rendered at 360x500 (exact Figma plugin size)
-- **Tools** — every tool view with multiple states shown side by side
+- **Components**
+  - `Overview` (all component demos)
+  - Individual component pages (ToolCard, ToolTabs, DataTable, TokenInput, etc.)
+- **Screens**
+  - `Home Page` (real `HomeView` preview at **360x550**)
+  - One page per tool, each showing multiple scenarios
 
-### Tool Pages
+### Tool pages
 
-Each tool page renders the **real view component** in multiple states simultaneously. States are displayed as side-by-side 360x500 frames. Each frame is an independent iframe with its own message isolation, so different states (empty, results, error) don't interfere with each other.
+Each tool page renders the real tool view in multiple isolated iframes (one iframe per scenario).
 
-Example states for View Colors Chain:
-- Empty Selection
-- Single Layer with chain
-- Multi-layer (3 layers)
-- No Variables Found
-- Error
+- Default scenario frame size: **360x500**
+- Scenario can override size via `scenario.size` (used by wider/taller screens like Automations builder)
+- Frames are currently displayed in a vertical stack
 
 ---
 
 ## Shared Test Fixtures
 
-Tool state data lives in `src/test-fixtures/` — one file per tool. Each file exports an array of `Scenario` objects:
+Tool scenarios live in `src/test-fixtures/` (one file per tool), typed by `Scenario` in `src/test-fixtures/types.ts`.
 
-```typescript
+```ts
 type Scenario = {
   id: string
   label: string
   messages: MainToUiMessage[]
-  props?: { initialSelectionEmpty?: boolean }
+  props?: {
+    initialSelectionEmpty?: boolean
+    initialTab?: string
+  }
+  size?: { width: number; height: number }
 }
 ```
 
-These fixtures are typed against `MainToUiMessage` from `src/app/messages.ts`, so TypeScript catches drift if payload shapes change.
-
-**The same fixtures can be used for future automated tests** (Vitest), ensuring visual and logical testing share realistic data.
+Notes:
+- `messages` are dispatched in order to reproduce a state.
+- `props` are passed to the tool view.
+- `size` allows per-scenario frame overrides.
 
 ---
 
 ## How to Add a New Tool State
 
-1. Open the fixture file for the tool in `src/test-fixtures/<tool-name>.ts`.
-2. Add a new entry to the `scenarios` array with the messages that produce that state.
-3. Save — the new state appears automatically as a new frame on the tool's page.
+1. Open `src/test-fixtures/<tool>.ts`.
+2. Add a new `Scenario` item to `scenarios`.
+3. Save — the state appears automatically on that tool page.
 
 ---
 
-## How to Add a New Component
+## How to Add a New Component Demo
 
-1. Import your component at the top of `src/preview/preview-app.tsx`.
-2. Add a new `ShowcaseSection` in the `ComponentsPage` function.
-3. Save — the browser updates automatically.
+1. Import the component in `src/ui-showcase/preview-app.tsx`.
+2. Add a showcase section/component entry to `componentShowcases`.
+3. Save and verify in the browser.
 
 ---
 
 ## Architecture
 
 ```
-src/preview/
-  index.html            ← entry HTML loaded by Vite
-  main.tsx              ← routes between PreviewApp (normal) and IsolatedToolView (iframe)
-  preview-app.tsx       ← sidebar navigation + content pages
-  mock-message-bus.ts   ← dispatches fake MainToUiMessage to window
-  tool-registry.ts      ← maps tool IDs to view components + scenarios
-  ToolPreview.tsx        ← renders side-by-side iframe grid for a tool
-  IsolatedToolView.tsx   ← standalone renderer for one tool+scenario (loaded in iframe)
+src/ui-showcase/
+  index.html                 ← Vite HTML entry
+  main.tsx                   ← chooses PreviewApp vs IsolatedToolView
+  preview-app.tsx            ← sidebar + pages
+  mock-message-bus.ts        ← dispatches mocked Main→UI messages
+  showcase-tool-registry.ts  ← maps tool IDs to view loaders + scenarios
+  ToolPreview.tsx            ← renders scenario iframes for a tool
+  IsolatedToolView.tsx       ← single isolated renderer (?isolated=1)
 
 src/test-fixtures/
-  types.ts              ← Scenario type definition
-  color-chain.ts        ← Color Chain scenarios
-  mockup-markup.ts      ← Mockup Markup scenarios
-  ...                   ← one file per tool
+  types.ts                   ← Scenario type
+  color-chain.ts
+  mockup-markup.ts
+  ...
 ```
 
-**Iframe isolation:** Each scenario frame is an `<iframe>` loading `/?isolated=1&tool=X&scenario=Y`. This gives each instance its own `window`, so `window.addEventListener("message")` calls in the real views don't interfere between scenarios.
+Isolation URL format:
+- Tool scenario: `/?isolated=1&tool=<toolId>&scenario=<scenarioId>&theme=<figma-light|figma-dark>`
+- Home preview: `/?isolated=1&tool=home&theme=<theme>`
 
-**Theme sync:** The parent page sends `postMessage({ __preview_theme: "figma-dark" })` to iframes when the theme toggles.
+Theme sync is done by parent-to-iframe `postMessage` with `__preview_theme`.
 
 ---
 
-## Other Commands
+## Commands
 
 | Command | Purpose |
 |---------|---------|
-| `npm run preview` | Start dev server with hot-reload |
-| `npm run preview:build` | Build a static version into `dist-preview/` |
-| `npm run preview:serve` | Serve the built static version locally |
+| `npm run preview` | Start dev server with hot reload |
+| `npm run preview:build` | Build static preview bundle |
+| `npm run preview:serve` | Serve built preview locally |
