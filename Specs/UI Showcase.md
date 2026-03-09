@@ -18,11 +18,11 @@ This starts a Vite dev server (default `http://localhost:5173`). Open the URL in
 
 ## Navigation
 
-The showcase has a sidebar with three sections:
+The showcase has a sidebar with two sections:
 
 - **Components** — isolated demos of every reusable UI building block (ToolCard, Tree, ColorRow, etc.)
 - **Home Page** — the real plugin home screen rendered at 360x500 (exact Figma plugin size)
-- **Tools** — every tool view with multiple states shown side by side
+- **Screens** — plugin Home screen plus every tool view with multiple states shown side by side
 
 ### Tool Pages
 
@@ -50,7 +50,7 @@ type Scenario = {
 }
 ```
 
-These fixtures are typed against `MainToUiMessage` from `src/app/messages.ts`, so TypeScript catches drift if payload shapes change.
+These fixtures are typed against `MainToUiMessage` from `src/home/messages.ts`, so TypeScript catches drift if payload shapes change.
 
 **The same fixtures can be used for future automated tests** (Vitest), ensuring visual and logical testing share realistic data.
 
@@ -66,7 +66,7 @@ These fixtures are typed against `MainToUiMessage` from `src/app/messages.ts`, s
 
 ## How to Add a New Component
 
-1. Import your component at the top of `src/preview/preview-app.tsx`.
+1. Import your component at the top of `src/ui-showcase/preview-app.tsx`.
 2. Add a new `ShowcaseSection` in the `ComponentsPage` function.
 3. Save — the browser updates automatically.
 
@@ -75,12 +75,12 @@ These fixtures are typed against `MainToUiMessage` from `src/app/messages.ts`, s
 ## Architecture
 
 ```
-src/preview/
+src/ui-showcase/
   index.html            ← entry HTML loaded by Vite
   main.tsx              ← routes between PreviewApp (normal) and IsolatedToolView (iframe)
   preview-app.tsx       ← sidebar navigation + content pages
   mock-message-bus.ts   ← dispatches fake MainToUiMessage to window
-  tool-registry.ts      ← maps tool IDs to view components + scenarios
+  showcase-tool-registry.ts ← maps tool IDs to view components + scenarios
   ToolPreview.tsx        ← renders side-by-side iframe grid for a tool
   IsolatedToolView.tsx   ← standalone renderer for one tool+scenario (loaded in iframe)
 

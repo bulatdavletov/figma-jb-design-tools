@@ -1,5 +1,18 @@
 # Cursor Chat History
 
+## Maintenance tasks (automation runs)
+
+### 2026-03-09
+- **Task:** Daily automation request — complete one maintenance action from checklist.
+- **Chosen action:** Update one outdated spec in `/Specs`.
+- **Context found:** `Specs/UI Showcase.md` is outdated: it still references `src/preview/*`, while the current codebase uses `src/ui-showcase/*`.
+- **Done:** Updated `Specs/UI Showcase.md` to current structure:
+  - `src/app/messages.ts` → `src/home/messages.ts`
+  - `src/preview/*` → `src/ui-showcase/*`
+  - `tool-registry.ts` → `showcase-tool-registry.ts`
+  - Sidebar section wording updated from **Tools** to **Screens**.
+- **Validation plan:** Run build to ensure no regressions, then commit and push.
+
 ## Automations — Export All + More menu in footer
 
 ### 2026-03-04
