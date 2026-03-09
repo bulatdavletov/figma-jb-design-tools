@@ -11,7 +11,8 @@
   - `src/preview/*` → `src/ui-showcase/*`
   - `tool-registry.ts` → `showcase-tool-registry.ts`
   - Sidebar section wording updated from **Tools** to **Screens**.
-- **Validation plan:** Run build to ensure no regressions, then commit and push.
+- **Validation:** `npm ci` completed; `npm run build` passed.
+- **Git:** Committed and pushed on branch `cursor/missing-test-coverage-f986` with commit `136c1ca` (`UI Showcase: Update outdated spec paths`).
 
 ## Automations — Export All + More menu in footer
 
