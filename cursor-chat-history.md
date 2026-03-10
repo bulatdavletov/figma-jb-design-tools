@@ -1,5 +1,11 @@
 # Cursor Chat History
 
+## Automations — Export on automation's More button
+
+### 2026-03-03
+- **Task:** Add Export to each automation row's More (···) menu so a single automation can be exported from the list (footer More keeps Import + Export All).
+- **Done:** Added `AUTOMATIONS_EXPORT_ONE` / `AUTOMATIONS_EXPORT_ONE_READY` messages; main thread loads automation by id, uses `automationToExportJson`, returns json + filename (name-based). AutomationCard menu now has Duplicate, Export, Delete; ListScreen passes `onExport(id)`; AutomationsToolView handles export-one message and triggers download. Menu height estimate in AutomationCard set to 90 for three items.
+
 ## Automations — Export All + More menu in footer
 
 ### 2026-03-04
@@ -76,6 +82,13 @@
 ### 2026-02-26
 - Removed explicit `order` field from tools registry: display order is now the order of entries in `tools-registry-data.json`.
 - Changes: removed `order` from `ToolRegistryEntry` type and from JSON; `HomeView` now uses filtered array as-is (no sort). Build and lint OK.
+
+## Find Color Match Tool — Fix: instances and components not showing colors
+
+### 2026-03-10
+- **Bug:** Selecting a component or instance showed no colors in Find Color Match.
+- **Root cause:** `resolveNodeDisplayName()` used `node.mainComponent` (sync), which throws with `documentAccess: "dynamic-page"`. The exception crashed node processing before reaching fills/strokes extraction. Every INSTANCE node was silently skipped.
+- **Fix:** Changed `resolveNodeDisplayName` from sync to async, replacing `node.mainComponent` with `await node.getMainComponentAsync()` wrapped in try/catch.
 
 ## Find Color Match Tool — Performance and Caching
 

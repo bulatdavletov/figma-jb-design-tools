@@ -108,17 +108,26 @@ async function extractSolidPaints(
   return results
 }
 
-function resolveNodeDisplayName(node: SceneNode): string {
+async function resolveNodeDisplayName(node: SceneNode): Promise<string> {
   if (node.type === "COMPONENT") {
     return getComponentDisplayName(node)
   }
   if (node.type === "INSTANCE") {
-    const main = node.mainComponent
-    if (main) return getComponentDisplayName(main)
+    try {
+      const main = await node.getMainComponentAsync()
+      if (main) return getComponentDisplayName(main)
+    } catch {
+      // fallback to node name
+    }
   }
   return node.name
 }
 
+/**
+ * Scans the current selection for solid colors (fill, stroke, text).
+ * Includes all node types: frames, components, instances, shapes, text, etc.
+ * We do not skip INSTANCE or COMPONENT — we process their paints and recurse into their children.
+ */
 export async function scanSelectionForColors(): Promise<FoundColor[]> {
   const selection = figma.currentPage.selection
   if (selection.length === 0) return []
@@ -135,7 +144,7 @@ export async function scanSelectionForColors(): Promise<FoundColor[]> {
     if (isBooleanOperationChild(node)) continue
 
     const any = node as any
-    const nodeDisplayName = resolveNodeDisplayName(node)
+    const nodeDisplayName = await resolveNodeDisplayName(node)
 
     if (node.type === "TEXT") {
       const paints = await extractSolidPaints(any.fills, node, "TEXT", variableNameCache, styleNameCache)
