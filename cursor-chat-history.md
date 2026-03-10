@@ -1,5 +1,16 @@
 # Cursor Chat History
 
+## Specs — UI Showcase
+
+### 2026-03-10
+- **Task:** Pick one automation action from the maintenance list; chose "Update one outdated spec in /Specs folder".
+- **Outdated spec found:** `Specs/UI Showcase.md` still referenced pre-restructure paths (`src/preview/*`, `src/app/messages.ts`) and an old `Scenario` shape.
+- **Done:** Updated the spec to match current implementation:
+  - paths now use `src/ui-showcase/*` and `src/home/messages.ts`
+  - `Scenario` docs include `props.initialTab` and optional `size` override
+  - clarified frame sizing (`360x500` default tool scenarios, `360x550` home preview)
+  - updated architecture section (`showcase-tool-registry.ts`) and wording for iframe isolation/theme sync
+
 ## Automations — Export All + More menu in footer
 
 ### 2026-03-04
