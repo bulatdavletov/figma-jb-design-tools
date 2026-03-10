@@ -140,6 +140,7 @@ export function ListScreen(props: {
   onRun: (id: string) => void
   onDelete: (id: string) => void
   onDuplicate: (id: string) => void
+  onExport: (id: string) => void
   onImport: (files: File[]) => void
   onExportAll: () => void
 }) {
@@ -209,6 +210,7 @@ export function ListScreen(props: {
                 onRun={() => props.onRun(a.id)}
                 onDelete={() => props.onDelete(a.id)}
                 onDuplicate={() => props.onDuplicate(a.id)}
+                onExport={() => props.onExport(a.id)}
               />
             ))}
           </Stack>

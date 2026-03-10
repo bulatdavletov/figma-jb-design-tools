@@ -77,6 +77,9 @@ export function AutomationsToolView(props: { onBack: () => void }) {
       if (msg.type === MAIN_TO_UI.AUTOMATIONS_EXPORT_ALL_READY) {
         downloadTextFile(msg.filename, msg.jsonText)
       }
+      if (msg.type === MAIN_TO_UI.AUTOMATIONS_EXPORT_ONE_READY) {
+        downloadTextFile(msg.filename, msg.jsonText)
+      }
     }
     window.addEventListener("message", handleMessage)
     postMessage({ type: UI_TO_MAIN.AUTOMATIONS_LOAD })
@@ -185,6 +188,10 @@ export function AutomationsToolView(props: { onBack: () => void }) {
       postMessage({ type: UI_TO_MAIN.AUTOMATIONS_SAVE, automation: payload })
     }
     reader.readAsText(files[0])
+  }, [])
+
+  const handleExportOne = useCallback((id: string) => {
+    postMessage({ type: UI_TO_MAIN.AUTOMATIONS_EXPORT_ONE, automationId: id })
   }, [])
 
   const handleExportAll = useCallback(() => {
@@ -319,6 +326,7 @@ export function AutomationsToolView(props: { onBack: () => void }) {
         onRun={handleRun}
         onDelete={handleDelete}
         onDuplicate={handleDuplicate}
+        onExport={handleExportOne}
         onImport={handleImport}
         onExportAll={handleExportAll}
       />

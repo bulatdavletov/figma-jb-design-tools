@@ -1,0 +1,505 @@
+{
+  "version": 1,
+  "automations": [
+    {
+      "name": "Add Auto-Layout to Each",
+      "emoji": "➕",
+      "steps": [
+        {
+          "actionType": "sourceFromSelection",
+          "params": {},
+          "enabled": true,
+          "outputName": "selection"
+        },
+        {
+          "actionType": "wrapInFrame",
+          "params": {
+            "autoLayout": "VERTICAL"
+          },
+          "enabled": true,
+          "outputName": "frames"
+        }
+      ]
+    },
+    {
+      "name": "Many Paster",
+      "emoji": "📋",
+      "steps": [
+        {
+          "actionType": "askForInput",
+          "params": {
+            "label": "Enter text",
+            "placeholder": "234 345 567 678",
+            "inputType": "textarea"
+          },
+          "enabled": true,
+          "outputName": "input"
+        },
+        {
+          "actionType": "splitText",
+          "params": {
+            "sourceVar": "askForInput",
+            "delimiter": "\\n"
+          },
+          "enabled": true,
+          "outputName": "parts"
+        },
+        {
+          "actionType": "sourceFromSelection",
+          "params": {},
+          "enabled": true,
+          "outputName": "selection"
+        },
+        {
+          "actionType": "repeatWithEach",
+          "params": {
+            "source": "splitText",
+            "itemVar": "item",
+            "onMismatch": "repeatList"
+          },
+          "enabled": true,
+          "children": [
+            {
+              "actionType": "setCharacters",
+              "params": {
+                "characters": "{$item}"
+              },
+              "enabled": true
+            }
+          ]
+        },
+        {
+          "actionType": "count",
+          "params": {
+            "label": "Count"
+          },
+          "enabled": true,
+          "outputName": "count"
+        }
+      ]
+    },
+    {
+      "name": "Add Numeration to Text",
+      "emoji": "🔢",
+      "steps": [
+        {
+          "actionType": "sourceFromSelection",
+          "params": {},
+          "enabled": true,
+          "outputName": "selection"
+        },
+        {
+          "actionType": "askForInput",
+          "params": {
+            "label": "Start with number",
+            "placeholder": "",
+            "inputType": "text",
+            "defaultValue": "1"
+          },
+          "enabled": true,
+          "outputName": "startWith"
+        },
+        {
+          "actionType": "repeatWithEach",
+          "params": {
+            "source": "nodes",
+            "itemVar": "item",
+            "onMismatch": "error"
+          },
+          "enabled": true,
+          "children": [
+            {
+              "actionType": "math",
+              "params": {
+                "x": "{$repeatIndex}",
+                "operation": "add",
+                "y": "{$startWith}"
+              },
+              "enabled": true,
+              "outputName": "mathResult"
+            },
+            {
+              "actionType": "setCharacters",
+              "params": {
+                "characters": "{$mathResult}. {$item.characters} "
+              },
+              "enabled": true,
+              "outputName": "texts"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Paste Components by IDs and Wrap",
+      "emoji": "🤖",
+      "steps": [
+        {
+          "actionType": "askForInput",
+          "params": {
+            "label": "Paste component IDs (one per line)",
+            "placeholder": "id_or_key_1\nid_or_key_2\nid_or_key_3",
+            "inputType": "textarea"
+          },
+          "enabled": true,
+          "outputName": "componentIdsInput"
+        },
+        {
+          "actionType": "splitText",
+          "params": {
+            "sourceVar": "componentIdsInput",
+            "delimiter": "\\n"
+          },
+          "enabled": true,
+          "outputName": "componentIds"
+        },
+        {
+          "actionType": "repeatWithEach",
+          "params": {
+            "source": "componentIds",
+            "itemVar": "item",
+            "onMismatch": "skipExtra",
+            "resultMode": "iterationResults"
+          },
+          "enabled": true,
+          "children": [
+            {
+              "actionType": "pasteComponentById",
+              "params": {
+                "componentId": "{$item}",
+                "x": "",
+                "y": ""
+              },
+              "enabled": true
+            }
+          ]
+        },
+        {
+          "actionType": "wrapAllInFrame",
+          "params": {
+            "frameName": "Pasted components",
+            "autoLayout": "VERTICAL",
+            "itemSpacing": "16"
+          },
+          "enabled": true
+        },
+        {
+          "actionType": "selectResults",
+          "params": {
+            "scrollTo": true
+          },
+          "enabled": true
+        }
+      ]
+    },
+    {
+      "name": "Split Text by Lines",
+      "emoji": "✂️",
+      "steps": []
+    },
+    {
+      "name": "Resize to Parent",
+      "emoji": "↕️",
+      "steps": [
+        {
+          "actionType": "chooseFromList",
+          "params": {
+            "sourceVar": "",
+            "options": "Width, Height, Both",
+            "label": "Choose an option"
+          },
+          "enabled": true,
+          "outputName": "choice"
+        },
+        {
+          "actionType": "sourceFromSelection",
+          "params": {},
+          "enabled": true,
+          "outputName": "selection"
+        },
+        {
+          "actionType": "goToParent",
+          "params": {},
+          "enabled": true,
+          "outputName": "parent"
+        },
+        {
+          "actionType": "ifCondition",
+          "params": {
+            "left": "{$choice}",
+            "operator": "equals",
+            "right": "Width"
+          },
+          "enabled": true,
+          "children": [
+            {
+              "actionType": "resize",
+              "params": {
+                "width": "{#parent.width}",
+                "height": ""
+              },
+              "enabled": true,
+              "outputName": "resized-1"
+            },
+            {
+              "actionType": "setPosition",
+              "params": {
+                "x": "0",
+                "y": ""
+              },
+              "enabled": true,
+              "outputName": "positioned"
+            }
+          ]
+        },
+        {
+          "actionType": "ifCondition",
+          "params": {
+            "left": "{$choice}",
+            "operator": "equals",
+            "right": "Height"
+          },
+          "enabled": true,
+          "children": [
+            {
+              "actionType": "resize",
+              "params": {
+                "width": "",
+                "height": "{#parent.height}"
+              },
+              "enabled": true,
+              "outputName": "resized-2"
+            },
+            {
+              "actionType": "setPosition",
+              "params": {
+                "x": "",
+                "y": "0"
+              },
+              "enabled": true,
+              "outputName": "positioned-2"
+            }
+          ]
+        },
+        {
+          "actionType": "ifCondition",
+          "params": {
+            "left": "{$choice}",
+            "operator": "equals",
+            "right": "Both"
+          },
+          "enabled": true,
+          "children": [
+            {
+              "actionType": "resize",
+              "params": {
+                "width": "{#parent.width}",
+                "height": "{#parent.height}"
+              },
+              "enabled": true,
+              "outputName": "resized-3"
+            },
+            {
+              "actionType": "setPosition",
+              "params": {
+                "x": "0",
+                "y": "0"
+              },
+              "enabled": true,
+              "outputName": "positioned-3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Show type",
+      "emoji": "✨",
+      "steps": [
+        {
+          "actionType": "sourceFromSelection",
+          "params": {},
+          "enabled": true,
+          "outputName": "selection"
+        },
+        {
+          "actionType": "notify",
+          "params": {
+            "message": "{#selection.type}"
+          },
+          "enabled": true,
+          "outputName": "notification"
+        }
+      ]
+    },
+    {
+      "name": "Print swatches",
+      "emoji": "🖨️",
+      "steps": [
+        {
+          "actionType": "sourceFromLocalVariables",
+          "params": {
+            "namePrefix": "",
+            "variableType": "COLOR"
+          },
+          "enabled": true,
+          "outputName": "variableNames"
+        }
+      ]
+    },
+    {
+      "name": "Union Icons",
+      "emoji": "🤖",
+      "steps": [
+        {
+          "actionType": "sourceFromSelection",
+          "params": {},
+          "enabled": true,
+          "outputName": "selection"
+        },
+        {
+          "actionType": "flattenDescendants",
+          "params": {},
+          "enabled": true,
+          "outputName": "descendants"
+        },
+        {
+          "actionType": "filter",
+          "params": {
+            "logic": "or",
+            "conditions": [
+              {
+                "field": "type",
+                "operator": "equals",
+                "value": "COMPONENT"
+              },
+              {
+                "field": "name",
+                "operator": "contains",
+                "value": "@20x20"
+              }
+            ]
+          },
+          "enabled": true,
+          "outputName": "filtered"
+        },
+        {
+          "actionType": "repeatWithEach",
+          "params": {
+            "source": "nodes",
+            "itemVar": "item",
+            "onMismatch": "error",
+            "resultMode": "originalNodes"
+          },
+          "enabled": true,
+          "children": [
+            {
+              "actionType": "expandToChildren",
+              "params": {},
+              "enabled": true,
+              "outputName": "children"
+            },
+            {
+              "actionType": "count",
+              "params": {
+                "label": "Count"
+              },
+              "enabled": true,
+              "outputName": "count2",
+              "input": "children"
+            },
+            {
+              "actionType": "ifCondition",
+              "params": {
+                "left": "{$count2}",
+                "operator": "greaterThan",
+                "right": "1",
+                "logic": "or",
+                "conditions": [
+                  {
+                    "left": "{$count2}",
+                    "operator": "greaterThan",
+                    "right": "1"
+                  },
+                  {
+                    "left": "{#children.type}",
+                    "operator": "notEquals",
+                    "right": "BOOLEAN_OPERATION"
+                  }
+                ]
+              },
+              "enabled": true,
+              "children": [
+                {
+                  "actionType": "union",
+                  "params": {},
+                  "enabled": true,
+                  "outputName": "union"
+                }
+              ]
+            },
+            {
+              "actionType": "ifCondition",
+              "params": {
+                "conditions": [
+                  {
+                    "left": "{#children.type}",
+                    "operator": "equals",
+                    "right": "GROUP"
+                  },
+                  {
+                    "left": "{#children.type}",
+                    "operator": "greaterThan",
+                    "right": "FRAME"
+                  }
+                ],
+                "logic": "and"
+              },
+              "enabled": true,
+              "children": [
+                {
+                  "actionType": "ungroup",
+                  "params": {},
+                  "enabled": true,
+                  "outputName": "nodes"
+                }
+              ]
+            },
+            {
+              "actionType": "setName",
+              "params": {
+                "name": "stroke"
+              },
+              "enabled": true,
+              "outputName": "named"
+            },
+            {
+              "actionType": "setFillVariable",
+              "params": {
+                "variableName": "icon/icon-default-stroke"
+              },
+              "enabled": true,
+              "outputName": "filled"
+            }
+          ]
+        },
+        {
+          "actionType": "expandToChildren",
+          "params": {},
+          "enabled": true,
+          "outputName": "children-2",
+          "input": "filtered"
+        },
+        {
+          "actionType": "selectResults",
+          "params": {
+            "scrollTo": true
+          },
+          "enabled": true,
+          "outputName": "selected",
+          "input": "children-2"
+        }
+      ]
+    }
+  ]
+}

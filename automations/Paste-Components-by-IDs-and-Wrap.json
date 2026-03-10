@@ -1,7 +1,8 @@
 {
   "version": 1,
   "automation": {
-    "name": "Paste components by IDs and wrap",
+    "name": "Paste Components by IDs and Wrap",
+    "emoji": "🤖",
     "steps": [
       {
         "actionType": "askForInput",

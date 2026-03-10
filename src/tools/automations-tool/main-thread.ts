@@ -1,5 +1,5 @@
 import { MAIN_TO_UI, UI_TO_MAIN, type ActiveTool, type UiToMainMessage, type AutomationPayload, type AutomationStepPayload } from "../../home/messages"
-import { loadAutomations, saveAutomation, deleteAutomation, duplicateAutomation, getAutomation, allAutomationsToExportJson } from "./storage"
+import { loadAutomations, saveAutomation, deleteAutomation, duplicateAutomation, getAutomation, allAutomationsToExportJson, automationToExportJson } from "./storage"
 import { executeAutomation, requestStop } from "./executor"
 import { resolveInput, cancelInput } from "./input-bridge"
 import type { Automation, AutomationStep, ActionType } from "./types"
@@ -145,9 +145,22 @@ export function registerAutomationsTool(getActiveTool: () => ActiveTool) {
         const dd = String(now.getDate()).padStart(2, "0")
         const mm = String(now.getMonth() + 1).padStart(2, "0")
         const yyyy = now.getFullYear()
-        const filename = `automations-${automations.length}-${dd}.${mm}.${yyyy}.json`
+        const filename = `${automations.length}-automations-${dd}.${mm}.${yyyy}.json`
         figma.ui.postMessage({
           type: MAIN_TO_UI.AUTOMATIONS_EXPORT_ALL_READY,
+          jsonText,
+          filename,
+        })
+        return true
+      }
+
+      if (msg.type === UI_TO_MAIN.AUTOMATIONS_EXPORT_ONE) {
+        const automation = await getAutomation(msg.automationId)
+        if (!automation) return true
+        const jsonText = automationToExportJson(automation)
+        const filename = `${automation.name.replace(/[^a-zA-Z0-9-_ ]/g, "").replace(/\s+/g, "-")}.json`
+        figma.ui.postMessage({
+          type: MAIN_TO_UI.AUTOMATIONS_EXPORT_ONE_READY,
           jsonText,
           filename,
         })

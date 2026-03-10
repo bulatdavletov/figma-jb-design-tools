@@ -1,0 +1,118 @@
+{
+  "version": 1,
+  "automation": {
+    "name": "Resize to Parent",
+    "emoji": "↕️",
+    "steps": [
+      {
+        "actionType": "chooseFromList",
+        "params": {
+          "sourceVar": "",
+          "options": "Width, Height, Both",
+          "label": "Choose an option"
+        },
+        "enabled": true,
+        "outputName": "choice"
+      },
+      {
+        "actionType": "sourceFromSelection",
+        "params": {},
+        "enabled": true,
+        "outputName": "selection"
+      },
+      {
+        "actionType": "goToParent",
+        "params": {},
+        "enabled": true,
+        "outputName": "parent"
+      },
+      {
+        "actionType": "ifCondition",
+        "params": {
+          "left": "{$choice}",
+          "operator": "equals",
+          "right": "Width"
+        },
+        "enabled": true,
+        "children": [
+          {
+            "actionType": "resize",
+            "params": {
+              "width": "{#parent.width}",
+              "height": ""
+            },
+            "enabled": true,
+            "outputName": "resized-1"
+          },
+          {
+            "actionType": "setPosition",
+            "params": {
+              "x": "0",
+              "y": ""
+            },
+            "enabled": true,
+            "outputName": "positioned"
+          }
+        ]
+      },
+      {
+        "actionType": "ifCondition",
+        "params": {
+          "left": "{$choice}",
+          "operator": "equals",
+          "right": "Height"
+        },
+        "enabled": true,
+        "children": [
+          {
+            "actionType": "resize",
+            "params": {
+              "width": "",
+              "height": "{#parent.height}"
+            },
+            "enabled": true,
+            "outputName": "resized-2"
+          },
+          {
+            "actionType": "setPosition",
+            "params": {
+              "x": "",
+              "y": "0"
+            },
+            "enabled": true,
+            "outputName": "positioned-2"
+          }
+        ]
+      },
+      {
+        "actionType": "ifCondition",
+        "params": {
+          "left": "{$choice}",
+          "operator": "equals",
+          "right": "Both"
+        },
+        "enabled": true,
+        "children": [
+          {
+            "actionType": "resize",
+            "params": {
+              "width": "{#parent.width}",
+              "height": "{#parent.height}"
+            },
+            "enabled": true,
+            "outputName": "resized-3"
+          },
+          {
+            "actionType": "setPosition",
+            "params": {
+              "x": "0",
+              "y": "0"
+            },
+            "enabled": true,
+            "outputName": "positioned-3"
+          }
+        ]
+      }
+    ]
+  }
+}

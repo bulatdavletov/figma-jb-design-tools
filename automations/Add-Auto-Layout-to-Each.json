@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "automation": {
+    "name": "Add Auto-Layout to Each",
+    "emoji": "➕",
+    "steps": [
+      {
+        "actionType": "sourceFromSelection",
+        "params": {},
+        "enabled": true,
+        "outputName": "selection"
+      },
+      {
+        "actionType": "wrapInFrame",
+        "params": {
+          "autoLayout": "VERTICAL"
+        },
+        "enabled": true,
+        "outputName": "frames"
+      }
+    ]
+  }
+}

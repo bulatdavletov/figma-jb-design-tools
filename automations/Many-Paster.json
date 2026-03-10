@@ -1,0 +1,60 @@
+{
+  "version": 1,
+  "automation": {
+    "name": "Many Paster",
+    "emoji": "📋",
+    "steps": [
+      {
+        "actionType": "askForInput",
+        "params": {
+          "label": "Enter text",
+          "placeholder": "234 345 567 678",
+          "inputType": "textarea"
+        },
+        "enabled": true,
+        "outputName": "input"
+      },
+      {
+        "actionType": "splitText",
+        "params": {
+          "sourceVar": "askForInput",
+          "delimiter": "\\n"
+        },
+        "enabled": true,
+        "outputName": "parts"
+      },
+      {
+        "actionType": "sourceFromSelection",
+        "params": {},
+        "enabled": true,
+        "outputName": "selection"
+      },
+      {
+        "actionType": "repeatWithEach",
+        "params": {
+          "source": "splitText",
+          "itemVar": "item",
+          "onMismatch": "repeatList"
+        },
+        "enabled": true,
+        "children": [
+          {
+            "actionType": "setCharacters",
+            "params": {
+              "characters": "{$item}"
+            },
+            "enabled": true
+          }
+        ]
+      },
+      {
+        "actionType": "count",
+        "params": {
+          "label": "Count"
+        },
+        "enabled": true,
+        "outputName": "count"
+      }
+    ]
+  }
+}

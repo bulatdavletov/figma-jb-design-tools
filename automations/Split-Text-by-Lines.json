@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "automation": {
+    "name": "Split Text by Lines",
+    "emoji": "✂️",
+    "steps": []
+  }
+}

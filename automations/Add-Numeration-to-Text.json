@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "automation": {
+    "name": "Add Numeration to Text",
+    "emoji": "🔢",
+    "steps": [
+      {
+        "actionType": "sourceFromSelection",
+        "params": {},
+        "enabled": true,
+        "outputName": "selection"
+      },
+      {
+        "actionType": "askForInput",
+        "params": {
+          "label": "Start with number",
+          "placeholder": "",
+          "inputType": "text",
+          "defaultValue": "1"
+        },
+        "enabled": true,
+        "outputName": "startWith"
+      },
+      {
+        "actionType": "repeatWithEach",
+        "params": {
+          "source": "nodes",
+          "itemVar": "item",
+          "onMismatch": "error"
+        },
+        "enabled": true,
+        "children": [
+          {
+            "actionType": "math",
+            "params": {
+              "x": "{$repeatIndex}",
+              "operation": "add",
+              "y": "{$startWith}"
+            },
+            "enabled": true,
+            "outputName": "mathResult"
+          },
+          {
+            "actionType": "setCharacters",
+            "params": {
+              "characters": "{$mathResult}. {$item.characters} "
+            },
+            "enabled": true,
+            "outputName": "texts"
+          }
+        ]
+      }
+    ]
+  }
+}

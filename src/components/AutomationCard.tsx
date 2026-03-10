@@ -10,6 +10,7 @@ export function AutomationCard(props: {
   onRun: () => void
   onDelete: () => void
   onDuplicate: () => void
+  onExport: () => void
 }) {
   const [hovered, setHovered] = useState(false)
   const [menuPos, setMenuPos] = useState<{ x: number; y: number } | null>(null)
@@ -41,7 +42,7 @@ export function AutomationCard(props: {
     }
     if (!triggerRef.current) return
     const rect = triggerRef.current.getBoundingClientRect()
-    const menuHeight = 60
+    const menuHeight = 90
     const spaceBelow = window.innerHeight - rect.bottom
     const y = spaceBelow >= menuHeight + 4
       ? rect.bottom + 2
@@ -164,6 +165,20 @@ export function AutomationCard(props: {
               onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "transparent" }}
             >
               Duplicate
+            </div>
+            <div
+              onClick={() => { setMenuPos(null); props.onExport() }}
+              style={{
+                padding: "6px 12px",
+                fontSize: 11,
+                cursor: "pointer",
+                color: "var(--figma-color-text)",
+                background: "transparent",
+              }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--figma-color-bg-hover)" }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "transparent" }}
+            >
+              Export
             </div>
             <div
               onClick={() => { setMenuPos(null); props.onDelete() }}
