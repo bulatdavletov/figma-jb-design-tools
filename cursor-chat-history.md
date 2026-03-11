@@ -1,5 +1,12 @@
 # Cursor Chat History
 
+## Repo Maintenance — Daily cron task
+
+### 2026-03-11
+- **Task:** Pick one maintenance action from the daily list; chosen action is **update one outdated spec in `/Specs`**.
+- **Plan:** Verify current implementation in code, identify mismatched spec statements, update only the outdated sections, then run checks and commit with spec commit rules.
+- **Done:** Updated `Specs/UI Showcase.md` to match current implementation (`src/ui-showcase` paths, `Scenario` shape with `initialTab` + `size`, stacked scenario frames, and home preview size 360x550). Kept scope docs-only.
+
 ## Automations — Export on automation's More button
 
 ### 2026-03-03
