@@ -35,6 +35,33 @@ export function registerFindColorMatchTool(getActiveTool: () => ActiveTool) {
     candidates: VariableCandidate[]
   } | null = null
 
+  const ISLANDS_UI_KIT_URL = "https://www.figma.com/community/file/1465520241251869860/int-ui-kit-islands"
+
+  const checkIfHardcodedOutdated = async (
+    collectionKey: string,
+    hardcodedCandidates: VariableCandidate[]
+  ): Promise<boolean> => {
+    try {
+      const libraryVariables = await figma.teamLibrary.getVariablesInLibraryCollectionAsync(collectionKey)
+      const libraryColorSignatures = new Set(
+        libraryVariables
+          .filter((v) => v.resolvedType === "COLOR")
+          .map((v) => `${v.key}::${v.name}`)
+      )
+      const hardcodedSignatures = new Set(
+        hardcodedCandidates.map((v) => `${v.variableKey}::${v.variableName}`)
+      )
+
+      if (libraryColorSignatures.size !== hardcodedSignatures.size) return true
+      for (const signature of Array.from(libraryColorSignatures)) {
+        if (!hardcodedSignatures.has(signature)) return true
+      }
+      return false
+    } catch {
+      return false
+    }
+  }
+
   const sendError = (message: string) => {
     figma.ui.postMessage({ type: MAIN_TO_UI.ERROR, message })
   }
@@ -123,7 +150,22 @@ export function registerFindColorMatchTool(getActiveTool: () => ActiveTool) {
           groupsPerCollection[collectionKey] = newGroups
           sendAllGroups()
         }
-        sendCacheStatus({ state: "ready" })
+
+        if (source?.isLibrary) {
+          void checkIfHardcodedOutdated(collectionKey, candidates).then((isOutdated) => {
+            if (isOutdated) {
+              sendCacheStatus({
+                state: "outdated",
+                message: "Update JSON file: original Int UI Kit tokens changed.",
+                islandsUiKitUrl: ISLANDS_UI_KIT_URL,
+              })
+              return
+            }
+            sendCacheStatus({ state: "ready" })
+          })
+        } else {
+          sendCacheStatus({ state: "ready" })
+        }
         return candidates
       }
     }

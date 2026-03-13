@@ -989,6 +989,11 @@ export type LibraryCacheStatusPayload =
   | { state: "idle" }
   | { state: "checking" }
   | { state: "updating"; current: number; total: number; message: string }
+  | {
+      state: "outdated"
+      message: string
+      islandsUiKitUrl: string
+    }
   | { state: "ready" }
 
 // ============================================================================

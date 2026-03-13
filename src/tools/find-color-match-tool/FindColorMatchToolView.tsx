@@ -275,6 +275,18 @@ export function FindColorMatchToolView({ onBack, initialSelectionEmpty }: Props)
     )
   }
 
+
+  const handleOpenIslandsUiKit = (url: string) => {
+    window.open(url, "_blank", "noopener,noreferrer")
+  }
+
+  const handleOpenExportTool = () => {
+    parent.postMessage(
+      { pluginMessage: { type: UI_TO_MAIN.SET_ACTIVE_TOOL, tool: "variables-export-import-tool" } },
+      "*"
+    )
+  }
+
   const handleOverrideVariable = (entryKeyStr: string, variableId: string) => {
     setOverrides((prev) => ({ ...prev, [entryKeyStr]: variableId }))
   }
@@ -564,7 +576,11 @@ export function FindColorMatchToolView({ onBack, initialSelectionEmpty }: Props)
         </ToolBody>
       )}
 
-      <LibraryCacheStatusBar status={cacheStatus} />
+      <LibraryCacheStatusBar
+        status={cacheStatus}
+        onOpenIslandsUiKit={handleOpenIslandsUiKit}
+        onOpenExportTool={handleOpenExportTool}
+      />
     </Page>
   )
 }
