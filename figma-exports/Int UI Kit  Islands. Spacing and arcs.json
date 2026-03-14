@@ -1,0 +1,61 @@
+{
+    "collections": [
+        {
+            "name": "Spacing and arcs",
+            "modes": [
+                "Default",
+                "Compact"
+            ],
+            "variables": {
+                "comment-gap-horizontal": {
+                    "id": "VariableID:22858:22796",
+                    "type": "number",
+                    "values": {
+                        "Default": 12,
+                        "Compact": 12
+                    },
+                    "scopes": [
+                        "ALL_SCOPES"
+                    ],
+                    "key": "40709ada1c3bee30a0053df2d60214c41fe7f670"
+                },
+                "component-gap-vertical": {
+                    "id": "VariableID:22858:28316",
+                    "type": "number",
+                    "values": {
+                        "Default": 6,
+                        "Compact": 6
+                    },
+                    "scopes": [
+                        "ALL_SCOPES"
+                    ],
+                    "key": "fed3dc74f8cfb20085cd24d74574f8f84364ac02"
+                },
+                "island-arc": {
+                    "id": "VariableID:26982:51623",
+                    "type": "number",
+                    "values": {
+                        "Default": 10,
+                        "Compact": 8
+                    },
+                    "scopes": [
+                        "ALL_SCOPES"
+                    ],
+                    "key": "f6335bca51862e66db6edf94d8666f5612616eba"
+                },
+                "island-inset": {
+                    "id": "VariableID:26982:51624",
+                    "type": "number",
+                    "values": {
+                        "Default": 4,
+                        "Compact": 3
+                    },
+                    "scopes": [
+                        "ALL_SCOPES"
+                    ],
+                    "key": "2bc142174ec05223b91587e476641f853e8b7944"
+                }
+            }
+        }
+    ]
+}
