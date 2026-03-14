@@ -1,13 +1,13 @@
 /**
- * Loads Int UI Kit Islands variables from hardcoded JSON files for instant matching.
+ * Loads Int UI Kit Islands variables from shared JSON files in figma-exports/ for instant matching.
  * When you rename or add variables in the library, update these JSON files manually
  * (e.g. re-export from the Export tool).
  */
 
 import type { ResolvedColorVariable } from "../../utils/int-ui-kit-library/resolve"
 
-import colorPaletteJson from "./Int UI Kit  Islands. Color palette.json"
-import semanticColorsJson from "./Int UI Kit  Islands. Semantic colors.json"
+import colorPaletteJson from "../../../figma-exports/Int UI Kit  Islands. Color palette.json"
+import semanticColorsJson from "../../../figma-exports/Int UI Kit  Islands. Semantic colors.json"
 
 // ---------------------------------------------------------------------------
 // JSON shape (minimal types for what we use)
@@ -91,10 +91,14 @@ function flattenColorVariables(
   return result
 }
 
-/** Resolve value to hex: direct hex or "$alias" -> "CollectionName:varName" (palette lookup). */
+/**
+ * Resolve value to hex: direct hex string, or "$alias" → lookup by variable name.
+ * Accepts multiple lookup tables (checked in order) so both palette and
+ * intra-collection aliases resolve correctly.
+ */
 function resolveValue(
   value: string | { $alias: string },
-  paletteHexByVarName: Record<string, string>
+  ...lookups: Record<string, string>[]
 ): string | null {
   if (typeof value === "string") {
     return value
@@ -103,7 +107,11 @@ function resolveValue(
     const alias = value.$alias
     const colon = alias.indexOf(":")
     const varName = colon >= 0 ? alias.slice(colon + 1).trim() : alias
-    return paletteHexByVarName[varName] ?? null
+    for (const lookup of lookups) {
+      const hex = lookup[varName]
+      if (hex) return hex
+    }
+    return null
   }
   return null
 }
@@ -164,11 +172,45 @@ function buildResolved(): void {
     const flat = flattenColorVariables(semanticColl.variables, "")
     const byMode = new Map<string, ResolvedColorVariable[]>()
     for (const modeName of semanticColl.modes) {
-      const list: ResolvedColorVariable[] = []
+      // Multi-pass resolution: semantic vars can alias other semantic vars
+      // (e.g. container/popup-bg → layer/layer-1-bg → palette color).
+      // Pass 1: resolve direct hex and palette aliases.
+      // Pass 2+: resolve remaining intra-collection aliases using already-resolved values.
+      const semanticHexByName: Record<string, string> = {}
+      const pending = new Map<
+        string,
+        { name: string; id: string; key?: string; value: string | { $alias: string } }
+      >()
+
       for (const { name, id, key, values } of flat) {
         const value = values[modeName]
         if (value === undefined) continue
         const hex = resolveValue(value, paletteHexByVarName)
+        if (hex) {
+          semanticHexByName[name] = hex
+        } else {
+          pending.set(name, { name, id, key, value })
+        }
+      }
+
+      // Iteratively resolve intra-collection aliases (max 5 passes for deep chains)
+      for (let pass = 0; pass < 5 && pending.size > 0; pass++) {
+        let resolvedAny = false
+        for (const [pName, entry] of Array.from(pending.entries())) {
+          const hex = resolveValue(entry.value, paletteHexByVarName, semanticHexByName)
+          if (hex) {
+            semanticHexByName[pName] = hex
+            pending.delete(pName)
+            resolvedAny = true
+          }
+        }
+        if (!resolvedAny) break
+      }
+
+      // Build final resolved list from all resolved variables
+      const list: ResolvedColorVariable[] = []
+      for (const { name, id, key } of flat) {
+        const hex = semanticHexByName[name]
         if (!hex) continue
         const { r, g, b, opacityPercent, hex6 } = hexToRgb01(hex)
         list.push({
