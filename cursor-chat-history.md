@@ -99,6 +99,18 @@
 
 ## Find Color Match Tool — Performance and Caching
 
+### 2026-03-14 (intra-collection alias resolution)
+- **Bug:** Semantic colors `container/*` group (renamed from `container/container-name` → `container/name`) and 48 other vars were missing from hardcoded candidates (212 instead of 260). Root cause: `resolveValue()` only resolved aliases to the Color palette, but many semantic vars alias other semantic vars (e.g. `container/popup-bg` → `layer/layer-1-bg`). Fix: added **multi-pass resolution** in `buildResolved` — first resolves direct hex and palette aliases, then iteratively resolves intra-collection (Semantic→Semantic) aliases up to 5 passes for deep chains. `resolveValue` now accepts multiple lookup tables. Removed all debug console.log statements.
+
+### 2026-03-14 (keys in exported JSON)
+- User re-exported JSONs with proper `key` fields (hash-style library keys). Updated `checkLibraryState` to use **key-based comparison** when keys are present (more reliable), falling back to name-based for older JSONs without keys. `enrichCandidatesWithLibraryKeys` now only patches candidates still missing keys or with old `VariableID:` format. Dev spec updated.
+
+### 2026-03-14 (outdated detection — size mismatch fix)
+- Still saw "Hardcoded JSON is outdated" despite re-export. Root cause: strict bidirectional size-equality check (`libraryKeys.size !== hardcodedKeys.size`) failed because hardcoded JSON has 260 color vars (all modes combined per key) while the library API returned 227. Fix: changed to **one-directional check** — only flag outdated when the library has keys/names absent from hardcoded data. Extra hardcoded vars (e.g. deleted from library) are tolerated.
+
+### 2026-03-14 (outdated detection fix)
+- Root cause of persistent "Hardcoded JSON is outdated" warning: exported JSONs lacked `key` fields, so `variableKey` was `VariableID:…` which never matched library hash keys. Fixed by switching to name-only comparison and adding runtime key enrichment so Apply works regardless. Now superseded by key-based comparison above.
+
 ### 2026-02-26 (hardcoded lists)
 - Find Color Match now uses **hardcoded JSON** first for Int UI Kit Islands: `Int UI Kit  Islands. Color palette.json` and `Int UI Kit  Islands. Semantic colors.json` are bundled and parsed in `hardcoded-data.ts`. Semantic aliases (`$alias: "Color palette:…"`) are resolved against the palette. Load path: try `getHardcodedVariables(collectionName, modeName)` → if present use it (instant); else load from Figma. When you rename or add variables, update the JSON files manually (e.g. re-export from Export tool). Dev spec updated.
 
@@ -853,6 +865,17 @@ What we should consider **aligning** (future phases):
 - mapList collects from last data-producing child step's output, falls back to item variable value
 
 **Files changed:** `types.ts`, `executor.ts`, `context.ts` (unchanged), `main-thread.ts`, `messages.ts`, `input-bridge.ts`, `storage.ts`, `actions/flow-actions.ts` (new), `AutomationsToolView.tsx`, `helpers.tsx`, `run-automation/main.ts`
+
+## Find Color Match Tool — Outdated Status Bar, Shared JSON, Export/Open Button Fixes
+
+### 2026-03-14
+- **Outdated status bar**: Changed from showing both "Islands UI Kit" + "Export JSON" buttons to one contextual button: "Export" if in UI Kit source file, "Open UI Kit" otherwise. Detection via `figma.root.name` vs `INT_UI_KIT_LIBRARY_NAME`. Context-specific warning messages.
+- **Shared JSON files**: Switched `hardcoded-data.ts` imports from tool-specific JSONs to shared `figma-exports/` folder. Deleted duplicate JSONs from `find-color-match-tool/`.
+- **Export button fix**: `handleOpenExportTool` now uses `onGoTo("variables-export-import-tool")` prop instead of posting `SET_ACTIVE_TOOL` directly. Added `onGoTo` prop chain through `ui.tsx` → `FindColorMatchToolView`.
+- **Button styling**: Added `flexShrink: 0` and `whiteSpace: "nowrap"` to prevent text wrapping in status bar buttons.
+- **General rules check**: User asked to review `specs/General rules.md`. Content matches the session guidelines already in use.
+- **Outdated detection fix**: Root cause found — exported JSON files lack `key` fields, so hardcoded signatures used `VariableID:...` while library API returned hash keys, causing permanent mismatch. Replaced `checkIfHardcodedOutdated` with `checkLibraryState` that compares by **variable name only**. Removed debug console.log statements.
+- **Library key enrichment for Apply**: Added `enrichCandidatesWithLibraryKeys` — after fetching library variables for the outdated check, patches hardcoded candidates in-place with proper `variableKey` values (name→key map). This lets Apply use `importVariableByKeyAsync` to bind variables even from hardcoded data, so Apply works regardless of the outdated banner.
 
 ## Mega Folders Restructurization
 

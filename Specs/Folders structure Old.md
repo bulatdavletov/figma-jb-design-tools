@@ -52,8 +52,6 @@ src/
 │   │   ├── color-chain-tool
 │   │   │   └── main-thread.ts
 │   │   ├── find-color-match
-│   │   │   ├── Int UI Kit  Islands. Color palette.json
-│   │   │   ├── Int UI Kit  Islands. Semantic colors.json
 │   │   │   ├── apply.ts
 │   │   │   ├── hardcoded-data.ts
 │   │   │   ├── main-thread.ts

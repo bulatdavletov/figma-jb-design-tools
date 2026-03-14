@@ -116,8 +116,6 @@ src
 │   │   └── variable-chain.ts
 │   ├── find-color-match-tool
 │   │   ├── FindColorMatchToolView.tsx
-│   │   ├── Int UI Kit  Islands. Color palette.json
-│   │   ├── Int UI Kit  Islands. Semantic colors.json
 │   │   ├── apply.ts
 │   │   ├── hardcoded-data.ts
 │   │   ├── main-thread.ts
