@@ -17,6 +17,7 @@ import {
 } from "./variables"
 import { getHardcodedVariables } from "./hardcoded-data"
 import { loadAndResolveLibraryColorVariables } from "../../utils/int-ui-kit-library/resolve"
+import { INT_UI_KIT_LIBRARY_NAME } from "../../utils/int-ui-kit-library/constants"
 import type { CollectionSource, VariableCandidate } from "./types"
 
 export function registerFindColorMatchTool(getActiveTool: () => ActiveTool) {
@@ -35,30 +36,91 @@ export function registerFindColorMatchTool(getActiveTool: () => ActiveTool) {
     candidates: VariableCandidate[]
   } | null = null
 
-  const ISLANDS_UI_KIT_URL = "https://www.figma.com/community/file/1465520241251869860/int-ui-kit-islands"
+  const ISLANDS_UI_KIT_URL = "https://www.figma.com/design/zKwabe7qCf1c0LFu93997q/Int-UI-Kit--Islands?node-id=18373-16844&t=M5p2VhJICoCK0RX7-1"
 
-  const checkIfHardcodedOutdated = async (
+  /** Check if the current document is the Int UI Kit source file. */
+  const isSourceFile = (): boolean => {
+    return figma.root.name.trim().toLowerCase().includes(INT_UI_KIT_LIBRARY_NAME.toLowerCase())
+  }
+
+  /**
+   * Checks if hardcoded JSON is outdated compared to the live library.
+   * "Outdated" means the library has variables not present in the hardcoded data.
+   * Extra variables in the hardcoded data (e.g. deleted from library) are tolerated.
+   * Compares by variable key when available, falls back to name comparison.
+   * Returns library color variables so callers can enrich any candidates
+   * that are still missing proper keys.
+   */
+  const checkLibraryState = async (
     collectionKey: string,
     hardcodedCandidates: VariableCandidate[]
-  ): Promise<boolean> => {
+  ): Promise<{ outdated: boolean; libraryColorVars: LibraryVariable[] }> => {
     try {
       const libraryVariables = await figma.teamLibrary.getVariablesInLibraryCollectionAsync(collectionKey)
-      const libraryColorSignatures = new Set(
-        libraryVariables
-          .filter((v) => v.resolvedType === "COLOR")
-          .map((v) => `${v.key}::${v.name}`)
-      )
-      const hardcodedSignatures = new Set(
-        hardcodedCandidates.map((v) => `${v.variableKey}::${v.variableName}`)
+      const libraryColorVars = libraryVariables.filter((v) => v.resolvedType === "COLOR")
+
+      // Use key-based comparison when hardcoded data has proper keys
+      const hardcodedHasKeys = hardcodedCandidates.some(
+        (v) => v.variableKey && !v.variableKey.startsWith("VariableID:")
       )
 
-      if (libraryColorSignatures.size !== hardcodedSignatures.size) return true
-      for (const signature of Array.from(libraryColorSignatures)) {
-        if (!hardcodedSignatures.has(signature)) return true
+      if (hardcodedHasKeys) {
+        const hardcodedKeys = new Set(
+          hardcodedCandidates.map((v) => v.variableKey).filter((k) => !k.startsWith("VariableID:"))
+        )
+        // Outdated = library has keys that hardcoded data doesn't
+        const missingKeys: string[] = []
+        for (const v of libraryColorVars) {
+          if (!hardcodedKeys.has(v.key)) {
+            missingKeys.push(`${v.key}::${v.name}`)
+            if (missingKeys.length >= 10) break
+          }
+        }
+        if (missingKeys.length > 0) {
+          return { outdated: true, libraryColorVars }
+        }
+      } else {
+        // Fallback: name-based comparison for JSONs without keys
+        const hardcodedNames = new Set(hardcodedCandidates.map((v) => v.variableName))
+
+        // Outdated = library has names that hardcoded data doesn't
+        const missingNames: string[] = []
+        for (const v of libraryColorVars) {
+          if (!hardcodedNames.has(v.name)) {
+            missingNames.push(v.name)
+            if (missingNames.length >= 10) break
+          }
+        }
+        if (missingNames.length > 0) {
+          return { outdated: true, libraryColorVars }
+        }
       }
-      return false
-    } catch {
-      return false
+
+      return { outdated: false, libraryColorVars }
+    } catch (err) {
+      return { outdated: false, libraryColorVars: [] }
+    }
+  }
+
+  /**
+   * Patches hardcoded candidates in-place with proper library `key` values
+   * when the JSON-provided key is missing or uses the old VariableID format.
+   */
+  const enrichCandidatesWithLibraryKeys = (
+    candidates: VariableCandidate[],
+    libraryColorVars: LibraryVariable[]
+  ): void => {
+    const keyByName = new Map<string, string>()
+    for (const v of libraryColorVars) {
+      keyByName.set(v.name, v.key)
+    }
+    for (const c of candidates) {
+      if (!c.variableKey || c.variableKey.startsWith("VariableID:")) {
+        const libKey = keyByName.get(c.variableName)
+        if (libKey) {
+          c.variableKey = libKey
+        }
+      }
     }
   }
 
@@ -152,12 +214,20 @@ export function registerFindColorMatchTool(getActiveTool: () => ActiveTool) {
         }
 
         if (source?.isLibrary) {
-          void checkIfHardcodedOutdated(collectionKey, candidates).then((isOutdated) => {
-            if (isOutdated) {
+          void checkLibraryState(collectionKey, candidates).then(({ outdated, libraryColorVars }) => {
+            // Always enrich hardcoded candidates with library keys so Apply works
+            if (libraryColorVars.length > 0) {
+              enrichCandidatesWithLibraryKeys(candidates, libraryColorVars)
+            }
+            if (outdated) {
+              const inSource = isSourceFile()
               sendCacheStatus({
                 state: "outdated",
-                message: "Update JSON file: original Int UI Kit tokens changed.",
+                message: inSource
+                  ? "Hardcoded JSON is outdated. Export updated tokens."
+                  : "Hardcoded JSON is outdated. Open UI Kit to export updated tokens.",
                 islandsUiKitUrl: ISLANDS_UI_KIT_URL,
+                isSourceFile: inSource,
               })
               return
             }
