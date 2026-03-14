@@ -30,13 +30,13 @@ export function LibraryCacheStatusBar({ status, onOpenIslandsUiKit, onOpenExport
         }}
       >
         <Text style={{ fontSize: 11 }}>{status.message}</Text>
-        <div style={{ display: "flex", gap: 6 }}>
-          <Button secondary onClick={() => onOpenIslandsUiKit?.(status.islandsUiKitUrl)}>
-            Islands UI Kit
+        {status.isSourceFile ? (
+          <Button onClick={onOpenExportTool} style={{ flexShrink: 0, whiteSpace: "nowrap" }}>Export</Button>
+        ) : (
+          <Button secondary onClick={() => onOpenIslandsUiKit?.(status.islandsUiKitUrl)} style={{ flexShrink: 0, whiteSpace: "nowrap" }}>
+            Open UI Kit
           </Button>
-          <Button onClick={onOpenExportTool}>Export JSON
-          </Button>
-        </div>
+        )}
       </div>
     )
   }

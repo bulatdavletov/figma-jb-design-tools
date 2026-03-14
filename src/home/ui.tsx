@@ -18,6 +18,7 @@ import { isToolId, TOOLS_REGISTRY, type ActiveTool, type ToolId } from "../tools
 
 type ToolViewProps = {
   onBack: () => void
+  onGoTo: (tool: ActiveTool) => void
   initialSelectionEmpty: boolean
 }
 
@@ -38,8 +39,8 @@ const TOOL_VIEW_BY_ID: Record<ToolId, (props: ToolViewProps) => preact.Component
   "variables-replace-usages-tool": ({ onBack, initialSelectionEmpty }) => (
     <VariablesReplaceUsagesToolView onBack={onBack} initialSelectionEmpty={initialSelectionEmpty} />
   ),
-  "find-color-match-tool": ({ onBack, initialSelectionEmpty }) => (
-    <FindColorMatchToolView onBack={onBack} initialSelectionEmpty={initialSelectionEmpty} />
+  "find-color-match-tool": ({ onBack, onGoTo, initialSelectionEmpty }) => (
+    <FindColorMatchToolView onBack={onBack} onGoTo={onGoTo} initialSelectionEmpty={initialSelectionEmpty} />
   ),
   "automations-tool": ({ onBack }) => <AutomationsToolView onBack={onBack} />,
 }
@@ -85,6 +86,7 @@ export function App() {
 
   return TOOL_VIEW_BY_ID[entry.id]({
     onBack: () => setRoute("home"),
+    onGoTo: setRoute,
     initialSelectionEmpty: selectionSize === 0,
   })
 }

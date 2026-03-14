@@ -15,7 +15,7 @@ import {
 import { h } from "preact"
 import { useEffect, useState, useMemo, useCallback } from "preact/hooks"
 
-import { MAIN_TO_UI, UI_TO_MAIN, type MainToUiMessage } from "../../home/messages"
+import { MAIN_TO_UI, UI_TO_MAIN, type MainToUiMessage, type ActiveTool } from "../../home/messages"
 import type {
   FindColorMatchCollectionInfo,
   FindColorMatchResultEntry,
@@ -31,10 +31,11 @@ import { LibraryCacheStatusBar } from "../../components/LibraryCacheStatusBar"
 
 type Props = {
   onBack: () => void
+  onGoTo?: (tool: ActiveTool) => void
   initialSelectionEmpty?: boolean
 }
 
-export function FindColorMatchToolView({ onBack, initialSelectionEmpty }: Props) {
+export function FindColorMatchToolView({ onBack, onGoTo, initialSelectionEmpty }: Props) {
   const [collections, setCollections] = useState<FindColorMatchCollectionInfo[]>([])
   const [selectedCollectionKey, setSelectedCollectionKey] = useState<string | null>(null)
   const [selectedModeId, setSelectedModeId] = useState<string | null>(null)
@@ -281,10 +282,9 @@ export function FindColorMatchToolView({ onBack, initialSelectionEmpty }: Props)
   }
 
   const handleOpenExportTool = () => {
-    parent.postMessage(
-      { pluginMessage: { type: UI_TO_MAIN.SET_ACTIVE_TOOL, tool: "variables-export-import-tool" } },
-      "*"
-    )
+    if (onGoTo) {
+      onGoTo("variables-export-import-tool")
+    }
   }
 
   const handleOverrideVariable = (entryKeyStr: string, variableId: string) => {

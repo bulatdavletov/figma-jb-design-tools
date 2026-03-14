@@ -993,6 +993,7 @@ export type LibraryCacheStatusPayload =
       state: "outdated"
       message: string
       islandsUiKitUrl: string
+      isSourceFile: boolean
     }
   | { state: "ready" }
 
