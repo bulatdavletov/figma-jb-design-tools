@@ -155,7 +155,7 @@ export function FindColorMatchToolView({ onBack, onGoTo, initialSelectionEmpty }
       opts.push({ value: `${col.key}::__all__`, text: col.name })
       const colGroups = groupsByCollection[col.key] ?? []
       for (const g of colGroups) {
-        opts.push({ value: `${col.key}::${g}`, text: g })
+        opts.push({ value: `${col.key}::${g}`, text: `\u2003${g}` })
       }
     }
     return opts

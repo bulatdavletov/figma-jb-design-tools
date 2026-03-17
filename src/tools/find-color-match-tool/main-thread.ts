@@ -15,7 +15,7 @@ import {
   findDefaultCollection,
   loadLibraryCollectionModes,
 } from "./variables"
-import { getHardcodedVariables } from "./hardcoded-data"
+import { getHardcodedGroups, getHardcodedVariables } from "./hardcoded-data"
 import { loadAndResolveLibraryColorVariables } from "../../utils/int-ui-kit-library/resolve"
 import { INT_UI_KIT_LIBRARY_NAME } from "../../utils/int-ui-kit-library/constants"
 import type { CollectionSource, VariableCandidate } from "./types"
@@ -144,6 +144,11 @@ export function registerFindColorMatchTool(getActiveTool: () => ActiveTool) {
     activeCollectionKey = defaultCollection?.key ?? null
     activeModeId = defaultCollection?.modes[0]?.modeId ?? null
 
+    for (const source of collectionSources) {
+      const modeId = source.modes[0]?.modeId ?? null
+      syncHardcodedGroups(source, source.key, modeId)
+    }
+
     figma.ui.postMessage({
       type: MAIN_TO_UI.FIND_COLOR_MATCH_COLLECTIONS,
       payload: {
@@ -182,6 +187,34 @@ export function registerFindColorMatchTool(getActiveTool: () => ActiveTool) {
     })
   }
 
+  /** Update groups for a collection only when they actually changed; returns true if updated. */
+  const updateGroupsIfChanged = (collectionKey: string, newGroups: string[]): boolean => {
+    const prev = groupsPerCollection[collectionKey]
+    if (
+      prev &&
+      prev.length === newGroups.length &&
+      prev.every((g, i) => g === newGroups[i])
+    ) {
+      return false
+    }
+    groupsPerCollection[collectionKey] = newGroups
+    sendAllGroups()
+    return true
+  }
+
+  const syncHardcodedGroups = (
+    source: CollectionSource | undefined,
+    collectionKey: string,
+    modeId: string | null
+  ) => {
+    if (!source || modeId == null) return
+    const modeName = source.modes.find((m) => m.modeId === modeId)?.modeName
+    if (!modeName) return
+    const hardcodedGroups = getHardcodedGroups(source.name, modeName)
+    if (hardcodedGroups.length === 0) return
+    updateGroupsIfChanged(collectionKey, hardcodedGroups)
+  }
+
   const getFilteredCandidates = (candidates: VariableCandidate[]): VariableCandidate[] => {
     if (!activeGroupPrefix) return candidates
     const prefix = activeGroupPrefix + "/"
@@ -206,12 +239,7 @@ export function registerFindColorMatchTool(getActiveTool: () => ActiveTool) {
       if (hardcoded && hardcoded.length > 0) {
         const candidates = hardcoded.map((v) => ({ ...v, collectionKey }))
         lastLoadedCandidates = { collectionKey, modeId, candidates }
-        const newGroups = extractGroups(candidates)
-        const prev = groupsPerCollection[collectionKey]
-        if (!prev || prev.length !== newGroups.length || prev.some((g, i) => g !== newGroups[i])) {
-          groupsPerCollection[collectionKey] = newGroups
-          sendAllGroups()
-        }
+        updateGroupsIfChanged(collectionKey, extractGroups(candidates))
 
         if (source?.isLibrary) {
           void checkLibraryState(collectionKey, candidates).then(({ outdated, libraryColorVars }) => {
@@ -260,28 +288,14 @@ export function registerFindColorMatchTool(getActiveTool: () => ActiveTool) {
           total: p.total,
           message: p.message,
         })
-        const partialGroups = extractGroups(partialCandidates)
-        const prevGroups = groupsPerCollection[collectionKey]
-        if (
-          !prevGroups ||
-          prevGroups.length !== partialGroups.length ||
-          prevGroups.some((g, i) => g !== partialGroups[i])
-        ) {
-          groupsPerCollection[collectionKey] = partialGroups
-          sendAllGroups()
-        }
+        updateGroupsIfChanged(collectionKey, extractGroups(partialCandidates))
         onPartial?.(partialCandidates)
       }
     )
 
     lastLoadedCandidates = { collectionKey, modeId, candidates }
 
-    const newGroups = extractGroups(candidates)
-    const prev = groupsPerCollection[collectionKey]
-    if (!prev || prev.length !== newGroups.length || prev.some((g, i) => g !== newGroups[i])) {
-      groupsPerCollection[collectionKey] = newGroups
-      sendAllGroups()
-    }
+    updateGroupsIfChanged(collectionKey, extractGroups(candidates))
 
     sendCacheStatus({ state: "ready" })
     return candidates
@@ -502,6 +516,7 @@ export function registerFindColorMatchTool(getActiveTool: () => ActiveTool) {
             source.modes = await loadLibraryCollectionModes(msg.collectionKey)
           }
           activeModeId = source.modes[0]?.modeId ?? null
+          syncHardcodedGroups(source, msg.collectionKey, activeModeId)
 
           figma.ui.postMessage({
             type: MAIN_TO_UI.FIND_COLOR_MATCH_COLLECTIONS,
@@ -525,6 +540,10 @@ export function registerFindColorMatchTool(getActiveTool: () => ActiveTool) {
       if (msg.type === UI_TO_MAIN.FIND_COLOR_MATCH_SET_MODE) {
         activeModeId = msg.modeId
         activeGroupPrefix = null
+        const source = collectionSources.find((s) => s.key === activeCollectionKey)
+        if (activeCollectionKey) {
+          syncHardcodedGroups(source, activeCollectionKey, activeModeId)
+        }
         await runScan()
         return true
       }

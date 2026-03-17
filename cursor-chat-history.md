@@ -99,6 +99,11 @@
 
 ## Find Color Match Tool — Performance and Caching
 
+### 2026-03-17 (code quality: indent, caching, dedup)
+- Replaced `\u00a0` non-breaking spaces for group indent in dropdown with `\u2003` em-space (Dropdown `text` is string-only, no JSX/CSS per-option possible).
+- Added `Map`-based cache to `getHardcodedGroups` in `hardcoded-data.ts` — avoids re-iterating all variables on repeated calls for the same collection+mode.
+- Extracted `updateGroupsIfChanged` helper in `main-thread.ts` — deduplicates the diff-check-and-update pattern that was repeated 4 times across `syncHardcodedGroups`, `loadCandidates` hardcoded path, partial callback, and final path.
+
 ### 2026-03-14 (intra-collection alias resolution)
 - **Bug:** Semantic colors `container/*` group (renamed from `container/container-name` → `container/name`) and 48 other vars were missing from hardcoded candidates (212 instead of 260). Root cause: `resolveValue()` only resolved aliases to the Color palette, but many semantic vars alias other semantic vars (e.g. `container/popup-bg` → `layer/layer-1-bg`). Fix: added **multi-pass resolution** in `buildResolved` — first resolves direct hex and palette aliases, then iteratively resolves intra-collection (Semantic→Semantic) aliases up to 5 passes for deep chains. `resolveValue` now accepts multiple lookup tables. Removed all debug console.log statements.
 

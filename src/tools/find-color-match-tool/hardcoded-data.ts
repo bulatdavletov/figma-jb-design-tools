@@ -257,3 +257,31 @@ export function getHardcodedVariables(
   const list = byMode.get(modeName) ?? []
   return list
 }
+
+/**
+ * Returns ordered top-level groups (prefix before first `/`) for hardcoded variables.
+ * Group order follows variable order from the hardcoded JSON.
+ * Results are cached per collection+mode to avoid recomputation on repeated calls.
+ */
+const groupsCache = new Map<string, string[]>()
+
+export function getHardcodedGroups(collectionName: string, modeName: string): string[] {
+  const cacheKey = `${collectionName}::${modeName}`
+  const cached = groupsCache.get(cacheKey)
+  if (cached) return cached
+
+  const vars = getHardcodedVariables(collectionName, modeName) ?? []
+  const seen = new Set<string>()
+  const groups: string[] = []
+  for (const v of vars) {
+    const slashIdx = v.variableName.indexOf("/")
+    if (slashIdx <= 0) continue
+    const group = v.variableName.slice(0, slashIdx)
+    if (!seen.has(group)) {
+      seen.add(group)
+      groups.push(group)
+    }
+  }
+  groupsCache.set(cacheKey, groups)
+  return groups
+}
