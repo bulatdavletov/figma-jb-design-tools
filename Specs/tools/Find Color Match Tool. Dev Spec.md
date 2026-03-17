@@ -38,6 +38,12 @@ Match any selection solid colors (raw, style-bound, or variable-bound) to the cl
 - Session-only in-memory store: last loaded candidates (from hardcoded or Figma) are kept so re-scans don’t re-fetch; switching collection/mode loads again (hardcoded then Figma).
 - Progress is shown via `LIBRARY_CACHE_STATUS` (updating/ready) and optional progressive result updates via `onPartial` when loading from Figma.
 
+### Collection/group dropdown behavior
+- Single combined dropdown must always list all configured collections in hardcoded order.
+- Group rows for each collection should be visible immediately on open (no pre-selection step required) when hardcoded data for the default mode is available.
+- Group rows are visually nested under their parent collection (indented labels).
+- Selecting a collection row means “all groups” for that collection; selecting an indented row applies group prefix filtering.
+
 ### Message contract (high level)
 - UI -> Main:
   - `FIND_COLOR_MATCH_SCAN`
@@ -58,6 +64,7 @@ Match any selection solid colors (raw, style-bound, or variable-bound) to the cl
 ### Key implementation notes
 - Preserve Figma order (collections and variables); do not add extra alphabetical sorting.
 - Keep progress messages non-blocking and visible via `LIBRARY_CACHE_STATUS`.
+- Prefill hardcoded groups for known collections on activation and on collection/mode switch so dropdown hierarchy is available immediately.
 - Avoid loading data for non-active collections unless user actually switches to them.
 - Guard async result posting against stale collection/mode context where possible.
 - Scan payload includes source metadata per color: `sourceType` (`VARIABLE` | `STYLE` | `RAW`) and optional `sourceName`. UI uses `sourceName` for row title when available.
@@ -93,3 +100,7 @@ The outdated message text is also context-specific:
 - Verify selection-based scan updates on `selectionchange`.
 - Verify hex lookup returns closest variables and copy/apply still work.
 - Verify apply still binds variable and shows success/failure notifications.
+
+### Variables export ordering
+- Variables Export/Import snapshot export must preserve Figma variable order (`collection.variableIds`) and only append any missing leftovers at the end.
+- Do not alphabetically sort exported variables or groups.

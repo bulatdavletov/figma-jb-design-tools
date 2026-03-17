@@ -15,7 +15,7 @@ import {
   findDefaultCollection,
   loadLibraryCollectionModes,
 } from "./variables"
-import { getHardcodedGroups, getHardcodedVariables } from "./hardcoded-data"
+import { getHardcodedGroups, getHardcodedModeNames, getHardcodedVariables } from "./hardcoded-data"
 import { loadAndResolveLibraryColorVariables } from "../../utils/int-ui-kit-library/resolve"
 import { INT_UI_KIT_LIBRARY_NAME } from "../../utils/int-ui-kit-library/constants"
 import type { CollectionSource, VariableCandidate } from "./types"
@@ -144,10 +144,20 @@ export function registerFindColorMatchTool(getActiveTool: () => ActiveTool) {
     activeCollectionKey = defaultCollection?.key ?? null
     activeModeId = defaultCollection?.modes[0]?.modeId ?? null
 
+    // Pre-populate groups for ALL hardcoded collections.
+    // At this point only the default collection has Figma modes loaded;
+    // others still have modes: []. Use hardcoded JSON mode names directly
+    // so groups appear in the dropdown immediately for every collection.
     for (const source of collectionSources) {
-      const modeId = source.modes[0]?.modeId ?? null
-      syncHardcodedGroups(source, source.key, modeId)
+      const figmaModeName = source.modes[0]?.modeName
+      const modeName = figmaModeName ?? getHardcodedModeNames(source.name)[0]
+      if (!modeName) continue
+      const groups = getHardcodedGroups(source.name, modeName)
+      if (groups.length > 0) {
+        groupsPerCollection[source.key] = groups
+      }
     }
+    sendAllGroups()
 
     figma.ui.postMessage({
       type: MAIN_TO_UI.FIND_COLOR_MATCH_COLLECTIONS,

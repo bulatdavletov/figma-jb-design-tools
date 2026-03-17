@@ -99,6 +99,11 @@
 
 ## Find Color Match Tool — Performance and Caching
 
+### 2026-03-17 (groups always visible in dropdown)
+- **Bug:** Groups (e.g. layers, core, accent) only appeared in dropdown after selecting Semantic colors. Root cause: `discoverIntUiKitCollections` returns `modes: []` for all collections; `sendCollections` only loaded Figma modes for the default (first) collection. Non-default collections had no modes, so `syncHardcodedGroups` bailed out.
+- **Fix:** Added `getHardcodedModeNames` to `hardcoded-data.ts` — returns mode names from hardcoded JSON for a collection. In `sendCollections`, the group pre-population loop now falls back to hardcoded mode names when Figma modes aren't loaded yet, and calls `sendAllGroups()` once after the loop instead of per-collection.
+- Verified export tool preserves Figma variable order (`collection.variableIds`).
+
 ### 2026-03-17 (code quality: indent, caching, dedup)
 - Replaced `\u00a0` non-breaking spaces for group indent in dropdown with `\u2003` em-space (Dropdown `text` is string-only, no JSX/CSS per-option possible).
 - Added `Map`-based cache to `getHardcodedGroups` in `hardcoded-data.ts` — avoids re-iterating all variables on repeated calls for the same collection+mode.

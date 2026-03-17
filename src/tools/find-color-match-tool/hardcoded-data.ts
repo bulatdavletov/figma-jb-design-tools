@@ -242,6 +242,14 @@ export function getHardcodedCollectionNames(): string[] {
   return Array.from(resolvedByCollectionAndMode.keys())
 }
 
+/** Returns mode names available in hardcoded JSON for the given collection. */
+export function getHardcodedModeNames(collectionName: string): string[] {
+  buildResolved()
+  const byMode = resolvedByCollectionAndMode.get(collectionName)
+  if (!byMode) return []
+  return Array.from(byMode.keys())
+}
+
 /**
  * Returns resolved color variables from hardcoded JSON for the given collection name and mode.
  * Returns null if no hardcoded data for that collection, or empty array if collection exists but no variables for that mode.
