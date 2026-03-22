@@ -53,6 +53,35 @@
       "command": "src/tools/variables-replace-usages-tool/main.ts--default"
     },
     {
+      "name": "Markup Text Presets",
+      "menu": [
+        {
+          "name": "Default Text",
+          "command": "src/tools/mockup-markup-quick-apply-tool/text-presets.ts--defaultText"
+        },
+        {
+          "name": "Secondary Text",
+          "command": "src/tools/mockup-markup-quick-apply-tool/text-presets.ts--secondaryText"
+        },
+        {
+          "name": "Comment",
+          "command": "src/tools/mockup-markup-quick-apply-tool/text-presets.ts--comment"
+        },
+        {
+          "name": "H1",
+          "command": "src/tools/mockup-markup-quick-apply-tool/text-presets.ts--h1"
+        },
+        {
+          "name": "H2",
+          "command": "src/tools/mockup-markup-quick-apply-tool/text-presets.ts--h2"
+        },
+        {
+          "name": "H3",
+          "command": "src/tools/mockup-markup-quick-apply-tool/text-presets.ts--h3"
+        }
+      ]
+    },
+    {
       "name": "Run Automation",
       "command": "src/tools/automations-tool/run-automation.ts--default",
       "parameters": [

@@ -100,6 +100,53 @@
         "ui": "src/home/ui.tsx"
       },
       {
+        "name": "Markup Text Presets",
+        "menu": [
+          {
+            "name": "Default Text",
+            "main": {
+              "src": "src/tools/mockup-markup-quick-apply-tool/text-presets.ts",
+              "handler": "defaultText"
+            }
+          },
+          {
+            "name": "Secondary Text",
+            "main": {
+              "src": "src/tools/mockup-markup-quick-apply-tool/text-presets.ts",
+              "handler": "secondaryText"
+            }
+          },
+          {
+            "name": "Comment",
+            "main": {
+              "src": "src/tools/mockup-markup-quick-apply-tool/text-presets.ts",
+              "handler": "comment"
+            }
+          },
+          {
+            "name": "H1",
+            "main": {
+              "src": "src/tools/mockup-markup-quick-apply-tool/text-presets.ts",
+              "handler": "h1"
+            }
+          },
+          {
+            "name": "H2",
+            "main": {
+              "src": "src/tools/mockup-markup-quick-apply-tool/text-presets.ts",
+              "handler": "h2"
+            }
+          },
+          {
+            "name": "H3",
+            "main": {
+              "src": "src/tools/mockup-markup-quick-apply-tool/text-presets.ts",
+              "handler": "h3"
+            }
+          }
+        ]
+      },
+      {
         "name": "Run Automation",
         "main": "src/tools/automations-tool/run-automation.ts",
         "ui": "src/home/ui.tsx",

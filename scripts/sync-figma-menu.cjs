@@ -8,7 +8,20 @@ const registryPath = path.join(root, 'src', 'tools-registry', 'tools-registry-da
 const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'))
 const tools = JSON.parse(fs.readFileSync(registryPath, 'utf8'))
 
+const TEXT_PRESETS_MAIN = 'src/tools/mockup-markup-quick-apply-tool/text-presets.ts'
+
 const QUICK_ACTIONS = [
+  {
+    name: 'Markup Text Presets',
+    menu: [
+      { name: 'Default Text',   main: { src: TEXT_PRESETS_MAIN, handler: 'defaultText' } },
+      { name: 'Secondary Text', main: { src: TEXT_PRESETS_MAIN, handler: 'secondaryText' } },
+      { name: 'Comment',        main: { src: TEXT_PRESETS_MAIN, handler: 'comment' } },
+      { name: 'H1',             main: { src: TEXT_PRESETS_MAIN, handler: 'h1' } },
+      { name: 'H2',             main: { src: TEXT_PRESETS_MAIN, handler: 'h2' } },
+      { name: 'H3',             main: { src: TEXT_PRESETS_MAIN, handler: 'h3' } },
+    ],
+  },
   {
     name: 'Run Automation',
     main: 'src/tools/automations-tool/run-automation.ts',
