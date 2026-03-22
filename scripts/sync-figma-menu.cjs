@@ -9,10 +9,11 @@ const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'))
 const tools = JSON.parse(fs.readFileSync(registryPath, 'utf8'))
 
 const TEXT_PRESETS_MAIN = 'src/tools/mockup-markup-quick-apply-tool/text-presets.ts'
+const CONVERT_TO_NOTE_MAIN = 'src/tools/mockup-markup-quick-apply-tool/convert-to-note.ts'
 
 const QUICK_ACTIONS = [
   {
-    name: 'Markup Text Presets',
+    name: 'Markup Presets',
     menu: [
       { name: 'Default Text',   main: { src: TEXT_PRESETS_MAIN, handler: 'defaultText' } },
       { name: 'Secondary Text', main: { src: TEXT_PRESETS_MAIN, handler: 'secondaryText' } },
@@ -20,6 +21,7 @@ const QUICK_ACTIONS = [
       { name: 'H1',             main: { src: TEXT_PRESETS_MAIN, handler: 'h1' } },
       { name: 'H2',             main: { src: TEXT_PRESETS_MAIN, handler: 'h2' } },
       { name: 'H3',             main: { src: TEXT_PRESETS_MAIN, handler: 'h3' } },
+      { name: 'Convert to Note', main: { src: CONVERT_TO_NOTE_MAIN, handler: 'convertToNote' } },
     ],
   },
   {

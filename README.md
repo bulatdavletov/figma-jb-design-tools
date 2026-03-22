@@ -1,4 +1,4 @@
-## Int UI Design Tools
+## Int UI Tools
 
 ### What this is
 - A Figma plugin that has:
@@ -30,7 +30,7 @@ Variables Create Linked Colors
 Variables Replace Usages
 
 #### Mockup Markup Quick Apply
-Create text layer or apply to selected text layers text styles and colors from Mockup Markup library
+Create text layer or apply to selected text layers text styles and colors from Mockup Markup library. Convert selected text layers into Markup Note components preserving text content.
 
 #### View Colors Chain
 Show the full colors chain for a variables in selection.

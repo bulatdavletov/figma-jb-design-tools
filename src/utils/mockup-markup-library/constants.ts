@@ -32,3 +32,11 @@ export const MARKUP_TEXT_STYLE_IDS = {
   description: "S:d8195a8211b3819b1a888e4d1edf6218ff5d2fd5,1282:7",
   paragraph: "S:a6d1706e317719d0750eae3655a3b4360ad2b9ef,1260:39",
 } as const
+
+// ---------------------------------------------------------------------------
+// Markup Note component
+// ---------------------------------------------------------------------------
+
+export const MARKUP_NOTE_COMPONENT_KEY = "a8606e7014b25f7d4b5825f6ab0949dbb3a985cb"
+export const MARKUP_NOTE_COMPONENT_ID = "26466:1678"
+export const MARKUP_NOTE_TEXT_CHILD_NAME = "Text"

@@ -30,7 +30,7 @@
   },
   "figma-plugin": {
     "id": "1598773743246786962",
-    "name": "Int UI Design Tools",
+    "name": "Int UI Tools",
     "editorType": [
       "figma"
     ],
@@ -100,7 +100,7 @@
         "ui": "src/home/ui.tsx"
       },
       {
-        "name": "Markup Text Presets",
+        "name": "Markup Presets",
         "menu": [
           {
             "name": "Default Text",
@@ -142,6 +142,13 @@
             "main": {
               "src": "src/tools/mockup-markup-quick-apply-tool/text-presets.ts",
               "handler": "h3"
+            }
+          },
+          {
+            "name": "Convert to Note",
+            "main": {
+              "src": "src/tools/mockup-markup-quick-apply-tool/convert-to-note.ts",
+              "handler": "convertToNote"
             }
           }
         ]

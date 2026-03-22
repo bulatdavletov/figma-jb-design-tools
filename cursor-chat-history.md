@@ -1,5 +1,17 @@
 # Cursor Chat History
 
+## Mockup Markup Quick Apply — Convert to Note
+
+### 2026-03-22
+- **Task:** Add "Convert to Note" action to Markup Presets submenu. Replaces selected text layer(s) with a Markup Note component instance (`Color=Yellow, Hug=Yes, Title=No`) preserving the original text content.
+- **Done:**
+  - Added `MARKUP_NOTE_COMPONENT_KEY`, `MARKUP_NOTE_COMPONENT_ID`, `MARKUP_NOTE_TEXT_CHILD_NAME` to `constants.ts`
+  - Created `convert-to-note.ts` — headless entry point (same pattern as `text-presets.ts`): resolves master component via key import → ID fallback, creates instance at text node's position/parent, sets text content inside the Note's "Text" child, removes original text node
+  - Updated `sync-figma-menu.cjs` — added separator + "Convert to Note" item under Markup Presets submenu
+  - Component key: `a8606e7014b25f7d4b5825f6ab0949dbb3a985cb` (obtained from Figma DevTools)
+  - Fixed separator format: Figma manifest requires `{ separator: true }`, not `{ name: '-' }`
+  - Updated `specs/tools/Mockup markup tool.md` — added Markup Presets submenu section with text presets and Convert to Note documentation
+
 ## Repo Maintenance — Daily cron task
 
 ### 2026-03-11

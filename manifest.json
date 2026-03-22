@@ -4,7 +4,7 @@
     "figma"
   ],
   "id": "1598773743246786962",
-  "name": "Int UI Design Tools",
+  "name": "Int UI Tools",
   "main": "build/main.js",
   "ui": "build/ui.js",
   "menu": [
@@ -53,7 +53,7 @@
       "command": "src/tools/variables-replace-usages-tool/main.ts--default"
     },
     {
-      "name": "Markup Text Presets",
+      "name": "Markup Presets",
       "menu": [
         {
           "name": "Default Text",
@@ -78,6 +78,10 @@
         {
           "name": "H3",
           "command": "src/tools/mockup-markup-quick-apply-tool/text-presets.ts--h3"
+        },
+        {
+          "name": "Convert to Note",
+          "command": "src/tools/mockup-markup-quick-apply-tool/convert-to-note.ts--convertToNote"
         }
       ]
     },

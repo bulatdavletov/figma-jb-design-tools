@@ -29,3 +29,30 @@ Markup Text Secondary "VariableID:84f084bc9e1c3ed3add7febfe9326d633010f8a2/1260:
 Markup Purple "VariableID:cefb32503d23428db2c20bac7615cff7b5feab07/1210:6"
 
 I also want to set dark mode for colors one time, in the beginning.
+
+## Markup Presets submenu (headless quick-actions)
+
+Quick-actions that run without UI and close the plugin immediately.
+
+### Text presets
+Apply text style + color to selected text layers:
+- Default Text (paragraph + text)
+- Secondary Text (paragraph + text-secondary)
+- Comment (paragraph + purple)
+- H1, H2, H3 (heading style + text)
+
+All presets use dark mode and no width override.
+
+### Convert to Note
+Replaces each selected text layer with a **Markup Note** component instance, preserving the original text content.
+
+**Markup Note component** (from Mockup markup library):
+- Component key: `a8606e7014b25f7d4b5825f6ab0949dbb3a985cb`
+- Component ID: `26466:1678`
+- Variant: `Color=Yellow, Hug=Yes, Title=No`
+- Text child node name: `Text`
+
+**Flow:**
+1. Select one or more text layers
+2. Run Int UI Tools → Markup Presets → Convert to Note
+3. Each text layer is replaced with a Markup Note instance at the same position, with the same text content inside
