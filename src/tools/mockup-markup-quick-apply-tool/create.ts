@@ -115,10 +115,11 @@ export async function createMockupMarkupText(
   const colorVariableId = await resolveColorVariableForPreset(request.presetColor)
 
   if (colorVariableId) {
-    // Set page-wide variable mode
-    const modeResult = await setPageVariableMode(colorVariableId, request.forceModeName)
-    if (!modeResult.ok) {
-      logWarn("create", "Could not set variable mode", { reason: modeResult.reason })
+    if (request.applyPageVariableMode) {
+      const modeResult = await setPageVariableMode(colorVariableId, request.forceModeName)
+      if (!modeResult.ok) {
+        logWarn("create", "Could not set variable mode", { reason: modeResult.reason })
+      }
     }
 
     // Apply the color fill

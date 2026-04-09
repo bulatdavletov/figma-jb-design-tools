@@ -15,6 +15,7 @@ export const UI_TO_MAIN = {
   PRINT_COLOR_USAGES_FOCUS_NODE: "PRINT_COLOR_USAGES_FOCUS_NODE",
   PRINT_COLOR_USAGES_RESET_LAYER_NAMES: "PRINT_COLOR_USAGES_RESET_LAYER_NAMES",
   MOCKUP_MARKUP_LOAD_STATE: "MOCKUP_MARKUP_LOAD_STATE",
+  MOCKUP_MARKUP_SAVE_UI_SETTINGS: "MOCKUP_MARKUP_SAVE_UI_SETTINGS",
   MOCKUP_MARKUP_APPLY: "MOCKUP_MARKUP_APPLY",
   MOCKUP_MARKUP_CREATE_TEXT: "MOCKUP_MARKUP_CREATE_TEXT",
   MOCKUP_MARKUP_GET_COLOR_PREVIEWS: "MOCKUP_MARKUP_GET_COLOR_PREVIEWS",
@@ -79,6 +80,7 @@ export const MAIN_TO_UI = {
   PRINT_COLOR_USAGES_PRINT_PREVIEW: "PRINT_COLOR_USAGES_PRINT_PREVIEW",
   MOCKUP_MARKUP_STATE: "MOCKUP_MARKUP_STATE",
   MOCKUP_MARKUP_STATUS: "MOCKUP_MARKUP_STATUS",
+  MOCKUP_MARKUP_UI_SETTINGS: "MOCKUP_MARKUP_UI_SETTINGS",
   MOCKUP_MARKUP_COLOR_PREVIEWS: "MOCKUP_MARKUP_COLOR_PREVIEWS",
   ERROR: "ERROR",
   // Variables Batch Rename
@@ -147,9 +149,14 @@ export type UiToMainMessage =
   | { type: typeof UI_TO_MAIN.PRINT_COLOR_USAGES_FOCUS_NODE; nodeId: string }
   | { type: typeof UI_TO_MAIN.PRINT_COLOR_USAGES_RESET_LAYER_NAMES; nodeIds: string[] }
   | { type: typeof UI_TO_MAIN.MOCKUP_MARKUP_LOAD_STATE }
+  | { type: typeof UI_TO_MAIN.MOCKUP_MARKUP_SAVE_UI_SETTINGS; settings: MockupMarkupUiSettings }
   | { type: typeof UI_TO_MAIN.MOCKUP_MARKUP_APPLY; request: MockupMarkupApplyRequest }
   | { type: typeof UI_TO_MAIN.MOCKUP_MARKUP_CREATE_TEXT; request: MockupMarkupApplyRequest }
-  | { type: typeof UI_TO_MAIN.MOCKUP_MARKUP_GET_COLOR_PREVIEWS; forceModeName: MockupMarkupApplyRequest["forceModeName"] }
+  | {
+      type: typeof UI_TO_MAIN.MOCKUP_MARKUP_GET_COLOR_PREVIEWS
+      applyPageVariableMode: boolean
+      forceModeName: MockupMarkupApplyRequest["forceModeName"]
+    }
   // Variables Batch Rename
   | { type: typeof UI_TO_MAIN.BATCH_RENAME_EXPORT_NAME_SET; request: BatchRenameExportNameSetRequest }
   | { type: typeof UI_TO_MAIN.BATCH_RENAME_PREVIEW_IMPORT; request: BatchRenamePreviewImportRequest }
@@ -258,10 +265,16 @@ export type PrintColorUsagesPrintPreviewPayload = {
   entries: PrintColorUsagesPrintPreviewEntry[]
 }
 
+export type MockupMarkupUiSettings = {
+  /** When true, apply/update explicit page variable mode for markup color variables before binding fills. Default false. */
+  applyPageVariableMode: boolean
+}
+
 export type MockupMarkupApplyRequest = {
   presetColor: MockupMarkupColorPreset
   presetTypography: MockupMarkupTypographyPreset
   forceModeName: "dark" | "light"
+  applyPageVariableMode: boolean
   width400: boolean
 }
 
@@ -367,6 +380,7 @@ export type MainToUiMessage =
   | { type: typeof MAIN_TO_UI.PRINT_COLOR_USAGES_PRINT_PREVIEW; payload: PrintColorUsagesPrintPreviewPayload }
   | { type: typeof MAIN_TO_UI.MOCKUP_MARKUP_STATE; state: MockupMarkupState }
   | { type: typeof MAIN_TO_UI.MOCKUP_MARKUP_STATUS; status: MockupMarkupStatus }
+  | { type: typeof MAIN_TO_UI.MOCKUP_MARKUP_UI_SETTINGS; settings: MockupMarkupUiSettings }
   | { type: typeof MAIN_TO_UI.MOCKUP_MARKUP_COLOR_PREVIEWS; previews: MockupMarkupColorPreviews }
   | { type: typeof MAIN_TO_UI.ERROR; message: string }
   // Variables Batch Rename

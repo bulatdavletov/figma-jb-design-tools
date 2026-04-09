@@ -75,10 +75,11 @@ export async function applyMockupMarkupToSelection(
 
   let fills: SolidPaint[] | null = null
   if (colorVariableId) {
-    // Set the page-wide variable mode before creating the paint
-    const modeResult = await setPageVariableMode(colorVariableId, request.forceModeName)
-    if (!modeResult.ok) {
-      logWarn("apply", `Could not set variable mode`, { reason: modeResult.reason })
+    if (request.applyPageVariableMode) {
+      const modeResult = await setPageVariableMode(colorVariableId, request.forceModeName)
+      if (!modeResult.ok) {
+        logWarn("apply", `Could not set variable mode`, { reason: modeResult.reason })
+      }
     }
     fills = [createVariableBoundPaint(colorVariableId)]
   }

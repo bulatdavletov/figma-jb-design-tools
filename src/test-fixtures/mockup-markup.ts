@@ -1,6 +1,11 @@
 import type { Scenario } from "./types"
 import type { MainToUiMessage } from "../home/messages"
 
+const UI_SETTINGS: MainToUiMessage = {
+  type: "MOCKUP_MARKUP_UI_SETTINGS",
+  settings: { applyPageVariableMode: false },
+}
+
 const COLOR_PREVIEWS: MainToUiMessage = {
   type: "MOCKUP_MARKUP_COLOR_PREVIEWS",
   previews: {
@@ -17,6 +22,7 @@ export const scenarios: Scenario[] = [
     messages: [
       { type: "MOCKUP_MARKUP_STATE", state: { selectionSize: 0, textNodeCount: 0, hasSourceTextNode: false } },
       { type: "MOCKUP_MARKUP_STATUS", status: { status: "idle" } },
+      UI_SETTINGS,
       COLOR_PREVIEWS,
     ],
   },
@@ -26,6 +32,7 @@ export const scenarios: Scenario[] = [
     messages: [
       { type: "MOCKUP_MARKUP_STATE", state: { selectionSize: 1, textNodeCount: 1, hasSourceTextNode: true } },
       { type: "MOCKUP_MARKUP_STATUS", status: { status: "idle" } },
+      UI_SETTINGS,
       COLOR_PREVIEWS,
     ],
   },
@@ -35,6 +42,7 @@ export const scenarios: Scenario[] = [
     messages: [
       { type: "MOCKUP_MARKUP_STATE", state: { selectionSize: 1, textNodeCount: 1, hasSourceTextNode: true } },
       { type: "MOCKUP_MARKUP_STATUS", status: { status: "working", message: "Applying typography preset…" } },
+      UI_SETTINGS,
       COLOR_PREVIEWS,
     ],
   },

@@ -10,14 +10,22 @@ import {
   type UiToMainMessage,
 } from "../../home/messages"
 import { applyMockupMarkupToSelection } from "./apply"
-import { getMockupMarkupColorPreviews } from "./color-previews"
+import { getMockupMarkupColorPreviews, type MockupMarkupPreviewMode } from "./color-previews"
 import { createMockupMarkupText } from "./create"
 import { importMockupMarkupVariablesOnce } from "./import-once"
+import { loadMockupMarkupSettings, saveMockupMarkupSettings } from "./settings"
 import { collectTextNodesFromSelection, logDebug, logWarn } from "./utils"
 
 /**
  * Computes the current state based on selection.
  */
+function previewModeForSettings(
+  applyPageVariableMode: boolean,
+  forceModeName: "dark" | "light"
+): MockupMarkupPreviewMode {
+  return applyPageVariableMode ? forceModeName : "page"
+}
+
 function getState(): MockupMarkupState {
   const selection = figma.currentPage.selection
   const textNodes = selection.length > 0 ? collectTextNodesFromSelection(selection) : []
@@ -59,8 +67,11 @@ export function registerMockupMarkupTool(getActiveTool: () => ActiveTool) {
     const importStatus = await importMockupMarkupVariablesOnce()
     logDebug("main", "Import status", importStatus)
 
-    // Get color previews for UI (default: dark mode)
-    const previews = await getMockupMarkupColorPreviews("dark")
+    const uiSettings = await loadMockupMarkupSettings()
+    figma.ui.postMessage({ type: MAIN_TO_UI.MOCKUP_MARKUP_UI_SETTINGS, settings: uiSettings })
+
+    const previewMode = previewModeForSettings(uiSettings.applyPageVariableMode, "dark")
+    const previews = await getMockupMarkupColorPreviews(previewMode)
     figma.ui.postMessage({ type: MAIN_TO_UI.MOCKUP_MARKUP_COLOR_PREVIEWS, previews })
 
     // Ready
@@ -75,6 +86,12 @@ export function registerMockupMarkupTool(getActiveTool: () => ActiveTool) {
       switch (msg.type) {
         case UI_TO_MAIN.MOCKUP_MARKUP_LOAD_STATE: {
           await onActivate()
+          return true
+        }
+
+        case UI_TO_MAIN.MOCKUP_MARKUP_SAVE_UI_SETTINGS: {
+          await saveMockupMarkupSettings(msg.settings)
+          figma.ui.postMessage({ type: MAIN_TO_UI.MOCKUP_MARKUP_UI_SETTINGS, settings: msg.settings })
           return true
         }
 
@@ -113,7 +130,8 @@ export function registerMockupMarkupTool(getActiveTool: () => ActiveTool) {
         }
 
         case UI_TO_MAIN.MOCKUP_MARKUP_GET_COLOR_PREVIEWS: {
-          const previews = await getMockupMarkupColorPreviews(msg.forceModeName)
+          const previewMode = previewModeForSettings(msg.applyPageVariableMode, msg.forceModeName)
+          const previews = await getMockupMarkupColorPreviews(previewMode)
           figma.ui.postMessage({ type: MAIN_TO_UI.MOCKUP_MARKUP_COLOR_PREVIEWS, previews })
           return true
         }

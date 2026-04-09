@@ -20,6 +20,7 @@ import {
   type MockupMarkupTypographyPreset,
   type MockupMarkupState,
   type MockupMarkupStatus,
+  type MockupMarkupUiSettings,
   UI_TO_MAIN,
 } from "../../home/messages"
 import { Page } from "../../components/Page"
@@ -162,6 +163,7 @@ const DEFAULT_REQUEST: MockupMarkupApplyRequest = {
   presetColor: "text",
   presetTypography: "paragraph",
   forceModeName: "dark",
+  applyPageVariableMode: false,
   width400: false,
 }
 
@@ -194,6 +196,11 @@ export function MockupMarkupToolView(props: { onBack: () => void }) {
         setColorPreviews(msg.previews)
         return
       }
+
+      if (msg.type === MAIN_TO_UI.MOCKUP_MARKUP_UI_SETTINGS) {
+        setRequest((r) => ({ ...r, applyPageVariableMode: msg.settings.applyPageVariableMode }))
+        return
+      }
     }
 
     window.addEventListener("message", handleMessage)
@@ -201,13 +208,23 @@ export function MockupMarkupToolView(props: { onBack: () => void }) {
     return () => window.removeEventListener("message", handleMessage)
   }, [])
 
-  // Refresh color swatches when dark mode toggle changes.
+  // Refresh color swatches when preview-driving fields change.
   useEffect(() => {
     parent.postMessage(
-      { pluginMessage: { type: UI_TO_MAIN.MOCKUP_MARKUP_GET_COLOR_PREVIEWS, forceModeName: request.forceModeName } },
+      {
+        pluginMessage: {
+          type: UI_TO_MAIN.MOCKUP_MARKUP_GET_COLOR_PREVIEWS,
+          applyPageVariableMode: request.applyPageVariableMode,
+          forceModeName: request.forceModeName,
+        },
+      },
       "*"
     )
-  }, [request.forceModeName])
+  }, [request.applyPageVariableMode, request.forceModeName])
+
+  const savePageModeSetting = (settings: MockupMarkupUiSettings) => {
+    parent.postMessage({ pluginMessage: { type: UI_TO_MAIN.MOCKUP_MARKUP_SAVE_UI_SETTINGS, settings } }, "*")
+  }
 
   const isWorking = status.status === "working"
 
@@ -267,10 +284,23 @@ export function MockupMarkupToolView(props: { onBack: () => void }) {
             <div style={{ flex: 1 }} />
 
             <VerticalSpace space="large" />
-            <ModeSegmented
-              value={request.forceModeName}
-              onChange={(value) => setRequest((r) => ({ ...r, forceModeName: value }))}
-            />
+            <Checkbox
+              value={request.applyPageVariableMode}
+              onValueChange={(value) => {
+                setRequest((r) => ({ ...r, applyPageVariableMode: value }))
+                savePageModeSetting({ applyPageVariableMode: value })
+              }}
+            >
+              <Text>Set page variable mode when applying colors</Text>
+            </Checkbox>
+
+            <VerticalSpace space="medium" />
+            {request.applyPageVariableMode ? (
+              <ModeSegmented
+                value={request.forceModeName}
+                onChange={(value) => setRequest((r) => ({ ...r, forceModeName: value }))}
+              />
+            ) : null}
 
             <VerticalSpace space="medium" />
           </div>

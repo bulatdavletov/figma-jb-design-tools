@@ -1,5 +1,5 @@
 /**
- * Markup Text Presets — headless entry points for the Figma submenu.
+ * Markup Presets — headless entry points for the Figma submenu.
  *
  * Each named export maps to a submenu item defined in sync-figma-menu.cjs.
  * The build system routes `figma.command` → the matching named export.
@@ -7,6 +7,7 @@
 
 import type { MockupMarkupApplyRequest } from "../../home/messages"
 import { applyMockupMarkupToSelection } from "./apply"
+import { loadMockupMarkupSettings } from "./settings"
 
 type PresetConfig = Pick<MockupMarkupApplyRequest, "presetTypography" | "presetColor">
 
@@ -19,15 +20,19 @@ const PRESETS = {
   h3:            { presetTypography: "h3",        presetColor: "text" },
 } as const satisfies Record<string, PresetConfig>
 
-function runPreset(preset: PresetConfig) {
-  applyMockupMarkupToSelection({
-    presetTypography: preset.presetTypography,
-    presetColor: preset.presetColor,
-    forceModeName: "dark",
-    width400: false,
-  }).finally(() => {
+async function runPreset(preset: PresetConfig) {
+  try {
+    const uiSettings = await loadMockupMarkupSettings()
+    await applyMockupMarkupToSelection({
+      presetTypography: preset.presetTypography,
+      presetColor: preset.presetColor,
+      forceModeName: "dark",
+      applyPageVariableMode: uiSettings.applyPageVariableMode,
+      width400: false,
+    })
+  } finally {
     figma.closePlugin()
-  })
+  }
 }
 
 export function defaultText()   { runPreset(PRESETS.defaultText) }

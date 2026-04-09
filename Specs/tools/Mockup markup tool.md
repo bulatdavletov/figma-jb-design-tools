@@ -28,7 +28,11 @@ Markup Text "VariableID:35e0b230bbdc8fa1906c60a25117319e726f2bd7/1116:1" (defaul
 Markup Text Secondary "VariableID:84f084bc9e1c3ed3add7febfe9326d633010f8a2/1260:12"
 Markup Purple "VariableID:cefb32503d23428db2c20bac7615cff7b5feab07/1210:6"
 
-I also want to set dark mode for colors one time, in the beginning.
+## Page variable mode (optional)
+
+By default the plugin does **not** change the current page’s explicit variable mode for markup color variables. Text still uses variable-bound fills; colors resolve using whatever mode the page already uses for that collection.
+
+Optional persisted setting: **Set page variable mode when applying colors**. When enabled, the tool sets the page’s explicit mode for the markup color collection to **Dark** or **Light** (segmented control) before applying fills, matching the previous always-on behavior.
 
 ## Markup Presets submenu (headless quick-actions)
 
@@ -41,7 +45,7 @@ Apply text style + color to selected text layers:
 - Comment (paragraph + purple)
 - H1, H2, H3 (heading style + text)
 
-All presets use dark mode and no width override.
+Presets use the same **Set page variable mode when applying colors** setting as the full tool UI (persisted in client storage). When that setting is off (default), presets do not change the page variable mode. When on, presets use **dark** as the forced mode. No width override.
 
 ### Convert to Note
 Replaces each selected text layer with a **Markup Note** component instance, preserving the original text content.
