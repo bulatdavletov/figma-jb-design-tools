@@ -7,6 +7,14 @@
 			"problemMatcher": [],
 			"label": "npm: preview",
 			"detail": "vite"
+		},
+		{
+			"type": "npm",
+			"script": "build",
+			"group": "build",
+			"problemMatcher": [],
+			"label": "npm: build",
+			"detail": "node scripts/sync-figma-menu.cjs && node scripts/generate-custom-icons.cjs && build-figma-plugin --typecheck"
 		}
 	]
 }

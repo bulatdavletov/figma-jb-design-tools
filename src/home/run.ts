@@ -35,7 +35,7 @@ const REGISTER_TOOL_CONTROLLER: Record<
 }
 
 function getToolTitle(command: string): string {
-  return isToolId(command) ? getToolById(command).title : "Int UI Design Tools"
+  return isToolId(command) ? getToolById(command).title : "Int UI Tools"
 }
 
 const DEFAULT_WIDTH = 360
